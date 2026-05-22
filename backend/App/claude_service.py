@@ -4370,6 +4370,31 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
   }}
 }}"""
 
+    # Cortocircuito: se la minaccia è già al 100% genera il finale senza chiamare Claude
+    if threat_pct >= 100:
+        threat_desc = adventure.get("threat_description", "La minaccia si è compiuta.")
+        ending_prompt = (
+            f"Sei il Master di una partita GDR in stile {genre_label}. "
+            f"La minaccia è al massimo: {threat_desc}. "
+            f"Scrivi un finale drammatico di sconfitta in 4-5 frasi vivide in italiano. "
+            f"Sii cinematografico, non banale. Non usare titoli o spiegazioni."
+        )
+        try:
+            ending_narrative = _call_text_model(ending_prompt, max_tokens=300).strip()
+        except Exception:
+            ending_narrative = f"{threat_desc} Il gruppo non è riuscito a fermare ciò che stava per accadere. L'avventura si conclude tra le ombre."
+        return {
+            "narrative": ending_narrative,
+            "roll": None,
+            "options": [],
+            "state_updates": {
+                "clues_found": [], "npc_updates": [], "new_threads": [],
+                "closed_threads": [], "threat_increase": 0,
+                "activate_combat": False, "combat_scene": None,
+                "combat_over": False, "story_over": True, "victory": False,
+            },
+        }
+
     raw = _call_text_model(prompt, max_tokens=2400)
     try:
         result = _extract_json_object(raw)
@@ -4380,15 +4405,11 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
             "options": [{"text": "Continua", "skill": "", "skill_level": 0, "stat": "", "player_id": active_player_id}],
             "state_updates": {"clues_found": [], "npc_updates": [], "new_threads": [], "closed_threads": [], "threat_increase": 1, "activate_combat": False, "combat_scene": None, "combat_over": False, "story_over": False, "victory": False},
         }
-    # Guardia di sicurezza: forza fine se minaccia già satura e il modello non ha impostato story_over
+    # Guardia residua: se Claude ha ignorato story_over nonostante threat < 100
     su = result.get("state_updates") or {}
-    if not su.get("story_over") and threat_pct >= 100:
-        su["story_over"] = True
-        su["victory"] = False
-        if not result.get("narrative"):
-            result["narrative"] = f"La minaccia si è compiuta. {adventure.get('threat_description', 'Il tempo è scaduto.')} L'avventura volge al termine."
-        result["state_updates"] = su
-        result["options"] = []
+    if su.get("story_over") is None:
+        su["story_over"] = False
+    result["state_updates"] = su
     return result
 
 
