@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8002";
 
@@ -2530,12 +2530,10 @@ function AdventureScreen({ genre, players, avatars, onStart, onBack }) {
 }
 
 // ─── HexCombatMap ──────────────────────────────────────────────────────────
-// Griglia esagonale SVG flat-top, 15×10 hex, 1 hex = 1 yard GURPS Lite.
+// Griglia esagonale SVG flat-top, 1 hex = 1 yard GURPS Lite.
 // Terreni: 0=normale 1=copertura 2=difficile 3=muro
 // Facing: 0-5 (direzioni hex, 0=nord)
 
-const HEX_COLS = 15;
-const HEX_ROWS = 10;
 const HEX_SIZE = 28; // raggio hex (apotema orizzontale)
 const HEX_W = HEX_SIZE * 2;
 const HEX_H = Math.sqrt(3) * HEX_SIZE;
@@ -2578,40 +2576,256 @@ function facingTriangle(cx, cy, facing, r, color) {
   return `M${tip.x},${tip.y}L${l.x},${l.y}L${rp.x},${rp.y}Z`;
 }
 
-const TERRAIN_COLORS = {
-  0: "transparent",          // normale
-  1: "rgba(74,222,128,0.18)", // copertura
-  2: "rgba(180,130,60,0.22)", // difficile
-  3: "rgba(30,30,40,0.7)",    // muro
+const DEFAULT_TERRAIN_COLORS = {
+  0: "rgba(255,255,255,0.015)",  // normale
+  1: "rgba(74,222,128,0.20)",    // copertura
+  2: "rgba(180,130,60,0.24)",    // difficile
+  3: "rgba(30,30,40,0.78)",      // muro
 };
-const TERRAIN_STROKE = {
-  0: "rgba(255,255,255,0.08)",
-  1: "rgba(74,222,128,0.5)",
-  2: "rgba(180,130,60,0.5)",
-  3: "rgba(80,80,100,0.8)",
+const DEFAULT_TERRAIN_STROKE = {
+  0: "rgba(255,255,255,0.09)",
+  1: "rgba(74,222,128,0.55)",
+  2: "rgba(180,130,60,0.55)",
+  3: "rgba(120,120,145,0.85)",
 };
 
-function buildInitialPositions(players, enemies) {
+const BATTLEMAP_THEMES = {
+  fantasy: {
+    label: "Dungeon fantasy",
+    base: "#17130f",
+    floor: "#2a241d",
+    floorAlt: "#342b21",
+    grid: "rgba(222,184,121,0.16)",
+    wall: "rgba(21,18,16,0.9)",
+    wallStroke: "rgba(183,134,72,0.75)",
+    cover: "rgba(127,91,48,0.52)",
+    difficult: "rgba(91,59,31,0.50)",
+    accent: "#d6a855",
+    terrainColors: { 0: "rgba(255,244,210,0.025)", 1: "rgba(166,113,52,0.35)", 2: "rgba(105,74,44,0.36)", 3: "rgba(19,16,14,0.88)" },
+    terrainStroke: { 0: "rgba(238,205,145,0.13)", 1: "rgba(236,178,91,0.65)", 2: "rgba(176,124,70,0.58)", 3: "rgba(228,173,83,0.72)" },
+  },
+  sci_fi: {
+    label: "Installazione sci-fi",
+    base: "#07111a",
+    floor: "#0d2230",
+    floorAlt: "#123349",
+    grid: "rgba(83,201,255,0.14)",
+    wall: "rgba(4,10,18,0.9)",
+    wallStroke: "rgba(87,208,255,0.65)",
+    cover: "rgba(59,130,246,0.32)",
+    difficult: "rgba(37,99,235,0.20)",
+    accent: "#60d5ff",
+    terrainColors: { 0: "rgba(96,213,255,0.025)", 1: "rgba(59,130,246,0.28)", 2: "rgba(20,184,166,0.22)", 3: "rgba(3,7,18,0.85)" },
+    terrainStroke: { 0: "rgba(125,211,252,0.13)", 1: "rgba(96,165,250,0.65)", 2: "rgba(45,212,191,0.58)", 3: "rgba(147,197,253,0.72)" },
+  },
+  mystery_horror: {
+    label: "Scenario gotico",
+    base: "#100f14",
+    floor: "#1f1b25",
+    floorAlt: "#292230",
+    grid: "rgba(248,113,113,0.13)",
+    wall: "rgba(10,9,13,0.9)",
+    wallStroke: "rgba(248,113,113,0.48)",
+    cover: "rgba(127,29,29,0.38)",
+    difficult: "rgba(86,62,52,0.34)",
+    accent: "#f87171",
+    terrainColors: { 0: "rgba(255,255,255,0.018)", 1: "rgba(127,29,29,0.30)", 2: "rgba(120,80,60,0.30)", 3: "rgba(11,10,14,0.86)" },
+    terrainStroke: { 0: "rgba(248,113,113,0.11)", 1: "rgba(248,113,113,0.56)", 2: "rgba(180,130,90,0.50)", 3: "rgba(190,100,100,0.62)" },
+  },
+  ww2: {
+    label: "Teatro bellico",
+    base: "#15170f",
+    floor: "#26301b",
+    floorAlt: "#313b23",
+    grid: "rgba(190,212,120,0.12)",
+    wall: "rgba(18,20,13,0.88)",
+    wallStroke: "rgba(148,163,90,0.62)",
+    cover: "rgba(120,92,50,0.42)",
+    difficult: "rgba(78,65,42,0.36)",
+    accent: "#c6d67a",
+    terrainColors: { 0: "rgba(221,244,180,0.02)", 1: "rgba(132,104,60,0.32)", 2: "rgba(91,76,48,0.34)", 3: "rgba(20,22,14,0.84)" },
+    terrainStroke: { 0: "rgba(214,232,160,0.11)", 1: "rgba(198,166,100,0.56)", 2: "rgba(154,132,88,0.50)", 3: "rgba(178,194,124,0.62)" },
+  },
+  action: {
+    label: "Zona d'azione",
+    base: "#101418",
+    floor: "#202a32",
+    floorAlt: "#2b3540",
+    grid: "rgba(148,163,184,0.14)",
+    wall: "rgba(11,15,20,0.88)",
+    wallStroke: "rgba(148,163,184,0.62)",
+    cover: "rgba(234,179,8,0.24)",
+    difficult: "rgba(100,116,139,0.28)",
+    accent: "#facc15",
+    terrainColors: { 0: "rgba(255,255,255,0.018)", 1: "rgba(234,179,8,0.25)", 2: "rgba(100,116,139,0.26)", 3: "rgba(12,15,20,0.84)" },
+    terrainStroke: { 0: "rgba(203,213,225,0.12)", 1: "rgba(250,204,21,0.55)", 2: "rgba(148,163,184,0.48)", 3: "rgba(203,213,225,0.60)" },
+  },
+};
+
+function battleText(...parts) {
+  return parts.filter(Boolean).join(" ").toLowerCase();
+}
+
+function battleThemeFor(genre, text) {
+  if (genre === "fantasy") return BATTLEMAP_THEMES.fantasy;
+  if (genre === "sci_fi") return BATTLEMAP_THEMES.sci_fi;
+  if (genre === "mystery_horror" || /cripta|catacomb|cimiter|spettr|sangue|malediz|gotic|horror/.test(text)) return BATTLEMAP_THEMES.mystery_horror;
+  if (genre === "ww2") return BATTLEMAP_THEMES.ww2;
+  return BATTLEMAP_THEMES.action;
+}
+
+function battleSizeFor(text, enemyCount = 0) {
+  if (/corridoio|tunnel|passaggio|ponte|galleria|stretta|vicolo/.test(text)) return { cols: 18, rows: 8, layout: "narrow" };
+  if (/foresta|radura|campo|piazza|hangar|sala grande|cortile|rovine|esterno|aperto|battlefield/.test(text) || enemyCount >= 4) return { cols: 18, rows: 12, layout: "open" };
+  if (/stanza|cella|cripta|sacrario|biblioteca|oratorio|sala|laboratorio|ponte di comando/.test(text)) return { cols: 15, rows: 10, layout: "room" };
+  return { cols: 15, rows: 10, layout: "room" };
+}
+
+function buildBattleMapTerrain(cols, rows, layout, text) {
+  const terrain = {};
+  for (let c = 0; c < cols; c++) {
+    for (let r = 0; r < rows; r++) terrain[`${c},${r}`] = 0;
+  }
+
+  const set = (c, r, t) => {
+    if (c >= 0 && c < cols && r >= 0 && r < rows) terrain[`${c},${r}`] = t;
+  };
+  const rect = (c1, r1, c2, r2, t) => {
+    for (let c = c1; c <= c2; c++) for (let r = r1; r <= r2; r++) set(c, r, t);
+  };
+
+  for (let c = 0; c < cols; c++) { set(c, 0, 3); set(c, rows - 1, 3); }
+  for (let r = 0; r < rows; r++) { set(0, r, 3); set(cols - 1, r, 3); }
+
+  if (layout === "narrow") {
+    for (let c = 1; c < cols - 1; c++) {
+      if (c % 5 === 0) set(c, 2, 1);
+      if (c % 5 === 2) set(c, rows - 3, 1);
+      if (c % 6 === 3) set(c, Math.floor(rows / 2), 2);
+    }
+    rect(Math.floor(cols / 2) - 1, 1, Math.floor(cols / 2), 2, 3);
+    rect(Math.floor(cols / 2) - 1, rows - 3, Math.floor(cols / 2), rows - 2, 3);
+  } else if (layout === "open") {
+    [[4, 3], [7, 7], [11, 4], [14, 8], [3, rows - 4]].forEach(([c, r]) => set(c, r, 1));
+    rect(Math.floor(cols / 2) - 1, Math.floor(rows / 2) - 1, Math.floor(cols / 2) + 1, Math.floor(rows / 2), 2);
+    for (let c = 2; c < cols - 2; c += 4) set(c, rows - 3, 2);
+  } else {
+    rect(Math.floor(cols / 2) - 1, 0, Math.floor(cols / 2) + 1, 1, 0);
+    rect(Math.floor(cols / 2) - 1, rows - 2, Math.floor(cols / 2) + 1, rows - 1, 0);
+    [[4, 3], [cols - 5, 3], [4, rows - 4], [cols - 5, rows - 4]].forEach(([c, r]) => set(c, r, 1));
+    rect(Math.floor(cols / 2) - 1, Math.floor(rows / 2) - 1, Math.floor(cols / 2) + 1, Math.floor(rows / 2), 2);
+  }
+
+  if (/biblioteca|archiv|scriptorium/.test(text)) {
+    rect(3, 2, 3, rows - 3, 1);
+    rect(cols - 4, 2, cols - 4, rows - 3, 1);
+  }
+  if (/altare|ritual|sacrario|cripta|catacomb/.test(text)) {
+    rect(Math.floor(cols / 2) - 1, Math.floor(rows / 2), Math.floor(cols / 2) + 1, Math.floor(rows / 2) + 1, 1);
+  }
+  if (/acqua|sommers|marea|palude|fiume/.test(text)) {
+    for (let c = 2; c < cols - 2; c++) set(c, Math.floor(rows / 2), 2);
+  }
+  if (/macerie|crollo|rovine|frana/.test(text)) {
+    [[2, 2], [3, 3], [cols - 3, rows - 3], [cols - 4, rows - 4]].forEach(([c, r]) => set(c, r, 2));
+  }
+  return terrain;
+}
+
+function buildBattleMapSpec({ genre, environmentType, sceneText, locationName, enemyNames }) {
+  const text = battleText(genre, environmentType, sceneText, locationName, ...(enemyNames || []));
+  const theme = battleThemeFor(genre, text);
+  const size = battleSizeFor(text, (enemyNames || []).length);
+  const terrain = buildBattleMapTerrain(size.cols, size.rows, size.layout, text);
+  const labelBits = [theme.label];
+  if (/biblioteca|archiv|scriptorium/.test(text)) labelBits.push("libreria");
+  else if (/cripta|catacomb|cimiter/.test(text)) labelBits.push("cripta");
+  else if (/foresta|radura/.test(text)) labelBits.push("esterno");
+  else if (/laboratorio|terminal|ponte di comando|hangar/.test(text)) labelBits.push("tecnico");
+  else if (environmentType) labelBits.push(String(environmentType).replaceAll("_", " "));
+  return { ...size, terrain, theme, title: labelBits.join(" · ") };
+}
+
+function renderBattleMapDecor(mapSpec) {
+  const { cols, rows, theme, terrain } = mapSpec;
+  const w = cols * HEX_OFFSET_X + HEX_SIZE * 0.5 + 4;
+  const h = rows * HEX_H + HEX_H / 2 + 4;
+  const cells = Object.entries(terrain);
+  return (
+    <g pointerEvents="none">
+      <rect x="0" y="0" width={w} height={h} fill={theme.base} />
+      <rect x="10" y="10" width={w - 20} height={h - 20} rx="18" fill={theme.floor} opacity="0.92" />
+      {Array.from({ length: 14 }, (_, i) => (
+        <line
+          key={`floor-line-${i}`}
+          x1={(i * 73) % w}
+          y1="0"
+          x2={(i * 73 + w * 0.35) % w}
+          y2={h}
+          stroke={i % 2 ? theme.floorAlt : theme.grid}
+          strokeWidth={i % 2 ? 18 : 1}
+          opacity={i % 2 ? 0.12 : 0.35}
+        />
+      ))}
+      {cells.filter(([, t]) => t === 3).map(([key]) => {
+        const [c, r] = key.split(",").map(Number);
+        const { x, y } = hexCenter(c, r);
+        return <path key={`wall-${key}`} d={hexPath(x, y, HEX_SIZE - 2)} fill={theme.wall} stroke={theme.wallStroke} strokeWidth="1.2" />;
+      })}
+      {cells.filter(([, t]) => t === 2).map(([key]) => {
+        const [c, r] = key.split(",").map(Number);
+        const { x, y } = hexCenter(c, r);
+        return (
+          <g key={`diff-${key}`}>
+            <path d={hexPath(x, y, HEX_SIZE - 4)} fill={theme.difficult} />
+            <circle cx={x - 8} cy={y - 5} r="3" fill={theme.accent} opacity="0.25" />
+            <circle cx={x + 7} cy={y + 5} r="4" fill="#000" opacity="0.20" />
+          </g>
+        );
+      })}
+      {cells.filter(([, t]) => t === 1).map(([key], i) => {
+        const [c, r] = key.split(",").map(Number);
+        const { x, y } = hexCenter(c, r);
+        return (
+          <g key={`cover-${key}`} transform={`rotate(${(i % 6) * 17} ${x} ${y})`}>
+            <rect x={x - 14} y={y - 7} width="28" height="14" rx="3" fill={theme.cover} stroke={theme.accent} strokeWidth="1" opacity="0.85" />
+            <line x1={x - 10} y1={y} x2={x + 10} y2={y} stroke="#000" strokeWidth="1" opacity="0.22" />
+          </g>
+        );
+      })}
+      <rect x="0" y="0" width={w} height={h} fill="url(#battle-vignette)" opacity="0.7" />
+    </g>
+  );
+}
+
+function buildInitialPositions(players, enemies, cols = 15, rows = 10) {
   const positions = {};
   players.forEach((p, i) => {
-    positions[`p_${p.id}`] = { col: 2, row: 2 + i * 2, facing: 0, type: "player", id: p.id };
+    positions[`p_${p.id}`] = { col: 2, row: Math.min(rows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
   });
   enemies.forEach((e, i) => {
-    positions[`e_${e.id}`] = { col: 11, row: 2 + i * 2, facing: 3, type: "enemy", id: e.id };
+    positions[`e_${e.id}`] = { col: Math.max(3, cols - 4), row: Math.min(rows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
   });
   return positions;
 }
 
-function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, avatars, npcAvatars, bgImage, lastCombatLog, onClose }) {
+function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, avatars, npcAvatars, bgImage, lastCombatLog, onClose, genre, environmentType, sceneText, locationName }) {
   const entities = sceneEntities || [];
   const enemies = entities.filter(e => e.type === "enemy");
+  const mapSpec = useMemo(() => buildBattleMapSpec({
+    genre,
+    environmentType,
+    sceneText,
+    locationName,
+    enemyNames: enemies.map(e => e.name),
+  }), [genre, environmentType, sceneText, locationName, sceneEntities]);
+  const mapCols = mapSpec.cols;
+  const mapRows = mapSpec.rows;
+  const terrainColors = mapSpec.theme?.terrainColors || DEFAULT_TERRAIN_COLORS;
+  const terrainStroke = mapSpec.theme?.terrainStroke || DEFAULT_TERRAIN_STROKE;
 
-  const [terrain, setTerrain] = useState(() => {
-    const t = {};
-    for (let c = 0; c < HEX_COLS; c++) for (let r = 0; r < HEX_ROWS; r++) t[`${c},${r}`] = 0;
-    return t;
-  });
-  const [positions, setPositions] = useState(() => buildInitialPositions(players, enemies));
+  const [terrain, setTerrain] = useState(() => mapSpec.terrain);
+  const [positions, setPositions] = useState(() => buildInitialPositions(players, enemies, mapCols, mapRows));
   const [selected, setSelected] = useState(null);       // key "p_X" o "e_X"
   const [mode, setMode] = useState("select");           // select|move|attack
   const [attackActionType, setAttackActionType] = useState("normal"); // "normal"|"all_out_attack"
@@ -2628,8 +2842,12 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   const [dragStart, setDragStart] = useState(null);
   const svgRef = useRef();
 
-  const svgWidth = HEX_COLS * HEX_OFFSET_X + HEX_SIZE * 0.5 + 4;
-  const svgHeight = HEX_ROWS * HEX_H + HEX_H / 2 + 4;
+  const svgWidth = mapCols * HEX_OFFSET_X + HEX_SIZE * 0.5 + 4;
+  const svgHeight = mapRows * HEX_H + HEX_H / 2 + 4;
+
+  useEffect(() => {
+    setTerrain(mapSpec.terrain);
+  }, [mapSpec]);
 
   useEffect(() => {
     setPositions(prev => {
@@ -2638,19 +2856,21 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
       players.forEach((p, i) => {
         const key = `p_${p.id}`;
         wanted.add(key);
-        if (!next[key]) next[key] = { col: 2, row: Math.min(HEX_ROWS - 1, 2 + i * 2), facing: 0, type: "player", id: p.id };
+        if (!next[key]) next[key] = { col: 2, row: Math.min(mapRows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
+        else next[key] = { ...next[key], col: Math.min(mapCols - 2, Math.max(1, next[key].col)), row: Math.min(mapRows - 2, Math.max(1, next[key].row)) };
       });
       enemies.forEach((e, i) => {
         const key = `e_${e.id}`;
         wanted.add(key);
-        if (!next[key]) next[key] = { col: 11, row: Math.min(HEX_ROWS - 1, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
+        if (!next[key]) next[key] = { col: Math.max(3, mapCols - 4), row: Math.min(mapRows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
+        else next[key] = { ...next[key], col: Math.min(mapCols - 2, Math.max(1, next[key].col)), row: Math.min(mapRows - 2, Math.max(1, next[key].row)) };
       });
       for (const key of Object.keys(next)) {
         if (!wanted.has(key)) delete next[key];
       }
       return next;
     });
-  }, [players, sceneEntities]);
+  }, [players, sceneEntities, mapCols, mapRows]);
 
   useEffect(() => {
     const move = lastCombatLog?.tactical_move;
@@ -2680,8 +2900,8 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     if (!pos) return new Set();
     const move = getBasicMove(tokenKey);
     const reachSet = new Set();
-    for (let c = 0; c < HEX_COLS; c++) {
-      for (let r = 0; r < HEX_ROWS; r++) {
+    for (let c = 0; c < mapCols; c++) {
+      for (let r = 0; r < mapRows; r++) {
         const t = terrain[`${c},${r}`] || 0;
         if (t === 3) continue; // muro
         const cost = t === 2 ? 2 : 1;
@@ -2706,7 +2926,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   }
 
   function tacticalSnapshot(overridePositions = positions) {
-    return { positions: overridePositions, terrain };
+    return { positions: overridePositions, terrain, cols: mapCols, rows: mapRows };
   }
 
   function applyNpcTurnResult(res) {
@@ -2903,6 +3123,9 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
           })()}
 
           <div style={{ display: "flex", gap: 6, alignItems: "center", marginLeft: "auto" }}>
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.38)", textTransform: "uppercase", letterSpacing: 0.7 }}>
+              {mapSpec.title} · {mapCols}×{mapRows}
+            </span>
             {selected && (
               <span style={{ fontSize: 11, color: "var(--accent)" }}>
                 {selName} {mode === "move" ? "→ scegli hex" : mode === "attack" ? "→ scegli bersaglio" : ""}
@@ -3007,7 +3230,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
             ) : (
               <div style={{
                 position: "absolute", inset: 0,
-                background: "#0e0f18", pointerEvents: "none",
+                background: mapSpec.theme?.base || "#0e0f18", pointerEvents: "none",
               }} />
             )}
 
@@ -3021,8 +3244,8 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
               const mx = e.clientX - rect.left;
               const my = e.clientY - rect.top;
               let best = null, bestD = Infinity;
-              for (let c = 0; c < HEX_COLS; c++) {
-                for (let r = 0; r < HEX_ROWS; r++) {
+              for (let c = 0; c < mapCols; c++) {
+                for (let r = 0; r < mapRows; r++) {
                   const { x, y } = hexCenter(c, r);
                   const d = Math.hypot(mx - x, my - y);
                   if (d < bestD) { bestD = d; best = { c, r }; }
@@ -3031,10 +3254,18 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
               if (best && bestD < HEX_SIZE * 1.2) clickHex(best.c, best.r);
             }}
           >
+            <defs>
+              <radialGradient id="battle-vignette" cx="50%" cy="50%" r="70%">
+                <stop offset="0%" stopColor="#000" stopOpacity="0" />
+                <stop offset="72%" stopColor="#000" stopOpacity="0.08" />
+                <stop offset="100%" stopColor="#000" stopOpacity="0.55" />
+              </radialGradient>
+            </defs>
+            {!bgImage && renderBattleMapDecor(mapSpec)}
 
             {/* hex grid */}
-            {Array.from({ length: HEX_COLS }, (_, col) =>
-              Array.from({ length: HEX_ROWS }, (_, row) => {
+            {Array.from({ length: mapCols }, (_, col) =>
+              Array.from({ length: mapRows }, (_, row) => {
                 const { x, y } = hexCenter(col, row);
                 const t = terrain[`${col},${row}`] || 0;
                 const inReach = reachable.has(`${col},${row}`);
@@ -3042,8 +3273,8 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                   <path
                     key={`${col},${row}`}
                     d={hexPath(x, y, HEX_SIZE - 1)}
-                    fill={inReach ? "rgba(99,102,241,0.25)" : TERRAIN_COLORS[t]}
-                    stroke={inReach ? "#818cf8" : TERRAIN_STROKE[t]}
+                    fill={inReach ? "rgba(99,102,241,0.25)" : terrainColors[t]}
+                    stroke={inReach ? "#818cf8" : terrainStroke[t]}
                     strokeWidth={inReach ? 1.5 : 1}
                   />
                 );
@@ -4048,6 +4279,13 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   }
 
   const activePlayer = players.find(p => p.id === activePlayerId) || players[0];
+  const combatLocationNode = mapState?.nodes?.[mapState?.current_node_id];
+  const combatSceneText = [
+    sceneState?.scene_text,
+    sceneState?.description,
+    combatLocationNode?.description,
+    messages?.slice?.(-2)?.map(m => m.text).join(" "),
+  ].filter(Boolean).join(" ");
 
   if (startupLoading) return (
     <LoadingProgress
@@ -4131,6 +4369,10 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           npcAvatars={npcAvatars}
           bgImage={combatBgImage}
           lastCombatLog={lastCombatLog}
+          genre={genre}
+          environmentType={combatLocationNode?.kind || adventure?.environment_type || adventure?.genre}
+          locationName={combatLocationNode?.name || adventure?.locations?.[0]?.name}
+          sceneText={combatSceneText}
           onClose={() => setShowCombatMap(false)}
         />
       )}

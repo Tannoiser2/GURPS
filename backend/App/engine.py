@@ -3983,7 +3983,7 @@ def _npc_attack_range(enemy: SceneEntity) -> int:
     return 1
 
 
-def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: dict | None = None) -> dict | None:
+def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: dict | None = None, cols: int = 15, rows: int = 10) -> dict | None:
     enemy_pos = positions.get(enemy_key)
     target_pos = positions.get(target_key)
     if not enemy_pos or not target_pos:
@@ -4000,7 +4000,7 @@ def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: 
     for candidate in _tactical_adjacent_hexes(enemy_pos):
         c = int(candidate["col"])
         r = int(candidate["row"])
-        if c < 0 or c >= 15 or r < 0 or r >= 10:
+        if c < 0 or c >= cols or r < 0 or r >= rows:
             continue
         if (c, r) in occupied:
             continue
@@ -4027,8 +4027,11 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
         return {"npc_logs": []}
 
     npc_logs = []
-    positions = dict((tactical_context or {}).get("positions") or {})
-    terrain = dict((tactical_context or {}).get("terrain") or {})
+    tactical_context = tactical_context or {}
+    positions = dict(tactical_context.get("positions") or {})
+    terrain = dict(tactical_context.get("terrain") or {})
+    cols = int(tactical_context.get("cols") or 15)
+    rows = int(tactical_context.get("rows") or 10)
     for enemy in alive_enemies:
         # Bersaglio: giocatore con meno HP (il più in pericolo)
         target = min(alive_players, key=lambda p: p.hp)
@@ -4040,7 +4043,7 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
         distance = _tactical_hex_distance(enemy_pos, target_pos) if positions else 1
 
         if positions and distance > attack_range:
-            step = _npc_move_toward(enemy_key, target_key, positions, terrain)
+            step = _npc_move_toward(enemy_key, target_key, positions, terrain, cols=cols, rows=rows)
             if step:
                 old_pos = positions[enemy_key]
                 positions[enemy_key] = {**old_pos, **step}

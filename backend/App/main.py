@@ -643,6 +643,8 @@ def combat_narrate(payload: CombatNarratePayload):
 class CombatNpcTurnPayload(BaseModel):
     positions: dict = {}
     terrain: dict = {}
+    cols: int = 15
+    rows: int = 10
 
 @app.post("/game/combat/npc-turn")
 def combat_npc_turn(payload: CombatNpcTurnPayload | None = None):
