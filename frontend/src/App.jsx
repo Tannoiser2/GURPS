@@ -2379,9 +2379,11 @@ function AdventureScreen({ genre, players, avatars, onStart, onBack }) {
   const [error, setError] = useState("");
 
   const playerDicts = players.map(p => ({
-    id: p.id, name: p.name, role: p.role,
+    id: p.id, name: p.name, role: p.role, archetype: p.archetype || p.role || "custom",
     stats: p.stats, skills: p.skills,
     advantages: p.advantages || [], disadvantages: p.disadvantages || [],
+    hp: p.hp, max_hp: p.max_hp, fp: p.fp, max_fp: p.max_fp,
+    dr: p.dr || 0, items: p.items || [], actions: p.actions || [],
   }));
 
   async function generate() {
@@ -2566,6 +2568,27 @@ function buildInitialPositions(players, enemies) {
   return positions;
 }
 
+function nearestOpenAdjacent(pos, target, positions, terrain, movingKey) {
+  let best = null;
+  let bestD = hexDist(pos.col, pos.row, target.col, target.row);
+  for (let c = 0; c < HEX_COLS; c++) {
+    for (let r = 0; r < HEX_ROWS; r++) {
+      if (hexDist(pos.col, pos.row, c, r) !== 1) continue;
+      if ((terrain[`${c},${r}`] || 0) === 3) continue;
+      const occupied = Object.entries(positions).some(([key, other]) =>
+        key !== movingKey && other.col === c && other.row === r
+      );
+      if (occupied) continue;
+      const d = hexDist(c, r, target.col, target.row);
+      if (d < bestD) {
+        bestD = d;
+        best = { col: c, row: r };
+      }
+    }
+  }
+  return best;
+}
+
 function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, avatars, npcAvatars, bgImage, lastCombatLog, onClose }) {
   const entities = sceneEntities || [];
   const enemies = entities.filter(e => e.type === "enemy");
@@ -2594,6 +2617,46 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
 
   const svgWidth = HEX_COLS * HEX_OFFSET_X + HEX_SIZE * 0.5 + 4;
   const svgHeight = HEX_ROWS * HEX_H + HEX_H / 2 + 4;
+
+  useEffect(() => {
+    setPositions(prev => {
+      const next = { ...prev };
+      const wanted = new Set();
+      players.forEach((p, i) => {
+        const key = `p_${p.id}`;
+        wanted.add(key);
+        if (!next[key]) next[key] = { col: 2, row: Math.min(HEX_ROWS - 1, 2 + i * 2), facing: 0, type: "player", id: p.id };
+      });
+      enemies.forEach((e, i) => {
+        const key = `e_${e.id}`;
+        wanted.add(key);
+        if (!next[key]) next[key] = { col: 11, row: Math.min(HEX_ROWS - 1, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
+      });
+      for (const key of Object.keys(next)) {
+        if (!wanted.has(key)) delete next[key];
+      }
+      return next;
+    });
+  }, [players, sceneEntities]);
+
+  useEffect(() => {
+    if (!lastCombatLog?.is_npc_turn || !lastCombatLog.attacker || !lastCombatLog.target) return;
+    const enemy = enemies.find(e => e.name === lastCombatLog.attacker);
+    const target = players.find(p => p.name === lastCombatLog.target);
+    if (!enemy || !target) return;
+    const enemyKey = `e_${enemy.id}`;
+    const targetKey = `p_${target.id}`;
+    setPositions(prev => {
+      const enemyPos = prev[enemyKey];
+      const targetPos = prev[targetKey];
+      if (!enemyPos || !targetPos || hexDist(enemyPos.col, enemyPos.row, targetPos.col, targetPos.row) <= 1) return prev;
+      const step = nearestOpenAdjacent(enemyPos, targetPos, prev, terrain, enemyKey);
+      if (!step) return prev;
+      setAnimating(a => ({ ...a, [enemyKey]: "move" }));
+      setTimeout(() => setAnimating(a => { const n = { ...a }; delete n[enemyKey]; return n; }), 220);
+      return { ...prev, [enemyKey]: { ...enemyPos, ...step } };
+    });
+  }, [lastCombatLog]);
 
   // basic move di chi è selezionato
   function getBasicMove(tokenKey) {
@@ -2629,14 +2692,21 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     setReachable(new Set());
   }
 
+  function canControlToken(key = selected) {
+    return !!key
+      && key.startsWith("p_")
+      && parseInt(key.replace("p_", "")) === activePlayerId
+      && !pendingAttack;
+  }
+
   function startMove() {
-    if (!selected) return;
+    if (!canControlToken()) return;
     setMode("move");
     setReachable(computeReachable(selected));
   }
 
   function startAttack() {
-    if (!selected) return;
+    if (!canControlToken()) return;
     setMode("attack");
     setReachable(new Set());
   }
@@ -2665,7 +2735,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     // trova token su questo hex
     const tokenOnHex = Object.entries(positions).find(([k, p]) => p.col === col && p.row === row);
 
-    if (mode === "move" && selected && reachable.has(key)) {
+    if (mode === "move" && canControlToken() && reachable.has(key)) {
       // animazione spostamento
       setAnimating(prev => ({ ...prev, [selected]: "move" }));
       setTimeout(() => {
@@ -2679,7 +2749,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
       return;
     }
 
-    if (mode === "attack" && selected) {
+    if (mode === "attack" && canControlToken()) {
       if (tokenOnHex && tokenOnHex[0] !== selected) {
         const targetKey = tokenOnHex[0];
         const selPos = positions[selected];
@@ -2768,6 +2838,9 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
 
   const defPlayer = players.find(p => p.id === activePlayerId) || players[0];
   const defVal = defPlayer ? Math.floor((defPlayer.stats?.agilita || 10) / 2) + 3 : 8;
+  const selectedIsActivePlayer = canControlToken();
+  const selectedIsEnemy = selected?.startsWith("e_");
+  const selectedIsOtherPlayer = selected?.startsWith("p_") && !selectedIsActivePlayer;
 
   return (
     <div
@@ -2856,6 +2929,15 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                   }}>
                     {isMyTurn && <span style={{ fontSize: 9 }}>▶</span>}
                     {hasActed && <span style={{ fontSize: 9 }}>✓</span>}
+                    {(() => {
+                      const img = c.key.startsWith("p_")
+                        ? avatars[parseInt(c.key.replace("p_",""))]
+                        : ((npcAvatars || {})[c.name] || (npcAvatars || {})[c.key.replace("e_","")]);
+                      return img ? (
+                        <img src={`data:image/png;base64,${img}`}
+                          style={{ width: 16, height: 16, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+                      ) : null;
+                    })()}
                     <span style={{ opacity: 0.5 }}>{i + 1}.</span>
                     <span>{c.name}</span>
                     <span style={{ opacity: 0.4, fontSize: 10 }}>({c.speed.toFixed(2)})</span>
@@ -2970,7 +3052,9 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                   ? { transform: `scale(1.25)`, transition: "transform 0.12s ease-in-out", filter: "brightness(1.6)" }
                   : {};
 
-              const tokenImg = isPlayer ? avatars[pid] : (npcAvatars || {})[eid];
+              // cerca per nome (chiave usata al momento della generazione)
+              const entityName = entity?.name || "";
+              const tokenImg = isPlayer ? avatars[pid] : ((npcAvatars || {})[entityName] || (npcAvatars || {})[eid]);
               const clipId = `clip-${key}`;
               const r = HEX_SIZE * 0.55;
 
@@ -3039,7 +3123,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
 
         {/* barra azioni */}
         <div style={{ padding: "8px 12px", borderTop: "1px solid rgba(255,255,255,0.07)", display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-          {selected && selPos && (
+          {selected && selPos && selectedIsActivePlayer && (
             <>
               <button onClick={startMove} style={{
                 padding: "5px 12px", borderRadius: 7, border: "none", fontSize: 12, fontWeight: 700, cursor: "pointer",
@@ -3083,6 +3167,27 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
               <button onClick={() => rotateFacing(selected, 1)} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12 }}>↻</button>
               <button onClick={() => { setSelected(null); setMode("select"); setReachable(new Set()); }} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: 12 }}>✕</button>
             </>
+          )}
+          {selected && selPos && selectedIsEnemy && !pendingAttack && (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 12, color: "#fca5a5", fontWeight: 700 }}>
+                Bersaglio selezionato: {selName}
+              </span>
+              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
+                Seleziona il token di {players.find(p => p.id === activePlayerId)?.name || "chi agisce"} per muovere o attaccare.
+              </span>
+              <button onClick={() => { setSelected(null); setMode("select"); setReachable(new Set()); }} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: 12 }}>✕</button>
+            </div>
+          )}
+          {selected && selPos && selectedIsOtherPlayer && !pendingAttack && (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", fontWeight: 700 }}>
+                {selName} non è il personaggio attivo.
+              </span>
+              <button onClick={() => setSelected(`p_${activePlayerId}`)} style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid rgba(99,102,241,0.45)", background: "rgba(99,102,241,0.16)", color: "#a5b4fc", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
+                Seleziona personaggio attivo
+              </button>
+            </div>
           )}
           {!selected && !pendingAttack && (() => {
             const alivePlayers = players.filter(p => p.hp > 0 && p.status !== "sconfitto" && p.status !== "morto");
@@ -3461,10 +3566,10 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       for (const u of (updates.npc_updates || [])) {
         newNpcStatuses[u.id] = { ...newNpcStatuses[u.id], ...u };
       }
-      const newThreads = [
-        ...prev.open_threads.filter(t => !(updates.closed_threads || []).includes(t)),
-        ...(updates.new_threads || []),
-      ];
+      const existing = prev.open_threads.filter(t => !(updates.closed_threads || []).includes(t));
+      const existingSet = new Set(existing.map(t => t.trim().toLowerCase()));
+      const added = (updates.new_threads || []).filter(t => !existingSet.has(t.trim().toLowerCase()));
+      const newThreads = [...existing, ...added];
       return {
         ...prev,
         clues_found: newClues,
@@ -3513,6 +3618,15 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     ));
   }
 
+  function _syncCombatEntitiesFromScene(scene) {
+    const sceneEntities = scene?.entities;
+    if (!Array.isArray(sceneEntities)) return false;
+    const enemies = sceneEntities.filter(e => e.type === "enemy");
+    if (enemies.length === 0) return false;
+    setCombatEntities(enemies);
+    return true;
+  }
+
   async function _fetchCombatNarration(combat_log) {
     try {
       const res = await fetch(`${API_URL}/game/combat/narrate`, {
@@ -3533,7 +3647,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         const local = prev.find(lp => lp.id === rp.id);
         return local ? { ...rp, backstory: rp.backstory || local.backstory || "", motivation: rp.motivation || local.motivation || "" } : rp;
       }));
-      if (res.scene) setSceneState(res.scene);
+      if (res.error) {
+        _setMessages(prev => [...prev, { role: "master", name: "Sistema", text: `Errore turno NPC: ${res.error}`, isCombatNarration: true }]);
+        return;
+      }
+      if (res.scene) {
+        setSceneState(res.scene);
+        _syncCombatEntitiesFromScene(res.scene);
+      }
       for (const log of (res.npc_logs || [])) {
         _setMessages(prev => [...prev, { role: "combat", combat_log: log }]);
         setLastCombatLog(log);
@@ -3557,6 +3678,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           action_type: actionType,
         }),
       }).then(r => r.json());
+      if (res.error) {
+        _setMessages(prev => [...prev, { role: "master", name: "Sistema", text: `Azione non riuscita: ${res.error}`, isCombatNarration: true }]);
+        return;
+      }
+      const syncedEntities = res.scene ? _syncCombatEntitiesFromScene(res.scene) : false;
       if (res.scene) setSceneState(res.scene);
       if (res.pending_attack !== undefined) setPendingAttack(res.pending_attack);
       if (res.players) setPlayers(res.players);
@@ -3566,7 +3692,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         setLastCombatLog(res.combat_log);
         _setMessages(prev => [...prev, { role: "combat", combat_log: res.combat_log }]);
         const r = res.combat_log?.result;
-        if (r?.net_damage > 0 && !res.pending_attack) {
+        if (r?.net_damage > 0 && !res.pending_attack && !syncedEntities) {
           _applyCombatDamage(targetEntityId, r.net_damage);
         }
         if (!res.pending_attack) {
@@ -3593,8 +3719,15 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           rear_attack: rearAttack,
         }),
       }).then(r => r.json());
+      if (res.error) {
+        _setMessages(prev => [...prev, { role: "master", name: "Sistema", text: `Difesa non riuscita: ${res.error}`, isCombatNarration: true }]);
+        return;
+      }
       setPendingAttack(null);
-      if (res.scene) setSceneState(res.scene);
+      if (res.scene) {
+        setSceneState(res.scene);
+        _syncCombatEntitiesFromScene(res.scene);
+      }
       if (res.players) setPlayers(res.players);
       if (res.combat_log) {
         setLastCombatLog(res.combat_log);
@@ -3710,20 +3843,26 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       setStartupLoading(false);
       if (imageProvider !== "none") fetchSceneImage(res.narrative, 0);
       fetchGameState();
-      // Genera avatar NPC in background (non blocca il gioco)
+      // Genera avatar per i WorldNPC in background — li prendiamo da /game/state dopo il setup
       if (imageProvider !== "none") {
-        const entities = (res.state_updates?.combat_scene?.entities || []).concat(
-          (res.state_updates?.world_npcs || []).map(n => ({ ...n, type: "npc" }))
-        ).filter(e => e.id && e.name);
-        if (entities.length > 0) {
+        fetch(`${API_URL}/game/state`).then(r => r.json()).then(gs => {
+          const npcs = (gs.world_npcs || []).filter(n => n.name);
+          if (npcs.length === 0) return;
+          // Usa il nome come chiave — così il lookup in CombatMap funziona per nome
+          const entities = npcs.map(n => ({
+            id: n.name,  // chiave = nome
+            name: n.name,
+            description: n.description || n.role || "",
+            type: n.disposition === "hostile" ? "enemy" : "npc",
+          }));
           fetch(`${API_URL}/game/generate-npc-avatars`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ entities: entities.map(e => ({ id: e.id, name: e.name, description: e.description || e.role || "", type: e.type })), genre }),
+            body: JSON.stringify({ entities, genre }),
           }).then(r => r.json()).then(r => {
             if (r.avatars) setNpcAvatars(prev => ({ ...prev, ...r.avatars }));
           }).catch(() => {});
-        }
+        }).catch(() => {});
       }
     }
     start();
@@ -3804,12 +3943,13 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         setCombatEntities(updates.combat_scene.entities);
         // Genera avatar per entità di combattimento non ancora note
         if (imageProvider !== "none") {
-          const newEntities = updates.combat_scene.entities.filter(e => e.id && e.name);
+          const newEntities = updates.combat_scene.entities.filter(e => e.name);
           if (newEntities.length > 0) {
             fetch(`${API_URL}/game/generate-npc-avatars`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ entities: newEntities.map(e => ({ id: e.id, name: e.name, description: e.description || "", type: e.type })), genre }),
+              // chiave = nome, così il lookup in CombatMap funziona per nome
+              body: JSON.stringify({ entities: newEntities.map(e => ({ id: e.name, name: e.name, description: e.description || "", type: e.type })), genre }),
             }).then(r => r.json()).then(r => {
               if (r.avatars) setNpcAvatars(prev => ({ ...prev, ...r.avatars }));
             }).catch(() => {});

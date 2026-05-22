@@ -6,7 +6,7 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import io
-from .engine import empty_game_state, prepare_team_setup, start_game_from_selection, advance_to_node, preview_action_outcomes, initiate_combat_action, declare_defense, resolve_reaction_roll, roll_for_player_action, npc_combat_turn
+from .engine import empty_game_state, prepare_team_setup, start_game_from_selection, advance_to_node, preview_action_outcomes, initiate_combat_action, declare_defense, resolve_reaction_roll, roll_for_player_action, npc_combat_turn, build_players_from_dicts
 from .combat import attempt_stun_recovery, stand_up
 from .character_creation import validate_draft, build_custom_player
 from .claude_service import (
@@ -22,7 +22,7 @@ from .claude_service import (
 from . import claude_service
 from .claude_service import create_adventure_from_pdf_text
 from .data_genres import GENRE_PACKS
-from .models import GameState, CombatDefenseRequest, CharacterDraft
+from .models import GameState, CombatDefenseRequest, CharacterDraft, SceneEntity, SceneState
 
 app = FastAPI()
 app.add_middleware(
@@ -35,6 +35,34 @@ app.add_middleware(
 game_state: GameState = empty_game_state()
 tile_image_cache: dict[str, str] = {}
 strategic_map_image_cache: str | None = None
+
+
+def _ensure_runtime_scene(scene_text: str = "") -> None:
+    if game_state.scene is None:
+        game_state.scene = SceneState(scene_text=scene_text or "Scena in corso.")
+    elif scene_text:
+        game_state.scene.scene_text = scene_text
+
+
+def _sync_players_from_payload(players: list[dict]) -> None:
+    """Sincronizza i PG del flusso bibbia nel GameState usato dal combattimento."""
+    normalized = []
+    for p in players or []:
+        q = dict(p)
+        q.setdefault("id", len(normalized) + 1)
+        q.setdefault("name", f"Personaggio {q['id']}")
+        q.setdefault("role", "Avventuriero")
+        q.setdefault("archetype", q.get("role", "custom"))
+        q.setdefault("stats", {})
+        q.setdefault("skills", {})
+        q.setdefault("advantages", [])
+        q.setdefault("disadvantages", [])
+        q.setdefault("items", [])
+        q.setdefault("actions", [])
+        normalized.append(q)
+    if normalized:
+        game_state.players = build_players_from_dicts(normalized, previous_players=game_state.players)
+        game_state.in_setup = False
 
 
 def _npc_name_match(npc_name: str, entity_name: str) -> bool:
@@ -139,6 +167,39 @@ def _enrich_combat_scene(combat_scene: dict | None) -> dict | None:
         enriched.append(entity)
 
     return {**combat_scene, "entities": enriched}
+
+
+def _persist_combat_scene(combat_scene: dict | None) -> None:
+    """Salva i nemici della combat_scene nello stato backend usato dagli endpoint tattici."""
+    if not combat_scene or not isinstance(combat_scene.get("entities"), list):
+        return
+    _ensure_runtime_scene()
+
+    entities: list[SceneEntity] = []
+    for idx, raw in enumerate(combat_scene.get("entities") or [], start=1):
+        if not isinstance(raw, dict):
+            continue
+        entity = dict(raw)
+        entity.setdefault("id", f"enemy_{idx}")
+        entity.setdefault("name", f"Nemico {idx}")
+        entity.setdefault("type", "enemy")
+        entity.setdefault("zone", "centro")
+        entity.setdefault("hp", entity.get("max_hp", 10))
+        entity.setdefault("max_hp", entity.get("hp", 10))
+        entity.setdefault("dr", 0)
+        entity.setdefault("attack_skill", 10)
+        entity.setdefault("active_defense", 8)
+        entity.setdefault("damage_dice", "1d6")
+        entity.setdefault("damage_type", "cr")
+        try:
+            entities.append(SceneEntity(**entity))
+        except Exception:
+            continue
+
+    if entities:
+        game_state.scene.entities = entities
+        game_state.pending_attack = None
+        game_state.last_attack_result = None
 
 
 def _image_provider_available(provider: str) -> bool:
@@ -250,11 +311,16 @@ def adventure_create(payload: AdventureCreatePayload):
 @app.post("/game/master/start-bible")
 def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     """Scena d'apertura con bibbia avventura."""
-    return master_start_with_bible(payload.genre, payload.players, payload.adventure)
+    _sync_players_from_payload(payload.players)
+    result = master_start_with_bible(payload.genre, payload.players, payload.adventure)
+    _ensure_runtime_scene(result.get("narrative", ""))
+    return result
 
 @app.post("/game/master/turn-bible")
 def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     """Turno Master con bibbia e tracking stato."""
+    _sync_players_from_payload(payload.players)
+    _ensure_runtime_scene()
     # Tiro GURPS reale prima di chiamare Claude — vincolante per la narrativa
     active_player = next((p for p in payload.players if p["id"] == payload.active_player_id), payload.players[0] if payload.players else None)
     roll_detail = None
@@ -274,7 +340,10 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     su = result.get("state_updates") or {}
     if su.get("activate_combat") and su.get("combat_scene"):
         su["combat_scene"] = _enrich_combat_scene(su["combat_scene"])
+        _persist_combat_scene(su["combat_scene"])
         result["state_updates"] = su
+    if su.get("combat_over"):
+        game_state.pending_attack = None
 
     # Valutazione vittorie personali quando la storia finisce
     if su.get("story_over"):

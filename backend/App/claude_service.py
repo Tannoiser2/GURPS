@@ -3237,7 +3237,7 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
         try:
             client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
             response = client.images.generate(
-                model=OPENAI_IMAGE_MODEL,
+                model=OPENAI_IMAGE_EDIT_MODEL,  # gpt-image-1 supporta b64_json nativo
                 prompt=prompt,
                 size="1024x1024",
                 quality="medium",
@@ -3258,7 +3258,7 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
         client = google_genai.Client(api_key=key)
         response = client.models.generate_content(
             model="gemini-2.5-flash-image",
-            contents=prompt,
+            contents=[google_genai_types.Content(parts=[google_genai_types.Part(text=prompt)])],
             config=google_genai_types.GenerateContentConfig(response_modalities=["IMAGE"]),
         )
         for part in response.candidates[0].content.parts:
