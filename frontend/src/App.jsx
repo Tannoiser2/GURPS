@@ -1,7 +1,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-const API_URL = "http://127.0.0.1:8002";
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8002";
 
 const STAT_ICON = { forza: "💪", agilita: "🏃", intelligenza: "🧠", empatia: "💙" };
 const STAT_LABEL = { forza: "FO", agilita: "DE", intelligenza: "IN", empatia: "SA" };
