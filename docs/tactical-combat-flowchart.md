@@ -195,7 +195,10 @@ flowchart TD
     E -->|si| G["Per ogni nemico vivo"]
 
     G --> H["Bersaglio = PG vivo con meno HP"]
-    H --> I["Tiro attacco 3d6 vs enemy.attack_skill"]
+    H --> Z{"A portata sulla mappa?"}
+    Z -->|no| Y["Muove 1 hex verso il bersaglio\nlog tactical_move"]
+    Z -->|si| I["Tiro attacco 3d6 vs enemy.attack_skill"]
+    Y --> G
     I --> J{"Colpisce?"}
     J -->|no| K["Log mancato"]
     J -->|si| L["Difesa automatica PG:\n3d6 vs dodge"]
@@ -211,7 +214,7 @@ flowchart TD
     R --> S["last_attack_result = ultimo log"]
 ```
 
-Differenza importante: il turno NPC e piu semplificato di `resolve_attack`. Non usa tutta la stessa funzione `combat.resolve_attack`; ricalcola attacco, schivata e danno direttamente in `engine.npc_combat_turn`.
+Differenza importante: il turno NPC e piu semplificato di `resolve_attack`. Non usa tutta la stessa funzione `combat.resolve_attack`; ricalcola attacco, schivata e danno direttamente in `engine.npc_combat_turn`. Ora riceve anche il contesto tattico dal frontend (`positions`, `terrain`): se il nemico non e a portata, si muove sulla griglia invece di colpire da lontano.
 
 ## 9. Narrazione del colpo
 

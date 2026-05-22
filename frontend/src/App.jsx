@@ -332,6 +332,7 @@ const NARRATIVE_HINT_META = {
   bersaglio_abbattuto:              { icon: "💀", label: "Abbattuto",         color: "#ef4444" },
   ferita_grave:                     { icon: "🩸", label: "Ferita Grave",      color: "#f97316" },
   colpito:                          { icon: "🎯", label: "Colpito",           color: "#f87171" },
+  npc_si_avvicina:                  { icon: "👣", label: "Si avvicina",      color: "#f59e0b" },
 };
 
 // ─── GURPS tooltip rules ─────────────────────────────────────────────────────
@@ -1317,6 +1318,27 @@ function SetupScreen({ onStart }) {
     } catch (_) {}
   }
 
+  async function handleAvatarGenerate(player) {
+    setAvatarLoading(prev => ({ ...prev, [player.id]: "Generazione..." }));
+    try {
+      const res = await fetch(`${API_URL}/game/generate-avatar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ photo_b64: "", genre, role: player.role, archetype: player.archetype || player.role }),
+      }).then(r => r.json());
+      if (res.avatar_b64) {
+        setAvatars(prev => ({ ...prev, [player.id]: res.avatar_b64 }));
+        setAvatarLoading(prev => ({ ...prev, [player.id]: null }));
+      } else {
+        setAvatarLoading(prev => ({ ...prev, [player.id]: `❌ ${res.error || "Errore"}` }));
+        setTimeout(() => setAvatarLoading(prev => ({ ...prev, [player.id]: null })), 4000);
+      }
+    } catch {
+      setAvatarLoading(prev => ({ ...prev, [player.id]: "❌ Errore di rete" }));
+      setTimeout(() => setAvatarLoading(prev => ({ ...prev, [player.id]: null })), 4000);
+    }
+  }
+
   async function handleAvatarUpload(player, file) {
     setAvatarLoading(prev => ({ ...prev, [player.id]: "Generazione..." }));
     const reader = new FileReader();
@@ -1462,7 +1484,7 @@ function SetupScreen({ onStart }) {
 
       {/* header genere */}
       <div style={{
-        width: "100%", maxWidth: 860, borderRadius: 16, marginBottom: 32, overflow: "hidden",
+        width: "100%", maxWidth: 720, borderRadius: 16, marginBottom: 32, overflow: "hidden",
         background: `linear-gradient(${meta.gradient})`, boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
       }}>
         <div style={{ padding: "28px 32px", display: "flex", alignItems: "center", gap: 18 }}>
@@ -1479,7 +1501,7 @@ function SetupScreen({ onStart }) {
         </div>
       </div>
 
-      <div style={{ width: "100%", maxWidth: 860 }}>
+      <div style={{ width: "100%", maxWidth: 720 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <div style={{ fontWeight: 700, fontSize: 15, color: "var(--text-h)" }}>
             Scegli il tuo gruppo (1–4 personaggi)
@@ -1491,80 +1513,81 @@ function SetupScreen({ onStart }) {
           }}>+ Crea personaggio</button>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12, marginBottom: 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 28 }}>
           {pool.map(p => {
             const sel = selected.includes(p.id);
-            const topSkills = Object.entries(p.skills || {}).sort((a,b) => b[1]-a[1]).slice(0,3);
+            const topSkills = Object.entries(p.skills || {}).sort((a,b) => b[1]-a[1]).slice(0,2);
             const av = avatars[p.id];
             const avLoading = avatarLoading[p.id];
             return (
               <div key={p.id} style={{
-                borderRadius: 12, overflow: "hidden",
+                borderRadius: 10, overflow: "hidden",
                 border: sel ? "2px solid var(--accent)" : "1px solid var(--border)",
                 background: sel ? "var(--accent-bg)" : "var(--code-bg)",
                 transition: "all 0.15s", position: "relative",
               }}>
                 {/* avatar strip */}
-                <div style={{ position: "relative", height: 110, background: "var(--border)", cursor: "pointer", overflow: "hidden" }}
+                <div style={{ position: "relative", height: 80, background: "var(--border)", cursor: "pointer", overflow: "hidden" }}
                   onClick={() => toggleSelect(p.id)}>
                   {av
                     ? <img src={`data:image/jpeg;base64,${av}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48, opacity: 0.3 }}>🧑</div>
+                    : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34, opacity: 0.3 }}>🧑</div>
                   }
                   {avLoading && (
-                    <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "#fff", padding: "0 8px", textAlign: "center" }}>
+                    <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#fff", padding: "0 6px", textAlign: "center" }}>
                       {avLoading}
                     </div>
                   )}
-                  {sel && <div style={{ position: "absolute", top: 8, right: 10, fontSize: 20, textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>✓</div>}
-                  {/* upload button */}
+                  {sel && <div style={{ position: "absolute", top: 5, right: 7, fontSize: 16, textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>✓</div>}
+                  <button onClick={e => { e.stopPropagation(); handleAvatarGenerate(p); }}
+                    disabled={!!avLoading}
+                    style={{
+                      position: "absolute", bottom: 4, left: 4,
+                      background: "rgba(0,0,0,0.6)", borderRadius: 5, padding: "2px 5px",
+                      fontSize: 10, color: "#fff", cursor: "pointer", backdropFilter: "blur(4px)", border: "none",
+                    }}>🎨</button>
                   <label onClick={e => e.stopPropagation()} style={{
-                    position: "absolute", bottom: 6, right: 6,
-                    background: "rgba(0,0,0,0.6)", borderRadius: 6, padding: "3px 8px",
-                    fontSize: 11, color: "#fff", cursor: "pointer", backdropFilter: "blur(4px)",
+                    position: "absolute", bottom: 4, right: 4,
+                    background: "rgba(0,0,0,0.6)", borderRadius: 5, padding: "2px 5px",
+                    fontSize: 10, color: "#fff", cursor: "pointer", backdropFilter: "blur(4px)",
                   }}>
-                    📷 {av ? "Cambia" : "Foto"}
+                    📷
                     <input type="file" accept="image/*" style={{ display: "none" }}
                       onChange={e => e.target.files[0] && handleAvatarUpload(p, e.target.files[0])} />
                   </label>
                 </div>
                 {/* card body */}
-                <div style={{ padding: "12px 14px 14px", cursor: "pointer" }} onClick={() => toggleSelect(p.id)}>
-                  <div style={{ fontWeight: 800, fontSize: 15, color: "var(--text-h)", marginBottom: 2 }}>
+                <div style={{ padding: "7px 9px 9px", cursor: "pointer" }} onClick={() => toggleSelect(p.id)}>
+                  <div style={{ fontWeight: 800, fontSize: 12, color: "var(--text-h)", marginBottom: 1 }}>
                     <EditableName
                       name={p.name}
                       onRename={newName => handleRenameInPool(p.id, newName)}
-                      style={{ fontWeight: 800, fontSize: 15 }}
+                      style={{ fontWeight: 800, fontSize: 12 }}
                     />
                   </div>
-                  <div style={{ fontSize: 12, color: "var(--accent)", marginBottom: 8, fontWeight: 600 }}>{p.role}</div>
+                  <div style={{ fontSize: 10, color: "var(--accent)", marginBottom: 5, fontWeight: 600 }}>{p.role}</div>
                   <StatBar stats={p.stats} />
                   {topSkills.length > 0 && (
-                    <div style={{ marginTop: 8, display: "flex", gap: 5, flexWrap: "wrap" }}>
+                    <div style={{ marginTop: 4, display: "flex", gap: 4, flexWrap: "wrap" }}>
                       {topSkills.map(([sk, lv]) => (
-                        <span key={sk} style={{ fontSize: 11, background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 5, padding: "1px 6px", color: "var(--text)" }}>
+                        <span key={sk} style={{ fontSize: 10, background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 4, padding: "1px 4px", color: "var(--text)" }}>
                           {sk} {lv}
                         </span>
                       ))}
                     </div>
                   )}
                   {p.advantages?.length > 0 && (
-                    <div style={{ fontSize: 11, marginTop: 6, color: "var(--accent)", opacity: 0.8 }}>
-                      ★ {p.advantages.join(", ")}
+                    <div style={{ fontSize: 10, marginTop: 3, color: "var(--accent)", opacity: 0.8, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      ★ {p.advantages.slice(0,2).join(", ")}
                     </div>
                   )}
                   {p.disadvantages?.length > 0 && (
-                    <div style={{ fontSize: 11, marginTop: 2, color: "#f87171", opacity: 0.8 }}>
-                      ✖ {p.disadvantages.join(", ")}
-                    </div>
-                  )}
-                  {p.backstory && (
-                    <div style={{ fontSize: 11, marginTop: 8, color: "var(--text)", lineHeight: 1.45, fontStyle: "italic", borderTop: "1px solid var(--border)", paddingTop: 7 }}>
-                      {p.backstory}
+                    <div style={{ fontSize: 10, marginTop: 1, color: "#f87171", opacity: 0.8, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      ✖ {p.disadvantages.slice(0,2).join(", ")}
                     </div>
                   )}
                   {p.motivation && (
-                    <div style={{ fontSize: 11, marginTop: 4, color: "var(--accent)", fontWeight: 600 }}>
+                    <div style={{ fontSize: 10, marginTop: 3, color: "var(--accent)", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       🎯 {p.motivation}
                     </div>
                   )}
@@ -1715,6 +1738,7 @@ function CombatLogMessage({ msg }) {
   const log = msg.combat_log;
   if (!log) return null;
   const r = log.result || {};
+  const move = log.tactical_move;
 
   return (
     <div style={{
@@ -1731,8 +1755,18 @@ function CombatLogMessage({ msg }) {
         <span style={{ marginLeft: "auto" }}><SkillBadge skill={log.skill} level={log.skill_level} /></span>
       </div>
 
+      {move && (
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", fontSize: 12, color: "var(--text)", opacity: 0.85 }}>
+          <Badge icon="👣" label="Movimento tattico" color="#f59e0b" size="sm" />
+          <span>
+            {log.attacker} si avvicina a {log.target}
+            {move.distance_after != null ? ` (distanza ${move.distance_after})` : ""}.
+          </span>
+        </div>
+      )}
+
       {/* tiri dado */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 8, alignItems: "flex-end" }}>
+      {!move && <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 8, alignItems: "flex-end" }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
           <span style={{ fontSize: 9, color: "var(--text)", opacity: 0.45, textTransform: "uppercase", letterSpacing: 1 }}>Attacco</span>
           <CombatDie roll={log.attack_roll} target={log.skill_level} success={r.hit} critical={r.attacker_critical} />
@@ -1752,7 +1786,7 @@ function CombatLogMessage({ msg }) {
         <span style={{ marginLeft: 4 }}>
           <NarrativeHintBadge hint={r.narrative_hint} size="sm" />
         </span>
-      </div>
+      </div>}
 
       {/* danno */}
       {r.hit && !r.defended && (
@@ -2568,27 +2602,6 @@ function buildInitialPositions(players, enemies) {
   return positions;
 }
 
-function nearestOpenAdjacent(pos, target, positions, terrain, movingKey) {
-  let best = null;
-  let bestD = hexDist(pos.col, pos.row, target.col, target.row);
-  for (let c = 0; c < HEX_COLS; c++) {
-    for (let r = 0; r < HEX_ROWS; r++) {
-      if (hexDist(pos.col, pos.row, c, r) !== 1) continue;
-      if ((terrain[`${c},${r}`] || 0) === 3) continue;
-      const occupied = Object.entries(positions).some(([key, other]) =>
-        key !== movingKey && other.col === c && other.row === r
-      );
-      if (occupied) continue;
-      const d = hexDist(c, r, target.col, target.row);
-      if (d < bestD) {
-        bestD = d;
-        best = { col: c, row: r };
-      }
-    }
-  }
-  return best;
-}
-
 function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, avatars, npcAvatars, bgImage, lastCombatLog, onClose }) {
   const entities = sceneEntities || [];
   const enemies = entities.filter(e => e.type === "enemy");
@@ -2640,22 +2653,15 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   }, [players, sceneEntities]);
 
   useEffect(() => {
-    if (!lastCombatLog?.is_npc_turn || !lastCombatLog.attacker || !lastCombatLog.target) return;
-    const enemy = enemies.find(e => e.name === lastCombatLog.attacker);
-    const target = players.find(p => p.name === lastCombatLog.target);
-    if (!enemy || !target) return;
-    const enemyKey = `e_${enemy.id}`;
-    const targetKey = `p_${target.id}`;
-    setPositions(prev => {
-      const enemyPos = prev[enemyKey];
-      const targetPos = prev[targetKey];
-      if (!enemyPos || !targetPos || hexDist(enemyPos.col, enemyPos.row, targetPos.col, targetPos.row) <= 1) return prev;
-      const step = nearestOpenAdjacent(enemyPos, targetPos, prev, terrain, enemyKey);
-      if (!step) return prev;
-      setAnimating(a => ({ ...a, [enemyKey]: "move" }));
-      setTimeout(() => setAnimating(a => { const n = { ...a }; delete n[enemyKey]; return n; }), 220);
-      return { ...prev, [enemyKey]: { ...enemyPos, ...step } };
-    });
+    const move = lastCombatLog?.tactical_move;
+    if (!move?.entity_id || !move.to) return;
+    const enemyKey = `e_${move.entity_id}`;
+    setAnimating(a => ({ ...a, [enemyKey]: "move" }));
+    setTimeout(() => setAnimating(a => { const n = { ...a }; delete n[enemyKey]; return n; }), 260);
+    setPositions(prev => ({
+      ...prev,
+      [enemyKey]: { ...(prev[enemyKey] || {}), ...move.to },
+    }));
   }, [lastCombatLog]);
 
   // basic move di chi è selezionato
@@ -2699,6 +2705,17 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
       && !pendingAttack;
   }
 
+  function tacticalSnapshot(overridePositions = positions) {
+    return { positions: overridePositions, terrain };
+  }
+
+  function applyNpcTurnResult(res) {
+    if (!res) return;
+    if (res.positions && Object.keys(res.positions).length > 0) {
+      setPositions(prev => ({ ...prev, ...res.positions }));
+    }
+  }
+
   function startMove() {
     if (!canControlToken()) return;
     setMode("move");
@@ -2711,7 +2728,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     setReachable(new Set());
   }
 
-  function advanceTurn(actedId, runNpc = true) {
+  function advanceTurn(actedId, runNpc = true, positionsOverride = positions) {
     const newActed = new Set(actedThisRound);
     if (actedId != null) newActed.add(actedId);
     const alivePlayers = players.filter(p => p.hp > 0 && p.status !== "sconfitto" && p.status !== "morto");
@@ -2727,25 +2744,28 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     setMode("select");
     setReachable(new Set());
     // Fa agire gli NPC dopo ogni azione del giocatore (tranne dopo un attacco — li fa già handleAttack)
-    if (runNpc && onFinishTurn) onFinishTurn();
+    if (runNpc && onFinishTurn) {
+      Promise.resolve(onFinishTurn(tacticalSnapshot(positionsOverride))).then(applyNpcTurnResult);
+    }
   }
 
-  function clickHex(col, row) {
+  async function clickHex(col, row) {
     const key = `${col},${row}`;
     // trova token su questo hex
     const tokenOnHex = Object.entries(positions).find(([k, p]) => p.col === col && p.row === row);
 
     if (mode === "move" && canControlToken() && reachable.has(key)) {
       // animazione spostamento
+      const nextPositions = { ...positions, [selected]: { ...positions[selected], col, row } };
       setAnimating(prev => ({ ...prev, [selected]: "move" }));
       setTimeout(() => {
-        setPositions(prev => ({ ...prev, [selected]: { ...prev[selected], col, row } }));
+        setPositions(nextPositions);
         setAnimating(prev => { const n = {...prev}; delete n[selected]; return n; });
       }, 180);
       setCombatLog(prev => [...prev, `${selected} si sposta in (${col},${row})`]);
       // movimento consuma il turno — avanza al prossimo giocatore
       const movedPid = selected.startsWith("p_") ? parseInt(selected.replace("p_", "")) : null;
-      advanceTurn(movedPid);
+      advanceTurn(movedPid, true, nextPositions);
       return;
     }
 
@@ -2789,7 +2809,8 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
               setAnimating(prev => ({ ...prev, [selected]: "attack" }));
               setTimeout(() => setAnimating(prev => { const n = {...prev}; delete n[selected]; return n; }), 400);
               // Usa sempre "combattere" — il backend ha il fallback sintetico
-              onAttack(p, "combattere", targetKey.replace("e_", ""), attackActionType);
+              const npcTurnResult = await onAttack(p, "combattere", targetKey.replace("e_", ""), attackActionType, tacticalSnapshot());
+              applyNpcTurnResult(npcTurnResult);
               setAttackActionType("normal");
               setCombatLog(prev => [...prev, `${p.name} attacca${attackActionType === "all_out_attack" ? " [TOTALE]" : ""} (${logParts.join(", ")})`]);
               // attacco consuma il turno — handleAttack chiama già _runNpcTurn, non duplicare
@@ -3230,12 +3251,12 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
               )}
               {[["dodge","Schiva","#7c3aed"],["parry","Para","#2563eb"],["block","Blocca","#0f766e"]].map(([dt, label, bg]) => (
                 <button key={dt}
-                  onClick={() => onDefend(dt, "normal", "", lastAttackCoverBonus, lastAttackIsRear)}
+                  onClick={() => Promise.resolve(onDefend(dt, "normal", "", lastAttackCoverBonus, lastAttackIsRear, tacticalSnapshot())).then(applyNpcTurnResult)}
                   style={{ padding: "5px 11px", borderRadius: 7, border: "none", background: bg, color: "#fff", fontWeight: 700, cursor: "pointer", fontSize: 12 }}
                 >{label}</button>
               ))}
               <button
-                onClick={() => onDefend("dodge", "all_out_defense", "", lastAttackCoverBonus, lastAttackIsRear)}
+                onClick={() => Promise.resolve(onDefend("dodge", "all_out_defense", "", lastAttackCoverBonus, lastAttackIsRear, tacticalSnapshot())).then(applyNpcTurnResult)}
                 title="Difesa Totale: +2 difesa ma non puoi attaccare questo turno"
                 style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #4ade80", background: "rgba(74,222,128,0.15)", color: "#4ade80", fontWeight: 700, cursor: "pointer", fontSize: 12 }}
               >🛡🛡 Difesa Totale</button>
@@ -3640,9 +3661,16 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     } catch (_) {}
   }
 
-  async function _runNpcTurn() {
+  async function _runNpcTurn(tacticalContext = null) {
     try {
-      const res = await fetch(`${API_URL}/game/combat/npc-turn`, { method: "POST" }).then(r => r.json());
+      const fetchOptions = tacticalContext
+        ? {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(tacticalContext),
+          }
+        : { method: "POST" };
+      const res = await fetch(`${API_URL}/game/combat/npc-turn`, fetchOptions).then(r => r.json());
       if (res.players) setPlayers(prev => res.players.map(rp => {
         const local = prev.find(lp => lp.id === rp.id);
         return local ? { ...rp, backstory: rp.backstory || local.backstory || "", motivation: rp.motivation || local.motivation || "" } : rp;
@@ -3663,10 +3691,12 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       }
       // Avvia attacco NPC su giocatore (pending_attack) — prossimo NPC che non ha già agito
       if (res.pending_attack) setPendingAttack(res.pending_attack);
+      return res;
     } catch (_) {}
+    return null;
   }
 
-  async function handleAttack(player, actionName, targetEntityId, actionType = "normal") {
+  async function handleAttack(player, actionName, targetEntityId, actionType = "normal", tacticalContext = null) {
     try {
       const res = await fetch(`${API_URL}/game/combat/attack`, {
         method: "POST",
@@ -3698,13 +3728,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         if (!res.pending_attack) {
           _fetchCombatNarration(res.combat_log);
           // Turno NPC dopo che il giocatore ha attaccato un'entità
-          if (targetEntityId) await _runNpcTurn();
+          if (targetEntityId) return await _runNpcTurn(tacticalContext);
         }
       }
     } catch (_) {}
+    return null;
   }
 
-  async function handleDefend(defenseType, defenseActionType = "normal", defenseSkill = "", coverBonus = 0, rearAttack = false) {
+  async function handleDefend(defenseType, defenseActionType = "normal", defenseSkill = "", coverBonus = 0, rearAttack = false, tacticalContext = null) {
     try {
       const defender = players.find(p => p.id === activePlayerId) || players[0];
       const res = await fetch(`${API_URL}/game/combat/defend`, {
@@ -3735,8 +3766,9 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         _fetchCombatNarration(res.combat_log);
       }
       // Turno degli altri NPC dopo che il giocatore ha risposto all'attacco
-      await _runNpcTurn();
+      return await _runNpcTurn(tacticalContext);
     } catch (_) {}
+    return null;
   }
 
   async function handleStandUp(playerId) {
@@ -3842,15 +3874,21 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       setLoading(false);
       setStartupLoading(false);
       if (imageProvider !== "none") fetchSceneImage(res.narrative, 0);
-      fetchGameState();
-      // Genera avatar per i WorldNPC in background — li prendiamo da /game/state dopo il setup
+      // fetchGameState popola world_npcs — poi generiamo gli avatar
+      const gs = await fetch(`${API_URL}/game/state`).then(r => r.json()).catch(() => ({}));
+      if (gs.scene) setSceneState(gs.scene);
+      if (gs.map_state) setMapState(gs.map_state);
+      if (gs.world_npcs) setGameStateData(prev => ({ ...prev, world_npcs: gs.world_npcs }));
+      if (gs.players?.length > 0) setPlayers(prev => gs.players.map(gp => {
+        const local = prev.find(lp => lp.id === gp.id);
+        return local ? { ...gp, backstory: gp.backstory || local.backstory || "", motivation: gp.motivation || local.motivation || "" } : gp;
+      }));
+      // Genera avatar NPC in background con i world_npcs appena letti
       if (imageProvider !== "none") {
-        fetch(`${API_URL}/game/state`).then(r => r.json()).then(gs => {
-          const npcs = (gs.world_npcs || []).filter(n => n.name);
-          if (npcs.length === 0) return;
-          // Usa il nome come chiave — così il lookup in CombatMap funziona per nome
+        const npcs = (gs.world_npcs || []).filter(n => n.name);
+        if (npcs.length > 0) {
           const entities = npcs.map(n => ({
-            id: n.name,  // chiave = nome
+            id: n.name,
             name: n.name,
             description: n.description || n.role || "",
             type: n.disposition === "hostile" ? "enemy" : "npc",
@@ -3862,7 +3900,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           }).then(r => r.json()).then(r => {
             if (r.avatars) setNpcAvatars(prev => ({ ...prev, ...r.avatars }));
           }).catch(() => {});
-        }).catch(() => {});
+        }
       }
     }
     start();

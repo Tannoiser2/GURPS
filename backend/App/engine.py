@@ -3954,7 +3954,66 @@ def _combat_result_to_log(attacker_name: str, target_name: str, result: AttackRe
     )
 
 
-def npc_combat_turn(state: GameState) -> dict:
+def _tactical_hex_distance(a: dict | None, b: dict | None) -> int:
+    if not a or not b:
+        return 999
+    ax = int(a.get("col", 0))
+    az = int(a.get("row", 0)) - (ax - (ax & 1)) // 2
+    bx = int(b.get("col", 0))
+    bz = int(b.get("row", 0)) - (bx - (bx & 1)) // 2
+    ay = -ax - az
+    by = -bx - bz
+    return max(abs(ax - bx), abs(ay - by), abs(az - bz))
+
+
+def _tactical_adjacent_hexes(pos: dict) -> list[dict]:
+    col = int(pos.get("col", 0))
+    row = int(pos.get("row", 0))
+    if col % 2:
+        offsets = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (0, -1)]
+    else:
+        offsets = [(1, -1), (1, 0), (0, 1), (-1, 0), (-1, -1), (0, -1)]
+    return [{"col": col + dc, "row": row + dr} for dc, dr in offsets]
+
+
+def _npc_attack_range(enemy: SceneEntity) -> int:
+    text = " ".join([enemy.name, " ".join(enemy.tags or []), enemy.damage_type or "", enemy.damage_dice or ""]).lower()
+    if any(w in text for w in ["fucile", "pistola", "arco", "balestra", "ranged", "laser", "blaster", "proiettile"]):
+        return 6
+    return 1
+
+
+def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: dict | None = None) -> dict | None:
+    enemy_pos = positions.get(enemy_key)
+    target_pos = positions.get(target_key)
+    if not enemy_pos or not target_pos:
+        return None
+    terrain = terrain or {}
+    occupied = {
+        (int(p.get("col", 0)), int(p.get("row", 0)))
+        for key, p in positions.items()
+        if key != enemy_key
+    }
+    current_distance = _tactical_hex_distance(enemy_pos, target_pos)
+    best = None
+    best_distance = current_distance
+    for candidate in _tactical_adjacent_hexes(enemy_pos):
+        c = int(candidate["col"])
+        r = int(candidate["row"])
+        if c < 0 or c >= 15 or r < 0 or r >= 10:
+            continue
+        if (c, r) in occupied:
+            continue
+        if int(terrain.get(f"{c},{r}", 0) or 0) == 3:
+            continue
+        distance = _tactical_hex_distance(candidate, target_pos)
+        if distance < best_distance:
+            best = {"col": c, "row": r}
+            best_distance = distance
+    return best
+
+
+def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> dict:
     """
     Turno degli NPC: ogni entità nemica viva attacca il giocatore vivo con meno HP.
     Restituisce una lista di combat_log (uno per ogni NPC che ha agito).
@@ -3968,9 +4027,55 @@ def npc_combat_turn(state: GameState) -> dict:
         return {"npc_logs": []}
 
     npc_logs = []
+    positions = dict((tactical_context or {}).get("positions") or {})
+    terrain = dict((tactical_context or {}).get("terrain") or {})
     for enemy in alive_enemies:
         # Bersaglio: giocatore con meno HP (il più in pericolo)
         target = min(alive_players, key=lambda p: p.hp)
+        enemy_key = f"e_{enemy.id}"
+        target_key = f"p_{target.id}"
+        enemy_pos = positions.get(enemy_key)
+        target_pos = positions.get(target_key)
+        attack_range = _npc_attack_range(enemy)
+        distance = _tactical_hex_distance(enemy_pos, target_pos) if positions else 1
+
+        if positions and distance > attack_range:
+            step = _npc_move_toward(enemy_key, target_key, positions, terrain)
+            if step:
+                old_pos = positions[enemy_key]
+                positions[enemy_key] = {**old_pos, **step}
+                distance = _tactical_hex_distance(positions[enemy_key], target_pos)
+                combat_log = {
+                    "attacker": enemy.name,
+                    "target": target.name,
+                    "skill": "movimento",
+                    "skill_level": enemy.attack_skill or 10,
+                    "attack_roll": 0,
+                    "damage_formula": enemy.damage_dice,
+                    "damage_type": enemy.damage_type,
+                    "is_npc_turn": True,
+                    "tactical_move": {
+                        "entity_id": enemy.id,
+                        "from": old_pos,
+                        "to": positions[enemy_key],
+                        "target_player_id": target.id,
+                        "distance_after": distance,
+                    },
+                    "result": {
+                        "hit": False, "defended": False, "raw_damage": 0, "dr_absorbed": 0,
+                        "net_damage": 0, "attacker_margin": 0, "defense_margin": 0,
+                        "attacker_critical": False, "defense_critical_fail": False,
+                        "wound_threshold": "", "narrative_hint": "npc_si_avvicina",
+                        "shock_applied": 0, "major_wound": False, "major_wound_check_passed": False,
+                        "knockdown": False, "knockdown_check_passed": False,
+                        "death_check": False, "death_check_passed": False,
+                        "fp_cost": 0, "target_stunned": False, "target_prone": False,
+                    },
+                }
+                npc_logs.append(combat_log)
+                if distance > attack_range:
+                    continue
+
         roll = sum(random.randint(1, 6) for _ in range(3))
         atk_skill = enemy.attack_skill or 10
         margin = atk_skill - roll
@@ -3986,6 +4091,8 @@ def npc_combat_turn(state: GameState) -> dict:
             "damage_formula": enemy.damage_dice,
             "damage_type": enemy.damage_type,
             "is_npc_turn": True,
+            "distance": distance,
+            "attack_range": attack_range,
         }
 
         if not hits:
@@ -4070,7 +4177,7 @@ def npc_combat_turn(state: GameState) -> dict:
         npc_logs.append(combat_log)
 
     state.last_attack_result = npc_logs[-1] if npc_logs else None
-    return {"npc_logs": npc_logs}
+    return {"npc_logs": npc_logs, "positions": positions}
 
 
 # ─── PR4: Reazioni sociali ────────────────────────────────────────────────────

@@ -243,7 +243,7 @@ class TeamSelectionPayload(BaseModel):
     adventure_bible: dict | None = None
 
 class AvatarGenPayload(BaseModel):
-    photo_b64: str
+    photo_b64: str = ""
     genre: str
     role: str
     archetype: str
@@ -433,7 +433,11 @@ def gen_avatar(payload: AvatarGenPayload):
     if not provider:
         return {"avatar_b64": None, "available": False, "provider": "none", "error": "Generazione grafica disabilitata o nessun provider configurato"}
     set_active_provider(provider)
-    avatar = generate_character_avatar(payload.photo_b64, payload.genre, payload.role, payload.archetype)
+    if payload.photo_b64:
+        avatar = generate_character_avatar(payload.photo_b64, payload.genre, payload.role, payload.archetype)
+    else:
+        # Nessuna foto — genera da descrizione testuale (ruolo/archetipo)
+        avatar = generate_npc_avatar(payload.archetype or payload.role, payload.role, "npc", payload.genre)
     return {
         "avatar_b64": avatar,
         "available": bool(avatar),
@@ -636,14 +640,19 @@ def combat_narrate(payload: CombatNarratePayload):
     text = narrate_combat_result(payload.combat_log, payload.genre, payload.adventure or None)
     return {"narrative": text}
 
+class CombatNpcTurnPayload(BaseModel):
+    positions: dict = {}
+    terrain: dict = {}
 
 @app.post("/game/combat/npc-turn")
-def combat_npc_turn():
+def combat_npc_turn(payload: CombatNpcTurnPayload | None = None):
     """Fa agire tutti gli NPC nemici vivi — chiamato dal frontend dopo ogni azione del giocatore."""
     global game_state
-    result = npc_combat_turn(game_state)
+    tactical_context = payload.model_dump() if payload else None
+    result = npc_combat_turn(game_state, tactical_context=tactical_context)
     resp = game_state.model_dump()
     resp["npc_logs"] = result["npc_logs"]
+    resp["positions"] = result.get("positions", {})
     return resp
 
 
