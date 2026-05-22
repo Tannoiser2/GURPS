@@ -1210,41 +1210,54 @@ function SetupScreen({ onStart }) {
 
   async function handlePdfUpload(file) {
     setPdfLoading(true); setPdfError(""); setPreloadedAdventure(null);
-    const form = new FormData();
-    form.append("file", file);
-    form.append("genre", "auto");
-    form.append("players", JSON.stringify([]));
-    if (pdfMapPage.trim()) form.append("map_page", pdfMapPage.trim());
-    const res = await fetch(`${API_URL}/game/adventure/from-pdf`, {
-      method: "POST", body: form,
-    }).then(r => r.json());
-    if (res.error) { setPdfError(res.error); setPdfLoading(false); return; }
-    const detectedGenre = res.detected_genre || "detective_classico";
-    setPreloadedAdventure(res);
-    // Carica pool personaggi per il genere rilevato
-    setLoading(true);
-    await fetch(`${API_URL}/game/setup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }),
-    });
-    const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
-    setGenre(detectedGenre);
-    const rawPool = s?.team_setup?.candidate_pool || [];
-    setPool(rawPool);
-    setSelected([]);
-    setLoading(false);
-    setPdfLoading(false);
-    setStep("team");
-    // Arricchisce i personaggi con backstory legati all'avventura (in background)
-    if (res && rawPool.length > 0) {
-      fetch(`${API_URL}/game/character/enrich-backstory`, {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 240000); // 4 minuti
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("genre", "auto");
+      form.append("players", JSON.stringify([]));
+      if (pdfMapPage.trim()) form.append("map_page", pdfMapPage.trim());
+      const res = await fetch(`${API_URL}/game/adventure/from-pdf`, {
+        method: "POST", body: form, signal: controller.signal,
+      }).then(r => r.json());
+      clearTimeout(timeoutId);
+      if (res.error) { setPdfError(res.error); setPdfLoading(false); return; }
+      const detectedGenre = res.detected_genre || "detective_classico";
+      setPreloadedAdventure(res);
+      // Carica pool personaggi per il genere rilevato
+      setLoading(true);
+      await fetch(`${API_URL}/game/setup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ characters: rawPool, adventure: res, genre: detectedGenre }),
-      }).then(r => r.json()).then(data => {
-        if (data.characters) setPool(data.characters);
-      }).catch(() => {});
+        body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }),
+      });
+      const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
+      setGenre(detectedGenre);
+      const rawPool = s?.team_setup?.candidate_pool || [];
+      setPool(rawPool);
+      setSelected([]);
+      setLoading(false);
+      setPdfLoading(false);
+      setStep("team");
+      // Arricchisce i personaggi con backstory legati all'avventura (in background)
+      if (res && rawPool.length > 0) {
+        fetch(`${API_URL}/game/character/enrich-backstory`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ characters: rawPool, adventure: res, genre: detectedGenre }),
+        }).then(r => r.json()).then(data => {
+          if (data.characters) setPool(data.characters);
+        }).catch(() => {});
+      }
+    } catch (e) {
+      clearTimeout(timeoutId);
+      setLoading(false);
+      setPdfLoading(false);
+      const msg = e.name === "AbortError"
+        ? "Il server ha impiegato troppo tempo. Riprova o usa un PDF più corto."
+        : "Errore di rete durante il caricamento del PDF. Controlla che il backend sia attivo.";
+      setPdfError(msg);
     }
   }
 
