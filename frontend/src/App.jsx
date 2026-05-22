@@ -1193,6 +1193,7 @@ function SetupScreen({ onStart }) {
   const [loading, setLoading] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfError, setPdfError] = useState("");
+  const [pdfMapPage, setPdfMapPage] = useState("");
   const [preloadedAdventure, setPreloadedAdventure] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [showBuilder, setShowBuilder] = useState(false);
@@ -1213,6 +1214,7 @@ function SetupScreen({ onStart }) {
     form.append("file", file);
     form.append("genre", "auto");
     form.append("players", JSON.stringify([]));
+    if (pdfMapPage.trim()) form.append("map_page", pdfMapPage.trim());
     const res = await fetch(`${API_URL}/game/adventure/from-pdf`, {
       method: "POST", body: form,
     }).then(r => r.json());
@@ -1407,14 +1409,29 @@ function SetupScreen({ onStart }) {
           <div style={{ width: 1, height: 64, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
           <ImageProviderPicker value={imageProvider} onChange={setImageProvider} available={providersAvail} />
           <div style={{ width: 1, height: 64, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
-          <label style={{ cursor: "pointer", opacity: pdfLoading ? 0.6 : 1, lineHeight: 0, flexShrink: 0 }}>
-            {pdfLoading
-              ? <span style={{ color: "#fff", fontSize: 13, fontWeight: 600, padding: "10px 16px", background: "rgba(255,255,255,0.08)", borderRadius: 10, display: "inline-block" }}>⏳ Leggo PDF...</span>
-              : <img src="/Carica PDF.png" alt="Carica PDF" style={{ height: 52, objectFit: "contain", display: "block" }} />
-            }
-            <input type="file" accept=".pdf" style={{ display: "none" }} disabled={pdfLoading}
-              onChange={e => e.target.files[0] && handlePdfUpload(e.target.files[0])} />
-          </label>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5, flexShrink: 0 }}>
+            <label style={{ cursor: "pointer", opacity: pdfLoading ? 0.6 : 1, lineHeight: 0 }}>
+              {pdfLoading
+                ? <span style={{ color: "#fff", fontSize: 13, fontWeight: 600, padding: "10px 16px", background: "rgba(255,255,255,0.08)", borderRadius: 10, display: "inline-block" }}>⏳ Leggo PDF...</span>
+                : <img src="/Carica PDF.png" alt="Carica PDF" style={{ height: 52, objectFit: "contain", display: "block" }} />
+              }
+              <input type="file" accept=".pdf" style={{ display: "none" }} disabled={pdfLoading}
+                onChange={e => e.target.files[0] && handlePdfUpload(e.target.files[0])} />
+            </label>
+            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }}>pag. mappa:</span>
+              <input
+                type="number" min="1" placeholder="—"
+                value={pdfMapPage}
+                onChange={e => setPdfMapPage(e.target.value)}
+                style={{
+                  width: 44, padding: "2px 5px", borderRadius: 5, fontSize: 11,
+                  background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
+                  color: "#fff", textAlign: "center",
+                }}
+              />
+            </div>
+          </div>
         </div>
         {pdfError && (
           <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
@@ -3845,7 +3862,7 @@ function StrategicMapPanel({ mapState, onClose, onMove, bgImage, onRequestImage,
 
 // ─── Game screen ───────────────────────────────────────────────────────────
 
-function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = null, provider = "claude", imageProvider = "auto", onRestart }) {
+function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = null, provider = "claude", imageProvider = "auto", preloadedMapImage = null, onRestart }) {
   const [players, setPlayers] = useState(initialPlayers);
   const [messages, setMessages] = useState([]);
   const [options, setOptions] = useState([]);
@@ -3876,7 +3893,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [lastCombatLog, setLastCombatLog] = useState(null);
   const [mapState, setMapState] = useState(null);
   const [showMap, setShowMap] = useState(false);
-  const [strategicMapImage, setStrategicMapImage] = useState(null);
+  const [strategicMapImage, setStrategicMapImage] = useState(preloadedMapImage);
   const [loadingStrategicImage, setLoadingStrategicImage] = useState(false);
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
@@ -4352,6 +4369,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         // genera mappa tattica solo al primo ingresso in combattimento (non rigenera se esiste già)
         setCombatBgImage(prev => {
           if (prev) return prev; // già presente — non toccare
+          // Usa mappa PDF come sfondo tattico se disponibile e imageProvider è none
+          if (imageProvider === "none" && adventure?.map_image_b64) return adventure.map_image_b64;
           // avvia fetch in background
           const currentNode = mapState?.nodes?.[mapState?.current_node_id];
           const locationName = currentNode?.name || adventure?.locations?.[0]?.name || "Luogo di combattimento";
@@ -4761,6 +4780,7 @@ export default function App() {
         adventure={adventure}
         provider={provider}
         imageProvider={imageProvider}
+        preloadedMapImage={adventure?.map_image_b64 || null}
         onRestart={handleRestart}
       />
     );

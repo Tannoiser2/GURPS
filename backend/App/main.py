@@ -861,22 +861,50 @@ async def adventure_from_pdf(
     file: UploadFile = File(...),
     genre: str = Form(...),
     players: str = Form(...),
+    map_page: str = Form(default=""),
 ):
-    """Estrae testo dalle prime 10 pagine del PDF e genera la bibbia dell'avventura."""
-    import json as _json
+    """Estrae testo dal PDF e genera la bibbia. map_page opzionale: numero pagina (1-based) da usare come mappa."""
+    import json as _json, base64
     try:
         import pdfplumber
+        from PIL import Image
     except ImportError:
-        return {"error": "pdfplumber non installato sul server"}
+        return {"error": "pdfplumber/Pillow non installato sul server"}
 
     pdf_bytes = await file.read()
     text_pages = []
+    map_image_b64 = None
+
     with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
         total_pages = len(pdf.pages)
-        for page in pdf.pages[:60]:  # fino a 60 pagine
+
+        # Estrai immagine mappa se richiesta
+        map_page_idx = None
+        if map_page.strip():
+            try:
+                map_page_idx = int(map_page.strip()) - 1  # converti a 0-based
+                if not (0 <= map_page_idx < total_pages):
+                    map_page_idx = None
+            except ValueError:
+                pass
+
+        if map_page_idx is not None:
+            try:
+                page = pdf.pages[map_page_idx]
+                # Renderizza la pagina come immagine (150 DPI — bilanciato qualità/peso)
+                page_img = page.to_image(resolution=150)
+                buf = io.BytesIO()
+                page_img.save(buf, format="JPEG", quality=82)
+                map_image_b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+                print(f"[adventure/from-pdf] mappa estratta da pagina {map_page_idx+1} ({len(map_image_b64)//1024} KB)")
+            except Exception as e:
+                print(f"[adventure/from-pdf] errore estrazione mappa pag {map_page_idx+1}: {e}")
+
+        for page in pdf.pages[:60]:
             t = page.extract_text()
             if t:
                 text_pages.append(t)
+
     pdf_text = "\n\n".join(text_pages).strip()
     if not pdf_text:
         return {"error": "Impossibile estrarre testo dal PDF"}
@@ -889,4 +917,7 @@ async def adventure_from_pdf(
     except Exception:
         players_list = []
 
-    return create_adventure_from_pdf_text(pdf_text, genre, players_list)
+    result = create_adventure_from_pdf_text(pdf_text, genre, players_list)
+    if map_image_b64:
+        result["map_image_b64"] = map_image_b64
+    return result
