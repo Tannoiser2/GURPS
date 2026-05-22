@@ -4154,7 +4154,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         body: JSON.stringify({
           genre, players: playerDicts, history: newHistory,
           player_action: actionText, active_player_id: activePid,
-          adventure, game_state_data: gameStateData,
+          adventure, game_state_data: { ...gameStateData, map_state: mapState },
         }),
       }).then(r => r.json());
 
@@ -4303,7 +4303,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         body: JSON.stringify({
           genre, players: playerDicts, history: newHistory,
           player_action: actionText, active_player_id: pid,
-          adventure, game_state_data: gameStateData,
+          adventure, game_state_data: { ...gameStateData, map_state: mapState },
         }),
       }).then(r => r.json());
     } else {

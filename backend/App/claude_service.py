@@ -4201,9 +4201,11 @@ def master_turn_with_bible(
     roster_text = "\n".join(roster_lines)
 
     history_text = ""
-    for msg in history[-10:]:
-        role_label = "MASTER" if msg["role"] == "master" else f"{msg['name']}"
-        history_text += f"\n[{role_label}]: {msg['text'][:200]}"
+    for msg in history[-14:]:
+        if msg["role"] == "master":
+            history_text += f"\n[MASTER]: {msg['text'][:400]}"
+        else:
+            history_text += f"\n[{msg['name']}]: {msg['text']}"
 
     # Costruisci contesto bibbia
     clues_found_ids = set(game_state_data.get("clues_found", []))
@@ -4245,6 +4247,35 @@ def master_turn_with_bible(
     if twists_available and threat_pct > 50:
         twists_context = f"\nColpi di scena disponibili (puoi attivarne uno se drammaticamente appropriato): " + "; ".join(f"[{t['id']}] trigger: {t['trigger']}" for t in twists_available)
 
+    # Location corrente dal map_state (passato via game_state_data)
+    current_location = ""
+    map_state = game_state_data.get("map_state") or {}
+    if map_state:
+        cur_node_id = map_state.get("current_node_id")
+        nodes = map_state.get("nodes") or {}
+        cur_node = nodes.get(cur_node_id) or {}
+        if cur_node.get("name"):
+            current_location = f"\nLocation attuale: {cur_node['name']} — {cur_node.get('description','')}"
+            # NPC presenti in questa location
+            npc_here = [n["name"] for n in adventure.get("npcs", []) if
+                        (n.get("location","") or "").lower() in cur_node.get("name","").lower()
+                        or cur_node.get("name","").lower() in (n.get("location","") or "").lower()]
+            if npc_here:
+                current_location += f"\nPNG presenti qui: {', '.join(npc_here)}"
+            # Indizi trovabili qui
+            clues_here = [c for c in missing_clues if
+                          cur_node.get("name","").lower()[:6] in (c.get("location","") or "").lower()
+                          or (c.get("location","") or "").lower()[:6] in cur_node.get("name","").lower()]
+            if clues_here:
+                current_location += f"\nIndizi trovabili qui: {'; '.join(c['text'] for c in clues_here)}"
+
+    # Ultime azioni proposte (per evitare ripetizioni)
+    last_options = []
+    for msg in history[-6:]:
+        if msg["role"] == "master" and "[OPT]" in msg.get("text", ""):
+            pass  # non usato, ma teniamo il riferimento
+    player_actions_recent = [m["text"] for m in history[-8:] if m["role"] != "master"]
+
     prompt = f"""Sei il Master di una campagna GDR in stile {genre_label} (GURPS Lite).
 
 ═══ BIBBIA AVVENTURA ═══
@@ -4255,7 +4286,7 @@ Minaccia: {adventure.get('threat_description', '?')} — livello attuale {threat
 Condizione vittoria: {adventure.get('win_condition', '?')}
 {twists_context}
 
-═══ STATO PARTITA (turno {turn}) ═══
+═══ STATO PARTITA (turno {turn}) ═══{current_location}
 PNG:{npcs_context}
 {clues_context}
 Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
@@ -4263,7 +4294,7 @@ Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
 ═══ PERSONAGGI ═══
 {sheets}
 Ultimo ad agire: {active["name"]} ({active.get("role","")})
-Roster gruppo (per assegnare le opzioni):
+Roster gruppo:
 {roster_text}
 
 ═══ STORIA RECENTE ═══{history_text if history_text else " (inizio)"}
@@ -4272,18 +4303,26 @@ Roster gruppo (per assegnare le opzioni):
 {active["name"].upper()}: {player_action}
 
 ISTRUZIONI:
-1. Il tiro 3d6 è già stato effettuato dal motore GURPS — NON devi simularlo. Usa l'esito sottostante:
-   Skill: {prerolled["skill"] if prerolled else "?"} | 3d6={prerolled["rolled"] if prerolled else "?"} vs target {prerolled["effective_skill"] if prerolled else "?"} | Margine: {prerolled["margin"] if prerolled else "?"} | Esito: {prerolled["outcome"] if prerolled else "?"} | Successo: {prerolled["success"] if prerolled else "?"}
-   QUESTO ESITO È IMMUTABILE. Non puoi trasformare un FALLIMENTO in successo né viceversa.
-   - FALLIMENTO/FALLIMENTO CRITICO: il personaggio non ottiene ciò che voleva; può esserci un costo narrativo.
-   - SUCCESSO PARZIALE: risultato incompleto con qualche conseguenza.
-   - SUCCESSO PIENO/CRITICO: pieno successo, puoi narrare con entusiasmo.
-2. Narra l'esito (3-5 frasi vivide) COERENTE con l'esito sopra. Inserisci {{{{ROLL}}}} nel punto drammatico della risoluzione.
-3. Fai avanzare la storia rispettando la bibbia — lascia cadere indizi in modo naturale, fai reagire i PNG coerentemente.
-   REGOLA INDIZI — OBBLIGATORIA: se nella narrativa di questo turno un personaggio scopre, vede, sente o deduce un indizio dalla lista "Indizi ancora nascosti", aggiungi il suo id in clues_found. NON lasciare clues_found vuoto se la narrativa contiene una scoperta. In media 1 indizio ogni 2-3 turni.
-4. Proponi 3 opzioni per il prossimo turno. REGOLA: assegna ogni opzione al personaggio più adatto per skill E obiettivo personale — se un personaggio ha un obiettivo che si intreccia con la situazione attuale, dagli un'opzione coerente con quella motivazione. La terza è sempre "Azione custom".
-5. Aggiorna lo stato.
-NOTA PERSONAGGI: ogni personaggio ha un obiettivo personale (campo "Obiettivo" nella scheda) e una storia. Usali per differenziare la narrativa e le opzioni — un personaggio con motivazione di vendetta reagirà diversamente da uno motivato dalla sopravvivenza. Non ignorare queste distinzioni.
+1. TIRO GURPS già effettuato — NON simularlo. Esito vincolante:
+   Skill: {prerolled["skill"] if prerolled else "?"} | 3d6={prerolled["rolled"] if prerolled else "?"} vs {prerolled["effective_skill"] if prerolled else "?"} | Margine: {prerolled["margin"] if prerolled else "?"} | Esito: {prerolled["outcome"] if prerolled else "?"} | Successo: {str(prerolled["success"]) if prerolled else "?"}
+   - FALLIMENTO: il personaggio non ottiene ciò che voleva, c'è un costo narrativo concreto.
+   - SUCCESSO PARZIALE: risultato incompleto con conseguenza.
+   - SUCCESSO PIENO/CRITICO: pieno successo, narra con dettaglio.
+
+2. NARRATIVA (3-5 frasi vivide): descrivi l'esito dell'azione E fai muovere la storia. Inserisci {{{{ROLL}}}} nel punto drammatico.
+   - La scena deve CAMBIARE rispetto a quella precedente: nuova informazione, reazione di un PNG, spostamento, escalation.
+   - Se il gruppo è fermo sulla stessa situazione da 2+ turni, introduce una svolta: arriva un PNG, scatta una trappola, si apre un passaggio, un alleato tradisce.
+   - REGOLA INDIZI: se un indizio viene scoperto nella narrativa, mettine l'id in clues_found (media: 1 ogni 2-3 turni).
+
+3. OPZIONI (3 proposte per il prossimo turno):
+   - DEVONO essere diverse da queste azioni già fatte: {'; '.join(player_actions_recent[-4:]) if player_actions_recent else 'nessuna'}
+   - DEVONO essere ancorate alla situazione attuale (location, PNG presenti, indizi appena trovati, minaccia in corso).
+   - Almeno una deve spingere verso la condizione di vittoria o rivelare un indizio.
+   - Assegna ogni opzione al personaggio più adatto per skill e motivazione.
+   - La terza è sempre "Azione custom".
+
+4. Aggiorna lo stato (clues_found, npc_updates, new_threads, threat_increase).
+   threat_increase deve essere 1-2 se il turno fa avanzare la minaccia, 0 se i giocatori hanno guadagnato terreno.
 
 REGOLA FINE AVVENTURA — OBBLIGATORIA:
 - Se threat_level >= threat_max ({threat_pct}% attuale): questo è l'ULTIMO turno. La minaccia ha vinto. Narra un finale drammatico di sconfitta ({adventure.get('threat_description','la minaccia')[:60]} si compie), poi imposta story_over=true, victory=false. Non proporre opzioni di continuazione.
