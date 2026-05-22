@@ -2864,13 +2864,15 @@ function buildInitialPositions(players, enemies, cols = 15, rows = 10) {
 function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, avatars, npcAvatars, bgImage, lastCombatLog, onClose, genre, environmentType, sceneText, locationName }) {
   const entities = sceneEntities || [];
   const enemies = entities.filter(e => e.type === "enemy");
+  // La mappa non cambia dimensione durante il combattimento — dipendenze stabili
   const mapSpec = useMemo(() => buildBattleMapSpec({
     genre,
     environmentType,
     sceneText,
     locationName,
     enemyNames: enemies.map(e => e.name),
-  }), [genre, environmentType, sceneText, locationName, sceneEntities]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [genre, environmentType, sceneText, locationName]);
   const mapCols = mapSpec.cols;
   const mapRows = mapSpec.rows;
   const terrainColors = mapSpec.theme?.terrainColors || DEFAULT_TERRAIN_COLORS;
@@ -2901,9 +2903,14 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     setTerrain(mapSpec.terrain);
   }, [mapSpec]);
 
+  // Dimensioni mappa congelate al mount — non cambiano durante il combattimento
+  const frozenCols = React.useRef(mapCols);
+  const frozenRows = React.useRef(mapRows);
+
   // Aggiorna posizioni SOLO per entità nuove — non toccare quelle già posizionate
-  const positionedRef = React.useRef(new Set());
   useEffect(() => {
+    const cols = frozenCols.current;
+    const rows = frozenRows.current;
     setPositions(prev => {
       const next = { ...prev };
       const wanted = new Set();
@@ -2911,16 +2918,14 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
         const key = `p_${p.id}`;
         wanted.add(key);
         if (!next[key]) {
-          next[key] = { col: 2, row: Math.min(mapRows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
-          positionedRef.current.add(key);
+          next[key] = { col: 2, row: Math.min(rows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
         }
       });
       enemies.forEach((e, i) => {
         const key = `e_${e.id}`;
         wanted.add(key);
         if (!next[key]) {
-          next[key] = { col: Math.max(3, mapCols - 4), row: Math.min(mapRows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
-          positionedRef.current.add(key);
+          next[key] = { col: Math.max(3, cols - 4), row: Math.min(rows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
         }
         // Se l'entità è morta, rimuovila
         if ((e.hp ?? 1) <= 0) delete next[key];
@@ -2931,7 +2936,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
       }
       return next;
     });
-  }, [players, sceneEntities, mapCols, mapRows]);
+  }, [players, sceneEntities]);
 
   useEffect(() => {
     const move = lastCombatLog?.tactical_move;
@@ -3996,7 +4001,20 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     if (!Array.isArray(sceneEntities)) return false;
     const enemies = sceneEntities.filter(e => e.type === "enemy");
     if (enemies.length === 0) return false;
-    setCombatEntities(enemies);
+    // Merge: aggiorna HP/status dal backend ma non sovrascrive entità non presenti
+    setCombatEntities(prev => {
+      const byId = Object.fromEntries(enemies.map(e => [e.id, e]));
+      // Aggiorna entità esistenti con dati freschi; aggiungi nuove; rimuovi morte
+      const merged = prev
+        .map(e => byId[e.id] ? { ...e, ...byId[e.id] } : e)
+        .filter(e => byId[e.id] !== undefined || e.hp > 0);
+      // Aggiungi entità nuove non ancora in prev
+      const prevIds = new Set(prev.map(e => e.id));
+      for (const e of enemies) {
+        if (!prevIds.has(e.id)) merged.push(e);
+      }
+      return merged;
+    });
     return true;
   }
 
