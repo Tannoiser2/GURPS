@@ -3223,9 +3223,21 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
         "ally": "friendly ally, determined expression",
     }.get(entity_type, "character")
 
+    # Hash del nome per generare tratti visivi stabili e unici per personaggio
+    import hashlib
+    h = int(hashlib.md5(name.encode()).hexdigest(), 16)
+    hair_colors = ["black hair", "dark brown hair", "auburn hair", "blonde hair", "grey hair", "white hair", "red hair"]
+    build_hints = ["lean and angular face", "round and soft face", "square jaw", "narrow face", "broad face", "weathered face", "sharp features"]
+    age_hints = ["young adult, early 20s", "mid 30s", "late 40s", "elderly, over 60", "middle aged"]
+    hair = hair_colors[h % len(hair_colors)]
+    build = build_hints[(h >> 4) % len(build_hints)]
+    age = age_hints[(h >> 8) % len(age_hints)]
+    unique_traits = f"{age}, {hair}, {build}"
+
     prompt = (
         f"Square character portrait of '{name}', a {type_hint}.\n"
         f"Description: {description or name}.\n"
+        f"Physical traits: {unique_traits}.\n"
         f"Setting: {genre.replace('_', ' ')} story. Outfit: {costume}.\n"
         f"Style: {style}, illustrated portrait, head and shoulders, dramatic lighting.\n"
         f"No text, no captions, centered face."
@@ -3925,14 +3937,14 @@ Vantaggi disponibili: {', '.join(adv_list)}
 Svantaggi disponibili: {', '.join(disadv_list)}
 
 REGOLE:
-- Il backstory deve essere 2-3 frasi, concreto, personale, non generico.
+- Il backstory deve essere 1-2 frasi brevi (max 30 parole), concreto, personale, non generico.
 - I vantaggi/svantaggi suggeriti devono essere coerenti col backstory E diversi da quelli già presenti (puoi confermare uno se molto appropriato).
 - Non superare -40pt di svantaggi totali (considera quelli già presenti).
 - Usa esattamente i nomi delle liste (senza il costo).
 
 Rispondi SOLO con questo JSON:
 {{
-  "backstory": "Storia personale in 2-3 frasi che lega il personaggio all'avventura",
+  "backstory": "Storia personale in 1-2 frasi brevi (max 30 parole) che lega il personaggio all'avventura",
   "motivation": "Una frase: cosa vuole ottenere da questa avventura",
   "suggested_advantages": ["Vantaggio1", "Vantaggio2"],
   "suggested_disadvantages": ["Svantaggio1", "Svantaggio2"]
@@ -4223,8 +4235,10 @@ def master_turn_with_bible(
     if found_clues:
         clues_context += "\nIndizi scoperti: " + "; ".join(f"[{c['id']}] {c['text']}" for c in found_clues)
     if missing_clues:
-        urgency = "FAI TROVARE ORA" if threat_pct >= 80 else "non rivelare direttamente"
-        clues_context += f"\nIndizi ancora nascosti ({urgency}): " + "; ".join(f"[{c['id']}] {c['location']}" for c in missing_clues)
+        urgency = "FAI TROVARE ORA" if threat_pct >= 80 else "da rivelare gradualmente"
+        clues_context += f"\nIndizi ancora nascosti ({urgency}): " + "; ".join(
+            f"[{c['id']}] \"{c['text']}\" — trovabile: {c.get('location','?')}" for c in missing_clues
+        )
 
     twists_available = [t for t in adventure.get("twists", []) if not t.get("used")]
     twists_context = ""
@@ -4266,6 +4280,7 @@ ISTRUZIONI:
    - SUCCESSO PIENO/CRITICO: pieno successo, puoi narrare con entusiasmo.
 2. Narra l'esito (3-5 frasi vivide) COERENTE con l'esito sopra. Inserisci {{{{ROLL}}}} nel punto drammatico della risoluzione.
 3. Fai avanzare la storia rispettando la bibbia — lascia cadere indizi in modo naturale, fai reagire i PNG coerentemente.
+   REGOLA INDIZI — OBBLIGATORIA: se nella narrativa di questo turno un personaggio scopre, vede, sente o deduce un indizio dalla lista "Indizi ancora nascosti", aggiungi il suo id in clues_found. NON lasciare clues_found vuoto se la narrativa contiene una scoperta. In media 1 indizio ogni 2-3 turni.
 4. Proponi 3 opzioni per il prossimo turno. REGOLA: assegna ogni opzione al personaggio più adatto per skill E obiettivo personale — se un personaggio ha un obiettivo che si intreccia con la situazione attuale, dagli un'opzione coerente con quella motivazione. La terza è sempre "Azione custom".
 5. Aggiorna lo stato.
 NOTA PERSONAGGI: ogni personaggio ha un obiettivo personale (campo "Obiettivo" nella scheda) e una storia. Usali per differenziare la narrativa e le opzioni — un personaggio con motivazione di vendetta reagirà diversamente da uno motivato dalla sopravvivenza. Non ignorare queste distinzioni.

@@ -624,10 +624,7 @@ function PlayerChip({ player, active, onClick, avatar, onRename }) {
       cursor: "pointer", fontSize: 13, color: "var(--text-h)",
       transition: "all 0.15s",
     }}>
-      {avatar
-        ? <img src={`data:image/jpeg;base64,${avatar}`} style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
-        : <span style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--border)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>🧑</span>
-      }
+      <AvatarCircle src={avatar} size={28} fallback="🧑" />
       {onRename
         ? <EditableName name={player.name} onRename={onRename} style={{ fontSize: 13, fontWeight: 600 }} />
         : <span>{player.name}</span>
@@ -1324,7 +1321,7 @@ function SetupScreen({ onStart }) {
       const res = await fetch(`${API_URL}/game/generate-avatar`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ photo_b64: "", genre, role: player.role, archetype: player.archetype || player.role }),
+        body: JSON.stringify({ photo_b64: "", genre, role: player.role, archetype: player.archetype || player.role, name: player.name, description: player.backstory || player.description || "" }),
       }).then(r => r.json());
       if (res.avatar_b64) {
         setAvatars(prev => ({ ...prev, [player.id]: res.avatar_b64 }));
@@ -1526,46 +1523,40 @@ function SetupScreen({ onStart }) {
                 background: sel ? "var(--accent-bg)" : "var(--code-bg)",
                 transition: "all 0.15s", position: "relative",
               }}>
-                {/* avatar strip */}
-                <div style={{ position: "relative", height: 80, background: "var(--border)", cursor: "pointer", overflow: "hidden" }}
-                  onClick={() => toggleSelect(p.id)}>
-                  {av
-                    ? <img src={`data:image/jpeg;base64,${av}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 34, opacity: 0.3 }}>🧑</div>
-                  }
-                  {avLoading && (
-                    <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: "#fff", padding: "0 6px", textAlign: "center" }}>
-                      {avLoading}
-                    </div>
-                  )}
-                  {sel && <div style={{ position: "absolute", top: 5, right: 7, fontSize: 16, textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}>✓</div>}
-                  <button onClick={e => { e.stopPropagation(); handleAvatarGenerate(p); }}
-                    disabled={!!avLoading}
-                    style={{
-                      position: "absolute", bottom: 4, left: 4,
-                      background: "rgba(0,0,0,0.6)", borderRadius: 5, padding: "2px 5px",
-                      fontSize: 10, color: "#fff", cursor: "pointer", backdropFilter: "blur(4px)", border: "none",
-                    }}>🎨</button>
-                  <label onClick={e => e.stopPropagation()} style={{
-                    position: "absolute", bottom: 4, right: 4,
-                    background: "rgba(0,0,0,0.6)", borderRadius: 5, padding: "2px 5px",
-                    fontSize: 10, color: "#fff", cursor: "pointer", backdropFilter: "blur(4px)",
-                  }}>
-                    📷
-                    <input type="file" accept="image/*" style={{ display: "none" }}
-                      onChange={e => e.target.files[0] && handleAvatarUpload(p, e.target.files[0])} />
-                  </label>
-                </div>
                 {/* card body */}
-                <div style={{ padding: "7px 9px 9px", cursor: "pointer" }} onClick={() => toggleSelect(p.id)}>
-                  <div style={{ fontWeight: 800, fontSize: 12, color: "var(--text-h)", marginBottom: 1 }}>
-                    <EditableName
-                      name={p.name}
-                      onRename={newName => handleRenameInPool(p.id, newName)}
-                      style={{ fontWeight: 800, fontSize: 12 }}
-                    />
+                <div style={{ padding: "8px 9px 9px", cursor: "pointer" }} onClick={() => toggleSelect(p.id)}>
+                  {/* avatar cerchio + bottoni */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                    <div style={{ position: "relative", flexShrink: 0 }}>
+                      <AvatarCircle src={av} size={56} fallback="🧑" />
+                      {avLoading && (
+                        <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: "#fff", textAlign: "center", padding: 2 }}>
+                          {avLoading}
+                        </div>
+                      )}
+                      {sel && <div style={{ position: "absolute", top: -2, right: -2, fontSize: 13, textShadow: "0 1px 4px rgba(0,0,0,0.9)", lineHeight: 1 }}>✓</div>}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 800, fontSize: 12, color: "var(--text-h)", marginBottom: 1 }}>
+                        <EditableName
+                          name={p.name}
+                          onRename={newName => handleRenameInPool(p.id, newName)}
+                          style={{ fontWeight: 800, fontSize: 12 }}
+                        />
+                      </div>
+                      <div style={{ fontSize: 10, color: "var(--accent)", fontWeight: 600, marginBottom: 3 }}>{p.role}</div>
+                      <div style={{ display: "flex", gap: 4 }}>
+                        <button onClick={e => { e.stopPropagation(); handleAvatarGenerate(p); }}
+                          disabled={!!avLoading}
+                          style={{ background: "rgba(0,0,0,0.4)", borderRadius: 4, padding: "2px 6px", fontSize: 10, color: "#fff", cursor: "pointer", border: "1px solid rgba(255,255,255,0.12)" }}>🎨</button>
+                        <label onClick={e => e.stopPropagation()}
+                          style={{ background: "rgba(0,0,0,0.4)", borderRadius: 4, padding: "2px 6px", fontSize: 10, color: "#fff", cursor: "pointer", border: "1px solid rgba(255,255,255,0.12)" }}>
+                          📷<input type="file" accept="image/*" style={{ display: "none" }}
+                            onChange={e => e.target.files[0] && handleAvatarUpload(p, e.target.files[0])} />
+                        </label>
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ fontSize: 10, color: "var(--accent)", marginBottom: 5, fontWeight: 600 }}>{p.role}</div>
                   <StatBar stats={p.stats} />
                   {topSkills.length > 0 && (
                     <div style={{ marginTop: 4, display: "flex", gap: 4, flexWrap: "wrap" }}>
@@ -1589,6 +1580,11 @@ function SetupScreen({ onStart }) {
                   {p.motivation && (
                     <div style={{ fontSize: 10, marginTop: 3, color: "var(--accent)", fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       🎯 {p.motivation}
+                    </div>
+                  )}
+                  {p.backstory && (
+                    <div style={{ fontSize: 10, marginTop: 4, color: "var(--text)", lineHeight: 1.4, opacity: 0.75, fontStyle: "italic" }}>
+                      {p.backstory}
                     </div>
                   )}
                 </div>
@@ -1978,7 +1974,23 @@ function LoadingProgress({ steps, icon = "📖", title }) {
 
 // ─── Side Panel ────────────────────────────────────────────────────────────
 
-function SidePanel({ adventure, gameState, players, onClose }) {
+function AvatarCircle({ src, size = 32, fallback = "👤" }) {
+  const [err, setErr] = React.useState(false);
+  if (!src || err) return (
+    <div style={{ width: size, height: size, borderRadius: "50%", background: "var(--border)", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.45 }}>
+      {fallback}
+    </div>
+  );
+  return (
+    <img
+      src={`data:image/png;base64,${src}`}
+      onError={e => { e.currentTarget.src = `data:image/jpeg;base64,${src}`; setErr(false); }}
+      style={{ width: size, height: size, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+    />
+  );
+}
+
+function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose }) {
   const [tab, setTab] = useState("clues");
   const [expandedNpc, setExpandedNpc] = useState(null);
   const [expandedPlayer, setExpandedPlayer] = useState(null);
@@ -2081,10 +2093,10 @@ function SidePanel({ adventure, gameState, players, onClose }) {
                   opacity: found ? 1 : 0.5,
                 }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: found ? "#4ade80" : "var(--text)", marginBottom: 2 }}>
-                    {found ? "🔍" : "⬜"} {found ? c.text : "Indizio nascosto"}
+                    {found ? "🔍" : "⬜"} {c.text}
                   </div>
-                  {found && <div style={{ fontSize: 11, color: "var(--text)", fontStyle: "italic" }}>{c.reveals}</div>}
-                  {!found && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6 }}>📍 {c.location}</div>}
+                  {found && c.reveals && <div style={{ fontSize: 11, color: "#4ade80", fontStyle: "italic", marginBottom: 2 }}>↳ {c.reveals}</div>}
+                  {c.location && <div style={{ fontSize: 11, color: "var(--text)", opacity: found ? 0.5 : 0.7 }}>📍 {c.location}</div>}
                 </div>
               );
             })}
@@ -2111,17 +2123,22 @@ function SidePanel({ adventure, gameState, players, onClose }) {
                     onClick={() => hasGurps && setExpandedNpc(isExpanded ? null : (npc.id || npc.name))}
                     style={{ padding: "8px 10px", cursor: hasGurps ? "pointer" : "default" }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>
-                        {npc.name}
-                        {hasGurps && <span style={{ fontSize: 10, color: threatColor, marginLeft: 5, fontWeight: 400 }}>★ scheda</span>}
-                      </span>
-                      <div style={{ display: "flex", gap: 4 }}>
-                        <NpcStatusBadge status={status} size="sm" />
-                        <NpcAttitudeBadge attitude={attitude} size="sm" />
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                      <AvatarCircle src={(npcAvatars || {})[npc.name]} size={28} fallback="👤" />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>
+                            {npc.name}
+                            {hasGurps && <span style={{ fontSize: 10, color: threatColor, marginLeft: 5, fontWeight: 400 }}>★</span>}
+                          </span>
+                          <div style={{ display: "flex", gap: 4 }}>
+                            <NpcStatusBadge status={status} size="sm" />
+                            <NpcAttitudeBadge attitude={attitude} size="sm" />
+                          </div>
+                        </div>
+                        <div style={{ fontSize: 11, color: "var(--text)" }}>{npc.role}</div>
                       </div>
                     </div>
-                    <div style={{ fontSize: 11, color: "var(--text)" }}>{npc.role}</div>
                     {npc.description && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.7, marginTop: 2, lineHeight: 1.4 }}>{npc.description}</div>}
                     {st.location && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6, marginTop: 2 }}>📍 {st.location}</div>}
                   </div>
@@ -2189,18 +2206,23 @@ function SidePanel({ adventure, gameState, players, onClose }) {
                 }}>
                   <div onClick={() => setExpandedPlayer(isExpanded ? null : p.id)}
                     style={{ padding: "8px 10px", cursor: "pointer" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                      <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>{liveP.name}</span>
-                      <span style={{ fontSize: 11, color: "var(--accent)", opacity: 0.8 }}>{liveP.role}</span>
-                    </div>
-                    {/* HP bar */}
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <div style={{ flex: 1, height: 5, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
-                        <div style={{ height: "100%", width: `${hpPct}%`, background: hpColor, transition: "width 0.4s" }} />
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                      <AvatarCircle src={(avatars || {})[p.id]} size={32} fallback="🧑" />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>{liveP.name}</span>
+                          <span style={{ fontSize: 11, color: "var(--accent)", opacity: 0.8 }}>{liveP.role}</span>
+                        </div>
+                        {/* HP bar */}
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+                          <div style={{ flex: 1, height: 5, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
+                            <div style={{ height: "100%", width: `${hpPct}%`, background: hpColor, transition: "width 0.4s" }} />
+                          </div>
+                          <span style={{ fontSize: 11, color: hpColor, fontWeight: 700, minWidth: 36, textAlign: "right" }}>
+                            ❤️ {liveP.hp}/{liveP.max_hp}
+                          </span>
+                        </div>
                       </div>
-                      <span style={{ fontSize: 11, color: hpColor, fontWeight: 700, minWidth: 36, textAlign: "right" }}>
-                        ❤️ {liveP.hp}/{liveP.max_hp}
-                      </span>
                     </div>
                   </div>
                   {isExpanded && (
@@ -2849,6 +2871,8 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     setTerrain(mapSpec.terrain);
   }, [mapSpec]);
 
+  // Aggiorna posizioni SOLO per entità nuove — non toccare quelle già posizionate
+  const positionedRef = React.useRef(new Set());
   useEffect(() => {
     setPositions(prev => {
       const next = { ...prev };
@@ -2856,15 +2880,22 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
       players.forEach((p, i) => {
         const key = `p_${p.id}`;
         wanted.add(key);
-        if (!next[key]) next[key] = { col: 2, row: Math.min(mapRows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
-        else next[key] = { ...next[key], col: Math.min(mapCols - 2, Math.max(1, next[key].col)), row: Math.min(mapRows - 2, Math.max(1, next[key].row)) };
+        if (!next[key]) {
+          next[key] = { col: 2, row: Math.min(mapRows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
+          positionedRef.current.add(key);
+        }
       });
       enemies.forEach((e, i) => {
         const key = `e_${e.id}`;
         wanted.add(key);
-        if (!next[key]) next[key] = { col: Math.max(3, mapCols - 4), row: Math.min(mapRows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
-        else next[key] = { ...next[key], col: Math.min(mapCols - 2, Math.max(1, next[key].col)), row: Math.min(mapRows - 2, Math.max(1, next[key].row)) };
+        if (!next[key]) {
+          next[key] = { col: Math.max(3, mapCols - 4), row: Math.min(mapRows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
+          positionedRef.current.add(key);
+        }
+        // Se l'entità è morta, rimuovila
+        if ((e.hp ?? 1) <= 0) delete next[key];
       });
+      // Rimuovi entità non più in scena
       for (const key of Object.keys(next)) {
         if (!wanted.has(key)) delete next[key];
       }
@@ -3413,6 +3444,36 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                   {selPlayer?.stunned && (
                     <span style={{ fontSize: 11, color: "#facc15", fontWeight: 700 }}>💫 Stordito — tiro SA per recuperare</span>
                   )}
+                  {/* Azioni extra GURPS */}
+                  <button onClick={() => {
+                    setCombatLog(prev => [...prev, `${selPlayer?.name || "?"} si mette in copertura (+2 difesa fino al prossimo turno).`]);
+                    advanceTurn(pid, true);
+                  }} title="Concentra tutte le energie sulla difesa (+2 a tutte le difese, nessun attacco)"
+                    style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #0891b2", background: "rgba(8,145,178,0.15)", color: "#67e8f9", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
+                    🛡 Copertura
+                  </button>
+                  {selPlayer && (selPlayer.items || []).some(it => /medkit|kit|benda|pronto soccorso|medikit/i.test(it)) && (
+                    <button onClick={async () => {
+                      const injured = players.filter(p => p.hp < p.max_hp && p.hp > 0);
+                      const target = injured.find(p => p.id !== selPlayer.id) || injured[0];
+                      if (!target) { setCombatLog(prev => [...prev, "Nessun alleato ferito nelle vicinanze."]); return; }
+                      const result = await onAttack(selPlayer, "curare", null, "normal");
+                      if (result) setCombatLog(prev => [...prev, `${selPlayer.name} cura ${target.name}.`]);
+                      advanceTurn(pid, true);
+                    }} title="Usa medkit per curare un alleato ferito (richiede medkit negli oggetti)"
+                      style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #16a34a", background: "rgba(22,163,74,0.15)", color: "#4ade80", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
+                      💊 Cura
+                    </button>
+                  )}
+                  <button onClick={() => {
+                    const ally = players.find(p => p.id !== selPlayer?.id && p.hp > 0);
+                    const msg = ally ? `${selPlayer?.name} supporta ${ally.name} (+1 al prossimo tiro).` : `${selPlayer?.name} si prepara.`;
+                    setCombatLog(prev => [...prev, msg]);
+                    advanceTurn(pid, true);
+                  }} title="Aiuta un alleato vicino (+1 al suo prossimo tiro) o si prepara"
+                    style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #7c3aed", background: "rgba(124,58,237,0.15)", color: "#c4b5fd", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
+                    🤝 Aiuta
+                  </button>
                 </>;
               })()}
               <button onClick={() => rotateFacing(selected, -1)} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12 }}>↺</button>
@@ -3518,7 +3579,7 @@ function HpBar({ hp, maxHp }) {
 
 // ─── StrategicMapPanel ─────────────────────────────────────────────────────
 
-function StrategicMapPanel({ mapState, onClose, onMove, bgImage, onRequestImage, loadingImage }) {
+function StrategicMapPanel({ mapState, onClose, onMove, bgImage, onRequestImage, loadingImage, adventure, cluesFound }) {
   const [hovered, setHovered] = useState(null); // node id
 
   if (!mapState || !mapState.nodes) return null;
@@ -3711,32 +3772,62 @@ function StrategicMapPanel({ mapState, onClose, onMove, bgImage, onRequestImage,
       </div>
 
       {/* Hover tooltip */}
-      {hoveredNode && (
-        <div style={{
-          padding: "8px 12px", background: "rgba(0,0,0,0.85)",
-          borderTop: "1px solid var(--border)",
-          display: "flex", gap: 12, alignItems: "flex-start", flexWrap: "wrap",
-        }}>
-          <div>
-            <span style={{ fontWeight: 700, fontSize: 13, color: "var(--text-h)" }}>{hoveredNode.name}</span>
-            {hoveredNode.kind && <span style={{ fontSize: 11, color: "var(--text)", marginLeft: 8, opacity: 0.7 }}>{hoveredNode.kind}</span>}
+      {hoveredNode && (() => {
+        const nodeName = hoveredNode.name || "";
+        // Indizi trovabili in questa location
+        const nodeClues = (adventure?.clues || []).filter(c =>
+          c.location && c.location.toLowerCase().includes(nodeName.toLowerCase().slice(0, 6))
+        );
+        // NPC presenti in questa location
+        const nodeNpcs = (adventure?.npcs || []).filter(n =>
+          n.location && n.location.toLowerCase().includes(nodeName.toLowerCase().slice(0, 6))
+        );
+        const isReachableNode = reachable.has(hoveredNode.id);
+        return (
+          <div style={{
+            padding: "10px 14px", background: "rgba(0,0,0,0.92)",
+            borderTop: "1px solid var(--border)",
+          }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
+              <span style={{ fontWeight: 700, fontSize: 13, color: "var(--text-h)" }}>{hoveredNode.name}</span>
+              {hoveredNode.kind && <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.6 }}>{hoveredNode.kind}</span>}
+              <div style={{ display: "flex", gap: 4, marginLeft: "auto", flexWrap: "wrap" }}>
+                {hoveredNode.contains_enemy && <Badge icon="⚔" label="Nemici" color="#ef4444" size="sm" />}
+                {hoveredNode.contains_clue && <Badge icon="🔍" label="Indizio" color="#60a5fa" size="sm" />}
+                {hoveredNode.is_objective && <Badge icon="⭐" label="Obiettivo" color="#fb923c" size="sm" />}
+                {hoveredNode.is_final && <Badge icon="🏁" label="Finale" color="#facc15" size="sm" />}
+                {hoveredNode.blocked && <Badge icon="🚫" label="Bloccato" color="#6b7280" size="sm" />}
+                {hoveredNode.visited && <Badge icon="✓" label="Visitato" color="#4ade80" size="sm" />}
+              </div>
+            </div>
+            {hoveredNode.description && (
+              <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.8, marginBottom: 6, lineHeight: 1.4 }}>{hoveredNode.description}</div>
+            )}
+            {nodeNpcs.length > 0 && (
+              <div style={{ fontSize: 11, color: "#c4b5fd", marginBottom: 3 }}>
+                👤 {nodeNpcs.map(n => n.name).join(", ")}
+              </div>
+            )}
+            {nodeClues.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                {nodeClues.map(c => {
+                  const found = (cluesFound || []).includes(c.id);
+                  return (
+                    <div key={c.id} style={{ fontSize: 11, color: found ? "#4ade80" : "#93c5fd" }}>
+                      {found ? "🔍" : "⬜"} {found ? c.text : c.text}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {isReachableNode && !hoveredNode.blocked && (
+              <div style={{ fontSize: 11, color: "#22c55e", marginTop: 6, fontWeight: 700 }}>
+                → Click per spostarsi qui (genera scena)
+              </div>
+            )}
           </div>
-          {hoveredNode.description && (
-            <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.85, maxWidth: 420 }}>{hoveredNode.description}</div>
-          )}
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginLeft: "auto" }}>
-            {hoveredNode.contains_enemy && <Badge icon="⚔" label="Nemici" color="#ef4444" size="sm" />}
-            {hoveredNode.contains_loot && <Badge icon="💰" label="Tesoro" color="#facc15" size="sm" />}
-            {hoveredNode.contains_clue && <Badge icon="🔍" label="Indizio" color="#60a5fa" size="sm" />}
-            {hoveredNode.special_event && <Badge icon="⚡" label="Evento" color="#c084fc" size="sm" />}
-            {hoveredNode.is_objective && <Badge icon="⭐" label="Obiettivo" color="#fb923c" size="sm" />}
-            {hoveredNode.is_final && <Badge icon="🏁" label="Finale" color="#facc15" size="sm" />}
-            {hoveredNode.blocked && <Badge icon="🚫" label="Bloccato" color="#6b7280" size="sm" />}
-            {hoveredNode.visited && !hoveredNode.blocked && <Badge icon="✓" label="Visitato" color="#4ade80" size="sm" />}
-            {reachable.has(hoveredNode.id) && <Badge icon="→" label="Raggiungi" color="#22c55e" size="sm" />}
-          </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Legend */}
       <div style={{
@@ -3917,8 +4008,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       for (const log of (res.npc_logs || [])) {
         _setMessages(prev => [...prev, { role: "combat", combat_log: log }]);
         setLastCombatLog(log);
-        // Se l'NPC ha colpito, mostra narrazione
-        if (log.result?.hit) _fetchCombatNarration(log);
+        // Narrativa per ogni azione NPC (colpo, mancato, parata)
+        _fetchCombatNarration(log);
       }
       // Avvia attacco NPC su giocatore (pending_attack) — prossimo NPC che non ha già agito
       if (res.pending_attack) setPendingAttack(res.pending_attack);
@@ -3957,6 +4048,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           _applyCombatDamage(targetEntityId, r.net_damage);
         }
         if (!res.pending_attack) {
+          // Narrativa per tutti gli esiti (colpo, parata, mancato)
           _fetchCombatNarration(res.combat_log);
           // Turno NPC dopo che il giocatore ha attaccato un'entità
           if (targetEntityId) return await _runNpcTurn(tacticalContext);
@@ -4029,21 +4121,53 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   }
 
   async function handleMove(nodeId) {
+    // 1. Sposta il nodo nel backend (aggiorna map_state)
     try {
-      const res = await fetch(`${API_URL}/game/move`, {
+      const moveRes = await fetch(`${API_URL}/game/move`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ node_id: nodeId }),
       }).then(r => r.json());
-      if (res.map_state) setMapState(res.map_state);
-      const node = res.map_state?.nodes?.[nodeId];
-      if (node) {
-        _setMessages(prev => [...prev, {
-          role: "master", name: "Master",
-          text: `La squadra si sposta verso **${node.name}**. ${node.description || ""}`,
-        }]);
-      }
+      if (moveRes.map_state) setMapState(moveRes.map_state);
     } catch (_) {}
+
+    // 2. Genera la scena della nuova location tramite turno Master
+    const node = mapState?.nodes?.[nodeId];
+    const locationName = node?.name || "nuova location";
+    const locationDesc = node?.description || "";
+    const activePid = players.find(p => p.hp > 0)?.id || players[0]?.id;
+    const actionText = `Il gruppo si sposta verso ${locationName}. ${locationDesc ? `(${locationDesc.slice(0,80)})` : ""}`.trim();
+
+    setLoading(true);
+    const playerDicts = players.map(p => ({
+      id: p.id, name: p.name, role: p.role, archetype: p.archetype || p.role,
+      stats: p.stats, skills: p.skills || {}, advantages: p.advantages || [],
+      disadvantages: p.disadvantages || [], hp: p.hp, max_hp: p.max_hp,
+      fp: p.fp, max_fp: p.max_fp, dr: p.dr || 0, items: p.items || [],
+      actions: p.actions || [], backstory: p.backstory || "", motivation: p.motivation || "",
+    }));
+    const newHistory = [...history, { role: "player", name: players.find(p=>p.id===activePid)?.name || "Gruppo", text: actionText }];
+    try {
+      const res = await fetch(`${API_URL}/game/master/turn-bible`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          genre, players: playerDicts, history: newHistory,
+          player_action: actionText, active_player_id: activePid,
+          adventure, game_state_data: gameStateData,
+        }),
+      }).then(r => r.json());
+
+      const masterMsg = { role: "master", name: "Master", text: res.narrative, roll: res.roll };
+      const masterIdx = messagesRef.current.length;
+      _setMessages(prev => [...prev, { role: "player", name: "Gruppo", text: actionText }, masterMsg]);
+      setHistory([...newHistory, { role: "master", name: "Master", text: res.narrative }]);
+      setOptions(res.options || []);
+      if (res.state_updates) applyStateUpdates(res.state_updates);
+      if (imageProvider !== "none") fetchSceneImage(res.narrative, masterIdx + 1);
+      setShowMap(false); // chiude la mappa dopo lo spostamento
+    } catch (_) {}
+    setLoading(false);
   }
 
   async function handleRequestStrategicImage() {
@@ -4114,25 +4238,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         const local = prev.find(lp => lp.id === gp.id);
         return local ? { ...gp, backstory: gp.backstory || local.backstory || "", motivation: gp.motivation || local.motivation || "" } : gp;
       }));
-      // Genera avatar NPC in background con i world_npcs appena letti
-      if (imageProvider !== "none") {
-        const npcs = (gs.world_npcs || []).filter(n => n.name);
-        if (npcs.length > 0) {
-          const entities = npcs.map(n => ({
-            id: n.name,
-            name: n.name,
-            description: n.description || n.role || "",
-            type: n.disposition === "hostile" ? "enemy" : "npc",
-          }));
-          fetch(`${API_URL}/game/generate-npc-avatars`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ entities, genre }),
-          }).then(r => r.json()).then(r => {
-            if (r.avatars) setNpcAvatars(prev => ({ ...prev, ...r.avatars }));
-          }).catch(() => {});
-        }
-      }
+      // avatar NPC generati dall'useEffect che osserva world_npcs
     }
     start();
   }, []);
@@ -4140,6 +4246,25 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading, options]);
+
+  // Genera avatar per world_npcs non ancora presenti in npcAvatars
+  useEffect(() => {
+    if (imageProvider === "none") return;
+    const npcs = (gameStateData.world_npcs || []).filter(n => n.name && !npcAvatars[n.name]);
+    if (npcs.length === 0) return;
+    const entities = npcs.map(n => ({
+      id: n.name, name: n.name,
+      description: n.description || n.role || "",
+      type: n.disposition === "hostile" ? "enemy" : "npc",
+    }));
+    fetch(`${API_URL}/game/generate-npc-avatars`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ entities, genre }),
+    }).then(r => r.json()).then(r => {
+      if (r.avatars) setNpcAvatars(prev => ({ ...prev, ...r.avatars }));
+    }).catch(() => {});
+  }, [gameStateData.world_npcs]);
 
   // Chiude il combattimento quando tutti i nemici sono abbattuti
   useEffect(() => {
@@ -4431,6 +4556,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           bgImage={strategicMapImage}
           onRequestImage={handleRequestStrategicImage}
           loadingImage={loadingStrategicImage}
+          adventure={adventure}
+          cluesFound={gameStateData.clues_found}
         />
       )}
 
@@ -4568,7 +4695,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       )}
       </div>{/* end main column */}
       {showPanel && adventure && (
-        <SidePanel adventure={adventure} gameState={gameStateData} players={players} onClose={() => setShowPanel(false)} />
+        <SidePanel adventure={adventure} gameState={gameStateData} players={players} avatars={avatars} npcAvatars={npcAvatars} onClose={() => setShowPanel(false)} />
       )}
       {showSecrets && adventure && (
         <SecretsPanel adventure={adventure} gameState={gameStateData} onClose={() => setShowSecrets(false)} />

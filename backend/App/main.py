@@ -247,6 +247,8 @@ class AvatarGenPayload(BaseModel):
     genre: str
     role: str
     archetype: str
+    name: str = ""
+    description: str = ""
 
 class TileImagePayload(BaseModel):
     node_id: str
@@ -338,6 +340,7 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     )
     # Arricchisce combat_scene con stat GURPS persistenti dai WorldNPC
     su = result.get("state_updates") or {}
+    print(f"[turn-bible] activate_combat={su.get('activate_combat')} combat_over={su.get('combat_over')} combat_scene={'presente' if su.get('combat_scene') else 'assente'}")
     if su.get("activate_combat") and su.get("combat_scene"):
         su["combat_scene"] = _enrich_combat_scene(su["combat_scene"])
         _persist_combat_scene(su["combat_scene"])
@@ -436,8 +439,10 @@ def gen_avatar(payload: AvatarGenPayload):
     if payload.photo_b64:
         avatar = generate_character_avatar(payload.photo_b64, payload.genre, payload.role, payload.archetype)
     else:
-        # Nessuna foto — genera da descrizione testuale (ruolo/archetipo)
-        avatar = generate_npc_avatar(payload.archetype or payload.role, payload.role, "npc", payload.genre)
+        # Nessuna foto — genera da descrizione testuale; usa nome+descrizione per unicità
+        display_name = payload.name or payload.archetype or payload.role
+        desc = payload.description or f"{payload.role} ({payload.archetype})"
+        avatar = generate_npc_avatar(display_name, desc, "npc", payload.genre)
     return {
         "avatar_b64": avatar,
         "available": bool(avatar),
@@ -511,8 +516,6 @@ def combat_attack(payload: CombatAttackPayload):
     if not action:
         # Fallback: costruisce azione di combattimento sintetica con le skill del personaggio
         from .models import Action as ActionModel
-        from .data_skills import SKILLS
-        sk = SKILLS.get("combattere", {})
         combat_skill = attacker.skills.get("combattere", attacker.stats.get("agilita", 10))
         action = ActionModel(
             name="combattere",
