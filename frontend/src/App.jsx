@@ -2004,6 +2004,19 @@ function LoadingProgress({ steps, icon = "📖", title }) {
 
 // ─── Side Panel ────────────────────────────────────────────────────────────
 
+function deriveStoryThreads(adventure, cluesFound = []) {
+  const found = new Set(cluesFound || []);
+  return (adventure?.story_threads || []).map(t => {
+    const required = t.required_clues || [];
+    const discovered = required.filter(id => found.has(id));
+    const minimum = t.minimum_clues_to_deduce || Math.min(2, Math.max(1, required.length || 1));
+    const status = discovered.length >= minimum
+      ? "ready_to_deduce"
+      : discovered.length > 0 ? "active" : (t.status || "hidden");
+    return { ...t, required_clues: required, discovered_clues: discovered, minimum_clues_to_deduce: minimum, status };
+  });
+}
+
 function AvatarCircle({ src, size = 32, fallback = "👤" }) {
   const [err, setErr] = React.useState(false);
   if (!src || err) return (
@@ -2025,6 +2038,8 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
   const [expandedNpc, setExpandedNpc] = useState(null);
   const [expandedPlayer, setExpandedPlayer] = useState(null);
   const clues = adventure?.clues || [];
+  const storyThreads = deriveStoryThreads(adventure, gameState?.clues_found || []);
+  const readyThreads = storyThreads.filter(t => t.status === "ready_to_deduce");
   const advNpcs = adventure?.npcs || [];
   const worldNpcs = gameState?.world_npcs || [];
   // Merge: world_npcs prende il sopravvento per nomi corrispondenti
@@ -2036,7 +2051,7 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
     npcMap.set(key, existing ? { ...existing, ...n, _source: "world" } : { ...n, _source: "world" });
   });
   const npcs = Array.from(npcMap.values());
-  const threads = gameState?.open_threads || [];
+  const threads = storyThreads.length > 0 ? storyThreads : (gameState?.open_threads || []);
   const threatLevel = gameState?.threat_level || 0;
   const threatMax = adventure?.threat_max_turns || 8;
   const threatPct = Math.round(threatLevel / Math.max(threatMax, 1) * 100);
@@ -2078,7 +2093,7 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
         <button style={tabStyle("clues")} onClick={() => setTab("clues")}>🔍 Indizi</button>
         <button style={tabStyle("npcs")} onClick={() => setTab("npcs")}>👤 PNG</button>
         <button style={tabStyle("players")} onClick={() => setTab("players")}>🧑‍🤝‍🧑 Gruppo</button>
-        <button style={tabStyle("threads")} onClick={() => setTab("threads")}>🧵 Fili</button>
+        <button style={tabStyle("threads")} onClick={() => setTab("threads")}>🧵 Piste</button>
       </div>
 
       <div style={{ flex: 1, overflowY: "auto", padding: "10px 14px" }}>
@@ -2092,6 +2107,19 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
               }}>
                 <div style={{ fontSize: 10, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>🎯 Obiettivo</div>
                 <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.45 }}>{adventure.win_condition}</div>
+              </div>
+            )}
+
+            {/* Banner "pronti a concludere" quando tutti gli indizi sono trovati */}
+            {readyThreads.length > 0 && (
+              <div style={{
+                padding: "8px 10px", borderRadius: 8, marginBottom: 10,
+                background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.45)",
+              }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#60a5fa", marginBottom: 3 }}>🧠 Deduzione possibile</div>
+                <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}>
+                  {readyThreads[0].question} Hai abbastanza indizi per verificare questa pista.
+                </div>
               </div>
             )}
 
@@ -2126,6 +2154,8 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                     {found ? "🔍" : "⬜"} {c.text}
                   </div>
                   {found && c.reveals && <div style={{ fontSize: 11, color: "#4ade80", fontStyle: "italic", marginBottom: 2 }}>↳ {c.reveals}</div>}
+                  {found && c.payoff && <div style={{ fontSize: 11, color: "#93c5fd", marginBottom: 2 }}>Sblocca: {c.payoff}</div>}
+                  {c.thread_id && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>Pista: {c.thread_id}</div>}
                   {c.location && <div style={{ fontSize: 11, color: "var(--text)", opacity: found ? 0.5 : 0.7 }}>📍 {c.location}</div>}
                 </div>
               );
@@ -2323,12 +2353,40 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
 
         {tab === "threads" && (
           <div>
-            {threads.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessun filo narrativo aperto</div>}
-            {threads.map((t, i) => (
-              <div key={i} style={{ padding: "8px 10px", borderRadius: 8, marginBottom: 6, background: "var(--code-bg)", border: "1px solid var(--border)", borderLeft: "3px solid var(--accent)" }}>
-                <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.4 }}>🧵 {t}</div>
-              </div>
-            ))}
+            {threads.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessuna pista aperta</div>}
+            {threads.map((t, i) => {
+              if (typeof t === "string") {
+                return (
+                  <div key={i} style={{ padding: "8px 10px", borderRadius: 8, marginBottom: 6, background: "var(--code-bg)", border: "1px solid var(--border)", borderLeft: "3px solid var(--accent)" }}>
+                    <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.4 }}>🧵 {t}</div>
+                  </div>
+                );
+              }
+              const pct = Math.min(100, Math.round(((t.discovered_clues?.length || 0) / Math.max(t.minimum_clues_to_deduce || 1, 1)) * 100));
+              const ready = t.status === "ready_to_deduce";
+              return (
+                <div key={t.id || i} style={{
+                  padding: "9px 10px", borderRadius: 8, marginBottom: 8,
+                  background: ready ? "rgba(96,165,250,0.10)" : "var(--code-bg)",
+                  border: `1px solid ${ready ? "rgba(96,165,250,0.45)" : "var(--border)"}`,
+                  borderLeft: `3px solid ${ready ? "#60a5fa" : "var(--accent)"}`,
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
+                    <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question}</div>
+                    <span style={{ fontSize: 9, color: ready ? "#60a5fa" : "var(--text)", textTransform: "uppercase", flexShrink: 0 }}>
+                      {ready ? "deduci" : t.status}
+                    </span>
+                  </div>
+                  {t.payoff && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.75, lineHeight: 1.35, marginBottom: 6 }}>{t.payoff}</div>}
+                  <div style={{ height: 5, borderRadius: 5, background: "rgba(255,255,255,0.08)", overflow: "hidden", marginBottom: 5 }}>
+                    <div style={{ height: "100%", width: `${pct}%`, background: ready ? "#60a5fa" : "var(--accent)" }} />
+                  </div>
+                  <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55 }}>
+                    {(t.discovered_clues?.length || 0)} / {t.minimum_clues_to_deduce || 1} indizi per dedurre
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
@@ -3897,6 +3955,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [startupLoading, setStartupLoading] = useState(true);
   const [gameStateData, setGameStateData] = useState({
     clues_found: [],
+    discovered_clues: [],
     npc_statuses: {},
     threat_level: 0,
     open_threads: [],
@@ -3947,6 +4006,10 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     const shouldEnterCombat = !!(updates.activate_combat || updateHasCombatScene || updates.pending_attack);
     setGameStateData(prev => {
       const newClues = [...new Set([...prev.clues_found, ...(updates.clues_found || [])])];
+      const clueById = new Map((prev.discovered_clues || []).map(c => [c.id, c]));
+      for (const c of (updates.discovered_clues || [])) {
+        if (c?.id) clueById.set(c.id, c);
+      }
       const newNpcStatuses = { ...prev.npc_statuses };
       for (const u of (updates.npc_updates || [])) {
         newNpcStatuses[u.id] = { ...newNpcStatuses[u.id], ...u };
@@ -3958,6 +4021,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       return {
         ...prev,
         clues_found: newClues,
+        discovered_clues: Array.from(clueById.values()),
         npc_statuses: newNpcStatuses,
         threat_level: prev.threat_level + (updates.threat_increase || 0),
         open_threads: newThreads,

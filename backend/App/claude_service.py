@@ -4064,6 +4064,133 @@ Rispondi SOLO con questo JSON:
         return {"error": "Impossibile generare l'avventura", "raw": raw[:300]}
 
 
+def _canon_slug(value: str, fallback: str) -> str:
+    text = re.sub(r"[^a-zA-Z0-9]+", "_", str(value or "").strip().lower()).strip("_")
+    return text[:42] or fallback
+
+
+def _infer_clue_type(text: str, location: str = "") -> str:
+    blob = f"{text} {location}".lower()
+    if any(w in blob for w in ["lettera", "diario", "registro", "nota", "document", "codice", "log", "file"]):
+        return "document"
+    if any(w in blob for w in ["testimone", "dice", "racconta", "confessa", "sussurra", "voce"]):
+        return "testimony"
+    if any(w in blob for w in ["sangue", "arma", "impronta", "chiave", "sigillo", "oggetto", "frammento", "corpo"]):
+        return "physical_evidence"
+    if location:
+        return "location_detail"
+    if any(w in blob for w in ["contraddice", "incongruenza", "non torna", "falso"]):
+        return "contradiction"
+    return "physical_evidence"
+
+
+def _normalize_pdf_adventure_canon(adventure: dict) -> dict:
+    """Rende tracciabile una bibbia importata da PDF senza affidarsi a runtime thread liberi."""
+    if not isinstance(adventure, dict):
+        return adventure
+
+    clues = list(adventure.get("clues") or [])[:8]
+    npcs = list(adventure.get("npcs") or [])[:8]
+    locations = list(adventure.get("locations") or [])[:6]
+    title = adventure.get("title", "avventura")
+    hidden_truth = adventure.get("hidden_truth", "")
+    win_condition = adventure.get("win_condition", "")
+
+    thread_templates = [
+        ("T1", "Dove si trova la prova decisiva?", "Localizzare il luogo o l'oggetto che rende giocabile la soluzione finale."),
+        ("T2", "Chi sta muovendo davvero la minaccia?", "Identificare antagonista, complice o pressione centrale senza inventare nuovi filoni."),
+        ("T3", "Come si chiude l'avventura senza peggiorare il costo?", "Capire procedura, vincolo o condizione finale della risoluzione."),
+    ]
+
+    enriched_clues = []
+    for idx, raw in enumerate(clues, start=1):
+        if not isinstance(raw, dict):
+            raw = {"text": str(raw)}
+        cid = str(raw.get("id") or f"clue_{idx}")
+        text = _clean_canon_text(raw.get("text") or raw.get("label") or raw.get("reveals") or f"Indizio {idx}", limit=220)
+        reveals = _clean_canon_text(raw.get("reveals") or text, limit=220)
+        location = _clean_canon_text(raw.get("location") or raw.get("source_location") or "", limit=120)
+        thread_id = str(raw.get("thread_id") or thread_templates[(idx - 1) % len(thread_templates)][0])
+        payoff = _clean_canon_text(raw.get("payoff") or reveals or f"Avanza la pista {thread_id}.", limit=220)
+        enriched_clues.append({
+            **raw,
+            "id": cid,
+            "label": _clean_canon_text(raw.get("label") or text, limit=120),
+            "text": text,
+            "type": raw.get("type") or _infer_clue_type(text, location),
+            "thread_id": thread_id,
+            "source_location": location,
+            "location": location,
+            "reveals": reveals,
+            "payoff": payoff,
+            "is_required": bool(raw.get("is_required", True)),
+            "is_discovered": bool(raw.get("found") or raw.get("is_discovered", False)),
+            "found": bool(raw.get("found") or raw.get("is_discovered", False)),
+        })
+
+    threads = []
+    for tid, question, fallback_payoff in thread_templates:
+        linked = [c for c in enriched_clues if c.get("thread_id") == tid]
+        if not linked and enriched_clues:
+            linked = enriched_clues[:1]
+        required_ids = [c["id"] for c in linked[:3]]
+        minimum = min(2, max(1, len(required_ids))) if required_ids else 1
+        answer_bits = [c.get("reveals") or c.get("text") for c in linked[:2] if c.get("reveals") or c.get("text")]
+        true_answer = " ".join(answer_bits) or (hidden_truth if tid == "T2" else win_condition) or fallback_payoff
+        threads.append({
+            "id": tid,
+            "title": question.replace("?", ""),
+            "question": question,
+            "true_answer": _clean_canon_text(true_answer, limit=260),
+            "status": "active",
+            "required_clues": required_ids,
+            "discovered_clues": [],
+            "minimum_clues_to_deduce": minimum,
+            "payoff": _clean_canon_text(fallback_payoff, limit=220),
+            "linked_npcs": [n.get("id") or n.get("name") for n in npcs[:3] if isinstance(n, dict)],
+            "linked_locations": [l.get("id") or l.get("name") for l in locations[:3] if isinstance(l, dict)],
+        })
+
+    antagonist = next((n for n in npcs if isinstance(n, dict) and any(w in str(n.get("role", "")).lower() for w in ["antagon", "villain", "nemic", "cult", "assassin", "killer"])), None)
+    required_clues = [c["id"] for c in enriched_clues if c.get("is_required")]
+    adventure["clues"] = enriched_clues
+    adventure["story_threads"] = threads
+    adventure["adventure_canon"] = {
+        "core_truth": hidden_truth,
+        "main_antagonist": (antagonist or {}).get("name", ""),
+        "false_leads": [t.get("description", "") for t in (adventure.get("twists") or [])[:2] if isinstance(t, dict)],
+        "key_locations": [l.get("name", "") for l in locations if isinstance(l, dict)][:5],
+        "required_clues": required_clues,
+        "optional_events": [t.get("trigger", "") for t in (adventure.get("twists") or [])[:3] if isinstance(t, dict)],
+        "finale_conditions": [win_condition] if win_condition else [],
+        "source": "pdf_import",
+    }
+
+    for npc in npcs:
+        if not isinstance(npc, dict):
+            continue
+        role_text = str(npc.get("role", "")).lower()
+        role = "neutral"
+        if any(w in role_text for w in ["antagon", "nemic", "killer", "assassin", "cult"]):
+            role = "antagonist"
+        elif any(w in role_text for w in ["alleat", "ally", "aiut"]):
+            role = "ally"
+        elif any(w in role_text for w in ["testim", "witness", "vittima"]):
+            role = "witness"
+        npc.setdefault("npc_role_weight", "high" if role in {"antagonist", "witness"} else "medium")
+        npc.setdefault("npc_agenda", {
+            "npc_id": npc.get("id") or _canon_slug(npc.get("name", ""), "npc"),
+            "role": role,
+            "secret": npc.get("secret", ""),
+            "goal": npc.get("motivation") or npc.get("description") or "proteggere il proprio ruolo nel modulo",
+            "methods": [],
+            "recurrence_priority": "high" if role in {"antagonist", "witness"} else "medium",
+            "arc_status": "unintroduced",
+        })
+
+    return adventure
+
+
 def create_adventure_from_pdf_text(pdf_text: str, genre: str, players: list[dict]) -> dict:
     """Legge il testo estratto da un PDF di avventura e genera la bibbia strutturata."""
     genre_label = _GENRE_LABELS.get(genre, genre)
@@ -4105,6 +4232,8 @@ Se il testo non contiene alcune informazioni, inventale in modo coerente con ci�
 LIMITI OBBLIGATORI per stare nel budget token:
 - npcs: massimo 8 NPC (solo i più importanti per la trama)
 - clues: massimo 6 indizi
+- Ogni clue deve essere concreta e giocabile: prova fisica, testimonianza, documento, comportamento, dettaglio di luogo o contraddizione. Evita frasi solo atmosferiche.
+- Ogni clue deve avere un payoff implicito: cosa permette di capire, sbloccare o evitare.
 - twists: massimo 3 colpi di scena
 - locations: massimo 5 location
 - Descrizioni brevi: max 1 frase per campo description/secret/atmosphere/ecc.
@@ -4128,7 +4257,7 @@ Rispondi SOLO con questo JSON (niente testo fuori, niente markdown fence):
     {{"id": "npc_1", "name": "Nome", "role": "ruolo", "description": "descrizione breve", "attitude": "neutral", "status": "alive", "location": "dove si trova", "secret": "cosa nasconde"}}
   ],
   "clues": [
-    {{"id": "clue_1", "text": "testo dell'indizio scoperto", "reveals": "cosa rivela", "location": "dove trovarlo", "found": false}}
+    {{"id": "clue_1", "text": "prova concreta utilizzabile", "type": "physical_evidence | testimony | document | behavior | location_detail | contradiction", "thread_id": "T1 | T2 | T3", "reveals": "cosa rivela", "payoff": "cosa permette di capire/sbloccare/evitare", "location": "dove trovarlo", "found": false}}
   ],
   "twists": [
     {{"id": "twist_1", "description": "colpo di scena", "trigger": "cosa lo attiva"}}
@@ -4146,6 +4275,7 @@ Rispondi SOLO con questo JSON (niente testo fuori, niente markdown fence):
     try:
         result = _extract_json_object(raw)
         result["from_pdf"] = True
+        result = _normalize_pdf_adventure_canon(result)
         return result
     except Exception as e:
         print(f"[create_adventure_from_pdf_text] parse error: {e}")
@@ -4212,6 +4342,24 @@ def master_turn_with_bible(
     all_clues = adventure.get("clues", [])
     found_clues = [c for c in all_clues if c["id"] in clues_found_ids]
     missing_clues = [c for c in all_clues if c["id"] not in clues_found_ids]
+    story_threads = list(adventure.get("story_threads") or [])
+    clues_by_thread = {}
+    for c in all_clues:
+        tid = c.get("thread_id", "")
+        if tid:
+            clues_by_thread.setdefault(tid, []).append(c)
+    thread_runtime = []
+    ready_threads = []
+    for t in story_threads:
+        tid = t.get("id", "")
+        required = t.get("required_clues") or [c.get("id") for c in clues_by_thread.get(tid, [])]
+        discovered = [cid for cid in required if cid in clues_found_ids]
+        minimum = int(t.get("minimum_clues_to_deduce") or min(2, max(1, len(required) or 1)))
+        status = "ready_to_deduce" if len(discovered) >= minimum else ("active" if discovered else t.get("status", "hidden"))
+        row = {**t, "status": status, "discovered_clues": discovered}
+        thread_runtime.append(row)
+        if status == "ready_to_deduce":
+            ready_threads.append(row)
 
     npc_statuses = game_state_data.get("npc_statuses", {})
     npcs_context = ""
@@ -4239,7 +4387,25 @@ def master_turn_with_bible(
     if missing_clues:
         urgency = "FAI TROVARE ORA" if threat_pct >= 80 else "da rivelare gradualmente"
         clues_context += f"\nIndizi ancora nascosti ({urgency}): " + "; ".join(
-            f"[{c['id']}] \"{c['text']}\" — trovabile: {c.get('location','?')}" for c in missing_clues
+            f"[{c['id']}] ({c.get('thread_id','?')}) \"{c['text']}\" — trovabile: {c.get('location') or c.get('source_location','?')} — payoff: {c.get('payoff', c.get('reveals',''))}" for c in missing_clues
+        )
+    threads_context = ""
+    if thread_runtime:
+        lines = []
+        for t in thread_runtime:
+            clue_labels = []
+            for cid in t.get("required_clues", []):
+                c = next((x for x in all_clues if x.get("id") == cid), None)
+                clue_labels.append(f"{cid}{'✓' if cid in clues_found_ids else ''}: {c.get('text','')[:80] if c else ''}")
+            lines.append(
+                f"- {t.get('id')}: {t.get('question')} | status={t.get('status')} | "
+                f"indizi={len(t.get('discovered_clues', []))}/{t.get('minimum_clues_to_deduce', 2)} | "
+                f"payoff={t.get('payoff','')} | indizi previsti: {'; '.join(clue_labels)}"
+            )
+        threads_context = "\nTHREAD CANONICI TRACCIATI:\n" + "\n".join(lines)
+    if ready_threads:
+        threads_context += "\nPISTE PRONTE A DEDURRE: " + "; ".join(
+            f"{t.get('id')} — {t.get('question')} → sintesi: {t.get('true_answer','')}" for t in ready_threads
         )
 
     twists_available = [t for t in adventure.get("twists", []) if not t.get("used")]
@@ -4290,6 +4456,7 @@ Condizione vittoria: {adventure.get('win_condition', '?')}
 PNG:{npcs_context}
 {clues_context}
 Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
+{threads_context}
 
 ═══ PERSONAGGI ═══
 {sheets}
@@ -4323,6 +4490,16 @@ ISTRUZIONI:
 
 4. Aggiorna lo stato (clues_found, npc_updates, new_threads, threat_increase).
    threat_increase deve essere 1-2 se il turno fa avanzare la minaccia, 0 se i giocatori hanno guadagnato terreno.
+
+REGOLE CANOVACCIO PDF — OBBLIGATORIE:
+- Usa solo adventure_canon, story_threads, clues, npcs e locations gia presenti nella bibbia. Non creare nuovi filoni portanti.
+- Ogni scena puo registrare al massimo 1-2 indizi significativi in clues_found, scegliendo SOLO id esistenti fra gli indizi nascosti.
+- Ogni indizio scoperto deve avere thread_id e payoff nella bibbia; se lo narri, il suo id DEVE comparire in clues_found.
+- new_threads deve essere sempre []. Se emerge una nuova complicazione, mettila in npc_updates, threat_increase, combat_scene o narrativa, non come thread.
+- Se una pista e ready_to_deduce, proponi una sintesi deduttiva esplicita nella narrativa e chiudila in closed_threads solo se i giocatori hanno verificato o accettato la deduzione.
+- Se una pista e ready_to_deduce, NON introdurre nuovi misteri prima di aver offerto una scena di sintesi/confronto/verifica.
+- Un successo deve sempre modificare almeno uno stato persistente: clues_found, npc_updates, closed_threads, threat_increase, activate_combat/combat_over, story_over.
+- Un fallimento non blocca la storia: produce indizio incompleto, costo, complicazione, pressione o falso vantaggio, sempre collegato a un thread esistente.
 
 REGOLA FINE AVVENTURA — OBBLIGATORIA:
 - Se threat_level >= threat_max ({threat_pct}% attuale): questo è l'ULTIMO turno. La minaccia ha vinto. Narra un finale drammatico di sconfitta ({adventure.get('threat_description','la minaccia')[:60]} si compie), poi imposta story_over=true, victory=false. Non proporre opzioni di continuazione.
@@ -4358,6 +4535,7 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
   ],
   "state_updates": {{
     "clues_found": [],
+    "discovered_clues": [],
     "npc_updates": [],
     "new_threads": [],
     "closed_threads": [],
@@ -4407,6 +4585,37 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
         }
     # Guardia residua: se Claude ha ignorato story_over nonostante threat < 100
     su = result.get("state_updates") or {}
+    valid_clue_ids = {str(c.get("id")) for c in all_clues if c.get("id")}
+    found_now = []
+    for cid in su.get("clues_found", []) or []:
+        cid = str(cid)
+        if cid in valid_clue_ids and cid not in clues_found_ids and cid not in found_now:
+            found_now.append(cid)
+    su["clues_found"] = found_now[:2]
+    su["discovered_clues"] = [
+        {
+            "id": c.get("id"),
+            "label": c.get("label") or c.get("text"),
+            "thread_id": c.get("thread_id", ""),
+            "type": c.get("type", ""),
+            "source_location": c.get("source_location") or c.get("location", ""),
+            "reveals": c.get("reveals", ""),
+            "payoff": c.get("payoff", ""),
+        }
+        for c in all_clues
+        if c.get("id") in su["clues_found"]
+    ]
+    su["new_threads"] = []
+    if not any([
+        su.get("clues_found"),
+        su.get("npc_updates"),
+        su.get("closed_threads"),
+        su.get("threat_increase"),
+        su.get("activate_combat"),
+        su.get("combat_over"),
+        su.get("story_over"),
+    ]):
+        su["threat_increase"] = 1 if not prerolled or not prerolled.get("success") else 0
     if su.get("story_over") is None:
         su["story_over"] = False
     result["state_updates"] = su
