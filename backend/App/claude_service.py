@@ -4339,6 +4339,7 @@ def master_turn_with_bible(
 
     # Costruisci contesto bibbia
     clues_found_ids = set(game_state_data.get("clues_found", []))
+    clue_progress_state = game_state_data.get("clue_progress", {}) or {}
     all_clues = adventure.get("clues", [])
     found_clues = [c for c in all_clues if c["id"] in clues_found_ids]
     missing_clues = [c for c in all_clues if c["id"] not in clues_found_ids]
@@ -4353,10 +4354,14 @@ def master_turn_with_bible(
     for t in story_threads:
         tid = t.get("id", "")
         required = t.get("required_clues") or [c.get("id") for c in clues_by_thread.get(tid, [])]
+        partial = [
+            cid for cid in required
+            if cid not in clues_found_ids and (clue_progress_state.get(cid, {}) or {}).get("ticks", 0) > 0
+        ]
         discovered = [cid for cid in required if cid in clues_found_ids]
         minimum = int(t.get("minimum_clues_to_deduce") or min(2, max(1, len(required) or 1)))
         status = "ready_to_deduce" if len(discovered) >= minimum else ("active" if discovered else t.get("status", "hidden"))
-        row = {**t, "status": status, "discovered_clues": discovered}
+        row = {**t, "status": status, "discovered_clues": discovered, "partial_clues": partial}
         thread_runtime.append(row)
         if status == "ready_to_deduce":
             ready_threads.append(row)
@@ -4379,11 +4384,20 @@ def master_turn_with_bible(
     clues_context = ""
     n_found = len(found_clues)
     n_total = len(all_clues)
-    clues_context += f"\nProgresso indizi: {n_found}/{n_total} trovati"
+    clues_context += f"\nIndizi canonici: {n_found}/{n_total} ottenuti"
     if threat_pct >= 80 and missing_clues:
         clues_context += f" — ATTENZIONE: tempo quasi esaurito ({threat_pct}%), fai emergere i restanti indizi ATTIVAMENTE nelle prossime scene"
     if found_clues:
         clues_context += "\nIndizi scoperti: " + "; ".join(f"[{c['id']}] {c['text']}" for c in found_clues)
+    partial_clues = [
+        c for c in all_clues
+        if c.get("id") not in clues_found_ids and (clue_progress_state.get(c.get("id"), {}) or {}).get("ticks", 0) > 0
+    ]
+    if partial_clues:
+        clues_context += "\nIndizi in progresso: " + "; ".join(
+            f"[{c['id']}] {min(2, int((clue_progress_state.get(c['id'], {}) or {}).get('ticks', 0)))}/2 passi — {(clue_progress_state.get(c['id'], {}) or {}).get('note','')}"
+            for c in partial_clues
+        )
     if missing_clues:
         urgency = "FAI TROVARE ORA" if threat_pct >= 80 else "da rivelare gradualmente"
         clues_context += f"\nIndizi ancora nascosti ({urgency}): " + "; ".join(
@@ -4396,7 +4410,9 @@ def master_turn_with_bible(
             clue_labels = []
             for cid in t.get("required_clues", []):
                 c = next((x for x in all_clues if x.get("id") == cid), None)
-                clue_labels.append(f"{cid}{'✓' if cid in clues_found_ids else ''}: {c.get('text','')[:80] if c else ''}")
+                ticks = int((clue_progress_state.get(cid, {}) or {}).get("ticks", 0))
+                mark = "✓" if cid in clues_found_ids else (f"~{min(2, ticks)}/2" if ticks else "")
+                clue_labels.append(f"{cid}{mark}: {c.get('text','')[:80] if c else ''}")
             lines.append(
                 f"- {t.get('id')}: {t.get('question')} | status={t.get('status')} | "
                 f"indizi={len(t.get('discovered_clues', []))}/{t.get('minimum_clues_to_deduce', 2)} | "
@@ -4479,7 +4495,7 @@ ISTRUZIONI:
 2. NARRATIVA (3-5 frasi vivide): descrivi l'esito dell'azione E fai muovere la storia. Inserisci {{{{ROLL}}}} nel punto drammatico.
    - La scena deve CAMBIARE rispetto a quella precedente: nuova informazione, reazione di un PNG, spostamento, escalation.
    - Se il gruppo è fermo sulla stessa situazione da 2+ turni, introduce una svolta: arriva un PNG, scatta una trappola, si apre un passaggio, un alleato tradisce.
-   - REGOLA INDIZI: se un indizio viene scoperto nella narrativa, mettine l'id in clues_found (media: 1 ogni 2-3 turni).
+   - REGOLA INDIZI: non creare indizi nuovi. Fai avanzare un indizio canonico con clue_progress; usa clues_found solo quando la prova è stata davvero ottenuta.
 
 3. OPZIONI (3 proposte per il prossimo turno):
    - DEVONO essere diverse da queste azioni già fatte: {'; '.join(player_actions_recent[-4:]) if player_actions_recent else 'nessuna'}
@@ -4488,17 +4504,19 @@ ISTRUZIONI:
    - Assegna ogni opzione al personaggio più adatto per skill e motivazione.
    - La terza è sempre "Azione custom".
 
-4. Aggiorna lo stato (clues_found, npc_updates, new_threads, threat_increase).
+4. Aggiorna lo stato (clue_progress, clues_found, npc_updates, new_threads, threat_increase).
    threat_increase deve essere 1-2 se il turno fa avanzare la minaccia, 0 se i giocatori hanno guadagnato terreno.
 
 REGOLE CANOVACCIO PDF — OBBLIGATORIE:
 - Usa solo adventure_canon, story_threads, clues, npcs e locations gia presenti nella bibbia. Non creare nuovi filoni portanti.
-- Ogni scena puo registrare al massimo 1-2 indizi significativi in clues_found, scegliendo SOLO id esistenti fra gli indizi nascosti.
-- Ogni indizio scoperto deve avere thread_id e payoff nella bibbia; se lo narri, il suo id DEVE comparire in clues_found.
+- Gli indizi sono FISSI: non generare nuovi indizi, nomi-prova, simboli, documenti o sottotrame. Puoi solo far progredire o ottenere indizi gia elencati in clues.
+- Ogni scena puo far avanzare al massimo 1 indizio canonico in clue_progress, scegliendo SOLO id esistenti fra gli indizi nascosti.
+- clues_found deve restare raro: usalo solo quando la prova canonica è stata recuperata, letta, confermata o testimoniata in modo chiaro.
+- Se narri solo un avvicinamento, sospetto, accesso parziale o frammento, NON usare clues_found: usa clue_progress.
 - new_threads deve essere sempre []. Se emerge una nuova complicazione, mettila in npc_updates, threat_increase, combat_scene o narrativa, non come thread.
 - Se una pista e ready_to_deduce, proponi una sintesi deduttiva esplicita nella narrativa e chiudila in closed_threads solo se i giocatori hanno verificato o accettato la deduzione.
 - Se una pista e ready_to_deduce, NON introdurre nuovi misteri prima di aver offerto una scena di sintesi/confronto/verifica.
-- Un successo deve sempre modificare almeno uno stato persistente: clues_found, npc_updates, closed_threads, threat_increase, activate_combat/combat_over, story_over.
+- Un successo deve sempre modificare almeno uno stato persistente: clue_progress, clues_found, npc_updates, closed_threads, threat_increase, activate_combat/combat_over, story_over.
 - Un fallimento non blocca la storia: produce indizio incompleto, costo, complicazione, pressione o falso vantaggio, sempre collegato a un thread esistente.
 
 REGOLA FINE AVVENTURA — OBBLIGATORIA:
@@ -4534,6 +4552,7 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     {{"text": "Azione custom", "skill": "", "skill_level": 0, "stat": "", "player_id": {active_player_id}}}
   ],
   "state_updates": {{
+    "clue_progress": [{{"clue_id": "id_esistente", "note": "cosa e stato capito o avvicinato", "ticks": 1}}],
     "clues_found": [],
     "discovered_clues": [],
     "npc_updates": [],
@@ -4586,12 +4605,28 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     # Guardia residua: se Claude ha ignorato story_over nonostante threat < 100
     su = result.get("state_updates") or {}
     valid_clue_ids = {str(c.get("id")) for c in all_clues if c.get("id")}
+    valid_progress = []
+    for item in su.get("clue_progress", []) or []:
+        if not isinstance(item, dict):
+            continue
+        cid = str(item.get("clue_id") or item.get("id") or "")
+        if cid not in valid_clue_ids or cid in clues_found_ids:
+            continue
+        note = _clean_canon_text(item.get("note") or item.get("text") or "", limit=180)
+        if not note:
+            note = "La squadra si avvicina a questo indizio canonico."
+        try:
+            ticks = max(1, min(1, int(item.get("ticks", 1))))
+        except Exception:
+            ticks = 1
+        valid_progress.append({"clue_id": cid, "note": note, "ticks": ticks})
+    su["clue_progress"] = valid_progress[:1]
     found_now = []
     for cid in su.get("clues_found", []) or []:
         cid = str(cid)
         if cid in valid_clue_ids and cid not in clues_found_ids and cid not in found_now:
             found_now.append(cid)
-    su["clues_found"] = found_now[:2]
+    su["clues_found"] = found_now[:1]
     su["discovered_clues"] = [
         {
             "id": c.get("id"),
@@ -4607,6 +4642,7 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     ]
     su["new_threads"] = []
     if not any([
+        su.get("clue_progress"),
         su.get("clues_found"),
         su.get("npc_updates"),
         su.get("closed_threads"),

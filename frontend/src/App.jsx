@@ -2004,16 +2004,17 @@ function LoadingProgress({ steps, icon = "📖", title }) {
 
 // ─── Side Panel ────────────────────────────────────────────────────────────
 
-function deriveStoryThreads(adventure, cluesFound = []) {
+function deriveStoryThreads(adventure, cluesFound = [], clueProgress = {}) {
   const found = new Set(cluesFound || []);
   return (adventure?.story_threads || []).map(t => {
     const required = t.required_clues || [];
     const discovered = required.filter(id => found.has(id));
+    const partial = required.filter(id => !found.has(id) && (clueProgress?.[id]?.ticks || 0) > 0);
     const minimum = t.minimum_clues_to_deduce || Math.min(2, Math.max(1, required.length || 1));
     const status = discovered.length >= minimum
       ? "ready_to_deduce"
-      : discovered.length > 0 ? "active" : (t.status || "hidden");
-    return { ...t, required_clues: required, discovered_clues: discovered, minimum_clues_to_deduce: minimum, status };
+      : (discovered.length > 0 || partial.length > 0) ? "active" : (t.status || "hidden");
+    return { ...t, required_clues: required, discovered_clues: discovered, partial_clues: partial, minimum_clues_to_deduce: minimum, status };
   });
 }
 
@@ -2038,7 +2039,8 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
   const [expandedNpc, setExpandedNpc] = useState(null);
   const [expandedPlayer, setExpandedPlayer] = useState(null);
   const clues = adventure?.clues || [];
-  const storyThreads = deriveStoryThreads(adventure, gameState?.clues_found || []);
+  const clueProgress = gameState?.clue_progress || {};
+  const storyThreads = deriveStoryThreads(adventure, gameState?.clues_found || [], clueProgress);
   const readyThreads = storyThreads.filter(t => t.status === "ready_to_deduce");
   const advNpcs = adventure?.npcs || [];
   const worldNpcs = gameState?.world_npcs || [];
@@ -2143,16 +2145,23 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
 
             {clues.map(c => {
               const found = gameState?.clues_found?.includes(c.id);
+              const progress = clueProgress?.[c.id];
+              const partial = !found && progress?.ticks > 0;
               return (
                 <div key={c.id} style={{
                   padding: "8px 10px", borderRadius: 8, marginBottom: 6,
-                  background: found ? "rgba(74,222,128,0.08)" : "var(--code-bg)",
-                  border: `1px solid ${found ? "rgba(74,222,128,0.3)" : "var(--border)"}`,
-                  opacity: found ? 1 : 0.5,
+                  background: found ? "rgba(74,222,128,0.08)" : partial ? "rgba(96,165,250,0.08)" : "var(--code-bg)",
+                  border: `1px solid ${found ? "rgba(74,222,128,0.3)" : partial ? "rgba(96,165,250,0.32)" : "var(--border)"}`,
+                  opacity: found || partial ? 1 : 0.5,
                 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: found ? "#4ade80" : "var(--text)", marginBottom: 2 }}>
-                    {found ? "🔍" : "⬜"} {c.text}
+                  <div style={{ fontSize: 12, fontWeight: 700, color: found ? "#4ade80" : partial ? "#93c5fd" : "var(--text)", marginBottom: 2 }}>
+                    {found ? "🔍" : partial ? "◔" : "⬜"} {c.text}
                   </div>
+                  {partial && (
+                    <div style={{ fontSize: 11, color: "#93c5fd", marginBottom: 2 }}>
+                      Progresso {Math.min(2, progress.ticks)}/2: {progress.note}
+                    </div>
+                  )}
                   {found && c.reveals && <div style={{ fontSize: 11, color: "#4ade80", fontStyle: "italic", marginBottom: 2 }}>↳ {c.reveals}</div>}
                   {found && c.payoff && <div style={{ fontSize: 11, color: "#93c5fd", marginBottom: 2 }}>Sblocca: {c.payoff}</div>}
                   {c.thread_id && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>Pista: {c.thread_id}</div>}
@@ -2362,7 +2371,8 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                   </div>
                 );
               }
-              const pct = Math.min(100, Math.round(((t.discovered_clues?.length || 0) / Math.max(t.minimum_clues_to_deduce || 1, 1)) * 100));
+              const partialWeight = (t.partial_clues?.length || 0) * 0.5;
+              const pct = Math.min(100, Math.round((((t.discovered_clues?.length || 0) + partialWeight) / Math.max(t.minimum_clues_to_deduce || 1, 1)) * 100));
               const ready = t.status === "ready_to_deduce";
               return (
                 <div key={t.id || i} style={{
@@ -2382,7 +2392,8 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                     <div style={{ height: "100%", width: `${pct}%`, background: ready ? "#60a5fa" : "var(--accent)" }} />
                   </div>
                   <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55 }}>
-                    {(t.discovered_clues?.length || 0)} / {t.minimum_clues_to_deduce || 1} indizi per dedurre
+                    {(t.discovered_clues?.length || 0)} ottenuti
+                    {(t.partial_clues?.length || 0) > 0 ? `, ${t.partial_clues.length} in progresso` : ""} / {t.minimum_clues_to_deduce || 1} per dedurre
                   </div>
                 </div>
               );
@@ -3955,6 +3966,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [startupLoading, setStartupLoading] = useState(true);
   const [gameStateData, setGameStateData] = useState({
     clues_found: [],
+    clue_progress: {},
     discovered_clues: [],
     npc_statuses: {},
     threat_level: 0,
@@ -4006,6 +4018,20 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     const shouldEnterCombat = !!(updates.activate_combat || updateHasCombatScene || updates.pending_attack);
     setGameStateData(prev => {
       const newClues = [...new Set([...prev.clues_found, ...(updates.clues_found || [])])];
+      const progressById = { ...(prev.clue_progress || {}) };
+      for (const p of (updates.clue_progress || [])) {
+        const cid = p?.clue_id || p?.id;
+        if (!cid || newClues.includes(cid)) continue;
+        const prevEntry = progressById[cid] || { ticks: 0, notes: [] };
+        const note = p.note || p.text || "";
+        const nextNotes = note ? [...(prevEntry.notes || []), note].slice(-3) : (prevEntry.notes || []);
+        progressById[cid] = {
+          ticks: Math.min(2, (prevEntry.ticks || 0) + (p.ticks || 1)),
+          note: note || prevEntry.note || "",
+          notes: nextNotes,
+        };
+      }
+      for (const cid of newClues) delete progressById[cid];
       const clueById = new Map((prev.discovered_clues || []).map(c => [c.id, c]));
       for (const c of (updates.discovered_clues || [])) {
         if (c?.id) clueById.set(c.id, c);
@@ -4021,6 +4047,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       return {
         ...prev,
         clues_found: newClues,
+        clue_progress: progressById,
         discovered_clues: Array.from(clueById.values()),
         npc_statuses: newNpcStatuses,
         threat_level: prev.threat_level + (updates.threat_increase || 0),
