@@ -347,6 +347,8 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         result["state_updates"] = su
     if su.get("combat_over"):
         game_state.pending_attack = None
+        if game_state.scene:
+            game_state.scene.entities = []
 
     # Valutazione vittorie personali quando la storia finisce
     if su.get("story_over"):
@@ -403,8 +405,16 @@ def enrich_backstory(payload: BackstoryPayload):
 @app.get("/game/state")
 def get_game_state():
     snapshot = game_state.model_copy(deep=False)
+    data = snapshot.model_dump()
+    data["in_combat"] = bool(
+        game_state.pending_attack
+        or (
+            game_state.scene
+            and any(e.type == "enemy" and e.hp > 0 for e in game_state.scene.entities)
+        )
+    )
     game_state.last_roll_details = []   # consuma i dettagli dopo la prima lettura
-    return snapshot
+    return data
 
 @app.get("/game/genres")
 def get_genres():

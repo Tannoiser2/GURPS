@@ -3921,6 +3921,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const inputRef = useRef(null);
   const messagesRef = useRef([]);
 
+  function hasLivingCombatEnemies(scene) {
+    return Array.isArray(scene?.entities)
+      && scene.entities.some(e => e.type === "enemy" && (e.hp ?? e.max_hp ?? 1) > 0);
+  }
+
   // keep ref in sync
   const _setMessages = (updater) => {
     setMessages(prev => {
@@ -3938,6 +3943,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
   function applyStateUpdates(updates) {
     if (!updates) return;
+    const updateHasCombatScene = hasLivingCombatEnemies(updates.combat_scene);
+    const shouldEnterCombat = !!(updates.activate_combat || updateHasCombatScene || updates.pending_attack);
     setGameStateData(prev => {
       const newClues = [...new Set([...prev.clues_found, ...(updates.clues_found || [])])];
       const newNpcStatuses = { ...prev.npc_statuses };
@@ -3955,11 +3962,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         threat_level: prev.threat_level + (updates.threat_increase || 0),
         open_threads: newThreads,
         turn: prev.turn + 1,
-        in_combat: updates.combat_over ? false : (updates.activate_combat || prev.in_combat),
+        in_combat: updates.combat_over ? false : (shouldEnterCombat || prev.in_combat),
       };
     });
     // Apre la mappa tattica automaticamente all'inizio del combattimento
-    if (updates.activate_combat) setShowCombatMap(true);
+    if (shouldEnterCombat) setShowCombatMap(true);
     // Chiude la mappa tattica quando il combattimento finisce e resetta l'immagine per il prossimo
     if (updates.combat_over) { setShowCombatMap(false); setCombatBgImage(null); }
   }
@@ -3967,9 +3974,19 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   async function fetchGameState() {
     try {
       const gs = await fetch(`${API_URL}/game/state`).then(r => r.json());
-      if (gs.scene) setSceneState(gs.scene);
+      if (gs.scene) {
+        setSceneState(gs.scene);
+        if (hasLivingCombatEnemies(gs.scene)) {
+          _syncCombatEntitiesFromScene(gs.scene);
+        }
+      }
       if (gs.map_state) setMapState(gs.map_state);
       if (gs.pending_attack !== undefined) setPendingAttack(gs.pending_attack);
+      const stateSaysCombat = !!(gs.in_combat || gs.pending_attack || hasLivingCombatEnemies(gs.scene));
+      if (stateSaysCombat) {
+        setGameStateData(prev => ({ ...prev, in_combat: true }));
+        setShowCombatMap(true);
+      }
       if (gs.world_npcs) setGameStateData(prev => ({ ...prev, world_npcs: gs.world_npcs }));
       if (gs.players?.length > 0) setPlayers(prev => gs.players.map(gp => {
         const local = prev.find(lp => lp.id === gp.id);
@@ -4373,6 +4390,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     const updates = res.state_updates;
     console.log("[GURPS] state_updates:", JSON.stringify(updates));
     if (updates) {
+      const responseHasCombatScene = hasLivingCombatEnemies(updates.combat_scene);
       applyStateUpdates(updates);
       if (updates.story_over) {
         setStoryOver(true);
@@ -4380,7 +4398,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         if (updates.personal_victories) setPersonalVictories(updates.personal_victories);
       }
       // popola sceneState immediatamente dalla combat_scene nel payload
-      if (updates.activate_combat && updates.combat_scene?.entities) {
+      if ((updates.activate_combat || responseHasCombatScene) && updates.combat_scene?.entities) {
         console.log("[GURPS] attivazione combattimento:", updates.combat_scene);
         setCombatEntities(updates.combat_scene.entities);
         // Genera avatar per entità di combattimento non ancora note
