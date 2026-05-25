@@ -20,7 +20,6 @@ location named ``"Stanza 4"``).
 """
 from __future__ import annotations
 
-from typing import Iterable
 
 from .runtime_models import (
     ActorState,

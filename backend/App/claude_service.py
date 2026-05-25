@@ -19,7 +19,6 @@ except Exception as _e:
     _GOOGLE_GENAI_IMPORT_ERROR = f"{type(_e).__name__}: {_e}"
     print(f"[google-genai] import fallito: {_GOOGLE_GENAI_IMPORT_ERROR}")
 
-from .data_genres import GENRE_PACKS
 from .data_roles import ROLE_LIBRARY, THEME_FAMILY_ROLE_OVERRIDE
 from .data_equipment import MISSION_EQUIPMENT_BONUS, ENVIRONMENT_EQUIPMENT_BONUS
 from .data_skills import SKILL_TO_EFFECT_TYPE, SKILLS_BY_STAT, VALID_SKILLS, default_skill_for, skill_prompt_text, reconcile_effect_type, infer_effect_type_from_text, skill_display, normalize_skill, stat_display

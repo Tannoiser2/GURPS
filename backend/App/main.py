@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import io
 from .engine import empty_game_state, prepare_team_setup, start_game_from_selection, preview_action_outcomes, initiate_combat_action, declare_defense, resolve_reaction_roll, roll_for_player_action, npc_combat_turn, build_players_from_dicts, apply_story_updates
-from .combat import attempt_stun_recovery, stand_up
+from .combat import stand_up
 from .character_creation import validate_draft, build_custom_player
 from .claude_service import (
     generate_scene_image, generate_character_avatar, generate_npc_avatar,
