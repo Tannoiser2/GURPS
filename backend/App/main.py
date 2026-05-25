@@ -27,7 +27,7 @@ from .claude_service import (
 )
 from . import claude_service
 from .data_genres import GENRE_PACKS
-from .models import GameState, CombatDefenseRequest, CharacterDraft, SceneEntity, SceneState
+from .models import GameState, CombatDefenseRequest, CharacterDraft, SceneEntity, SceneState, MapNode, MapEdge, MapState
 from .runtime_models import AdventureDefinition, AdventureRuntimeState
 from .adventure_runtime_store import list_runtimes, load_runtime, save_runtime, update_runtime
 from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to_runtime
@@ -52,6 +52,112 @@ def _ensure_runtime_scene(scene_text: str = "") -> None:
         game_state.scene = SceneState(scene_text=scene_text or "Scena in corso.")
     elif scene_text:
         game_state.scene.scene_text = scene_text
+
+
+def _build_map_from_definition(definition: AdventureDefinition) -> "MapState | None":
+    """Costruisce un MapState dal grafo di locazioni dell'AdventureDefinition.
+
+    Assegna automaticamente posizioni griglia con BFS partendo dalla prima
+    locazione, risolve gli exit-name → location-id e crea gli archi.
+    """
+    locs = definition.locations or []
+    if not locs:
+        return None
+
+    name_to_id = {loc.name.lower(): loc.id for loc in locs}
+    id_set = {loc.id for loc in locs}
+
+    nodes: dict[str, MapNode] = {}
+    adj: dict[str, list[str]] = {}
+
+    for loc in locs:
+        connections: list[str] = []
+        for ex in (loc.exits or []):
+            en = ex.strip().lower()
+            if en in name_to_id:
+                connections.append(name_to_id[en])
+            elif ex.strip() in id_set:
+                connections.append(ex.strip())
+        adj[loc.id] = connections
+        nodes[loc.id] = MapNode(
+            id=loc.id,
+            name=loc.name,
+            kind="location",
+            description=(loc.description or "")[:200],
+            connections=connections,
+            visited=False,
+        )
+
+    # BFS from start to assign grid_x (depth) and grid_y (sibling index)
+    start_id = locs[0].id
+    depth_of: dict[str, int] = {start_id: 0}
+    queue = [start_id]
+    while queue:
+        curr = queue.pop(0)
+        for nb in adj.get(curr, []):
+            if nb not in depth_of and nb in nodes:
+                depth_of[nb] = depth_of[curr] + 1
+                queue.append(nb)
+    max_depth = max(depth_of.values(), default=0) if depth_of else 0
+    for nid in nodes:
+        if nid not in depth_of:
+            depth_of[nid] = max_depth + 1
+
+    depth_groups: dict[int, list[str]] = {}
+    for nid, d in depth_of.items():
+        depth_groups.setdefault(d, []).append(nid)
+    for d, group in depth_groups.items():
+        for i, nid in enumerate(group):
+            nodes[nid].grid_x = d
+            nodes[nid].grid_y = i
+
+    # Build undirected edges (deduplicated by sorted pair)
+    edges: dict[str, MapEdge] = {}
+    for nid, conns in adj.items():
+        for to_id in conns:
+            if to_id in nodes:
+                key = "-".join(sorted([nid, to_id]))
+                if key not in edges:
+                    edges[key] = MapEdge(from_id=nid, to_id=to_id, status="open")
+
+    nodes[start_id].visited = True
+    obj_id = locs[-1].id
+
+    return MapState(
+        map_type="adventure_location_graph",
+        theme=definition.genre or "fantasy",
+        nodes=nodes,
+        connections_meta=edges,
+        current_node_id=start_id,
+        start_node_id=start_id,
+        objective_node_id=obj_id,
+    )
+
+
+def _update_map_position(player_action: str) -> None:
+    """Aggiorna current_node_id e visited se il player si sposta."""
+    if not game_state.map_state or not game_state.adventure_definition:
+        return
+    import re as _re
+    m = _re.search(r"[Ss]postar[si]* verso\s+(.+)", player_action or "")
+    if not m:
+        return
+    dest_name = m.group(1).strip().rstrip(".")
+    dest_name_l = dest_name.lower()
+    nodes = game_state.map_state.nodes
+    match_id = None
+    for nid, node in nodes.items():
+        if node.name.lower() == dest_name_l or nid.lower() == dest_name_l:
+            match_id = nid
+            break
+    if not match_id:
+        for nid, node in nodes.items():
+            if dest_name_l in node.name.lower() or node.name.lower() in dest_name_l:
+                match_id = nid
+                break
+    if match_id:
+        game_state.map_state.current_node_id = match_id
+        nodes[match_id].visited = True
 
 
 def _safe_file_stem(value: str, fallback: str = "avventura") -> str:
@@ -1158,6 +1264,8 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
             status_code=409,
             detail="Avventura non compilata: crea o importa un AdventureDefinition prima di avviare il Master.",
         )
+    if not game_state.map_state:
+        game_state.map_state = _build_map_from_definition(game_state.adventure_definition)
     opening = _opening_context_from_definition(game_state.adventure_definition)
     opening_narrative = generate_opening_scene(game_state.adventure_definition, payload.players)
     _ensure_runtime_scene(opening_narrative)
@@ -1166,7 +1274,7 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     if game_state.mission:
         game_state.mission.objective = opening["objective"]
     options = _initial_runtime_options(game_state.adventure_definition, payload.players)
-    return {
+    resp: dict = {
         "narrative": opening_narrative,
         "roll": None,
         "options": options,
@@ -1180,6 +1288,9 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
             "director_reason": "compiled_runtime_start",
         },
     }
+    if game_state.map_state:
+        resp["map_state"] = game_state.map_state.model_dump()
+    return resp
 
 @app.post("/game/master/turn-bible")
 def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
@@ -1240,6 +1351,11 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     )
     if game_state.scene:
         game_state.scene.threat_level += int(su.get("threat_increase") or 0)
+    _update_map_position(payload.player_action)
+    if not game_state.map_state and game_state.adventure_definition:
+        game_state.map_state = _build_map_from_definition(game_state.adventure_definition)
+    if game_state.map_state:
+        result["map_state"] = game_state.map_state.model_dump()
     _sync_runtime_state_from_updates(su, result.get("narrative", ""))
 
     # Valutazione vittorie personali quando la storia finisce

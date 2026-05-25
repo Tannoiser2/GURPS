@@ -2716,6 +2716,139 @@ function isKnownTacticalNode(node, mapState) {
   return false;
 }
 
+// ─── Location Graph (mappa strategica) ────────────────────────────────────────
+
+function LocationGraph({ mapState, isGM }) {
+  if (!mapState || !mapState.nodes || Object.keys(mapState.nodes).length === 0) {
+    return <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 30 }}>Nessuna mappa disponibile.</div>;
+  }
+
+  const nodes = mapState.nodes;
+  const edges = mapState.connections_meta || {};
+  const currentId = mapState.current_node_id;
+
+  // Compute grid bounds
+  const allNodes = Object.values(nodes);
+  const maxX = Math.max(...allNodes.map(n => n.grid_x || 0), 0);
+  const maxY = Math.max(...allNodes.map(n => n.grid_y || 0), 0);
+
+  const COL_W = 140;   // px per colonna
+  const ROW_H = 76;    // px per riga
+  const PAD = 20;
+  const NODE_W = 120;
+  const NODE_H = 52;
+
+  const svgW = (maxX + 1) * COL_W + PAD * 2;
+  const svgH = (maxY + 1) * ROW_H + PAD * 2;
+
+  function nodeCenter(n) {
+    return {
+      cx: PAD + (n.grid_x || 0) * COL_W + NODE_W / 2,
+      cy: PAD + (n.grid_y || 0) * ROW_H + NODE_H / 2,
+    };
+  }
+
+  // Visibility: players see current + visited + direct neighbors; GM sees all
+  const visitedSet = new Set(allNodes.filter(n => n.visited).map(n => n.id));
+  visitedSet.add(currentId);
+  const visibleSet = new Set(visitedSet);
+  if (!isGM) {
+    // add direct neighbors of any visited node
+    Object.values(edges).forEach(e => {
+      if (visitedSet.has(e.from_id)) visibleSet.add(e.to_id);
+      if (visitedSet.has(e.to_id)) visibleSet.add(e.from_id);
+    });
+  }
+
+  function nodeStatus(id) {
+    if (id === currentId) return "current";
+    if (visitedSet.has(id)) return "visited";
+    if (visibleSet.has(id)) return "adjacent";
+    return "unknown";
+  }
+
+  const statusStyle = {
+    current:  { bg: "#7c3aed", border: "#c084fc", text: "#fff", glow: "0 0 10px #7c3aed88" },
+    visited:  { bg: "rgba(74,222,128,0.12)", border: "rgba(74,222,128,0.5)", text: "var(--text-h)", glow: "none" },
+    adjacent: { bg: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.18)", text: "var(--text)", glow: "none" },
+    unknown:  { bg: "rgba(0,0,0,0.3)", border: "rgba(255,255,255,0.07)", text: "rgba(255,255,255,0.25)", glow: "none" },
+  };
+
+  return (
+    <div style={{ overflowX: "auto", overflowY: "auto" }}>
+      <svg width={svgW} height={svgH} style={{ display: "block" }}>
+        {/* Edges */}
+        {Object.values(edges).map((e, i) => {
+          const a = nodes[e.from_id];
+          const b = nodes[e.to_id];
+          if (!a || !b) return null;
+          const aVis = isGM || visibleSet.has(e.from_id);
+          const bVis = isGM || visibleSet.has(e.to_id);
+          if (!aVis && !bVis) return null;
+          const { cx: x1, cy: y1 } = nodeCenter(a);
+          const { cx: x2, cy: y2 } = nodeCenter(b);
+          const bothKnown = visitedSet.has(e.from_id) || visitedSet.has(e.to_id);
+          return (
+            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+              stroke={bothKnown ? "rgba(124,58,237,0.55)" : "rgba(255,255,255,0.1)"}
+              strokeWidth={bothKnown ? 2 : 1}
+              strokeDasharray={e.status === "locked" ? "5,4" : "none"}
+            />
+          );
+        })}
+
+        {/* Nodes */}
+        {allNodes.map(n => {
+          const status = isGM ? (n.id === currentId ? "current" : n.visited ? "visited" : "adjacent") : nodeStatus(n.id);
+          if (!isGM && status === "unknown") return null;
+          const { cx, cy } = nodeCenter(n);
+          const x = cx - NODE_W / 2;
+          const y = cy - NODE_H / 2;
+          const s = statusStyle[status];
+          const isObj = n.id === mapState.objective_node_id;
+          const label = status === "unknown" ? "???" : n.name;
+          const shortLabel = label.length > 22 ? label.slice(0, 20) + "…" : label;
+          return (
+            <g key={n.id}>
+              <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={8}
+                fill={s.bg} stroke={isObj ? "#fbbf24" : s.border} strokeWidth={isObj ? 2 : 1}
+                style={{ filter: s.glow !== "none" ? `drop-shadow(0 0 6px #7c3aed)` : "none" }}
+              />
+              {/* icon strip */}
+              <rect x={x} y={y} width={NODE_W} height={12} rx={8} fill={s.border} opacity={0.35} />
+              {n.id === currentId && (
+                <text x={cx} y={y + 9} textAnchor="middle" fontSize={8} fill="#fff" fontWeight="800">● QUI</text>
+              )}
+              {isObj && n.id !== currentId && (
+                <text x={cx} y={y + 9} textAnchor="middle" fontSize={7} fill="#fbbf24" fontWeight="700">★ OBIETTIVO</text>
+              )}
+              <text x={cx} y={y + 26} textAnchor="middle" fontSize={10} fontWeight="700" fill={s.text}>
+                {shortLabel}
+              </text>
+              {status !== "unknown" && n.description && (
+                <text x={cx} y={y + 40} textAnchor="middle" fontSize={8} fill={s.text} opacity={0.65}>
+                  {n.description.slice(0, 28)}{n.description.length > 28 ? "…" : ""}
+                </text>
+              )}
+              {n.contains_enemy && <text x={x + 8} y={y + NODE_H - 6} fontSize={9}>⚔️</text>}
+              {n.contains_clue && <text x={x + 22} y={y + NODE_H - 6} fontSize={9}>🔍</text>}
+              {n.contains_loot && <text x={x + 36} y={y + NODE_H - 6} fontSize={9}>💰</text>}
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* Legenda */}
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", padding: "8px 4px", fontSize: 10, color: "var(--text)", opacity: 0.65 }}>
+        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "#7c3aed", marginRight: 4 }} />Posizione attuale</span>
+        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "rgba(74,222,128,0.4)", marginRight: 4 }} />Visitata</span>
+        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "rgba(255,255,255,0.1)", marginRight: 4 }} />Scoperta</span>
+        {isGM && <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "rgba(251,191,36,0.4)", marginRight: 4 }} />Obiettivo</span>}
+      </div>
+    </div>
+  );
+}
+
 function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
   const [tab, setTab] = useState("clues");
   const [audience, setAudience] = useState("players");
@@ -2893,7 +3026,7 @@ function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, prepa
           <>
             <button style={tabStyle("clues")} onClick={() => setTab("clues")}>Indizi</button>
             <button style={tabStyle("npcs")} onClick={() => setTab("npcs")}>PNG</button>
-            <button style={tabStyle("maps")} onClick={() => setTab("maps")}>Mappe{knownTacticalNodes.length ? ` ${knownTacticalNodes.length}` : ""}</button>
+            <button style={tabStyle("map")} onClick={() => setTab("map")}>Mappa</button>
             <button style={tabStyle("players")} onClick={() => setTab("players")}>Gruppo</button>
             <button style={tabStyle("threads")} onClick={() => setTab("threads")}>Piste{readyThreads.length ? ` ${readyThreads.length}` : ""}</button>
           </>
@@ -2903,7 +3036,8 @@ function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, prepa
             <button style={tabStyle("gm_threads")} onClick={() => setTab("gm_threads")}>Piste</button>
             <button style={tabStyle("gm_clues")} onClick={() => setTab("gm_clues")}>Indizi</button>
             <button style={tabStyle("gm_npcs")} onClick={() => setTab("gm_npcs")}>PNG</button>
-            <button style={tabStyle("gm_maps")} onClick={() => setTab("gm_maps")}>Mappe{tacticalNodes.length ? ` ${tacticalNodes.length}` : ""}</button>
+            <button style={tabStyle("gm_map")} onClick={() => setTab("gm_map")}>Mappa</button>
+            <button style={tabStyle("gm_maps")} onClick={() => setTab("gm_maps")}>Tattiche{tacticalNodes.length ? ` ${tacticalNodes.length}` : ""}</button>
           </>
         )}
       </div>
@@ -3064,6 +3198,10 @@ function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, prepa
           </div>
         )}
 
+        {audience === "gm" && tab === "gm_map" && (
+          <LocationGraph mapState={mapState} isGM={true} />
+        )}
+
         {audience === "gm" && tab === "gm_maps" && (
           <div>
             {tacticalNodes.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessuna zona calda preparata.</div>}
@@ -3099,6 +3237,10 @@ function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, prepa
               );
             })}
           </div>
+        )}
+
+        {tab === "map" && (
+          <LocationGraph mapState={mapState} isGM={false} />
         )}
 
         {tab === "clues" && (
@@ -5252,13 +5394,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       setHistory([{ role: "master", name: "Master", text: res.narrative }]);
       setOptions(res.options || []);
       if (res.state_updates) applyStateUpdates(res.state_updates);
+      if (res.map_state) setMapState(res.map_state);
       setLoading(false);
       setStartupLoading(false);
       if (imageProvider !== "none") fetchSceneImage(res.narrative, 0);
       // fetchGameState popola world_npcs — poi generiamo gli avatar
       const gs = await fetch(`${API_URL}/game/state`).then(r => r.json()).catch(() => ({}));
       if (gs.scene) setSceneState(gs.scene);
-      if (gs.map_state) setMapState(gs.map_state);
+      if (gs.map_state && !res.map_state) setMapState(gs.map_state);
       if (gs.world_npcs) setGameStateData(prev => ({ ...prev, world_npcs: gs.world_npcs }));
       if (gs.players?.length > 0) setPlayers(prev => gs.players.map(gp => {
         const local = prev.find(lp => lp.id === gp.id);
@@ -5364,6 +5507,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     setHistory([...newHistory, { role: "master", name: "Master", text: res.narrative }]);
     setOptions(res.options || []);
 
+    if (res.map_state) setMapState(res.map_state);
     const updates = res.state_updates;
     console.log("[GURPS] state_updates:", JSON.stringify(updates));
     if (updates) {
