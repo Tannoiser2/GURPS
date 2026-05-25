@@ -57,6 +57,12 @@ def _looks_like_section_noise(title: str) -> bool:
         return True
     if low.startswith(("able on ", "the adventure includes", "com or tweet", "disclaimer")):
         return True
+    # Byline / credits / copyright lines (author, designer, artist).
+    if low.startswith(("by ", "written by", "design by", "designed by", "art by", "illustrated by", "copyright", "©")):
+        return True
+    if low.endswith(" by") or " by " in low and len(raw.split()) <= 6 and any(ch.isupper() for ch in raw.split()[-1] if ch.isalpha()):
+        # Catches "ADVENTURE BY J.C. CONNORS" style headings
+        return True
     if raw.endswith((").", ").", ".", ",")):
         return True
     if len(raw.split()) > 8:

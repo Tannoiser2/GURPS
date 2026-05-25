@@ -36,6 +36,21 @@ _PAREN_EG_OPEN_RE = re.compile(
 
 _HYPHEN_BREAK_RE = re.compile(r"(\w)-\n(\w)")
 
+# Token con ogni lettera duplicata (es. "HHaattcchheedd" -> "Hatched") sono
+# artefatti di pdfplumber su testo "stroked"/bold doppio-glifo. Riconosciamo
+# token con lunghezza pari >=4 dove ogni coppia chars[i], chars[i+1] coincide
+# (case-insensitive) e collassiamo a metà.
+_TOKEN_RE = re.compile(r"[A-Za-zÀ-ÿ]{4,}")
+
+
+def _collapse_doubled_token(token: str) -> str:
+    if len(token) < 4 or len(token) % 2:
+        return token
+    for i in range(0, len(token), 2):
+        if token[i].lower() != token[i + 1].lower():
+            return token
+    return token[::2]
+
 _STAT_LINE_RE = re.compile(
     r"^\s*(?:ST|DX|IQ|HT|HP|FP|Will|Per|Basic Speed|Basic Move|Dodge|Parry|Block|SM|DR|AC|HD)\b[:\s]",
     re.IGNORECASE | re.MULTILINE,
@@ -54,6 +69,10 @@ def _strip_parentheticals(text: str) -> str:
 
 def _dehyphenate(text: str) -> str:
     return _HYPHEN_BREAK_RE.sub(r"\1\2", text)
+
+
+def _collapse_doubled_letters(text: str) -> str:
+    return _TOKEN_RE.sub(lambda m: _collapse_doubled_token(m.group(0)), text)
 
 
 def _join_column_breaks(text: str) -> str:
@@ -128,6 +147,7 @@ def clean_pdf_text(text: str) -> str:
         return ""
     text = _strip_parentheticals(text)
     text = _dehyphenate(text)
+    text = _collapse_doubled_letters(text)
     text = _strip_stat_lines(text)
     text = _join_column_breaks(text)
     text = re.sub(r"[ \t]+\n", "\n", text)

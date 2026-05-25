@@ -47,6 +47,22 @@ class PdfCleanupTests(unittest.TestCase):
         text = "Clean prose with no artifacts."
         self.assertEqual(clean_pdf_text(clean_pdf_text(text)), clean_pdf_text(text))
 
+    def test_collapses_doubled_letter_tokens(self):
+        # pdfplumber stroked-text artifact
+        text = "TThheeyy ffrroomm tthhee CCoommeett are HHaattcchheedd."
+        cleaned = clean_pdf_text(text)
+        self.assertIn("They from the Comet", cleaned)
+        self.assertIn("Hatched", cleaned)
+        self.assertNotIn("HHaattcchheedd", cleaned)
+
+    def test_preserves_normal_double_letters(self):
+        # Words like "letter", "look", "off" must survive unchanged.
+        text = "The book looks off in the letter."
+        cleaned = clean_pdf_text(text)
+        self.assertIn("book", cleaned)
+        self.assertIn("looks", cleaned)
+        self.assertIn("letter", cleaned)
+
 
 class GurpsActorDescriptionTests(unittest.TestCase):
     def test_npc_description_uses_preceding_paragraph_not_stat_block(self):
