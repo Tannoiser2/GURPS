@@ -5007,7 +5007,7 @@ def generate_opening_scene(definition, players: list[dict]) -> str:
         threat_desc = f"Pressione: {ps.label or ''} — {ps.description or ''}".strip(" —")
     elif definition.event_clocks:
         ec = definition.event_clocks[0]
-        threat_desc = f"Clock attivo: {ec.label or ''} — {ec.trigger_condition or ''}".strip(" —")
+        threat_desc = f"Clock attivo: {ec.label or ''} — {ec.consequence or ''}".strip(" —")
 
     prompt = f"""Sei il Narratore di un GDR GURPS. Devi scrivere la SCENA D'APERTURA dell'avventura.
 
