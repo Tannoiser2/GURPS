@@ -29,6 +29,21 @@ class LlmClassifierMergeTests(unittest.TestCase):
     noir investigation that the heuristic mislabels as wilderness_sandbox.
     """
 
+    def setUp(self):
+        super().setUp()
+        # Keep the other LLM extractors offline so we only exercise the
+        # classifier here. Without these stubs the compile path would fire
+        # real Claude calls when the dev shell exports the opt-in env vars.
+        for target in (
+            "App.adventure_compiler.extract_clues_with_llm",
+            "App.adventure_compiler.enrich_actors_with_llm",
+            "App.adventure_compiler.build_deduction_graph_with_llm",
+            "App.adventure_compiler.synthesize_narrative_with_llm",
+        ):
+            p = patch(target, return_value=None)
+            p.start()
+            self.addCleanup(p.stop)
+
     def test_llm_metadata_overrides_heuristic_archetype(self):
         fake_llm = {
             "genre": "detective_classico",

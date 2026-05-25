@@ -417,6 +417,29 @@ def _match_existing_actor(name: str, existing: list[dict]) -> int | None:
     return None
 
 
+def _call_actor_batch(claude_service, prompt: str, *, max_tokens: int) -> list[dict] | None:
+    """Single LLM call returning the list of actor dicts, or None on any
+    failure. Defensive against empty Anthropic content (which surfaces as
+    IndexError in _call_claude when ``response.content`` is empty).
+    """
+    try:
+        raw = claude_service._call_text_model(prompt, max_tokens=max_tokens)
+    except IndexError as exc:
+        # Anthropic returned empty content (rare, transient).
+        print(f"[llm_extractors] actor call ricevuta vuota: {exc}")
+        return None
+    except Exception as exc:
+        print(f"[llm_extractors] actor call fallita: {type(exc).__name__}: {exc}")
+        return None
+    try:
+        parsed = claude_service._extract_json_object(raw)
+    except Exception as exc:
+        print(f"[llm_extractors] parse actor JSON fallito: {exc}")
+        return None
+    items = parsed.get("actors") or []
+    return items if isinstance(items, list) else None
+
+
 def enrich_actors_with_llm(
     text: str,
     structure: dict,
@@ -425,9 +448,10 @@ def enrich_actors_with_llm(
 ) -> list[dict] | None:
     """Enrich regex-extracted NPCs with LLM-derived agendas.
 
-    Returns a new list of NPC dicts (same length as input, in input order)
-    with goal / fear / secret / plans / pressure_response filled from the
-    module's prose. Returns ``None`` when disabled or unavailable.
+    Batches NPCs in groups of 5 — large groups (Uzrah has 16) sometimes get
+    truncated by Anthropic returning empty content. Smaller batches are more
+    reliable and total cost is the same since each NPC contributes the same
+    output tokens.
     """
     if not _llm_extractors_enabled():
         return None
@@ -443,40 +467,33 @@ def enrich_actors_with_llm(
     if not getattr(claude_service, "_text_provider_available", None) or not claude_service._text_provider_available():
         return None
 
-    prompt = _ACTOR_PROMPT.format(
-        title=title or "(senza titolo)",
-        actors=_format_actors_for_prompt(structure),
-        excerpt=_truncate_excerpt(text or "", limit=6000),
-    )
-
-    try:
-        raw = claude_service._call_text_model(prompt, max_tokens=6000)
-    except Exception as exc:
-        print(f"[llm_extractors] actor call fallita: {type(exc).__name__}: {exc}")
-        return None
-    try:
-        parsed = claude_service._extract_json_object(raw)
-    except Exception as exc:
-        print(f"[llm_extractors] parse actor JSON fallito: {exc}")
-        return None
-
-    items = parsed.get("actors") or []
-    if not isinstance(items, list) or not items:
-        return None
-
     enriched = [dict(npc) for npc in existing if isinstance(npc, dict)]
     any_match = False
-    for item in items:
-        normalized = _normalize_actor(item)
-        if not normalized:
+    excerpt = _truncate_excerpt(text or "", limit=6000)
+    BATCH_SIZE = 5
+
+    for batch_start in range(0, len(enriched), BATCH_SIZE):
+        batch = enriched[batch_start:batch_start + BATCH_SIZE]
+        sub_structure = {"npcs": batch}
+        prompt = _ACTOR_PROMPT.format(
+            title=title or "(senza titolo)",
+            actors=_format_actors_for_prompt(sub_structure),
+            excerpt=excerpt,
+        )
+        items = _call_actor_batch(claude_service, prompt, max_tokens=4000)
+        if not items:
             continue
-        idx = _match_existing_actor(normalized["name"], enriched)
-        if idx is None:
-            continue
-        target = enriched[idx]
-        target.update({k: v for k, v in normalized.items() if v not in (None, "", [], {})})
-        target["llm_enriched"] = True
-        any_match = True
+        for item in items:
+            normalized = _normalize_actor(item)
+            if not normalized:
+                continue
+            idx = _match_existing_actor(normalized["name"], enriched)
+            if idx is None:
+                continue
+            target = enriched[idx]
+            target.update({k: v for k, v in normalized.items() if v not in (None, "", [], {})})
+            target["llm_enriched"] = True
+            any_match = True
 
     return enriched if any_match else None
 
@@ -651,3 +668,108 @@ def build_deduction_graph_with_llm(
         if normalized:
             revelations.append(normalized)
     return revelations or None
+
+
+_SYNTHESIS_PROMPT = """Sei un editor di moduli GDR. Devi scrivere la sinossi giocabile di un'avventura per il Master IA.
+
+Titolo: {title}
+Genere/archetipo identificati: {genre} / {archetype}
+Tono: {tone}
+
+Indizi tipizzati (id+tipo+label):
+{clues}
+
+Estratto del modulo (max ~5000 char):
+\"\"\"
+{excerpt}
+\"\"\"
+
+Genera la sinossi nei seguenti campi. NON usare placeholder o frasi vuote tipo "elementi preservati", "senza aggiungere sottotrame": ogni campo deve essere CONCRETO e citare elementi del modulo.
+
+- premise (max 280 char): 2-3 frasi che presentano la situazione iniziale, dove si trovano i PG, cosa stanno per scoprire. Evita frasi promozionali o credits.
+- hidden_truth (max 240 char): la verita centrale che il gruppo deve dedurre. Una frase affermativa, non una domanda.
+- win_condition (max 220 char): cosa devono ottenere/concludere i PG per "vincere", in termini concreti del modulo.
+- threat_description (max 140 char): cosa peggiora se nulla viene fatto. Una frase breve.
+- initial_hook (max 220 char): l'aggancio narrativo iniziale, una scena/situazione che porta i PG nell'azione.
+
+Rispondi SOLO con JSON:
+{{
+  "premise": "...",
+  "hidden_truth": "...",
+  "win_condition": "...",
+  "threat_description": "...",
+  "initial_hook": "..."
+}}
+"""
+
+
+def synthesize_narrative_with_llm(
+    text: str,
+    structure: dict,
+    *,
+    title: str = "",
+    genre: str = "",
+    archetype: str = "",
+    tone: str = "",
+) -> dict | None:
+    """Generate premise / hidden_truth / win_condition / threat_description /
+    initial_hook from the cleaned module text. These four are the user-facing
+    fields of the adventure brief — without an LLM call here the runtime
+    falls back to generic templates that say nothing about the actual story.
+    """
+    if not _llm_extractors_enabled():
+        return None
+    try:
+        from . import claude_service
+    except Exception:
+        return None
+    if not getattr(claude_service, "_text_provider_available", None) or not claude_service._text_provider_available():
+        return None
+
+    clues = (structure or {}).get("clues") or []
+    clue_lines: list[str] = []
+    for clue in clues[:25]:
+        if not isinstance(clue, dict):
+            continue
+        cid = clue.get("id") or ""
+        kind = clue.get("type") or "?"
+        label = (clue.get("label") or "").strip()[:90]
+        if label:
+            clue_lines.append(f"- {cid} [{kind}] {label}")
+    clues_block = "\n".join(clue_lines) or "(nessun indizio disponibile)"
+
+    prompt = _SYNTHESIS_PROMPT.format(
+        title=title or "(senza titolo)",
+        genre=genre or "n/d",
+        archetype=archetype or "n/d",
+        tone=tone or "n/d",
+        clues=clues_block,
+        excerpt=_truncate_excerpt(text or "", limit=5000),
+    )
+
+    try:
+        raw = claude_service._call_text_model(prompt, max_tokens=1200)
+    except Exception as exc:
+        print(f"[llm_extractors] synthesis call fallita: {type(exc).__name__}: {exc}")
+        return None
+    try:
+        parsed = claude_service._extract_json_object(raw)
+    except Exception as exc:
+        print(f"[llm_extractors] parse synthesis JSON fallito: {exc}")
+        return None
+
+    if not isinstance(parsed, dict):
+        return None
+
+    out: dict[str, str] = {}
+    for field, limit in (
+        ("premise", 320),
+        ("hidden_truth", 280),
+        ("win_condition", 260),
+        ("threat_description", 180),
+        ("initial_hook", 260),
+    ):
+        value = str(parsed.get(field) or "").strip()
+        if value:
+            out[field] = value[:limit]
+    return out or None

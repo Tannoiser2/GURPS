@@ -7,7 +7,12 @@ from .archetype_detector import detect_archetypes_from_ai_prompt, detect_archety
 from .data_genres import GENRE_PACKS
 from .genre_constraints import get_genre_profile
 from .llm_classifier import classify_adventure_metadata
-from .llm_extractors import build_deduction_graph_with_llm, enrich_actors_with_llm, extract_clues_with_llm
+from .llm_extractors import (
+    build_deduction_graph_with_llm,
+    enrich_actors_with_llm,
+    extract_clues_with_llm,
+    synthesize_narrative_with_llm,
+)
 from .narrative_archetypes import get_archetype
 from .pdf_structure_extractor import extract_pdf_structure, extract_pdf_structure_from_pages
 from .preservation_policy import build_preservation_policy
@@ -962,6 +967,20 @@ def _compile_pdf_structure_to_runtime(
     )
     if runtime_profile_hint:
         raw["runtime_profiles"] = [runtime_profile_hint]
+    llm_meta = archetype_profile.get("llm_metadata") or {}
+    synthesis = synthesize_narrative_with_llm(
+        text,
+        structure,
+        title=title,
+        genre=genre_hint or llm_meta.get("genre", ""),
+        archetype=archetype_profile.get("primary_archetype", ""),
+        tone=llm_meta.get("tone", ""),
+    )
+    if synthesis:
+        for key, value in synthesis.items():
+            raw[key] = value
+    if llm_meta.get("tone"):
+        raw["tone"] = llm_meta["tone"]
     return compile_from_raw_structure(
         raw,
         source_type="pdf_text",
@@ -1030,6 +1049,20 @@ def compile_structured_text_to_runtime(text: str, *, title: str = "", genre_hint
     raw["source_mode"] = "raw_text"
     if runtime_profile_hint:
         raw["runtime_profiles"] = [runtime_profile_hint]
+    llm_meta = archetype_profile.get("llm_metadata") or {}
+    synthesis = synthesize_narrative_with_llm(
+        text,
+        structure,
+        title=title,
+        genre=genre_hint or llm_meta.get("genre", ""),
+        archetype=archetype_profile.get("primary_archetype", ""),
+        tone=llm_meta.get("tone", ""),
+    )
+    if synthesis:
+        for key, value in synthesis.items():
+            raw[key] = value
+    if llm_meta.get("tone"):
+        raw["tone"] = llm_meta["tone"]
     return compile_from_raw_structure(
         raw,
         source_type="raw_text",

@@ -6,6 +6,32 @@ from App import llm_extractors
 from App.adventure_compiler import compile_pdf_to_runtime
 
 
+def _stub_synthesis(*args, **kwargs):  # keep narrative synthesis offline in tests
+    return None
+
+
+class _OfflineLlmTestCase(unittest.TestCase):
+    """Base class that keeps the compile path hermetic even when the dev's
+    shell exports ``GURPS_ENABLE_LLM_EXTRACTORS``. Each test starts with the
+    env var unset and any non-explicitly-mocked extractor stubbed.
+    """
+
+    def setUp(self):
+        super().setUp()
+        for key in ("GURPS_ENABLE_LLM_EXTRACTORS", "GURPS_ENABLE_LLM_CLASSIFIER"):
+            self._patch_env = patch.dict(os.environ, {key: ""}, clear=False)
+            self._patch_env.start()
+            self.addCleanup(self._patch_env.stop)
+            os.environ.pop(key, None)
+        for target in (
+            "App.adventure_compiler.synthesize_narrative_with_llm",
+            "App.adventure_compiler.build_deduction_graph_with_llm",
+        ):
+            p = patch(target, return_value=None)
+            p.start()
+            self.addCleanup(p.stop)
+
+
 class LlmExtractorGuardTests(unittest.TestCase):
     def test_disabled_by_default_returns_none(self):
         os.environ.pop("GURPS_ENABLE_LLM_EXTRACTORS", None)
@@ -21,7 +47,7 @@ class LlmExtractorGuardTests(unittest.TestCase):
                 )
 
 
-class LlmClueMergeTests(unittest.TestCase):
+class LlmClueMergeTests(_OfflineLlmTestCase):
     def test_llm_clues_enrich_structure_and_appear_in_definition(self):
         fake_merged = [
             {
@@ -88,7 +114,7 @@ class LlmClueMergeTests(unittest.TestCase):
         self.assertTrue(any("scontrino" in l.lower() for l in labels))
 
 
-class LlmActorEnrichmentTests(unittest.TestCase):
+class LlmActorEnrichmentTests(_OfflineLlmTestCase):
     def test_disabled_by_default_returns_none(self):
         os.environ.pop("GURPS_ENABLE_LLM_EXTRACTORS", None)
         self.assertIsNone(
