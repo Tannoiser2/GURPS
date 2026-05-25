@@ -22,8 +22,8 @@ Roadmap viva delle migliorie su compiler PDF→runtime e game engine, partendo d
 
 ## Pipeline — residui
 
-- [ ] **P4** — Faction relationship matrix LLM (oggi `factions: []` quasi sempre vuoto su moduli con fazioni implicite)
-- [ ] **P5** — Source-aware finale: cercare boxed_text/sezione "ending|conclusion|risoluzione" per generare `FinaleCondition.concrete_choice`
+- [x] **P4** — `extract_factions_with_llm()`: estrae fazioni con agenda, status (quiet→dominant), pressure 0-5, allies/enemies/key_npc. Collegato al compiler dopo actor enrichment in entrambi i percorsi PDF e raw_text.
+- [x] **P5** — `extract_finale_conditions_with_llm()`: cerca sezioni ending/conclusion/risoluzione nel PDF (regex + boxed text + tail fallback), genera FinaleCondition con concrete_choice specifiche. Collegato al compiler dopo synthesis.
 
 ## Engine — completato
 
@@ -42,5 +42,5 @@ Roadmap viva delle migliorie su compiler PDF→runtime e game engine, partendo d
 - [x] Suite esistente 99 verdi in 0.05s offline
 - [x] `test_scene_context.py`: 11 test — filtro scena, tollerante prefix match, azioni, attori
 - [x] `test_clue_progression.py`: 9 test — successo/parziale/fallimento → outcome corretto
-- [ ] `test_action_generation.py`: fixture Thrusher Manor → action list contiene `possible_actions` LLM, non "Cercare X a Y"
+- [x] `test_action_generation.py`: 8 test — LLM labels, filtro location, global clue, actor filter, move actions, discovered skip, fallback explore, skill_hints
 - [ ] Integration: failure check su Thrusher → clue resta nascosto + narrativa non rivela contenuto

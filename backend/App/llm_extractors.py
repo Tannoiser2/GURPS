@@ -818,3 +818,232 @@ def synthesize_narrative_with_llm(
         if value:
             out[field] = value[:limit]
     return out or None
+
+
+_FACTION_PROMPT = """Sei un analista di moduli GDR. Estrai le FAZIONI o gruppi di potere presenti in questa avventura.
+
+Una fazione è un gruppo organizzato con un'agenda propria: gilda, culto, nobile casata, banda criminale, fazione politica, organizzazione militare, setta, corporazione. NON includere singoli NPC come fazione (a meno che non guidino un gruppo), né fazioni implicite senza nome.
+
+Per ogni fazione restituisci un JSON object con:
+- id: stringa snake_case (es. "gilda_ladri", "culto_drago_nero")
+- name: nome della fazione (max 60 char)
+- agenda: cosa vuole ottenere CONCRETAMENTE in questa avventura (max 200 char)
+- status: uno tra "quiet" | "watching" | "active" | "escalating" | "dominant" | "weakened" | "broken"
+- pressure: intero 0-5 (quanto attivamente interferisce con i PG: 0=passiva, 5=antagonista principale)
+- allies: lista di id di fazioni alleate (può essere vuota)
+- enemies: lista di id di fazioni nemiche (può essere vuota)
+- key_npc: nome del NPC leader o rappresentante principale (stringa, opzionale)
+
+Restituisci un JSON array. Se non ci sono fazioni identificabili, restituisci [].
+
+Titolo modulo: {title}
+Genere: {genre}
+
+NPC estratti (per riconoscere appartenenze):
+{npcs}
+
+Estratto del modulo:
+\"\"\"
+{excerpt}
+\"\"\"
+
+Rispondi SOLO con il JSON array, senza testo aggiuntivo."""
+
+
+def extract_factions_with_llm(
+    text: str,
+    structure: dict,
+    *,
+    title: str = "",
+    genre: str = "",
+    existing_actors: list[dict] | None = None,
+) -> list[dict] | None:
+    """Estrae fazioni e gruppi di potere dal testo del modulo.
+
+    Ritorna una lista di dict compatibili con FactionState, o None se
+    LLM disabilitato / errore / nessuna fazione trovata.
+    """
+    if not _llm_extractors_enabled():
+        return None
+
+    from .claude_service import _call_active_provider  # type: ignore[attr-defined]
+
+    excerpt = text[:6000]
+    npcs_text = "\n".join(
+        f"- {a.get('name','')} ({a.get('role','')}): {(a.get('agenda') or a.get('goal') or '')[:80]}"
+        for a in (existing_actors or [])[:20]
+        if a.get("name")
+    ) or "Nessuno estratto."
+
+    prompt = _FACTION_PROMPT.format(
+        title=title or "Sconosciuto",
+        genre=genre or "avventura",
+        npcs=npcs_text,
+        excerpt=excerpt,
+    )
+
+    try:
+        from .claude_service import _call_text_model  # type: ignore[attr-defined]
+        raw = _call_text_model(prompt, max_tokens=1200)
+    except Exception:
+        return None
+
+    from .claude_service import _extract_json_object  # type: ignore[attr-defined]
+    import json, re as _re
+    # Estrai array JSON dalla risposta
+    array_match = _re.search(r"\[.*\]", raw, _re.DOTALL)
+    if not array_match:
+        return None
+    try:
+        parsed = json.loads(array_match.group(0))
+    except Exception:
+        return None
+    if not isinstance(parsed, list):
+        return None
+
+    valid_statuses = {"quiet", "watching", "active", "escalating", "dominant", "weakened", "broken"}
+    factions: list[dict] = []
+    seen_ids: set[str] = set()
+    for i, f in enumerate(parsed):
+        if not isinstance(f, dict):
+            continue
+        name = str(f.get("name") or "").strip()
+        if not name:
+            continue
+        fid = str(f.get("id") or "").strip()
+        if not fid:
+            fid = "faction_" + "_".join(name.lower().split())[:30]
+        if fid in seen_ids:
+            continue
+        seen_ids.add(fid)
+        status = str(f.get("status") or "quiet")
+        if status not in valid_statuses:
+            status = "quiet"
+        pressure = int(f.get("pressure") or 0)
+        pressure = max(0, min(5, pressure))
+        factions.append({
+            "id": fid,
+            "name": name,
+            "agenda": str(f.get("agenda") or "")[:200],
+            "status": status,
+            "pressure": pressure,
+            "allies": [str(x) for x in (f.get("allies") or []) if x],
+            "enemies": [str(x) for x in (f.get("enemies") or []) if x],
+            "key_npc": str(f.get("key_npc") or "")[:80],
+            "source_status": "llm_extracted",
+        })
+    return factions or None
+
+
+# ── P5: Source-aware finale ────────────────────────────────────────────────
+
+import re as _re_module
+
+_FINALE_SECTION_RE = _re_module.compile(
+    r"(?:^|\n)\s*(?:#{1,3}|={3,}|-{3,})?\s*"
+    r"(?:ending|conclusion|risoluzione|finale|resolution|denouement|aftermath|rewards?|epilog(?:ue)?)"
+    r"\b[^\n]{0,60}\n"
+    r"(?P<body>(?:.|\n){100,2500}?)(?=\n\s*(?:#{1,3}|={3,}|-{3,})\s*\w|\Z)",
+    _re_module.IGNORECASE,
+)
+
+_BOXED_TEXT_RE = _re_module.compile(
+    r"(?:boxed text|read(?:\s+aloud)?|letto ad alta voce|testo da leggere)[:\s]*\n"
+    r"(?P<body>(?:.|\n){60,800}?)(?=\n\s*\n\s*\n|\Z)",
+    _re_module.IGNORECASE,
+)
+
+_FINALE_SYNTHESIS_PROMPT = """Sei un analista di moduli GDR. Analizza queste sezioni finali di un'avventura e produci una lista di SCELTE CONCRETE che i personaggi giocanti possono fare nel momento culminante.
+
+Una scelta concreta è un'azione decisiva, non una generica risoluzione: "sfidare il conte alla presenza dei testimoni usando il documento trovato nella cripta", "avvelenare la fonte prima dell'alba", "convincere il magistrato usando tre prove concrete". Dev'essere specifica per questa avventura.
+
+Restituisci un JSON array di oggetti, ognuno con:
+- label: descrizione breve del finale (max 80 char)
+- concrete_choice: la scelta/azione concreta in italiano (max 220 char)
+- method: come i PG la eseguono meccanicamente (max 120 char)
+- required_clues_hint: lista di 0-3 tipi di prove necessarie (stringhe)
+
+Titolo avventura: {title}
+Obiettivo principale: {objective}
+
+Sezioni finali trovate:
+\"\"\"
+{finale_text}
+\"\"\"
+
+Restituisci SOLO il JSON array."""
+
+
+def extract_finale_conditions_with_llm(
+    text: str,
+    structure: dict,
+    *,
+    title: str = "",
+    objective: str = "",
+) -> list[dict] | None:
+    """P5: Cerca sezioni ending/conclusion nel testo e genera FinaleCondition concrete.
+
+    Ritorna lista di dict con label/concrete_choice/method pronti per il compiler,
+    o None se LLM disabilitato / nessuna sezione finale trovata.
+    """
+    if not _llm_extractors_enabled():
+        return None
+
+    # Cerca sezioni finale nel testo
+    finale_chunks: list[str] = []
+    for m in _FINALE_SECTION_RE.finditer(text):
+        chunk = m.group("body").strip()
+        if len(chunk) >= 80:
+            finale_chunks.append(chunk[:1200])
+    for m in _BOXED_TEXT_RE.finditer(text):
+        chunk = m.group("body").strip()
+        if len(chunk) >= 60:
+            finale_chunks.append(chunk[:600])
+    # Ultimi 800 char del testo come fallback (spesso il finale è in coda)
+    if not finale_chunks and len(text) > 800:
+        finale_chunks.append(text[-1200:].strip())
+    if not finale_chunks:
+        return None
+
+    finale_text = "\n\n---\n\n".join(finale_chunks[:3])
+
+    prompt = _FINALE_SYNTHESIS_PROMPT.format(
+        title=title or "Sconosciuto",
+        objective=objective or "completare l'avventura",
+        finale_text=finale_text,
+    )
+
+    try:
+        from .claude_service import _call_text_model  # type: ignore[attr-defined]
+        raw = _call_text_model(prompt, max_tokens=800)
+    except Exception:
+        return None
+
+    import json
+    array_match = _re_module.search(r"\[.*\]", raw, _re_module.DOTALL)
+    if not array_match:
+        return None
+    try:
+        parsed = json.loads(array_match.group(0))
+    except Exception:
+        return None
+
+    if not isinstance(parsed, list):
+        return None
+
+    finales: list[dict] = []
+    for item in parsed:
+        if not isinstance(item, dict):
+            continue
+        label = str(item.get("label") or "").strip()
+        choice = str(item.get("concrete_choice") or "").strip()
+        if not label or not choice:
+            continue
+        finales.append({
+            "label": label[:80],
+            "concrete_choice": choice[:220],
+            "method": str(item.get("method") or "")[:120],
+            "required_clues_hint": [str(x) for x in (item.get("required_clues_hint") or [])[:3]],
+            "source_status": "llm_extracted",
+        })
+    return finales or None

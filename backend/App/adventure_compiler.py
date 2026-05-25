@@ -11,6 +11,8 @@ from .llm_extractors import (
     build_deduction_graph_with_llm,
     enrich_actors_with_llm,
     extract_clues_with_llm,
+    extract_factions_with_llm,
+    extract_finale_conditions_with_llm,
     synthesize_narrative_with_llm,
 )
 from .narrative_archetypes import get_archetype
@@ -995,6 +997,11 @@ def _compile_pdf_structure_to_runtime(
                 truths[0]["statement"] = synthesis["hidden_truth"]
             else:
                 raw["core_truths"] = [{"id": "truth_pdf", "statement": synthesis["hidden_truth"], "reveal_clues": []}]
+    # P5: finale conditions con scelte concrete dal testo sorgente
+    _obj_label = (raw.get("objectives") or [{}])[0].get("label") or raw.get("win_condition") or ""
+    finale_from_source = extract_finale_conditions_with_llm(text, structure, title=title, objective=_obj_label)
+    if finale_from_source:
+        raw["finale_conditions"] = finale_from_source
     if llm_meta.get("tone"):
         raw["tone"] = llm_meta["tone"]
     return compile_from_raw_structure(
@@ -1047,6 +1054,13 @@ def compile_structured_text_to_runtime(text: str, *, title: str = "", genre_hint
     if enriched_actors is not None:
         structure = dict(structure)
         structure["npcs"] = enriched_actors
+    extracted_factions = extract_factions_with_llm(
+        text, structure, title=title, genre=genre_hint or "",
+        existing_actors=structure.get("npcs") or [],
+    )
+    if extracted_factions is not None:
+        structure = dict(structure)
+        structure["factions"] = extracted_factions
     deduction_revelations = build_deduction_graph_with_llm(text, structure, title=title)
     if deduction_revelations is not None:
         structure = dict(structure)
@@ -1093,6 +1107,11 @@ def compile_structured_text_to_runtime(text: str, *, title: str = "", genre_hint
                 truths[0]["statement"] = synthesis["hidden_truth"]
             else:
                 raw["core_truths"] = [{"id": "truth_pdf", "statement": synthesis["hidden_truth"], "reveal_clues": []}]
+    # P5: finale conditions con scelte concrete dal testo sorgente
+    _obj_label = (raw.get("objectives") or [{}])[0].get("label") or raw.get("win_condition") or ""
+    finale_from_source = extract_finale_conditions_with_llm(text, structure, title=title, objective=_obj_label)
+    if finale_from_source:
+        raw["finale_conditions"] = finale_from_source
     if llm_meta.get("tone"):
         raw["tone"] = llm_meta["tone"]
     return compile_from_raw_structure(
