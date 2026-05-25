@@ -23,6 +23,13 @@ from .data_genres import GENRE_PACKS
 from .data_roles import ROLE_LIBRARY, THEME_FAMILY_ROLE_OVERRIDE
 from .data_equipment import MISSION_EQUIPMENT_BONUS, ENVIRONMENT_EQUIPMENT_BONUS
 from .data_skills import SKILL_TO_EFFECT_TYPE, SKILLS_BY_STAT, VALID_SKILLS, default_skill_for, skill_prompt_text, reconcile_effect_type, infer_effect_type_from_text, skill_display, normalize_skill, stat_display
+from .data_advantages import trait_story_notes, traits_requiring_self_control
+from .adventure_runtime import build_adventure_runtime, runtime_prompt_context
+from .narrative_director import director_prompt_context, make_director_decision
+from .state_validator import merge_engine_and_ai_updates, validate_runtime_integrity, validate_ai_state_updates
+from .world_simulator import simulate_world_state
+from .adventure_compiler import compile_ai_generated_to_runtime, compile_from_raw_structure, compile_pdf_to_runtime, compile_structured_text_to_runtime
+from .pdf_structure_extractor import extract_pdf_structure
 
 API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 GOOGLE_AI_STUDIO_KEY = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
@@ -31,6 +38,8 @@ MODEL_NAME = "claude-sonnet-4-5"
 OPENAI_TEXT_MODEL = "gpt-4o"
 OPENAI_IMAGE_MODEL = "dall-e-3"
 OPENAI_IMAGE_EDIT_MODEL = "gpt-image-1"
+PDF_COMPILER_MAX_INPUT_CHARS = int(os.getenv("PDF_COMPILER_MAX_INPUT_CHARS", "180000"))
+PDF_COMPILER_MAX_OUTPUT_TOKENS = int(os.getenv("PDF_COMPILER_MAX_OUTPUT_TOKENS", "16000"))
 
 _OPENAI_IMPORT_ERROR = ""
 try:
@@ -119,13 +128,32 @@ def _extract_json_object(raw_text: str) -> dict:
         last_safe = max(candidate.rfind('",'), candidate.rfind('"\n'), candidate.rfind("],"), candidate.rfind("},"))
         if last_safe > 0:
             candidate = candidate[:last_safe + 1].rstrip().rstrip(",")
-            # Chiudi parentesi quadre e graffe ancora aperte
-            opens_curly = candidate.count("{") - candidate.count("}")
-            opens_square = candidate.count("[") - candidate.count("]")
-            if opens_square > 0:
-                candidate = candidate + ("]" * opens_square)
-            if opens_curly > 0:
-                candidate = candidate + ("}" * opens_curly)
+            # Chiudi parentesi nell'ordine corretto seguendo lo stack reale.
+            # Un naive ']' * n + '}' * m sbaglia quando l'ultimo oggetto aperto
+            # e dentro un array (caso {"clues": [{...truncated]}).
+            stack: list[str] = []
+            in_string = False
+            escape = False
+            for ch in candidate:
+                if escape:
+                    escape = False
+                    continue
+                if ch == "\\":
+                    escape = True
+                    continue
+                if ch == '"':
+                    in_string = not in_string
+                    continue
+                if in_string:
+                    continue
+                if ch == "{":
+                    stack.append("}")
+                elif ch == "[":
+                    stack.append("]")
+                elif ch in "}]" and stack and stack[-1] == ch:
+                    stack.pop()
+            if stack:
+                candidate = candidate + "".join(reversed(stack))
             try:
                 parsed = json.loads(candidate)
                 print(f"[_extract_json_object] recuperato JSON troncato ({len(raw_text)} char originali)")
@@ -204,7 +232,7 @@ def _clean_canon_text(value: str, limit: int | None = None) -> str:
 def _claude_client() -> anthropic.Anthropic | None:
     if not API_KEY:
         return None
-    return anthropic.Anthropic(api_key=API_KEY)
+    return anthropic.Anthropic(api_key=API_KEY, timeout=120.0)
 
 
 def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
@@ -222,7 +250,7 @@ def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
 def _call_openai(prompt: str, max_tokens: int = 1200) -> str:
     if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
         raise RuntimeError("API key OpenAI non configurata o openai non installato")
-    client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
+    client = _openai_module.OpenAI(api_key=OPENAI_API_KEY, timeout=120.0)
     response = client.chat.completions.create(
         model=OPENAI_TEXT_MODEL,
         max_tokens=max_tokens,
@@ -266,38 +294,6 @@ def get_phase_blueprint(phase_index: int, environment_type: str, mission_type: s
         "zone_modifier": "",
         "is_final_phase": base["is_final_phase"],
     }
-
-
-def choose_setting_package(genre: str = "sci_fi", recent_signatures: list[str] | None = None) -> dict:
-    pack = GENRE_PACKS[genre]
-    recent_signatures = recent_signatures or []
-    candidates = []
-    families = pack.get("families", {})
-    for _ in range(50):
-        family_name = random.choice(list(families.keys())) if families else "base"
-        family = families.get(family_name, {})
-        ambiente = random.choice(family.get("ambienti", pack["ambienti"]))
-        minaccia = random.choice(family.get("minacce", pack["minacce"]))
-        obiettivo = random.choice(family.get("obiettivi", pack["obiettivi"]))
-        tono = random.choice(family.get("toni", pack["toni"]))
-        twist = random.choice(family.get("twists", pack["twists"]))
-        sig = f"{genre}|{family_name}|{ambiente}|{minaccia}|{obiettivo}|{tono}|{twist}"
-        penalty = sum(1 for s in recent_signatures if family_name in s or ambiente in s or minaccia in s or twist in s or tono in s)
-        candidates.append({
-            "genre": genre,
-            "theme_family": family_name,
-            "environment_type": ambiente,
-            "threat_type": minaccia,
-            "mission_type": obiettivo,
-            "tone": tono,
-            "twist": twist,
-            "forbidden_elements": pack["blacklist_base"][:] + family.get("blacklist_add", []),
-            "narrative_blacklist": pack.get("narrative_blacklist", [])[:],
-            "signature": sig,
-            "penalty": penalty,
-        })
-    candidates.sort(key=lambda x: x["penalty"])
-    return random.choice(candidates[:10])
 
 
 def mission_scaling(active_slots: int) -> dict:
@@ -664,6 +660,79 @@ def _looks_like_refusal(raw: str) -> bool:
         return False
     low = text.lower()[:400]
     return any(p in low for p in _REFUSAL_PATTERNS)
+
+
+def _safe_master_refusal_fallback(
+    *,
+    adventure: dict | None,
+    active_name: str = "Il gruppo",
+    player_action: str = "",
+    prerolled: dict | None = None,
+    active_player_id: int = 0,
+    start: bool = False,
+) -> dict:
+    """Risposta deterministica quando il provider rifiuta, senza mostrare il rifiuto al tavolo."""
+    title = (adventure or {}).get("title") or "l'avventura"
+    premise = (adventure or {}).get("premise") or "La situazione resta tesa e piena di segnali contraddittori."
+    clues = [c for c in ((adventure or {}).get("clues") or []) if isinstance(c, dict)]
+    first_clue = clues[0] if clues else {}
+    clue_id = first_clue.get("id")
+    if start:
+        narrative = (
+            f"{premise} La scena si apre con un dettaglio concreto che chiede attenzione: "
+            f"{first_clue.get('text') or 'un elemento fuori posto collega il luogo alla verita nascosta'}. "
+            "Il Master mantiene il canovaccio stabile e invita il gruppo a scegliere come procedere."
+        )
+        threat = 0
+    else:
+        outcome = (prerolled or {}).get("outcome", "esito incerto")
+        success = bool((prerolled or {}).get("success", False))
+        if success:
+            narrative = (
+                f"{active_name} porta avanti l'azione dichiarata: {player_action}. {{{{ROLL}}}} "
+                f"L'esito e {outcome}: la squadra ottiene un avanzamento concreto senza introdurre nuovi misteri, "
+                f"collegando la scena a {first_clue.get('text') or title}."
+            )
+            threat = 0
+        else:
+            narrative = (
+                f"{active_name} tenta: {player_action}. {{{{ROLL}}}} "
+                f"L'esito e {outcome}: la situazione non si blocca, ma il costo aumenta e la minaccia guadagna terreno."
+            )
+            threat = 1
+    updates = {
+        "clue_progress": [{"clue_id": clue_id, "note": "Avanzamento automatico sul primo indizio canonico disponibile.", "ticks": 1}] if clue_id else [],
+        "clues_found": [],
+        "discovered_clues": [],
+        "npc_updates": [],
+        "new_threads": [],
+        "closed_threads": [],
+        "threat_increase": threat,
+        "activate_combat": False,
+        "combat_scene": None,
+        "combat_over": False,
+        "story_over": False,
+        "victory": False,
+        "fallback_reason": "provider_refusal",
+    }
+    return {
+        "narrative": narrative,
+        "roll": None if start else {
+            "rolled": (prerolled or {}).get("rolled", 0),
+            "target": (prerolled or {}).get("effective_skill", 10),
+            "skill": (prerolled or {}).get("skill", ""),
+            "skill_name": (prerolled or {}).get("skill", ""),
+            "success": bool((prerolled or {}).get("success", False)),
+            "margin": (prerolled or {}).get("margin", 0),
+            "critical": bool((prerolled or {}).get("critical", False)),
+        },
+        "options": [
+            {"text": "Esaminare l'indizio piu concreto nella scena", "skill": "investigare", "skill_level": 0, "stat": "intelligenza", "player_id": active_player_id},
+            {"text": "Confrontare un PNG collegato alla pista", "skill": "negoziare", "skill_level": 0, "stat": "empatia", "player_id": active_player_id},
+            {"text": "Azione custom", "skill": "", "skill_level": 0, "stat": "", "player_id": active_player_id},
+        ],
+        "state_updates": updates,
+    }
 
 
 def _place_with_preposition(place: str) -> str:
@@ -2256,155 +2325,6 @@ def build_narrative(scene: str, technical_log: str) -> str:
         return technical_log
 
 
-# ── Generazione missione ──────────────────────────────────────────────────────
-
-_FAMILY_MISSION_FRAMES: dict[str, str] = {
-    # sci_fi
-    "frontiera": "Missione di sopravvivenza o decisione morale in un avamposto isolato. Il titolo deve evocare la periferia, la scarsità o la scelta impossibile. L'obiettivo deve coinvolgere persone specifiche da salvare, risorse da garantire o accordi da rompere.",
-    "politico": "Missione di negoziazione, intercettazione o smascheramento in un contesto di potere. Il titolo deve evocare accordi o segreti. L'obiettivo deve nominare l'interlocutore chiave e la posta in gioco politica concreta.",
-    "metafisico": "Missione di esplorazione o contenimento di un fenomeno incomprensibile. Il titolo deve evocare l'anomalia o l'ignoto. L'obiettivo deve specificare cosa va capito o bloccato e dove esattamente.",
-    "biohorror": "Missione di quarantena, analisi o recupero in zona compromessa da un organismo. Il titolo deve evocare la contaminazione o il perimetro. L'obiettivo deve citare la zona specifica e il tipo di campione, dato o persona da recuperare.",
-    "archeologico": "Missione di recupero, sabotaggio o protezione in un sito con segreti pericolosi. Il titolo deve evocare il relitto o la scoperta. L'obiettivo deve citare l'artefatto o i dati e chi vuole arrivarci prima.",
-    # fantasy
-    "mitico": "Missione di rito, contatto o purificazione con una forza divina o cosmica. Il titolo deve evocare il sacro o il decaduto. L'obiettivo cita il luogo di potere e cosa va ripristinato o spezzato.",
-    "gotico": "Missione di liberazione, esorcismo o resa dei conti con un peso del passato. Il titolo deve evocare la maledizione o il segreto ereditato. L'obiettivo cita la struttura fisica e il ciclo da spezzare.",
-    "selvaggio": "Missione di caccia, ricognizione o recupero in un ambiente naturale ostile e vivo. Il titolo deve evocare la creatura o la foresta. L'obiettivo cita la bestia o il luogo e la ragione per cui va affrontata ora.",
-    "occulto": "Missione di sabotaggio, furto o infiltrazione in una struttura segreta che nasconde un piano. Il titolo deve evocare il culto o il segreto. L'obiettivo cita il rituale o l'artefatto e il momento limite.",
-    # mystery_horror
-    "investigativo": "Missione di indagine su un crimine già avvenuto in un ambiente chiuso. Il titolo deve evocare il caso o la vittima. L'obiettivo cita i sospettati o le prove da trovare e il luogo dell'indagine.",
-    "psicologico": "Missione di sopravvivenza mentale in un ambiente che altera la percezione. Il titolo deve evocare la distorsione o il dubbio. L'obiettivo cita cosa va compreso o spezzato e a quale costo.",
-    "occulto": "Missione di contenimento o investigazione di un rito in corso o appena concluso. Il titolo deve evocare il rituale o la presenza. L'obiettivo cita la comunità, il luogo e la finestra temporale.",
-    # ww2
-    "resistenza": "Missione di sabotaggio o salvataggio in zona occupata con il rischio di un infiltrato. Il titolo deve evocare l'operazione o il costo umano. L'obiettivo cita il bersaglio militare e il vincolo umano che rende difficile colpirlo.",
-    "fronte": "Missione tattica sotto ordini discutibili con un obiettivo militare preciso. Il titolo deve evocare la linea o la battaglia. L'obiettivo cita il punto geografico da difendere o colpire e la finestra di tempo.",
-    # romance
-    "nostalgico": "Missione emotiva di recupero o chiarimento di un legame interrotto. Il titolo deve evocare il ricordo o l'occasione perduta. L'obiettivo cita la persona e il momento o luogo del confronto.",
-    "sociale": "Missione di avvicinamento o protezione sotto pressione esterna. Il titolo deve evocare il momento o il luogo. L'obiettivo cita la situazione sociale e la scelta che cambierà le cose.",
-    # action
-    "assedio": "Missione ad alto rischio in un punto chiave già sotto pressione. Il titolo deve evocare la struttura o l'operazione. L'obiettivo cita il bersaglio fisico, il numero di avversari e il tempo limite.",
-    "caccia": "Missione di inseguimento in movimento su un bersaglio che sa di essere seguito. Il titolo deve evocare la velocità o la tratta. L'obiettivo cita chi va fermato, dove sta andando e perché.",
-    # detective_classico
-    "whodunit": "Missione deduttiva in un ambiente chiuso con sospettati multipli. Il titolo deve evocare il crimine o la residenza. L'obiettivo cita il crimine specifico, i sospettati o le prove da trovare.",
-    "camera_chiusa": "Missione su un crimine impossibile in un ambiente sigillato. Il titolo deve evocare il paradosso. L'obiettivo cita il crimine, il luogo e il meccanismo fisico o umano da scoprire.",
-    # fallback
-    "base": "Missione in un ambiente specifico con un bersaglio concreto e una complicazione imprevista.",
-}
-
-
-def _generate_mission_with_claude(setting_package: dict, scale: dict) -> dict:
-    genre = setting_package["genre"]
-    theme_family = setting_package.get("theme_family", "base")
-    environment_type = setting_package["environment_type"]
-    threat_type = setting_package["threat_type"]
-    mission_type = setting_package["mission_type"]
-    tone = setting_package["tone"]
-    twist = setting_package["twist"]
-    forbidden_elements = setting_package.get("forbidden_elements", [])
-    narrative_blacklist = setting_package.get("narrative_blacklist", [])
-    family_frame = _FAMILY_MISSION_FRAMES.get(theme_family) or _FAMILY_MISSION_FRAMES.get("base", "")
-    blacklist_block = ""
-    if forbidden_elements or narrative_blacklist:
-        lines = []
-        if forbidden_elements:
-            lines.append("Elementi scenici da EVITARE: " + "; ".join(forbidden_elements) + ".")
-        if narrative_blacklist:
-            lines.append("Strutture narrative e tropi da NON usare: " + "; ".join(narrative_blacklist) + ".")
-        blacklist_block = "VINCOLI CREATIVI (rispettali):\n" + "\n".join(lines) + "\n\n"
-    prompt = (
-        f"Sei il creatore di missioni di un gioco da tavolo narrativo in italiano.\n"
-        f"Genere: {genre}. Famiglia tematica: {theme_family}. Tono: {tone}.\n\n"
-        f"PARAMETRI:\n"
-        f"- Tipo missione: {mission_type}\n"
-        f"- Ambiente: {environment_type}\n"
-        f"- Minaccia: {threat_type}\n"
-        f"- Colpo di scena da integrare: {twist}\n\n"
-        f"FRAME PER FAMIGLIA '{theme_family}': {family_frame}\n\n"
-        f"{blacklist_block}"
-        "Genera il pacchetto missione. Rispondi SOLO con questo JSON:\n"
-        "{\n"
-        '  "title": "Titolo evocativo specifico (3-5 parole), coerente con il frame della famiglia tematica",\n'
-        '  "objective": "UN SOLO obiettivo concreto: verbo + oggetto + luogo specifico. Max 20 parole. MAI \'oppure\', MAI due alternative, MAI scelte morali. Cita almeno un nome proprio o luogo preciso.",\n'
-        '  "scene_text": "Situazione di partenza in 2 frasi coerenti col frame: cosa trova la squadra e perché deve agire ora."\n'
-        "}\n\n"
-        "ESEMPI OBIETTIVI SPECIFICI PER FAMIGLIA:\n"
-        '- frontiera: "Garantire l\'evacuazione di 40 coloni dal pozzo minerario prima che le riserve d\'ossigeno di Keilor cedano"\n'
-        '- biohorror: "Recuperare il campione biologico dal laboratorio sigillato senza rompere il perimetro di contenimento"\n'
-        '- investigativo: "Interrogare i quattro presenti alla villa Morrow e smascherare chi ha avvelenato il notaio Edric"\n'
-        '- fronte: "Distruggere il nodo radio sul Ponte Senna prima che l\'alba del 12 renda impossibile l\'estrazione"\n'
-        '- metafisico: "Stabilizzare la frattura temporale nel settore Lambda-7 prima che l\'anomalia inglobi il laboratorio"\n'
-    )
-    raw = _call_text_model(prompt, max_tokens=300)
-    data = _extract_json_object(raw)
-    fallback_titles = {
-        "sci_fi": "Protocollo d'Intercettazione", "fantasy": "L'Ombra sotto la Pietra",
-        "mystery_horror": "Il Dossier Interrotto", "ww2": "Operazione Linea Spezzata",
-        "romance": "Il Momento Sbagliato", "action": "Operazione Zero Ora",
-        "detective_classico": "Il Caso della Villa Silenziosa",
-        "survival_horror": "Settore in Quarantena", "militare": "Linea Spezzata",
-    }
-    title = str(data.get("title", "")).strip() or fallback_titles.get(genre, "Missione Generata")
-    objective = str(data.get("objective", "")).strip() or f"Completare una missione di {mission_type} in {environment_type}."
-    scene_text = str(data.get("scene_text", "")).strip() or f"Nel settore iniziale di {environment_type}, la squadra affronta il primo segnale di {threat_type}."
-    return {
-        "source": _active_source_label(),
-        "mission": {
-            "genre": genre, "theme_family": theme_family, "mission_type": mission_type, "title": title,
-            "objective": objective, "environment_type": environment_type,
-            "threat_type": threat_type, "tone": tone, "twist": twist,
-            "forbidden_elements": setting_package.get("forbidden_elements", []),
-            "mission_target": scale["mission_target"], "max_turns": scale["max_turns"],
-        },
-        "scene": {
-            "scene_text": scene_text,
-            "objective_target": scale["scene_target_min"],
-            "time_limit": scale["time_min"],
-            "starting_threat": scale["starting_threat_min"],
-            "scene_tags": ["inizio", environment_type],
-        },
-    }
-
-
-def generate_mission_package(setting_package: dict, active_slots: int) -> dict:
-    scale = mission_scaling(active_slots)
-    if _text_provider_available():
-        try:
-            return _generate_mission_with_claude(setting_package, scale)
-        except Exception as e:
-            print(f"[generate_mission_package] {_active_source_label()} fallback: {e}")
-    # Fallback hardcoded
-    fallback_titles = {
-        "sci_fi": "Protocollo d'Intercettazione", "fantasy": "L'Ombra sotto la Pietra",
-        "mystery_horror": "Il Dossier Interrotto", "ww2": "Operazione Linea Spezzata",
-        "romance": "Il Momento Sbagliato", "action": "Operazione Zero Ora",
-        "detective_classico": "Il Caso della Villa Silenziosa",
-        "survival_horror": "Settore in Quarantena", "militare": "Linea Spezzata",
-    }
-    return {
-        "source": "fallback",
-        "mission": {
-            "genre": setting_package["genre"],
-            "theme_family": setting_package.get("theme_family", "base"),
-            "mission_type": setting_package["mission_type"],
-            "title": fallback_titles.get(setting_package["genre"], "Missione Generata"),
-            "objective": f"Completare una missione di {setting_package['mission_type']} nell'area {setting_package['environment_type']} affrontando {setting_package['threat_type']}.",
-            "environment_type": setting_package["environment_type"],
-            "threat_type": setting_package["threat_type"],
-            "tone": setting_package["tone"],
-            "twist": setting_package["twist"],
-            "forbidden_elements": setting_package["forbidden_elements"],
-            "mission_target": scale["mission_target"],
-            "max_turns": scale["max_turns"],
-        },
-        "scene": {
-            "scene_text": f"Nel settore iniziale di {setting_package['environment_type']}, la squadra affronta il primo segnale di {setting_package['threat_type']} e deve ottenere un vantaggio immediato.",
-            "objective_target": scale["scene_target_min"],
-            "time_limit": scale["time_min"],
-            "starting_threat": scale["starting_threat_min"],
-            "scene_tags": ["inizio", setting_package["environment_type"]],
-        },
-    }
-
-
 def generate_mission_ending(
     mission_title: str,
     mission_objective: str,
@@ -3342,51 +3262,6 @@ def _generate_scene_with_photos(
     return None
 
 
-_GENRE_TILE_STYLE: dict[str, str] = {
-    "sci_fi":             "top-down floor plan view inside a spaceship, metallic grating floor, blue neon ambient lighting, sci-fi, technical schematic aesthetic, dark background",
-    "fantasy":            "top-down dungeon room view, stone floor tiles, torch-lit warm glow, D&D tabletop RPG map style, dark gothic atmosphere",
-    "mystery_horror":     "top-down floor plan view of Victorian gothic mansion, dark hardwood floor, candlelight, moody atmospheric horror",
-    "ww2":                "top-down tactical map of World War II military location, dirt and concrete floor, muted khaki and grey tones, war-torn environment, military map aesthetic",
-    "romance":            "top-down view of elegant interior or picturesque outdoor location, warm soft lighting, inviting atmosphere, contemporary aesthetic",
-    "action":             "top-down tactical floor plan of urban building or facility, hard surfaces, industrial lighting, action thriller aesthetic, high contrast",
-    "detective_classico": "top-down floor plan of 1930s–1950s interior, parquet or marble floor, warm lamp lighting, period detective aesthetic, Agatha Christie style",
-    "survival_horror":    "top-down floor plan of abandoned building, grimy cracked floor, flickering fluorescent light, decay, survival horror",
-    "militare":           "top-down tactical map view of military facility, concrete floor, harsh overhead lighting, military industrial aesthetic",
-}
-
-
-def generate_map_tile_image(node_name: str, node_kind: str, genre: str) -> str | None:
-    """Genera un'immagine quadrata top-down per un nodo della mappa.
-    OpenAI: DALL-E 3. Claude+Gemini: Imagen 4."""
-    if _ACTIVE_PROVIDER == "openai":
-        return _generate_map_tile_image_dalle(node_name, node_kind, genre)
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
-    if not key or not _GOOGLE_GENAI_AVAILABLE:
-        return None
-    try:
-        style = _GENRE_TILE_STYLE.get(genre, _GENRE_TILE_STYLE["sci_fi"])
-        prompt = (
-            f"{node_name} ({node_kind}), {style}, "
-            f"square tile format, top-down bird's eye view, no people, no text, no labels, "
-            f"atmospheric lighting, detailed environment texture, game map tile asset"
-        )
-        client = google_genai.Client(api_key=key)
-        response = client.models.generate_images(
-            model="imagen-4.0-generate-001",
-            prompt=prompt,
-            config=google_genai_types.GenerateImagesConfig(
-                number_of_images=1,
-                aspect_ratio="1:1",
-                output_mime_type="image/jpeg",
-            ),
-        )
-        image_bytes = response.generated_images[0].image.image_bytes
-        return base64.b64encode(image_bytes).decode("utf-8")
-    except Exception as e:
-        _set_last_image_error("generate_map_tile_image", e)
-        return None
-
-
 def _generate_scene_image_openai(
     scene_text: str,
     genre: str,
@@ -3443,113 +3318,6 @@ def _generate_scene_image_openai(
         return response.data[0].b64_json
     except Exception as e:
         _set_last_image_error("generate_scene_image_openai", e)
-        return None
-
-
-def _generate_map_tile_image_dalle(node_name: str, node_kind: str, genre: str) -> str | None:
-    """Genera un tile mappa con DALL-E 3 (provider OpenAI)."""
-    if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-        return None
-    try:
-        style = _GENRE_TILE_STYLE.get(genre, _GENRE_TILE_STYLE["sci_fi"])
-        prompt = (
-            f"{node_name} ({node_kind}), {style}, "
-            f"square tile format, top-down bird's eye view, no people, no text, no labels, "
-            f"atmospheric lighting, detailed environment texture, game map tile asset"
-        )
-        client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
-        response = client.images.generate(
-            model=OPENAI_IMAGE_EDIT_MODEL,
-            prompt=prompt,
-            size="1024x1024",
-            quality="medium",
-            n=1,
-        )
-        return response.data[0].b64_json
-    except Exception as e:
-        _set_last_image_error("generate_map_tile_image_dalle", e)
-        return None
-
-
-def _strategic_map_prompt(map_state: dict, genre: str, environment_type: str) -> str:
-    nodes = list((map_state.get("nodes") or {}).values())
-    nodes_text = "; ".join(
-        f"{idx + 1}. {node.get('name', 'zona')} ({node.get('kind', 'area')})"
-        for idx, node in enumerate(nodes)
-    )
-    sector_text = "; ".join(
-        f"sector column {int(node.get('grid_x', 0)) + 1}, row {int(node.get('grid_y', 0)) + 1}: "
-        f"{node.get('name', 'zona')} ({node.get('kind', 'area')})"
-        for node in nodes
-    )
-    edge_text = "; ".join(
-        f"{edge.get('from_id')}->{edge.get('to_id')} {edge.get('status', 'open')} {edge.get('label', '')}"
-        for edge in (map_state.get("connections_meta") or {}).values()
-    )
-    style = {
-        "sci_fi": "coherent sci-fi site map: if nodes include reactor, hangar, lab, server, containment or medical module, show a base/facility with those structures, not wilderness",
-        "fantasy": "coherent fantasy adventure map: ruins, roads, chambers, wilderness, settlements or dungeon areas according to the node list",
-        "ww2": "coherent World War II operations map: trenches, bunkers, roads, depots, command posts and battlefield terrain according to the node list",
-        "detective_classico": "coherent mansion or estate floor plan investigation map: rooms, corridors, garden, study, library and service areas according to the node list",
-        "mystery_horror": "coherent gothic horror location map or floor plan: asylum, hospital, mansion, chapel, archive, cells or laboratory according to the node list",
-        "action": "coherent tactical facility map: urban building, garage, server room, rooftops, warehouse or control room according to the node list",
-    }.get(genre, "tabletop RPG strategic adventure map")
-    return (
-        "Create ONLY the illustrated map artwork for a tabletop RPG strategic map, 16:9 landscape. "
-        "ABSOLUTELY NO tables, side panels, legends, captions, UI boxes, icons, readable writing, compass labels, decorative information cards, or character portraits. "
-        "Do not create a board-game reference sheet. Do not include fake text. "
-        "The image must be the location itself, coherent with every named node, with distinct visible areas/rooms/regions and natural paths between them. "
-        "Compose the map as an invisible 4 columns by 4 rows grid. Each required area must appear in its assigned grid sector. "
-        "Do not draw grid lines or sector labels. Use the sector plan only for composition. "
-        "If a node is a reactor, server room, hangar, laboratory, bunker, chapel, archive, villa room, forest ruin, or trench, the map background must visibly contain that kind of place. "
-        "Never place technical indoor nodes on an unrelated forest/island background unless the node list explicitly describes an outdoor base surrounded by forest. "
-        "Leave clear empty-ish visual space near areas for a later digital overlay of node markers, but do not draw the markers yourself. "
-        f"Genre/style: {style}. Setting: {environment_type}. "
-        f"Required map areas to depict coherently: {nodes_text}. "
-        f"Exact invisible sector placement: {sector_text}. "
-        f"Suggested route structure: {edge_text}. "
-        "Use strong top-down or slight isometric readability, atmospheric detail, and a unified environment matching the nodes."
-    )
-
-
-def generate_strategic_map_image(map_state: dict, genre: str, environment_type: str) -> str | None:
-    """Genera un'immagine unica per la mappa strategica; i nodi restano overlay interattivi nel frontend."""
-    prompt = _strategic_map_prompt(map_state, genre, environment_type)
-    if _ACTIVE_PROVIDER == "openai":
-        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-            return None
-        try:
-            client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
-            response = client.images.generate(
-                model=OPENAI_IMAGE_EDIT_MODEL,
-                prompt=prompt,
-                size="1536x1024",
-                quality="medium",
-                n=1,
-            )
-            return response.data[0].b64_json
-        except Exception as e:
-            _set_last_image_error("generate_strategic_map_image/openai", e)
-            return None
-
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
-    if not key or not _GOOGLE_GENAI_AVAILABLE:
-        return None
-    try:
-        client = google_genai.Client(api_key=key)
-        response = client.models.generate_images(
-            model="imagen-4.0-generate-001",
-            prompt=prompt,
-            config=google_genai_types.GenerateImagesConfig(
-                number_of_images=1,
-                aspect_ratio="16:9",
-                output_mime_type="image/jpeg",
-            ),
-        )
-        image_bytes = response.generated_images[0].image.image_bytes
-        return base64.b64encode(image_bytes).decode("utf-8")
-    except Exception as e:
-        _set_last_image_error("generate_strategic_map_image/gemini", e)
         return None
 
 
@@ -3620,6 +3388,8 @@ def generate_tactical_map_image(
             f"{enemy_line}"
             f"RULES: pure overhead bird's-eye view, no people, no tokens, no grid lines, no labels, no text, "
             f"no UI elements. Show only the floor, walls, furniture, terrain features and cover objects. "
+            f"Make it a real tabletop RPG battlemap: clear playable areas, readable entrances, cover, obstacles, "
+            f"and environmental details that match the exact location, not a generic texture. "
             f"The visual style and architecture MUST match the location type and enemies described above. "
             f"Style reference: {style}. Output ONLY the English prompt, no explanations."
         )
@@ -3635,7 +3405,7 @@ def generate_tactical_map_image(
         f"{image_prompt} "
         "Top-down 90-degree overhead view, flat floor perspective, no people, no tokens, no grid overlay, "
         "no text, no labels. Show terrain features, walls, furniture and cover objects only. "
-        "Seamless tileable background suitable for a hex grid overlay. "
+        "Readable tabletop RPG battlemap, clear movement spaces, entrances, cover and obstacles, suitable for a sparse hex grid overlay. "
         "Aspect ratio 4:3, square-ish composition."
     )
 
@@ -3749,6 +3519,12 @@ def _player_sheet(p: dict) -> str:
     disadv = p.get("disadvantages", [])
     adv_str = (", ".join(adv + disadv)) if (adv or disadv) else "nessuno"
     line = f"- {p['name']} ({p['role']}): {stat_str} | Skills: {skill_str} | Vantaggi: {adv_str}"
+    trait_notes = trait_story_notes(list(adv or []) + list(disadv or []), limit=3)
+    if trait_notes:
+        line += f"\n  Tratti attivi in fiction: {' | '.join(trait_notes)}"
+    self_control = traits_requiring_self_control(list(disadv or []))
+    if self_control:
+        line += "\n  Autocontrollo: " + ", ".join(f"{x['name']}({x['target']})" for x in self_control)
     motivation = (p.get("motivation") or "").strip()
     backstory = (p.get("backstory") or "").strip()
     if motivation:
@@ -3982,19 +3758,26 @@ _GENRE_LABELS = {
     "detective_classico": "noir/detective classico",
 }
 
-
 def create_adventure(genre: str, players: list[dict]) -> dict:
     """
     Genera la bibbia strutturata dell'avventura.
     Restituisce un dict con: title, premise, hidden_truth, npcs, clues,
     twists, win_condition, threat_description, threat_max_turns, locations.
     """
+    if not _text_provider_available():
+        return {"error": "Nessun provider AI testuale configurato: impossibile creare un'avventura originale."}
+
     genre_label = _GENRE_LABELS.get(genre, genre)
     n_players = len(players)
     roles = ", ".join(f"{p['name']} ({p.get('role','')})" for p in players)
+    party_context = (
+        f"{n_players} giocatori: {roles}"
+        if n_players > 0
+        else "un gruppo di 3-4 personaggi che verranno creati DOPO la compilazione, quindi prevedi ruoli utili ma non nominare PG specifici"
+    )
 
     prompt = f"""Sei un game designer esperto di GDR. Crea una avventura originale e coinvolgente
-in stile {genre_label} per {n_players} giocatori: {roles}.
+in stile {genre_label} per {party_context}.
 
 L'avventura deve avere:
 - Una premessa intrigante che si apre in medias res
@@ -4028,12 +3811,41 @@ Rispondi SOLO con questo JSON:
   "clues": [
     {{
       "id": "clue_1",
+      "label": "Nome breve dell'indizio",
       "text": "Descrizione dell'indizio",
+      "type": "physical_evidence | testimony | document | behavior | location_detail | contradiction",
+      "thread_id": "T1 | T2 | T3",
       "reveals": "Cosa suggerisce o rivela",
+      "payoff": "Cosa permette di capire, sbloccare o evitare",
       "location": "Dove/come si trova",
       "found": false
     }}
   ],
+  "story_threads": [
+    {{
+      "id": "T1",
+      "title": "Titolo pista",
+      "question": "Domanda investigativa",
+      "true_answer": "Risposta canonica nascosta",
+      "status": "hidden",
+      "required_clues": ["clue_1"],
+      "discovered_clues": [],
+      "partial_clues": [],
+      "minimum_clues_to_deduce": 2,
+      "payoff": "Cosa sblocca questa deduzione",
+      "linked_npcs": ["npc_1"],
+      "linked_locations": ["loc_1"]
+    }}
+  ],
+  "adventure_canon": {{
+    "core_truth": "Verità centrale già decisa",
+    "main_antagonist": "Nome antagonista principale",
+    "false_leads": ["falso sospetto o falsa pista"],
+    "key_locations": ["luogo chiave"],
+    "required_clues": ["clue_1"],
+    "optional_events": ["evento opzionale"],
+    "finale_conditions": ["condizione finale concreta"]
+  }},
   "twists": [
     {{
       "id": "twist_1",
@@ -4051,17 +3863,41 @@ Rispondi SOLO con questo JSON:
       "id": "loc_1",
       "name": "Nome location",
       "description": "Descrizione breve",
-      "has_combat_potential": false
+      "has_combat_potential": false,
+      "tactical_map": {{
+        "enabled": false,
+        "role": "hot_zone | finale",
+        "layout": "room | narrow | open",
+        "features": ["coperture/elementi tattici"],
+        "hazards": ["rischi ambientali"],
+        "trigger": "quando si apre il confronto"
+      }}
     }}
   ]
 }}"""
 
-    raw = _call_text_model(prompt, max_tokens=4000)
-    try:
-        return _extract_json_object(raw)
-    except Exception as e:
-        print(f"[create_adventure] parse error: {e}")
-        return {"error": "Impossibile generare l'avventura", "raw": raw[:300]}
+    attempts: list[tuple[str, str]] = [(_ACTIVE_PROVIDER, prompt)]
+    fallback_provider = _other_provider()
+    if fallback_provider:
+        attempts.append((fallback_provider, prompt))
+
+    last_error = ""
+    for provider_name, attempt_prompt in attempts:
+        try:
+            raw = (
+                _call_text_model(attempt_prompt, max_tokens=4500)
+                if provider_name == _ACTIVE_PROVIDER
+                else _call_text_model_with_provider(provider_name, attempt_prompt, max_tokens=4500)
+            )
+            if _looks_like_refusal(raw):
+                last_error = "provider_refusal"
+                continue
+            return _normalize_adventure_canon(_extract_json_object(raw), source="generated")
+        except Exception as e:
+            last_error = f"{type(e).__name__}: {e}"
+            print(f"[create_adventure] provider {provider_name} errore: {last_error}")
+            continue
+    return {"error": f"Impossibile generare un'avventura originale: {last_error or 'provider non disponibile'}"}
 
 
 def _canon_slug(value: str, fallback: str) -> str:
@@ -4084,23 +3920,108 @@ def _infer_clue_type(text: str, location: str = "") -> str:
     return "physical_evidence"
 
 
-def _normalize_pdf_adventure_canon(adventure: dict) -> dict:
-    """Rende tracciabile una bibbia importata da PDF senza affidarsi a runtime thread liberi."""
+def _infer_tactical_layout(text: str) -> str:
+    blob = str(text or "").lower()
+    if any(w in blob for w in ["corridoio", "tunnel", "galleria", "passaggio", "ponte", "vicolo", "strett"]):
+        return "narrow"
+    if any(w in blob for w in ["cortile", "piazza", "hangar", "radura", "foresta", "campo", "rovine", "esterno", "sala grande"]):
+        return "open"
+    return "room"
+
+
+def _build_tactical_map_spec(location: dict, *, role: str, genre: str = "") -> dict:
+    name = _clean_canon_text(location.get("name", "Zona tattica"), limit=120)
+    desc = _clean_canon_text(location.get("description", ""), limit=220)
+    blob = f"{name} {desc} {genre}".lower()
+    layout = _infer_tactical_layout(blob)
+    if layout == "narrow":
+        cols, rows = 12, 6
+    elif layout == "open":
+        cols, rows = 12, 8
+    else:
+        cols, rows = 10, 7
+    features: list[str] = []
+    hazards: list[str] = []
+    if any(w in blob for w in ["taverna", "locanda", "osteria", "saloon"]):
+        features += ["tavoli ribaltabili", "bancone massiccio", "camino o cucina come ostacolo", "scala o ballatoio"]
+        hazards += ["vetri rotti", "clienti in fuga"]
+    elif any(w in blob for w in ["biblioteca", "archiv", "scriptorium", "monastero"]):
+        features += ["scaffali come copertura", "corridoi tra librerie", "tavoli di lettura", "vetrine con manoscritti"]
+        hazards += ["scaffali instabili", "pergamene infiammabili"]
+    elif any(w in blob for w in ["bosco", "foresta", "radura", "giardino"]):
+        features += ["tronchi caduti", "rocce muschiose", "radici affioranti", "cespugli fitti"]
+        hazards += ["rovi come terreno difficile", "nebbia tra gli alberi"]
+    elif any(w in blob for w in ["castello", "fortezza", "torre", "cortile", "bastione"]):
+        features += ["muretti merlati", "scale di pietra", "portoni ferrati", "alcove difensive"]
+        hazards += ["feritoie sorvegliate", "pietre sconnesse"]
+    elif any(w in blob for w in ["cripta", "catacomb", "tomba", "sepol", "necrop", "sarcof"]):
+        features += ["sarcofagi di pietra", "colonne spezzate", "altare incrinato", "bracieri rovesciati"]
+        hazards += ["pietre instabili", "rune che si accendono a impulsi"]
+    elif any(w in blob for w in ["sacrario", "altare", "ritual"]):
+        features += ["altare centrale", "cerchi rituali", "pilastri bassi", "bracieri rovesciati"]
+        hazards += ["rune che si accendono a impulsi", "energia instabile"]
+    if any(w in blob for w in ["laboratorio", "reattore", "terminal", "ponte di comando"]):
+        features += ["console tecniche", "paratie e coperture basse"]
+    if any(w in blob for w in ["rovine", "crollo", "macerie", "frana"]):
+        hazards += ["macerie e terreno difficile"]
+    if any(w in blob for w in ["acqua", "marea", "palude", "sommers", "fiume"]):
+        hazards += ["acqua o fango come terreno difficile"]
+    if not features:
+        features = ["coperture coerenti con la location", "vie di ingresso/uscita leggibili"]
+    trigger = "quando la scena porta a uno scontro diretto in questa zona"
+    if role == "finale":
+        trigger = "quando il gruppo affronta antagonista, guardiani o minaccia finale"
+    return {
+        "enabled": True,
+        "role": role,
+        "name": name,
+        "layout": layout,
+        "cols": cols,
+        "rows": rows,
+        "features": features[:4],
+        "hazards": hazards[:3],
+        "entry_zones": ["lato ovest / ingresso del gruppo"],
+        "enemy_zones": ["lato est / punto difeso"],
+        "trigger": trigger,
+        "victory_condition": "neutralizzare, mettere in fuga o superare gli avversari presenti",
+    }
+
+
+def _location_wants_tactical_map(location: dict) -> bool:
+    if not isinstance(location, dict):
+        return False
+    tactical = location.get("tactical_map") if isinstance(location.get("tactical_map"), dict) else {}
+    role = str(tactical.get("role") or location.get("tactical_role") or "").lower()
+    trigger = str(tactical.get("trigger") or location.get("trigger") or location.get("description") or "").lower()
+    if location.get("has_combat_potential") or role in {"hot_zone", "finale", "boss", "combat"}:
+        return True
+    return any(w in trigger for w in ["scontro", "combatt", "agguato", "confronto", "assalto", "fuga sotto pressione"])
+
+
+def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> dict:
+    """Rende tracciabile una bibbia senza affidarsi a runtime thread liberi."""
     if not isinstance(adventure, dict):
         return adventure
 
     clues = list(adventure.get("clues") or [])[:8]
     npcs = list(adventure.get("npcs") or [])[:8]
     locations = list(adventure.get("locations") or [])[:6]
+    genre = adventure.get("detected_genre") or adventure.get("genre") or adventure.get("environment_type") or ""
     title = adventure.get("title", "avventura")
     hidden_truth = adventure.get("hidden_truth", "")
     win_condition = adventure.get("win_condition", "")
 
+    existing_threads = [t for t in (adventure.get("story_threads") or adventure.get("structured_threads") or []) if isinstance(t, dict)]
     thread_templates = [
         ("T1", "Dove si trova la prova decisiva?", "Localizzare il luogo o l'oggetto che rende giocabile la soluzione finale."),
         ("T2", "Chi sta muovendo davvero la minaccia?", "Identificare antagonista, complice o pressione centrale senza inventare nuovi filoni."),
         ("T3", "Come si chiude l'avventura senza peggiorare il costo?", "Capire procedura, vincolo o condizione finale della risoluzione."),
     ]
+    valid_thread_ids = {
+        str(t.get("id") or "").strip()
+        for t in existing_threads
+        if str(t.get("id") or "").strip()
+    } or {tid for tid, _, _ in thread_templates}
 
     enriched_clues = []
     for idx, raw in enumerate(clues, start=1):
@@ -4111,6 +4032,8 @@ def _normalize_pdf_adventure_canon(adventure: dict) -> dict:
         reveals = _clean_canon_text(raw.get("reveals") or text, limit=220)
         location = _clean_canon_text(raw.get("location") or raw.get("source_location") or "", limit=120)
         thread_id = str(raw.get("thread_id") or thread_templates[(idx - 1) % len(thread_templates)][0])
+        if thread_id not in valid_thread_ids:
+            thread_id = thread_templates[(idx - 1) % len(thread_templates)][0]
         payoff = _clean_canon_text(raw.get("payoff") or reveals or f"Avanza la pista {thread_id}.", limit=220)
         enriched_clues.append({
             **raw,
@@ -4128,42 +4051,150 @@ def _normalize_pdf_adventure_canon(adventure: dict) -> dict:
             "found": bool(raw.get("found") or raw.get("is_discovered", False)),
         })
 
+    def _thread_is_generic(question: str, payoff: str = "") -> bool:
+        text = f"{question} {payoff}".lower()
+        generic_bits = [
+            "prova decisiva", "muovendo davvero", "chiudere l'avventura",
+            "senza peggiorare", "procedura, vincolo", "soluzione finale",
+            "pezzo della soluzione", "identificare antagonista",
+            "quale fatto concreto", "cambia la scelta dei giocatori",
+            "quale leva della struttura", "ritual_countdown",
+        ]
+        return _looks_generic(question) or any(bit in text for bit in generic_bits)
+
+    def _concrete_thread_question(tid: str, linked: list[dict], fallback_idx: int) -> str:
+        clue = linked[0] if linked else {}
+        subject = _clean_canon_text(
+            clue.get("reveals") or clue.get("label") or clue.get("text") or "",
+            limit=70,
+        )
+        place = _clean_canon_text(
+            clue.get("location") or (locations[fallback_idx % len(locations)].get("name") if locations and isinstance(locations[fallback_idx % len(locations)], dict) else ""),
+            limit=60,
+        )
+        npc = _clean_canon_text(
+            (npcs[fallback_idx % len(npcs)].get("name") if npcs and isinstance(npcs[fallback_idx % len(npcs)], dict) else ""),
+            limit=60,
+        )
+        if tid == "T1" and place:
+            return f"Cosa si scopre davvero in {place}?"
+        if tid == "T2" and npc:
+            return f"Che ruolo ha {npc} nella minaccia?"
+        if tid == "T3" and subject:
+            return f"Come usare {subject[:46]}?"
+        if subject:
+            return f"Cosa rivela {subject[:52]}?"
+        return thread_templates[fallback_idx % len(thread_templates)][1]
+
+    def _concrete_thread_payoff(tid: str, linked: list[dict], fallback_payoff: str) -> str:
+        clue_payoffs = [c.get("payoff") for c in linked if c.get("payoff")]
+        if clue_payoffs:
+            return _clean_canon_text(" / ".join(clue_payoffs[:2]), limit=220)
+        if tid == "T1":
+            return "sblocca una location, un accesso o una prova concreta gia prevista dal canovaccio"
+        if tid == "T2":
+            return "chiarisce chi ostacola la squadra e come puo essere fermato o aggirato"
+        if tid == "T3":
+            return "rende praticabile la scelta finale senza introdurre una nuova rivelazione improvvisa"
+        return fallback_payoff
+
     threads = []
-    for tid, question, fallback_payoff in thread_templates:
+    source_threads = existing_threads or [
+        {"id": tid, "question": question, "payoff": fallback_payoff}
+        for tid, question, fallback_payoff in thread_templates
+    ]
+    for fallback_idx, raw_thread in enumerate(source_threads):
+        tid = str(raw_thread.get("id") or thread_templates[fallback_idx % len(thread_templates)][0])
+        fallback_question = thread_templates[fallback_idx % len(thread_templates)][1]
+        fallback_payoff = thread_templates[fallback_idx % len(thread_templates)][2]
         linked = [c for c in enriched_clues if c.get("thread_id") == tid]
         if not linked and enriched_clues:
-            linked = enriched_clues[:1]
-        required_ids = [c["id"] for c in linked[:3]]
+            linked = enriched_clues[fallback_idx:fallback_idx + 1] or enriched_clues[:1]
+            for c in linked:
+                c["thread_id"] = tid
+        explicit_required = [str(x) for x in (raw_thread.get("required_clues") or []) if str(x)]
+        required_ids = explicit_required or [c["id"] for c in linked[:3]]
         minimum = min(2, max(1, len(required_ids))) if required_ids else 1
+        question = _clean_canon_text(raw_thread.get("question") or raw_thread.get("title") or fallback_question, limit=180)
+        payoff = _clean_canon_text(raw_thread.get("payoff") or raw_thread.get("purpose") or fallback_payoff, limit=220)
+        if _thread_is_generic(question, payoff):
+            question = _concrete_thread_question(tid, linked, fallback_idx)
+            payoff = _concrete_thread_payoff(tid, linked, fallback_payoff)
         answer_bits = [c.get("reveals") or c.get("text") for c in linked[:2] if c.get("reveals") or c.get("text")]
-        true_answer = " ".join(answer_bits) or (hidden_truth if tid == "T2" else win_condition) or fallback_payoff
+        true_answer = raw_thread.get("true_answer") or raw_thread.get("answer") or " ".join(answer_bits) or (hidden_truth if tid == "T2" else win_condition) or fallback_payoff
+        if _thread_is_generic(str(true_answer), "") or str(true_answer).strip().lower() == question.strip().lower():
+            true_answer = " ".join(answer_bits) or (hidden_truth if tid == "T2" else win_condition) or _concrete_thread_payoff(tid, linked, fallback_payoff)
         threads.append({
             "id": tid,
-            "title": question.replace("?", ""),
+            "title": _clean_canon_text(raw_thread.get("title") or question.replace("?", ""), limit=120),
             "question": question,
             "true_answer": _clean_canon_text(true_answer, limit=260),
-            "status": "active",
+            "status": raw_thread.get("status") if raw_thread.get("status") in {"hidden", "active", "ready_to_deduce", "resolved", "failed"} else "hidden",
             "required_clues": required_ids,
-            "discovered_clues": [],
+            "discovered_clues": list(raw_thread.get("discovered_clues") or []),
+            "partial_clues": list(raw_thread.get("partial_clues") or []),
             "minimum_clues_to_deduce": minimum,
-            "payoff": _clean_canon_text(fallback_payoff, limit=220),
-            "linked_npcs": [n.get("id") or n.get("name") for n in npcs[:3] if isinstance(n, dict)],
-            "linked_locations": [l.get("id") or l.get("name") for l in locations[:3] if isinstance(l, dict)],
+            "payoff": payoff,
+            "linked_npcs": list(raw_thread.get("linked_npcs") or [n.get("id") or n.get("name") for n in npcs[:3] if isinstance(n, dict)]),
+            "linked_locations": list(raw_thread.get("linked_locations") or [l.get("id") or l.get("name") for l in locations[:3] if isinstance(l, dict)]),
         })
 
     antagonist = next((n for n in npcs if isinstance(n, dict) and any(w in str(n.get("role", "")).lower() for w in ["antagon", "villain", "nemic", "cult", "assassin", "killer"])), None)
     required_clues = [c["id"] for c in enriched_clues if c.get("is_required")]
+    hot_location_indexes = {
+        i for i, loc in enumerate(locations)
+        if isinstance(loc, dict) and _location_wants_tactical_map(loc)
+    }
+    if locations:
+        hot_location_indexes.add(len(locations) - 1)
+    if antagonist and locations:
+        ant_loc = str(antagonist.get("location") or "").lower()
+        for i, loc in enumerate(locations):
+            if isinstance(loc, dict) and ant_loc and (ant_loc in str(loc.get("name", "")).lower() or str(loc.get("name", "")).lower() in ant_loc):
+                hot_location_indexes.add(i)
+    enriched_locations = []
+    for i, loc in enumerate(locations):
+        if not isinstance(loc, dict):
+            continue
+        role = "finale" if i == len(locations) - 1 else "hot_zone"
+        loc = dict(loc)
+        if i in hot_location_indexes:
+            loc["has_combat_potential"] = True
+            existing_tactical = loc.get("tactical_map") if isinstance(loc.get("tactical_map"), dict) else {}
+            base_tactical = _build_tactical_map_spec(loc, role=existing_tactical.get("role") or role, genre=genre)
+            loc["tactical_map"] = {
+                **existing_tactical,
+                **base_tactical,
+                "trigger": existing_tactical.get("trigger") or base_tactical.get("trigger"),
+                "enabled": True,
+            }
+        elif isinstance(loc.get("tactical_map"), dict):
+            loc["tactical_map"] = {**loc["tactical_map"], "enabled": False}
+        enriched_locations.append(loc)
+    locations = enriched_locations
     adventure["clues"] = enriched_clues
+    adventure["locations"] = locations
     adventure["story_threads"] = threads
+    existing_canon = adventure.get("adventure_canon") if isinstance(adventure.get("adventure_canon"), dict) else {}
     adventure["adventure_canon"] = {
-        "core_truth": hidden_truth,
-        "main_antagonist": (antagonist or {}).get("name", ""),
-        "false_leads": [t.get("description", "") for t in (adventure.get("twists") or [])[:2] if isinstance(t, dict)],
-        "key_locations": [l.get("name", "") for l in locations if isinstance(l, dict)][:5],
-        "required_clues": required_clues,
-        "optional_events": [t.get("trigger", "") for t in (adventure.get("twists") or [])[:3] if isinstance(t, dict)],
-        "finale_conditions": [win_condition] if win_condition else [],
-        "source": "pdf_import",
+        "core_truth": existing_canon.get("core_truth") or hidden_truth,
+        "main_antagonist": existing_canon.get("main_antagonist") or (antagonist or {}).get("name", ""),
+        "false_leads": list(existing_canon.get("false_leads") or [t.get("description", "") for t in (adventure.get("twists") or [])[:2] if isinstance(t, dict)]),
+        "key_locations": list(existing_canon.get("key_locations") or [l.get("name", "") for l in locations if isinstance(l, dict)][:5]),
+        "tactical_locations": [
+            {
+                "location_id": l.get("id") or l.get("name"),
+                "name": l.get("name"),
+                "role": (l.get("tactical_map") or {}).get("role", "hot_zone"),
+                "trigger": (l.get("tactical_map") or {}).get("trigger", ""),
+            }
+            for l in locations
+            if isinstance(l, dict) and (l.get("tactical_map") or {}).get("enabled")
+        ],
+        "required_clues": list(existing_canon.get("required_clues") or required_clues),
+        "optional_events": list(existing_canon.get("optional_events") or [t.get("trigger", "") for t in (adventure.get("twists") or [])[:3] if isinstance(t, dict)]),
+        "finale_conditions": list(existing_canon.get("finale_conditions") or ([win_condition] if win_condition else [])),
+        "source": source,
     }
 
     for npc in npcs:
@@ -4191,95 +4222,768 @@ def _normalize_pdf_adventure_canon(adventure: dict) -> dict:
     return adventure
 
 
-def create_adventure_from_pdf_text(pdf_text: str, genre: str, players: list[dict]) -> dict:
-    """Legge il testo estratto da un PDF di avventura e genera la bibbia strutturata."""
-    genre_label = _GENRE_LABELS.get(genre, genre)
-    sheets = "\n".join(_player_sheet(p) for p in players) if players else "Nessun personaggio ancora definito."
+def _normalize_pdf_adventure_canon(adventure: dict) -> dict:
+    return _normalize_adventure_canon(adventure, source="pdf_import")
 
-    # Strategia di troncatura: prende inizio + fine del documento
-    # (intro + appendici/conclusione sono le parti più informative)
-    MAX_CHARS = 80000  # ~20k token input — buon equilibrio qualità/costo
-    if len(pdf_text) <= MAX_CHARS:
-        pdf_excerpt = pdf_text
-        truncated_note = ""
+
+def _fallback_pdf_adventure(pdf_text: str, genre: str, players: list[dict], reason: str = "") -> dict:
+    """Fallback locale quando i provider rifiutano: crea una bibbia giocabile minimale senza nuove chiamate AI."""
+    lines = [re.sub(r"\s+", " ", l).strip() for l in (pdf_text or "").splitlines()]
+    lines = [l for l in lines if len(l) >= 4]
+    title = next((l for l in lines[:30] if 6 <= len(l) <= 90), "Avventura importata")
+    title = _clean_canon_text(title, limit=90)
+    capitalized = []
+    for line in lines[:600]:
+        if len(line) > 80:
+            continue
+        if re.search(r"\b(?:sala|cripta|torre|cella|biblioteca|laboratorio|ponte|camera|tempio|cappella|villaggio|stazione|hangar|archivio)\b", line.lower()):
+            capitalized.append(_clean_canon_text(line, limit=80))
+        elif line[:1].isupper() and sum(ch.isupper() for ch in line[:24]) >= 2:
+            capitalized.append(_clean_canon_text(line, limit=80))
+    location_names = []
+    for name in capitalized:
+        if name.lower() not in {x.lower() for x in location_names}:
+            location_names.append(name)
+        if len(location_names) >= 5:
+            break
+    if len(location_names) < 3:
+        location_names = ["Ingresso del modulo", "Luogo degli indizi", "Zona calda", "Confronto finale"]
+
+    npc_names = []
+    for line in lines[:600]:
+        for m in re.finditer(r"\b([A-Z][a-zàèéìòù]+(?:\s+[A-Z][a-zàèéìòù]+){0,2})\b", line):
+            name = m.group(1).strip()
+            if name.lower() in {"Il", "La", "Gli", "Le", "Un", "Una", "Nel", "Nella"}:
+                continue
+            if 3 <= len(name) <= 40 and name.lower() not in {x.lower() for x in npc_names}:
+                npc_names.append(name)
+            if len(npc_names) >= 4:
+                break
+        if len(npc_names) >= 4:
+            break
+    if not npc_names:
+        npc_names = ["Testimone principale", "Antagonista del modulo", "Custode degli indizi"]
+
+    clue_sources = location_names[:3]
+    adventure = {
+        "title": title,
+        "detected_genre": genre if genre != "auto" else "mystery_horror",
+        "premise": f"Il gruppo entra nello scenario di {title} con una minaccia gia in movimento e pochi elementi affidabili da verificare.",
+        "hidden_truth": "La verita del modulo e gia contenuta nel testo importato: il Master deve rivelarla tramite prove concrete, non tramite nuovi misteri improvvisati.",
+        "atmosphere": "Tensione investigativa e confronto progressivo, senza dettagli grafici.",
+        "win_condition": "Ricostruire la verita centrale tramite gli indizi canonici e superare il confronto finale.",
+        "threat_description": "La pressione della situazione aumenta finche il gruppo non collega prove, luoghi e antagonista.",
+        "threat_max_turns": 10,
+        "has_time_pressure": True,
+        "npcs": [
+            {
+                "id": f"npc_{i}",
+                "name": name,
+                "role": "antagonista" if i == 2 else ("testimone" if i == 1 else "neutrale"),
+                "description": "Figura rilevante estratta dal testo importato.",
+                "attitude": "suspicious" if i == 2 else "neutral",
+                "status": "alive",
+                "location": location_names[min(i - 1, len(location_names) - 1)],
+                "secret": "Conosce o protegge una parte della verita centrale.",
+            }
+            for i, name in enumerate(npc_names[:4], start=1)
+        ],
+        "clues": [
+            {
+                "id": f"clue_{i}",
+                "label": f"Prova {i}",
+                "text": f"Elemento concreto da verificare in {src}",
+                "type": ["location_detail", "testimony", "physical_evidence"][min(i - 1, 2)],
+                "thread_id": ["T1", "T2", "T3"][min(i - 1, 2)],
+                "reveals": ["dove cercare la prova decisiva", "chi controlla la minaccia", "come arrivare alla risoluzione"][min(i - 1, 2)],
+                "payoff": ["orienta la mappa strategica", "identifica il nodo antagonista", "sblocca il finale coerente"][min(i - 1, 2)],
+                "location": src,
+                "found": False,
+            }
+            for i, src in enumerate(clue_sources, start=1)
+        ],
+        "twists": [],
+        "locations": [
+            {
+                "id": f"loc_{i}",
+                "name": name,
+                "description": "Location importata dal modulo e usata come nodo strategico.",
+                "has_combat_potential": i == len(location_names) or i >= max(3, len(location_names) - 1),
+            }
+            for i, name in enumerate(location_names[:5], start=1)
+        ],
+        "from_pdf": True,
+        "fallback_used": True,
+        "fallback_reason": reason,
+    }
+    return _normalize_pdf_adventure_canon(adventure)
+
+
+def _validate_master_state_updates(
+    updates: dict,
+    *,
+    adventure: dict,
+    game_state_data: dict,
+    prerolled: dict | None = None,
+    director_decision: dict | None = None,
+    narrative_text: str = "",
+) -> dict:
+    """Filtro deterministico: il Master narra, ma lo stato resta nel canovaccio."""
+    su = dict(updates or {})
+    blocked_updates: list[str] = []
+    all_clues = [c for c in (adventure.get("clues") or []) if isinstance(c, dict)]
+    story_threads = [t for t in (adventure.get("story_threads") or []) if isinstance(t, dict)]
+    locations = [l for l in (adventure.get("locations") or []) if isinstance(l, dict)]
+    objectives = [o for o in (adventure.get("objectives") or adventure.get("objective_stack") or []) if isinstance(o, dict)]
+    factions = [f for f in (adventure.get("factions") or []) if isinstance(f, dict)]
+    finale_conditions = [f for f in (adventure.get("finale_conditions") or []) if isinstance(f, dict)]
+    valid_clue_ids = {str(c.get("id")) for c in all_clues if c.get("id")}
+    valid_thread_ids = {str(t.get("id")) for t in story_threads if t.get("id")}
+    clues_by_id = {str(c.get("id")): c for c in all_clues if c.get("id")}
+    valid_location_ids = {str(l.get("id")) for l in locations if l.get("id")}
+    valid_location_names = {str(l.get("name")).lower(): str(l.get("id") or l.get("name")) for l in locations if l.get("name")}
+    valid_objective_ids = {str(o.get("id")) for o in objectives if o.get("id")}
+    valid_faction_ids = {str(f.get("id")) for f in factions if f.get("id")}
+    valid_finale_ids = {str(f.get("id")) for f in finale_conditions if f.get("id")}
+    clues_found_ids = set(str(x) for x in (game_state_data.get("clues_found") or []))
+    allow_runtime_threads = bool((adventure.get("adventure_canon") or {}).get("allow_runtime_threads") or adventure.get("allow_runtime_threads"))
+
+    # Ogni clue deve puntare a un thread valido. I clue invalidi non entrano negli update.
+    valid_clue_ids = {
+        cid for cid in valid_clue_ids
+        if str(clues_by_id[cid].get("thread_id") or "") in valid_thread_ids
+    }
+
+    valid_progress = []
+    for item in su.get("clue_progress", []) or []:
+        if not isinstance(item, dict):
+            continue
+        cid = str(item.get("clue_id") or item.get("id") or "")
+        if cid not in valid_clue_ids or cid in clues_found_ids:
+            continue
+        note = _clean_canon_text(item.get("note") or item.get("text") or "", limit=180)
+        if not note:
+            note = "La squadra si avvicina a questo indizio canonico."
+        valid_progress.append({"clue_id": cid, "note": note, "ticks": 1})
+    su["clue_progress"] = valid_progress[:2]
+
+    found_now = []
+    for cid in su.get("clues_found", []) or su.get("discovered_clue_ids", []) or []:
+        cid = str(cid)
+        if cid in valid_clue_ids and cid not in clues_found_ids and cid not in found_now:
+            found_now.append(cid)
+    su["clues_found"] = found_now[:2]
+    su["discovered_clues"] = [
+        {
+            "id": c.get("id"),
+            "label": c.get("label") or c.get("text"),
+            "thread_id": c.get("thread_id", ""),
+            "type": c.get("type", ""),
+            "source_location": c.get("source_location") or c.get("location", ""),
+            "reveals": c.get("reveals", ""),
+            "payoff": c.get("payoff", ""),
+        }
+        for c in all_clues
+        if str(c.get("id")) in su["clues_found"]
+    ]
+
+    facts = []
+    for fact in su.get("discovered_facts", []) or []:
+        if isinstance(fact, str):
+            text = _clean_canon_text(fact, limit=220)
+            if text:
+                facts.append(text)
+        elif isinstance(fact, dict):
+            text = _clean_canon_text(fact.get("text") or fact.get("fact") or "", limit=220)
+            if text:
+                facts.append(text)
+    su["discovered_facts"] = facts[:2]
+
+    closed = []
+    for raw in (su.get("closed_threads", []) or []) + (su.get("thread_resolved", []) or []):
+        if isinstance(raw, dict):
+            tid = str(raw.get("id") or raw.get("thread_id") or "")
+            text = _clean_canon_text(raw.get("deduction") or raw.get("text") or "", limit=220)
+            if tid in valid_thread_ids:
+                closed.append(f"{tid} → {text}" if text else tid)
+        elif isinstance(raw, str):
+            token = raw.split("→", 1)[0].strip()
+            if token in valid_thread_ids or any(token in (t.get("question") or "") for t in story_threads):
+                closed.append(_clean_canon_text(raw, limit=260))
+    su["closed_threads"] = closed[:2]
+    su["thread_resolved"] = su["closed_threads"]
+
+    npc_ids = {str(n.get("id")) for n in (adventure.get("npcs") or []) if isinstance(n, dict) and n.get("id")}
+    valid_npc_updates = []
+    for item in su.get("npc_updates", []) or []:
+        if not isinstance(item, dict):
+            continue
+        nid = str(item.get("id") or item.get("npc_id") or "")
+        if npc_ids and nid not in npc_ids:
+            continue
+        valid_npc_updates.append({k: v for k, v in item.items() if k in {"id", "npc_id", "status", "attitude", "location", "arc_status", "note"}})
+    su["npc_updates"] = valid_npc_updates[:4]
+
+    def _valid_status(value: str, allowed: set[str]) -> str:
+        value = str(value or "").strip()
+        return value if value in allowed else ""
+
+    valid_location_updates = []
+    for item in su.get("location_updates", []) or []:
+        if not isinstance(item, dict):
+            continue
+        lid = str(item.get("id") or item.get("location_id") or item.get("node_id") or "").strip()
+        if not lid and item.get("name"):
+            lid = valid_location_names.get(str(item.get("name")).lower(), "")
+        if valid_location_ids and lid not in valid_location_ids:
+            continue
+        update = {"id": lid}
+        status = _valid_status(item.get("status"), {"hidden", "unknown", "known", "visited", "locked", "changed", "compromised", "secured", "destroyed"})
+        access_state = _valid_status(item.get("access_state"), {"open", "locked", "hidden", "blocked", "restricted", "unlocked", "sealed"})
+        if status:
+            update["status"] = status
+        if access_state:
+            update["access_state"] = access_state
+        if len(update) > 1:
+            valid_location_updates.append(update)
+    su["location_updates"] = valid_location_updates[:3]
+
+    valid_objective_updates = []
+    for item in su.get("objective_updates", []) or []:
+        if not isinstance(item, dict):
+            continue
+        oid = str(item.get("id") or item.get("objective_id") or "").strip()
+        if valid_objective_ids and oid not in valid_objective_ids:
+            continue
+        status = _valid_status(item.get("status"), {"hidden", "inactive", "available", "active", "complete", "completed", "failed"})
+        if oid and status:
+            valid_objective_updates.append({"id": oid, "status": status})
+    su["objective_updates"] = valid_objective_updates[:2]
+
+    valid_faction_updates = []
+    for item in su.get("faction_updates", []) or []:
+        if not isinstance(item, dict):
+            continue
+        fid = str(item.get("id") or item.get("faction_id") or "").strip()
+        if valid_faction_ids and fid not in valid_faction_ids:
+            continue
+        update = {"id": fid}
+        status = _valid_status(item.get("status"), {"quiet", "watching", "active", "escalating", "dominant", "weakened", "broken"})
+        if status:
+            update["status"] = status
+        if item.get("pressure") is not None:
+            try:
+                update["pressure"] = max(0, min(10, int(item.get("pressure") or 0)))
+            except Exception:
+                pass
+        if fid and len(update) > 1:
+            valid_faction_updates.append(update)
+    su["faction_updates"] = valid_faction_updates[:3]
+
+    valid_finale_updates = []
+    for item in su.get("finale_updates", []) or []:
+        if not isinstance(item, dict):
+            continue
+        fid = str(item.get("id") or item.get("finale_id") or "").strip()
+        if valid_finale_ids and fid not in valid_finale_ids:
+            continue
+        status = _valid_status(item.get("status"), {"locked", "seeded", "available", "satisfied", "failed"})
+        if fid and status:
+            valid_finale_updates.append({"id": fid, "status": status})
+    su["finale_updates"] = valid_finale_updates[:2]
+
+    for numeric_key in ("clock_updates", "pressure_updates", "resource_updates"):
+        cleaned = []
+        for item in su.get(numeric_key, []) or []:
+            if not isinstance(item, dict):
+                continue
+            uid = str(item.get("id") or item.get("clock_id") or item.get("pressure_id") or item.get("resource_id") or "").strip()
+            if not uid:
+                continue
+            update = {"id": uid}
+            for k in ("value", "delta"):
+                if item.get(k) is not None:
+                    try:
+                        update[k] = max(-10, min(20, int(item.get(k) or 0)))
+                    except Exception:
+                        pass
+            if item.get("active") is not None:
+                update["active"] = bool(item.get("active"))
+            if len(update) > 1:
+                cleaned.append(update)
+        su[numeric_key] = cleaned[:3]
+
+    if not isinstance(su.get("flags"), dict):
+        su["flags"] = {}
     else:
-        # Prende i primi 2/3 e l'ultimo terzo per catturare intro + finale
-        head = pdf_text[:int(MAX_CHARS * 0.7)]
-        tail = pdf_text[-int(MAX_CHARS * 0.3):]
-        pdf_excerpt = head + f"\n\n[...{len(pdf_text) - MAX_CHARS} caratteri omessi dal centro...]\n\n" + tail
-        truncated_note = f" (documento di {len(pdf_text)} caratteri, troncato a {MAX_CHARS})"
-        print(f"[create_adventure_from_pdf_text] PDF lungo{truncated_note}")
+        su["flags"] = {
+            _clean_canon_text(k, limit=60): _clean_canon_text(v, limit=180) if isinstance(v, str) else v
+            for k, v in list(su["flags"].items())[:6]
+            if _clean_canon_text(k, limit=60)
+        }
 
-    estimated_tokens = len(pdf_excerpt) // 4
-    estimated_cost_usd = estimated_tokens / 1_000_000 * 3.0
-    print(f"[create_adventure_from_pdf_text] {len(pdf_excerpt)} caratteri → ~{estimated_tokens:,} token input → ~${estimated_cost_usd:.4f}")
+    su["new_threads"] = su.get("new_threads", []) if allow_runtime_threads else []
+    if allow_runtime_threads:
+        su["new_threads"] = [str(t).strip() for t in su["new_threads"][:1] if str(t).strip()]
 
-    prompt = f"""Sei un assistente specializzato nell'analisi di moduli GDR (giochi di ruolo da tavolo) per uso creativo e ludico.
-Il testo che segue è un modulo GDR pubblicato — fiction narrativa con temi drammatici tipici del genere (misteri, antagonisti, violenza narrativa). Va trattato esclusivamente come materiale di gioco da analizzare strutturalmente.
-Il genere della campagna è: {genre_label}
-
-TESTO DEL MODULO GDR{truncated_note}:
----
-{pdf_excerpt}
----
-
-GRUPPO DI GIOCATORI:
-{sheets}
-
-Il tuo compito: analizza il testo e ricava una "bibbia" strutturata dell'avventura, adattandola al gruppo.
-Se il testo non contiene alcune informazioni, inventale in modo coerente con ciò che è scritto.
-
-LIMITI OBBLIGATORI per stare nel budget token:
-- npcs: massimo 8 NPC (solo i più importanti per la trama)
-- clues: massimo 6 indizi
-- Ogni clue deve essere concreta e giocabile: prova fisica, testimonianza, documento, comportamento, dettaglio di luogo o contraddizione. Evita frasi solo atmosferiche.
-- Ogni clue deve avere un payoff implicito: cosa permette di capire, sbloccare o evitare.
-- twists: massimo 3 colpi di scena
-- locations: massimo 5 location
-- Descrizioni brevi: max 1 frase per campo description/secret/atmosphere/ecc.
-
-has_time_pressure: metti false se l'avventura è esplorazione libera o investigazione senza conto alla rovescia esplicito. Metti true se ci sono urgenze temporali (qualcuno deve essere salvato entro X tempo, bomba, ecc.).
-
-Generi disponibili: sci_fi, fantasy, mystery_horror, ww2, romance, action, detective_classico
-
-Rispondi SOLO con questo JSON (niente testo fuori, niente markdown fence):
-{{
-  "title": "titolo avventura",
-  "detected_genre": "uno dei generi disponibili sopra, scegli il più adatto",
-  "premise": "premessa in 2-3 frasi — cosa sanno i giocatori all'inizio",
-  "hidden_truth": "la verità nascosta che i giocatori devono scoprire",
-  "atmosphere": "tono e atmosfera dell'avventura",
-  "win_condition": "condizione di vittoria chiara e misurabile",
-  "threat_description": "la minaccia principale che incombe",
-  "threat_max_turns": 10,
-  "has_time_pressure": true,
-  "npcs": [
-    {{"id": "npc_1", "name": "Nome", "role": "ruolo", "description": "descrizione breve", "attitude": "neutral", "status": "alive", "location": "dove si trova", "secret": "cosa nasconde"}}
-  ],
-  "clues": [
-    {{"id": "clue_1", "text": "prova concreta utilizzabile", "type": "physical_evidence | testimony | document | behavior | location_detail | contradiction", "thread_id": "T1 | T2 | T3", "reveals": "cosa rivela", "payoff": "cosa permette di capire/sbloccare/evitare", "location": "dove trovarlo", "found": false}}
-  ],
-  "twists": [
-    {{"id": "twist_1", "description": "colpo di scena", "trigger": "cosa lo attiva"}}
-  ],
-  "locations": [
-    {{"id": "loc_1", "name": "nome location", "description": "descrizione breve", "has_combat_potential": false}}
-  ]
-}}"""
-
-    raw = _call_text_model(prompt, max_tokens=6000)
-    refusal_phrases = ["i'm sorry", "i can't assist", "i cannot assist", "non posso aiutare", "non posso elaborare"]
-    if any(p in raw.lower()[:200] for p in refusal_phrases):
-        print(f"[create_adventure_from_pdf_text] modello ha rifiutato: {raw[:200]}")
-        return {"error": "Il modello AI ha rifiutato di elaborare questo PDF (contenuto sensibile). Prova a caricare un PDF diverso o usa la creazione manuale dell'avventura."}
     try:
-        result = _extract_json_object(raw)
-        result["from_pdf"] = True
-        result = _normalize_pdf_adventure_canon(result)
-        return result
-    except Exception as e:
-        print(f"[create_adventure_from_pdf_text] parse error: {e}")
-        return {"error": "Impossibile estrarre la bibbia dal PDF", "raw": raw[:300]}
+        su["threat_increase"] = max(0, min(3, int(su.get("threat_increase", 0) or 0)))
+    except Exception:
+        su["threat_increase"] = 0
+    for key in ["activate_combat", "combat_over", "story_over", "victory"]:
+        su[key] = bool(su.get(key, False))
+    if "combat_scene" not in su:
+        su["combat_scene"] = None
+    if "location_access" in su and not isinstance(su["location_access"], list):
+        su["location_access"] = []
+    if "objective_progress" in su:
+        try:
+            su["objective_progress"] = max(0, min(3, int(su["objective_progress"])))
+        except Exception:
+            su["objective_progress"] = 0
+
+    resolved_before = game_state_data.get("resolved_threads") or game_state_data.get("closed_threads") or []
+    finale_conditions = (adventure.get("adventure_canon") or {}).get("finale_conditions") or []
+    try:
+        threat_now = int(game_state_data.get("threat_level", 0) or 0)
+        threat_max = int(game_state_data.get("threat_max", 10) or 10)
+    except Exception:
+        threat_now, threat_max = 0, 10
+    explicit_trigger = bool(
+        su.get("explicit_trigger")
+        or su.get("finale_condition_met")
+        or game_state_data.get("finale_condition_met")
+        or game_state_data.get("objective_complete")
+    )
+    has_finale_basis = bool(
+        explicit_trigger
+        or resolved_before
+        or su["closed_threads"]
+        or (threat_max > 0 and threat_now >= threat_max)
+    )
+    if su["story_over"] and su.get("victory") and finale_conditions and not has_finale_basis:
+        su["story_over"] = False
+        su["victory"] = False
+        su["threat_increase"] = max(su["threat_increase"], 1)
+        su.setdefault("validation_notes", []).append("finale bloccato: manca una deduzione risolta o una condizione finale soddisfatta")
+        blocked_updates.append("finale")
+
+    major_aliases = {
+        "finale", "morte gruppo", "group_death", "death_group", "tpk",
+        "boss release", "boss_release", "apocalisse", "apocalypse",
+        "distruzione luogo", "location_destroyed", "destroy_location",
+        "rivelazione finale", "final_revelation",
+    }
+    raw_major = su.get("major_event") or su.get("major_events") or []
+    if isinstance(raw_major, str):
+        major_events = [raw_major]
+    elif isinstance(raw_major, list):
+        major_events = [str(x) for x in raw_major if str(x).strip()]
+    elif isinstance(raw_major, dict):
+        major_events = [str(raw_major.get("type") or raw_major.get("event") or "major_event")]
+    else:
+        major_events = []
+    def _norm_major(value: str) -> str:
+        return value.strip().lower().replace("-", "_").replace(" ", "_")
+
+    normalized_major = {_norm_major(m) for m in major_events}
+    has_major_event = bool(normalized_major & {_norm_major(m) for m in major_aliases})
+
+    roll_intent = str((prerolled or {}).get("intent") or ((prerolled or {}).get("intent_classification") or {}).get("intent") or "").lower()
+    passive_action = bool((prerolled or {}).get("non_combat_action")) or roll_intent in {
+        "investigation", "observation", "technical", "medical", "social", "stealth", "survival", "generic"
+    }
+    terminal_requested = bool(su.get("story_over") or su.get("victory") or has_major_event)
+    major_authorized = explicit_trigger or has_finale_basis
+    if (has_major_event or terminal_requested) and not major_authorized:
+        if su.get("story_over"):
+            blocked_updates.append("story_over")
+        if su.get("victory"):
+            blocked_updates.append("victory")
+        blocked_updates.extend(major_events or ["major_event"])
+        su["story_over"] = False
+        su["victory"] = False
+        su["major_event"] = None
+        su["major_events"] = []
+        su["threat_increase"] = min(su["threat_increase"], 1)
+        su.setdefault("validation_notes", []).append("evento maggiore bloccato: manca explicit_trigger o finale_condition")
+
+    if passive_action and not major_authorized:
+        passive_blocked = []
+        for key in ("story_over", "victory"):
+            if su.get(key):
+                passive_blocked.append(key)
+                su[key] = False
+        if has_major_event:
+            passive_blocked.extend(major_events or ["major_event"])
+            su["major_event"] = None
+            su["major_events"] = []
+        if passive_blocked:
+            blocked_updates.extend(passive_blocked)
+            su["threat_increase"] = min(su["threat_increase"], 1)
+            su.setdefault("validation_notes", []).append("evento terminale bloccato: azione passiva/non combattiva")
+
+    persistent_keys = [
+        "clue_progress", "clues_found", "discovered_facts", "npc_updates",
+        "closed_threads", "threat_increase", "location_access", "objective_progress",
+        "location_updates", "objective_updates", "faction_updates", "clock_updates",
+        "pressure_updates", "resource_updates", "finale_updates", "flags",
+        "activate_combat", "combat_over", "story_over",
+    ]
+    if not any(su.get(k) for k in persistent_keys):
+        if prerolled and prerolled.get("success") and valid_clue_ids:
+            candidate = next((cid for cid in valid_clue_ids if cid not in clues_found_ids), None)
+            if candidate:
+                su["clue_progress"] = [{"clue_id": candidate, "note": "Il successo produce un avanzamento concreto verso una prova canonica.", "ticks": 1}]
+        else:
+            su["threat_increase"] = 1
+    if blocked_updates:
+        su["blocked_state_updates"] = sorted({str(x) for x in blocked_updates if str(x).strip()})
+        su["needs_alternative_narration"] = True
+        su["narration_constraints"] = (
+            "Riscrivi l'esito senza finale, morte gruppo, boss release, apocalisse, distruzione luogo "
+            "o rivelazione finale: l'azione produce solo progresso parziale, costo locale o pressione."
+        )
+    if director_decision:
+        su = validate_ai_state_updates(
+            su,
+            director_decision=director_decision,
+            genre_profile=director_decision.get("genre_profile"),
+            prerolled=prerolled,
+            narrative_text=narrative_text,
+            finale_condition_met=bool(game_state_data.get("finale_condition_met") or game_state_data.get("objective_complete")),
+        )
+    return su
+
+
+def compile_adventure_to_runtime(
+    content: str,
+    genre_hint: str | None = None,
+    runtime_profile_hint: str | None = None,
+    source_type: str = "raw_text",
+    title: str = "",
+) -> dict:
+    """Adventure Compiler: estrae JSON simulabile, valida e inizializza runtime state."""
+    content = content or ""
+    if source_type == "pdf_text":
+        content = content[:PDF_COMPILER_MAX_INPUT_CHARS]
+    else:
+        content = content[:50000]
+    if source_type == "pdf_text":
+        structure = extract_pdf_structure(content)
+        counts = structure.get("counts") or {}
+        def _mark_pdf_output(data: dict) -> dict:
+            data = dict(data or {})
+            data["source_mode"] = "pdf_import"
+            for key in ("clues", "actors", "npcs", "locations", "event_clocks", "finale_conditions", "revelations", "story_threads"):
+                items = data.get(key)
+                if not isinstance(items, list):
+                    continue
+                next_items = []
+                for item in items:
+                    if not isinstance(item, dict):
+                        next_items.append(item)
+                        continue
+                    item = dict(item)
+                    item.setdefault("source_status", "inferred")
+                    if key in {"clues", "actors", "npcs", "locations"}:
+                        item.setdefault("is_preserved_from_pdf", True)
+                    next_items.append(item)
+                data[key] = next_items
+            return data
+
+        pdf_prompt = f"""You are an adventure module compiler for a state-driven RPG engine.
+Return ONLY valid JSON. Do not summarize the source; convert it into playable runtime canon.
+LANGUAGE POLICY: all player-facing natural language fields MUST be in Italian, even if the PDF/source is English. Preserve proper names, places and canonical labels, but translate/destructure premise, initial_hook, objectives, revelations, clue text, NPC goals, clock consequences, finale methods and suggestions into fluent Italian.
+
+SOURCE TYPE: PDF MODULE IMPORT
+TITLE HINT: {title}
+	GENRE HINT: {genre_hint or ""}
+	RUNTIME PROFILE HINT: {runtime_profile_hint or ""}
+	EXTRACTED STRUCTURE COUNTS: {json.dumps(counts, ensure_ascii=False)}
+	FIDELITY TARGET: preserve at least 85-90% of the playable adventure content visible in the provided text.
+	MINIMUM DENSITY TARGETS:
+	- If rooms/sections/locations are visible, produce multiple locations, not a single generic starting area.
+	- If named NPCs, factions, monsters or witnesses are visible, produce actors for the important ones.
+	- If clues, secrets or revelations are visible, produce linked clues and revelations; never leave clues unlinked.
+	- For long modules, simplify wording but preserve the adventure graph: premise, route/locations, actors, clues, clocks, encounters, finale.
+
+PDF IMPORT RULES
+- Read and interpret the module as an adventure, not as generic prose.
+- Produce an opening premise with 3-5 vivid Italian sentences: where the PCs are, why they are there, what immediate pressure exists, and what concrete first choice is visible.
+- Preserve named rooms, NPCs, clues, factions, maps, encounters and finale conditions when present.
+- Do not invent unrelated mysteries, factions, symbols or villains.
+- If the PDF contains rules text mixed with adventure text, ignore rules-only passages unless they define encounters or playable procedures.
+- Convert implicit adventure logic into explicit runtime fields: objectives, revelations/story threads, clues, actors, locations, clocks, finale conditions.
+- Every clue must be concrete, located, and linked to a thread/revelation.
+- Every important NPC must have goal, secret/knowledge if present, current_plan and pressure_response.
+- Every hot/finale location should include a tactical_map; neutral/social locations should not.
+- The win condition must explain how the players can complete the module.
+- Mark preserved source elements with source_status="explicit" and is_preserved_from_pdf=true when taken from the text.
+- Put uncertain repairs in suggestions, not in hidden truth.
+
+OUTPUT JSON SHAPE:
+{{
+  "source_mode": "pdf_import",
+  "id": "stable_id",
+  "title": "module title, translated only if it is not a proper title",
+  "genre": "genre",
+  "runtime_profiles": ["investigation_graph"],
+  "tone": "tone",
+  "premise": "situazione iniziale giocabile in italiano, 3-5 frasi vivide",
+  "initial_hook": "apertura in medias res in italiano, non generica",
+  "hidden_truth": "verita centrale in italiano se presente, altrimenti premessa centrale del modulo",
+  "core_truths": [{{"id":"truth_1","statement":"truth","reveal_clues":["clue_1"],"reveal_rule":"when..."}}],
+  "objectives": [{{"id":"obj_1","label":"clear win objective","success_conditions":["condition"]}}],
+  "story_threads": [{{"id":"T1","title":"thread title","question":"player-facing mystery question","true_answer":"canonical answer","status":"hidden","required_clues":["clue_1"],"minimum_clues_to_deduce":2,"payoff":"what it unlocks","linked_npcs":["actor_1"],"linked_locations":["loc_1"]}}],
+  "revelations": [{{"id":"rev_1","thread_id":"T1","statement":"canonical deduction answer","required_clues":["clue_1"],"conditions":[],"payoff":"what it unlocks"}}],
+  "clues": [{{"id":"clue_1","label":"specific clue","type":"physical_evidence|testimony|document|behavior|location_detail|contradiction","thread_id":"T1","source_location":"specific location","reveals":"what it reveals","payoff":"what it enables","revelation_ids":["rev_1"],"is_required":true,"source_status":"explicit","is_preserved_from_pdf":true}}],
+  "actors": [{{"id":"actor_1","name":"name","role":"antagonist|ally|witness|neutral","location_id":"loc_1","goal":"goal","secret":"secret or useful knowledge","fear":"fear","current_plan":"operational plan","fallback_plan":"fallback plan","resources":["resource"],"knows":["information"],"wants":["want"],"avoids":["avoid"],"pressure_response":{{"low":"response","medium":"response","high":"response","critical":"response"}},"source_status":"explicit","is_preserved_from_pdf":true}}],
+  "locations": [{{"id":"loc_1","name":"name","description":"module-accurate description","type":"room|site|region","access_state":"open|locked|hidden|blocked","visual_identity":"specific visual identity","gameplay_function":"what players do here","concrete_features":["usable feature"],"hazards":["hazard"],"exits":["exit"],"locked_paths":["locked path"],"clue_slots":["clue_1"],"tactical_features":["feature"],"tactical_map":{{"enabled":false}},"source_status":"explicit","is_preserved_from_pdf":true}}],
+  "event_clocks": [{{"id":"clock_1","label":"clock","progress":0,"max":6,"on_complete":"consequence","steps":[{{"step":1,"world_state_change":"change","scene_prompt":"visible sign","possible_player_response":"response"}}]}}],
+  "finale_conditions": [{{"id":"finale_1","label":"final condition","depends_on":["obj_1"],"required_clues":["clue_1"],"method":"concrete method","concrete_choice":"player-facing choice"}}],
+  "genre_runtime": {{"routes":[],"safe_nodes":[],"maps":[],"special_items":[]}},
+  "suggestions": ["uncertain repair or missing source material"]
+}}
+
+PDF TEXT:
+\"\"\"{content}\"\"\""""
+        if _text_provider_available():
+            last_error = ""
+            for provider_name in [_ACTIVE_PROVIDER] + ([p for p in [_other_provider()] if p]):
+                try:
+                    raw = (
+                        _call_text_model(pdf_prompt, max_tokens=PDF_COMPILER_MAX_OUTPUT_TOKENS)
+                        if provider_name == _ACTIVE_PROVIDER
+                        else _call_text_model_with_provider(provider_name, pdf_prompt, max_tokens=PDF_COMPILER_MAX_OUTPUT_TOKENS)
+                    )
+                    if _looks_like_refusal(raw):
+                        last_error = "provider_refusal"
+                        continue
+                    data = _extract_json_object(raw)
+                    data = _mark_pdf_output(data)
+                    data.setdefault("source_structure", structure)
+                    data.setdefault("preservation_policy", {"forbid_structural_compression": True, "preserve_original_structure": True, "reason": "PDF interpreted by AI compiler"})
+                    compiled = compile_from_raw_structure(
+                        data,
+                        source_type="pdf_text",
+                        title=title or data.get("title", ""),
+                        genre_hint=genre_hint,
+                        runtime_profile_hint=runtime_profile_hint,
+                    )
+                    report = compiled["validation_report"]
+                    report.setdefault("suggestions", []).append("PDF interpretato dal compiler AI prima della normalizzazione runtime.")
+                    report["compiler_ai_used"] = True
+                    return {
+                        "adventure_definition": compiled["adventure_definition"].model_dump(),
+                        "runtime_state": compiled["runtime_state"].model_dump(),
+                        "validation_report": report,
+                    }
+                except Exception as e:
+                    last_error = f"{type(e).__name__}: {e}"
+                    print(f"[compile_adventure_to_runtime/pdf] provider {provider_name} errore: {last_error}")
+            print(f"[compile_adventure_to_runtime/pdf] fallback locale dopo errore AI: {last_error}")
+        has_strong_local_structure = bool(
+            int(counts.get("rooms") or 0) >= 3
+            or int(counts.get("clues") or 0) >= 3
+            or (int(counts.get("npcs") or 0) >= 2 and int(counts.get("encounters") or 0) >= 1)
+        )
+        if not has_strong_local_structure:
+            raise ValueError(
+                "Il PDF non e stato interpretato dal compiler AI e il fallback locale non ha trovato abbastanza struttura giocabile "
+                "(stanze, indizi, PNG o incontri). Meglio fermarsi qui che inventare un modulo generico."
+            )
+        compiled = compile_pdf_to_runtime(
+            content,
+            title=title,
+            genre_hint=genre_hint,
+            runtime_profile_hint=runtime_profile_hint,
+        )
+        report = compiled["validation_report"]
+        report.setdefault("suggestions", []).append("Fallback locale usato: nessun compiler AI disponibile o JSON AI non valido.")
+        report["compiler_ai_used"] = False
+        definition = compiled["adventure_definition"]
+        low_density = (
+            len(definition.locations or []) <= 2
+            and len(definition.actors or []) == 0
+            and len(definition.clues or []) <= 3
+            and len(content) > 20000
+        )
+        if low_density:
+            raise ValueError(
+                "Compiler PDF a bassa fedeltà: l'AI non ha prodotto JSON valido e il fallback locale ha compresso troppo "
+                f"({len(definition.locations or [])} location, {len(definition.actors or [])} attori, {len(definition.clues or [])} indizi). "
+                "Meglio riprovare/chunkare il PDF che salvare un runtime non fedele."
+            )
+        return {
+            "adventure_definition": compiled["adventure_definition"].model_dump(),
+            "runtime_state": compiled["runtime_state"].model_dump(),
+            "validation_report": report,
+        }
+
+    if source_type == "manual_json":
+        try:
+            data = json.loads(content)
+            if isinstance(data, dict):
+                data["source_mode"] = "manual_json"
+                compiled = compile_from_raw_structure(
+                    data,
+                    source_type="manual_json",
+                    title=title or data.get("title", ""),
+                    genre_hint=genre_hint,
+                    runtime_profile_hint=runtime_profile_hint,
+                )
+                return {
+                    "adventure_definition": compiled["adventure_definition"].model_dump(),
+                    "runtime_state": compiled["runtime_state"].model_dump(),
+                    "validation_report": compiled["validation_report"],
+                }
+        except Exception:
+            pass
+
+    if source_type == "raw_text":
+        structure = extract_pdf_structure(content)
+        counts = structure.get("counts") or {}
+        detected = structure.get("detected_structure") or {}
+        looks_structured = bool(detected.get("has_room_keys") or counts.get("clues", 0) >= 5 or counts.get("factions", 0) >= 2)
+        if looks_structured:
+            compiled = compile_structured_text_to_runtime(
+                content,
+                title=title,
+                genre_hint=genre_hint,
+                runtime_profile_hint=runtime_profile_hint,
+            )
+            return {
+                "adventure_definition": compiled["adventure_definition"].model_dump(),
+                "runtime_state": compiled["runtime_state"].model_dump(),
+                "validation_report": compiled["validation_report"],
+            }
+
+    source_mode = "manual_json" if source_type == "manual_json" else "raw_text"
+    pdf_rules = ""
+    ai_rules = """
+AI GENERATED / RAW TEXT RULES
+- If this is a generic prompt, use narrative archetypes as shape before filling.
+- Create a complete but non-repetitive runtime structure.
+- Write premise and initial_hook as 3-5 vivid Italian sentences with a clear starting situation, immediate pressure, first location, and visible first decision.
+- Do not always use 3 clues, 3 locations, 1 antagonist.
+- Vary structure according to archetype.
+"""
+    prompt = f"""You are an adventure compiler, not a narrator.
+Return ONLY valid JSON. Do not write prose outside JSON.
+LANGUAGE POLICY: all player-facing natural language fields MUST be in Italian, even if the source prompt is English. Preserve proper names, but translate premise, initial_hook, objectives, revelations, clues, NPC agendas, clocks, finale conditions and suggestions into fluent Italian.
+
+TASK
+Compile the source adventure into a state-driven AdventureDefinition.
+Do not invent new core plot unless needed to repair missing structure. If something is missing, put it in suggestions, not canon.
+Preserve original genre and tone.
+
+SOURCE TYPE: {source_type}
+SOURCE MODE: {source_mode}
+TITLE HINT: {title}
+GENRE HINT: {genre_hint or ""}
+RUNTIME PROFILE HINT: {runtime_profile_hint or ""}
+
+{pdf_rules or ai_rules}
+
+OUTPUT JSON SHAPE:
+{{
+  "id": "stable_id",
+  "title": "title",
+  "genre": "genre",
+  "runtime_profiles": ["investigation_graph"],
+  "tone": "tone",
+  "premise": "premessa in italiano, concreta e giocabile, 3-5 frasi",
+  "initial_hook": "apertura in italiano, in medias res, non generica",
+  "core_truths": [{{"id":"truth_1","statement":"hidden truth","reveal_clues":["clue_1"],"reveal_rule":"when..."}}],
+  "objectives": [{{"id":"obj_1","label":"objective","success_conditions":["condition"]}}],
+  "revelations": [{{"id":"rev_1","thread_id":"T1","statement":"deduction/revelation","required_clues":["clue_1"],"conditions":[],"payoff":"what it unlocks"}}],
+  "clues": [{{"id":"clue_1","label":"concrete clue","type":"physical_evidence","thread_id":"T1","source_location":"location","reveals":"what it reveals","payoff":"what it enables","revelation_ids":["rev_1"],"is_required":true}}],
+  "actors": [{{"id":"actor_1","name":"name","role":"antagonist|ally|witness|neutral","location_id":"loc_1","goal":"goal","secret":"secret","fear":"fear","current_plan":"current operational plan","fallback_plan":"fallback plan","resources":["concrete resource"],"knows":["useful information"],"wants":["want"],"avoids":["avoid"],"pressure_response":{{"low":"response","medium":"response","high":"response","critical":"response"}}}}],
+  "factions": [],
+  "locations": [{{"id":"loc_1","name":"name","description":"short","type":"room|site|region","access_state":"open","visual_identity":"specific visual identity","gameplay_function":"what players can do here","concrete_features":["usable feature"],"hazards":["hazard"],"exits":["exit"],"locked_paths":["locked path"],"clue_slots":["clue_1"],"tactical_features":["cover, choke point, elevation"],"tactical_map":{{"enabled":false}}}}],
+  "event_clocks": [{{"id":"clock_1","label":"clock","progress":0,"max":6,"on_complete":"consequence","steps":[{{"step":1,"world_state_change":"concrete change","scene_prompt":"what becomes visible","possible_player_response":"what players can do"}}]}}],
+  "pressure_systems": [],
+  "resources": [],
+  "finale_conditions": [{{"id":"finale_1","label":"finale condition","depends_on":["obj_1"],"required_clues":["clue_1"],"method":"concrete method","concrete_choice":"player-facing final choice"}}],
+  "genre_runtime": {{"routes":[],"safe_nodes":[],"security_layers":[],"ritual_conditions":[],"special_items":[],"scene_nodes":[]}},
+  "suggestions": ["missing but useful repair"]
+}}
+
+VALIDATION TARGETS
+- Every clue links to at least one revelation.
+- Every revelation has clues or conditions.
+- Every objective has success_conditions.
+- Every finale depends on objective/revelation/clock/state/flag.
+- Important NPCs have role, goal, current/possible location.
+- Locations have id, name, type, access_state.
+- Event clocks have max/progress/on_complete.
+- Every clue is concrete: visible, physical/testimonial, in a precise location, and tied to possible player actions.
+- Major NPCs have operational agenda: goal, fear, current_plan, fallback_plan and pressure_response.
+- Locations have playable features, hazards, exits, clue slots and tactical features when useful.
+- Finale conditions have method and concrete player choice.
+
+SOURCE:
+\"\"\"{content}\"\"\""""
+    raw = _call_text_model(prompt, max_tokens=5000)
+    if _looks_like_refusal(raw):
+        fallback = _other_provider()
+        if fallback:
+            raw = _call_text_model_with_provider(fallback, prompt, max_tokens=5000)
+    try:
+        data = _extract_json_object(raw)
+    except Exception:
+        compiled = compile_ai_generated_to_runtime(
+            content,
+            title=title or "Avventura compilata",
+            genre_hint=genre_hint,
+            runtime_profile_hint=runtime_profile_hint,
+        )
+        compiled["validation_report"].setdefault("suggestions", []).append(
+            "Il provider non ha restituito JSON valido: usata forma archetipica variabile locale."
+        )
+        return {
+            "adventure_definition": compiled["adventure_definition"].model_dump(),
+            "runtime_state": compiled["runtime_state"].model_dump(),
+            "validation_report": compiled["validation_report"],
+        }
+    data["source_mode"] = data.get("source_mode") or "ai_generated"
+    compiled = compile_from_raw_structure(
+        data,
+        source_type=source_type,
+        title=title or data.get("title", ""),
+        genre_hint=genre_hint,
+        runtime_profile_hint=runtime_profile_hint,
+    )
+    return {
+        "adventure_definition": compiled["adventure_definition"].model_dump(),
+        "runtime_state": compiled["runtime_state"].model_dump(),
+        "validation_report": compiled["validation_report"],
+    }
+
+
+_MOVE_ACTION_RE = re.compile(r"[Ss]postar[si]* verso\s+(.+)", re.IGNORECASE)
+
+
+def _resolve_movement_destination(player_action: str, runtime, current_scene_id: str) -> str:
+    """F5: se l'azione è 'Spostarsi verso X', restituisce il location_id della destinazione.
+
+    Consente al director di usare i vincoli di visibilità della scena di arrivo,
+    non di quella di partenza, eliminando la race tra movimento e narrazione.
+    """
+    m = _MOVE_ACTION_RE.search(player_action or "")
+    if not m:
+        return current_scene_id
+    dest_name = m.group(1).strip().rstrip(".")
+    for loc in (runtime.locations or []):
+        if loc.name.lower() == dest_name.lower() or loc.id.lower() == dest_name.lower():
+            return loc.id
+    # fallback: substring match
+    dest_norm = dest_name.lower()
+    for loc in (runtime.locations or []):
+        if dest_norm in loc.name.lower() or loc.name.lower() in dest_norm:
+            return loc.id
+    return current_scene_id
 
 
 def master_turn_with_bible(
@@ -4318,6 +5022,26 @@ def master_turn_with_bible(
       }
     """
     active = next((p for p in players if p["id"] == active_player_id), players[0])
+    adventure = _normalize_adventure_canon(dict(adventure or {}), source=(adventure or {}).get("adventure_canon", {}).get("source", "runtime_guard"))
+    runtime = build_adventure_runtime(adventure, game_state_data)
+    runtime_warnings = validate_runtime_integrity(adventure)
+    simulation = simulate_world_state(
+        runtime,
+        player_action=player_action,
+        prerolled=prerolled,
+        game_state_data=game_state_data,
+    )
+    _map_state = game_state_data.get("map_state") or {}
+    _current_scene_id = _map_state.get("current_node_id") or game_state_data.get("current_scene_id") or ""
+    # F5: se l'azione del giocatore è uno spostamento (generato da F2 con "Spostarsi verso X"),
+    # risolve la destinazione PRIMA della decisione del director per allineare i vincoli di visibilità.
+    _current_scene_id = _resolve_movement_destination(player_action, runtime, _current_scene_id) or _current_scene_id
+    director_decision = make_director_decision(runtime, simulation, prerolled=prerolled, current_scene_id=_current_scene_id or None)
+    engine_updates = director_decision.get("state_updates_required") or {}
+    runtime_context = runtime_prompt_context(runtime)
+    director_context = director_prompt_context(director_decision)
+    if runtime_warnings:
+        director_context += "\n- Avvisi runtime: " + "; ".join(runtime_warnings[:4])
     sheets = "\n".join(_player_sheet(p) for p in players)
     genre_label = _GENRE_LABELS.get(genre, genre)
     # Roster skill + obiettivi di tutti i giocatori per opzioni multi-personaggio
@@ -4367,13 +5091,30 @@ def master_turn_with_bible(
             ready_threads.append(row)
 
     npc_statuses = game_state_data.get("npc_statuses", {})
+    canon = adventure.get("adventure_canon") or {}
+    canon_context = (
+        "\nCANOVACCIO CANONICO CHIUSO:"
+        f"\n- Verita centrale: {canon.get('core_truth') or adventure.get('hidden_truth','')}"
+        f"\n- Antagonista principale: {canon.get('main_antagonist') or 'non dichiarato'}"
+        f"\n- Falsi indizi ammessi: {'; '.join(canon.get('false_leads') or []) or 'nessuno'}"
+        f"\n- Luoghi chiave: {'; '.join(canon.get('key_locations') or []) or 'non dichiarati'}"
+        f"\n- Condizioni finale: {'; '.join(canon.get('finale_conditions') or []) or adventure.get('win_condition','')}"
+    )
+
     npcs_context = ""
+    npc_agenda_context = ""
     for npc in adventure.get("npcs", []):
         st = npc_statuses.get(npc["id"], {})
         status = st.get("status", npc.get("status", "alive"))
         attitude = st.get("attitude", npc.get("attitude", "neutral"))
         loc = st.get("location", npc.get("location", "?"))
         npcs_context += f"\n- {npc['name']} ({npc['role']}): status={status}, attitude={attitude}, location={loc}"
+        agenda = npc.get("npc_agenda") or {}
+        if agenda:
+            npc_agenda_context += (
+                f"\n- {npc.get('name')}: ruolo={agenda.get('role','neutral')} | arco={st.get('arc_status', agenda.get('arc_status','unintroduced'))} | "
+                f"obiettivo={agenda.get('goal','')} | segreto={agenda.get('secret','')} | priorita={agenda.get('recurrence_priority','medium')}"
+            )
 
     threat_level = game_state_data.get("threat_level", 0)
     threat_max = adventure.get("threat_max_turns", 8)
@@ -4438,6 +5179,15 @@ def master_turn_with_bible(
         cur_node = nodes.get(cur_node_id) or {}
         if cur_node.get("name"):
             current_location = f"\nLocation attuale: {cur_node['name']} — {cur_node.get('description','')}"
+            tactical_map = cur_node.get("tactical_map") or {}
+            if tactical_map.get("enabled"):
+                current_location += (
+                    "\nScheda tattica canonica di questa zona: "
+                    f"ruolo={tactical_map.get('role','hot_zone')}; layout={tactical_map.get('layout','room')}; "
+                    f"trigger={tactical_map.get('trigger','confronto diretto')}; "
+                    f"elementi={'; '.join(tactical_map.get('features') or [])}; "
+                    f"pericoli={'; '.join(tactical_map.get('hazards') or [])}"
+                )
             # NPC presenti in questa location
             npc_here = [n["name"] for n in adventure.get("npcs", []) if
                         (n.get("location","") or "").lower() in cur_node.get("name","").lower()
@@ -4459,6 +5209,7 @@ def master_turn_with_bible(
     player_actions_recent = [m["text"] for m in history[-8:] if m["role"] != "master"]
 
     prompt = f"""Sei il Master di una campagna GDR in stile {genre_label} (GURPS Lite).
+LINGUA OBBLIGATORIA: rispondi sempre in italiano naturale. Se il canovaccio contiene frasi in inglese, traducile nella narrativa e nelle opzioni mantenendo solo nomi propri e toponimi originali.
 
 ═══ BIBBIA AVVENTURA ═══
 Titolo: {adventure.get('title', '?')}
@@ -4467,9 +5218,13 @@ Verità nascosta (NON rivelare ancora se non è il momento): {adventure.get('hid
 Minaccia: {adventure.get('threat_description', '?')} — livello attuale {threat_level}/{threat_max} ({threat_pct}%)
 Condizione vittoria: {adventure.get('win_condition', '?')}
 {twists_context}
+{canon_context}
+{runtime_context}
+{director_context}
 
 ═══ STATO PARTITA (turno {turn}) ═══{current_location}
 PNG:{npcs_context}
+AGENDE PNG:{npc_agenda_context or "\n- nessuna agenda strutturata"}
 {clues_context}
 Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
 {threads_context}
@@ -4488,6 +5243,7 @@ Roster gruppo:
 ISTRUZIONI:
 1. TIRO GURPS già effettuato — NON simularlo. Esito vincolante:
    Skill: {prerolled["skill"] if prerolled else "?"} | 3d6={prerolled["rolled"] if prerolled else "?"} vs {prerolled["effective_skill"] if prerolled else "?"} | Margine: {prerolled["margin"] if prerolled else "?"} | Esito: {prerolled["outcome"] if prerolled else "?"} | Successo: {str(prerolled["success"]) if prerolled else "?"}
+   Intento rilevato: {prerolled.get("intent", "?") if prerolled else "?"} | Skill consentite per intento: {", ".join((prerolled.get("allowed_skills") or [])[:10]) if prerolled else "?"}
    - FALLIMENTO: il personaggio non ottiene ciò che voleva, c'è un costo narrativo concreto.
    - SUCCESSO PARZIALE: risultato incompleto con conseguenza.
    - SUCCESSO PIENO/CRITICO: pieno successo, narra con dettaglio.
@@ -4504,20 +5260,39 @@ ISTRUZIONI:
    - Assegna ogni opzione al personaggio più adatto per skill e motivazione.
    - La terza è sempre "Azione custom".
 
-4. Aggiorna lo stato (clue_progress, clues_found, npc_updates, new_threads, threat_increase).
+4. Aggiorna lo stato (clue_progress, clues_found, npc_updates, location_updates, objective_updates, faction_updates, clock/resource/finale updates, threat_increase).
    threat_increase deve essere 1-2 se il turno fa avanzare la minaccia, 0 se i giocatori hanno guadagnato terreno.
 
 REGOLE CANOVACCIO PDF — OBBLIGATORIE:
+- STATE-DRIVEN: il motore ha gia deciso gli update minimi in "NARRATIVE DIRECTOR". La tua narrativa deve renderli, non sostituirli.
+- Non sei la fonte della verita: non cambiare core_truth, antagonista, indizi, clock, locations, faction/actor state o esito meccanico.
+- Se proponi state_updates diversi da quelli del director, devono essere aggiunte compatibili; il backend dara precedenza agli update del motore.
 - Usa solo adventure_canon, story_threads, clues, npcs e locations gia presenti nella bibbia. Non creare nuovi filoni portanti.
 - Gli indizi sono FISSI: non generare nuovi indizi, nomi-prova, simboli, documenti o sottotrame. Puoi solo far progredire o ottenere indizi gia elencati in clues.
+- Ogni clues_found o clue_progress deve usare un id clue esistente e quella clue deve avere thread_id valido.
 - Ogni scena puo far avanzare al massimo 1 indizio canonico in clue_progress, scegliendo SOLO id esistenti fra gli indizi nascosti.
 - clues_found deve restare raro: usalo solo quando la prova canonica è stata recuperata, letta, confermata o testimoniata in modo chiaro.
 - Se narri solo un avvicinamento, sospetto, accesso parziale o frammento, NON usare clues_found: usa clue_progress.
 - new_threads deve essere sempre []. Se emerge una nuova complicazione, mettila in npc_updates, threat_increase, combat_scene o narrativa, non come thread.
+- discovered_facts deve contenere solo fatti concreti gia derivati da un clue, non atmosfera.
+- Usa npc_updates per far cambiare stato, luogo, atteggiamento o arc_status agli NPC del canovaccio; non inventare PNG importanti se ci sono NPC canonici inutilizzati.
 - Se una pista e ready_to_deduce, proponi una sintesi deduttiva esplicita nella narrativa e chiudila in closed_threads solo se i giocatori hanno verificato o accettato la deduzione.
 - Se una pista e ready_to_deduce, NON introdurre nuovi misteri prima di aver offerto una scena di sintesi/confronto/verifica.
-- Un successo deve sempre modificare almeno uno stato persistente: clue_progress, clues_found, npc_updates, closed_threads, threat_increase, activate_combat/combat_over, story_over.
+- Un successo deve sempre modificare almeno uno stato persistente: clue_progress, clues_found, npc_updates, location_updates, objective_updates, faction_updates, closed_threads, threat_increase, activate_combat/combat_over, story_over.
 - Un fallimento non blocca la storia: produce indizio incompleto, costo, complicazione, pressione o falso vantaggio, sempre collegato a un thread esistente.
+- DERAILMENT PREVENTION: non usare una skill fuori intento. Se l'intento rilevato non è combat, non trasformare l'azione in combattimento e non usare combattere come fallback narrativo.
+- EVENTI MAGGIORI: finale, morte gruppo, boss release, apocalisse, distruzione di un luogo e rivelazione finale sono vietati salvo explicit_trigger o finale_condition gia soddisfatta. Azioni passive come osservare, cercare, studiare, ascoltare o decifrare non possono causare catastrofi terminali; al massimo producono costo locale, pressione o clue_progress.
+
+NARRATIVE AUTHORITY LIMITS — OBBLIGATORIO:
+- Sei un renderer, non l'autorita sul canovaccio.
+- Devi obbedire a allowed_escalation_tier indicato dal NARRATIVE DIRECTOR.
+- Non creare esiti terminali se non sono esplicitamente autorizzati.
+- Non cambiare genere, tono o cosmologia dell'avventura.
+- Non introdurre apocalisse, sole nero, distruzione del mondo, rovina irreversibile o game over se non sono consentiti dal profilo genere e dal tier.
+- Narra dentro il genre_profile e usa solo escalation_types consentiti.
+- Se il tiro fallisce, produci il tipo di conseguenza indicato dal Director, non una piu grande.
+- Se il Director dice pressure increase, narra solo pressione/allarme/costo locale.
+- Non concludere l'avventura: story_over e victory valgono solo se validati dal backend.
 
 REGOLA FINE AVVENTURA — OBBLIGATORIA:
 - Se threat_level >= threat_max ({threat_pct}% attuale): questo è l'ULTIMO turno. La minaccia ha vinto. Narra un finale drammatico di sconfitta ({adventure.get('threat_description','la minaccia')[:60]} si compie), poi imposta story_over=true, victory=false. Non proporre opzioni di continuazione.
@@ -4528,8 +5303,11 @@ REGOLA COMBATTIMENTO — OBBLIGATORIA:
 Stato attuale combattimento: {"IN COMBATTIMENTO" if game_state_data.get("in_combat") else "NON in combattimento"}.
 
 - Se NON in combattimento: imposta activate_combat=true SE la narrativa porta a uno scontro fisico diretto (nemico attacca, i giocatori attaccano, sparatoria inizia, aggressione esplicita). NON aspettare che il giocatore lo chieda — se il contesto porta allo scontro, ATTIVALO.
+- Se la Location attuale contiene una scheda tattica canonica e il trigger indicato si verifica, activate_combat=true è fortemente preferito: quella zona è stata progettata come zona calda/finale.
 - Se GIÀ IN COMBATTIMENTO: activate_combat=false (il combattimento è già attivo). Imposta combat_over=true se i nemici sono stati eliminati/fuggiti/catturati e lo scontro è concluso.
 - combat_scene (solo quando activate_combat=true): popola ESCLUSIVAMENTE con PNG antagonisti vivi che combattono (persone, creature). NO luoghi, ambienti, oggetti. HP realistici: umano normale 10-12 HP, guardia 12-15, boss 20+. attack_skill: 10-14 per umani, active_defense: 8-10, damage_dice: "1d6" corpo a corpo, "2d6-1" arma da fuoco.
+- BILANCIAMENTO: se non è una zona finale/boss, genera al massimo {max(1, min(3, len(players)))} nemici, meglio 1-3, con skill 9-11 e danni contenuti. Gli scontri iniziali devono poter essere evitati, vinti o abbandonati.
+- VIA DI USCITA: ogni combat_scene non finale deve lasciare una ritirata plausibile o una via alternativa nella fiction; non chiudere i giocatori in una trappola letale salvo scena finale dichiarata.
 
 Esempio combat_scene corretto:
 {{"entities": [{{"id": "nemico_1", "name": "Guardia Armata", "type": "enemy", "zone": "centro", "hp": 12, "max_hp": 12, "dr": 2, "attack_skill": 12, "active_defense": 9, "damage_dice": "2d6-1", "damage_type": "cr"}}]}}
@@ -4556,6 +5334,16 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     "clues_found": [],
     "discovered_clues": [],
     "npc_updates": [],
+    "location_updates": [],
+    "objective_updates": [],
+    "revelation_updates": [],
+    "faction_updates": [],
+    "clock_updates": [],
+    "pressure_updates": [],
+    "resource_updates": [],
+    "finale_updates": [],
+    "truth_updates": [],
+    "flags": {{}},
     "new_threads": [],
     "closed_threads": [],
     "threat_increase": 0,
@@ -4563,7 +5351,13 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     "combat_scene": null,
     "combat_over": false,
     "story_over": false,
-    "victory": false
+    "victory": false,
+    "major_event": null,
+    "explicit_trigger": null,
+    "finale_condition_met": false,
+    "allowed_escalation_tier": {director_decision.get("allowed_escalation_tier", 3)},
+    "allowed_escalation_types": [],
+    "forbidden_escalation_types": []
   }}
 }}"""
 
@@ -4593,136 +5387,65 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
         }
 
     raw = _call_text_model(prompt, max_tokens=2400)
+    if _looks_like_refusal(raw):
+        fallback_provider = _other_provider()
+        if fallback_provider:
+            try:
+                raw = _call_text_model_with_provider(fallback_provider, prompt, max_tokens=2400)
+            except Exception:
+                pass
+    if _looks_like_refusal(raw):
+        result = _safe_master_refusal_fallback(
+            adventure=adventure,
+            active_name=active.get("name", "Il gruppo"),
+            player_action=player_action,
+            prerolled=prerolled,
+            active_player_id=active_player_id,
+        )
+        result["state_updates"] = _validate_master_state_updates(
+            merge_engine_and_ai_updates(engine_updates, result.get("state_updates") or {}),
+            adventure=adventure,
+            game_state_data=game_state_data,
+            prerolled=prerolled,
+            director_decision=director_decision,
+            narrative_text=result.get("narrative", ""),
+        )
+        return result
     try:
         result = _extract_json_object(raw)
     except Exception:
         result = {
-            "narrative": raw[:600] if raw else "Il Master non risponde.",
+            "narrative": "Il Master non riesce a trasformare la risposta in JSON valido, quindi mantiene la scena sul canovaccio: la situazione avanza con una conseguenza concreta senza introdurre nuovi misteri.",
             "roll": None,
             "options": [{"text": "Continua", "skill": "", "skill_level": 0, "stat": "", "player_id": active_player_id}],
-            "state_updates": {"clues_found": [], "npc_updates": [], "new_threads": [], "closed_threads": [], "threat_increase": 1, "activate_combat": False, "combat_scene": None, "combat_over": False, "story_over": False, "victory": False},
+            "state_updates": merge_engine_and_ai_updates(engine_updates, {"clues_found": [], "npc_updates": [], "new_threads": [], "closed_threads": [], "threat_increase": 1, "activate_combat": False, "combat_scene": None, "combat_over": False, "story_over": False, "victory": False}),
         }
     # Guardia residua: se Claude ha ignorato story_over nonostante threat < 100
-    su = result.get("state_updates") or {}
-    valid_clue_ids = {str(c.get("id")) for c in all_clues if c.get("id")}
-    valid_progress = []
-    for item in su.get("clue_progress", []) or []:
-        if not isinstance(item, dict):
-            continue
-        cid = str(item.get("clue_id") or item.get("id") or "")
-        if cid not in valid_clue_ids or cid in clues_found_ids:
-            continue
-        note = _clean_canon_text(item.get("note") or item.get("text") or "", limit=180)
-        if not note:
-            note = "La squadra si avvicina a questo indizio canonico."
-        try:
-            ticks = max(1, min(1, int(item.get("ticks", 1))))
-        except Exception:
-            ticks = 1
-        valid_progress.append({"clue_id": cid, "note": note, "ticks": ticks})
-    su["clue_progress"] = valid_progress[:1]
-    found_now = []
-    for cid in su.get("clues_found", []) or []:
-        cid = str(cid)
-        if cid in valid_clue_ids and cid not in clues_found_ids and cid not in found_now:
-            found_now.append(cid)
-    su["clues_found"] = found_now[:1]
-    su["discovered_clues"] = [
-        {
-            "id": c.get("id"),
-            "label": c.get("label") or c.get("text"),
-            "thread_id": c.get("thread_id", ""),
-            "type": c.get("type", ""),
-            "source_location": c.get("source_location") or c.get("location", ""),
-            "reveals": c.get("reveals", ""),
-            "payoff": c.get("payoff", ""),
-        }
-        for c in all_clues
-        if c.get("id") in su["clues_found"]
-    ]
-    su["new_threads"] = []
-    if not any([
-        su.get("clue_progress"),
-        su.get("clues_found"),
-        su.get("npc_updates"),
-        su.get("closed_threads"),
-        su.get("threat_increase"),
-        su.get("activate_combat"),
-        su.get("combat_over"),
-        su.get("story_over"),
-    ]):
-        su["threat_increase"] = 1 if not prerolled or not prerolled.get("success") else 0
-    if su.get("story_over") is None:
-        su["story_over"] = False
-    result["state_updates"] = su
-    return result
-
-
-def master_start_with_bible(genre: str, players: list[dict], adventure: dict) -> dict:
-    """Scena d'apertura usando la bibbia dell'avventura."""
-    genre_label = _GENRE_LABELS.get(genre, genre)
-    sheets = "\n".join(_player_sheet(p) for p in players)
-    first_player = players[0] if players else {"name": "il gruppo", "id": 0}
-
-    roster_lines = []
-    for p in players:
-        top_sk = sorted(p.get("skills", {}).items(), key=lambda x: -x[1])[:5]
-        sk_str = ", ".join(f"{skill_display(k)}({v})" for k, v in top_sk)
-        roster_lines.append(f"  - {p['name']} [id={p['id']}] ({p.get('role','')}): {sk_str or 'nessuna skill'}")
-    roster_text = "\n".join(roster_lines)
-
-    import json as _json
-    first_thread = _json.dumps(
-        (adventure.get("premise", "")[:80] + "...") if adventure.get("premise") else "L'avventura inizia",
-        ensure_ascii=False,
+    su = merge_engine_and_ai_updates(engine_updates, result.get("state_updates") or {})
+    su = _validate_master_state_updates(
+        su,
+        adventure=adventure,
+        game_state_data=game_state_data,
+        prerolled=prerolled,
+        director_decision=director_decision,
+        narrative_text=result.get("narrative", ""),
     )
-
-    prompt = f"""Sei il Master di una campagna GDR in stile {genre_label} (GURPS Lite).
-
-BIBBIA AVVENTURA:
-Titolo: {adventure.get('title', '?')}
-Premessa: {adventure.get('premise', '?')}
-Atmosfera: {adventure.get('atmosphere', '')}
-Prima location: {adventure.get('locations', [{}])[0].get('description', '') if adventure.get('locations') else ''}
-
-GRUPPO:
-{sheets}
-
-Roster skill (per assegnare le opzioni iniziali):
-{roster_text}
-
-Apri la storia con la scena d'apertura — in medias res, atmosfera densa, un dettaglio che cattura subito.
-NON rivelare la verità nascosta. Lascia che il mistero emerga gradualmente.
-Proponi 3 opzioni iniziali assegnando ciascuna al personaggio del gruppo più adatto per quella skill/azione (player_id). Se possibile coinvolgi personaggi diversi in opzioni diverse. Una deve essere "Azione custom".
-
-Nota: questa scena NON richiede un tiro dado — è solo narrazione d'apertura.
-
-Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
-{{
-  "narrative": "...",
-  "roll": null,
-  "options": [
-    {{"text": "...", "skill": "<nome>", "skill_level": <int>, "stat": "<stat>", "player_id": <id del personaggio più adatto>}},
-    {{"text": "...", "skill": "<nome>", "skill_level": <int>, "stat": "<stat>", "player_id": <id del personaggio più adatto>}},
-    {{"text": "Azione custom", "skill": "", "skill_level": 0, "stat": "", "player_id": {first_player["id"]}}}
-  ],
-  "state_updates": {{
-    "clues_found": [], "npc_updates": [], "new_threads": [{first_thread}],
-    "closed_threads": [], "threat_increase": 0, "activate_combat": false,
-    "combat_scene": null, "combat_over": false, "story_over": false, "victory": false
-  }}
-}}"""
-
-    raw = _call_text_model(prompt, max_tokens=1200)
-    try:
-        return _extract_json_object(raw)
-    except Exception:
-        return {
-            "narrative": raw[:600] if raw else "La storia inizia...",
-            "roll": None,
-            "options": [{"text": "Guarda intorno", "skill": "osservare", "skill_level": 10, "stat": "intelligenza", "player_id": first_player["id"]}],
-            "state_updates": {"clues_found": [], "npc_updates": [], "new_threads": [], "closed_threads": [], "threat_increase": 0, "activate_combat": False, "combat_scene": None, "combat_over": False, "story_over": False, "victory": False},
-        }
+    result["state_updates"] = su
+    if su.get("needs_alternative_narration"):
+        blocked = ", ".join(su.get("blocked_major_events") or su.get("blocked_state_updates") or ["evento maggiore"])
+        safe_progress = ""
+        if su.get("clue_progress"):
+            safe_progress = " Un dettaglio utile emerge, ma resta incompleto e dovra essere verificato."
+        elif su.get("npc_updates"):
+            safe_progress = " Qualcuno reagisce, cambia posizione o atteggiamento, aprendo una nuova possibilita concreta."
+        else:
+            safe_progress = " La pressione aumenta, ma la situazione resta giocabile e legata al canovaccio."
+        result["narrative"] = (
+            f"L'esito non puo far scattare {blocked}: manca un innesco esplicito o una condizione finale. "
+            f"L'azione di {active.get('name', 'chi agisce')} produce invece una conseguenza locale coerente con il tiro {{{{ROLL}}}}."
+            f"{safe_progress}"
+        )
+    return result
 
 
 def evaluate_personal_victories(players: list[dict], adventure: dict, final_narrative: str, group_victory: bool) -> dict[int, bool]:

@@ -25,54 +25,22 @@ Roadmap viva delle migliorie su compiler PDF→runtime e game engine, partendo d
 - [ ] **P4** — Faction relationship matrix LLM (oggi `factions: []` quasi sempre vuoto su moduli con fazioni implicite)
 - [ ] **P5** — Source-aware finale: cercare boxed_text/sezione "ending|conclusion|risoluzione" per generare `FinaleCondition.concrete_choice`
 
-## Engine — in corso
+## Engine — completato
 
-### F1 — Scene-aware visibility API · in corso
-Nuovo modulo `scene_context.py` con funzioni pure riutilizzabili dal resto della pipeline:
+- [x] **F1** — Scene-aware visibility API: `scene_context.py` con `visible_clues_at`, `present_actors_at`, `actions_for_scene`, `current_location`. Match tollerante case-insensitive substring.
+- [x] **F2** — Action templates location-aware: `_initial_runtime_options()` usa `actions_for_scene()`. Usa `clue.possible_actions[0]` LLM verbatim, non `"Cercare X a Y"`. Fallback "Esplora attivamente".
+- [x] **F3a** — Failure non avanza investigazione: `apply_story_updates(state, updates, *, outcome=...)` droppa clues_found/clue_progress/discovered_facts su fallimento.
+- [x] **F3c** — Progressione PbtA-style: successo pieno → pieno; parziale → demote a clue_progress; fallimento → niente.
 
-- `visible_clues_at(runtime, definition, scene_id) → list[RuntimeClue]`
-- `present_actors_at(runtime, definition, scene_id) → list[ActorState]`
-- `actions_for_scene(runtime, definition, scene_id) → list[dict]`
+## Engine — da fare
 
-Match tollerante: case-insensitive, prefisso e suffisso (es. "Torre - Stanza 4" matcha "Stanza 4"). Default visibility = solo elementi nella scena corrente. Usato poi da F2 e F4 senza duplicazione.
-
-### F3a — Failure non avanza investigazione · in corso
-`apply_story_updates(state, updates, *, outcome=...)`: se outcome ∈ {"fallimento", "fallimento critico"} → drop di `clues_found`, `clue_progress` e `discovered_facts.clue_for_thread`. Log esplicito di cosa viene scartato. Backward-compat: parametro default "successo pieno".
-
-### F3c — Progressione PbtA-style differenziata · in corso
-Nello stesso `apply_story_updates`:
-
-- `successo critico` / `successo pieno` → accetta sia `clues_found` che `clue_progress` come oggi
-- `successo parziale` → `clues_found` viene **demoted** a `clue_progress` (i PG ottengono progresso ma non la scoperta piena)
-- `fallimento` / `fallimento critico` → F3a (nessun avanzamento, solo costo narrativo)
-
-Singolo signature change in `main.py:1215` per passare `roll_detail["outcome"]`.
-
-## Engine — da fare dopo F1+F3
-
-### F2 — Action templates location-aware
-Sostituzione di `f"Cercare {clue.label} a {place}"` ([main.py:857](backend/App/main.py:857)) con:
-
-1. Filtro `actions_for_scene(current_scene_id)` da F1
-2. Usa `clue.possible_actions[0]` (già generato come frase completa dal LLM) invece di prependere "Cercare"
-3. Endpoint `/game/turn/options` per ricalcolo turno-per-turno (oggi le azioni sono solo iniziali)
-4. Fallback "Esplora attivamente {scene.name}" quando location vuota
-
-### F4 — Visibility constraints nel prompt Master IA
-In `narrative_director.py:director_prompt_context` aggiungere blocco esplicito:
-```
-ELEMENTI PRESENTI IN SCENA: clue=[...], npc=[...]
-REGOLA: non narrare elementi assenti come presenti
-```
-Riduce allucinazioni (esempio reale: failure check che "rivela" il clue testuale).
-
-### F5 — `current_scene_id` sync atomico col movimento
-Spostare la sync da post-turno ([main.py:1120](backend/App/main.py:1120)) a pre-narrazione, dentro `resolve_actions` se il giocatore si sposta. Evita race con director.
+- [x] **F4** — Visibility constraints nel prompt Master IA: `director_prompt_context` aggiunge blocco "INDIZI/NPC PRESENTI IN SCENA" + "REGOLA VISIBILITÀ". `make_director_decision` calcola elementi visibili via `scene_context`.
+- [x] **F5** — `current_scene_id` sync atomico col movimento: `_resolve_movement_destination()` in `claude_service.py` — se `player_action` è "Spostarsi verso X" risolve la destinazione *prima* della decisione director. Elimina race tra movimento e narrazione.
 
 ## Test plan
 
 - [x] Suite esistente 99 verdi in 0.05s offline
-- [ ] `test_scene_context.py`: 3 location, 5 clue distribuiti, 2 actor → asserire filtro per scena
-- [ ] `test_clue_progression.py`: successo/parziale/fallimento → outcome corretto su `clues_found` e `clue_progress`
+- [x] `test_scene_context.py`: 11 test — filtro scena, tollerante prefix match, azioni, attori
+- [x] `test_clue_progression.py`: 9 test — successo/parziale/fallimento → outcome corretto
 - [ ] `test_action_generation.py`: fixture Thrusher Manor → action list contiene `possible_actions` LLM, non "Cercare X a Y"
 - [ ] Integration: failure check su Thrusher → clue resta nascosto + narrativa non rivela contenuto

@@ -30,6 +30,7 @@ from .models import GameState, CombatDefenseRequest, CharacterDraft, SceneEntity
 from .runtime_models import AdventureDefinition, AdventureRuntimeState
 from .adventure_runtime_store import list_runtimes, load_runtime, save_runtime, update_runtime
 from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to_runtime
+from .scene_context import actions_for_scene
 
 app = FastAPI()
 app.add_middleware(
@@ -845,34 +846,38 @@ def _opening_context_from_definition(definition: AdventureDefinition) -> dict:
     }
 
 
+_SKILL_HINT_MAP: dict[str, str] = {
+    "Observation": "osservare",
+    "Research": "osservare",
+    "Diplomacy": "negoziare",
+    "Intimidation": "negoziare",
+    "Forensics": "osservare",
+    "Detect Lies": "negoziare",
+}
+
+
+def _skill_hint_to_italian(hint: str) -> str:
+    return _SKILL_HINT_MAP.get(hint, "")
+
+
 def _initial_runtime_options(definition: AdventureDefinition, players: list[dict]) -> list[dict]:
-    ctx = _opening_context_from_definition(definition)
-    loc = ctx["first_location"]
-    next_loc = ctx["second_location"]
-    clue = ctx["first_clue"]
-    actor = ctx["first_actor"]
-    raw_options: list[str] = []
-    if clue:
-        place = clue.source_location or (loc.name if loc else "questa zona")
-        raw_options.append(f"Cercare {clue.label} a {place}")
-    if actor:
-        raw_options.append(f"Avvicinare {actor.name} e capire cosa sa davvero")
-    if next_loc:
-        raw_options.append(f"Trovare un passaggio sicuro verso {next_loc.name}")
-    if len(raw_options) < 3 and loc:
-        raw_options.append(f"Mettere in sicurezza {loc.name} prima che la minaccia reagisca")
-    raw_options = list(dict.fromkeys(raw_options))[:2]
-    options = []
-    for text in raw_options:
-        skill = _skill_for_option(text)
+    opening_scene_id = definition.locations[0].id if definition.locations else None
+    scene_actions = actions_for_scene(None, definition, opening_scene_id, max_actions=4)
+    options: list[dict] = []
+    for action in scene_actions:
+        label = action["label"]
+        skill_hint = action.get("skill_hint") or ""
+        skill = _skill_hint_to_italian(skill_hint) or _skill_for_option(label)
         player_id, skill_level = _best_player_for_skill(players, skill)
         options.append({
-            "text": text,
+            "text": label,
             "skill": skill,
             "skill_level": skill_level,
             "stat": "intelligenza" if skill in {"osservare", "sopravvivenza"} else ("empatia" if skill == "negoziare" else "agilita"),
             "player_id": player_id,
         })
+        if len(options) >= 2:
+            break
     options.append({"text": "Azione custom", "skill": "", "skill_level": 0, "stat": "", "player_id": players[0]["id"] if players else 0})
     return options[:3]
 
