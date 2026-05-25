@@ -979,6 +979,22 @@ def _compile_pdf_structure_to_runtime(
     if synthesis:
         for key, value in synthesis.items():
             raw[key] = value
+        # Le stesse stringhe vivono anche in objectives[0].label e
+        # core_truths[0].statement (sorgenti effettive dei campi UI
+        # "OBIETTIVO PER VINCERE" e "VERITA NASCOSTA"). Senza patchare
+        # qui, l'override del campo flat resta invisibile.
+        if synthesis.get("win_condition"):
+            objectives = raw.get("objectives") or []
+            if objectives and isinstance(objectives[0], dict):
+                objectives[0]["label"] = synthesis["win_condition"]
+            else:
+                raw["objectives"] = [{"id": "obj_pdf", "label": synthesis["win_condition"], "success_conditions": []}]
+        if synthesis.get("hidden_truth"):
+            truths = raw.get("core_truths") or []
+            if truths and isinstance(truths[0], dict):
+                truths[0]["statement"] = synthesis["hidden_truth"]
+            else:
+                raw["core_truths"] = [{"id": "truth_pdf", "statement": synthesis["hidden_truth"], "reveal_clues": []}]
     if llm_meta.get("tone"):
         raw["tone"] = llm_meta["tone"]
     return compile_from_raw_structure(
@@ -1061,6 +1077,22 @@ def compile_structured_text_to_runtime(text: str, *, title: str = "", genre_hint
     if synthesis:
         for key, value in synthesis.items():
             raw[key] = value
+        # Le stesse stringhe vivono anche in objectives[0].label e
+        # core_truths[0].statement (sorgenti effettive dei campi UI
+        # "OBIETTIVO PER VINCERE" e "VERITA NASCOSTA"). Senza patchare
+        # qui, l'override del campo flat resta invisibile.
+        if synthesis.get("win_condition"):
+            objectives = raw.get("objectives") or []
+            if objectives and isinstance(objectives[0], dict):
+                objectives[0]["label"] = synthesis["win_condition"]
+            else:
+                raw["objectives"] = [{"id": "obj_pdf", "label": synthesis["win_condition"], "success_conditions": []}]
+        if synthesis.get("hidden_truth"):
+            truths = raw.get("core_truths") or []
+            if truths and isinstance(truths[0], dict):
+                truths[0]["statement"] = synthesis["hidden_truth"]
+            else:
+                raw["core_truths"] = [{"id": "truth_pdf", "statement": synthesis["hidden_truth"], "reveal_clues": []}]
     if llm_meta.get("tone"):
         raw["tone"] = llm_meta["tone"]
     return compile_from_raw_structure(
