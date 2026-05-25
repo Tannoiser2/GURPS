@@ -1,7 +1,8 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8002";
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "/_/backend" : "http://127.0.0.1:8002");
+const VERCEL_PDF_UPLOAD_LIMIT_BYTES = 4 * 1024 * 1024;
 
 const STAT_ICON = { forza: "💪", agilita: "🏃", intelligenza: "🧠", empatia: "💙" };
 const STAT_LABEL = { forza: "FO", agilita: "DE", intelligenza: "IN", empatia: "SA" };
@@ -30,6 +31,38 @@ function StatBar({ stats }) {
   );
 }
 
+function rollTraitHighlights(r) {
+  const traits = [];
+  for (const t of r?.adv_breakdown || []) {
+    if (!t?.name || !t?.delta) continue;
+    traits.push({
+      name: t.name,
+      delta: t.delta,
+      note: t.delta > 0 ? "bonus tratto" : "malus tratto",
+      color: t.delta > 0 ? "#4ade80" : "#f87171",
+    });
+  }
+  for (const t of r?.environmental_trait_modifiers || []) {
+    if (!t?.name || !t?.delta) continue;
+    traits.push({
+      name: t.name,
+      delta: t.delta,
+      note: "riduce il malus ambientale",
+      color: "#60a5fa",
+    });
+  }
+  if (r?.luck) {
+    const extra = (r.luck.extra_rolls || []).join(", ");
+    traits.push({
+      name: r.luck.trait || "Fortuna",
+      delta: null,
+      note: `ritiro: ${r.luck.original_roll} → ${r.luck.chosen_roll}${extra ? ` (${extra})` : ""}`,
+      color: "#facc15",
+    });
+  }
+  return traits;
+}
+
 function DiceFormulaRow({ r }) {
   // Costruisce la formula leggibile da un entry di roll_details
   const parts = [];
@@ -48,6 +81,7 @@ function DiceFormulaRow({ r }) {
   if (r.difficulty)   parts.push({ label: "difficoltà", val: `−${r.difficulty}`,   color: "#f87171", kind: "malus" });
   if (r.status_malus) parts.push({ label: "ferite",     val: `−${r.status_malus}`, color: "#f87171", kind: "malus" });
   if (r.threat_malus) parts.push({ label: "minaccia",   val: `−${r.threat_malus}`, color: "#f87171", kind: "malus" });
+  const traitHighlights = rollTraitHighlights(r);
 
   const outcomeColor = r.outcome?.includes("CRITICO") && r.success ? "#22c55e"
     : r.outcome?.includes("CRITICO") ? "#ef4444"
@@ -84,6 +118,18 @@ function DiceFormulaRow({ r }) {
         <span style={{ color: "#94a3b8" }}>→ margine</span>
         <span style={{ fontWeight: 700, color: r.margin >= 0 ? "#4ade80" : "#f87171" }}>{r.margin >= 0 ? "+" : ""}{r.margin}</span>
       </div>
+      {traitHighlights.length > 0 && (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 6 }}>
+          {traitHighlights.map((t, i) => (
+            <span key={`${t.name}-${i}`} style={{
+              padding: "2px 7px", borderRadius: 6, fontSize: 10, fontWeight: 800,
+              background: `${t.color}18`, border: `1px solid ${t.color}55`, color: t.color,
+            }}>
+              {t.name}{t.delta !== null ? ` ${t.delta > 0 ? "+" : ""}${t.delta}` : ""} <span style={{ opacity: 0.72, fontWeight: 600 }}>· {t.note}</span>
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -97,6 +143,7 @@ function DiceResult({ roll, rollDetails }) {
     const allOk = rollDetails.every(r => r.success);
     const anyFail = rollDetails.some(r => !r.success);
     const anyCrit = rollDetails.some(r => r.critical);
+    const traitCount = rollDetails.reduce((acc, r) => acc + rollTraitHighlights(r).length, 0);
     const summaryColor = anyCrit && allOk ? "#22c55e" : anyFail ? "#f87171" : "#4ade80";
     const firstOutcomeLabel = anyCrit && allOk ? "CRITICO!" : anyCrit && anyFail ? "FALLIMENTO CRITICO!" : allOk ? "Successo" : "Fallimento";
     return (
@@ -116,6 +163,12 @@ function DiceResult({ roll, rollDetails }) {
             textShadow: `0 0 8px ${summaryColor}88`,
           }}>{first.rolled}</span>
           <span style={{ color: "#94a3b8", fontSize: 11 }}>vs {first.effective_skill}</span>
+          {traitCount > 0 && (
+            <span style={{
+              padding: "2px 7px", borderRadius: 5, fontWeight: 800, fontSize: 10,
+              background: "rgba(250,204,21,0.12)", color: "#fde68a", border: "1px solid rgba(250,204,21,0.35)",
+            }}>Tratti {traitCount}</span>
+          )}
           <span style={{ fontWeight: 800, color: summaryColor, fontSize: 11 }}>{firstOutcomeLabel}</span>
           <span style={{ marginLeft: "auto", fontSize: 10, color: "#94a3b8", opacity: 0.7 }}>{open ? "▲ chiudi" : "▼ formula"}</span>
         </div>
@@ -249,7 +302,15 @@ const ADVANTAGE_META = {
   "Carisma":                   { icon: "✨", color: "#f472b6", type: "adv" },
   "Riflessi da Combattimento": { icon: "⚡", color: "#facc15", type: "adv" },
   "Duro da Uccidere":          { icon: "🛡", color: "#4ade80", type: "adv" },
+  "Duro da Uccidere 2":        { icon: "🛡", color: "#4ade80", type: "adv" },
+  "Duro da Uccidere 3":        { icon: "🛡", color: "#4ade80", type: "adv" },
   "Sensi Acuti":               { icon: "👁", color: "#38bdf8", type: "adv" },
+  "Vista Acuta":               { icon: "👁", color: "#38bdf8", type: "adv" },
+  "Vista Acuta 2":             { icon: "👁", color: "#38bdf8", type: "adv" },
+  "Udito Acuto":               { icon: "👂", color: "#38bdf8", type: "adv" },
+  "Visione Notturna":          { icon: "🌙", color: "#818cf8", type: "adv" },
+  "Visione Notturna 3":        { icon: "🌙", color: "#818cf8", type: "adv" },
+  "Visione Notturna 6":        { icon: "🌙", color: "#818cf8", type: "adv" },
   "Forza Aumentata":           { icon: "💪", color: "#f97316", type: "adv" },
   "Alta Tecnologia":           { icon: "🔬", color: "#22d3ee", type: "adv" },
   "Ambidestrezza":             { icon: "🤲", color: "#a78bfa", type: "adv" },
@@ -267,6 +328,26 @@ const ADVANTAGE_META = {
   "Voce Bella":                { icon: "🎙", color: "#f472b6", type: "adv" },
   "Autorità":                  { icon: "⚖",  color: "#fb923c", type: "adv" },
   "Linguaggio Nativo Extra":   { icon: "🗣",  color: "#a3e635", type: "adv" },
+  "Agilità del Gatto":         { icon: "🐾", color: "#a3e635", type: "adv" },
+  "Bilanciamento Perfetto":    { icon: "⚖", color: "#22d3ee", type: "adv" },
+  "Difesa Migliorata (Schivata)": { icon: "🛡", color: "#60a5fa", type: "adv" },
+  "Elevata Soglia del Dolore": { icon: "🩹", color: "#fb7185", type: "adv" },
+  "Empatia con gli Animali":   { icon: "🐾", color: "#84cc16", type: "adv" },
+  "Flessuoso":                 { icon: "🪢", color: "#a78bfa", type: "adv" },
+  "Snodato":                   { icon: "🪢", color: "#c084fc", type: "adv" },
+  "Fortuna Straordinaria":     { icon: "🍀", color: "#4ade80", type: "adv" },
+  "Fortuna Smodata":           { icon: "🍀", color: "#4ade80", type: "adv" },
+  "Intrepido":                 { icon: "🔥", color: "#f97316", type: "adv" },
+  "Intrepido 2":               { icon: "🔥", color: "#f97316", type: "adv" },
+  "Resistente alle Malattie":  { icon: "🧬", color: "#34d399", type: "adv" },
+  "Resistente ai Veleni":      { icon: "🧪", color: "#34d399", type: "adv" },
+  "Spericolato":               { icon: "🎲", color: "#f59e0b", type: "adv" },
+  "Talento (Artificiere)":     { icon: "⭐", color: "#f59e0b", type: "adv" },
+  "Talento (Sopravvivenza)":   { icon: "⭐", color: "#84cc16", type: "adv" },
+  "Talento (Parlantina)":      { icon: "⭐", color: "#f472b6", type: "adv" },
+  "Talento Linguistico":       { icon: "🗣", color: "#a3e635", type: "adv" },
+  "Viaggiatore (Tempo)":       { icon: "⏳", color: "#a78bfa", type: "adv" },
+  "Viaggiatore (Dimensioni)":  { icon: "🌀", color: "#a78bfa", type: "adv" },
   // ── Svantaggi ───────────────────────────────────────────────────────────
   "Animo Sanguinario":         { icon: "🩸", color: "#ef4444", type: "dis" },
   "Codardo":                   { icon: "🐔", color: "#facc15", type: "dis" },
@@ -286,6 +367,36 @@ const ADVANTAGE_META = {
   "Curiosità Morbosa":         { icon: "🔍", color: "#c084fc", type: "dis" },
   "Smemoratezza":              { icon: "📭", color: "#9ca3af", type: "dis" },
   "Pessimismo":                { icon: "🌧",  color: "#6b7280", type: "dis" },
+  "Vista Imperfetta":          { icon: "👓",  color: "#9ca3af", type: "dis" },
+  "Animo Sanguinario":         { icon: "🩸", color: "#ef4444", type: "dis" },
+  "Avidità":                   { icon: "🪙", color: "#f59e0b", type: "dis" },
+  "Codice d'Onore (Pirata)":   { icon: "⚓", color: "#60a5fa", type: "dis" },
+  "Codice d'Onore (Gentiluomo)": { icon: "🎩", color: "#60a5fa", type: "dis" },
+  "Curiosità":                 { icon: "🔎", color: "#c084fc", type: "dis" },
+  "Gelosia":                   { icon: "🟢", color: "#84cc16", type: "dis" },
+  "Ghiottoneria":              { icon: "🍷", color: "#f97316", type: "dis" },
+  "Illusione Minore":          { icon: "🌀", color: "#a78bfa", type: "dis" },
+  "Illusione Maggiore":        { icon: "🌀", color: "#a78bfa", type: "dis" },
+  "Illusione Severa":          { icon: "🌀", color: "#a78bfa", type: "dis" },
+  "Fobia (Sangue)":            { icon: "🩸", color: "#ef4444", type: "dis" },
+  "Fobia (Buio)":              { icon: "🌑", color: "#64748b", type: "dis" },
+  "Fobia (Altezza)":           { icon: "🧗", color: "#f59e0b", type: "dis" },
+  "Intolleranza Totale":       { icon: "🚫", color: "#ef4444", type: "dis" },
+  "Intolleranza Specifica":    { icon: "🚫", color: "#fb7185", type: "dis" },
+  "Irascibile":                { icon: "💢", color: "#ef4444", type: "dis" },
+  "Libidine":                  { icon: "💋", color: "#f472b6", type: "dis" },
+  "Onestà":                    { icon: "⚖", color: "#60a5fa", type: "dis" },
+  "Ossessione Breve":          { icon: "🎯", color: "#f59e0b", type: "dis" },
+  "Ossessione Lunga":          { icon: "🎯", color: "#f97316", type: "dis" },
+  "Pacifismo (Riluttante a Uccidere)": { icon: "☮", color: "#34d399", type: "dis" },
+  "Presunzione":               { icon: "👑", color: "#a78bfa", type: "dis" },
+  "Sfortuna":                  { icon: "☘", color: "#9ca3af", type: "dis" },
+  "Sincerità":                 { icon: "🗣", color: "#60a5fa", type: "dis" },
+  "Sordità Parziale":          { icon: "👂", color: "#9ca3af", type: "dis" },
+  "Vista Imperfetta Non Correggibile": { icon: "👓", color: "#9ca3af", type: "dis" },
+  "Voto Minore":               { icon: "📜", color: "#facc15", type: "dis" },
+  "Voto Maggiore":             { icon: "📜", color: "#f59e0b", type: "dis" },
+  "Voto Superiore":            { icon: "📜", color: "#ef4444", type: "dis" },
 };
 
 const WOUND_META = {
@@ -617,14 +728,14 @@ function EditableName({ name, onRename, style = {}, inputStyle = {} }) {
 function PlayerChip({ player, active, onClick, avatar, onRename }) {
   return (
     <button onClick={onClick} style={{
-      display: "flex", alignItems: "center", gap: 8,
-      padding: "5px 12px 5px 5px", borderRadius: 20,
+      display: "flex", alignItems: "center", gap: 9,
+      padding: "5px 13px 5px 5px", borderRadius: 24,
       border: active ? "2px solid var(--accent)" : "1px solid var(--border)",
       background: active ? "var(--accent-bg)" : "var(--bg)",
       cursor: "pointer", fontSize: 13, color: "var(--text-h)",
       transition: "all 0.15s",
     }}>
-      <AvatarCircle src={avatar} size={28} fallback="🧑" />
+      <AvatarCircle src={avatar} size={40} fallback="🧑" />
       {onRename
         ? <EditableName name={player.name} onRename={onRename} style={{ fontSize: 13, fontWeight: 600 }} />
         : <span>{player.name}</span>
@@ -717,39 +828,93 @@ const SKILL_LIST = [
 ];
 
 const ADVANTAGE_LIST = [
+  { key: "Agilità del Gatto",          cost: 10, label: "Agilità del Gatto",          desc: "Sottrae 5 m dalle cadute; aiuta acrobazie e salti" },
   { key: "Carisma",                   cost: 5,  label: "Carisma",                   desc: "+2 tiri reazione NPC, +2 skill sociali" },
+  { key: "Bilanciamento Perfetto",     cost: 15, label: "Bilanciamento Perfetto",     desc: "+6 equilibrio difficile, +1 Acrobazia/Arrampicarsi" },
+  { key: "Difesa Migliorata (Schivata)", cost: 15, label: "Difesa Migliorata: Schivata", desc: "+1 Schivata" },
   { key: "Riflessi da Combattimento", cost: 15, label: "Riflessi da Combattimento", desc: "+1 schivata/parata/blocco, mai sorpreso" },
   { key: "Duro da Uccidere",          cost: 2,  label: "Duro da Uccidere",          desc: "Soglia morte raddoppiata" },
+  { key: "Duro da Uccidere 2",        cost: 4,  label: "Duro da Uccidere 2",        desc: "+2 alle valutazioni SA per sopravvivere" },
+  { key: "Duro da Uccidere 3",        cost: 6,  label: "Duro da Uccidere 3",        desc: "+3 alle valutazioni SA per sopravvivere" },
+  { key: "Elevata Soglia del Dolore", cost: 10, label: "Elevata Soglia del Dolore", desc: "Ignora shock; +3 contro stordimento/atterramento" },
   { key: "Sensi Acuti",               cost: 2,  label: "Sensi Acuti",               desc: "+2 Percezione e osservare" },
+  { key: "Vista Acuta",               cost: 2,  label: "Vista Acuta",               desc: "+1 alle valutazioni basate sulla vista" },
+  { key: "Vista Acuta 2",             cost: 4,  label: "Vista Acuta 2",             desc: "+2 alle valutazioni basate sulla vista" },
+  { key: "Udito Acuto",               cost: 2,  label: "Udito Acuto",               desc: "+1 alle valutazioni basate sull'udito" },
+  { key: "Visione Notturna",          cost: 1,  label: "Visione Notturna",          desc: "Ignora -1 da oscurità" },
+  { key: "Visione Notturna 3",        cost: 3,  label: "Visione Notturna 3",        desc: "Ignora -3 da oscurità" },
+  { key: "Visione Notturna 6",        cost: 6,  label: "Visione Notturna 6",        desc: "Ignora -6 da oscurità" },
   { key: "Forza Aumentata",           cost: 10, label: "Forza Aumentata",           desc: "+1 FO effettiva, +1 danni mischia" },
   { key: "Alta Tecnologia",           cost: 5,  label: "Alta Tecnologia",           desc: "+2 tecnologia e ingegneria" },
   { key: "Ambidestrezza",             cost: 5,  label: "Ambidestrezza",             desc: "Nessuna penalità mano non dominante" },
   { key: "Bellezza",                  cost: 4,  label: "Bellezza",                  desc: "+1 tiri di reazione, bonus seduzione" },
   { key: "Empatia",                   cost: 15, label: "Empatia",                   desc: "+3 Psicologia, percepisce bugie" },
+  { key: "Empatia con gli Animali",   cost: 5,  label: "Empatia con gli Animali",   desc: "Capisce animali e può influenzarli" },
+  { key: "Flessuoso",                 cost: 5,  label: "Flessuoso",                 desc: "+3 Arrampicarsi/liberarsi, ignora -3 in spazi stretti" },
+  { key: "Snodato",                   cost: 15, label: "Snodato",                   desc: "+5 Arrampicarsi/liberarsi, ignora -5 in spazi stretti" },
   { key: "Memoria Fotografica",       cost: 10, label: "Memoria Fotografica",       desc: "+2 skill di conoscenza" },
   { key: "Coraggio",                  cost: 10, label: "Coraggio",                  desc: "+2 Volontà contro paura e stress" },
+  { key: "Intrepido",                 cost: 2,  label: "Intrepido",                 desc: "+1 contro paura/intimidazione" },
+  { key: "Intrepido 2",               cost: 4,  label: "Intrepido 2",               desc: "+2 contro paura/intimidazione" },
   { key: "Sangue Freddo",             cost: 5,  label: "Sangue Freddo",             desc: "Nessuna penalità shock su tiri mira" },
   { key: "Fortuna",                   cost: 15, label: "Fortuna",                   desc: "Ritira un tiro per sessione, prende il migliore" },
+  { key: "Fortuna Straordinaria",     cost: 30, label: "Fortuna Straordinaria",     desc: "Come Fortuna, più frequente" },
+  { key: "Fortuna Smodata",           cost: 60, label: "Fortuna Smodata",           desc: "Come Fortuna, molto più frequente" },
+  { key: "Spericolato",               cost: 15, label: "Spericolato",               desc: "+1 quando corre rischi non necessari" },
   { key: "Contatti",                  cost: 3,  label: "Contatti",                  desc: "Rete informatori, +1 reazione nel gruppo" },
   { key: "Status Sociale",            cost: 5,  label: "Status Sociale",            desc: "+1 reazione in contesti sociali" },
   { key: "Ricchezza",                 cost: 10, label: "Ricchezza",                 desc: "Risorse finanziarie significative" },
   { key: "Talento",                   cost: 5,  label: "Talento",                   desc: "+1 a un gruppo tematico di skill" },
+  { key: "Talento (Artificiere)",     cost: 10, label: "Talento: Artificiere",      desc: "+1 a skill tecniche" },
+  { key: "Talento (Sopravvivenza)",   cost: 10, label: "Talento: Sopravvivenza",    desc: "+1 a sopravvivenza/esplorazione" },
+  { key: "Talento (Parlantina)",      cost: 15, label: "Talento: Parlantina",       desc: "+1 alle abilità di Influenza" },
+  { key: "Talento Linguistico",       cost: 10, label: "Talento Linguistico",       desc: "Migliora apprendimento e uso delle lingue" },
   { key: "Voce Bella",                cost: 10, label: "Voce Bella",                desc: "+2 intrattenere/parlare in pubblico" },
   { key: "Autorità",                  cost: 5,  label: "Autorità",                  desc: "NPC di rango inferiore obbediscono" },
   { key: "Linguaggio Nativo Extra",   cost: 3,  label: "Linguaggio Nativo Extra",   desc: "Parla un'altra lingua come madrelingua" },
   { key: "Istinto di Sopravvivenza",  cost: 5,  label: "Istinto di Sopravvivenza",  desc: "+1 sopravvivere, non viene mai colto di sorpresa" },
+  { key: "Resistente alle Malattie",  cost: 3,  label: "Resistente alle Malattie",  desc: "+3 a SA contro malattie" },
+  { key: "Resistente ai Veleni",      cost: 5,  label: "Resistente ai Veleni",      desc: "+3 a SA contro veleni" },
+  { key: "Viaggiatore (Tempo)",       cost: 100,label: "Viaggiatore: Tempo",        desc: "Viaggia nel tempo con concentrazione e tiro IN" },
+  { key: "Viaggiatore (Dimensioni)",  cost: 100,label: "Viaggiatore: Dimensioni",   desc: "Viaggia tra dimensioni con concentrazione e tiro IN" },
 ];
 const DISADV_LIST = [
   { key: "Animo Sanguinario", cost: -10, label: "Animo Sanguinario", desc: "Morale check per ritirarsi" },
   { key: "Codardo",           cost: -5,  label: "Codardo",           desc: "-2 a tutti i tiri in pericolo fisico" },
+  { key: "Codice d'Onore (Pirata)", cost: -5, label: "Codice d'Onore: Pirata", desc: "Vendica insulti, sostiene amici, duelli leali tra compagni" },
+  { key: "Codice d'Onore (Gentiluomo)", cost: -10, label: "Codice d'Onore: Gentiluomo", desc: "Parola, duelli, niente vantaggi sleali" },
+  { key: "Codice d'Onore (Formale)", cost: -15, label: "Codice d'Onore: Formale", desc: "Codice rigido sempre vincolante" },
   { key: "Sospettoso",        cost: -5,  label: "Sospettoso",        desc: "-2 skill sociali, +1 intuire" },
   { key: "Avidità",           cost: -15, label: "Avidità",           desc: "Volontà−3 per resistere all'avidità" },
+  { key: "Curiosità",         cost: -5,  label: "Curiosità",         desc: "Autocontrollo per non esaminare cose pericolose" },
+  { key: "Gelosia",           cost: -10, label: "Gelosia",           desc: "Reagisce male a rivali e protagonisti" },
+  { key: "Ghiottoneria",      cost: -5,  label: "Ghiottoneria",      desc: "Autocontrollo davanti a cibo/bevande desiderabili" },
+  { key: "Illusione Minore",  cost: -5,  label: "Illusione Minore",  desc: "Falsa convinzione, reazioni -1" },
+  { key: "Illusione Maggiore",cost: -10, label: "Illusione Maggiore",desc: "Falsa convinzione condizionante, reazioni -2" },
+  { key: "Illusione Severa",  cost: -15, label: "Illusione Severa",  desc: "Falsa convinzione grave, reazioni -3" },
   { key: "Senso del Dovere",  cost: -5,  label: "Senso del Dovere",  desc: "Non abbandona mai i compagni" },
+  { key: "Senso del Dovere (Individuo)", cost: -2, label: "Senso del Dovere: Individuo", desc: "Vincolo verso una persona" },
+  { key: "Senso del Dovere (Squadra)", cost: -5, label: "Senso del Dovere: Squadra", desc: "Vincolo verso la squadra" },
+  { key: "Senso del Dovere (Nazione)", cost: -10, label: "Senso del Dovere: Nazione", desc: "Vincolo verso gruppo ampio" },
   { key: "Nemico",            cost: -5,  label: "Nemico",            desc: "Un nemico attivo interferisce regolarmente" },
   { key: "Segreto",           cost: -10, label: "Segreto",           desc: "Se scoperto, conseguenze gravi" },
   { key: "Dipendenza",        cost: -5,  label: "Dipendenza",        desc: "-1 a tutti i tiri in astinenza" },
   { key: "Fobia",             cost: -10, label: "Fobia",             desc: "Volontà−4 quando esposto alla fobia" },
+  { key: "Fobia (Sangue)",    cost: -10, label: "Fobia: Sangue",     desc: "Penalità e panico davanti al sangue" },
+  { key: "Fobia (Buio)",      cost: -15, label: "Fobia: Buio",       desc: "Penalità e panico nell'oscurità" },
+  { key: "Fobia (Altezza)",   cost: -10, label: "Fobia: Altezza",    desc: "Penalità su altezze e precipizi" },
+  { key: "Fobia (Ragni)",     cost: -5,  label: "Fobia: Ragni",      desc: "Autocontrollo quando sono presenti ragni" },
   { key: "Impulsività",       cost: -10, label: "Impulsività",       desc: "Volontà−2 per resistere all'impulso" },
+  { key: "Intolleranza Totale", cost: -10, label: "Intolleranza Totale", desc: "Pregiudizio ampio, penalità sociali" },
+  { key: "Intolleranza Specifica", cost: -5, label: "Intolleranza Specifica", desc: "Pregiudizio verso un gruppo specifico" },
+  { key: "Irascibile",        cost: -10, label: "Irascibile",        desc: "Autocontrollo in situazioni stressanti" },
+  { key: "Libidine",          cost: -15, label: "Libidine",          desc: "Autocontrollo in contatti passionali" },
+  { key: "Onestà",            cost: -10, label: "Onestà",            desc: "Deve rispettare e far rispettare la legge" },
+  { key: "Ossessione Breve",  cost: -5,  label: "Ossessione Breve",  desc: "Obiettivo ossessivo a breve termine" },
+  { key: "Ossessione Lunga",  cost: -10, label: "Ossessione Lunga",  desc: "Obiettivo ossessivo a lungo termine" },
+  { key: "Pacifismo (Riluttante a Uccidere)", cost: -5, label: "Pacifismo: Riluttante a Uccidere", desc: "-4 ad attacchi mortali contro persone" },
+  { key: "Pacifismo (Incapace di Fare del Male a Innocenti)", cost: -10, label: "Pacifismo: Innocenti", desc: "Forza letale solo contro minacce serie" },
+  { key: "Presunzione",       cost: -5,  label: "Presunzione",       desc: "Cautela difficile, reazioni miste" },
   { key: "Arroganza",         cost: -5,  label: "Arroganza",         desc: "-1 reazione con sconosciuti" },
   { key: "Lealtà",            cost: -5,  label: "Lealtà",            desc: "Non può agire contro i propri alleati" },
   { key: "Poca Autostima",    cost: -10, label: "Poca Autostima",    desc: "-2 leadership, -1 Volontà nei momenti critici" },
@@ -758,6 +923,14 @@ const DISADV_LIST = [
   { key: "Curiosità Morbosa", cost: -5,  label: "Curiosità Morbosa", desc: "Volontà−2 per evitare luoghi pericolosi" },
   { key: "Smemoratezza",      cost: -5,  label: "Smemoratezza",      desc: "Può fallire il richiamo di info critiche" },
   { key: "Pessimismo",        cost: -5,  label: "Pessimismo",        desc: "-2 Leadership, penalizza il morale del gruppo" },
+  { key: "Vista Imperfetta",  cost: -10, label: "Vista Imperfetta",  desc: "-2 osservare/mira quando la vista conta" },
+  { key: "Sfortuna",          cost: -10, label: "Sfortuna",          desc: "Una volta per sessione il GM peggiora qualcosa" },
+  { key: "Sincerità",         cost: -5,  label: "Sincerità",         desc: "-5 a mentire/ingannare" },
+  { key: "Sordità Parziale",  cost: -10, label: "Sordità Parziale",  desc: "-4 a valutazioni sull'udito" },
+  { key: "Vista Imperfetta Non Correggibile", cost: -25, label: "Vista Imperfetta non correggibile", desc: "-6 vista, -2 colpire, non correggibile" },
+  { key: "Voto Minore",       cost: -5,  label: "Voto Minore",       desc: "Giuramento moderatamente limitante" },
+  { key: "Voto Maggiore",     cost: -10, label: "Voto Maggiore",     desc: "Giuramento fortemente limitante" },
+  { key: "Voto Superiore",    cost: -15, label: "Voto Superiore",    desc: "Giuramento estremamente vincolante" },
 ];
 
 const STAT_COST = { forza: 10, agilita: 20, intelligenza: 20, empatia: 10 };
@@ -1114,6 +1287,20 @@ const GENRE_META = {
   detective_classico: { emoji: "🔍", label: "Detective",      sub: "Moventi, alibi, stanze chiuse e verità che nessuno vuole.", color: "#88aaff", gradient: "135deg, #0a0a0a, #1a1a1a, #0d0d1a" },
 };
 
+function normalizeGenreKey(value, fallback = "detective_classico") {
+  const raw = String(value || "").trim().toLowerCase().replace(/[-\s]+/g, "_");
+  if (GENRE_META[raw]) return raw;
+  const blob = raw.replaceAll("_", " ");
+  if (/fantasy|medioevo|medieval|dungeon|magia|cripta|drag/.test(blob)) return "fantasy";
+  if (/horror|gotic|mystery|occult|lovecraft|malediz/.test(blob)) return "mystery_horror";
+  if (/sci|space|cyber|alien|futuro/.test(blob)) return "sci_fi";
+  if (/war|ww2|guerra|militar/.test(blob)) return "ww2";
+  if (/detective|noir|investig|giallo/.test(blob)) return "detective_classico";
+  if (/romance|sentiment/.test(blob)) return "romance";
+  if (/action|thriller|azione/.test(blob)) return "action";
+  return GENRE_META[fallback] ? fallback : "detective_classico";
+}
+
 // ─── Setup screen ──────────────────────────────────────────────────────────
 
 function ProviderBtn({ pkey, label, icon, desc, selected, available, onClick }) {
@@ -1195,6 +1382,13 @@ function SetupScreen({ onStart }) {
   const [pdfError, setPdfError] = useState("");
   const [pdfMapPage, setPdfMapPage] = useState("");
   const [preloadedAdventure, setPreloadedAdventure] = useState(null);
+  const [runtimeCompilerOpen, setRuntimeCompilerOpen] = useState(false);
+  const [runtimeSource, setRuntimeSource] = useState("");
+  const [runtimeTitle, setRuntimeTitle] = useState("");
+  const [runtimeCompileResult, setRuntimeCompileResult] = useState(null);
+  const [runtimeCompileLoading, setRuntimeCompileLoading] = useState(false);
+  const [runtimeCompilePhase, setRuntimeCompilePhase] = useState("");
+  const [runtimeCompileError, setRuntimeCompileError] = useState("");
   const [hovered, setHovered] = useState(null);
   const [showBuilder, setShowBuilder] = useState(false);
   const [avatars, setAvatars] = useState({});
@@ -1210,6 +1404,12 @@ function SetupScreen({ onStart }) {
 
   async function handlePdfUpload(file) {
     setPdfLoading(true); setPdfError(""); setPreloadedAdventure(null);
+    if (import.meta.env.PROD && file.size > VERCEL_PDF_UPLOAD_LIMIT_BYTES) {
+      const mb = (file.size / (1024 * 1024)).toFixed(1);
+      setPdfError(`PDF troppo grande per il deploy Vercel (${mb} MB). Limite pratico: circa 4 MB. Per PDF grandi usa il backend locale oppure carica una versione ridotta/estratta.`);
+      setPdfLoading(false);
+      return;
+    }
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 240000); // 4 minuti
     try {
@@ -1217,15 +1417,37 @@ function SetupScreen({ onStart }) {
       form.append("file", file);
       form.append("genre", "auto");
       form.append("players", JSON.stringify([]));
+      form.append("provider", provider);
       if (pdfMapPage.trim()) form.append("map_page", pdfMapPage.trim());
-      const res = await fetch(`${API_URL}/game/adventure/from-pdf`, {
+      const response = await fetch(`${API_URL}/game/adventure/from-pdf`, {
         method: "POST", body: form, signal: controller.signal,
-      }).then(r => r.json());
+      });
+      const contentType = response.headers.get("content-type") || "";
+      if (!response.ok) {
+        const body = await response.text().catch(() => "");
+        if (response.status === 413) {
+          throw new Error("PDF troppo grande per Vercel. Usa un file sotto circa 4 MB o avvia il backend locale.");
+        }
+        if (response.status === 504 || response.status === 503) {
+          throw new Error("Il server ha impiegato troppo tempo ad analizzare il PDF. Prova una versione più corta o usa il backend locale.");
+        }
+        throw new Error(`Errore server PDF (${response.status}). ${body.slice(0, 180)}`);
+      }
+      if (!contentType.includes("application/json")) {
+        const body = await response.text().catch(() => "");
+        throw new Error(`Risposta non valida dal server PDF. ${body.slice(0, 180)}`);
+      }
+      const res = await response.json();
       clearTimeout(timeoutId);
       if (res.error) { setPdfError(res.error); setPdfLoading(false); return; }
-      const detectedGenre = res.detected_genre || "detective_classico";
+      const detectedGenre = normalizeGenreKey(
+        res.detected_genre || res.genre || res.adventure_definition?.genre || "detective_classico",
+        "detective_classico"
+      );
+      res.genre = detectedGenre;
+      res.detected_genre = detectedGenre;
       setPreloadedAdventure(res);
-      // Carica pool personaggi per il genere rilevato
+      // Ora i PG vengono generati DOPO il compiler, cosi possono essere legati all'avventura.
       setLoading(true);
       await fetch(`${API_URL}/game/setup`, {
         method: "POST",
@@ -1235,46 +1457,168 @@ function SetupScreen({ onStart }) {
       const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
       setGenre(detectedGenre);
       const rawPool = s?.team_setup?.candidate_pool || [];
-      setPool(rawPool);
+      if (rawPool.length === 0) throw new Error(`PDF compilato, ma nessun personaggio generato per il genere "${detectedGenre}".`);
+      let contextualPool = rawPool;
+      try {
+        const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
+          body: JSON.stringify({ characters: rawPool, adventure: res, genre: detectedGenre }),
+        }).then(r => r.json());
+        if (enriched.characters) contextualPool = enriched.characters;
+      } catch (_) {}
+      setPool(contextualPool);
       setSelected([]);
       setLoading(false);
       setPdfLoading(false);
       setStep("team");
-      // Arricchisce i personaggi con backstory legati all'avventura (in background)
-      if (res && rawPool.length > 0) {
-        fetch(`${API_URL}/game/character/enrich-backstory`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ characters: rawPool, adventure: res, genre: detectedGenre }),
-        }).then(r => r.json()).then(data => {
-          if (data.characters) setPool(data.characters);
-        }).catch(() => {});
-      }
     } catch (e) {
       clearTimeout(timeoutId);
       setLoading(false);
       setPdfLoading(false);
       const msg = e.name === "AbortError"
         ? "Il server ha impiegato troppo tempo. Riprova o usa un PDF più corto."
-        : "Errore di rete durante il caricamento del PDF. Controlla che il backend sia attivo.";
+        : (e.message || "Errore di rete durante il caricamento del PDF. Controlla che il backend sia attivo.");
       setPdfError(msg);
     }
+  }
+
+  async function handleRuntimeCompile() {
+    if (!runtimeSource.trim()) return;
+    setRuntimeCompileLoading(true);
+    setRuntimeCompilePhase("Compilo il runtime...");
+    setRuntimeCompileError("");
+    setRuntimeCompileResult(null);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 120000);
+    try {
+      const response = await fetch(`${API_URL}/game/adventure/compile`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          source_type: "raw_text",
+          title: runtimeTitle || "Avventura compilata",
+          content: runtimeSource,
+          genre_hint: genre || undefined,
+        }),
+      });
+      const bodyText = await response.text();
+      if (!response.ok) throw new Error(`Errore compiler (${response.status}). ${bodyText.slice(0, 180)}`);
+      let res;
+      try {
+        res = JSON.parse(bodyText);
+      } catch {
+        throw new Error(`Risposta compiler non valida. ${bodyText.slice(0, 180)}`);
+      }
+      if (res.error) throw new Error(res.error);
+      setRuntimeCompileResult(res);
+      setRuntimeCompilePhase("Runtime compilato. Creo personaggi contestuali...");
+      const legacy = res.adventure_definition?.legacy_adventure || {};
+      const compiledAdventure = {
+        ...legacy,
+        id: res.adventure_definition?.id || legacy.id,
+        runtime_id: res.adventure_definition?.id || legacy.runtime_id,
+        from_runtime_compiler: true,
+        adventure_definition: res.adventure_definition,
+        runtime_state: res.runtime_state,
+        validation_report: res.validation_report,
+      };
+      {
+        const detectedGenre = normalizeGenreKey(legacy.detected_genre || legacy.genre || res.adventure_definition?.genre || genre, "detective_classico");
+        compiledAdventure.genre = detectedGenre;
+        compiledAdventure.detected_genre = detectedGenre;
+        setPreloadedAdventure(compiledAdventure);
+        setGenre(detectedGenre);
+        const setupRes = await fetch(`${API_URL}/game/setup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }),
+        });
+        if (!setupRes.ok) throw new Error(`Runtime compilato, ma preparazione personaggi fallita (${setupRes.status}).`);
+        const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
+        const nextPool = s?.team_setup?.candidate_pool || [];
+        if (nextPool.length === 0) throw new Error(`Runtime compilato, ma nessun personaggio generato per il genere "${detectedGenre}".`);
+        let contextualPool = nextPool;
+        try {
+          const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+            body: JSON.stringify({ characters: nextPool, adventure: compiledAdventure, genre: detectedGenre }),
+          }).then(r => r.json());
+          if (enriched.characters) contextualPool = enriched.characters;
+        } catch (_) {}
+        setPool(contextualPool);
+        setSelected([]);
+        setRuntimeCompilePhase("Pronto.");
+        setStep("team");
+      }
+    } catch (e) {
+      const msg = e.name === "AbortError"
+        ? "Il compiler sta impiegando troppo tempo. Prova con un testo più corto o riprova."
+        : (e.message || "Errore compilazione runtime");
+      setRuntimeCompileError(msg);
+    }
+    clearTimeout(timeoutId);
+    setRuntimeCompileLoading(false);
+    setRuntimeCompilePhase("");
+  }
+
+  function handleDownloadRuntimeJson() {
+    if (!runtimeCompileResult && !preloadedAdventure) return;
+    const payload = buildAdventureExport({
+      adventure: preloadedAdventure,
+      runtimeCompileResult,
+      source: runtimeCompileResult ? "runtime_compiler" : "pdf_import",
+    });
+    downloadJsonFile(payload, `${safeFilePart(payload.title)}-compilata.json`);
   }
 
   async function handleGenreSelect(g) {
     setGenre(g);
     setLoading(true);
-    await fetch(`${API_URL}/game/setup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ genre: g, provider, image_provider: imageProvider }),
-    });
-    const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
-    const rawPool = s?.team_setup?.candidate_pool || [];
-    setPool(rawPool);
-    setSelected([]);
+    setPdfError("");
+    try {
+      const created = await fetch(`${API_URL}/game/adventure/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ genre: g, players: [] }),
+      }).then(r => r.json());
+      if (created.error) throw new Error(created.error);
+      const detectedGenre = normalizeGenreKey(
+        created.detected_genre || created.genre || created.adventure_definition?.genre || g,
+        g
+      );
+      created.genre = detectedGenre;
+      created.detected_genre = detectedGenre;
+      setPreloadedAdventure(created);
+      await fetch(`${API_URL}/game/setup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }),
+      });
+      const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
+      const rawPool = s?.team_setup?.candidate_pool || [];
+      if (rawPool.length === 0) throw new Error(`Avventura creata, ma nessun personaggio generato per il genere "${detectedGenre}".`);
+      let contextualPool = rawPool;
+      try {
+        const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ characters: rawPool, adventure: created, genre: detectedGenre }),
+        }).then(r => r.json());
+        if (enriched.characters) contextualPool = enriched.characters;
+      } catch (_) {}
+      setGenre(detectedGenre);
+      setPool(contextualPool);
+      setSelected([]);
+      setStep("team");
+    } catch (e) {
+      setPdfError(e.message || "Impossibile generare l'avventura.");
+    }
     setLoading(false);
-    setStep("team");
   }
 
   function toggleSelect(id) {
@@ -1289,17 +1633,52 @@ function SetupScreen({ onStart }) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minuti
     try {
+      let adventureForStart = preloadedAdventure;
+      let poolForStart = pool;
+      if (!adventureForStart) {
+        const selectedDrafts = pool.filter(p => selected.includes(p.id));
+        const selectedDicts = selectedDrafts.map(p => ({
+          id: p.id, name: p.name, role: p.role, archetype: p.archetype || p.role || "custom",
+          stats: p.stats || {}, skills: p.skills || {},
+          advantages: p.advantages || [], disadvantages: p.disadvantages || [],
+          hp: p.hp, max_hp: p.max_hp, fp: p.fp, max_fp: p.max_fp,
+          dr: p.dr || 0, items: p.items || [], actions: p.actions || [],
+          backstory: p.backstory || "", motivation: p.motivation || "",
+        }));
+        const created = await fetch(`${API_URL}/game/adventure/create`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          signal: controller.signal,
+          body: JSON.stringify({ genre, players: selectedDicts }),
+        }).then(r => r.json());
+        if (created.error) throw new Error(created.error);
+        adventureForStart = created;
+        setPreloadedAdventure(created);
+        try {
+          const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            signal: controller.signal,
+            body: JSON.stringify({ characters: poolForStart, adventure: created, genre }),
+          }).then(r => r.json());
+          if (enriched.characters) {
+            poolForStart = enriched.characters;
+            setPool(enriched.characters);
+          }
+        } catch (_) {}
+      }
       const stateRes = await fetch(`${API_URL}/game/select-team`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ selected_player_ids: selected, adventure_bible: preloadedAdventure || null }),
+        body: JSON.stringify({ selected_player_ids: selected, adventure_bible: adventureForStart }),
         signal: controller.signal,
       }).then(r => r.json());
+      if (stateRes.detail) throw new Error(stateRes.detail);
       clearTimeout(timeoutId);
       // Merge backend players with enriched pool data (backstory, motivation, enriched advantages/disadvantages)
-      const rawPlayers = stateRes?.players || pool.filter(p => selected.includes(p.id));
+      const rawPlayers = stateRes?.players || poolForStart.filter(p => selected.includes(p.id));
       const players = rawPlayers.map(p => {
-        const enriched = pool.find(x => x.id === p.id);
+        const enriched = poolForStart.find(x => x.id === p.id);
         if (!enriched) return p;
         return {
           ...p,
@@ -1309,11 +1688,11 @@ function SetupScreen({ onStart }) {
           disadvantages: enriched.disadvantages?.length > 0 ? enriched.disadvantages : (p.disadvantages || []),
         };
       });
-      onStart(genre, players, avatars, provider, preloadedAdventure, imageProvider);
+      onStart(genre, players, avatars, provider, adventureForStart, imageProvider);
     } catch (e) {
       clearTimeout(timeoutId);
       setLoading(false);
-      alert("Il server sta impiegando troppo tempo. Riprova tra qualche secondo.");
+      alert(e.message || "Il server sta impiegando troppo tempo. Riprova tra qualche secondo.");
     }
   }
 
@@ -1383,11 +1762,12 @@ function SetupScreen({ onStart }) {
       icon="⚔️"
       title="Preparo il mondo di gioco..."
       steps={[
-        { at: 0,     pill: "Mappa",      label: "Genero la mappa strategica..." },
-        { at: 8000,  pill: "Canon",      label: "Costruisco la narrativa dell'avventura..." },
-        { at: 20000, pill: "PNG",        label: "Creo i personaggi non giocanti..." },
-        { at: 35000, pill: "Schede",     label: "Genero le schede GURPS degli NPC..." },
-        { at: 55000, pill: "Finale",     label: "Quasi pronto, ancora un momento..." },
+        { at: 0,     pill: "Mappa",      label: "Genero la mappa strategica con nodi e connessioni..." },
+        { at: 8000,  pill: "Locations",  label: "Descrivo ogni location: atmosfera, pericoli e uscite..." },
+        { at: 18000, pill: "NPC",        label: "Piazzo i personaggi non giocanti nelle loro location..." },
+        { at: 30000, pill: "Fazioni",    label: "Definisco agende, alleanze e conflitti tra fazioni..." },
+        { at: 42000, pill: "Schede",     label: "Genero le schede GURPS con skill, stat e equipaggiamento..." },
+        { at: 55000, pill: "Apertura",   label: "Preparo la scena d'apertura e il briefing iniziale..." },
       ]}
     />
   );
@@ -1398,12 +1778,14 @@ function SetupScreen({ onStart }) {
       icon="📄"
       title="Leggo il PDF e preparo la bibbia..."
       steps={[
-        { at: 0,     pill: "Lettura",     label: "Estraggo il testo dal PDF..." },
-        { at: 3000,  pill: "Analisi",     label: "Analizzo la struttura dell'avventura..." },
-        { at: 8000,  pill: "Genere",      label: "Determino il genere narrativo..." },
-        { at: 12000, pill: "PNG",         label: "Identifico i personaggi non giocanti..." },
-        { at: 17000, pill: "Indizi",      label: "Mappo gli indizi e le rivelazioni..." },
-        { at: 22000, pill: "Bibbia",      label: "Struttura la bibbia finale..." },
+        { at: 0,     pill: "Estrazione",  label: "Estraggo il testo grezzo dal PDF..." },
+        { at: 2500,  pill: "Pulizia",     label: "Rimuovo rumore OCR, intestazioni e note a piè di pagina..." },
+        { at: 5000,  pill: "Struttura",   label: "Identifico sezioni: ambientazione, NPC, indizi, timeline..." },
+        { at: 10000, pill: "Genere",      label: "Classifico il genere narrativo e l'archetipo dell'avventura..." },
+        { at: 18000, pill: "Indizi",      label: "Estraggo e tipizzo gli indizi (fisici, testimonianze, documenti...)..." },
+        { at: 32000, pill: "NPC",         label: "Arricchisco i personaggi non giocanti con agende e segreti..." },
+        { at: 47000, pill: "Deduction",   label: "Costruisco il grafo deduttivo e le rivelazioni possibili..." },
+        { at: 57000, pill: "Sintesi",     label: "Genero premessa, verità nascosta e condizioni di vittoria..." },
       ]}
     />
   );
@@ -1445,7 +1827,116 @@ function SetupScreen({ onStart }) {
               />
             </div>
           </div>
+          <button
+            onClick={() => setRuntimeCompilerOpen(v => !v)}
+            style={{
+              padding: "10px 14px", borderRadius: 10, border: "1px solid rgba(96,165,250,0.45)",
+              background: runtimeCompilerOpen ? "rgba(96,165,250,0.18)" : "rgba(255,255,255,0.05)",
+              color: "#bfdbfe", fontWeight: 800, cursor: "pointer", fontSize: 12,
+            }}
+          >
+            Compila Runtime
+          </button>
         </div>
+        {runtimeCompilerOpen && (
+          <div style={{
+            maxWidth: 980, width: "calc(100% - 32px)", margin: "10px auto", padding: 14,
+            background: "#0a0a0a", border: "1px solid rgba(96,165,250,0.28)", borderRadius: 12,
+          }}>
+            <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
+              <input
+                value={runtimeTitle}
+                onChange={e => setRuntimeTitle(e.target.value)}
+                placeholder="Titolo avventura"
+                style={{
+                  flex: "1 1 220px", padding: "8px 10px", borderRadius: 8,
+                  background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.14)",
+                  color: "#fff",
+                }}
+              />
+              <button
+                onClick={handleRuntimeCompile}
+                disabled={runtimeCompileLoading || !runtimeSource.trim()}
+                style={{
+                  padding: "8px 14px", borderRadius: 8, border: "none",
+                  background: runtimeCompileLoading ? "rgba(96,165,250,0.35)" : "#3b82f6",
+                  color: "#fff", fontWeight: 800, cursor: runtimeCompileLoading ? "default" : "pointer",
+                }}
+              >
+                {runtimeCompileLoading ? (runtimeCompilePhase || "Compilo...") : "Compila e prepara"}
+              </button>
+            </div>
+            <textarea
+              value={runtimeSource}
+              onChange={e => setRuntimeSource(e.target.value)}
+              placeholder="Incolla qui testo, markdown o appunti dell'avventura. Il compiler produrrà AdventureDefinition + RuntimeState validati."
+              style={{
+                width: "100%", minHeight: 130, resize: "vertical", boxSizing: "border-box",
+                padding: 10, borderRadius: 8, background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.12)", color: "#fff", lineHeight: 1.5,
+              }}
+            />
+            {runtimeCompileLoading && (
+              <div style={{ color: "#93c5fd", fontSize: 12, marginTop: 8, fontWeight: 700 }}>
+                {runtimeCompilePhase || "Compilo..."} Può richiedere qualche secondo.
+              </div>
+            )}
+            {runtimeCompileError && <div style={{ color: "#f87171", fontSize: 12, marginTop: 8 }}>❌ {runtimeCompileError}</div>}
+            {runtimeCompileResult && (
+              <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 10 }}>
+                <div style={{ padding: 10, borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                  <div style={{ fontSize: 11, color: "#93c5fd", fontWeight: 800, textTransform: "uppercase", marginBottom: 6 }}>Validation Report</div>
+                  <div style={{ fontSize: 12, color: runtimeCompileResult.validation_report?.playable ? "#4ade80" : "#facc15", fontWeight: 800 }}>
+                    {runtimeCompileResult.validation_report?.playable ? "Runtime giocabile" : "Runtime da rifinire"}
+                  </div>
+                  {runtimeCompileResult.validation_report?.playable_score !== undefined && (
+                    <div style={{ fontSize: 11, color: "#93c5fd", marginTop: 4, fontWeight: 800 }}>
+                      Score giocabilità: {runtimeCompileResult.validation_report.playable_score}/100
+                    </div>
+                  )}
+                  {(runtimeCompileResult.validation_report?.warnings || []).slice(0, 5).map((w, i) => (
+                    <div key={i} style={{ fontSize: 11, color: "#facc15", marginTop: 4 }}>• {w}</div>
+                  ))}
+                  {(runtimeCompileResult.validation_report?.errors || []).slice(0, 5).map((err, i) => (
+                    <div key={i} style={{ fontSize: 11, color: "#f87171", marginTop: 4 }}>• {err}</div>
+                  ))}
+                </div>
+                <div style={{ padding: 10, borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
+                  <div style={{ fontSize: 11, color: "#93c5fd", fontWeight: 800, textTransform: "uppercase", marginBottom: 6 }}>Runtime Profile</div>
+                  <div style={{ fontSize: 12, color: "#fff", fontWeight: 800 }}>{runtimeCompileResult.adventure_definition?.title}</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.62)", marginTop: 3 }}>
+                    {(runtimeCompileResult.adventure_definition?.runtime_profiles || []).join(" · ")}
+                  </div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", marginTop: 6 }}>
+                    Clue {runtimeCompileResult.validation_report?.counts?.clues || 0} · Revelation {runtimeCompileResult.validation_report?.counts?.revelations || 0} · Location {runtimeCompileResult.validation_report?.counts?.locations || 0}
+                  </div>
+                  <button
+                    onClick={handleDownloadRuntimeJson}
+                    style={{
+                      marginTop: 10, width: "100%", padding: "7px 10px", borderRadius: 7,
+                      border: "1px solid rgba(74,222,128,0.45)", background: "rgba(74,222,128,0.12)",
+                      color: "#bbf7d0", fontWeight: 800, cursor: "pointer", fontSize: 12,
+                    }}
+                  >
+                    Scarica JSON compilato
+                  </button>
+                </div>
+              </div>
+            )}
+            {!runtimeCompileResult && preloadedAdventure && (
+              <button
+                onClick={handleDownloadRuntimeJson}
+                style={{
+                  marginTop: 10, padding: "8px 12px", borderRadius: 8,
+                  border: "1px solid rgba(74,222,128,0.45)", background: "rgba(74,222,128,0.12)",
+                  color: "#bbf7d0", fontWeight: 800, cursor: "pointer", fontSize: 12,
+                }}
+              >
+                Scarica JSON avventura
+              </button>
+            )}
+          </div>
+        )}
         {pdfError && (
           <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
             ❌ {pdfError}
@@ -1489,7 +1980,7 @@ function SetupScreen({ onStart }) {
 
         {(loading || pdfLoading) && (
           <div style={{ textAlign: "center", padding: 12, color: "rgba(255,255,255,0.6)", fontSize: 14, background: "#0a0a0a" }}>
-            {pdfLoading ? "📄 Analizzo il PDF e preparo la bibbia..." : "Carico personaggi..."}
+            {pdfLoading ? "📄 Leggo il PDF, compilo il runtime e preparo l'engine..." : "Carico personaggi..."}
           </div>
         )}
       </div>
@@ -1533,14 +2024,23 @@ function SetupScreen({ onStart }) {
           <div style={{ fontWeight: 700, fontSize: 15, color: "var(--text-h)" }}>
             Scegli il tuo gruppo (1–4 personaggi)
           </div>
-          <button onClick={() => setShowBuilder(true)} style={{
-            padding: "7px 16px", borderRadius: 8, border: "1px solid var(--accent)",
-            background: "var(--accent-bg)", color: "var(--accent)",
-            cursor: "pointer", fontSize: 13, fontWeight: 700,
-          }}>+ Crea personaggio</button>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            {preloadedAdventure && (
+              <button onClick={handleDownloadRuntimeJson} style={{
+                padding: "7px 12px", borderRadius: 8, border: "1px solid rgba(74,222,128,0.45)",
+                background: "rgba(74,222,128,0.10)", color: "#bbf7d0",
+                cursor: "pointer", fontSize: 13, fontWeight: 800,
+              }}>Scarica JSON</button>
+            )}
+            <button onClick={() => setShowBuilder(true)} style={{
+              padding: "7px 16px", borderRadius: 8, border: "1px solid var(--accent)",
+              background: "var(--accent-bg)", color: "var(--accent)",
+              cursor: "pointer", fontSize: 13, fontWeight: 700,
+            }}>+ Crea personaggio</button>
+          </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 28 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 28 }}>
           {pool.map(p => {
             const sel = selected.includes(p.id);
             const topSkills = Object.entries(p.skills || {}).sort((a,b) => b[1]-a[1]).slice(0,2);
@@ -1554,11 +2054,11 @@ function SetupScreen({ onStart }) {
                 transition: "all 0.15s", position: "relative",
               }}>
                 {/* card body */}
-                <div style={{ padding: "8px 9px 9px", cursor: "pointer" }} onClick={() => toggleSelect(p.id)}>
+                <div style={{ padding: "10px 10px 11px", cursor: "pointer" }} onClick={() => toggleSelect(p.id)}>
                   {/* avatar cerchio + bottoni */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                     <div style={{ position: "relative", flexShrink: 0 }}>
-                      <AvatarCircle src={av} size={56} fallback="🧑" />
+                      <AvatarCircle src={av} size={76} fallback="🧑" />
                       {avLoading && (
                         <div style={{ position: "absolute", inset: 0, borderRadius: "50%", background: "rgba(0,0,0,0.7)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: "#fff", textAlign: "center", padding: 2 }}>
                           {avLoading}
@@ -1963,7 +2463,8 @@ function LoadingProgress({ steps, icon = "📖", title }) {
   }, []);
 
   const current = steps[phase] || steps[steps.length - 1];
-  const pct = Math.round(((phase + 1) / steps.length) * 100);
+  const rawPct = Math.round(((phase + 1) / steps.length) * 100);
+  const pct = Math.min(rawPct, 95);
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 24, background: "var(--bg)", padding: "0 32px" }}>
@@ -2004,18 +2505,84 @@ function LoadingProgress({ steps, icon = "📖", title }) {
 
 // ─── Side Panel ────────────────────────────────────────────────────────────
 
-function deriveStoryThreads(adventure, cluesFound = [], clueProgress = {}) {
+function deriveStoryThreads(adventure, cluesFound = [], clueProgress = {}, resolvedThreads = []) {
   const found = new Set(cluesFound || []);
+  const resolvedText = new Set((resolvedThreads || []).map(x => String(x).split("→")[0].trim()));
+  const cluesById = Object.fromEntries((adventure?.clues || []).map(c => [c.id, c]));
   return (adventure?.story_threads || []).map(t => {
     const required = t.required_clues || [];
     const discovered = required.filter(id => found.has(id));
     const partial = required.filter(id => !found.has(id) && (clueProgress?.[id]?.ticks || 0) > 0);
+    const requiredDetails = required.map(id => ({
+      id,
+      clue: cluesById[id],
+      found: found.has(id),
+      progress: clueProgress?.[id] || null,
+    }));
     const minimum = t.minimum_clues_to_deduce || Math.min(2, Math.max(1, required.length || 1));
-    const status = discovered.length >= minimum
+    const isResolved = resolvedText.has(t.id) || resolvedText.has(t.question) || t.status === "resolved";
+    const status = isResolved
+      ? "resolved"
+      : discovered.length >= minimum
       ? "ready_to_deduce"
       : (discovered.length > 0 || partial.length > 0) ? "active" : (t.status || "hidden");
-    return { ...t, required_clues: required, discovered_clues: discovered, partial_clues: partial, minimum_clues_to_deduce: minimum, status };
+    return { ...t, required_clues: required, required_details: requiredDetails, discovered_clues: discovered, partial_clues: partial, minimum_clues_to_deduce: minimum, status };
   });
+}
+
+function deriveTacticalNodes(adventure, mapState) {
+  const byId = new Map();
+  const makeFallbackTactical = (node, role = "hot_zone") => ({
+    enabled: true,
+    role: node?.is_final ? "finale" : role,
+    layout: /corridoio|galleria|passaggio|tunnel/i.test(`${node?.name || ""} ${node?.description || ""}`) ? "narrow" : "room",
+    cols: node?.is_final ? 12 : 10,
+    rows: node?.is_final ? 8 : 7,
+    features: ["coperture coerenti con la zona", "ingressi e uscite leggibili"],
+    hazards: [],
+    trigger: "quando la scena porta a uno scontro diretto in questa zona",
+  });
+  const addNode = (raw, source = "map") => {
+    if (!raw) return;
+    const tactical = raw.tactical_map || {};
+    const isHot = tactical.enabled || raw.contains_enemy || raw.has_combat_potential || raw.is_final || raw.is_objective;
+    if (!isHot) return;
+    const id = raw.id || raw.location_id || raw.name;
+    if (!id) return;
+    byId.set(id, {
+      ...raw,
+      id,
+      name: raw.name || raw.location_name || "Zona tattica",
+      description: raw.description || raw.location_description || "",
+      kind: raw.kind || raw.type || raw.environment_type || "",
+      is_final: !!(raw.is_final || raw.is_objective || tactical.role === "finale" || raw.role === "finale"),
+      tactical_map: tactical.enabled ? tactical : makeFallbackTactical(raw, raw.role || "hot_zone"),
+      _source: source,
+    });
+  };
+  Object.values(mapState?.nodes || {}).forEach(node => addNode(node, "map"));
+  (adventure?.locations || []).forEach(loc => addNode(loc, "adventure"));
+  (adventure?.adventure_canon?.tactical_locations || []).forEach((loc, i) => {
+    const existing = (adventure?.locations || []).find(l =>
+      l?.id === loc?.id || l?.name === loc?.name || l?.name === loc?.location_name
+    );
+    addNode({
+      ...(existing || {}),
+      ...loc,
+      id: loc?.id || existing?.id || `tactical_${i + 1}`,
+      name: loc?.name || loc?.location_name || existing?.name,
+      is_final: loc?.role === "finale" || existing?.is_final,
+      has_combat_potential: true,
+      tactical_map: existing?.tactical_map || {
+        enabled: true,
+        role: loc?.role || "hot_zone",
+        trigger: loc?.trigger || "confronto diretto",
+        layout: loc?.layout || "room",
+      },
+    }, "canon");
+  });
+  return Array.from(byId.values())
+    .sort((a, b) => Number(!!b.is_final) - Number(!!a.is_final) || String(a.name).localeCompare(String(b.name)));
 }
 
 function AvatarCircle({ src, size = 32, fallback = "👤" }) {
@@ -2034,14 +2601,80 @@ function AvatarCircle({ src, size = 32, fallback = "👤" }) {
   );
 }
 
-function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose }) {
+function textValue(...values) {
+  return values.find(v => typeof v === "string" && v.trim())?.trim() || "";
+}
+
+function safeFilePart(value, fallback = "avventura") {
+  return String(value || fallback)
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9àèéìòù_-]+/gi, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || fallback;
+}
+
+function downloadJsonFile(payload, filename) {
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename.endsWith(".json") ? filename : `${filename}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function buildAdventureExport({ adventure, gameState, mapState, preparedTacticalMaps, runtimeCompileResult, source = "app" }) {
+  const definition = runtimeCompileResult?.adventure_definition || adventure?.adventure_definition || null;
+  const runtimeState = runtimeCompileResult?.runtime_state || adventure?.runtime_state || adventure?.adventure_runtime_state || null;
+  return {
+    export_version: 1,
+    exported_at: new Date().toISOString(),
+    source,
+    title: definition?.title || adventure?.title || "Avventura",
+    adventure_definition: definition,
+    runtime_state: runtimeState,
+    validation_report: runtimeCompileResult?.validation_report || adventure?.validation_report || null,
+    legacy_adventure: definition?.legacy_adventure || adventure || null,
+    live_game_state: gameState || null,
+    strategic_map_state: mapState || null,
+    prepared_tactical_maps: preparedTacticalMaps || null,
+  };
+}
+
+function clueTitle(clue) {
+  return clue?.label || clue?.text || clue?.id || "Indizio";
+}
+
+function isKnownNpc(npc) {
+  const agendaStatus = npc?.npc_agenda?.arc_status || npc?.arc_status;
+  if (npc?._source === "world") return true;
+  if (npc?.introduced || npc?.known || npc?.visible || npc?.discovered) return true;
+  if (agendaStatus && !["hidden", "unintroduced"].includes(String(agendaStatus))) return true;
+  return false;
+}
+
+function isKnownTacticalNode(node, mapState) {
+  const mapNode = mapState?.nodes?.[node?.id];
+  if (mapState?.current_node_id && node?.id === mapState.current_node_id) return true;
+  if (mapNode?.visited || mapNode?.discovered || mapNode?.known || mapNode?.visible) return true;
+  if (node?.visited || node?.discovered || node?.known || node?.visible) return true;
+  return false;
+}
+
+function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
   const [tab, setTab] = useState("clues");
+  const [audience, setAudience] = useState("players");
   const [expandedNpc, setExpandedNpc] = useState(null);
   const [expandedPlayer, setExpandedPlayer] = useState(null);
   const clues = adventure?.clues || [];
   const clueProgress = gameState?.clue_progress || {};
-  const storyThreads = deriveStoryThreads(adventure, gameState?.clues_found || [], clueProgress);
+  const storyThreads = deriveStoryThreads(adventure, gameState?.clues_found || [], clueProgress, gameState?.resolved_threads || []);
   const readyThreads = storyThreads.filter(t => t.status === "ready_to_deduce");
+  const resolvedThreads = storyThreads.filter(t => t.status === "resolved");
   const advNpcs = adventure?.npcs || [];
   const worldNpcs = gameState?.world_npcs || [];
   // Merge: world_npcs prende il sopravvento per nomi corrispondenti
@@ -2058,6 +2691,30 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
   const threatMax = adventure?.threat_max_turns || 8;
   const threatPct = Math.round(threatLevel / Math.max(threatMax, 1) * 100);
   const npcStatuses = gameState?.npc_statuses || {};
+  const tacticalNodes = deriveTacticalNodes(adventure, mapState);
+  const canon = adventure?.adventure_canon || {};
+  const primaryObjective = textValue(
+    adventure?.win_condition,
+    adventure?.objective,
+    gameState?.mission?.objective,
+    canon?.objective,
+    "Completare l'avventura."
+  );
+  const hiddenTruth = textValue(adventure?.hidden_truth, canon?.core_truth);
+  const finaleConditions = canon?.finale_conditions || adventure?.finale_conditions || [];
+  const runtimeQuality = adventure?.validation_report?.quality || {};
+  const sourceMode = adventure?.source_mode || adventure?.adventure_definition?.source_mode || "";
+  const archetypeProfile = adventure?.archetype_profile || adventure?.adventure_definition?.archetype_profile || {};
+  const preservationPolicy = adventure?.preservation_policy || adventure?.adventure_definition?.preservation_policy || {};
+  const preservedElements = adventure?.preserved_elements || adventure?.adventure_definition?.preserved_elements || [];
+  const inferredElements = adventure?.inferred_elements || adventure?.adventure_definition?.inferred_elements || [];
+  const validationWarnings = adventure?.validation_report?.warnings || [];
+  const clueFoundSet = new Set(gameState?.clues_found || []);
+  const knownClues = clues.filter(c => clueFoundSet.has(c.id) || (clueProgress?.[c.id]?.ticks || 0) > 0);
+  const activeThreads = threads.filter(t => typeof t === "string" || ["active", "ready_to_deduce", "resolved"].includes(t.status));
+  const knownNpcs = npcs.filter(isKnownNpc);
+  const knownTacticalNodes = tacticalNodes.filter(node => isKnownTacticalNode(node, mapState));
+  const keyLocations = canon?.key_locations || adventure?.locations?.map(l => l.name).filter(Boolean) || [];
 
   const tabStyle = (t) => ({
     flex: 1, padding: "8px 4px", border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700,
@@ -2066,17 +2723,52 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
   });
 
   const threatColor = threatPct < 40 ? "#4ade80" : threatPct < 70 ? "#facc15" : "#f87171";
+  const switchAudience = (next) => {
+    setAudience(next);
+    setTab(next === "gm" ? "gm_overview" : "clues");
+  };
+  const handleDownloadCurrentAdventureJson = () => {
+    const payload = buildAdventureExport({
+      adventure,
+      gameState,
+      mapState,
+      preparedTacticalMaps,
+      source: "live_game",
+    });
+    downloadJsonFile(payload, `${safeFilePart(payload.title)}-live.json`);
+  };
 
   return (
     <div style={{
-      width: 280, flexShrink: 0, borderLeft: "1px solid var(--border)",
+      width: 340, flexShrink: 0, borderLeft: "1px solid var(--border)",
       display: "flex", flexDirection: "column", background: "var(--bg)",
     }}>
       <div style={{ padding: "12px 14px 8px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 6 }}>
         <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.4 }}>
           {adventure?.title || "Avventura"}
         </div>
-        <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontSize: 18, flexShrink: 0, lineHeight: 1, marginTop: 1 }}>×</button>
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+          {audience === "gm" && (
+            <button onClick={handleDownloadCurrentAdventureJson} style={{
+              padding: "4px 8px", borderRadius: 6, border: "1px solid rgba(74,222,128,0.42)",
+              background: "rgba(74,222,128,0.10)", color: "#bbf7d0",
+              cursor: "pointer", fontSize: 11, fontWeight: 800,
+            }}>JSON</button>
+          )}
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontSize: 18, flexShrink: 0, lineHeight: 1, marginTop: 1 }}>×</button>
+        </div>
+      </div>
+
+      <div style={{ padding: "0 14px 10px", borderBottom: "1px solid var(--border)" }}>
+        <div style={{
+          padding: "9px 10px", borderRadius: 8,
+          background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.38)",
+        }}>
+          <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 }}>
+            Obiettivo per vincere
+          </div>
+          <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.45 }}>{primaryObjective}</div>
+        </div>
       </div>
 
       {/* minaccia */}
@@ -2088,39 +2780,300 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
         <div style={{ height: 5, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
           <div style={{ height: "100%", width: `${threatPct}%`, background: threatColor, transition: "width 0.5s, background 0.5s" }} />
         </div>
+        {gameState?.allowed_escalation_tier !== null && gameState?.allowed_escalation_tier !== undefined && (
+          <div style={{
+            marginTop: 8, padding: "7px 8px", borderRadius: 7,
+            background: "rgba(96,165,250,0.08)", border: "1px solid rgba(96,165,250,0.25)",
+            fontSize: 10, color: "var(--text)", lineHeight: 1.35,
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 3 }}>
+              <span style={{ color: "#93c5fd", fontWeight: 800 }}>Director tier</span>
+              <span style={{ color: "#fff", fontWeight: 800 }}>{gameState.allowed_escalation_tier}/6</span>
+            </div>
+            {gameState.director_reason && <div style={{ opacity: 0.75 }}>{gameState.director_reason}</div>}
+            {(gameState.allowed_escalation_types || []).length > 0 && (
+              <div style={{ color: "#bbf7d0", marginTop: 4 }}>
+                Consentite: {(gameState.allowed_escalation_types || []).slice(0, 3).join(", ")}
+              </div>
+            )}
+            {(gameState.forbidden_escalation_types || []).length > 0 && (
+              <div style={{ color: "#c4b5fd", marginTop: 3 }}>
+                Vietate: {(gameState.forbidden_escalation_types || []).slice(0, 3).join(", ")}
+              </div>
+            )}
+            {(gameState.blocked_major_events || []).length > 0 && (
+              <div style={{ color: "#fca5a5", marginTop: 4 }}>
+                Bloccati: {(gameState.blocked_major_events || []).slice(0, 3).join(", ")}
+              </div>
+            )}
+            {(gameState.downgraded_events || []).length > 0 && (
+              <div style={{ color: "#fde68a", marginTop: 3 }}>
+                Downgrade: {(gameState.downgraded_events || []).map(e => e.replacement || e.blocked).slice(0, 2).join(", ")}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div style={{ display: "flex", gap: 6, padding: "9px 14px", borderBottom: "1px solid var(--border)" }}>
+        <button onClick={() => switchAudience("players")} style={{
+          flex: 1, padding: "7px 8px", borderRadius: 8, cursor: "pointer",
+          border: `1px solid ${audience === "players" ? "rgba(96,165,250,0.55)" : "var(--border)"}`,
+          background: audience === "players" ? "rgba(96,165,250,0.14)" : "rgba(255,255,255,0.03)",
+          color: audience === "players" ? "#93c5fd" : "var(--text)",
+          fontSize: 12, fontWeight: 800,
+        }}>
+          Giocatori
+        </button>
+        <button onClick={() => switchAudience("gm")} style={{
+          flex: 1, padding: "7px 8px", borderRadius: 8, cursor: "pointer",
+          border: `1px solid ${audience === "gm" ? "rgba(245,158,11,0.55)" : "var(--border)"}`,
+          background: audience === "gm" ? "rgba(245,158,11,0.14)" : "rgba(255,255,255,0.03)",
+          color: audience === "gm" ? "#fbbf24" : "var(--text)",
+          fontSize: 12, fontWeight: 800,
+        }}>
+          GM
+        </button>
       </div>
 
       {/* tabs */}
       <div style={{ display: "flex", borderBottom: "1px solid var(--border)" }}>
-        <button style={tabStyle("clues")} onClick={() => setTab("clues")}>🔍 Indizi</button>
-        <button style={tabStyle("npcs")} onClick={() => setTab("npcs")}>👤 PNG</button>
-        <button style={tabStyle("players")} onClick={() => setTab("players")}>🧑‍🤝‍🧑 Gruppo</button>
-        <button style={tabStyle("threads")} onClick={() => setTab("threads")}>🧵 Piste</button>
+        {audience === "players" ? (
+          <>
+            <button style={tabStyle("clues")} onClick={() => setTab("clues")}>Indizi</button>
+            <button style={tabStyle("npcs")} onClick={() => setTab("npcs")}>PNG</button>
+            <button style={tabStyle("maps")} onClick={() => setTab("maps")}>Mappe{knownTacticalNodes.length ? ` ${knownTacticalNodes.length}` : ""}</button>
+            <button style={tabStyle("players")} onClick={() => setTab("players")}>Gruppo</button>
+            <button style={tabStyle("threads")} onClick={() => setTab("threads")}>Piste{readyThreads.length ? ` ${readyThreads.length}` : ""}</button>
+          </>
+        ) : (
+          <>
+            <button style={tabStyle("gm_overview")} onClick={() => setTab("gm_overview")}>Canovaccio</button>
+            <button style={tabStyle("gm_threads")} onClick={() => setTab("gm_threads")}>Piste</button>
+            <button style={tabStyle("gm_clues")} onClick={() => setTab("gm_clues")}>Indizi</button>
+            <button style={tabStyle("gm_npcs")} onClick={() => setTab("gm_npcs")}>PNG</button>
+            <button style={tabStyle("gm_maps")} onClick={() => setTab("gm_maps")}>Mappe{tacticalNodes.length ? ` ${tacticalNodes.length}` : ""}</button>
+          </>
+        )}
       </div>
 
       <div style={{ flex: 1, overflowY: "auto", padding: "10px 14px" }}>
+        {audience === "gm" && tab === "gm_overview" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {(sourceMode || archetypeProfile?.primary_archetype) && (
+              <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.32)" }}>
+                <div style={{ fontSize: 10, fontWeight: 900, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 7 }}>Origine e Struttura</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 7 }}>
+                  {sourceMode && <span style={{ fontSize: 10, color: "#fde68a", padding: "2px 7px", borderRadius: 5, border: "1px solid rgba(245,158,11,0.34)" }}>source: {sourceMode}</span>}
+                  {archetypeProfile?.primary_archetype && <span style={{ fontSize: 10, color: "#bfdbfe", padding: "2px 7px", borderRadius: 5, border: "1px solid rgba(96,165,250,0.34)" }}>archetipo: {archetypeProfile.primary_archetype}</span>}
+                  {preservationPolicy?.forbid_structural_compression && <span style={{ fontSize: 10, color: "#bbf7d0", padding: "2px 7px", borderRadius: 5, border: "1px solid rgba(74,222,128,0.34)" }}>PDF canon</span>}
+                </div>
+                {archetypeProfile?.secondary_archetypes?.length > 0 && (
+                  <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}>Secondari: {archetypeProfile.secondary_archetypes.join(", ")}</div>
+                )}
+                <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4, marginTop: 4 }}>
+                  Preservati: {preservedElements.length} · Inferiti: {inferredElements.length}
+                </div>
+                {validationWarnings.length > 0 && (
+                  <div style={{ fontSize: 10, color: "#facc15", lineHeight: 1.35, marginTop: 5 }}>
+                    Warning: {validationWarnings.slice(0, 2).join(" · ")}
+                  </div>
+                )}
+              </div>
+            )}
+            {Object.keys(runtimeQuality).length > 0 && (
+              <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(96,165,250,0.08)", border: "1px solid rgba(96,165,250,0.28)" }}>
+                <div style={{ fontSize: 10, fontWeight: 900, color: "#93c5fd", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 8 }}>Runtime Quality</div>
+                {[
+                  ["fiction_density_score", "Densità fiction"],
+                  ["clue_concreteness_score", "Indizi concreti"],
+                  ["npc_agenda_score", "Agende PNG"],
+                  ["location_playability_score", "Location giocabili"],
+                  ["clock_operational_score", "Clock operativi"],
+                ].map(([key, label]) => {
+                  const val = runtimeQuality[key];
+                  if (val === undefined || val === null) return null;
+                  const color = val >= 75 ? "#4ade80" : val >= 50 ? "#facc15" : "#f87171";
+                  return (
+                    <div key={key} style={{ marginBottom: 6 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "var(--text)", marginBottom: 2 }}>
+                        <span>{label}</span><b style={{ color }}>{val}%</b>
+                      </div>
+                      <div style={{ height: 4, borderRadius: 4, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+                        <div style={{ width: `${Math.max(0, Math.min(100, val))}%`, height: "100%", background: color }} />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(74,222,128,0.08)", border: "1px solid rgba(74,222,128,0.28)" }}>
+              <div style={{ fontSize: 10, fontWeight: 900, color: "#4ade80", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 5 }}>Soluzione missione</div>
+              <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.5 }}>{primaryObjective}</div>
+            </div>
+            <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.32)" }}>
+              <div style={{ fontSize: 10, fontWeight: 900, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 5 }}>Verità nascosta</div>
+              <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.5 }}>{hiddenTruth || "Non definita nel canovaccio."}</div>
+            </div>
+            {keyLocations.length > 0 && (
+              <div style={{ padding: "10px 11px", borderRadius: 8, background: "var(--code-bg)", border: "1px solid var(--border)" }}>
+                <div style={{ fontSize: 10, fontWeight: 900, color: "#93c5fd", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 6 }}>Luoghi chiave</div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                  {keyLocations.map((loc, i) => (
+                    <span key={`${loc}-${i}`} style={{ fontSize: 10, color: "#bfdbfe", padding: "2px 7px", borderRadius: 5, border: "1px solid rgba(96,165,250,0.32)", background: "rgba(96,165,250,0.08)" }}>{loc}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {finaleConditions.length > 0 && (
+              <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(239,68,68,0.07)", border: "1px solid rgba(239,68,68,0.26)" }}>
+                <div style={{ fontSize: 10, fontWeight: 900, color: "#fca5a5", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 6 }}>Condizioni finale</div>
+                {finaleConditions.map((f, i) => (
+                  <div key={i} style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.45, marginBottom: 4 }}>{typeof f === "string" ? f : f.label || f.description || JSON.stringify(f)}</div>
+                ))}
+              </div>
+            )}
+            <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(96,165,250,0.07)", border: "1px solid rgba(96,165,250,0.24)", fontSize: 11, color: "var(--text)", lineHeight: 1.45 }}>
+              Questa zona mostra tutto il canovaccio: risposte, segreti, obiettivi nascosti e mappe non ancora scoperte.
+            </div>
+          </div>
+        )}
+
+        {audience === "gm" && tab === "gm_threads" && (
+          <div>
+            {storyThreads.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessuna pista canonica.</div>}
+            {storyThreads.map((t, i) => (
+              <div key={t.id || i} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: "1px solid rgba(245,158,11,0.28)", borderLeft: "3px solid #f59e0b" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
+                  <div style={{ fontSize: 12, fontWeight: 850, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question}</div>
+                  <span style={{ fontSize: 9, color: "#fbbf24", textTransform: "uppercase", flexShrink: 0 }}>{t.status}</span>
+                </div>
+                {t.true_answer && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.45, marginBottom: 5 }}><b>Risposta:</b> {t.true_answer}</div>}
+                {t.payoff && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.45, marginBottom: 5 }}><b>Serve a:</b> {t.payoff}</div>}
+                {t.required_details?.length > 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    {t.required_details.map(({ id, clue, found, progress }) => (
+                      <div key={id} style={{ fontSize: 10, color: found ? "#4ade80" : progress?.ticks ? "#93c5fd" : "var(--text)", opacity: found || progress?.ticks ? 1 : 0.65, padding: "4px 6px", borderRadius: 5, background: "rgba(255,255,255,0.035)" }}>
+                        {found ? "✓" : progress?.ticks ? "◔" : "□"} {clueTitle(clue)}{clue?.location ? ` · ${clue.location}` : ""}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {audience === "gm" && tab === "gm_clues" && (
+          <div>
+            {clues.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessun indizio canonico.</div>}
+            {clues.map(c => {
+              const found = clueFoundSet.has(c.id);
+              const progress = clueProgress?.[c.id];
+              return (
+                <div key={c.id} style={{ padding: "8px 10px", borderRadius: 8, marginBottom: 6, background: "var(--code-bg)", border: `1px solid ${found ? "rgba(74,222,128,0.35)" : progress?.ticks ? "rgba(96,165,250,0.32)" : "var(--border)"}` }}>
+                  <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", marginBottom: 3 }}>{found ? "✓" : progress?.ticks ? "◔" : "□"} {clueTitle(c)}</div>
+                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
+                    {c.type && <div style={{ fontSize: 10, color: "#c4b5fd", textTransform: "uppercase", letterSpacing: 0.4 }}>{c.type}</div>}
+                    {c.source_status && <span style={{ fontSize: 9, color: c.source_status === "explicit" ? "#bbf7d0" : c.source_status === "inferred" ? "#fde68a" : "#c4b5fd", border: "1px solid rgba(255,255,255,0.16)", borderRadius: 4, padding: "1px 5px", textTransform: "uppercase" }}>{c.source_status}</span>}
+                    {c.is_preserved_from_pdf && <span style={{ fontSize: 9, color: "#93c5fd", border: "1px solid rgba(96,165,250,0.28)", borderRadius: 4, padding: "1px 5px" }}>PDF canon</span>}
+                  </div>
+                  {c.reveals && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4, marginTop: 3 }}><b>Rivela:</b> {c.reveals}</div>}
+                  {c.payoff && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.4, marginTop: 2 }}><b>Payoff:</b> {c.payoff}</div>}
+                  {c.thread_id && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55, marginTop: 3 }}>Pista: {c.thread_id}</div>}
+                  {c.location && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55 }}>Dove: {c.location}</div>}
+                  {c.source_ref?.section && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55 }}>Fonte: {c.source_ref.section}</div>}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {audience === "gm" && tab === "gm_npcs" && (
+          <div>
+            {npcs.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessun PNG canonico.</div>}
+            {npcs.map(npc => {
+              const agenda = npc.npc_agenda || {};
+              return (
+                <div key={npc.id || npc.name} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: "1px solid rgba(245,158,11,0.28)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
+                    <AvatarCircle src={(npcAvatars || {})[npc.name]} size={38} fallback="👤" />
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: 12, fontWeight: 850, color: "var(--text-h)" }}>{npc.name}</div>
+                      <div style={{ fontSize: 10, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.4 }}>{agenda.role || npc.role || "PNG"} · {agenda.arc_status || npc.status || "stato ignoto"}</div>
+                    </div>
+                  </div>
+                  {agenda.goal && <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}><b>Obiettivo nascosto:</b> {agenda.goal}</div>}
+                  {agenda.secret && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4 }}><b>Segreto:</b> {agenda.secret}</div>}
+                  {(agenda.methods || npc.methods)?.length > 0 && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.4 }}><b>Metodi:</b> {(agenda.methods || npc.methods).join(" · ")}</div>}
+                  {(npc.location || npc.location_id) && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.6, marginTop: 3 }}>Dove: {npc.location || npc.location_id}</div>}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {audience === "gm" && tab === "gm_maps" && (
+          <div>
+            {tacticalNodes.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessuna zona calda preparata.</div>}
+            {tacticalNodes.map(node => {
+              const tactical = node.tactical_map || {};
+              const img = preparedTacticalMaps?.[node.id];
+              const loading = preparingTacticalMaps?.has?.(node.id);
+              const known = isKnownTacticalNode(node, mapState);
+              return (
+                <div key={node.id} style={{ borderRadius: 8, marginBottom: 10, background: "var(--code-bg)", border: `1px solid ${node.is_final ? "rgba(239,68,68,0.45)" : "rgba(96,165,250,0.32)"}`, overflow: "hidden" }}>
+                  <div style={{ padding: "8px 10px", display: "flex", justifyContent: "space-between", gap: 8 }}>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 850, color: "var(--text-h)" }}>{node.name}</div>
+                      <div style={{ fontSize: 10, color: known ? "#4ade80" : "#fbbf24", textTransform: "uppercase", letterSpacing: 0.4 }}>
+                        {known ? "scoperta" : "nascosta"} · {node.is_final ? "finale" : tactical.role || "zona calda"} · {tactical.cols || "auto"}×{tactical.rows || "auto"}
+                      </div>
+                    </div>
+                    {!img && (
+                      <button onClick={() => onPrepareTacticalMap && onPrepareTacticalMap(node)} disabled={loading} style={{ fontSize: 10, padding: "4px 7px", borderRadius: 6, border: "1px solid var(--border)", background: "rgba(255,255,255,0.05)", color: "var(--text)", cursor: loading ? "default" : "pointer" }}>
+                        {loading ? "Creo..." : "Crea"}
+                      </button>
+                    )}
+                  </div>
+                  {img && <img src={`data:image/jpeg;base64,${img}`} alt="" style={{ display: "block", width: "100%", aspectRatio: "4 / 3", objectFit: "cover", borderTop: "1px solid var(--border)" }} onError={e => { e.currentTarget.src = `data:image/png;base64,${img}`; }} />}
+                  {(tactical.trigger || tactical.features?.length || tactical.hazards?.length) && (
+                    <div style={{ padding: "8px 10px", fontSize: 11, color: "var(--text)", lineHeight: 1.45 }}>
+                      {tactical.trigger && <div><b>Trigger:</b> {tactical.trigger}</div>}
+                      {tactical.features?.length > 0 && <div><b>Coperture:</b> {tactical.features.join(" · ")}</div>}
+                      {tactical.hazards?.length > 0 && <div><b>Rischi:</b> {tactical.hazards.join(" · ")}</div>}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {tab === "clues" && (
           <div>
             {/* Obiettivo sempre visibile */}
-            {adventure?.win_condition && (
-              <div style={{
-                padding: "8px 10px", borderRadius: 8, marginBottom: 10,
-                background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.4)",
-              }}>
-                <div style={{ fontSize: 10, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>🎯 Obiettivo</div>
-                <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.45 }}>{adventure.win_condition}</div>
-              </div>
-            )}
-
-            {/* Banner "pronti a concludere" quando tutti gli indizi sono trovati */}
+            {/* Piste pronte */}
             {readyThreads.length > 0 && (
               <div style={{
                 padding: "8px 10px", borderRadius: 8, marginBottom: 10,
                 background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.45)",
               }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#60a5fa", marginBottom: 3 }}>🧠 Deduzione possibile</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#60a5fa", marginBottom: 3 }}>🧠 Piste pronte</div>
                 <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}>
-                  {readyThreads[0].question} Hai abbastanza indizi per verificare questa pista.
+                  {readyThreads.map(t => t.question).join(" · ")}. Formula una deduzione o verifica la pista.
+                </div>
+              </div>
+            )}
+
+            {resolvedThreads.length > 0 && (
+              <div style={{
+                padding: "8px 10px", borderRadius: 8, marginBottom: 10,
+                background: "rgba(74,222,128,0.10)", border: "1px solid rgba(74,222,128,0.35)",
+              }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "#4ade80", marginBottom: 3 }}>✓ Deduzioni risolte</div>
+                <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}>
+                  {resolvedThreads.map(t => t.title || t.question).join(" · ")}
                 </div>
               </div>
             )}
@@ -2140,10 +3093,16 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
 
             {/* Contatore indizi */}
             <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6, marginBottom: 8 }}>
-              {gameState?.clues_found?.length || 0} / {clues.length} indizi trovati
+              {knownClues.length} elementi noti · {gameState?.clues_found?.length || 0} indizi confermati
             </div>
 
-            {clues.map(c => {
+            {knownClues.length === 0 && (
+              <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>
+                Nessun indizio noto. Le prove appariranno qui solo quando vengono scoperte o iniziano a progredire.
+              </div>
+            )}
+
+            {knownClues.map(c => {
               const found = gameState?.clues_found?.includes(c.id);
               const progress = clueProgress?.[c.id];
               const partial = !found && progress?.ticks > 0;
@@ -2172,14 +3131,84 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
           </div>
         )}
 
+        {tab === "maps" && (
+          <div>
+            {knownTacticalNodes.length === 0 && (
+              <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>
+                Nessuna zona calda scoperta. Le battlemap note compariranno quando il gruppo raggiunge o identifica quelle aree.
+              </div>
+            )}
+            {knownTacticalNodes.map(node => {
+              const tactical = node.tactical_map || {};
+              const img = preparedTacticalMaps?.[node.id];
+              const loading = preparingTacticalMaps?.has?.(node.id);
+              const role = tactical.role === "finale" || node.is_final ? "Finale" : "Zona calda";
+              return (
+                <div key={node.id} style={{
+                  borderRadius: 8, marginBottom: 10, background: "var(--code-bg)",
+                  border: `1px solid ${node.is_final || tactical.role === "finale" ? "rgba(239,68,68,0.45)" : "rgba(96,165,250,0.35)"}`,
+                  overflow: "hidden",
+                }}>
+                  <div style={{ padding: "8px 10px", display: "flex", justifyContent: "space-between", gap: 8, alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.3 }}>{node.name}</div>
+                      <div style={{ fontSize: 10, color: node.is_final || tactical.role === "finale" ? "#f87171" : "#93c5fd", textTransform: "uppercase", letterSpacing: 0.6 }}>
+                        {role} · {tactical.layout || "stanza"} · {tactical.cols || "auto"}×{tactical.rows || "auto"}
+                      </div>
+                    </div>
+                    {!img && (
+                      <button
+                        onClick={() => onPrepareTacticalMap && onPrepareTacticalMap(node)}
+                        disabled={loading}
+                        style={{
+                          fontSize: 10, padding: "4px 7px", borderRadius: 6, cursor: loading ? "default" : "pointer",
+                          border: "1px solid var(--border)", background: "rgba(255,255,255,0.05)", color: "var(--text)",
+                        }}
+                      >
+                        {loading ? "Creo..." : "Crea"}
+                      </button>
+                    )}
+                  </div>
+                  {img ? (
+                    <img
+                      src={`data:image/jpeg;base64,${img}`}
+                      alt=""
+                      style={{ display: "block", width: "100%", aspectRatio: "4 / 3", objectFit: "cover", borderTop: "1px solid var(--border)" }}
+                      onError={e => { e.currentTarget.src = `data:image/png;base64,${img}`; }}
+                    />
+                  ) : (
+                    <div style={{
+                      height: 116, borderTop: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center",
+                      background: "linear-gradient(135deg, rgba(96,165,250,0.08), rgba(15,23,42,0.35))",
+                      color: "var(--text)", opacity: 0.7, fontSize: 11, textAlign: "center", padding: 12,
+                    }}>
+                      {loading ? "Battlemap in preparazione..." : "Battlemap pronta da generare per questa zona."}
+                    </div>
+                  )}
+                  {(tactical.features?.length > 0 || tactical.hazards?.length > 0 || tactical.trigger) && (
+                    <div style={{ padding: "8px 10px", fontSize: 11, color: "var(--text)", lineHeight: 1.45 }}>
+                      {tactical.trigger && <div><b>Trigger:</b> {tactical.trigger}</div>}
+                      {tactical.features?.length > 0 && <div><b>Coperture:</b> {tactical.features.join(" · ")}</div>}
+                      {tactical.hazards?.length > 0 && <div><b>Rischi:</b> {tactical.hazards.join(" · ")}</div>}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {tab === "npcs" && (
           <div>
-            {npcs.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessun PNG</div>}
-            {npcs.map(npc => {
+            {knownNpcs.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessun PNG noto</div>}
+            {knownNpcs.map(npc => {
               const st = npcStatuses[npc.id] || {};
+              const agenda = npc.npc_agenda || {};
               const status = st.status || npc.status || "alive";
               const attitude = st.attitude || npc.attitude || "neutral";
+              const arcStatus = st.arc_status || agenda.arc_status || "unintroduced";
               const hasGurps = npc.gurps_fo != null;
+              const hasAgenda = !!(agenda.role || agenda.goal || agenda.secret);
               const isExpanded = expandedNpc === (npc.id || npc.name);
               const threatColor = npc.threat_to_player >= 3 ? "#ef4444" : npc.threat_to_player >= 2 ? "#f97316" : npc.threat_to_player >= 1 ? "#facc15" : "#4ade80";
               return (
@@ -2189,11 +3218,11 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                   overflow: "hidden",
                 }}>
                   <div
-                    onClick={() => hasGurps && setExpandedNpc(isExpanded ? null : (npc.id || npc.name))}
-                    style={{ padding: "8px 10px", cursor: hasGurps ? "pointer" : "default" }}
+                    onClick={() => (hasGurps || hasAgenda) && setExpandedNpc(isExpanded ? null : (npc.id || npc.name))}
+                    style={{ padding: "8px 10px", cursor: (hasGurps || hasAgenda) ? "pointer" : "default" }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                      <AvatarCircle src={(npcAvatars || {})[npc.name]} size={28} fallback="👤" />
+                      <AvatarCircle src={(npcAvatars || {})[npc.name]} size={44} fallback="👤" />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                           <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>
@@ -2206,13 +3235,27 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                           </div>
                         </div>
                         <div style={{ fontSize: 11, color: "var(--text)" }}>{npc.role}</div>
+                        {agenda.role && (
+                          <div style={{ fontSize: 10, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.4 }}>
+                            {agenda.role} · arco {arcStatus}
+                          </div>
+                        )}
                       </div>
                     </div>
                     {npc.description && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.7, marginTop: 2, lineHeight: 1.4 }}>{npc.description}</div>}
                     {st.location && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6, marginTop: 2 }}>📍 {st.location}</div>}
                   </div>
-                  {hasGurps && isExpanded && (
+                  {(hasGurps || hasAgenda) && isExpanded && (
                     <div style={{ padding: "8px 10px", borderTop: `1px solid ${threatColor}33`, background: "rgba(0,0,0,0.15)" }}>
+                      {hasAgenda && (
+                        <div style={{ marginBottom: 8 }}>
+                          {agenda.goal && <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}><b>Vuole:</b> {agenda.goal}</div>}
+                          {agenda.secret && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4 }}><b>Segreto:</b> {agenda.secret}</div>}
+                          {agenda.recurrence_priority && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.6, marginTop: 3 }}>Priorità scena: {agenda.recurrence_priority}</div>}
+                        </div>
+                      )}
+                      {hasGurps && (
+                        <>
                       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
                         {[["FO", npc.gurps_fo], ["DE", npc.gurps_de], ["IN", npc.gurps_in], ["SA", npc.gurps_sa]].map(([label, val]) => (
                           <span key={label} style={{ fontSize: 11, background: "var(--bg)", padding: "2px 7px", borderRadius: 5, border: "1px solid var(--border)" }}>
@@ -2249,6 +3292,8 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                           ))}
                         </div>
                       )}
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
@@ -2276,7 +3321,7 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                   <div onClick={() => setExpandedPlayer(isExpanded ? null : p.id)}
                     style={{ padding: "8px 10px", cursor: "pointer" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                      <AvatarCircle src={(avatars || {})[p.id]} size={32} fallback="🧑" />
+                      <AvatarCircle src={(avatars || {})[p.id]} size={48} fallback="🧑" />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                           <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>{liveP.name}</span>
@@ -2362,8 +3407,8 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
 
         {tab === "threads" && (
           <div>
-            {threads.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessuna pista aperta</div>}
-            {threads.map((t, i) => {
+            {activeThreads.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessuna pista emersa</div>}
+            {activeThreads.map((t, i) => {
               if (typeof t === "string") {
                 return (
                   <div key={i} style={{ padding: "8px 10px", borderRadius: 8, marginBottom: 6, background: "var(--code-bg)", border: "1px solid var(--border)", borderLeft: "3px solid var(--accent)" }}>
@@ -2388,6 +3433,35 @@ function SidePanel({ adventure, gameState, players, avatars, npcAvatars, onClose
                     </span>
                   </div>
                   {t.payoff && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.75, lineHeight: 1.35, marginBottom: 6 }}>{t.payoff}</div>}
+                  {t.required_details?.length > 0 && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4, marginBottom: 7 }}>
+                      {t.required_details.map(({ id, clue, found, progress }) => {
+                        const partial = !found && (progress?.ticks || 0) > 0;
+                        const label = clue?.label || clue?.text || id;
+                        return (
+                          <div key={id} style={{
+                            padding: "5px 7px", borderRadius: 6,
+                            background: found ? "rgba(74,222,128,0.08)" : partial ? "rgba(96,165,250,0.08)" : "rgba(255,255,255,0.035)",
+                            border: `1px solid ${found ? "rgba(74,222,128,0.24)" : partial ? "rgba(96,165,250,0.25)" : "rgba(255,255,255,0.06)"}`,
+                          }}>
+                            <div style={{ fontSize: 10, color: found ? "#4ade80" : partial ? "#93c5fd" : "var(--text)", lineHeight: 1.35 }}>
+                              {found ? "✓" : partial ? "◔" : "□"} {label}
+                            </div>
+                            {clue?.location && (
+                              <div style={{ fontSize: 9, color: "var(--text)", opacity: 0.5, marginTop: 1 }}>
+                                dove: {clue.location}
+                              </div>
+                            )}
+                            {partial && progress?.note && (
+                              <div style={{ fontSize: 9, color: "#93c5fd", opacity: 0.85, marginTop: 1 }}>
+                                progresso: {progress.note}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                   <div style={{ height: 5, borderRadius: 5, background: "rgba(255,255,255,0.08)", overflow: "hidden", marginBottom: 5 }}>
                     <div style={{ height: "100%", width: `${pct}%`, background: ready ? "#60a5fa" : "var(--accent)" }} />
                   </div>
@@ -2526,136 +3600,12 @@ function SecretsPanel({ adventure, gameState, onClose }) {
   );
 }
 
-// ─── Adventure screen (generazione bibbia) ─────────────────────────────────
-
-function AdventureScreen({ genre, players, avatars, onStart, onBack }) {
-  const [loading, setLoading] = useState(false);
-  const [adventure, setAdventure] = useState(null);
-  const [error, setError] = useState("");
-
-  const playerDicts = players.map(p => ({
-    id: p.id, name: p.name, role: p.role, archetype: p.archetype || p.role || "custom",
-    stats: p.stats, skills: p.skills,
-    advantages: p.advantages || [], disadvantages: p.disadvantages || [],
-    hp: p.hp, max_hp: p.max_hp, fp: p.fp, max_fp: p.max_fp,
-    dr: p.dr || 0, items: p.items || [], actions: p.actions || [],
-  }));
-
-  async function generate() {
-    setLoading(true); setError(""); setAdventure(null);
-    const res = await fetch(`${API_URL}/game/adventure/create`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ genre, players: playerDicts }),
-    }).then(r => r.json());
-    setLoading(false);
-    if (res.error) { setError(res.error); return; }
-    setAdventure(res);
-  }
-
-  const meta = GENRE_META[genre] || { emoji: "🎲", gradient: "135deg,#1a1a1a,#2a2a2a" };
-
-  useEffect(() => { generate(); }, []);
-
-  if (loading) return (
-    <LoadingProgress
-      icon="📖"
-      title="Il Master prepara l'avventura..."
-      steps={[
-        { at: 0,     pill: "Premessa",   label: "Costruisco la premessa dell'avventura..." },
-        { at: 3000,  pill: "PNG",        label: "Creo i personaggi non giocanti..." },
-        { at: 7000,  pill: "Indizi",     label: "Nascondo gli indizi nelle location..." },
-        { at: 11000, pill: "Misteri",    label: "Tesso i fili narrativi segreti..." },
-        { at: 15000, pill: "Minaccia",   label: "Calibro la minaccia e il timer..." },
-        { at: 19000, pill: "Finale",     label: "Definisco le condizioni di vittoria..." },
-        { at: 23000, pill: "Rifinitura", label: "Rileggo e rifinisco la bibbia..." },
-      ]}
-    />
-  );
-
-  if (error) return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, background: "var(--bg)" }}>
-      <div style={{ fontSize: 14, color: "#f87171" }}>{error}</div>
-      <button onClick={generate} style={{ padding: "10px 24px", borderRadius: 8, border: "none", background: "var(--accent)", color: "#fff", cursor: "pointer", fontWeight: 700 }}>Riprova</button>
-      <button onClick={onBack} style={{ fontSize: 13, color: "var(--text)", background: "none", border: "none", cursor: "pointer" }}>← Torna indietro</button>
-    </div>
-  );
-
-  if (!adventure) return null;
-
-  return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", padding: "32px 24px", background: "var(--bg)" }}>
-      {/* header genere */}
-      <div style={{ width: "100%", maxWidth: 720, borderRadius: 16, marginBottom: 28, overflow: "hidden", background: `linear-gradient(${meta.gradient})`, boxShadow: "0 4px 24px rgba(0,0,0,0.5)" }}>
-        <div style={{ padding: "24px 28px" }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "rgba(255,255,255,0.5)", letterSpacing: 2, textTransform: "uppercase", marginBottom: 4 }}>
-            {adventure.from_pdf ? "📄 Da PDF" : "✨ Generata con AI"}
-          </div>
-          <div style={{ fontSize: 24, fontWeight: 900, color: "#fff", marginBottom: 6 }}>{adventure.title}</div>
-          <div style={{ fontSize: 14, color: "rgba(255,255,255,0.7)", lineHeight: 1.5 }}>{adventure.premise}</div>
-        </div>
-      </div>
-
-      <div style={{ width: "100%", maxWidth: 720, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
-        {/* PNG */}
-        <div style={{ background: "var(--code-bg)", borderRadius: 12, padding: 16, border: "1px solid var(--border)" }}>
-          <div style={{ fontSize: 12, fontWeight: 800, color: "var(--accent)", marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>👤 Personaggi Non Giocanti</div>
-          {adventure.npcs?.map(npc => (
-            <div key={npc.id} style={{ marginBottom: 8, paddingBottom: 8, borderBottom: "1px solid var(--border)" }}>
-              <div style={{ fontWeight: 700, fontSize: 13, color: "var(--text-h)" }}>{npc.name}</div>
-              <div style={{ fontSize: 11, color: "var(--accent)", marginBottom: 2 }}>{npc.role}</div>
-              <div style={{ fontSize: 11, color: "var(--text)" }}>{npc.description}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Indizi + Minaccia */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <div style={{ background: "var(--code-bg)", borderRadius: 12, padding: 16, border: "1px solid var(--border)" }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: "var(--accent)", marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>🔍 Indizi nascosti</div>
-            {adventure.clues?.map(c => (
-              <div key={c.id} style={{ fontSize: 12, color: "var(--text)", marginBottom: 5, paddingLeft: 8, borderLeft: "2px solid var(--border)" }}>
-                📍 {c.location}
-              </div>
-            ))}
-          </div>
-          <div style={{ background: "var(--code-bg)", borderRadius: 12, padding: 16, border: "1px solid var(--border)" }}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: "#f87171", marginBottom: 6, textTransform: "uppercase", letterSpacing: 1 }}>⚠ Minaccia</div>
-            <div style={{ fontSize: 12, color: "var(--text)", marginBottom: 4 }}>{adventure.threat_description}</div>
-            {adventure.has_time_pressure !== false && (
-              <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6 }}>Timer: {adventure.threat_max_turns} turni</div>
-            )}
-            {adventure.has_time_pressure === false && (
-              <div style={{ fontSize: 11, color: "#4ade80", opacity: 0.8 }}>Nessun limite di tempo</div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* vittoria */}
-      <div style={{ width: "100%", maxWidth: 720, background: "var(--code-bg)", borderRadius: 12, padding: "14px 18px", border: "1px solid var(--border)", marginBottom: 24 }}>
-        <div style={{ fontSize: 12, fontWeight: 800, color: "#4ade80", marginBottom: 4, textTransform: "uppercase", letterSpacing: 1 }}>🏆 Condizione vittoria</div>
-        <div style={{ fontSize: 13, color: "var(--text-h)" }}>{adventure.win_condition}</div>
-      </div>
-
-      <div style={{ width: "100%", maxWidth: 720, display: "flex", gap: 12 }}>
-        <button onClick={generate} style={{ padding: "11px 20px", borderRadius: 10, border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text)", cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
-          🔄 Rigenera
-        </button>
-        <button onClick={() => onStart(adventure)} style={{ flex: 1, padding: "13px 0", borderRadius: 10, border: "none", background: "var(--accent)", color: "#fff", fontWeight: 800, fontSize: 16, cursor: "pointer" }}>
-          ⚔️ Inizia l'avventura
-        </button>
-      </div>
-    </div>
-  );
-}
-
 // ─── HexCombatMap ──────────────────────────────────────────────────────────
 // Griglia esagonale SVG flat-top, 1 hex = 1 yard GURPS Lite.
 // Terreni: 0=normale 1=copertura 2=difficile 3=muro
 // Facing: 0-5 (direzioni hex, 0=nord)
 
-const HEX_SIZE = 28; // raggio hex (apotema orizzontale)
+const HEX_SIZE = 36; // raggio hex: pochi esagoni, ben leggibili sul tavolo tattico
 const HEX_W = HEX_SIZE * 2;
 const HEX_H = Math.sqrt(3) * HEX_SIZE;
 const HEX_OFFSET_X = HEX_W * 0.75;
@@ -2796,10 +3746,10 @@ function battleThemeFor(genre, text) {
 }
 
 function battleSizeFor(text, enemyCount = 0) {
-  if (/corridoio|tunnel|passaggio|ponte|galleria|stretta|vicolo/.test(text)) return { cols: 18, rows: 8, layout: "narrow" };
-  if (/foresta|radura|campo|piazza|hangar|sala grande|cortile|rovine|esterno|aperto|battlefield/.test(text) || enemyCount >= 4) return { cols: 18, rows: 12, layout: "open" };
-  if (/stanza|cella|cripta|sacrario|biblioteca|oratorio|sala|laboratorio|ponte di comando/.test(text)) return { cols: 15, rows: 10, layout: "room" };
-  return { cols: 15, rows: 10, layout: "room" };
+  if (/corridoio|tunnel|passaggio|ponte|galleria|stretta|vicolo/.test(text)) return { cols: 12, rows: 6, layout: "narrow" };
+  if (/foresta|radura|campo|piazza|hangar|sala grande|cortile|rovine|esterno|aperto|battlefield/.test(text) || enemyCount >= 4) return { cols: 12, rows: 8, layout: "open" };
+  if (/stanza|cella|cripta|sacrario|biblioteca|oratorio|sala|laboratorio|ponte di comando/.test(text)) return { cols: 10, rows: 7, layout: "room" };
+  return { cols: 10, rows: 7, layout: "room" };
 }
 
 function buildBattleMapTerrain(cols, rows, layout, text) {
@@ -2853,12 +3803,23 @@ function buildBattleMapTerrain(cols, rows, layout, text) {
   return terrain;
 }
 
-function buildBattleMapSpec({ genre, environmentType, sceneText, locationName, enemyNames }) {
-  const text = battleText(genre, environmentType, sceneText, locationName, ...(enemyNames || []));
+function buildBattleMapSpec({ genre, environmentType, sceneText, locationName, enemyNames, tacticalMap }) {
+  const tacticalText = tacticalMap?.enabled
+    ? battleText(tacticalMap.role, tacticalMap.layout, ...(tacticalMap.features || []), ...(tacticalMap.hazards || []), tacticalMap.trigger)
+    : "";
+  const text = battleText(genre, environmentType, sceneText, locationName, tacticalText, ...(enemyNames || []));
   const theme = battleThemeFor(genre, text);
-  const size = battleSizeFor(text, (enemyNames || []).length);
+  const inferredSize = battleSizeFor(text, (enemyNames || []).length);
+  const size = tacticalMap?.enabled
+    ? {
+        cols: Math.max(8, Math.min(14, Number(tacticalMap.cols) || inferredSize.cols)),
+        rows: Math.max(6, Math.min(10, Number(tacticalMap.rows) || inferredSize.rows)),
+        layout: tacticalMap.layout || inferredSize.layout,
+      }
+    : inferredSize;
   const terrain = buildBattleMapTerrain(size.cols, size.rows, size.layout, text);
   const labelBits = [theme.label];
+  if (tacticalMap?.enabled) labelBits.push(tacticalMap.role === "finale" ? "finale" : "zona calda");
   if (/biblioteca|archiv|scriptorium/.test(text)) labelBits.push("libreria");
   else if (/cripta|catacomb|cimiter/.test(text)) labelBits.push("cripta");
   else if (/foresta|radura/.test(text)) labelBits.push("esterno");
@@ -2921,16 +3882,43 @@ function renderBattleMapDecor(mapSpec) {
 
 function buildInitialPositions(players, enemies, cols = 15, rows = 10) {
   const positions = {};
+  const used = new Set();
+  const place = (preferredCol, preferredRow) => {
+    const candidates = [];
+    for (let dc = 0; dc <= 2; dc++) {
+      for (let dr = 0; dr < rows; dr++) {
+        const rowUp = preferredRow - dr;
+        const rowDown = preferredRow + dr;
+        const colsToTry = dc === 0 ? [preferredCol] : [preferredCol + dc, preferredCol - dc];
+        for (const c of colsToTry) {
+          if (rowUp >= 1) candidates.push({ col: c, row: rowUp });
+          if (dr > 0 && rowDown <= rows - 2) candidates.push({ col: c, row: rowDown });
+        }
+      }
+    }
+    const found = candidates.find(p =>
+      p.col >= 1 && p.col <= cols - 2 && p.row >= 1 && p.row <= rows - 2 && !used.has(`${p.col},${p.row}`)
+    ) || { col: Math.max(1, Math.min(cols - 2, preferredCol)), row: Math.max(1, Math.min(rows - 2, preferredRow)) };
+    used.add(`${found.col},${found.row}`);
+    return found;
+  };
+  const spacedRow = (i, total) => {
+    if (total <= 1) return Math.floor(rows / 2);
+    const span = Math.max(1, rows - 3);
+    return 1 + Math.round((i + 1) * span / (total + 1));
+  };
   players.forEach((p, i) => {
-    positions[`p_${p.id}`] = { col: 2, row: Math.min(rows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
+    const pos = place(2, spacedRow(i, players.length));
+    positions[`p_${p.id}`] = { ...pos, facing: 0, type: "player", id: p.id };
   });
   enemies.forEach((e, i) => {
-    positions[`e_${e.id}`] = { col: Math.max(3, cols - 4), row: Math.min(rows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
+    const pos = place(Math.max(3, cols - 4), spacedRow(i, enemies.length));
+    positions[`e_${e.id}`] = { ...pos, facing: 3, type: "enemy", id: e.id };
   });
   return positions;
 }
 
-function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, avatars, npcAvatars, bgImage, lastCombatLog, onClose, genre, environmentType, sceneText, locationName }) {
+function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, onRetreat, avatars, npcAvatars, bgImage, lastCombatLog, onClose, genre, environmentType, sceneText, locationName, tacticalMap }) {
   const entities = sceneEntities || [];
   const enemies = entities.filter(e => e.type === "enemy");
   // La mappa non cambia dimensione durante il combattimento — dipendenze stabili
@@ -2940,6 +3928,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     sceneText,
     locationName,
     enemyNames: enemies.map(e => e.name),
+    tacticalMap,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [genre, environmentType, sceneText, locationName]);
   const mapCols = mapSpec.cols;
@@ -2983,18 +3972,40 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     setPositions(prev => {
       const next = { ...prev };
       const wanted = new Set();
+      const occupied = new Set(Object.values(next).map(p => `${p.col},${p.row}`));
+      const findFree = (preferredCol, preferredRow) => {
+        for (let dc = 0; dc <= 2; dc++) {
+          for (let dr = 0; dr < rows; dr++) {
+            const rowOptions = dr === 0 ? [preferredRow] : [preferredRow - dr, preferredRow + dr];
+            const colOptions = dc === 0 ? [preferredCol] : [preferredCol + dc, preferredCol - dc];
+            for (const c of colOptions) {
+              for (const r of rowOptions) {
+                const key = `${c},${r}`;
+                if (c >= 1 && c <= cols - 2 && r >= 1 && r <= rows - 2 && !occupied.has(key)) {
+                  occupied.add(key);
+                  return { col: c, row: r };
+                }
+              }
+            }
+          }
+        }
+        return { col: Math.max(1, Math.min(cols - 2, preferredCol)), row: Math.max(1, Math.min(rows - 2, preferredRow)) };
+      };
+      const spacedRow = (i, total) => total <= 1
+        ? Math.floor(rows / 2)
+        : 1 + Math.round((i + 1) * Math.max(1, rows - 3) / (total + 1));
       players.forEach((p, i) => {
         const key = `p_${p.id}`;
         wanted.add(key);
         if (!next[key]) {
-          next[key] = { col: 2, row: Math.min(rows - 2, 2 + i * 2), facing: 0, type: "player", id: p.id };
+          next[key] = { ...findFree(2, spacedRow(i, players.length)), facing: 0, type: "player", id: p.id };
         }
       });
       enemies.forEach((e, i) => {
         const key = `e_${e.id}`;
         wanted.add(key);
         if (!next[key]) {
-          next[key] = { col: Math.max(3, cols - 4), row: Math.min(rows - 2, 2 + i * 2), facing: 3, type: "enemy", id: e.id };
+          next[key] = { ...findFree(Math.max(3, cols - 4), spacedRow(i, enemies.length)), facing: 3, type: "enemy", id: e.id };
         }
         // Se l'entità è morta, rimuovila
         if ((e.hp ?? 1) <= 0) delete next[key];
@@ -3088,6 +4099,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     if (actedId != null) newActed.add(actedId);
     const alivePlayers = players.filter(p => p.hp > 0 && p.status !== "sconfitto" && p.status !== "morto");
     const remaining = alivePlayers.filter(p => !newActed.has(p.id));
+    const roundEnded = remaining.length === 0;
     if (remaining.length === 0) {
       setActedThisRound(new Set());
       if (onNextPlayer) onNextPlayer(alivePlayers[0]?.id);
@@ -3098,8 +4110,8 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     setSelected(null);
     setMode("select");
     setReachable(new Set());
-    // Fa agire gli NPC dopo ogni azione del giocatore (tranne dopo un attacco — li fa già handleAttack)
-    if (runNpc && onFinishTurn) {
+    // I PNG agiscono una sola volta a fine round giocatori.
+    if (roundEnded && runNpc && onFinishTurn) {
       Promise.resolve(onFinishTurn(tacticalSnapshot(positionsOverride))).then(applyNpcTurnResult);
     }
   }
@@ -3168,8 +4180,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
               applyNpcTurnResult(npcTurnResult);
               setAttackActionType("normal");
               setCombatLog(prev => [...prev, `${p.name} attacca${attackActionType === "all_out_attack" ? " [TOTALE]" : ""} (${logParts.join(", ")})`]);
-              // attacco consuma il turno — handleAttack chiama già _runNpcTurn, non duplicare
-              advanceTurn(pid, false);
+              advanceTurn(pid, true);
             }
           }
         } else {
@@ -3217,6 +4228,8 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   const selectedIsActivePlayer = canControlToken();
   const selectedIsEnemy = selected?.startsWith("e_");
   const selectedIsOtherPlayer = selected?.startsWith("p_") && !selectedIsActivePlayer;
+  const isFinalBattle = /final|boss|culmine|conclus/i.test(`${tacticalMap?.role || ""} ${tacticalMap?.purpose || ""} ${mapSpec.title || ""}`);
+  const canRetreat = !isFinalBattle && !pendingAttack;
 
   return (
     <div
@@ -3228,7 +4241,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
         onMouseDown={onMouseDown}
         style={{
           position: "absolute", left: dragPos.x, top: dragPos.y,
-          width: Math.min(svgWidth + 24, window.innerWidth - 60),
+                width: Math.min(svgWidth + 24, window.innerWidth - 24),
           background: "rgba(16,17,26,0.97)", border: "1px solid rgba(239,68,68,0.5)",
           borderRadius: 14, boxShadow: "0 8px 40px rgba(0,0,0,0.7)",
           pointerEvents: "auto", userSelect: "none",
@@ -3314,7 +4327,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                         : ((npcAvatars || {})[c.name] || (npcAvatars || {})[c.key.replace("e_","")]);
                       return img ? (
                         <img src={`data:image/png;base64,${img}`}
-                          style={{ width: 16, height: 16, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+                          style={{ width: 24, height: 24, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
                       ) : null;
                     })()}
                     <span style={{ opacity: 0.5 }}>{i + 1}.</span>
@@ -3334,7 +4347,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
           );
         })()}
 
-        <div className="hex-map-content" style={{ overflowX: "auto", overflowY: "auto", maxHeight: "55vh" }}>
+        <div className="hex-map-content" style={{ overflowX: "auto", overflowY: "auto", maxHeight: "72vh" }}>
           {/* legenda terreni */}
           <div style={{ display: "flex", gap: 12, padding: "6px 14px", fontSize: 10, color: "rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
             <span>⬡ Normale</span>
@@ -3510,6 +4523,17 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
 
         {/* barra azioni */}
         <div style={{ padding: "8px 12px", borderTop: "1px solid rgba(255,255,255,0.07)", display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
+          {canRetreat && (
+            <button
+              onClick={() => onRetreat && onRetreat(tacticalSnapshot())}
+              title="Ritirata: chiude lo scontro con un costo di minaccia e torna alla scena narrativa"
+              style={{
+                padding: "5px 12px", borderRadius: 7, border: "1px solid rgba(250,204,21,0.45)",
+                background: "rgba(250,204,21,0.12)", color: "#fde68a", fontWeight: 800,
+                cursor: "pointer", fontSize: 12,
+              }}
+            >↩ Ritirata</button>
+          )}
           {selected && selPos && selectedIsActivePlayer && (
             <>
               <button onClick={startMove} style={{
@@ -3681,275 +4705,9 @@ function HpBar({ hp, maxHp }) {
   );
 }
 
-// ─── StrategicMapPanel ─────────────────────────────────────────────────────
-
-function StrategicMapPanel({ mapState, onClose, onMove, bgImage, onRequestImage, loadingImage, adventure, cluesFound }) {
-  const [hovered, setHovered] = useState(null); // node id
-
-  if (!mapState || !mapState.nodes) return null;
-
-  const nodes = Object.values(mapState.nodes);
-  const currentId = mapState.current_node_id;
-  const currentNode = mapState.nodes[currentId];
-
-  // reachable from current node (direct connections that aren't blocked/destroyed)
-  const reachable = new Set((currentNode?.connections || []).filter(cid => {
-    const n = mapState.nodes[cid];
-    return n && !n.blocked && !n.destroyed;
-  }));
-
-  // compute SVG layout — use a fixed canvas of 680×320 with padding
-  const CANVAS_W = 680;
-  const CANVAS_H = 320;
-  const PAD = 44;
-  const maxGX = Math.max(...nodes.map(n => n.grid_x), 1);
-  const maxGY = Math.max(...nodes.map(n => n.grid_y), 1);
-  const cellW = (CANVAS_W - PAD * 2) / Math.max(maxGX, 1);
-  const cellH = (CANVAS_H - PAD * 2) / Math.max(maxGY, 1);
-
-  function nodeX(n) { return PAD + n.grid_x * cellW; }
-  function nodeY(n) { return PAD + n.grid_y * cellH; }
-
-  // build deduplicated connection lines
-  const lines = [];
-  const seen = new Set();
-  nodes.forEach(n => {
-    (n.connections || []).forEach(cid => {
-      const key = [n.id, cid].sort().join("|");
-      if (!seen.has(key)) {
-        seen.add(key);
-        const t = mapState.nodes[cid];
-        if (t) lines.push({ x1: nodeX(n), y1: nodeY(n), x2: nodeX(t), y2: nodeY(t), key });
-      }
-    });
-  });
-
-  const hoveredNode = hovered ? mapState.nodes[hovered] : null;
-
-  return (
-    <div style={{
-      position: "relative", border: "1px solid var(--border)",
-      borderRadius: 10, margin: "0 16px 10px", overflow: "hidden",
-      background: "#0a0a12",
-    }}>
-      {/* Header */}
-      <div style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        padding: "8px 12px", background: "rgba(0,0,0,0.7)", zIndex: 4,
-        borderBottom: "1px solid var(--border)",
-      }}>
-        <span style={{ fontSize: 13, fontWeight: 800, color: "var(--text-h)" }}>🗺 Mappa Strategica</span>
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          {!bgImage && (
-            <button onClick={onRequestImage} disabled={loadingImage} style={{
-              fontSize: 11, padding: "3px 9px", borderRadius: 6, cursor: loadingImage ? "default" : "pointer",
-              background: "var(--accent-bg)", border: "1px solid var(--accent-border)",
-              color: "var(--accent)", opacity: loadingImage ? 0.6 : 1,
-            }}>
-              {loadingImage ? "⏳ Generazione..." : "🎨 Genera immagine"}
-            </button>
-          )}
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontSize: 18, lineHeight: 1 }}>×</button>
-        </div>
-      </div>
-
-      {/* Map canvas */}
-      <div style={{ position: "relative", height: CANVAS_H, overflowX: "auto" }}>
-        {/* Background image */}
-        {bgImage && (
-          <img src={`data:image/png;base64,${bgImage}`} alt="mappa" style={{
-            position: "absolute", inset: 0, width: "100%", height: "100%",
-            objectFit: "cover", opacity: 0.45, pointerEvents: "none",
-          }} />
-        )}
-        {/* Dark overlay for readability */}
-        <div style={{
-          position: "absolute", inset: 0,
-          background: bgImage
-            ? "linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.55) 100%)"
-            : "linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 100%)",
-          pointerEvents: "none",
-        }} />
-
-        {/* SVG overlay */}
-        <svg width={CANVAS_W} height={CANVAS_H} style={{ position: "absolute", inset: 0, display: "block" }}>
-          <defs>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-            </filter>
-          </defs>
-
-          {/* Connection lines */}
-          {lines.map((l, i) => (
-            <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2}
-              stroke="rgba(124,58,237,0.35)" strokeWidth={1.5} strokeDasharray="4 3" />
-          ))}
-
-          {/* Nodes */}
-          {nodes.map(n => {
-            const cx = nodeX(n);
-            const cy = nodeY(n);
-            const isCurrent = n.id === currentId;
-            const isReachable = reachable.has(n.id);
-            const isVisited = n.visited;
-            const isObjective = n.is_objective;
-            const isFinal = n.is_final;
-            const hasEnemy = n.contains_enemy;
-            const isBlocked = n.blocked || n.destroyed;
-            const isHovered = n.id === hovered;
-
-            // Node appearance
-            let fill = isBlocked ? "rgba(127,29,29,0.5)"
-              : isCurrent ? "rgba(124,58,237,0.85)"
-              : isReachable ? "rgba(34,197,94,0.25)"
-              : isVisited ? "rgba(55,65,81,0.7)"
-              : "rgba(17,24,39,0.7)";
-            let stroke = isFinal ? "#facc15"
-              : isObjective ? "#fb923c"
-              : hasEnemy ? "#ef4444"
-              : isReachable ? "#22c55e"
-              : isCurrent ? "#a78bfa"
-              : "rgba(75,85,99,0.8)";
-            let strokeW = isCurrent || isReachable || isObjective || isFinal ? 2.5 : 1.5;
-            const r = isCurrent ? 20 : 15;
-
-            return (
-              <g key={n.id}
-                onClick={() => !isBlocked && isReachable && onMove(n.id)}
-                onMouseEnter={() => setHovered(n.id)}
-                onMouseLeave={() => setHovered(null)}
-                style={{ cursor: isReachable && !isBlocked ? "pointer" : "default" }}
-                filter={isCurrent ? "url(#glow)" : undefined}
-              >
-                {/* Reachable pulse ring */}
-                {isReachable && (
-                  <circle cx={cx} cy={cy} r={r + 5} fill="none"
-                    stroke="#22c55e" strokeWidth={1} opacity={0.4} />
-                )}
-                <circle cx={cx} cy={cy} r={r} fill={fill} stroke={stroke} strokeWidth={strokeW} />
-
-                {/* Icons inside node */}
-                {isCurrent && (
-                  <text x={cx} y={cy + 5} textAnchor="middle" fontSize={14} fill="#fff">◉</text>
-                )}
-                {!isCurrent && isFinal && (
-                  <text x={cx} y={cy + 5} textAnchor="middle" fontSize={12} fill="#facc15">🏁</text>
-                )}
-                {!isCurrent && isObjective && !isFinal && (
-                  <text x={cx} y={cy + 5} textAnchor="middle" fontSize={12} fill="#fb923c">⭐</text>
-                )}
-                {!isCurrent && hasEnemy && !isObjective && !isFinal && (
-                  <text x={cx} y={cy + 5} textAnchor="middle" fontSize={11} fill="#ef4444">⚔</text>
-                )}
-                {isBlocked && (
-                  <text x={cx} y={cy + 5} textAnchor="middle" fontSize={11} fill="#ef4444">✕</text>
-                )}
-
-                {/* Label */}
-                <text x={cx} y={cy + r + 14} textAnchor="middle" fontSize={9}
-                  fill={isCurrent ? "#e9d5ff" : isReachable ? "#86efac" : "rgba(156,163,175,0.9)"}
-                  style={{ userSelect: "none", fontWeight: isCurrent ? 700 : 400 }}>
-                  {(n.name || n.id).slice(0, 14)}
-                </text>
-
-                {/* Hover highlight */}
-                {isHovered && !isCurrent && (
-                  <circle cx={cx} cy={cy} r={r + 2} fill="none" stroke="white" strokeWidth={1} opacity={0.5} />
-                )}
-              </g>
-            );
-          })}
-
-          {/* Team token on current node */}
-          {currentNode && (() => {
-            const cx = nodeX(currentNode);
-            const cy = nodeY(currentNode);
-            return (
-              <g>
-                <circle cx={cx} cy={cy - 28} r={10} fill="#7c3aed" stroke="#c4b5fd" strokeWidth={2} />
-                <text x={cx} y={cy - 24} textAnchor="middle" fontSize={11} fill="#fff">👥</text>
-              </g>
-            );
-          })()}
-        </svg>
-      </div>
-
-      {/* Hover tooltip */}
-      {hoveredNode && (() => {
-        const nodeName = hoveredNode.name || "";
-        // Indizi trovabili in questa location
-        const nodeClues = (adventure?.clues || []).filter(c =>
-          c.location && c.location.toLowerCase().includes(nodeName.toLowerCase().slice(0, 6))
-        );
-        // NPC presenti in questa location
-        const nodeNpcs = (adventure?.npcs || []).filter(n =>
-          n.location && n.location.toLowerCase().includes(nodeName.toLowerCase().slice(0, 6))
-        );
-        const isReachableNode = reachable.has(hoveredNode.id);
-        return (
-          <div style={{
-            padding: "10px 14px", background: "rgba(0,0,0,0.92)",
-            borderTop: "1px solid var(--border)",
-          }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
-              <span style={{ fontWeight: 700, fontSize: 13, color: "var(--text-h)" }}>{hoveredNode.name}</span>
-              {hoveredNode.kind && <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.6 }}>{hoveredNode.kind}</span>}
-              <div style={{ display: "flex", gap: 4, marginLeft: "auto", flexWrap: "wrap" }}>
-                {hoveredNode.contains_enemy && <Badge icon="⚔" label="Nemici" color="#ef4444" size="sm" />}
-                {hoveredNode.contains_clue && <Badge icon="🔍" label="Indizio" color="#60a5fa" size="sm" />}
-                {hoveredNode.is_objective && <Badge icon="⭐" label="Obiettivo" color="#fb923c" size="sm" />}
-                {hoveredNode.is_final && <Badge icon="🏁" label="Finale" color="#facc15" size="sm" />}
-                {hoveredNode.blocked && <Badge icon="🚫" label="Bloccato" color="#6b7280" size="sm" />}
-                {hoveredNode.visited && <Badge icon="✓" label="Visitato" color="#4ade80" size="sm" />}
-              </div>
-            </div>
-            {hoveredNode.description && (
-              <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.8, marginBottom: 6, lineHeight: 1.4 }}>{hoveredNode.description}</div>
-            )}
-            {nodeNpcs.length > 0 && (
-              <div style={{ fontSize: 11, color: "#c4b5fd", marginBottom: 3 }}>
-                👤 {nodeNpcs.map(n => n.name).join(", ")}
-              </div>
-            )}
-            {nodeClues.length > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                {nodeClues.map(c => {
-                  const found = (cluesFound || []).includes(c.id);
-                  return (
-                    <div key={c.id} style={{ fontSize: 11, color: found ? "#4ade80" : "#93c5fd" }}>
-                      {found ? "🔍" : "⬜"} {found ? c.text : c.text}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-            {isReachableNode && !hoveredNode.blocked && (
-              <div style={{ fontSize: 11, color: "#22c55e", marginTop: 6, fontWeight: 700 }}>
-                → Click per spostarsi qui (genera scena)
-              </div>
-            )}
-          </div>
-        );
-      })()}
-
-      {/* Legend */}
-      <div style={{
-        padding: "6px 12px", background: "rgba(0,0,0,0.5)", borderTop: "1px solid var(--border)",
-        display: "flex", gap: 12, flexWrap: "wrap",
-      }}>
-        <span style={{ fontSize: 10, color: "rgba(167,139,250,0.9)" }}>◉ Posizione attuale</span>
-        <span style={{ fontSize: 10, color: "rgba(34,197,94,0.9)" }}>○ Raggiungibile (click per muoversi)</span>
-        <span style={{ fontSize: 10, color: "rgba(251,146,60,0.9)" }}>⭐ Obiettivo</span>
-        <span style={{ fontSize: 10, color: "rgba(239,68,68,0.9)" }}>⚔ Nemici presenti</span>
-      </div>
-    </div>
-  );
-}
-
 // ─── Game screen ───────────────────────────────────────────────────────────
 
-function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = null, provider = "claude", imageProvider = "auto", preloadedMapImage = null, onRestart }) {
+function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = null, provider = "claude", imageProvider = "auto", onRestart }) {
   const [players, setPlayers] = useState(initialPlayers);
   const [messages, setMessages] = useState([]);
   const [options, setOptions] = useState([]);
@@ -3968,22 +4726,30 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     clues_found: [],
     clue_progress: {},
     discovered_clues: [],
+    discovered_facts: [],
+    resolved_threads: [],
     npc_statuses: {},
     threat_level: 0,
     open_threads: [],
     turn: 1,
     in_combat: false,
     world_npcs: [],
+    allowed_escalation_tier: null,
+    allowed_escalation_types: [],
+    forbidden_escalation_types: [],
+    blocked_major_events: [],
+    downgraded_events: [],
+    director_reason: "",
   });
   const [sceneState, setSceneState] = useState(null);
   const [combatEntities, setCombatEntities] = useState([]); // entity combattimento persistenti, non sovrascritte dal fetch
   const [combatBgImage, setCombatBgImage] = useState(null);
+  const [preparedTacticalMaps, setPreparedTacticalMaps] = useState({});
+  const preparingTacticalMapsRef = useRef(new Set());
+  const [preparingTacticalMaps, setPreparingTacticalMaps] = useState(new Set());
   const [showCombatMap, setShowCombatMap] = useState(false);
   const [lastCombatLog, setLastCombatLog] = useState(null);
   const [mapState, setMapState] = useState(null);
-  const [showMap, setShowMap] = useState(false);
-  const [strategicMapImage, setStrategicMapImage] = useState(preloadedMapImage);
-  const [loadingStrategicImage, setLoadingStrategicImage] = useState(false);
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
   const [combatTarget, setCombatTarget] = useState(null);
@@ -4012,6 +4778,47 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     advantages: p.advantages || [], disadvantages: p.disadvantages || [],
   }));
 
+  function buildTacticalMapPayloadForNode(node, enemyNames = []) {
+    if (!node) return null;
+    const tacticalMap = node.tactical_map || {};
+    const tacticalDesc = tacticalMap?.enabled
+      ? `Scheda tattica canonica: ${tacticalMap.role || "hot_zone"}; layout ${tacticalMap.layout || "room"}; elementi ${(tacticalMap.features || []).join(", ")}; pericoli ${(tacticalMap.hazards || []).join(", ")}; trigger ${tacticalMap.trigger || ""}.`
+      : "";
+    return {
+      location_name: node.name || "Zona tattica",
+      location_description: [node.description, tacticalDesc].filter(Boolean).join(" "),
+      genre,
+      environment_type: node.kind || adventure?.environment_type || adventure?.genre || "indoor",
+      scene_narrative: tacticalDesc || node.description || "",
+      mission_environment: adventure?.environment_type || adventure?.genre || genre,
+      enemy_names: enemyNames,
+    };
+  }
+
+  function prepareTacticalMapForNode(node, enemyNames = []) {
+    if (!node?.id || imageProvider === "none") return;
+    if (!node.tactical_map?.enabled && !node.contains_enemy && !node.is_final) return;
+    if (preparedTacticalMaps[node.id] || preparingTacticalMapsRef.current.has(node.id)) return;
+    const payload = buildTacticalMapPayloadForNode(node, enemyNames);
+    if (!payload) return;
+    preparingTacticalMapsRef.current.add(node.id);
+    setPreparingTacticalMaps(prev => new Set([...prev, node.id]));
+    fetch(`${API_URL}/game/generate-tactical-map-image`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    }).then(r => r.json()).then(r => {
+      if (r.image_b64) setPreparedTacticalMaps(prev => ({ ...prev, [node.id]: r.image_b64 }));
+    }).catch(() => {}).finally(() => {
+      preparingTacticalMapsRef.current.delete(node.id);
+      setPreparingTacticalMaps(prev => {
+        const next = new Set(prev);
+        next.delete(node.id);
+        return next;
+      });
+    });
+  }
+
   function applyStateUpdates(updates) {
     if (!updates) return;
     const updateHasCombatScene = hasLivingCombatEnemies(updates.combat_scene);
@@ -4038,22 +4845,31 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       }
       const newNpcStatuses = { ...prev.npc_statuses };
       for (const u of (updates.npc_updates || [])) {
-        newNpcStatuses[u.id] = { ...newNpcStatuses[u.id], ...u };
+        const id = u.id || u.npc_id;
+        if (id) newNpcStatuses[id] = { ...newNpcStatuses[id], ...u, id };
       }
       const existing = prev.open_threads.filter(t => !(updates.closed_threads || []).includes(t));
-      const existingSet = new Set(existing.map(t => t.trim().toLowerCase()));
-      const added = (updates.new_threads || []).filter(t => !existingSet.has(t.trim().toLowerCase()));
-      const newThreads = [...existing, ...added];
+      const newThreads = existing;
+      const resolved = [...new Set([...(prev.resolved_threads || []), ...(updates.closed_threads || []), ...(updates.thread_resolved || [])])];
+      const discoveredFacts = [...new Set([...(prev.discovered_facts || []), ...(updates.discovered_facts || [])])].slice(-30);
       return {
         ...prev,
         clues_found: newClues,
         clue_progress: progressById,
         discovered_clues: Array.from(clueById.values()),
+        discovered_facts: discoveredFacts,
+        resolved_threads: resolved,
         npc_statuses: newNpcStatuses,
         threat_level: prev.threat_level + (updates.threat_increase || 0),
         open_threads: newThreads,
         turn: prev.turn + 1,
         in_combat: updates.combat_over ? false : (shouldEnterCombat || prev.in_combat),
+        allowed_escalation_tier: updates.allowed_escalation_tier ?? prev.allowed_escalation_tier,
+        allowed_escalation_types: updates.allowed_escalation_types || prev.allowed_escalation_types || [],
+        forbidden_escalation_types: updates.forbidden_escalation_types || prev.forbidden_escalation_types || [],
+        blocked_major_events: updates.blocked_major_events || updates.blocked_state_updates || [],
+        downgraded_events: updates.downgraded_events || [],
+        director_reason: updates.director_reason || prev.director_reason || "",
       };
     });
     // Apre la mappa tattica automaticamente all'inizio del combattimento
@@ -4079,6 +4895,15 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         setShowCombatMap(true);
       }
       if (gs.world_npcs) setGameStateData(prev => ({ ...prev, world_npcs: gs.world_npcs }));
+      setGameStateData(prev => ({
+        ...prev,
+        allowed_escalation_tier: gs.allowed_escalation_tier ?? prev.allowed_escalation_tier,
+        allowed_escalation_types: gs.allowed_escalation_types || prev.allowed_escalation_types || [],
+        forbidden_escalation_types: gs.forbidden_escalation_types || prev.forbidden_escalation_types || [],
+        blocked_major_events: gs.blocked_major_events || prev.blocked_major_events || [],
+        downgraded_events: gs.downgraded_events || prev.downgraded_events || [],
+        director_reason: gs.director_reason || prev.director_reason || "",
+      }));
       if (gs.players?.length > 0) setPlayers(prev => gs.players.map(gp => {
         const local = prev.find(lp => lp.id === gp.id);
         return local ? { ...gp, backstory: gp.backstory || local.backstory || "", motivation: gp.motivation || local.motivation || "" } : gp;
@@ -4206,8 +5031,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         if (!res.pending_attack) {
           // Narrativa per tutti gli esiti (colpo, parata, mancato)
           _fetchCombatNarration(res.combat_log);
-          // Turno NPC dopo che il giocatore ha attaccato un'entità
-          if (targetEntityId) return await _runNpcTurn(tacticalContext);
         }
       }
     } catch (_) {}
@@ -4244,8 +5067,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         _setMessages(prev => [...prev, { role: "combat", combat_log: res.combat_log }]);
         _fetchCombatNarration(res.combat_log);
       }
-      // Turno degli altri NPC dopo che il giocatore ha risposto all'attacco
-      return await _runNpcTurn(tacticalContext);
     } catch (_) {}
     return null;
   }
@@ -4264,6 +5085,38 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     } catch (_) {}
   }
 
+  async function handleCombatRetreat(tacticalContext = null) {
+    try {
+      const fetchOptions = tacticalContext
+        ? {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(tacticalContext),
+          }
+        : { method: "POST" };
+      const res = await fetch(`${API_URL}/game/combat/retreat`, fetchOptions).then(r => r.json());
+      if (res.players) setPlayers(res.players);
+      if (res.scene) setSceneState(res.scene);
+    } catch (_) {}
+    const activePid = players.find(p => p.hp > 0)?.id || activePlayerId || players[0]?.id;
+    setGameStateData(prev => ({ ...prev, in_combat: false, threat_level: (prev.threat_level || 0) + 1 }));
+    setCombatEntities([]);
+    setPendingAttack(null);
+    setShowCombatMap(false);
+    setCombatBgImage(null);
+    setLastCombatLog(null);
+    _setMessages(prev => [...prev, {
+      role: "master", name: "Master",
+      text: "La squadra rompe il contatto e ripiega. Non è una vittoria, ma avete ancora spazio per scegliere: riorganizzarvi, cercare una via alternativa o trasformare la ritirata in un vantaggio.",
+      isCombatNarration: true,
+    }]);
+    setOptions([
+      { text: "Riorganizzarsi, curare i feriti e capire da dove ripartire", skill: "sopravvivenza", skill_level: 10, stat: "empatia", player_id: activePid },
+      { text: "Cercare una via alternativa evitando il confronto diretto", skill: "furtivita", skill_level: 10, stat: "agilita", player_id: activePid },
+      { text: "Azione custom", skill: "", skill_level: 0, stat: "", player_id: activePid },
+    ]);
+  }
+
   async function handleRename(playerId, newName) {
     // Aggiornamento locale immediato
     setPlayers(prev => prev.map(p => p.id === playerId ? { ...p, name: newName } : p));
@@ -4274,68 +5127,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         body: JSON.stringify({ player_id: playerId, name: newName }),
       });
     } catch (_) {}
-  }
-
-  async function handleMove(nodeId) {
-    // 1. Sposta il nodo nel backend (aggiorna map_state)
-    try {
-      const moveRes = await fetch(`${API_URL}/game/move`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ node_id: nodeId }),
-      }).then(r => r.json());
-      if (moveRes.map_state) setMapState(moveRes.map_state);
-    } catch (_) {}
-
-    // 2. Genera la scena della nuova location tramite turno Master
-    const node = mapState?.nodes?.[nodeId];
-    const locationName = node?.name || "nuova location";
-    const locationDesc = node?.description || "";
-    const activePid = players.find(p => p.hp > 0)?.id || players[0]?.id;
-    const actionText = `Il gruppo si sposta verso ${locationName}. ${locationDesc ? `(${locationDesc.slice(0,80)})` : ""}`.trim();
-
-    setLoading(true);
-    const playerDicts = players.map(p => ({
-      id: p.id, name: p.name, role: p.role, archetype: p.archetype || p.role,
-      stats: p.stats, skills: p.skills || {}, advantages: p.advantages || [],
-      disadvantages: p.disadvantages || [], hp: p.hp, max_hp: p.max_hp,
-      fp: p.fp, max_fp: p.max_fp, dr: p.dr || 0, items: p.items || [],
-      actions: p.actions || [], backstory: p.backstory || "", motivation: p.motivation || "",
-    }));
-    const newHistory = [...history, { role: "player", name: players.find(p=>p.id===activePid)?.name || "Gruppo", text: actionText }];
-    try {
-      const res = await fetch(`${API_URL}/game/master/turn-bible`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          genre, players: playerDicts, history: newHistory,
-          player_action: actionText, active_player_id: activePid,
-          adventure, game_state_data: { ...gameStateData, map_state: mapState },
-        }),
-      }).then(r => r.json());
-
-      const masterMsg = { role: "master", name: "Master", text: res.narrative, roll: res.roll };
-      const masterIdx = messagesRef.current.length;
-      _setMessages(prev => [...prev, { role: "player", name: "Gruppo", text: actionText }, masterMsg]);
-      setHistory([...newHistory, { role: "master", name: "Master", text: res.narrative }]);
-      setOptions(res.options || []);
-      if (res.state_updates) applyStateUpdates(res.state_updates);
-      if (imageProvider !== "none") fetchSceneImage(res.narrative, masterIdx + 1);
-      setShowMap(false); // chiude la mappa dopo lo spostamento
-    } catch (_) {}
-    setLoading(false);
-  }
-
-  async function handleRequestStrategicImage() {
-    if (loadingStrategicImage) return;
-    setLoadingStrategicImage(true);
-    try {
-      const res = await fetch(`${API_URL}/game/generate-strategic-map-image`, {
-        method: "POST",
-      }).then(r => r.json());
-      if (res.image_b64) setStrategicMapImage(res.image_b64);
-    } catch (_) {}
-    setLoadingStrategicImage(false);
   }
 
   async function fetchSceneImage(narrative, msgIndex) {
@@ -4363,20 +5154,48 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         return;
       }
       setLoading(true);
-      let res;
-      if (adventure) {
-        res = await fetch(`${API_URL}/game/master/start-bible`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ genre, players: playerDicts, adventure }),
-        }).then(r => r.json());
-      } else {
-        res = await fetch(`${API_URL}/game/master/start`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ genre, players: playerDicts }),
-        }).then(r => r.json());
+
+      // Prova a riprendere una sessione salvata per questa avventura
+      const advId = adventure?.id || adventure?.adventure_definition_id;
+      if (advId) {
+        try {
+          const liveRes = await fetch(`${API_URL}/game/adventure/runtime/${advId}/live-state`).then(r => r.json());
+          const saved = liveRes?.live_game_state;
+          if (saved && (saved.turn || 0) > 1) {
+            // Sessione esistente: ripristina lo stato world senza chiamare l'AI
+            setGameStateData(prev => ({ ...prev, ...saved }));
+            const cluesCount = saved.clues_found?.length || 0;
+            const threatPct = saved.threat_level && adventure?.threat_max_turns
+              ? Math.round(saved.threat_level / adventure.threat_max_turns * 100)
+              : saved.threat_level || 0;
+            const resumeText = `Sessione ripresa al turno ${saved.turn}. `
+              + `Indizi scoperti: ${cluesCount}. `
+              + `Minaccia: ${saved.threat_level || 0}${adventure?.threat_max_turns ? `/${adventure.threat_max_turns}` : ""} (${threatPct}%). `
+              + (saved.clues_found?.length ? `Prove raccolte: ${saved.clues_found.slice(0, 3).join(", ")}${cluesCount > 3 ? "..." : ""}. ` : "")
+              + `Invia la tua prossima azione per continuare.`;
+            const resumeMsg = { role: "master", name: "Master", text: resumeText };
+            _setMessages([resumeMsg]);
+            setHistory([{ role: "master", name: "Master", text: resumeText }]);
+            setOptions([]);
+            setLoading(false);
+            setStartupLoading(false);
+            const gs = await fetch(`${API_URL}/game/state`).then(r => r.json()).catch(() => ({}));
+            if (gs.scene) setSceneState(gs.scene);
+            if (gs.map_state) setMapState(gs.map_state);
+            if (gs.world_npcs) setGameStateData(prev => ({ ...prev, world_npcs: gs.world_npcs }));
+            return;
+          }
+        } catch (_) {}
       }
+
+      // Nessuna sessione salvata: avvio normale
+      if (!adventure) throw new Error("Avventura compilata mancante: riavvia dalla schermata di setup.");
+      const res = await fetch(`${API_URL}/game/master/start-bible`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ genre, players: playerDicts, adventure }),
+      }).then(r => r.json());
+      if (res.detail) throw new Error(res.detail);
       const masterMsg = { role: "master", name: "Master", text: res.narrative, roll: res.roll };
       _setMessages([masterMsg]);
       setHistory([{ role: "master", name: "Master", text: res.narrative }]);
@@ -4403,6 +5222,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading, options]);
 
+  // Prepara in anticipo le battlemap delle zone calde/finali, una sola volta per avventura.
+  useEffect(() => {
+    if (imageProvider === "none") return;
+    deriveTacticalNodes(adventure, mapState)
+      .slice(0, 4)
+      .forEach(node => prepareTacticalMapForNode(node));
+  }, [adventure, mapState, imageProvider]);
+
   // Genera avatar per world_npcs non ancora presenti in npcAvatars
   useEffect(() => {
     if (imageProvider === "none") return;
@@ -4427,17 +5254,23 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     if (!gameStateData.in_combat) return;
     const enemies = combatEntities.filter(e => e.type === "enemy");
     if (enemies.length > 0 && enemies.every(e => (e.hp ?? e.max_hp ?? 1) <= 0)) {
+      const activePid = players.find(p => p.hp > 0)?.id || activePlayerId || players[0]?.id;
       setGameStateData(prev => ({ ...prev, in_combat: false }));
       setCombatEntities([]);
       setShowCombatMap(false);
       setLastCombatLog(null);
       _setMessages(prev => [...prev, {
         role: "master", name: "Master",
-        text: "Il combattimento è terminato. Tutti i nemici sono stati neutralizzati.",
+        text: "Il combattimento è terminato. L'area torna respirabile: potete mettere in sicurezza la zona, cercare indizi o proseguire verso l'obiettivo.",
         isCombatNarration: true,
       }]);
+      setOptions([
+        { text: "Mettere in sicurezza l'area e cercare indizi utili", skill: "investigare", skill_level: 10, stat: "intelligenza", player_id: activePid },
+        { text: "Proseguire verso l'obiettivo prima che arrivino rinforzi", skill: "sopravvivenza", skill_level: 10, stat: "agilita", player_id: activePid },
+        { text: "Azione custom", skill: "", skill_level: 0, stat: "", player_id: activePid },
+      ]);
     }
-  }, [combatEntities, gameStateData.in_combat]);
+  }, [combatEntities, gameStateData.in_combat, players, activePlayerId]);
 
   async function sendAction(actionText, skill = "", playerId = null) {
     const pid = playerId || activePlayerId;
@@ -4451,24 +5284,17 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     setCustomText("");
     setLoading(true);
 
-    let res;
-    if (adventure) {
-      res = await fetch(`${API_URL}/game/master/turn-bible`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          genre, players: playerDicts, history: newHistory,
-          player_action: actionText, active_player_id: pid,
-          adventure, game_state_data: { ...gameStateData, map_state: mapState },
-        }),
-      }).then(r => r.json());
-    } else {
-      res = await fetch(`${API_URL}/game/master/turn`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ genre, players: playerDicts, history: newHistory, player_action: actionText, active_player_id: pid }),
-      }).then(r => r.json());
-    }
+    if (!adventure) throw new Error("Avventura compilata mancante: riavvia dalla schermata di setup.");
+    const res = await fetch(`${API_URL}/game/master/turn-bible`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        genre, players: playerDicts, history: newHistory,
+        player_action: actionText, active_player_id: pid,
+        adventure, game_state_data: { ...gameStateData, map_state: mapState },
+      }),
+    }).then(r => r.json());
+    if (res.detail) throw new Error(res.detail);
 
     const masterMsg = { role: "master", name: "Master", text: res.narrative, roll: res.roll };
     // capture index before state update — prev.length is reliable inside the updater
@@ -4513,27 +5339,33 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           if (imageProvider === "none" && adventure?.map_image_b64) return adventure.map_image_b64;
           // avvia fetch in background
           const currentNode = mapState?.nodes?.[mapState?.current_node_id];
+          if (currentNode?.id && preparedTacticalMaps[currentNode.id]) return preparedTacticalMaps[currentNode.id];
           const locationName = currentNode?.name || adventure?.locations?.[0]?.name || "Luogo di combattimento";
-          const locationDesc = currentNode?.description || res.narrative.slice(0, 300);
-          const envType = currentNode?.kind || adventure?.locations?.[0]?.type || updates.combat_scene?.location_type || "indoor";
-          const missionEnv = adventure?.environment_type || adventure?.genre || genre;
-          const sceneNarrative = updates.combat_scene?.scene_text || updates.narrative || "";
           const enemyNames = (updates.combat_scene?.entities || [])
             .filter(e => e.type === "enemy")
             .map(e => e.name);
+          if (currentNode?.id) prepareTacticalMapForNode(currentNode, enemyNames);
+          const payload = currentNode
+            ? buildTacticalMapPayloadForNode(currentNode, enemyNames)
+            : {
+                location_name: locationName,
+                location_description: res.narrative.slice(0, 300),
+                genre,
+                environment_type: updates.combat_scene?.location_type || "indoor",
+                scene_narrative: updates.combat_scene?.scene_text || updates.narrative || "",
+                mission_environment: adventure?.environment_type || adventure?.genre || genre,
+                enemy_names: enemyNames,
+              };
           if (imageProvider !== "none") fetch(`${API_URL}/game/generate-tactical-map-image`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              location_name: locationName,
-              location_description: locationDesc,
-              genre,
-              environment_type: envType,
-              scene_narrative: sceneNarrative,
-              mission_environment: missionEnv,
-              enemy_names: enemyNames,
-            }),
-          }).then(r => r.json()).then(r => { if (r.image_b64) setCombatBgImage(r.image_b64); }).catch(() => {});
+            body: JSON.stringify(payload),
+          }).then(r => r.json()).then(r => {
+            if (r.image_b64) {
+              if (currentNode?.id) setPreparedTacticalMaps(prev => ({ ...prev, [currentNode.id]: r.image_b64 }));
+              setCombatBgImage(r.image_b64);
+            }
+          }).catch(() => {});
           return null; // placeholder finché non arriva
         });
       }
@@ -4600,21 +5432,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           ))}
         </div>
         <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-          {mapState && !gameStateData.in_combat && (
-            <button onClick={() => {
-              setShowMap(v => {
-                if (!v && !strategicMapImage && !loadingStrategicImage && imageProvider !== "none") {
-                  setTimeout(handleRequestStrategicImage, 0);
-                }
-                return !v;
-              });
-            }} style={{
-              fontSize: 12, color: showMap ? "var(--accent)" : "var(--text)",
-              background: showMap ? "var(--accent-bg)" : "none",
-              border: `1px solid ${showMap ? "var(--accent-border)" : "var(--border)"}`,
-              borderRadius: 6, padding: "4px 10px", cursor: "pointer",
-            }}>🗺 Mappa</button>
-          )}
           {adventure && (
             <button onClick={() => setShowPanel(v => !v)} style={{
               fontSize: 12, color: showPanel ? "var(--accent)" : "var(--text)",
@@ -4649,6 +5466,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           onStandUp={handleStandUp}
           onNextPlayer={id => { if (id != null) setActivePlayerId(id); }}
           onFinishTurn={_runNpcTurn}
+          onRetreat={handleCombatRetreat}
           avatars={avatars}
           npcAvatars={npcAvatars}
           bgImage={combatBgImage}
@@ -4657,6 +5475,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           environmentType={combatLocationNode?.kind || adventure?.environment_type || adventure?.genre}
           locationName={combatLocationNode?.name || adventure?.locations?.[0]?.name}
           sceneText={combatSceneText}
+          tacticalMap={combatLocationNode?.tactical_map}
           onClose={() => setShowCombatMap(false)}
         />
       )}
@@ -4705,20 +5524,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         {loading && <TypingIndicator />}
         <div ref={bottomRef} />
       </div>
-
-      {/* StrategicMapPanel */}
-      {showMap && mapState && (
-        <StrategicMapPanel
-          mapState={mapState}
-          onClose={() => setShowMap(false)}
-          onMove={handleMove}
-          bgImage={strategicMapImage}
-          onRequestImage={handleRequestStrategicImage}
-          loadingImage={loadingStrategicImage}
-          adventure={adventure}
-          cluesFound={gameStateData.clues_found}
-        />
-      )}
 
       {/* Options + input */}
       {!loading && !storyOver && (
@@ -4854,7 +5659,18 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       )}
       </div>{/* end main column */}
       {showPanel && adventure && (
-        <SidePanel adventure={adventure} gameState={gameStateData} players={players} avatars={avatars} npcAvatars={npcAvatars} onClose={() => setShowPanel(false)} />
+        <SidePanel
+          adventure={adventure}
+          gameState={gameStateData}
+          mapState={mapState}
+          preparedTacticalMaps={preparedTacticalMaps}
+          preparingTacticalMaps={preparingTacticalMaps}
+          onPrepareTacticalMap={prepareTacticalMapForNode}
+          players={players}
+          avatars={avatars}
+          npcAvatars={npcAvatars}
+          onClose={() => setShowPanel(false)}
+        />
       )}
       {showSecrets && adventure && (
         <SecretsPanel adventure={adventure} gameState={gameStateData} onClose={() => setShowSecrets(false)} />
@@ -4884,14 +5700,8 @@ export default function App() {
       setAdventure(preloaded);
       setScreen("game");
     } else {
-      setAdventure(null);
-      setScreen("adventure");
+      throw new Error("Flusso non valido: l'avventura deve essere compilata prima dell'avvio.");
     }
-  }
-
-  function handleAdventureStart(adv) {
-    setAdventure(adv);
-    setScreen("game");
   }
 
   function handleRestart() {
@@ -4899,18 +5709,6 @@ export default function App() {
     setScreen("setup");
   }
 
-  if (screen === "adventure") {
-    return (
-      <AdventureScreen
-        genre={genre}
-        players={players}
-        avatars={avatars}
-        provider={provider}
-        onStart={handleAdventureStart}
-        onBack={() => setScreen("setup")}
-      />
-    );
-  }
   if (screen === "game") {
     return (
       <GameScreen
@@ -4920,7 +5718,6 @@ export default function App() {
         adventure={adventure}
         provider={provider}
         imageProvider={imageProvider}
-        preloadedMapImage={adventure?.map_image_b64 || null}
         onRestart={handleRestart}
       />
     );

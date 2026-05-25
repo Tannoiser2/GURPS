@@ -23,6 +23,7 @@ from .claude_service import (
     _GOOGLE_GENAI_AVAILABLE, _GOOGLE_GENAI_IMPORT_ERROR,
     _OPENAI_AVAILABLE, _OPENAI_IMPORT_ERROR, OPENAI_API_KEY,
     compile_adventure_to_runtime,
+    generate_opening_scene,
 )
 from . import claude_service
 from .data_genres import GENRE_PACKS
@@ -1151,14 +1152,15 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
             detail="Avventura non compilata: crea o importa un AdventureDefinition prima di avviare il Master.",
         )
     opening = _opening_context_from_definition(game_state.adventure_definition)
-    _ensure_runtime_scene(opening["narrative"])
+    opening_narrative = generate_opening_scene(game_state.adventure_definition, payload.players)
+    _ensure_runtime_scene(opening_narrative)
     if game_state.story:
-        game_state.story.premise = opening["narrative"]
+        game_state.story.premise = opening_narrative
     if game_state.mission:
         game_state.mission.objective = opening["objective"]
     options = _initial_runtime_options(game_state.adventure_definition, payload.players)
     return {
-        "narrative": opening["narrative"],
+        "narrative": opening_narrative,
         "roll": None,
         "options": options,
         "state_updates": {

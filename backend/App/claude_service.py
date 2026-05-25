@@ -4961,6 +4961,100 @@ SOURCE:
     }
 
 
+def generate_opening_scene(definition, players: list[dict]) -> str:
+    """Genera la scena d'apertura dell'avventura tramite Claude.
+
+    Produce una narrazione immersiva che:
+    - Descrive la prima location in modo sensoriale
+    - Chiarisce esplicitamente l'obiettivo dei personaggi
+    - Introduce il tono/genere e la minaccia latente
+    - Nomina i PNG presenti e i primi indizi percepibili
+    - Indica la prima azione concreta possibile
+
+    Fallback al testo template se la chiamata LLM fallisce.
+    """
+    # Raccoglie contesto dalla definizione compilata
+    premise = (definition.premise or "").strip()
+    initial_hook = (definition.initial_hook or "").strip()
+    objective = definition.objectives[0].label if definition.objectives else "completare l'avventura"
+    hidden_truth = definition.core_truths[0].statement if definition.core_truths else ""
+    genre = definition.genre or "avventura"
+    tone = (definition.tone or "").strip()
+    archetype = (definition.archetype_profile or {}).get("primary_archetype", "")
+
+    first_loc = definition.locations[0] if definition.locations else None
+    loc_name = first_loc.name if first_loc else "la scena iniziale"
+    loc_desc = (first_loc.description or "").strip() if first_loc else ""
+
+    actors_here = [a for a in (definition.actors or []) if a.location_id == (first_loc.id if first_loc else "") or (first_loc and a.location_id == first_loc.name)]
+    if not actors_here:
+        actors_here = (definition.actors or [])[:2]
+    actor_lines = "\n".join(
+        f"- {a.name} ({a.role}): {(a.goal or a.secret or '').strip()[:120]}"
+        for a in actors_here[:3]
+    )
+
+    clues_here = [c for c in (definition.clues or []) if not c.source_location or (first_loc and (
+        c.source_location.lower() in first_loc.name.lower() or first_loc.name.lower() in c.source_location.lower()
+    ))][:3]
+    clue_lines = "\n".join(f"- {c.label} [{c.type or 'clue'}]" for c in clues_here)
+
+    player_names = ", ".join(p.get("name", f"PG{p.get('id','')}") for p in (players or [])[:4])
+
+    threat_desc = ""
+    if definition.pressure_systems:
+        ps = definition.pressure_systems[0]
+        threat_desc = f"Pressione: {ps.label or ''} — {ps.description or ''}".strip(" —")
+    elif definition.event_clocks:
+        ec = definition.event_clocks[0]
+        threat_desc = f"Clock attivo: {ec.label or ''} — {ec.trigger_condition or ''}".strip(" —")
+
+    prompt = f"""Sei il Narratore di un GDR GURPS. Devi scrivere la SCENA D'APERTURA dell'avventura.
+
+CONTESTO AVVENTURA:
+Titolo: {definition.title or 'Avventura GURPS'}
+Genere: {genre} | Tono: {tone or 'serio'} | Archetipo: {archetype or 'investigation'}
+Premessa: {premise or initial_hook or 'I personaggi si trovano coinvolti in una situazione pericolosa.'}
+Verità nascosta (NON rivelare): {hidden_truth or 'da scoprire'}
+Obiettivo dei PG: {objective}
+{f'Minaccia latente: {threat_desc}' if threat_desc else ''}
+
+PRIMA SCENA:
+Location: {loc_name}
+{f'Descrizione: {loc_desc}' if loc_desc else ''}
+{f'PNG presenti:{chr(10)}{actor_lines}' if actor_lines else ''}
+{f'Indizi percepibili (non ancora scoperti):{chr(10)}{clue_lines}' if clue_lines else ''}
+
+PERSONAGGI GIOCANTI: {player_names or 'la squadra'}
+
+ISTRUZIONI:
+1. Apri con 2-3 frasi di ambientazione sensoriale (cosa si vede, si sente, si odora).
+2. Chiarisci ESPLICITAMENTE cosa devono fare i personaggi e perché sono qui — senza ambiguità.
+3. Presenta brevemente i PNG presenti come presenze concrete, non solo nomi.
+4. Accenna a qualcosa che cattura l'attenzione (primo indizio percepibile) senza rivelarlo.
+5. Chiudi con una frase che suggerisce tensione o urgenza coerente col tono.
+6. Lunghezza: 180-280 parole. NON usare intestazioni o elenchi — solo prosa narrativa fluida.
+7. Parla in seconda persona plurale ("siete", "vedete", "la squadra") per coinvolgere i giocatori.
+8. NON rivelare la verità nascosta. NON risolvere nessun mistero. NON inventare PNG non elencati."""
+
+    try:
+        messages = [{"role": "user", "content": prompt}]
+        result = _call_anthropic(messages, max_tokens=600, temperature=0.85)
+        text = (result or "").strip()
+        if len(text) > 100:
+            return text
+    except Exception:
+        pass
+
+    # Fallback template
+    parts = [f"{premise}" if premise else "", f"{initial_hook}" if initial_hook and initial_hook != premise else ""]
+    text = " ".join(p for p in parts if p).strip()
+    if not text:
+        text = f"L'avventura si apre a {loc_name}. {loc_desc}"
+    text += f" Il vostro obiettivo: {objective}."
+    return text
+
+
 _MOVE_ACTION_RE = re.compile(r"[Ss]postar[si]* verso\s+(.+)", re.IGNORECASE)
 
 
