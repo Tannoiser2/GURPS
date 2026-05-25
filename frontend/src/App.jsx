@@ -2718,81 +2718,130 @@ function isKnownTacticalNode(node, mapState) {
 
 // ─── Location Graph (mappa strategica) ────────────────────────────────────────
 
-function LocationGraph({ mapState, isGM }) {
+function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
+  const [hoveredId, setHoveredId] = useState(null);
+
   if (!mapState || !mapState.nodes || Object.keys(mapState.nodes).length === 0) {
-    return <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 30 }}>Nessuna mappa disponibile.</div>;
+    return (
+      <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 40 }}>
+        Nessuna mappa disponibile.<br />
+        <span style={{ fontSize: 11, opacity: 0.7 }}>La mappa viene generata all'avvio dell'avventura.</span>
+      </div>
+    );
   }
 
   const nodes = mapState.nodes;
-  const edges = mapState.connections_meta || {};
+  const edges = Object.values(mapState.connections_meta || {});
   const currentId = mapState.current_node_id;
-
-  // Compute grid bounds
   const allNodes = Object.values(nodes);
-  const maxX = Math.max(...allNodes.map(n => n.grid_x || 0), 0);
-  const maxY = Math.max(...allNodes.map(n => n.grid_y || 0), 0);
 
-  const COL_W = 140;   // px per colonna
-  const ROW_H = 76;    // px per riga
-  const PAD = 20;
-  const NODE_W = 120;
-  const NODE_H = 52;
-
-  const svgW = (maxX + 1) * COL_W + PAD * 2;
-  const svgH = (maxY + 1) * ROW_H + PAD * 2;
-
-  function nodeCenter(n) {
-    return {
-      cx: PAD + (n.grid_x || 0) * COL_W + NODE_W / 2,
-      cy: PAD + (n.grid_y || 0) * ROW_H + NODE_H / 2,
-    };
-  }
-
-  // Visibility: players see current + visited + direct neighbors; GM sees all
+  // Visibility sets
   const visitedSet = new Set(allNodes.filter(n => n.visited).map(n => n.id));
   visitedSet.add(currentId);
-  const visibleSet = new Set(visitedSet);
-  if (!isGM) {
-    // add direct neighbors of any visited node
-    Object.values(edges).forEach(e => {
-      if (visitedSet.has(e.from_id)) visibleSet.add(e.to_id);
-      if (visitedSet.has(e.to_id)) visibleSet.add(e.from_id);
-    });
-  }
+  const adjacentSet = new Set();
+  edges.forEach(e => {
+    if (visitedSet.has(e.from_id)) adjacentSet.add(e.to_id);
+    if (visitedSet.has(e.to_id)) adjacentSet.add(e.from_id);
+  });
+  const visibleSet = new Set([...visitedSet, ...adjacentSet]);
 
   function nodeStatus(id) {
     if (id === currentId) return "current";
     if (visitedSet.has(id)) return "visited";
-    if (visibleSet.has(id)) return "adjacent";
+    if (adjacentSet.has(id)) return "adjacent";
     return "unknown";
   }
 
-  const statusStyle = {
-    current:  { bg: "#7c3aed", border: "#c084fc", text: "#fff", glow: "0 0 10px #7c3aed88" },
-    visited:  { bg: "rgba(74,222,128,0.12)", border: "rgba(74,222,128,0.5)", text: "var(--text-h)", glow: "none" },
-    adjacent: { bg: "rgba(255,255,255,0.04)", border: "rgba(255,255,255,0.18)", text: "var(--text)", glow: "none" },
-    unknown:  { bg: "rgba(0,0,0,0.3)", border: "rgba(255,255,255,0.07)", text: "rgba(255,255,255,0.25)", glow: "none" },
-  };
+  // Layout: group by grid_x column
+  const maxCol = Math.max(...allNodes.map(n => n.grid_x || 0), 0);
+  const cols = {};
+  allNodes.forEach(n => {
+    const c = n.grid_x || 0;
+    (cols[c] = cols[c] || []).push(n);
+  });
+  // Sort each column by grid_y
+  Object.values(cols).forEach(arr => arr.sort((a, b) => (a.grid_y || 0) - (b.grid_y || 0)));
+
+  const NODE_W = 148;
+  const NODE_H = 110;
+  const COL_GAP = 56;
+  const ROW_GAP = 18;
+  const PAD = 24;
+
+  // Compute positions
+  const pos = {};
+  let maxColH = 0;
+  for (let c = 0; c <= maxCol; c++) {
+    const col = cols[c] || [];
+    const colH = col.length * NODE_H + (col.length - 1) * ROW_GAP;
+    maxColH = Math.max(maxColH, colH);
+  }
+  for (let c = 0; c <= maxCol; c++) {
+    const col = cols[c] || [];
+    const colH = col.length * NODE_H + (col.length - 1) * ROW_GAP;
+    const startY = PAD + (maxColH - colH) / 2;
+    col.forEach((n, i) => {
+      pos[n.id] = {
+        x: PAD + c * (NODE_W + COL_GAP),
+        y: startY + i * (NODE_H + ROW_GAP),
+      };
+    });
+  }
+
+  const svgW = PAD * 2 + (maxCol + 1) * NODE_W + maxCol * COL_GAP;
+  const svgH = PAD * 2 + maxColH;
+
+  function edgePath(a, b) {
+    const pa = pos[a.id], pb = pos[b.id];
+    if (!pa || !pb) return "";
+    const ax = pa.x + NODE_W / 2, ay = pa.y + NODE_H / 2;
+    const bx = pb.x + NODE_W / 2, by = pb.y + NODE_H / 2;
+    const cx1 = ax + (bx - ax) * 0.5, cy1 = ay;
+    const cx2 = ax + (bx - ax) * 0.5, cy2 = by;
+    return `M${ax},${ay} C${cx1},${cy1} ${cx2},${cy2} ${bx},${by}`;
+  }
+
+  const canMove = (id) => onMove && id !== currentId && (isGM ? true : adjacentSet.has(id));
 
   return (
     <div style={{ overflowX: "auto", overflowY: "auto" }}>
-      <svg width={svgW} height={svgH} style={{ display: "block" }}>
+      {/* Column zone headers */}
+      <div style={{ display: "flex", paddingLeft: PAD, gap: COL_GAP, marginBottom: 6 }}>
+        {Array.from({ length: maxCol + 1 }, (_, c) => (
+          <div key={c} style={{ width: NODE_W, flexShrink: 0, textAlign: "center", fontSize: 9, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1, opacity: 0.6 }}>
+            {c === 0 ? "Inizio" : c === maxCol ? "Fine" : `Zona ${c}`}
+          </div>
+        ))}
+      </div>
+
+      <svg width={svgW} height={svgH} style={{ display: "block", overflow: "visible" }}>
+        <defs>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="rgba(124,58,237,0.7)" />
+          </marker>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+            <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+        </defs>
+
         {/* Edges */}
-        {Object.values(edges).map((e, i) => {
-          const a = nodes[e.from_id];
-          const b = nodes[e.to_id];
+        {edges.map((e, i) => {
+          const a = nodes[e.from_id], b = nodes[e.to_id];
           if (!a || !b) return null;
           const aVis = isGM || visibleSet.has(e.from_id);
           const bVis = isGM || visibleSet.has(e.to_id);
           if (!aVis && !bVis) return null;
-          const { cx: x1, cy: y1 } = nodeCenter(a);
-          const { cx: x2, cy: y2 } = nodeCenter(b);
-          const bothKnown = visitedSet.has(e.from_id) || visitedSet.has(e.to_id);
+          const known = visitedSet.has(e.from_id) && visitedSet.has(e.to_id);
+          const halfKnown = visitedSet.has(e.from_id) || visitedSet.has(e.to_id);
+          const stroke = known ? "rgba(124,58,237,0.8)" : halfKnown ? "rgba(124,58,237,0.35)" : "rgba(255,255,255,0.08)";
+          const locked = e.status === "locked";
           return (
-            <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
-              stroke={bothKnown ? "rgba(124,58,237,0.55)" : "rgba(255,255,255,0.1)"}
-              strokeWidth={bothKnown ? 2 : 1}
-              strokeDasharray={e.status === "locked" ? "5,4" : "none"}
+            <path key={i} d={edgePath(a, b)}
+              fill="none" stroke={stroke} strokeWidth={known ? 2.5 : 1.5}
+              strokeDasharray={locked ? "6,4" : "none"}
+              markerEnd={known ? "url(#arrow)" : "none"}
+              opacity={halfKnown ? 1 : 0.4}
             />
           );
         })}
@@ -2801,55 +2850,126 @@ function LocationGraph({ mapState, isGM }) {
         {allNodes.map(n => {
           const status = isGM ? (n.id === currentId ? "current" : n.visited ? "visited" : "adjacent") : nodeStatus(n.id);
           if (!isGM && status === "unknown") return null;
-          const { cx, cy } = nodeCenter(n);
-          const x = cx - NODE_W / 2;
-          const y = cy - NODE_H / 2;
-          const s = statusStyle[status];
+          const p = pos[n.id];
+          if (!p) return null;
           const isObj = n.id === mapState.objective_node_id;
+          const isCurrent = n.id === currentId;
+          const moveable = canMove(n.id);
+          const hovered = hoveredId === n.id;
+          const img = (locationImages || {})[n.id];
           const label = status === "unknown" ? "???" : n.name;
-          const shortLabel = label.length > 22 ? label.slice(0, 20) + "…" : label;
+
+          const borderColor = isCurrent ? "#c084fc" : isObj ? "#fbbf24" : status === "visited" ? "rgba(74,222,128,0.6)" : status === "adjacent" ? "rgba(96,165,250,0.5)" : "rgba(255,255,255,0.1)";
+          const borderW = isCurrent ? 2.5 : isObj ? 2 : 1.5;
+
           return (
-            <g key={n.id}>
-              <rect x={x} y={y} width={NODE_W} height={NODE_H} rx={8}
-                fill={s.bg} stroke={isObj ? "#fbbf24" : s.border} strokeWidth={isObj ? 2 : 1}
-                style={{ filter: s.glow !== "none" ? `drop-shadow(0 0 6px #7c3aed)` : "none" }}
+            <g key={n.id}
+              style={{ cursor: moveable ? "pointer" : "default" }}
+              onMouseEnter={() => setHoveredId(n.id)}
+              onMouseLeave={() => setHoveredId(null)}
+              onClick={() => moveable && onMove(n.name)}
+              filter={isCurrent ? "url(#glow)" : "none"}
+            >
+              {/* Card background */}
+              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={10}
+                fill={isCurrent ? "rgba(124,58,237,0.25)" : status === "visited" ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.45)"}
+                stroke={hovered && moveable ? "#60a5fa" : borderColor}
+                strokeWidth={hovered && moveable ? 2.5 : borderW}
+                opacity={status === "unknown" ? 0.5 : 1}
               />
-              {/* icon strip */}
-              <rect x={x} y={y} width={NODE_W} height={12} rx={8} fill={s.border} opacity={0.35} />
-              {n.id === currentId && (
-                <text x={cx} y={y + 9} textAnchor="middle" fontSize={8} fill="#fff" fontWeight="800">● QUI</text>
+
+              {/* Location image */}
+              {img && status !== "unknown" && (
+                <>
+                  <clipPath id={`clip-${n.id}`}>
+                    <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={62} rx={9} />
+                  </clipPath>
+                  <image href={`data:image/jpeg;base64,${img}`}
+                    x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={62}
+                    preserveAspectRatio="xMidYMid slice"
+                    clipPath={`url(#clip-${n.id})`}
+                    opacity={status === "adjacent" ? 0.6 : 1}
+                  />
+                  {/* Image overlay gradient */}
+                  <rect x={p.x + 1} y={p.y + 30} width={NODE_W - 2} height={33}
+                    fill="url(#imgFade)" clipPath={`url(#clip-${n.id})`} />
+                </>
               )}
-              {isObj && n.id !== currentId && (
-                <text x={cx} y={y + 9} textAnchor="middle" fontSize={7} fill="#fbbf24" fontWeight="700">★ OBIETTIVO</text>
+
+              {/* Gradient fill when no image */}
+              {!img && status !== "unknown" && (
+                <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={62} rx={9}
+                  fill={isCurrent ? "rgba(124,58,237,0.3)" : "rgba(30,20,60,0.6)"}
+                />
               )}
-              <text x={cx} y={y + 26} textAnchor="middle" fontSize={10} fontWeight="700" fill={s.text}>
-                {shortLabel}
+
+              {/* Status badge */}
+              <rect x={p.x + 6} y={p.y + 6} width={isCurrent ? 36 : 28} height={14} rx={4}
+                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.85)" : status === "visited" ? "rgba(74,222,128,0.2)" : "rgba(0,0,0,0.4)"}
+              />
+              <text x={p.x + 9} y={p.y + 16} fontSize={8} fontWeight="800" fill={isCurrent ? "#fff" : isObj ? "#000" : status === "visited" ? "#4ade80" : "rgba(255,255,255,0.5)"}>
+                {isCurrent ? "● QUI" : isObj ? "★ META" : status === "visited" ? "✓" : "?"}
               </text>
+
+              {/* Move indicator */}
+              {moveable && (
+                <text x={p.x + NODE_W - 8} y={p.y + 16} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered ? 1 : 0.5}>→</text>
+              )}
+
+              {/* Location name */}
+              <text x={p.x + NODE_W / 2} y={p.y + 78} textAnchor="middle" fontSize={10} fontWeight="800"
+                fill={isCurrent ? "#e9d5ff" : status === "visited" ? "var(--text-h)" : "rgba(255,255,255,0.75)"}>
+                {label.length > 20 ? label.slice(0, 18) + "…" : label}
+              </text>
+
+              {/* Description */}
               {status !== "unknown" && n.description && (
-                <text x={cx} y={y + 40} textAnchor="middle" fontSize={8} fill={s.text} opacity={0.65}>
-                  {n.description.slice(0, 28)}{n.description.length > 28 ? "…" : ""}
+                <text x={p.x + NODE_W / 2} y={p.y + 91} textAnchor="middle" fontSize={8}
+                  fill="rgba(255,255,255,0.45)">
+                  {n.description.slice(0, 26)}{n.description.length > 26 ? "…" : ""}
                 </text>
               )}
-              {n.contains_enemy && <text x={x + 8} y={y + NODE_H - 6} fontSize={9}>⚔️</text>}
-              {n.contains_clue && <text x={x + 22} y={y + NODE_H - 6} fontSize={9}>🔍</text>}
-              {n.contains_loot && <text x={x + 36} y={y + NODE_H - 6} fontSize={9}>💰</text>}
+
+              {/* Icons */}
+              <text x={p.x + 6} y={p.y + NODE_H - 5} fontSize={9}>
+                {n.contains_enemy ? "⚔️ " : ""}{n.contains_clue ? "🔍 " : ""}{n.contains_loot ? "💰" : ""}
+              </text>
+
+              {/* Hover tooltip for moveable */}
+              {hovered && moveable && (
+                <>
+                  <rect x={p.x} y={p.y + NODE_H + 4} width={NODE_W} height={18} rx={5} fill="rgba(96,165,250,0.9)" />
+                  <text x={p.x + NODE_W / 2} y={p.y + NODE_H + 16} textAnchor="middle" fontSize={9} fontWeight="700" fill="#000">
+                    Clicca per spostarti qui
+                  </text>
+                </>
+              )}
             </g>
           );
         })}
+
+        {/* Gradient def for image fade */}
+        <defs>
+          <linearGradient id="imgFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(0,0,0,0)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.85)" />
+          </linearGradient>
+        </defs>
       </svg>
 
-      {/* Legenda */}
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", padding: "8px 4px", fontSize: 10, color: "var(--text)", opacity: 0.65 }}>
-        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "#7c3aed", marginRight: 4 }} />Posizione attuale</span>
-        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "rgba(74,222,128,0.4)", marginRight: 4 }} />Visitata</span>
-        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "rgba(255,255,255,0.1)", marginRight: 4 }} />Scoperta</span>
-        {isGM && <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: "rgba(251,191,36,0.4)", marginRight: 4 }} />Obiettivo</span>}
+      {/* Legend */}
+      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", padding: "10px 4px 4px", fontSize: 10, color: "var(--text)", opacity: 0.6 }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "#7c3aed", display: "inline-block" }} />Posizione attuale</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(74,222,128,0.4)", display: "inline-block" }} />Visitata</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(96,165,250,0.3)", display: "inline-block" }} />Raggiungibile</span>
+        {isGM && <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(251,191,36,0.5)", display: "inline-block" }} />Obiettivo</span>}
+        {onMove && <span style={{ color: "#60a5fa" }}>→ Clicca su una locazione per spostarti</span>}
       </div>
     </div>
   );
 }
 
-function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
+function SidePanel({ adventure, gameState, mapState, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
   const [tab, setTab] = useState("clues");
   const [audience, setAudience] = useState("players");
   const [expandedNpc, setExpandedNpc] = useState(null);
@@ -3199,7 +3319,7 @@ function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, prepa
         )}
 
         {audience === "gm" && tab === "gm_map" && (
-          <LocationGraph mapState={mapState} isGM={true} />
+          <LocationGraph mapState={mapState} isGM={true} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
         )}
 
         {audience === "gm" && tab === "gm_maps" && (
@@ -3240,7 +3360,7 @@ function SidePanel({ adventure, gameState, mapState, preparedTacticalMaps, prepa
         )}
 
         {tab === "map" && (
-          <LocationGraph mapState={mapState} isGM={false} />
+          <LocationGraph mapState={mapState} isGM={false} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
         )}
 
         {tab === "clues" && (
@@ -4943,6 +5063,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [showCombatMap, setShowCombatMap] = useState(false);
   const [lastCombatLog, setLastCombatLog] = useState(null);
   const [mapState, setMapState] = useState(null);
+  const [locationImages, setLocationImages] = useState({});
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
   const [combatTarget, setCombatTarget] = useState(null);
@@ -5320,6 +5441,39 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         body: JSON.stringify({ player_id: playerId, name: newName }),
       });
     } catch (_) {}
+  }
+
+  // Fetch location images for newly visible nodes
+  useEffect(() => {
+    if (!mapState || imageProvider === "none") return;
+    const nodes = Object.values(mapState.nodes || {});
+    const currentId = mapState.current_node_id;
+    const visitedSet = new Set(nodes.filter(n => n.visited).map(n => n.id));
+    visitedSet.add(currentId);
+    const toFetch = nodes.filter(n => visitedSet.has(n.id) && !locationImages[n.id]);
+    if (toFetch.length === 0) return;
+    toFetch.forEach(async (node) => {
+      try {
+        const res = await fetch(`${API_URL}/game/adventure/location-image`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            location_id: node.id,
+            location_name: node.name,
+            location_description: node.description || "",
+            genre: adventure?.genre || genre,
+            theme: mapState.theme || "",
+          }),
+        }).then(r => r.json());
+        if (res.image_b64) {
+          setLocationImages(prev => ({ ...prev, [node.id]: res.image_b64 }));
+        }
+      } catch (_) {}
+    });
+  }, [mapState?.current_node_id, JSON.stringify(Object.keys(mapState?.nodes || {}))]);
+
+  function handleMoveToLocation(locationName) {
+    sendAction(`Spostarsi verso ${locationName}`, "", activePlayerId);
   }
 
   async function fetchSceneImage(narrative, msgIndex) {
@@ -5869,6 +6023,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           adventure={adventure}
           gameState={gameStateData}
           mapState={mapState}
+          locationImages={locationImages}
+          onMove={handleMoveToLocation}
           preparedTacticalMaps={preparedTacticalMaps}
           preparingTacticalMaps={preparingTacticalMaps}
           onPrepareTacticalMap={prepareTacticalMapForNode}

@@ -1774,6 +1774,24 @@ def generate_image(payload: ImageGenPayload):
     )
     return {"image_base64": image_b64, "available": bool(image_b64)}
 
+class LocationImagePayload(BaseModel):
+    location_id: str
+    location_name: str
+    location_description: str = ""
+    genre: str = "fantasy"
+    theme: str = ""
+
+@app.post("/game/adventure/location-image")
+def generate_location_image(payload: LocationImagePayload):
+    """Genera un'immagine per una singola locazione dell'avventura."""
+    provider = _resolve_image_provider()
+    if not provider:
+        return {"location_id": payload.location_id, "image_b64": None}
+    set_active_provider(provider)
+    scene_text = f"{payload.location_name}. {payload.location_description}".strip(". ")
+    image_b64 = generate_scene_image(scene_text, payload.genre, "indoor")
+    return {"location_id": payload.location_id, "image_b64": image_b64}
+
 class TacticalMapPayload(BaseModel):
     location_name: str = ""
     location_description: str = ""
