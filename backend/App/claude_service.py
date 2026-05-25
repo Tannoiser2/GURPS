@@ -5038,13 +5038,11 @@ ISTRUZIONI:
 8. NON rivelare la verità nascosta. NON risolvere nessun mistero. NON inventare PNG non elencati."""
 
     try:
-        messages = [{"role": "user", "content": prompt}]
-        result = _call_anthropic(messages, max_tokens=600, temperature=0.85)
-        text = (result or "").strip()
+        text = _call_claude(prompt, max_tokens=600).strip()
         if len(text) > 100:
             return text
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[generate_opening_scene] LLM call failed: {e} — using fallback template")
 
     # Fallback template
     parts = [f"{premise}" if premise else "", f"{initial_hook}" if initial_hook and initial_hook != premise else ""]

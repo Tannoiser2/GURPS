@@ -5236,7 +5236,16 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       }));
       // avatar NPC generati dall'useEffect che osserva world_npcs
     }
-    start();
+    start().catch(err => {
+      console.error("[start] errore apertura scena:", err);
+      setLoading(false);
+      setStartupLoading(false);
+      // Mostra il messaggio di errore in chat invece di bloccare la UI
+      const errMsg = { role: "master", name: "Master", text: `⚠️ Errore all'avvio: ${err.message || "il backend non ha risposto"}. Riprova a ricaricare la pagina o riavvia il backend.` };
+      _setMessages([errMsg]);
+      setHistory([{ role: "master", name: "Master", text: errMsg.text }]);
+      setOptions([]);
+    });
   }, []);
 
   useEffect(() => {
