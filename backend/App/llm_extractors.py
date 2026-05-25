@@ -32,11 +32,20 @@ Per ogni indizio estrai:
 - label: nome breve (max 90 char)
 - text: la frase originale o un riassunto fedele (max 240 char)
 - type: uno tra "physical_evidence", "testimony", "document", "scene_observation", "forensic", "contradiction"
-- source_location: nome della stanza/sezione dove si trova (se desumibile), altrimenti stringa vuota
+- source_location: SCENA GIOCABILE dove i PG lo scopriranno durante la sessione.
+  REGOLE STRINGENTI:
+  - DEVE essere una stanza/luogo/PNG dalla lista "Sezioni/room note" qui sotto.
+  - MAI usare "Adventure Background", "About the Adventure", "Adventure Summary",
+    "Adventure Hook", "Introduction", "Setting", "Credits" o nomi di sezioni meta.
+  - Se l'indizio descrive backstory, scegli la scena ATTUALE dove i PG lo
+    incontreranno (un PNG che lo racconta, una stanza dove si trova l'oggetto,
+    un documento in archivio).
+  - In ultima istanza, prefersci la prima stanza/luogo che ha senso narrativamente.
 - reveals: cosa fa capire ai giocatori (max 180 char)
 - hidden_implication: l'implicazione nascosta, opzionale (max 180 char)
 - payoff: come l'indizio cambia le scelte successive (max 140 char)
 - possible_actions: 1-3 azioni concrete che i PG possono fare con questo indizio
+  (frasi complete con verbo + oggetto, NON solo "Cercare X")
 
 Titolo modulo: {title}
 
@@ -69,6 +78,25 @@ Rispondi SOLO con JSON di questa forma:
 
 Estrai tra 4 e 14 indizi. Se il modulo non ne ha abbastanza, restituisci tutti quelli reali e basta.
 """
+
+
+_META_LOCATIONS = {
+    "adventure background", "about the adventure", "adventure summary",
+    "adventure hook", "introduction", "setting", "credits", "the adventure",
+    "premise", "synopsis", "summary", "preface", "foreword",
+    "about 1shot", "about 1shot adventures", "running the adventure",
+    "gm notes", "gm's notes", "notes for the gm",
+}
+
+
+def _rewrite_meta_location(loc: str, fallback_choices: list[str]) -> str:
+    """If the LLM tagged a clue with a meta-section name, rewrite to the
+    first plausible playable location. Returns the original if it's fine.
+    """
+    low = " ".join(str(loc or "").lower().split())
+    if not low or low not in _META_LOCATIONS:
+        return loc
+    return fallback_choices[0] if fallback_choices else loc
 
 
 _VALID_TYPES = {
@@ -243,10 +271,27 @@ def extract_clues_with_llm(
     if not isinstance(items, list) or not items:
         return None
 
+    # Build a fallback playable-location list from rooms first, then sections
+    # that DON'T match meta-section names.
+    rooms = (structure or {}).get("rooms") or []
+    sections = (structure or {}).get("sections") or []
+    fallback_locations: list[str] = []
+    for room in rooms[:30]:
+        name = (room.get("name") or "").strip()
+        if name and name.lower() not in _META_LOCATIONS:
+            fallback_locations.append(name)
+    for section in sections[:30]:
+        name = (section.get("title") or "").strip()
+        if name and name.lower() not in _META_LOCATIONS and name not in fallback_locations:
+            fallback_locations.append(name)
+
     llm_clues: list[dict] = []
     for idx, item in enumerate(items, start=1):
         normalized = _normalize_clue(item, idx)
         if normalized:
+            rewritten = _rewrite_meta_location(normalized.get("source_location") or "", fallback_locations)
+            normalized["source_location"] = rewritten
+            normalized["source_ref"] = {"section": rewritten}
             llm_clues.append(normalized)
     if not llm_clues:
         return None
