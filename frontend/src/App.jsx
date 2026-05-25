@@ -2473,6 +2473,15 @@ function OptionsBar({ options, players, onChoose }) {
 
 // ─── Loading progress bar ──────────────────────────────────────────────────
 
+function AnimatedDots() {
+  const [dots, setDots] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setDots(d => (d + 1) % 4), 500);
+    return () => clearInterval(id);
+  }, []);
+  return <span style={{ display: "inline-block", width: 18, textAlign: "left" }}>{"...".slice(0, dots)}</span>;
+}
+
 function LoadingProgress({ steps, icon = "📖", title }) {
   const [phase, setPhase] = useState(0);
 
@@ -2486,24 +2495,39 @@ function LoadingProgress({ steps, icon = "📖", title }) {
   const current = steps[phase] || steps[steps.length - 1];
   const rawPct = Math.round(((phase + 1) / steps.length) * 100);
   const pct = Math.min(rawPct, 95);
+  const isLast = phase === steps.length - 1;
+
+  const shimmerStyle = isLast ? `
+    @keyframes lp-shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+  ` : "";
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 24, background: "var(--bg)", padding: "0 32px" }}>
+      {shimmerStyle && <style>{shimmerStyle}</style>}
       <div style={{ fontSize: 56 }}>{icon}</div>
       <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-h)", textAlign: "center" }}>{title}</div>
 
       {/* barra progresso */}
       <div style={{ width: "100%", maxWidth: 420 }}>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--text)", marginBottom: 8 }}>
-          <span style={{ fontStyle: "italic" }}>{current.label}</span>
+          <span style={{ fontStyle: "italic" }}>
+            {current.label}{isLast && <AnimatedDots />}
+          </span>
           <span style={{ fontWeight: 700, color: "var(--accent)" }}>{pct}%</span>
         </div>
         <div style={{ height: 6, borderRadius: 6, background: "var(--border)", overflow: "hidden" }}>
           <div style={{
             height: "100%", borderRadius: 6,
-            background: "linear-gradient(90deg, #7c3aed, #c084fc)",
             width: `${pct}%`,
             transition: "width 0.8s ease",
+            background: isLast
+              ? "linear-gradient(90deg, #7c3aed 0%, #c084fc 40%, #e9d5ff 50%, #c084fc 60%, #7c3aed 100%)"
+              : "linear-gradient(90deg, #7c3aed, #c084fc)",
+            backgroundSize: isLast ? "800px 100%" : "auto",
+            animation: isLast ? "lp-shimmer 1.6s linear infinite" : "none",
           }} />
         </div>
       </div>
@@ -2520,6 +2544,12 @@ function LoadingProgress({ steps, icon = "📖", title }) {
           }}>{s.pill}</span>
         ))}
       </div>
+
+      {isLast && (
+        <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.5, textAlign: "center", maxWidth: 320 }}>
+          L'IA sta elaborando — potrebbe volerci qualche secondo in più
+        </div>
+      )}
     </div>
   );
 }
