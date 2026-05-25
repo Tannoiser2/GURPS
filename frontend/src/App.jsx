@@ -1378,6 +1378,7 @@ function SetupScreen({ onStart }) {
   const [pool, setPool] = useState([]);
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [teamStarting, setTeamStarting] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfError, setPdfError] = useState("");
   const [pdfMapPage, setPdfMapPage] = useState("");
@@ -1629,9 +1630,13 @@ function SetupScreen({ onStart }) {
 
   async function handleStart() {
     if (selected.length < 1) return;
-    setLoading(true);
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minuti
+    // Se l'avventura è già pronta (da PDF o genre select), mostra solo "avvio squadra" (rapido)
+    // altrimenti mostra il caricamento mondo completo (creazione avventura da zero)
+    const isQuickStart = !!preloadedAdventure;
+    if (isQuickStart) setTeamStarting(true);
+    else setLoading(true);
     try {
       let adventureForStart = preloadedAdventure;
       let poolForStart = pool;
@@ -1688,10 +1693,13 @@ function SetupScreen({ onStart }) {
           disadvantages: enriched.disadvantages?.length > 0 ? enriched.disadvantages : (p.disadvantages || []),
         };
       });
+      setTeamStarting(false);
+      setLoading(false);
       onStart(genre, players, avatars, provider, adventureForStart, imageProvider);
     } catch (e) {
       clearTimeout(timeoutId);
       setLoading(false);
+      setTeamStarting(false);
       alert(e.message || "Il server sta impiegando troppo tempo. Riprova tra qualche secondo.");
     }
   }
@@ -1768,6 +1776,19 @@ function SetupScreen({ onStart }) {
         { at: 30000, pill: "Fazioni",    label: "Definisco agende, alleanze e conflitti tra fazioni..." },
         { at: 42000, pill: "Schede",     label: "Genero le schede GURPS con skill, stat e equipaggiamento..." },
         { at: 55000, pill: "Apertura",   label: "Preparo la scena d'apertura e il briefing iniziale..." },
+      ]}
+    />
+  );
+
+  // ── Avvio rapido squadra (avventura già pronta) ──
+  if (teamStarting) return (
+    <LoadingProgress
+      icon="⚔️"
+      title="Avvio la sessione..."
+      steps={[
+        { at: 0,    pill: "Squadra",   label: "Registro la composizione del gruppo..." },
+        { at: 2000, pill: "Mondo",     label: "Sincronizo lo stato del mondo con i personaggi..." },
+        { at: 5000, pill: "Pronto",    label: "Quasi tutto pronto, sto aprendo la scena..." },
       ]}
     />
   );
@@ -5408,11 +5429,13 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       icon="🎲"
       title="Il Master apre la scena..."
       steps={[
-        { at: 0,    pill: "Contesto",  label: "Leggo la bibbia dell'avventura..." },
-        { at: 4000, pill: "Personaggi", label: "Analizzo il gruppo di avventurieri..." },
-        { at: 9000, pill: "Scena",     label: "Costruisco la scena d'apertura..." },
-        { at: 14000, pill: "Opzioni",  label: "Preparo le opzioni per il primo turno..." },
-        { at: 18000, pill: "Finale",   label: "Quasi pronto..." },
+        { at: 0,     pill: "Contesto",   label: "Leggo la bibbia dell'avventura..." },
+        { at: 3000,  pill: "Personaggi", label: "Analizzo il gruppo di avventurieri..." },
+        { at: 7000,  pill: "Location",   label: "Colloco la squadra nella prima scena..." },
+        { at: 13000, pill: "Narrativa",  label: "Il Master scrive la scena d'apertura..." },
+        { at: 22000, pill: "Indizi",     label: "Posiziono i primi indizi e PNG in scena..." },
+        { at: 30000, pill: "Opzioni",    label: "Preparo le azioni disponibili per il primo turno..." },
+        { at: 36000, pill: "Pronto",     label: "Quasi pronto, ancora un momento..." },
       ]}
     />
   );
