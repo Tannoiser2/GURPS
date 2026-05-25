@@ -14,6 +14,9 @@ from .models import (
     TeamSetupState,
     StoryState,
     StoryThread,
+    AdventureCanon,
+    CanonClue,
+    NPCAgenda,
     WorldNPC,
     MapState,
     MapNode,
@@ -26,6 +29,7 @@ from .combat import (
     resolve_attack,
     reset_action_type, attempt_stun_recovery, stand_up,
 )
+from .action_intent import select_best_skill as resolve_action_skill
 from .data_skills import (
     LEGACY_EFFECT_TO_SKILL,
     SKILL_INFO,
@@ -33,7 +37,7 @@ from .data_skills import (
     SKILLS_BY_STAT,
     VALID_SKILLS,
     default_skill_for,
-    skill_default_penalty,
+    skill_default_level,
     skill_stat,
     normalize_skill,
     normalize_stat,
@@ -46,12 +50,17 @@ from .data_advantages import (
     has_morale_check,
     advantage_combat_penalty,
     advantage_breakdown,
+    advantage_luck_rerolls,
+    advantage_will_modifier,
+    advantage_per_modifier,
+    advantage_night_vision,
+    advantage_reckless_bonus,
 )
+from .runtime_models import AdventureDefinition, AdventureRuntimeState
+from .data_genres import GENRE_PACKS
 from .claude_service import (
     generate_scene_package,
-    generate_mission_package,
     generate_mission_ending,
-    choose_setting_package,
     get_phase_blueprint,
     generate_candidate_pool,
     generate_actions_for_selected_team,
@@ -63,8 +72,6 @@ from .claude_service import (
     build_scene_seed_with_canon,
     generate_movement_transition_narrative,
 )
-
-RECENT_MISSION_SIGNATURES: list[str] = []
 
 # Distribuzione esatta di 3d6: probabilità (su 216 esiti) di ogni somma 3-18.
 # Usata da preview_action_outcomes per stimare le probabilità degli esiti GURPS.
@@ -275,8 +282,8 @@ def build_players_from_dicts(
 
         max_hp_val = max(1, forza)
         max_fp_val = max(1, empatia)
-        will_val = intelligenza
-        per_val = intelligenza
+        will_val = intelligenza + advantage_will_modifier(all_adv)
+        per_val = intelligenza + advantage_per_modifier(all_adv)
         basic_speed_val = (agilita + empatia) / 4.0
         move_val = int(basic_speed_val)        # floor positivo
         dodge_val = move_val + 3 + advantage_dodge_bonus(all_adv)
@@ -309,6 +316,8 @@ def build_players_from_dicts(
                 move=move_val,
                 dr=int(p.get("dr", 0)),
                 items=p.get("items", []),
+                backstory=p.get("backstory", ""),
+                motivation=p.get("motivation", ""),
                 actions=[
                     Action(
                         name=a["name"],
@@ -348,17 +357,16 @@ def empty_game_state() -> GameState:
 
 
 def prepare_team_setup(genre: str, provider: str = "claude") -> GameState:
-    setting_package = choose_setting_package(
-        genre=genre,
-        recent_signatures=RECENT_MISSION_SIGNATURES,
-    )
+    pack = GENRE_PACKS.get(genre) or GENRE_PACKS.get("action") or {}
+    mission_type = (pack.get("obiettivi") or ["avventura"])[0]
+    environment_type = (pack.get("ambienti") or ["zona iniziale"])[0]
 
     candidates = generate_candidate_pool(
         genre=genre,
         active_slots=8,
-        mission_type=setting_package["mission_type"],
-        environment_type=setting_package["environment_type"],
-        theme_family=setting_package.get("theme_family", ""),
+        mission_type=mission_type,
+        environment_type=environment_type,
+        theme_family="",
     )
 
     return GameState(
@@ -837,6 +845,7 @@ def generate_map_from_bible_locations(locations: list[dict], genre: str) -> MapS
             is_final=is_final,
             grid_x=gx,
             grid_y=gy,
+            tactical_map=loc.get("tactical_map") or {},
         )
 
     # Connessioni: ogni nodo connesso al successivo (catena lineare)
@@ -859,248 +868,350 @@ def generate_map_from_bible_locations(locations: list[dict], genre: str) -> MapS
     )
 
 
-def generate_map_for_genre(genre: str, environment_type: str) -> MapState:
-    # Pool esteso per ogni genere — la mappa selezionerà un sottoinsieme casuale
-    library = {
-        "sci_fi": {
-            "start":    [("hangar", "hangar", ["accesso", "meccanico"]),
-                         ("zona di atterraggio", "piattaforma", ["accesso", "aperto"]),
-                         ("corridoio tecnico", "corridoio", ["tecnico"])],
-            "middle":   [("laboratorio", "laboratorio", ["analisi", "clue"]),
-                         ("reattore", "nucleo", ["pericolo", "energia"]),
-                         ("camera di contenimento", "camera", ["minaccia", "sigillato"]),
-                         ("sala server", "server", ["dati", "clue"]),
-                         ("modulo medico", "medico", ["cura", "loot"]),
-                         ("deposito carburante", "deposito", ["pericolo", "loot"]),
-                         ("stazione di comunicazione", "comunicazioni", ["dati", "clue"]),
-                         ("camera ibernazione", "ibernazione", ["clue", "pericolo"]),
-                         ("osservatorio", "cupola", ["clue", "aperto"])],
-            "objective": [("ponte di comando", "comando", ["obiettivo"]),
-                          ("nucleo di controllo", "controllo", ["obiettivo"]),
-                          ("camera del direttore", "ufficio", ["obiettivo", "clue"])],
-            "exit":     [("capsula di fuga", "estrazione", ["uscita"]),
-                         ("hangar secondario", "hangar", ["uscita", "meccanico"]),
-                         ("portale di evacuazione", "portale", ["uscita"])],
-        },
-        "fantasy": {
-            "start":    [("cortile", "cortile", ["accesso"]),
-                         ("portone principale", "ingresso", ["accesso"]),
-                         ("giardino esterno", "giardino", ["accesso", "aperto"])],
-            "middle":   [("cripta", "cripta", ["morto", "clue"]),
-                         ("biblioteca", "biblioteca", ["conoscenza", "clue"]),
-                         ("cappella", "cappella", ["rito"]),
-                         ("torre di guardia", "torre", ["verticale", "pericolo"]),
-                         ("armeria", "armeria", ["loot"]),
-                         ("prigione sotterranea", "prigione", ["pericolo", "clue"]),
-                         ("sala dei rituali", "rituale", ["rito", "pericolo"]),
-                         ("giardino dei veleni", "giardino", ["pericolo", "loot"]),
-                         ("scriptorium", "scriptorium", ["conoscenza", "clue"])],
-            "objective": [("sala del trono", "sala", ["obiettivo"]),
-                          ("camera oscura del mago", "studio", ["obiettivo", "clue"]),
-                          ("altare antico", "altare", ["obiettivo", "rito"])],
-            "exit":     [("segreta", "tunnel", ["uscita"]),
-                         ("passaggio segreto", "tunnel", ["uscita"]),
-                         ("portale magico", "portale", ["uscita"])],
-        },
-        "mystery_horror": {
-            "start":    [("ingresso", "ingresso", ["accesso"]),
-                         ("atrio", "atrio", ["accesso"]),
-                         ("giardino notturno", "giardino", ["accesso", "aperto"])],
-            "middle":   [("studio privato", "studio", ["clue"]),
-                         ("archivio segreto", "archivio", ["documenti", "clue"]),
-                         ("seminterrato", "seminterrato", ["pericolo"]),
-                         ("camera chiusa a chiave", "stanza", ["sigillo", "clue"]),
-                         ("soffitta", "soffitta", ["clue", "pericolo"]),
-                         ("laboratorio segreto", "laboratorio", ["clue", "pericolo"]),
-                         ("sala da biliardo", "sala", ["clue"]),
-                         ("cantina", "cantina", ["pericolo", "loot"])],
-            "objective": [("cappella privata", "cappella", ["obiettivo"]),
-                          ("camera del padrone di casa", "stanza", ["obiettivo", "clue"]),
-                          ("cripta di famiglia", "cripta", ["obiettivo", "morto"])],
-            "exit":     [("tunnel sotterraneo", "tunnel", ["uscita"]),
-                         ("uscita sul retro", "uscita", ["uscita"]),
-                         ("finestra sul tetto", "tetto", ["uscita"])],
-        },
-        "ww2": {
-            "start":    [("trincea avanzata", "trincea", ["accesso", "copertura"]),
-                         ("avamposto abbandonato", "avamposto", ["accesso"]),
-                         ("zona di atterraggio", "landing", ["accesso", "aperto"])],
-            "middle":   [("bunker nemico", "bunker", ["pericolo", "clue"]),
-                         ("fabbrica occupata", "fabbrica", ["pericolo", "loot"]),
-                         ("torre di avvistamento", "torre", ["verticale", "clue"]),
-                         ("infermeria da campo", "infermeria", ["cura", "loot"]),
-                         ("deposito munizioni", "deposito", ["pericolo", "loot"]),
-                         ("sala comunicazioni", "comunicazioni", ["dati", "clue"]),
-                         ("edificio civile occupato", "civile", ["clue", "pericolo"]),
-                         ("tunnel di fuga partigiana", "tunnel", ["accesso", "clue"])],
-            "objective": [("quartier generale nemico", "comando", ["obiettivo", "pericolo"]),
-                          ("torre di controllo", "torre", ["obiettivo"]),
-                          ("nodo strategico", "nodo", ["obiettivo", "dati"])],
-            "exit":     [("punto di estrazione", "landing", ["uscita"]),
-                         ("aeroporto di campo", "aeroporto", ["uscita"]),
-                         ("zona sicura partigiana", "sicuro", ["uscita"])],
-        },
-        "romance": {
-            "start":    [("caffè storico", "caffè", ["accesso", "clue"]),
-                         ("stazione ferroviaria", "stazione", ["accesso", "aperto"]),
-                         ("ingresso dell'hotel", "hotel", ["accesso"])],
-            "middle":   [("parco cittadino", "parco", ["aperto", "clue"]),
-                         ("biblioteca universitaria", "biblioteca", ["conoscenza", "clue"]),
-                         ("ristorante intimo", "ristorante", ["clue"]),
-                         ("terrazza panoramica", "terrazza", ["aperto", "clue"]),
-                         ("galleria d'arte", "galleria", ["clue", "loot"]),
-                         ("mercato notturno", "mercato", ["aperto", "loot"]),
-                         ("studio dell'artista", "studio", ["clue"])],
-            "objective": [("luogo del primo incontro", "luogo", ["obiettivo", "clue"]),
-                          ("appuntamento decisivo", "appuntamento", ["obiettivo"]),
-                          ("appartamento privato", "casa", ["obiettivo", "clue"])],
-            "exit":     [("binario del treno", "stazione", ["uscita"]),
-                         ("aeroporto", "aeroporto", ["uscita"]),
-                         ("piazza centrale", "piazza", ["uscita", "aperto"])],
-        },
-        "action": {
-            "start":    [("ingresso principale", "ingresso", ["accesso"]),
-                         ("garage sotterraneo", "garage", ["accesso", "pericolo"]),
-                         ("corridoio sicuro", "corridoio", ["accesso", "tecnico"])],
-            "middle":   [("sala server", "server", ["dati", "clue"]),
-                         ("magazzino", "magazzino", ["loot", "pericolo"]),
-                         ("tetto dell'edificio", "tetto", ["aperto", "pericolo"]),
-                         ("sala controllo sorveglianza", "controllo", ["dati", "clue"]),
-                         ("archivio segreto", "archivio", ["documenti", "clue"]),
-                         ("laboratorio", "laboratorio", ["clue", "pericolo"]),
-                         ("piano attico", "attico", ["verticale", "pericolo"])],
-            "objective": [("centro nevralgico", "centrale", ["obiettivo", "pericolo"]),
-                          ("sala operativa", "ops", ["obiettivo", "dati"]),
-                          ("obiettivo principale", "obiettivo", ["obiettivo"])],
-            "exit":     [("uscita di emergenza", "uscita", ["uscita"]),
-                         ("elicottero sul tetto", "tetto", ["uscita"]),
-                         ("veicolo di fuga", "garage", ["uscita"])],
-        },
-        "detective_classico": {
-            "start":    [("ingresso principale", "ingresso", ["accesso"]),
-                         ("sala d'attesa", "sala", ["accesso", "clue"]),
-                         ("atrio centrale", "atrio", ["accesso"])],
-            "middle":   [("biblioteca privata", "biblioteca", ["documenti", "clue"]),
-                         ("studio del padrone", "studio", ["clue"]),
-                         ("sala da pranzo", "sala", ["clue", "loot"]),
-                         ("giardino interno", "giardino", ["aperto", "clue"]),
-                         ("cantina delle riserve", "cantina", ["pericolo", "clue"]),
-                         ("soffitta degli oggetti", "soffitta", ["clue", "pericolo"]),
-                         ("stanza della vittima", "stanza", ["clue", "morto"])],
-            "objective": [("sala delle accuse", "sala", ["obiettivo"]),
-                          ("camera chiusa del segreto", "stanza", ["obiettivo", "clue"]),
-                          ("studio del colpevole", "studio", ["obiettivo", "clue"])],
-            "exit":     [("uscita principale", "uscita", ["uscita"]),
-                         ("porta sul retro", "porta", ["uscita"]),
-                         ("terrazza sul giardino", "terrazza", ["uscita", "aperto"])],
-        },
-        # Mantenuti per compatibilità
-        "survival_horror": {
-            "start":    [("reception abbandonata", "reception", ["accesso"]),
-                         ("parcheggio sotterraneo", "parcheggio", ["accesso", "pericolo"])],
-            "middle":   [("laboratorio", "laboratorio", ["analisi", "pericolo"]),
-                         ("magazzino", "magazzino", ["loot"]),
-                         ("sala generatori", "impianto", ["energia", "pericolo"]),
-                         ("camera operatoria", "chirurgia", ["clue", "pericolo"]),
-                         ("archivio pazienti", "archivio", ["documenti", "clue"])],
-            "objective": [("uscita di emergenza", "estrazione", ["obiettivo", "uscita"]),
-                          ("bunker di contenimento", "bunker", ["obiettivo", "pericolo"])],
-            "exit":     [("scala antincendio", "scala", ["uscita"]),
-                         ("eliporto sul tetto", "tetto", ["uscita"])],
-        },
-        "militare": {
-            "start":    [("avamposto", "avamposto", ["accesso"]),
-                         ("trincea", "trincea", ["accesso", "copertura"])],
-            "middle":   [("bunker", "bunker", ["pericolo"]),
-                         ("magazzino armi", "magazzino", ["loot"]),
-                         ("sala comunicazioni", "comunicazioni", ["dati", "clue"]),
-                         ("infermeria da campo", "infermeria", ["cura", "loot"])],
-            "objective": [("torre di controllo", "comando", ["obiettivo"]),
-                          ("sala operativa centrale", "ops", ["obiettivo", "dati"])],
-            "exit":     [("zona di estrazione", "landing", ["uscita"]),
-                         ("veicolo blindato", "veicolo", ["uscita"])],
-        },
+def generate_map_from_adventure_definition(definition: AdventureDefinition) -> MapState:
+    """Costruisce la mappa strategica reale dal runtime compilato.
+
+    Questa e la mappa autoritativa per le avventure compilate: location, indizi,
+    attori e zone tattiche arrivano da AdventureDefinition, non dal generatore legacy.
+    """
+    locations = list(definition.locations or [])
+    if not locations:
+        return generate_map_from_bible_locations(definition.legacy_adventure.get("locations", []), definition.genre)
+
+    clue_locations = {}
+    for clue in definition.clues:
+        key = str(clue.source_location or "").lower()
+        for loc in locations:
+            if key and (key in loc.name.lower() or loc.name.lower() in key):
+                clue_locations.setdefault(loc.id, []).append(clue.id)
+
+    actor_locations = {}
+    for actor in definition.actors:
+        key = str(actor.location_id or "").lower()
+        for loc in locations:
+            if key and (key == loc.id.lower() or key in loc.name.lower() or loc.name.lower() in key):
+                actor_locations.setdefault(loc.id, []).append(actor.id)
+
+    hot_ids = {
+        loc.id for loc in locations
+        if bool(loc.tactical_map and loc.tactical_map.get("enabled", bool(loc.tactical_map)))
     }
+    objective_id = None
+    for loc in locations:
+        tactical_role = str((loc.tactical_map or {}).get("role", "")).lower()
+        if "final" in tactical_role:
+            objective_id = loc.id
+    if not objective_id:
+        objective_id = locations[-1].id
 
-    # Usa pool specifico per ambiente se disponibile, altrimenti pool generico di genere
-    pool = _ENVIRONMENT_NODE_OVERRIDES.get(environment_type) or library.get(genre, library["sci_fi"])
-    # Numero di nodi variabile: 1 start + 3-5 middle + 1 obiettivo + 1 uscita = 6-8 totale
-    n_middle = random.randint(3, 5)
-    middle_pool = pool["middle"][:]
-    random.shuffle(middle_pool)
-    chosen_middle = middle_pool[:n_middle]
+    cols = min(4, max(2, int(len(locations) ** 0.5) + 1))
 
-    start_node  = random.choice(pool["start"])
-    obj_node    = random.choice(pool["objective"])
-    exit_node   = random.choice(pool["exit"])
-
-    # Assegna phase_gate ai middle (distribuiti tra fase 1 e 2)
-    all_nodes_raw = (
-        [(start_node[0], start_node[1], 1, start_node[2])] +
-        [(n[0], n[1], 1 if i < len(chosen_middle) // 2 else 2, n[2]) for i, n in enumerate(chosen_middle)] +
-        [(obj_node[0], obj_node[1], 3, obj_node[2])] +
-        [(exit_node[0], exit_node[1], 3, exit_node[2])]
-    )
+    def _pos(i: int) -> tuple[int, int]:
+        row = i // cols
+        col = i % cols
+        if row % 2:
+            col = cols - 1 - col
+        return col * 2, row * 2
 
     nodes: dict[str, MapNode] = {}
-
-    for idx, (name, kind, gate, tags) in enumerate(all_nodes_raw):
-        nid = f"N{idx + 1}"
-        nodes[nid] = MapNode(
-            id=nid,
-            name=name,
-            kind=kind,
-            description=_node_description(name, kind, tags, environment_type),
-            phase_gate=gate,
+    edges: dict[str, MapEdge] = {}
+    for i, loc in enumerate(locations):
+        gx, gy = _pos(i)
+        has_clue = bool(clue_locations.get(loc.id) or loc.contains_clues)
+        has_actor = bool(actor_locations.get(loc.id) or loc.contains_actors)
+        tactical = dict(loc.tactical_map or {})
+        tactical_enabled = bool(tactical.get("enabled", bool(tactical)))
+        role = str(tactical.get("role") or "").lower()
+        tags = []
+        if i == 0:
+            tags.append("start")
+        if has_clue:
+            tags.append("indizio")
+        if has_actor:
+            tags.append("png")
+        if tactical_enabled:
+            tags.append("zona_calda")
+        if loc.id == objective_id:
+            tags.append("finale")
+        nodes[loc.id] = MapNode(
+            id=loc.id,
+            name=loc.name,
+            kind=loc.type or "location",
+            description=loc.description or loc.name,
+            phase_gate=1,
             connections=[],
-            tags=list(tags),
-            contains_clue=("clue" in tags or "documenti" in tags),
-            contains_enemy=("pericolo" in tags or "minaccia" in tags),
-            contains_loot=("loot" in tags or "conoscenza" in tags or "energia" in tags),
-            is_objective=("obiettivo" in tags),
-            is_final=("uscita" in tags),
+            visited=i == 0,
+            blocked=loc.access_state in {"locked", "blocked", "hidden"},
+            is_objective=loc.id == objective_id,
+            is_final=loc.id == objective_id or "final" in role,
+            tags=tags,
+            contains_clue=has_clue,
+            contains_enemy=tactical_enabled or any(
+                a.role in {"antagonist", "red_herring"} for a in definition.actors if a.id in actor_locations.get(loc.id, [])
+            ),
+            grid_x=gx,
+            grid_y=gy,
+            tactical_map=tactical if tactical_enabled else {},
         )
 
-    ids = list(nodes.keys())
-    edges: dict[str, MapEdge] = {}
-    for i in range(len(ids) - 1):
-        status = "open"
-        label = "percorso principale"
-        note = ""
-        if nodes[ids[i + 1]].phase_gate >= 3:
-            status = "locked"
-            label = "accesso vincolato"
-            note = "Si apre quando la scena conferma che la squadra ha ottenuto abbastanza vantaggio o informazioni."
-        _connect_map_nodes(nodes, edges, ids[i], ids[i + 1], status=status, label=label, note=note)
-    if len(ids) >= 5:
-        _connect_map_nodes(nodes, edges, ids[0], ids[2], status="open", label="percorso alternativo")
-        _connect_map_nodes(nodes, edges, ids[1], ids[3], status="hidden", label="passaggio nascosto", note="Può essere scoperto con indagine, esplorazione o tecnologia.", discovered=False)
-        trap_target = ids[-1] if random.random() < 0.5 else ids[-2]
-        _connect_map_nodes(nodes, edges, ids[2], trap_target, status="trap", label="scorciatoia rischiosa", note="È accessibile, ma una scelta affrettata può peggiorare la situazione.")
-    if len(ids) >= 7:
-        _connect_map_nodes(nodes, edges, ids[-3], ids[-1], status="one_way", label="via di fuga instabile", note="Percorso utile, ma difficile da ripercorrere.")
-
-    for node in nodes.values():
-        node.connections = list(dict.fromkeys(node.connections))
-
-    # Assign fixed image sectors for strategic-map generation and overlay alignment.
-    _assign_sector_grid_coords(nodes, ids)
-
-    start_id = ids[0]
-    objective_id = [nid for nid, n in nodes.items() if n.is_objective][-1]
-    extraction_id = [nid for nid, n in nodes.items() if n.is_final][-1]
-    nodes[start_id].visited = True
+    ids = [loc.id for loc in locations]
+    # Connessioni esplicite da genre_runtime.scene_nodes, se presenti.
+    scene_nodes = (definition.genre_runtime or {}).get("scene_nodes") or []
+    explicit_edges = False
+    for scene in scene_nodes:
+        if not isinstance(scene, dict):
+            continue
+        from_id = scene.get("id") or scene.get("location_id")
+        for choice in scene.get("choices") or []:
+            to_id = choice.get("target_node") or choice.get("to") or choice.get("location_id")
+            if from_id in nodes and to_id in nodes:
+                _connect_map_nodes(nodes, edges, from_id, to_id, choice.get("status", "open"))
+                explicit_edges = True
+    if not explicit_edges:
+        for i in range(len(ids) - 1):
+            status = "open"
+            target_loc = locations[i + 1]
+            if target_loc.access_state in {"locked", "hidden", "blocked"}:
+                status = target_loc.access_state
+                # La mappa mostra il nodo, ma il bordo resta bloccato finche una pista non lo sblocca.
+                nodes[target_loc.id].blocked = True
+            _connect_map_nodes(nodes, edges, ids[i], ids[i + 1], status)
+        # Le zone calde non finali devono essere percorsi laterali reali, non solo schede nel pannello.
+        for hid in hot_ids:
+            if hid in nodes and hid not in {ids[0], objective_id}:
+                prev = ids[max(0, ids.index(hid) - 1)]
+                _connect_map_nodes(nodes, edges, prev, hid, "open")
 
     return MapState(
-        map_type=genre,
-        theme=environment_type,
+        map_type=definition.genre or "compiled",
+        theme=definition.tone or "compiled_adventure",
         nodes=nodes,
         connections_meta=edges,
-        current_node_id=start_id,
-        start_node_id=start_id,
+        current_node_id=ids[0],
+        start_node_id=ids[0],
         objective_node_id=objective_id,
-        extraction_node_id=extraction_id,
+        extraction_node_id=objective_id,
     )
+
+
+def _compiled_location_for_actor(actor_location: str, map_state: MapState, fallback_ids: list[str], idx: int) -> str:
+    key = str(actor_location or "").lower()
+    if key:
+        for nid, node in map_state.nodes.items():
+            if key == nid.lower() or key in node.name.lower() or node.name.lower() in key:
+                return nid
+    non_start = [nid for nid in fallback_ids if nid != map_state.start_node_id]
+    return (non_start or fallback_ids or [map_state.start_node_id])[idx % max(1, len(non_start or fallback_ids or [map_state.start_node_id]))]
+
+
+def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapState) -> list[WorldNPC]:
+    node_ids = list(map_state.nodes.keys())
+    npcs: list[WorldNPC] = []
+    for i, actor in enumerate(definition.actors[:12]):
+        role = str(actor.role or "neutral")
+        low = role.lower()
+        threat = 3 if "antagon" in low or "boss" in low else 2 if "red" in low or "guard" in low else 1 if role != "ally" else 0
+        node_id = _compiled_location_for_actor(actor.location_id, map_state, node_ids, i)
+        npcs.append(WorldNPC(
+            id=actor.id,
+            name=actor.name,
+            role=role,
+            current_node_id=node_id,
+            status="alive" if actor.status in {"unintroduced", "active", "exposed"} else actor.status,
+            threat_to_player=threat,
+            holds_clue_for="",
+            description=actor.goal or actor.secret or role,
+            secret=actor.secret,
+        ))
+    return npcs
+
+
+def _story_state_from_definition(definition: AdventureDefinition) -> StoryState:
+    canon = AdventureCanon(
+        core_truth=definition.core_truths[0].statement if definition.core_truths else "",
+        main_antagonist=next((a.name for a in definition.actors if "antagon" in a.role.lower()), ""),
+        key_locations=[l.name for l in definition.locations],
+        required_clues=[c.id for c in definition.clues if c.is_required],
+        finale_conditions=[f.label for f in definition.finale_conditions],
+    )
+    valid_clue_types = {"physical_evidence", "testimony", "document", "behavior", "location_detail", "contradiction"}
+    clues = [
+        CanonClue(
+            id=c.id,
+            label=c.label,
+            type=c.type if c.type in valid_clue_types else "physical_evidence",
+            thread_id=c.thread_id or (definition.revelations[0].thread_id if definition.revelations else "T1"),
+            source_location=c.source_location,
+            reveals=c.reveals,
+            payoff=c.payoff,
+            is_required=c.is_required,
+        )
+        for c in definition.clues
+    ]
+    threads = []
+    for i, rev in enumerate(definition.revelations, start=1):
+        tid = rev.thread_id or f"T{i}"
+        required = rev.required_clues or [c.id for c in definition.clues if rev.id in c.revelation_ids]
+        threads.append(StoryThread(
+            id=tid,
+            title=rev.statement[:80],
+            question=rev.statement if rev.statement.endswith("?") else f"Cosa significa: {rev.statement[:80]}?",
+            true_answer=rev.statement,
+            required_clues=required,
+            minimum_clues_to_deduce=min(2, max(1, len(required) or 1)),
+            payoff=rev.payoff,
+            answer=rev.statement,
+            status="hidden",
+        ))
+    agendas = [
+        NPCAgenda(
+            npc_id=a.id,
+            role=a.role if a.role in {"ally", "antagonist", "witness", "red_herring", "victim", "patron", "neutral"} else "neutral",
+            secret=a.secret,
+            goal=a.goal,
+            recurrence_priority="high" if "antagon" in a.role.lower() else "medium",
+            arc_status=a.status if a.status in {"unintroduced", "active", "exposed", "resolved", "dead"} else "unintroduced",
+        )
+        for a in definition.actors
+    ]
+    return StoryState(
+        narrative_mode="compiled_runtime",
+        premise=definition.premise,
+        adventure_canon=canon,
+        hidden_truth=canon.core_truth,
+        hidden_truth_clues=[c.id for c in definition.clues[:3]],
+        hidden_truth_reveal_rule=definition.core_truths[0].reveal_rule if definition.core_truths else "",
+        win_condition=definition.objectives[0].label if definition.objectives else "",
+        active_threads=[t.question for t in threads[:3]],
+        threads=threads,
+        named_entities=[a.name for a in definition.actors],
+        key_entities=[
+            {"name": a.name, "ruolo": a.role, "dove": a.location_id, "segreto": a.secret, "rivelazione": a.goal}
+            for a in definition.actors
+        ],
+        key_items=[
+            {"name": c.label, "dove": c.source_location, "uso": c.payoff, "rivelazione": c.reveals}
+            for c in definition.clues
+        ],
+        canonical_clues=clues,
+        npc_agendas=agendas,
+        event_log=["Avventura compilata: il runtime e la fonte autoritativa del mondo."],
+    )
+
+
+def start_compiled_game_from_selection(
+    current_state: GameState,
+    selected_player_ids: list[int],
+    custom_names: dict[int, str] | None,
+    adventure_bible: dict,
+) -> GameState:
+    """Avvia un'avventura compilata senza usare generatori legacy di missione/canon/scena."""
+    definition = AdventureDefinition(**adventure_bible["adventure_definition"])
+    runtime_state = AdventureRuntimeState(**adventure_bible.get("runtime_state", {"definition_id": definition.id}))
+    selected_player_ids = selected_player_ids[:4]
+    if not selected_player_ids:
+        raise ValueError("Nessun personaggio selezionato.")
+    custom_names = custom_names or {}
+    map_state = generate_map_from_adventure_definition(definition)
+    world_npcs = _world_npcs_from_definition(definition, map_state)
+    story = _story_state_from_definition(definition)
+
+    candidate_pool_dicts = [
+        {
+            "id": p.id,
+            "name": custom_names.get(p.id, p.name),
+            "role": p.role,
+            "archetype": p.archetype,
+            "stats": p.stats,
+            "skills": dict(p.skills),
+            "advantages": list(p.advantages),
+            "disadvantages": list(p.disadvantages),
+            "status": p.status,
+            "hp": p.hp,
+            "max_hp": p.max_hp,
+            "items": p.items,
+            "backstory": getattr(p, "backstory", ""),
+            "motivation": getattr(p, "motivation", ""),
+            "actions": [],
+        }
+        for p in current_state.team_setup.candidate_pool
+    ]
+    selected_candidates = [p for p in candidate_pool_dicts if p["id"] in selected_player_ids]
+    hook = definition.initial_hook or definition.premise or "L'avventura compilata inizia."
+    selected_candidates = generate_actions_for_selected_team(
+        selected_candidates,
+        scene_context=hook,
+        scene_tags=["compiled_runtime", "inizio"],
+        genre=definition.genre,
+    )
+    first_clock = definition.event_clocks[0] if definition.event_clocks else None
+    objective = definition.objectives[0].label if definition.objectives else "Completare l'avventura."
+    game = GameState(
+        turn=1,
+        log="Avventura compilata iniziata.",
+        scene_source="compiled_runtime",
+        in_setup=False,
+        team_setup=TeamSetupState(
+            genre=definition.genre or current_state.team_setup.genre,
+            active_slots=len(selected_player_ids),
+            setup_complete=True,
+            selected_player_ids=selected_player_ids,
+            candidate_pool=current_state.team_setup.candidate_pool,
+            provider=current_state.team_setup.provider,
+            image_provider=current_state.team_setup.image_provider,
+        ),
+        mission=MissionState(
+            genre=definition.genre or current_state.team_setup.genre,
+            theme_family="compiled",
+            mission_type=(definition.runtime_profiles[0] if definition.runtime_profiles else "compiled_runtime"),
+            title=definition.title,
+            objective=objective,
+            environment_type=definition.locations[0].type if definition.locations else "compiled_location",
+            threat_type=first_clock.label if first_clock else "pressione narrativa",
+            tone=definition.tone or definition.genre_profile.tone,
+            twist="",
+            mission_target=max(1, len(definition.objectives)),
+            max_turns=first_clock.max_value if first_clock else 999,
+        ),
+        phase=PhaseState(
+            phase_index=1,
+            max_phases=max(1, min(5, len(definition.locations))),
+            phase_name="Runtime",
+            zone_type=definition.locations[0].type if definition.locations else "zona iniziale",
+            zone_goal=objective,
+            zone_tags=["compiled_runtime"],
+            is_final_phase=False,
+        ),
+        scene=SceneState(
+            scene_text=hook,
+            scene_problem=objective,
+            scene_resolution="Avanzare nel canovaccio compilato tramite indizi, luoghi, PNG e condizioni finali.",
+            objective_progress=0,
+            objective_target=max(1, len(definition.objectives)),
+            threat_level=first_clock.value if first_clock else 0,
+            time_left=first_clock.max_value if first_clock else 0,
+            time_limit=first_clock.max_value if first_clock else 0,
+            scene_tags=["compiled_runtime"],
+        ),
+        story=story,
+        map_state=map_state,
+        world_npcs=world_npcs,
+        players=build_players_from_dicts(selected_candidates),
+        mission_memory=[],
+        selected_actions={},
+        adventure_definition_id=definition.id,
+        adventure_definition=definition,
+        adventure_runtime_state=runtime_state,
+        current_objective_ids=list(runtime_state.active_objective_ids),
+        active_revelation_ids=list(runtime_state.active_revelation_ids),
+        active_clock_ids=list(runtime_state.clock_runtime.keys()),
+        active_pressure_ids=list(runtime_state.pressure_runtime.keys()),
+        allowed_escalation_types=list(definition.genre_profile.allowed_escalations),
+        forbidden_escalation_types=list(definition.genre_profile.forbidden_escalations),
+        director_reason="compiled_runtime_start",
+    )
+    refresh_scene_state(game, claude_scene_actions=None)
+    return game
 
 
 def _extract_canon_locations(canon: dict) -> list[str]:
@@ -1481,8 +1592,8 @@ def _resolve_thread(state: GameState, thread, deduction_text: str = "") -> None:
         for pid in thread.parent_thread_ids:
             parent = _find_thread_by_id(state, pid)
             if parent and parent.status != "resolved":
-                if thread.status != "ready":
-                    thread.status = "ready"
+                if thread.status not in {"ready", "ready_to_deduce"}:
+                    thread.status = "ready_to_deduce"
                 state.story.event_log.append(f"[thread {thread.id}] in attesa di parent {pid}")
                 return
     thread.status = "resolved"
@@ -1505,9 +1616,119 @@ def _resolve_thread(state: GameState, thread, deduction_text: str = "") -> None:
             _resolve_thread(state, other, other.resolution_text)
 
 
-def apply_story_updates(state: GameState, updates: dict) -> None:
+def apply_story_updates(state: GameState, updates: dict, *, outcome: str = "successo pieno") -> None:
+    """Apply narrator-proposed story updates, gated by the action outcome.
+
+    The ``outcome`` parameter carries the GURPS roll result for the action
+    that produced these updates (one of "critico", "successo pieno",
+    "successo parziale", "fallimento", "fallimento critico"). The gate
+    enforces PbtA-style consequences:
+
+    - successo critico / successo pieno
+        Both ``clues_found`` (full discovery) and ``clue_progress``
+        (partial progress) are accepted as proposed by the narrator.
+    - successo parziale
+        Full discoveries are *demoted* to partial progress — the players
+        learn something useful but the clue does not close yet.
+    - fallimento / fallimento critico
+        No clue advancement at all. ``clues_found`` and ``clue_progress``
+        are dropped; ``discovered_facts`` entries that link to a thread
+        are stripped. The narrator can still produce a cost, just not
+        progress.
+
+    Default ``outcome="successo pieno"`` keeps backward compatibility for
+    any caller that doesn't pass a roll result.
+    """
     if not state.story:
         return
+
+    outcome_low = (outcome or "").strip().lower()
+    is_failure = "fallimento" in outcome_low
+    is_partial = (not is_failure) and ("parziale" in outcome_low or "stretta misura" in outcome_low)
+
+    if is_failure:
+        updates = dict(updates)
+        dropped_found = updates.get("clues_found") or []
+        dropped_progress = updates.get("clue_progress") or []
+        if dropped_found or dropped_progress:
+            print(
+                f"[apply_story_updates] outcome={outcome!r}: scartati "
+                f"{len(dropped_found)} clues_found, {len(dropped_progress)} clue_progress"
+            )
+        updates["clues_found"] = []
+        updates["clue_progress"] = []
+        filtered_facts: list = []
+        for fact in updates.get("discovered_facts") or []:
+            if isinstance(fact, dict) and fact.get("clue_for_thread"):
+                continue
+            filtered_facts.append(fact)
+        updates["discovered_facts"] = filtered_facts
+    elif is_partial:
+        updates = dict(updates)
+        demoted: list[dict] = []
+        for cid in updates.get("clues_found") or []:
+            demoted.append({
+                "clue_id": str(cid),
+                "note": "scoperta parziale (successo di stretta misura)",
+            })
+        if demoted:
+            updates["clue_progress"] = list(updates.get("clue_progress") or []) + demoted
+            updates["clues_found"] = []
+            print(
+                f"[apply_story_updates] outcome={outcome!r}: "
+                f"demoted {len(demoted)} clues_found → clue_progress"
+            )
+
+    def _required_count(thread: StoryThread) -> int:
+        required = thread.required_clues
+        if isinstance(required, list):
+            return max(1, min(3, len(required) or thread.minimum_clues_to_deduce or 1))
+        return max(1, int(required or thread.minimum_clues_to_deduce or 1))
+
+    valid_thread_ids = {t.id for t in state.story.threads}
+    canonical_clues = {c.id: c for c in getattr(state.story, "canonical_clues", [])}
+    valid_clue_ids = {
+        cid for cid, clue in canonical_clues.items()
+        if not getattr(clue, "thread_id", "") or clue.thread_id in valid_thread_ids
+    }
+
+    # ── 0. Aggiornamenti canonici espliciti: clues_found / clue_progress ──
+    for cid in updates.get("clues_found", []) or []:
+        cid = str(cid)
+        if valid_clue_ids and cid not in valid_clue_ids:
+            continue
+        clue = canonical_clues.get(cid)
+        tid = clue.thread_id if clue else ""
+        thread = _find_thread_by_id(state, tid) if tid else None
+        if clue:
+            clue.is_discovered = True
+            fact = clue.reveals or clue.label or cid
+            append_unique_facts(state.story.discovered_facts, [fact])
+        if thread and thread.status != "resolved":
+            thread.revealed = True
+            if cid not in thread.collected_clue_ids:
+                thread.collected_clue_ids.append(cid)
+            if len(thread.collected_clue_ids) >= _required_count(thread) and thread.status in {"hidden", "active"}:
+                thread.status = "ready_to_deduce"
+                state.story.event_log.append(f"[thread {thread.id}] READY_TO_DEDUCE ({len(thread.collected_clue_ids)}/{_required_count(thread)} indizi)")
+
+    for progress in updates.get("clue_progress", []) or []:
+        if not isinstance(progress, dict):
+            continue
+        cid = str(progress.get("clue_id") or progress.get("id") or "")
+        if valid_clue_ids and cid not in valid_clue_ids:
+            continue
+        clue = canonical_clues.get(cid)
+        tid = clue.thread_id if clue else ""
+        thread = _find_thread_by_id(state, tid) if tid else None
+        if thread and cid not in thread.partial_clues and cid not in thread.collected_clue_ids:
+            thread.partial_clues.append(cid)
+            thread.revealed = True
+            if thread.status == "hidden":
+                thread.status = "active"
+        note = str(progress.get("note") or "").strip()
+        if note:
+            state.story.event_log.append(f"Progresso indizio {cid}: {note}")
 
     # ── 1. discovered_facts: normalizza, salva nel canon, aggancia clue ai thread ──
     facts = _normalize_discovered_facts(updates.get("discovered_facts", []))
@@ -1526,9 +1747,9 @@ def apply_story_updates(state: GameState, updates: dict) -> None:
             thread.collected_clue_ids.append(clue_id)
         # Soglia raggiunta → ready (la chiusura effettiva avviene quando Claude la narra,
         # oppure forziamo la chiusura nel ciclo successivo se il modello non lo fa)
-        if len(thread.collected_clue_ids) >= thread.required_clues and thread.status == "active":
-            thread.status = "ready"
-            state.story.event_log.append(f"[thread {thread.id}] READY ({len(thread.collected_clue_ids)}/{thread.required_clues} indizi)")
+        if len(thread.collected_clue_ids) >= _required_count(thread) and thread.status in {"hidden", "active"}:
+            thread.status = "ready_to_deduce"
+            state.story.event_log.append(f"[thread {thread.id}] READY_TO_DEDUCE ({len(thread.collected_clue_ids)}/{_required_count(thread)} indizi)")
 
     append_unique(state.story.destroyed_elements, updates.get("destroyed_elements", []))
     append_unique(state.story.removed_clues, updates.get("removed_clues", []))
@@ -1561,7 +1782,7 @@ def apply_story_updates(state: GameState, updates: dict) -> None:
 
     # ── 3. Auto-close: se Claude non ha narrato la chiusura ma il thread è ready, forziamo ──
     for t in list(state.story.threads):
-        if t.status == "ready":
+        if t.status in {"ready", "ready_to_deduce"}:
             # Solo se i parent sono già risolti — altrimenti resta ready in attesa
             parents_ok = all(
                 (_find_thread_by_id(state, pid) and _find_thread_by_id(state, pid).status == "resolved")
@@ -1595,6 +1816,28 @@ def apply_story_updates(state: GameState, updates: dict) -> None:
         state.story.event_log.extend([f"Elemento distrutto: {x}" for x in updates["destroyed_elements"]])
     if ignored_new_threads:
         state.story.event_log.extend([f"Thread ignorato (canovaccio chiuso): {x}" for x in ignored_new_threads])
+
+    # ── 6. Accessi/location dal runtime compiler ──
+    if state.map_state and updates.get("location_access"):
+        for raw in updates.get("location_access") or []:
+            if isinstance(raw, dict):
+                target = str(raw.get("id") or raw.get("node_id") or raw.get("location_id") or raw.get("name") or "").lower()
+            else:
+                target = str(raw).lower()
+            if not target:
+                continue
+            for node in state.map_state.nodes.values():
+                if target in node.id.lower() or target in node.name.lower() or node.id.lower() in target or node.name.lower() in target:
+                    node.blocked = False
+                    node.destroyed = False
+                    state.story.event_log.append(f"Accesso sbloccato: {node.name}")
+            for edge in state.map_state.connections_meta.values():
+                if edge.status in {"locked", "hidden", "blocked"} and (
+                    target in edge.from_id.lower() or target in edge.to_id.lower()
+                    or target in edge.label.lower() or target in edge.note.lower()
+                ):
+                    edge.status = "open"
+                    edge.discovered = True
 
 
 def get_accessible_connections(state: GameState) -> list[str]:
@@ -1684,285 +1927,12 @@ def _bible_has_time_pressure(adventure_bible: dict | None) -> bool:
 
 
 def start_game_from_selection(current_state: GameState, selected_player_ids: list[int], custom_names: dict[int, str] | None = None, adventure_bible: dict | None = None) -> GameState:
-    global RECENT_MISSION_SIGNATURES
-
-    genre = current_state.team_setup.genre
-    # Il numero di giocatori attivi è dedotto dalla selezione, clampato a max 4
-    selected_player_ids = selected_player_ids[:4]
-    active_slots = len(selected_player_ids)
-    current_state.team_setup.active_slots = active_slots
-    if active_slots == 0:
-        raise ValueError("Nessun personaggio selezionato.")
-
-    setting_package = choose_setting_package(genre=genre, recent_signatures=RECENT_MISSION_SIGNATURES)
-    mission_package = generate_mission_package(setting_package, active_slots)
-    mission_cfg = mission_package.get("mission", {})
-    scene_cfg = mission_package.get("scene", {})
-    narrative_mode = infer_narrative_mode(mission_cfg.get("genre", genre), mission_cfg.get("mission_type", ""))
-
-    RECENT_MISSION_SIGNATURES.append(setting_package["signature"])
-    RECENT_MISSION_SIGNATURES = RECENT_MISSION_SIGNATURES[-8:]
-
-    phase_cfg = get_phase_blueprint(
-        1,
-        mission_cfg.get("environment_type", "zona ignota"),
-        mission_cfg.get("mission_type", "ricognizione"),
+    if adventure_bible and adventure_bible.get("adventure_definition"):
+        return start_compiled_game_from_selection(current_state, selected_player_ids, custom_names, adventure_bible)
+    raise ValueError(
+        "Avvio legacy rimosso: start_game_from_selection richiede adventure_bible.adventure_definition. "
+        "Genera o importa l'avventura tramite compiler prima della selezione squadra."
     )
-    # Se la bibbia ha location proprie, costruiamo la mappa da quelle
-    bible_locations = (adventure_bible or {}).get("locations") if adventure_bible else None
-    if bible_locations:
-        map_state = generate_map_from_bible_locations(bible_locations, mission_cfg.get("genre", genre)) or generate_map_for_genre(
-            genre=mission_cfg.get("genre", genre),
-            environment_type=mission_cfg.get("environment_type", setting_package["environment_type"]),
-        )
-    else:
-        map_state = generate_map_for_genre(
-            genre=mission_cfg.get("genre", genre),
-            environment_type=mission_cfg.get("environment_type", setting_package["environment_type"]),
-        )
-    _forbidden = setting_package.get("forbidden_elements", [])
-    _narrative_bl = setting_package.get("narrative_blacklist", [])
-    canon = generate_story_canon(
-        mission_title=mission_cfg.get("title", "Missione"),
-        mission_objective=mission_cfg.get("objective", "Obiettivo"),
-        genre=mission_cfg.get("genre", genre),
-        theme_family=mission_cfg.get("theme_family", setting_package.get("theme_family", "base")),
-        environment_type=mission_cfg.get("environment_type", setting_package["environment_type"]),
-        threat_type=mission_cfg.get("threat_type", setting_package["threat_type"]),
-        tone=mission_cfg.get("tone", setting_package["tone"]),
-        twist=mission_cfg.get("twist", setting_package["twist"]),
-        narrative_mode=narrative_mode,
-        forbidden_elements=_forbidden,
-        narrative_blacklist=_narrative_bl,
-    )
-
-    # Genera il prologo con il contesto del canon (threads, premessa, zona iniziale)
-    starting_node = map_state.nodes.get(map_state.start_node_id)
-    starting_zone_name = starting_node.name if starting_node else mission_cfg.get("environment_type", "zona iniziale")
-    prologue_text = generate_prologue(
-        mission_title=mission_cfg.get("title", "Missione"),
-        mission_objective=mission_cfg.get("objective", "Obiettivo"),
-        genre=mission_cfg.get("genre", genre),
-        theme_family=mission_cfg.get("theme_family", setting_package.get("theme_family", "base")),
-        environment_type=mission_cfg.get("environment_type", setting_package["environment_type"]),
-        threat_type=mission_cfg.get("threat_type", setting_package["threat_type"]),
-        tone=mission_cfg.get("tone", setting_package["tone"]),
-        premise=canon.get("premise", ""),
-        active_threads=canon.get("active_threads", []),
-        starting_zone=starting_zone_name,
-        forbidden_elements=_forbidden,
-        narrative_blacklist=_narrative_bl,
-    )
-    canon = refine_story_canon_with_prologue(
-        canon=canon,
-        mission_title=mission_cfg.get("title", "Missione"),
-        mission_objective=mission_cfg.get("objective", "Obiettivo"),
-        environment_type=mission_cfg.get("environment_type", setting_package["environment_type"]),
-        threat_type=mission_cfg.get("threat_type", setting_package["threat_type"]),
-        twist=mission_cfg.get("twist", setting_package["twist"]),
-        prologue_text=prologue_text,
-    )
-
-    rename_map_nodes_with_canon(
-        map_state=map_state,
-        mission_title=mission_cfg.get("title", "Missione"),
-        mission_objective=mission_cfg.get("objective", "Obiettivo"),
-        genre=mission_cfg.get("genre", genre),
-        theme_family=mission_cfg.get("theme_family", setting_package.get("theme_family", "base")),
-        environment_type=mission_cfg.get("environment_type", setting_package["environment_type"]),
-        tone=mission_cfg.get("tone", setting_package["tone"]),
-        premise=canon.get("premise", ""),
-        active_threads=canon.get("active_threads", []),
-        named_entities=canon.get("named_entities", []),
-    )
-
-    # Override deterministico: il nodo obiettivo (e quando possibile l'estrazione)
-    # devono coincidere col luogo letterale citato dalla win_condition / key_items.
-    _align_map_to_canon(map_state, canon)
-
-    # Se c'è una bibbia PDF, usa i suoi NPC invece di generarne di procedurali
-    if adventure_bible and adventure_bible.get("npcs"):
-        bible_npcs = adventure_bible["npcs"]
-        valid_node_ids = list(map_state.nodes.keys())
-        non_start = [nid for nid in valid_node_ids if nid != map_state.start_node_id]
-        initial_npcs_raw = []
-        for i, n in enumerate(bible_npcs[:8]):
-            attitude = n.get("attitude", "neutral")
-            if attitude in ("hostile",):
-                threat = 3
-            elif attitude in ("suspicious",):
-                threat = 2
-            elif attitude in ("neutral",):
-                threat = 1
-            else:
-                threat = 0
-            node_id = non_start[i % len(non_start)] if non_start else valid_node_ids[0]
-            initial_npcs_raw.append({
-                "id": n.get("id", f"npc_{i}"),
-                "name": n.get("name", "Sconosciuto"),
-                "role": n.get("role", "neutrale"),
-                "current_node_id": node_id,
-                "status": n.get("status", "alive"),
-                "threat_to_player": threat,
-                "holds_clue_for": "",
-                "description": n.get("description", ""),
-                "attitude": attitude,
-                "secret": n.get("secret", ""),
-            })
-        initial_npcs = [WorldNPC(**n) for n in initial_npcs_raw]
-    else:
-        initial_npcs_raw = generate_initial_world_npcs(
-            map_state=map_state,
-            mission_title=mission_cfg.get("title", "Missione"),
-            mission_objective=mission_cfg.get("objective", "Obiettivo"),
-            genre=mission_cfg.get("genre", genre),
-            theme_family=mission_cfg.get("theme_family", setting_package.get("theme_family", "base")),
-            tone=mission_cfg.get("tone", setting_package["tone"]),
-            premise=canon.get("premise", ""),
-            hidden_truth=canon.get("hidden_truth", ""),
-            named_entities=canon.get("named_entities", []),
-            threads=canon.get("structured_threads", []),
-        )
-        initial_npcs = [WorldNPC(**n) for n in initial_npcs_raw]
-
-    custom_names = custom_names or {}
-    candidate_pool_dicts = [
-        {
-            "id": p.id,
-            "name": custom_names.get(p.id, p.name),
-            "role": p.role,
-            "archetype": p.archetype,
-            "stats": p.stats,
-            "skills": dict(p.skills),
-            "advantages": list(p.advantages),
-            "disadvantages": list(p.disadvantages),
-            "status": p.status,
-            "hp": p.hp,
-            "max_hp": p.max_hp,
-            "items": p.items,
-            "actions": [],
-        }
-        for p in current_state.team_setup.candidate_pool
-    ]
-    selected_candidates = [p for p in candidate_pool_dicts if p["id"] in selected_player_ids]
-    selected_candidates = generate_actions_for_selected_team(
-        selected_candidates,
-        scene_context=scene_cfg.get("scene_text", "Scena iniziale"),
-        scene_tags=scene_cfg.get("scene_tags", []),
-        genre=mission_cfg.get("genre", genre),
-    )
-
-    game = GameState(
-        turn=1,
-        log="Missione iniziata.",
-        scene_source=mission_package.get("source", "unknown"),
-        in_setup=False,
-        team_setup=TeamSetupState(
-            genre=genre,
-            active_slots=active_slots,
-            setup_complete=True,
-            selected_player_ids=selected_player_ids,
-            candidate_pool=current_state.team_setup.candidate_pool,
-            provider=current_state.team_setup.provider,
-        ),
-        mission=MissionState(
-            genre=mission_cfg.get("genre", genre),
-            theme_family=mission_cfg.get("theme_family", setting_package.get("theme_family", "base")),
-            mission_type=mission_cfg.get("mission_type", "ricognizione"),
-            title=mission_cfg.get("title", "Missione Sconosciuta"),
-            objective=mission_cfg.get("objective", "Portare a termine la missione."),
-            environment_type=mission_cfg.get("environment_type", setting_package["environment_type"]),
-            threat_type=mission_cfg.get("threat_type", setting_package["threat_type"]),
-            tone=mission_cfg.get("tone", setting_package["tone"]),
-            twist=mission_cfg.get("twist", setting_package["twist"]),
-            forbidden_elements=mission_cfg.get("forbidden_elements", setting_package.get("forbidden_elements", [])),
-            narrative_blacklist=setting_package.get("narrative_blacklist", []),
-            mission_progress=0,
-            mission_target=mission_cfg.get("mission_target", 3),
-            max_turns=999 if not _bible_has_time_pressure(adventure_bible) else mission_cfg.get("max_turns", 9),
-            goal_resolved=False,
-            completed=False,
-            failed=False,
-            ending_text="",
-        ),
-        phase=PhaseState(**phase_cfg),
-        scene=SceneState(
-            scene_text=prologue_text,
-            scene_problem=scene_cfg.get("scene_problem", ""),
-            scene_resolution=scene_cfg.get("scene_resolution", ""),
-            objective_progress=0,
-            objective_target=scene_cfg.get("objective_target", 4),
-            threat_level=scene_cfg.get("starting_threat", 1),
-            time_left=0 if not _bible_has_time_pressure(adventure_bible) else scene_cfg.get("time_limit", 4),
-            time_limit=0 if not _bible_has_time_pressure(adventure_bible) else scene_cfg.get("time_limit", 4),
-            scene_tags=scene_cfg.get("scene_tags", []),
-        ),
-        story=StoryState(
-            narrative_mode=canon.get("narrative_mode", narrative_mode),
-            premise=canon.get("premise", ""),
-            hidden_truth=canon.get("hidden_truth", ""),
-            hidden_truth_clues=canon.get("hidden_truth_clues", []),
-            hidden_truth_reveal_rule=canon.get("hidden_truth_reveal_rule", ""),
-            win_condition=canon.get("win_condition", ""),
-            active_threads=canon.get("active_threads", []),
-            threads=[
-                StoryThread(
-                    id=st["id"],
-                    question=st["question"],
-                    purpose=st.get("purpose", ""),
-                    required_clues=st["required_clues"],
-                    answer=st.get("answer", ""),
-                    clue_plan=st.get("clue_plan", []),
-                    reveal_rule=st.get("reveal_rule", ""),
-                    revealed=st.get("revealed", False),
-                    on_resolve_effect=st["on_resolve_effect"],
-                    parent_thread_ids=st["parent_thread_ids"],
-                )
-                for st in canon.get("structured_threads", [])
-            ],
-            named_entities=canon.get("named_entities", []),
-            key_entities=canon.get("key_entities", []),
-            key_items=canon.get("key_items", []),
-            event_log=[],
-        ),
-        map_state=map_state,
-        world_npcs=initial_npcs,
-        players=build_players_from_dicts(selected_candidates),
-        mission_memory=[],
-        selected_actions={},
-    )
-
-    # Genera la prima scena vera con scene_problem, scene_resolution e action_cards da Claude.
-    # Il mission_package ha solo scene_text di intro — qui otteniamo il pacchetto meccanico completo.
-    try:
-        initial_seed = build_scene_seed_with_canon(
-            mission=game.mission,
-            phase=game.phase,
-            scene=game.scene,
-            story=game.story,
-            map_state=game.map_state,
-            recent_actions="inizio missione",
-            recent_memory="",
-            current_statuses="tutti operativi",
-            current_wounds="nessuna ferita",
-            scene_result="inizio",
-            scene_transition="success",
-            world_npcs=game.world_npcs,
-        )
-        initial_package = generate_scene_package(initial_seed, active_slots=len(game.players))
-        initial_scene_cfg = initial_package.get("scene", {})
-        if initial_scene_cfg.get("scene_problem"):
-            game.scene.scene_problem = initial_scene_cfg["scene_problem"]
-        if initial_scene_cfg.get("scene_resolution"):
-            game.scene.scene_resolution = initial_scene_cfg["scene_resolution"]
-        initial_claude_actions = initial_scene_cfg.get("scene_actions") or None
-        apply_story_updates(game, initial_package.get("story_updates", {}))
-    except Exception as e:
-        print(f"[start_game] initial scene package fallback: {e}")
-        initial_claude_actions = None
-
-    refresh_scene_state(game, claude_scene_actions=initial_claude_actions)
-    return game
 
 
 def threat_penalty(threat: int) -> int:
@@ -3497,24 +3467,42 @@ def _resolve_action_roll(
         base_skill_level = player.skills[skill_name]
         skill_known = True
     else:
-        cardinal_stat = skill_stat(skill_name) if skill_name in SKILL_INFO else action.stat
-        attr_value = player.stats.get(cardinal_stat, 10)
-        penalty = skill_default_penalty(skill_name)
-        base_skill_level = attr_value - penalty
+        default_level = skill_default_level(skill_name, player.stats)
+        if default_level is None:
+            cardinal_stat = skill_stat(skill_name) if skill_name in SKILL_INFO else action.stat
+            default_level = min(player.stats.get(cardinal_stat, 10), 20) - 10
+        base_skill_level = default_level
         skill_known = False
 
     item_bonus = 1 if action.requires_item else 0
     status_malus = status_penalty(player.status)
     threat_malus = threat_penalty(state.scene.threat_level)
     difficulty = action.difficulty
-    adv_bonus = (
-        advantage_skill_bonus(player.advantages + player.disadvantages, skill_name)
-        + advantage_effect_type_bonus(player.advantages + player.disadvantages, action.effect_type)
-        + advantage_combat_penalty(player.disadvantages)
-    )
+    all_traits = player.advantages + player.disadvantages
+    adv_detail = advantage_breakdown(all_traits, skill_name, action.effect_type)
+    adv_bonus = sum(t["delta"] for t in adv_detail)
+    environmental_trait_detail = []
+    if any(t in {"buio", "oscurita", "oscurità"} for t in (state.scene.scene_tags or [])):
+        nv_reduction = min(difficulty, advantage_night_vision(all_traits))
+        if nv_reduction:
+            difficulty -= nv_reduction
+            environmental_trait_detail.append({"name": "Visione Notturna", "delta": nv_reduction})
+    if any(root in action_text_for_tags.lower() for root in ("risch", "azzard", "spericol", "mi lancio", "carico")):
+        reckless = advantage_reckless_bonus(all_traits)
+        if reckless:
+            adv_bonus += reckless
+            adv_detail.append({"name": "Spericolato", "delta": reckless})
 
     effective_skill = base_skill_level + item_bonus + adv_bonus + coordination_bonus - difficulty - status_malus - threat_malus
     margin = effective_skill - roll
+    luck_detail = None
+    if advantage_luck_rerolls(player.advantages) > 0 and margin < 0:
+        extra_rolls = [sum(random.randint(1, 6) for _ in range(3)) for _ in range(2)]
+        best_roll = min([roll, *extra_rolls])
+        if best_roll < roll:
+            luck_detail = {"trait": "Fortuna", "original_roll": roll, "extra_rolls": extra_rolls, "chosen_roll": best_roll}
+            roll = best_roll
+            margin = effective_skill - roll
 
     if (
         roll <= 4
@@ -3567,10 +3555,76 @@ def _resolve_action_roll(
         "difficulty": difficulty,
         "item_bonus": item_bonus,
         "adv_bonus": adv_bonus,
+        "adv_breakdown": adv_detail,
+        "environmental_trait_modifiers": environmental_trait_detail,
+        "luck": luck_detail,
         "coordination_bonus": coordination_bonus,
         "scene_gate_note": scene_gate_note,
         "total": margin,
     }
+
+
+COMBAT_SKILLS = {"combattere", "mira", "lottare", "lanciare"}
+PASSIVE_INTENTS = {"investigation", "observation", "technical", "medical", "social", "stealth", "survival", "generic"}
+
+INTENT_ALLOWED_SKILLS: dict[str, list[str]] = {
+    "combat": ["combattere", "mira", "lottare", "lanciare", "proteggere", "schivare", "strategia", "intimidire"],
+    "investigation": ["investigare", "osservare", "analizzare", "decifrare", "cultura", "scienze", "occultismo", "seguire_tracce", "intuire"],
+    "observation": ["osservare", "investigare", "seguire_tracce", "intuire", "analizzare"],
+    "technical": ["tecnologia", "meccanica", "elettronica", "informatica", "ingegneria", "scassinare", "manualita", "forzare", "decifrare"],
+    "medical": ["curare", "medicina", "biologia", "calmare"],
+    "social": ["persuadere", "comunicare", "interrogare", "ingannare", "intuire", "calmare", "intimidire", "etichetta"],
+    "stealth": ["furtivita", "infiltrarsi", "mimetizzare", "pedinare", "rapidita", "acrobazia", "schivare"],
+    "force": ["forzare", "demolire", "sollevare", "trasportare", "arrampicarsi", "manualita"],
+    "survival": ["sopravvivere", "sopravvivenza_urbana", "navigare", "seguire_tracce", "resistere", "nuotare"],
+    "generic": ["osservare", "investigare", "intuire", "sopravvivere"],
+}
+
+_INTENT_PATTERNS: list[tuple[str, tuple[str, ...]]] = [
+    ("combat", ("attacc", "combatt", "spar", "colp", "uccid", "abbatt", "trafigg", "pugnal", "lott", "spara", "arco", "fucile")),
+    ("medical", ("cur", "medic", "stabilizz", "soccorr", "ferit", "bend", "diagnos")),
+    ("technical", ("hacker", "ripar", "computer", "serratur", "lucchett", "scassin", "grimald", "meccan", "elettron", "consol", "terminale", "disattiv")),
+    ("stealth", ("furtiv", "nascond", "silenz", "ombra", "intrufol", "aggir", "evit", "scapp", "fugg", "ritirat")),
+    ("social", ("parl", "convinc", "persuad", "interrog", "negozi", "ingann", "ment", "bluff", "calm", "intimid", "minacc")),
+    ("force", ("sfond", "romp", "forz", "sping", "sollev", "trascin", "demol", "aprire a forza")),
+    ("investigation", ("investig", "indizio", "cerc", "esamin", "analizz", "stud", "decifr", "leggo", "traduc", "capire", "ricostru")),
+    ("observation", ("osserv", "guardo", "guard", "not", "ascolt", "ispezion", "sorvegli", "scrut")),
+    ("survival", ("orient", "sopravviv", "tracce", "seguire tracce", "navig", "resist", "nuot")),
+]
+
+
+def classify_action_intent(action_text: str, scene_tags: list[str] | None = None) -> dict:
+    """Classifica l'intento prima di scegliere la skill: niente fallback globale sulla skill migliore."""
+    text = (action_text or "").lower()
+    tokens = re.sub(r"[^a-zàèéìòù ]", " ", text).split()
+    matched = []
+    for intent, roots in _INTENT_PATTERNS:
+        if any(root in text or any(tok.startswith(root) for tok in tokens) for root in roots):
+            matched.append(intent)
+    # Le azioni passive vincono sul contesto: osservare in combattimento resta osservare.
+    for intent in ("medical", "technical", "stealth", "social", "investigation", "observation", "survival", "force", "combat"):
+        if intent in matched:
+            chosen = intent
+            break
+    else:
+        chosen = "generic"
+
+    allowed = list(INTENT_ALLOWED_SKILLS.get(chosen, INTENT_ALLOWED_SKILLS["generic"]))
+    if chosen != "combat":
+        allowed = [s for s in allowed if s not in COMBAT_SKILLS]
+    return {
+        "intent": chosen,
+        "matched_intents": matched,
+        "allowed_skills": allowed,
+        "is_passive": chosen in PASSIVE_INTENTS,
+    }
+
+
+def _select_intent_default_skill(intent: str, allowed_skills: list[str], skills: dict) -> tuple[str, bool]:
+    for skill in allowed_skills:
+        if skill in skills:
+            return skill, True
+    return (allowed_skills[0] if allowed_skills else "osservare"), False
 
 
 def roll_for_player_action(player_dict: dict, action_text: str, threat_level: int = 1, scene_tags: list[str] | None = None) -> dict:
@@ -3578,31 +3632,7 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
     Applica: skill (conosciuta o default), bonus vantaggi/svantaggi, malus stato,
     malus minaccia, bonus oggetto, difficoltà situazionale da tag scena.
     Usato da master_turn_bible_endpoint per popolare last_roll_details."""
-    tokens = re.sub(r"[^a-zàèéìòù ]", " ", action_text.lower()).split()
     scene_tags = scene_tags or []
-
-    skill_map = [
-        ("investigare", {"investig", "indizio", "cercar", "esamin", "analiz", "ispezion", "ricostru"}),
-        ("osservare", {"osserv", "notar", "veder", "scans", "guardar", "sorvegli"}),
-        ("combattere", {"combatt", "spar", "attacc", "colpir", "abbatter"}),
-        ("mira", {"cecchin", "colpo precis", "mirare"}),
-        ("medicina", {"medic", "diagnos", "curar", "ferit", "soccorr"}),
-        ("tecnologia", {"hacker", "tecno", "sistema", "ripar", "computer", "elettr"}),
-        ("scienze", {"scient", "chimic", "fisic", "biolog", "laborat"}),
-        ("persuadere", {"persuad", "convinc", "negozi", "parlar", "tratt"}),
-        ("ingannare", {"ingann", "ment", "bluff", "fing", "depist"}),
-        ("intuire", {"intuir", "capire", "emozion", "intenzion", "sentir"}),
-        ("intimidire", {"intimid", "minacc", "pression", "spavent"}),
-        ("calmare", {"calmar", "tranquill", "panico", "rassicar"}),
-        ("comandare", {"comand", "ordine", "guidar", "coordin", "leader"}),
-        ("strategia", {"strateg", "piano", "tattic"}),
-        ("forzare", {"forzar", "sfond", "romper", "aprir"}),
-        ("furtivita", {"furtiv", "silenz", "ombra", "nascost", "intrufol", "sgattaiol"}),
-        ("infiltrarsi", {"infiltr", "aggirar", "superar"}),
-        ("acrobazia", {"salt", "arramp", "equilibr", "acrob", "scalare"}),
-        ("scassinare", {"scassin", "grimald", "serratur", "lucchett"}),
-        ("pedinare", {"pedin", "seguire", "apostar", "sorvegli"}),
-    ]
     skills: dict = player_dict.get("skills") or {}
     stats: dict = player_dict.get("stats") or {}
     advantages: list = player_dict.get("advantages") or []
@@ -3610,30 +3640,55 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
     items: list = player_dict.get("items") or []
 
     # ── Inferisci skill ──────────────────────────────────────────────────────
-    chosen_skill = ""
-    for candidate, roots in skill_map:
-        if any(any(tok.startswith(root) for tok in tokens) for root in roots):
-            chosen_skill = candidate
-            break
+    resolver_context = {
+        "scene_type": " ".join(str(t) for t in scene_tags),
+        "location_tags": scene_tags,
+        "genre": player_dict.get("genre") or player_dict.get("setting") or "",
+        "target_type": "",
+        "threat_level": threat_level,
+        "combat_active": bool(player_dict.get("combat_active") or player_dict.get("in_combat")),
+        "active_objective": player_dict.get("active_objective") or "",
+        "npc_role": player_dict.get("target_npc_role") or "",
+    }
+    if isinstance(player_dict.get("action_context"), dict):
+        resolver_context.update(player_dict["action_context"])
+    action_resolution = resolve_action_skill(action_text, resolver_context, skills)
+    chosen_skill = action_resolution["selected_skill"]
+    semantic_intent = action_resolution.get("intent", "investigate")
+    intent = "observation" if semantic_intent == "observe" else semantic_intent
+    valid_candidates = [c for c in action_resolution.get("candidate_skills", []) if not c.get("rejected")]
+    intent_info = {
+        "intent": intent,
+        "matched_intents": [
+            k for k, v in sorted(
+                (action_resolution.get("intent_data") or {}).get("intent_scores", {}).items(),
+                key=lambda item: item[1],
+                reverse=True,
+            )
+            if v > 0
+        ][:5],
+        "allowed_skills": [c["skill"] for c in valid_candidates] or [chosen_skill],
+        "is_passive": semantic_intent not in {"combat_melee", "combat_ranged"},
+        "interaction_mode": action_resolution.get("interaction_mode"),
+        "target_type": action_resolution.get("target_type"),
+        "confidence": action_resolution.get("confidence"),
+    }
 
     skill_known = False
+    fallback_reason = "semantic_low_confidence" if action_resolution.get("confidence", 1.0) < 0.45 else ""
     if chosen_skill and chosen_skill in skills:
         base_skill_level = skills[chosen_skill]
         skill_known = True
     elif chosen_skill:
-        cardinal = skill_stat(chosen_skill) if chosen_skill in SKILL_INFO else "intelligenza"
-        attr_val = stats.get(cardinal, 10)
-        penalty = skill_default_penalty(chosen_skill)
-        base_skill_level = attr_val - penalty
+        default_level = skill_default_level(chosen_skill, stats)
+        if default_level is None:
+            cardinal = skill_stat(chosen_skill) if chosen_skill in SKILL_INFO else "intelligenza"
+            default_level = min(stats.get(cardinal, 10), 20) - 10
+        base_skill_level = default_level
     else:
-        # Nessuna skill dal testo → best skill posseduta
-        if skills:
-            best = max(skills.items(), key=lambda x: x[1])
-            chosen_skill, base_skill_level = best
-            skill_known = True
-        else:
-            chosen_skill = "investigare"
-            base_skill_level = stats.get("intelligenza", 10) - 2
+        chosen_skill = "investigare"
+        fallback_reason = "fallback_sicuro"
+        base_skill_level = skill_default_level(chosen_skill, stats) or (min(stats.get("intelligenza", 10), 20) - 5)
 
     # ── Bonus/malus vantaggi e svantaggi ─────────────────────────────────────
     effect_type = SKILL_TO_EFFECT_TYPE.get(chosen_skill, chosen_skill)
@@ -3659,6 +3714,17 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
         difficulty += 2
     if any(t in medium_tags for t in scene_tags):
         difficulty += 1
+    environmental_trait_detail = []
+    if any(t in {"buio", "oscurita", "oscurità"} for t in scene_tags):
+        nv_reduction = min(difficulty, advantage_night_vision(all_traits))
+        if nv_reduction:
+            difficulty -= nv_reduction
+            environmental_trait_detail.append({"name": "Visione Notturna", "delta": nv_reduction})
+    if any(root in action_text.lower() for root in ("risch", "azzard", "spericol", "mi lancio", "carico")):
+        reckless = advantage_reckless_bonus(all_traits)
+        if reckless:
+            adv_bonus += reckless
+            adv_detail.append({"name": "Spericolato", "delta": reckless})
 
     # ── Malus stato personaggio e minaccia ───────────────────────────────────
     status_malus = status_penalty(player_dict.get("status", "ok"))
@@ -3668,6 +3734,18 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
     effective_skill = base_skill_level + item_bonus + adv_bonus - difficulty - status_malus - threat_malus
     roll = sum(random.randint(1, 6) for _ in range(3))
     margin = effective_skill - roll
+    luck_detail = None
+
+    # Fortuna: nel motore narrativo automatico la usiamo come rete di sicurezza
+    # sul primo tiro fallito. La gestione "una volta per sessione" richiede
+    # tracking persistente dedicato; qui esponiamo il dettaglio nel risultato.
+    if advantage_luck_rerolls(advantages) > 0 and margin < 0:
+        extra_rolls = [sum(random.randint(1, 6) for _ in range(3)) for _ in range(2)]
+        best_roll = min([roll, *extra_rolls])
+        if best_roll < roll:
+            luck_detail = {"trait": "Fortuna", "original_roll": roll, "extra_rolls": extra_rolls, "chosen_roll": best_roll}
+            roll = best_roll
+            margin = effective_skill - roll
 
     # Outcome GURPS Lite (usa base_skill_level per soglie critiche, come RAW)
     if roll <= 4 or (roll == 5 and base_skill_level >= 15) or (roll == 6 and base_skill_level >= 16) or margin >= 10:
@@ -3694,11 +3772,24 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
         "margin": margin,
         "rolled": roll,
         "skill": chosen_skill,
+        "intent": intent,
+        "action_resolution": action_resolution,
+        "intent_classification": intent_info,
+        "allowed_skills": list(intent_info["allowed_skills"]),
+        "fallback_reason": fallback_reason,
+        "non_combat_action": semantic_intent not in {"combat_melee", "combat_ranged"},
+        "skill_confidence": action_resolution.get("confidence"),
+        "candidate_skills": action_resolution.get("candidate_skills", []),
+        "rejected_skill_candidates": action_resolution.get("rejected_candidates", []),
+        "interaction_mode": action_resolution.get("interaction_mode"),
+        "target_type": action_resolution.get("target_type"),
         "skill_known": skill_known,
         "base_skill": base_skill_level,
         "item_bonus": item_bonus,
         "adv_bonus": adv_bonus,
         "adv_breakdown": adv_detail,
+        "environmental_trait_modifiers": environmental_trait_detail,
+        "luck": luck_detail,
         "coord_bonus": 0,
         "difficulty": difficulty,
         "status_malus": status_malus,
@@ -4032,12 +4123,31 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
     terrain = dict(tactical_context.get("terrain") or {})
     cols = int(tactical_context.get("cols") or 15)
     rows = int(tactical_context.get("rows") or 10)
-    for enemy in alive_enemies:
-        # Bersaglio: giocatore con meno HP (il più in pericolo)
-        target = min(alive_players, key=lambda p: p.hp)
+    current_node = None
+    try:
+        current_node = state.map_state.nodes.get(state.map_state.current_node_id) if state.map_state else None
+    except Exception:
+        current_node = None
+    tactical = getattr(current_node, "tactical_map", None) or {}
+    role = str(tactical.get("role") or tactical.get("purpose") or "").lower()
+    is_final = bool(getattr(current_node, "is_final", False) or getattr(current_node, "is_objective", False) or "final" in role)
+    enemies_acting = alive_enemies if is_final else alive_enemies[:max(1, min(len(alive_enemies), len(alive_players)))]
+    for enemy in enemies_acting:
         enemy_key = f"e_{enemy.id}"
-        target_key = f"p_{target.id}"
         enemy_pos = positions.get(enemy_key)
+        # Bersaglio tattico: il più vicino; a parità, quello con meno HP.
+        # Senza snapshot mappa resta il comportamento precedente.
+        if positions and enemy_pos:
+            target = min(
+                alive_players,
+                key=lambda p: (
+                    _tactical_hex_distance(enemy_pos, positions.get(f"p_{p.id}")),
+                    p.hp,
+                ),
+            )
+        else:
+            target = min(alive_players, key=lambda p: p.hp)
+        target_key = f"p_{target.id}"
         target_pos = positions.get(target_key)
         attack_range = _npc_attack_range(enemy)
         distance = _tactical_hex_distance(enemy_pos, target_pos) if positions else 1
@@ -4931,6 +5041,9 @@ def resolve_actions(
             "base_skill": base_skill_level,
             "item_bonus": item_bonus,
             "adv_bonus": adv_bonus,
+            "adv_breakdown": roll_result.get("adv_breakdown", []),
+            "environmental_trait_modifiers": roll_result.get("environmental_trait_modifiers", []),
+            "luck": roll_result.get("luck"),
             "coord_bonus": coord_bonus,
             "difficulty": difficulty,
             "status_malus": status_malus,
@@ -5280,85 +5393,10 @@ def _player_context_dicts(players: list[Player]) -> list[dict]:
         {
             "id": p.id, "name": p.name, "role": p.role, "archetype": p.archetype,
             "stats": p.stats, "status": p.status,
+            "skills": p.skills, "advantages": p.advantages, "disadvantages": p.disadvantages,
             "hp": p.hp, "max_hp": p.max_hp, "items": p.items, "actions": [],
+            "backstory": p.backstory, "motivation": p.motivation,
         }
         for p in players
     ]
 
-
-def advance_to_node(state: GameState, node_id: str) -> GameState:
-    """Sposta la squadra al nodo scelto e genera la nuova scena."""
-    if not state.pending_movement or not state.map_state:
-        return state
-    if node_id not in state.movement_options:
-        return state
-
-    state.map_state.current_node_id = node_id
-    state.map_state.nodes[node_id].visited = True
-    state.pending_movement = False
-    state.movement_options = []
-
-    current_node = state.map_state.nodes[node_id]
-    if current_node.is_objective and not state.mission.goal_resolved:
-        state.mission.goal_resolved = True
-        append_unique(state.story.resolved_threads, [f"Obiettivo della missione → La squadra raggiunge {current_node.name} e può completare: {state.mission.objective}"])
-    update_phase(state)
-
-    current_statuses = ", ".join([f"{p.name}:{p.status}" for p in state.players])
-    current_wounds = ", ".join([f"{p.name}:{p.hp}/{p.max_hp}HP" for p in state.players])
-    recent_memory = " || ".join(state.mission_memory)
-
-    next_seed = build_scene_seed_with_canon(
-        mission=state.mission,
-        phase=state.phase,
-        scene=state.scene,
-        story=state.story,
-        map_state=state.map_state,
-        recent_actions=f"spostamento a {current_node.name}",
-        effect_summary="",
-        story_hints=[],
-        recent_memory=recent_memory,
-        current_statuses=current_statuses,
-        current_wounds=current_wounds,
-        scene_result="movimento completato — nuova zona",
-        scene_transition="success",
-        previous_node_name=None,
-        previous_node_description=current_node.description,
-        world_npcs=state.world_npcs,
-    )
-
-    package = generate_scene_package(
-        next_seed,
-        active_slots=len(state.players),
-        action_results_summary=f"Spostamento verso {current_node.name}.",
-    )
-    state.scene_source = package.get("source", "unknown")
-    apply_story_updates(state, package.get("story_updates", {}))
-
-    updated_players = generate_actions_for_selected_team(
-        _player_context_dicts(state.players),
-        scene_context=package.get("scene", {}).get("scene_text", "Nuova zona."),
-        scene_tags=package.get("scene", {}).get("scene_tags", []),
-        genre=state.mission.genre if state.mission else "",
-    )
-    state.players = build_players_from_dicts(updated_players, previous_players=state.players)
-
-    scene_cfg = package.get("scene", {})
-    claude_scene_actions = scene_cfg.get("scene_actions") or None
-    _prev_tl = state.scene.time_limit if state.scene else 4
-    _new_time = scene_cfg.get("time_limit", 4) if _prev_tl > 0 else 0
-    state.scene = SceneState(
-        scene_text=scene_cfg.get("scene_text", "La squadra avanza."),
-        scene_problem=scene_cfg.get("scene_problem", ""),
-        scene_resolution=scene_cfg.get("scene_resolution", ""),
-        objective_progress=0,
-        objective_target=scene_cfg.get("objective_target", 4),
-        threat_level=scene_cfg.get("starting_threat", 1),
-        time_left=_new_time,
-        time_limit=_new_time,
-        scene_tags=scene_cfg.get("scene_tags", []),
-    )
-    refresh_scene_state(state, claude_scene_actions=claude_scene_actions)
-    state.last_roll_details = per_player_outcomes
-    state.selected_actions = {}
-    return state

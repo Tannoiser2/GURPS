@@ -1,28 +1,35 @@
 from dotenv import load_dotenv
 load_dotenv(override=True)
+from datetime import datetime, timezone
+import json
 import os
 import random
-from fastapi import FastAPI, UploadFile, File, Form
+import re
+from pathlib import Path
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import io
-from .engine import empty_game_state, prepare_team_setup, start_game_from_selection, advance_to_node, preview_action_outcomes, initiate_combat_action, declare_defense, resolve_reaction_roll, roll_for_player_action, npc_combat_turn, build_players_from_dicts
+from .engine import empty_game_state, prepare_team_setup, start_game_from_selection, preview_action_outcomes, initiate_combat_action, declare_defense, resolve_reaction_roll, roll_for_player_action, npc_combat_turn, build_players_from_dicts, apply_story_updates
 from .combat import attempt_stun_recovery, stand_up
 from .character_creation import validate_draft, build_custom_player
 from .claude_service import (
-    generate_scene_image, generate_character_avatar, generate_npc_avatar, generate_map_tile_image,
-    generate_strategic_map_image, generate_tactical_map_image, narrate_combat_result,
+    generate_scene_image, generate_character_avatar, generate_npc_avatar,
+    generate_tactical_map_image, narrate_combat_result,
     set_active_provider,
-    master_turn_with_bible, master_start_with_bible, create_adventure,
+    master_turn_with_bible, create_adventure,
     generate_character_from_description, enrich_character_with_backstory,
     evaluate_personal_victories,
     _GOOGLE_GENAI_AVAILABLE, _GOOGLE_GENAI_IMPORT_ERROR,
     _OPENAI_AVAILABLE, _OPENAI_IMPORT_ERROR, OPENAI_API_KEY,
+    compile_adventure_to_runtime,
 )
 from . import claude_service
-from .claude_service import create_adventure_from_pdf_text
 from .data_genres import GENRE_PACKS
 from .models import GameState, CombatDefenseRequest, CharacterDraft, SceneEntity, SceneState
+from .runtime_models import AdventureDefinition, AdventureRuntimeState
+from .adventure_runtime_store import list_runtimes, load_runtime, save_runtime, update_runtime
+from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to_runtime
 
 app = FastAPI()
 app.add_middleware(
@@ -33,8 +40,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 game_state: GameState = empty_game_state()
-tile_image_cache: dict[str, str] = {}
-strategic_map_image_cache: str | None = None
+tactical_map_image_cache: dict[str, str] = {}
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "compiled_adventures"
 
 
 def _ensure_runtime_scene(scene_text: str = "") -> None:
@@ -42,6 +50,70 @@ def _ensure_runtime_scene(scene_text: str = "") -> None:
         game_state.scene = SceneState(scene_text=scene_text or "Scena in corso.")
     elif scene_text:
         game_state.scene.scene_text = scene_text
+
+
+def _safe_file_stem(value: str, fallback: str = "avventura") -> str:
+    stem = Path(value or fallback).stem or fallback
+    stem = re.sub(r"[^A-Za-z0-9._-]+", "-", stem).strip("-._")
+    return stem[:80] or fallback
+
+
+def _without_embedded_images(value):
+    if isinstance(value, dict):
+        cleaned = {}
+        for key, item in value.items():
+            if key in {"map_image_b64", "image_b64", "image_base64"}:
+                cleaned[key] = f"<omessa: base64 {len(item) if isinstance(item, str) else 0} caratteri>"
+            else:
+                cleaned[key] = _without_embedded_images(item)
+        return cleaned
+    if isinstance(value, list):
+        return [_without_embedded_images(item) for item in value]
+    return value
+
+
+def _save_pdf_compilation_json(
+    *,
+    source_filename: str,
+    requested_genre: str,
+    provider: str,
+    map_page: str,
+    total_pages: int,
+    text_pages: list[str],
+    raw_chars: int,
+    cleaned_pdf_text: str,
+    compiled_result: dict,
+) -> dict:
+    """Salva un export locale per audit PDF -> runtime. Best effort: non blocca il gioco."""
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    runtime_id = (
+        compiled_result.get("runtime_id")
+        or (compiled_result.get("adventure_definition") or {}).get("id")
+        or "runtime"
+    )
+    filename = f"{timestamp}-{_safe_file_stem(source_filename)}-{_safe_file_stem(runtime_id)}.json"
+    payload = {
+        "export_type": "gurps_pdf_compilation_debug",
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "source_pdf_filename": source_filename,
+        "requested_genre": requested_genre,
+        "provider": provider,
+        "map_page_requested": map_page,
+        "pdf_total_pages": total_pages,
+        "pdf_pages_read": len(text_pages),
+        "pdf_raw_extracted_chars": raw_chars,
+        "pdf_cleaned_chars": len(cleaned_pdf_text),
+        "pdf_cleaned_text": cleaned_pdf_text,
+        "compiled_adventure": _without_embedded_images(compiled_result),
+    }
+    PDF_COMPILATION_EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+    path = PDF_COMPILATION_EXPORT_DIR / filename
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {
+        "saved_json_path": str(path),
+        "saved_json_filename": filename,
+        "saved_json_relative_path": str(path.relative_to(PROJECT_ROOT)),
+    }
 
 
 def _sync_players_from_payload(players: list[dict]) -> None:
@@ -122,6 +194,193 @@ def _generate_npc_combat_stats(npc_role: str, threat: int) -> dict:
     }
 
 
+def _current_tactical_is_final() -> bool:
+    node = None
+    try:
+        node = game_state.map_state.nodes.get(game_state.map_state.current_node_id) if game_state.map_state else None
+    except Exception:
+        node = None
+    if not node:
+        return False
+    tactical = getattr(node, "tactical_map", None) or {}
+    role = str(tactical.get("role") or tactical.get("purpose") or "").lower()
+    return bool(getattr(node, "is_final", False) or getattr(node, "is_objective", False) or "final" in role)
+
+
+def _runtime_location_accessible(node_id: str) -> bool:
+    rt = getattr(game_state, "adventure_runtime_state", None)
+    if not rt or not node_id:
+        return True
+    entry = dict((rt.location_runtime or {}).get(node_id) or {})
+    access_state = str(entry.get("access_state") or "open").lower()
+    status = str(entry.get("status") or "known").lower()
+    if access_state in {"locked", "hidden", "blocked", "sealed", "restricted"}:
+        return False
+    if status in {"hidden", "locked"}:
+        return False
+    return True
+
+
+def _runtime_finale_available() -> bool:
+    rt = getattr(game_state, "adventure_runtime_state", None)
+    if not rt:
+        return True
+    statuses = [
+        str((entry or {}).get("status") or "locked").lower()
+        for entry in (rt.finale_runtime or {}).values()
+        if isinstance(entry, dict)
+    ]
+    if not statuses:
+        return True
+    return any(status in {"available", "satisfied"} for status in statuses)
+
+
+def _current_hot_node():
+    try:
+        node = game_state.map_state.nodes.get(game_state.map_state.current_node_id) if game_state.map_state else None
+    except Exception:
+        return None
+    if not node:
+        return None
+    if not _runtime_location_accessible(node.id):
+        return None
+    tactical = getattr(node, "tactical_map", None) or {}
+    enabled = bool(tactical.get("enabled") or getattr(node, "contains_enemy", False) or getattr(node, "is_final", False) or getattr(node, "is_objective", False))
+    role = str(tactical.get("role") or tactical.get("purpose") or "").lower()
+    if enabled and (getattr(node, "is_final", False) or getattr(node, "is_objective", False) or "final" in role) and not _runtime_finale_available():
+        return None
+    return node if enabled else None
+
+
+def _action_triggers_tactical_combat(action_text: str, node) -> bool:
+    if not node:
+        return False
+    tactical = getattr(node, "tactical_map", None) or {}
+    role = str(tactical.get("role") or "").lower()
+    text = str(action_text or "").lower()
+    trigger = str(tactical.get("trigger") or "").lower()
+    trigger_words = {
+        "attacco", "attacca", "combatto", "scontro", "confronto", "assalto",
+        "entro", "entra", "avanza", "avanzo", "sposta", "raggiunge", "verso",
+        "forzo", "sfondo", "inseguo", "fuga", "scappo", "irrompo", "apro",
+    }
+    text_hit = any(word in text for word in trigger_words)
+    trigger_hit = any(word in trigger for word in ["scontro", "confronto", "assalto", "fuga", "agguato", "combatt"])
+    final_or_enemy = bool(getattr(node, "is_final", False) or getattr(node, "contains_enemy", False) or "final" in role or role in {"hot_zone", "boss", "combat"})
+    if final_or_enemy and (getattr(node, "is_final", False) or getattr(node, "is_objective", False) or "final" in role) and not _runtime_finale_available():
+        return False
+    return bool(final_or_enemy and (text_hit or trigger_hit))
+
+
+def _forced_combat_entities_for_node(node) -> list[dict]:
+    npcs_here = [
+        npc for npc in game_state.world_npcs
+        if npc.status == "alive"
+        and npc.current_node_id == node.id
+        and (
+            npc.threat_to_player > 0
+            or any(word in npc.role.lower() for word in ["antagon", "ostile", "guard", "soldat", "nemic"])
+        )
+    ]
+    if not npcs_here:
+        npcs_here = [
+            npc for npc in game_state.world_npcs
+            if npc.status == "alive"
+            and (
+                npc.threat_to_player >= 2
+                or any(word in npc.role.lower() for word in ["antagon", "ostile", "guard", "soldat", "nemic"])
+            )
+        ][:2]
+
+    entities = []
+    for idx, npc in enumerate(npcs_here[:3], start=1):
+        stats = _generate_npc_combat_stats(npc.role, npc.threat_to_player)
+        entities.append({
+            "id": npc.id or f"enemy_{idx}",
+            "name": npc.name,
+            "type": "enemy",
+            "zone": "centro",
+            **stats,
+        })
+    if not entities:
+        tactical = getattr(node, "tactical_map", None) or {}
+        role = str(tactical.get("role") or "").lower()
+        name = "Guardia della zona calda" if "final" not in role else "Difensore finale"
+        stats = _generate_npc_combat_stats("guardia veterana" if "final" in role else "guardia", 2 if "final" in role else 1)
+        entities.append({
+            "id": f"enemy_{node.id}",
+            "name": name,
+            "type": "enemy",
+            "zone": "centro",
+            **stats,
+        })
+    return entities
+
+
+def _force_hot_zone_combat_update(updates: dict, player_action: str) -> dict:
+    su = dict(updates or {})
+    if su.get("activate_combat") or su.get("combat_over") or su.get("story_over"):
+        return su
+    node = _current_hot_node()
+    if not _action_triggers_tactical_combat(player_action, node):
+        return su
+    tactical = getattr(node, "tactical_map", None) or {}
+    entities = _forced_combat_entities_for_node(node)
+    su["activate_combat"] = True
+    su["combat_scene"] = {
+        "location_id": node.id,
+        "location_name": node.name,
+        "location_type": node.kind or "zona tattica",
+        "scene_text": (
+            f"La zona calda di {node.name} scatta: {tactical.get('trigger') or 'il confronto diretto non puo piu essere evitato'}."
+        ),
+        "role": tactical.get("role") or ("finale" if getattr(node, "is_final", False) else "hot_zone"),
+        "layout": tactical.get("layout") or "room",
+        "features": list(tactical.get("features") or []),
+        "hazards": list(tactical.get("hazards") or []),
+        "entities": entities,
+        "forced_by_hot_zone": True,
+    }
+    su["threat_increase"] = max(0, int(su.get("threat_increase") or 0))
+    su.setdefault("flags", {})
+    if isinstance(su["flags"], dict):
+        su["flags"]["hot_zone_triggered"] = node.id
+    return su
+
+
+def _safe_int(value, fallback: int) -> int:
+    try:
+        return int(value)
+    except Exception:
+        return fallback
+
+
+def _balance_combat_entities(entities: list[dict], combat_scene: dict | None = None) -> list[dict]:
+    """Applica un paracadute agli scontri non finali: pochi nemici, leggibili, con via d'uscita."""
+    if not entities:
+        return entities
+    player_count = max(1, len([p for p in game_state.players if getattr(p, "hp", 1) > 0]) or len(game_state.players) or 1)
+    is_final = _current_tactical_is_final()
+    max_enemies = player_count + 2 if is_final else max(1, min(3, player_count))
+    balanced: list[dict] = []
+    for raw in entities[:max_enemies]:
+        entity = dict(raw)
+        if not is_final:
+            hp = min(_safe_int(entity.get("hp", entity.get("max_hp", 10)), 10), 11)
+            max_hp = min(_safe_int(entity.get("max_hp", hp), hp), 11)
+            entity["hp"] = min(hp, max_hp)
+            entity["max_hp"] = max_hp
+            entity["dr"] = min(_safe_int(entity.get("dr", 0), 0), 1)
+            entity["attack_skill"] = min(_safe_int(entity.get("attack_skill", 10), 10), 11)
+            entity["active_defense"] = min(_safe_int(entity.get("active_defense", 8), 8), 9)
+            dmg = str(entity.get("damage_dice") or "1d6")
+            if dmg.startswith("2d") or dmg.startswith("3d"):
+                entity["damage_dice"] = "1d6"
+            entity.setdefault("morale", "si ritira se ferito o se il gruppo apre una via di fuga")
+        balanced.append(entity)
+    return balanced
+
+
 def _enrich_combat_scene(combat_scene: dict | None) -> dict | None:
     """
     Arricchisce combat_scene con stat GURPS persistenti dai WorldNPC.
@@ -166,7 +425,11 @@ def _enrich_combat_scene(combat_scene: dict | None) -> dict | None:
         # Se non c'è match in world_npcs lascia le stat di Claude (o i default del modello)
         enriched.append(entity)
 
-    return {**combat_scene, "entities": enriched}
+    enriched = _balance_combat_entities(enriched, combat_scene)
+    next_scene = {**combat_scene, "entities": enriched}
+    if not _current_tactical_is_final():
+        next_scene.setdefault("escape_routes", ["ritirata ordinata verso la stanza precedente", "forzare un varco laterale con un costo di minaccia"])
+    return next_scene
 
 
 def _persist_combat_scene(combat_scene: dict | None) -> None:
@@ -250,12 +513,6 @@ class AvatarGenPayload(BaseModel):
     name: str = ""
     description: str = ""
 
-class TileImagePayload(BaseModel):
-    node_id: str
-
-class MovePayload(BaseModel):
-    node_id: str
-
 class CombatAttackPayload(BaseModel):
     attacker_id: int
     action_name: str                    # nome dell'Action nel player.actions
@@ -291,6 +548,22 @@ class AdventureCreatePayload(BaseModel):
     genre: str
     players: list[dict]
 
+class AdventureCompilePayload(BaseModel):
+    source_type: str = "raw_text"
+    title: str = ""
+    content: str
+    genre_hint: str | None = None
+    runtime_profile_hint: str | None = None
+
+class RuntimeUpdatePayload(BaseModel):
+    adventure_definition: dict | None = None
+    runtime_state: dict | None = None
+    validation_report: dict | None = None
+
+class RuntimeStartPayload(BaseModel):
+    selected_player_ids: list[int] = []
+    custom_names: dict[int, str] = {}
+
 class MasterStartBiblePayload(BaseModel):
     genre: str
     players: list[dict]
@@ -307,22 +580,603 @@ class MasterTurnBiblePayload(BaseModel):
 
 @app.post("/game/adventure/create")
 def adventure_create(payload: AdventureCreatePayload):
-    """Genera la bibbia strutturata dell'avventura."""
-    return create_adventure(payload.genre, payload.players)
+    """Genera un'avventura e la ricompila subito nel runtime state-driven."""
+    raw = create_adventure(payload.genre, payload.players)
+    if raw.get("error"):
+        return raw
+    raw["source_mode"] = "ai_generated"
+    compiled = compile_from_raw_structure(
+        raw,
+        source_type="raw_text",
+        title=raw.get("title", "Avventura generata"),
+        genre_hint=payload.genre,
+    )
+    definition = compiled["adventure_definition"]
+    definition.legacy_adventure = definition.legacy_adventure or {}
+    runtime_state = compiled["runtime_state"]
+    saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+    result = dict(definition.legacy_adventure or {})
+    result.update({
+        "from_runtime_compiler": True,
+        "runtime_id": definition.id,
+        "adventure_definition": saved["adventure_definition"],
+        "runtime_state": saved["runtime_state"],
+        "validation_report": saved["validation_report"],
+    })
+    return result
+
+@app.post("/game/adventure/compile")
+def adventure_compile(payload: AdventureCompilePayload):
+    compiled = compile_adventure_to_runtime(
+        payload.content,
+        genre_hint=payload.genre_hint,
+        runtime_profile_hint=payload.runtime_profile_hint,
+        source_type=payload.source_type,
+        title=payload.title,
+    )
+    definition = AdventureDefinition(**compiled["adventure_definition"])
+    runtime_state = AdventureRuntimeState(**compiled["runtime_state"])
+    saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+    return saved
+
+@app.get("/game/adventure/runtime")
+def adventure_runtime_list():
+    return {"items": list_runtimes()}
+
+@app.get("/game/adventure/runtime/{runtime_id}")
+def adventure_runtime_get(runtime_id: str):
+    data = load_runtime(runtime_id)
+    if not data:
+        return {"error": "runtime non trovato"}
+    return data
+
+@app.get("/game/adventure/runtime/{runtime_id}/live-state")
+def adventure_live_state(runtime_id: str):
+    """Restituisce lo stato world salvato dell'ultima sessione di gioco."""
+    data = load_runtime(runtime_id)
+    if not data:
+        return {"live_game_state": None}
+    return {"live_game_state": data.get("live_game_state")}
+
+@app.post("/game/adventure/runtime/{runtime_id}/update")
+def adventure_runtime_update(runtime_id: str, payload: RuntimeUpdatePayload):
+    patch = {}
+    if payload.adventure_definition is not None:
+        patch["adventure_definition"] = payload.adventure_definition
+    if payload.runtime_state is not None:
+        patch["runtime_state"] = payload.runtime_state
+    if payload.validation_report is not None:
+        patch["validation_report"] = payload.validation_report
+    data = update_runtime(runtime_id, patch)
+    if not data:
+        return {"error": "runtime non trovato"}
+    return data
+
+@app.post("/game/adventure/runtime/{runtime_id}/start")
+def adventure_runtime_start(runtime_id: str, payload: RuntimeStartPayload | None = None):
+    global game_state, tactical_map_image_cache
+    data = load_runtime(runtime_id)
+    if not data:
+        return {"error": "runtime non trovato"}
+    definition = AdventureDefinition(**data["adventure_definition"])
+    runtime_state = AdventureRuntimeState(**data["runtime_state"])
+    legacy_adventure = definition.legacy_adventure or {}
+    if payload and payload.selected_player_ids:
+        compiled_payload = {
+            **legacy_adventure,
+            "adventure_definition": definition.model_dump(),
+            "runtime_state": runtime_state.model_dump(),
+        }
+        game_state = start_game_from_selection(game_state, payload.selected_player_ids, payload.custom_names, compiled_payload)
+    game_state.adventure_definition_id = definition.id
+    game_state.adventure_definition = definition
+    game_state.adventure_runtime_state = runtime_state
+    game_state.current_objective_ids = list(runtime_state.active_objective_ids)
+    game_state.active_revelation_ids = list(runtime_state.active_revelation_ids)
+    game_state.active_clock_ids = list(runtime_state.clock_runtime.keys())
+    game_state.active_pressure_ids = list(runtime_state.pressure_runtime.keys())
+    tactical_map_image_cache = {}
+    return {
+        "game_state": game_state.model_dump(),
+        "adventure": legacy_adventure,
+        "adventure_definition": definition.model_dump(),
+        "runtime_state": runtime_state.model_dump(),
+    }
+
+def _merge_game_state(current: dict, updates: dict) -> dict:
+    """Replica applyStateUpdates del frontend — produce lo stato world dopo un turno."""
+    new_clues = list({*(current.get("clues_found") or []), *(updates.get("clues_found") or [])})
+
+    progress = dict(current.get("clue_progress") or {})
+    for p in updates.get("clue_progress") or []:
+        cid = p.get("clue_id") or p.get("id")
+        if not cid or cid in new_clues:
+            continue
+        prev = progress.get(cid) or {"ticks": 0}
+        progress[cid] = {
+            "ticks": min(2, (prev.get("ticks") or 0) + (p.get("ticks") or 1)),
+            "note": p.get("note") or prev.get("note") or "",
+        }
+    for cid in new_clues:
+        progress.pop(cid, None)
+
+    npc_statuses = dict(current.get("npc_statuses") or {})
+    for u in updates.get("npc_updates") or []:
+        nid = u.get("id") or u.get("npc_id")
+        if nid:
+            npc_statuses[nid] = {**(npc_statuses.get(nid) or {}), **u, "id": nid}
+
+    resolved = list({
+        *(current.get("resolved_threads") or []),
+        *(updates.get("closed_threads") or []),
+        *(updates.get("thread_resolved") or []),
+    })
+    existing_threads = [
+        t for t in (current.get("open_threads") or [])
+        if t not in (updates.get("closed_threads") or [])
+    ]
+    in_combat = bool(updates.get("activate_combat")) or (
+        current.get("in_combat", False) and not updates.get("combat_over")
+    )
+    return {
+        **current,
+        "clues_found": new_clues,
+        "clue_progress": progress,
+        "npc_statuses": npc_statuses,
+        "threat_level": (current.get("threat_level") or 0) + (updates.get("threat_increase") or 0),
+        "open_threads": existing_threads,
+        "resolved_threads": resolved,
+        "turn": (current.get("turn") or 1) + 1,
+        "in_combat": in_combat,
+    }
+
+
+def _adventure_id(adventure: dict) -> str | None:
+    return (adventure or {}).get("id") or (adventure or {}).get("adventure_definition_id") or None
+
+
+_ENGLISH_MARKERS = {
+    " the ", " through ", " from ", " are ", " is ", " a ", " an ", " to ", " with ",
+    "recover", "bring", "hidden", "located", "castle", "tunnels", "jewels", "safety",
+}
+
+
+def _compact_text(value: str, limit: int = 220) -> str:
+    text = " ".join(str(value or "").replace("\n", " ").split())
+    return text[:limit].strip()
+
+
+def _looks_english(value: str) -> bool:
+    text = f" {str(value or '').lower()} "
+    if not text.strip():
+        return False
+    hits = sum(1 for marker in _ENGLISH_MARKERS if marker in text)
+    return hits >= 2
+
+
+def _italianize_common_text(value: str, fallback: str = "") -> str:
+    text = _compact_text(value, 260)
+    if not text:
+        return fallback
+    replacements = [
+        ("The PCs are fleeing from a crime boss through secret tunnels.", "I personaggi stanno fuggendo da un boss criminale attraverso una rete di tunnel segreti."),
+        ("Recover the Irish Crown Jewels", "Recuperare i Gioielli della Corona Irlandese"),
+        ("Bring the Jewels to Safety", "Portare i gioielli al sicuro"),
+        ("The Irish Crown Jewels are hidden on Speirling Island, located in an eternal fog bank.", "I Gioielli della Corona Irlandese sono nascosti sull'isola di Speirling, avvolta da un banco di nebbia eterno."),
+        ("The PCs", "I personaggi"),
+        ("PCs", "personaggi"),
+        ("are fleeing", "stanno fuggendo"),
+        ("from a crime boss", "da un boss criminale"),
+        ("through secret tunnels", "attraverso tunnel segreti"),
+        ("Recover", "Recuperare"),
+        ("Bring", "Portare"),
+        ("to Safety", "al sicuro"),
+        ("hidden on", "nascosti su"),
+        ("located in", "situata in"),
+        ("eternal fog bank", "banco di nebbia eterno"),
+        ("Castle Tunnels", "Tunnel del castello"),
+        ("University of Vienna", "Università di Vienna"),
+    ]
+    for src, dst in replacements:
+        text = text.replace(src, dst)
+    if _looks_english(text) and fallback:
+        return fallback
+    return text
+
+
+def _skill_for_option(text: str) -> str:
+    blob = text.lower()
+    if any(w in blob for w in ["parlare", "negoziare", "convincere", "interrogare", "testimone", "png"]):
+        return "negoziare"
+    if any(w in blob for w in ["forzare", "correre", "fuggire", "inseguire", "tunnel", "uscita"]):
+        return "atletica"
+    if any(w in blob for w in ["nascond", "silenz", "sorvegl", "passare inosservati"]):
+        return "furtività"
+    if any(w in blob for w in ["mappa", "rotta", "orient", "percorso", "isola"]):
+        return "sopravvivenza"
+    return "osservare"
+
+
+def _best_player_for_skill(players: list[dict], skill: str) -> tuple[int, int]:
+    best_id = players[0].get("id", 0) if players else 0
+    best_level = 0
+    for player in players or []:
+        level = int((player.get("skills") or {}).get(skill, 0) or 0)
+        if level > best_level:
+            best_id = player.get("id", best_id)
+            best_level = level
+    return best_id, best_level
+
+
+def _opening_context_from_definition(definition: AdventureDefinition) -> dict:
+    first_location = definition.locations[0] if definition.locations else None
+    second_location = definition.locations[1] if len(definition.locations) > 1 else None
+    first_clue = definition.clues[0] if definition.clues else None
+    first_actor = definition.actors[0] if definition.actors else None
+    objective = definition.objectives[0].label if definition.objectives else "Completare l'avventura"
+    premise = _italianize_common_text(definition.premise, "")
+    hook = _italianize_common_text(definition.initial_hook, "")
+    if not hook or len(hook) < 80:
+        loc_name = first_location.name if first_location else "la prima scena"
+        loc_desc = _italianize_common_text(first_location.description, "") if first_location else ""
+        clue_text = first_clue.label if first_clue else ""
+        actor_text = f" {first_actor.name} è già una presenza da tenere d'occhio." if first_actor else ""
+        hook = (
+            f"L'avventura si apre a {loc_name}. "
+            f"{loc_desc + ' ' if loc_desc else ''}"
+            f"La squadra ha un obiettivo concreto: {_italianize_common_text(objective, objective)}. "
+            f"Il primo appiglio è {clue_text}, ma va conquistato in scena prima che diventi una prova utile."
+            f"{actor_text}"
+        )
+    if premise and premise != hook:
+        opening = f"{premise} {hook}"
+    else:
+        opening = hook
+    if len(opening.split(".")) < 4:
+        next_place = second_location.name if second_location else (first_location.name if first_location else "il luogo iniziale")
+        opening += f" Da qui la pista punta verso {next_place}, ma la pressione del canovaccio è già in movimento."
+    return {
+        "narrative": _compact_text(opening, 900),
+        "objective": _italianize_common_text(objective, objective),
+        "first_location": first_location,
+        "second_location": second_location,
+        "first_clue": first_clue,
+        "first_actor": first_actor,
+    }
+
+
+def _initial_runtime_options(definition: AdventureDefinition, players: list[dict]) -> list[dict]:
+    ctx = _opening_context_from_definition(definition)
+    loc = ctx["first_location"]
+    next_loc = ctx["second_location"]
+    clue = ctx["first_clue"]
+    actor = ctx["first_actor"]
+    raw_options: list[str] = []
+    if clue:
+        place = clue.source_location or (loc.name if loc else "questa zona")
+        raw_options.append(f"Cercare {clue.label} a {place}")
+    if actor:
+        raw_options.append(f"Avvicinare {actor.name} e capire cosa sa davvero")
+    if next_loc:
+        raw_options.append(f"Trovare un passaggio sicuro verso {next_loc.name}")
+    if len(raw_options) < 3 and loc:
+        raw_options.append(f"Mettere in sicurezza {loc.name} prima che la minaccia reagisca")
+    raw_options = list(dict.fromkeys(raw_options))[:2]
+    options = []
+    for text in raw_options:
+        skill = _skill_for_option(text)
+        player_id, skill_level = _best_player_for_skill(players, skill)
+        options.append({
+            "text": text,
+            "skill": skill,
+            "skill_level": skill_level,
+            "stat": "intelligenza" if skill in {"osservare", "sopravvivenza"} else ("empatia" if skill == "negoziare" else "agilita"),
+            "player_id": player_id,
+        })
+    options.append({"text": "Azione custom", "skill": "", "skill_level": 0, "stat": "", "player_id": players[0]["id"] if players else 0})
+    return options[:3]
+
+
+def _runtime_revelation_ids_for_token(rt: AdventureRuntimeState, token: str) -> list[str]:
+    token = str(token or "").strip()
+    if not token:
+        return []
+    ids: list[str] = []
+    if token in (rt.revelation_to_thread_id or {}):
+        ids.append(token)
+    ids.extend((rt.thread_to_revelation_ids or {}).get(token, []))
+    if token.startswith("rev_") and token not in ids:
+        ids.append(token)
+    return list(dict.fromkeys([rid for rid in ids if rid]))
+
+
+def _runtime_thread_tokens_for_revelation_ids(rt: AdventureRuntimeState, revelation_ids: list[str]) -> list[str]:
+    tokens = []
+    for rid in revelation_ids:
+        thread_id = (rt.revelation_to_thread_id or {}).get(rid)
+        if thread_id:
+            tokens.append(thread_id)
+        tokens.append(rid)
+    return list(dict.fromkeys([t for t in tokens if t]))
+
+
+def _refresh_runtime_derived_state(rt: AdventureRuntimeState) -> None:
+    discovered = set(rt.discovered_clue_ids or [])
+    active = set(rt.active_revelation_ids or [])
+    ready = set(rt.ready_revelation_ids or [])
+    resolved = set(rt.resolved_revelation_ids or [])
+
+    definition = game_state.adventure_definition
+    if definition:
+        for revelation in definition.revelations:
+            if revelation.id in resolved:
+                active.discard(revelation.id)
+                ready.discard(revelation.id)
+                continue
+            required = list(revelation.required_clues or [])
+            if required:
+                minimum = min(2, max(1, len(required)))
+                if len([cid for cid in required if cid in discovered]) >= minimum:
+                    ready.add(revelation.id)
+                    active.add(revelation.id)
+            elif revelation.status in {"hidden", "seeded", "available", "revealed"}:
+                active.add(revelation.id)
+
+        for finale in definition.finale_conditions:
+            entry = dict((rt.finale_runtime or {}).get(finale.id) or {})
+            if entry.get("status") in {"satisfied", "failed"}:
+                rt.finale_runtime[finale.id] = entry
+                continue
+            required_clues = set(entry.get("required_clues") or finale.required_clues or [])
+            required_threads = set(entry.get("required_threads") or finale.required_threads or [])
+            if not required_threads:
+                required_threads = {
+                    definition_thread
+                    for rid in (finale.depends_on or [])
+                    for definition_thread in [(rt.revelation_to_thread_id or {}).get(rid, "")]
+                    if definition_thread
+                }
+            clues_ok = not required_clues or required_clues.issubset(discovered)
+            threads_ok = not required_threads or required_threads.issubset(set(_runtime_thread_tokens_for_revelation_ids(rt, list(resolved))))
+            if clues_ok and threads_ok:
+                entry["status"] = "available"
+            elif entry.get("status") not in {"seeded", "available"}:
+                entry["status"] = entry.get("status") or "locked"
+            rt.finale_runtime[finale.id] = entry
+
+    rt.active_revelation_ids = [rid for rid in rt.active_revelation_ids if rid not in resolved]
+    for rid in sorted(active):
+        if rid not in rt.active_revelation_ids and rid not in resolved:
+            rt.active_revelation_ids.append(rid)
+    rt.ready_revelation_ids = [rid for rid in rt.ready_revelation_ids if rid not in resolved]
+    for rid in sorted(ready):
+        if rid not in rt.ready_revelation_ids and rid not in resolved:
+            rt.ready_revelation_ids.append(rid)
+
+
+def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None:
+    """Mantiene AdventureRuntimeState come stato autoritativo lato backend."""
+    if not game_state.adventure_runtime_state:
+        return
+    rt = game_state.adventure_runtime_state
+    for cid in updates.get("clues_found") or []:
+        if cid not in rt.discovered_clue_ids:
+            rt.discovered_clue_ids.append(cid)
+        if cid in rt.partial_clue_ids:
+            rt.partial_clue_ids.remove(cid)
+    for progress in updates.get("clue_progress") or []:
+        cid = progress.get("clue_id") or progress.get("id")
+        if cid and cid not in rt.partial_clue_ids and cid not in rt.discovered_clue_ids:
+            rt.partial_clue_ids.append(cid)
+    for closed in (updates.get("closed_threads") or []) + (updates.get("thread_resolved") or []):
+        token = str(closed).split("→", 1)[0].strip()
+        for rid in _runtime_revelation_ids_for_token(rt, token):
+            if rid not in rt.resolved_revelation_ids:
+                rt.resolved_revelation_ids.append(rid)
+            if rid in rt.ready_revelation_ids:
+                rt.ready_revelation_ids.remove(rid)
+            if rid in rt.active_revelation_ids:
+                rt.active_revelation_ids.remove(rid)
+    for update in updates.get("revelation_updates") or []:
+        if not isinstance(update, dict):
+            continue
+        tokens = [update.get("id"), update.get("revelation_id"), update.get("thread_id")]
+        target_ids = []
+        for token in tokens:
+            target_ids.extend(_runtime_revelation_ids_for_token(rt, str(token or "")))
+        status = str(update.get("status") or "").strip()
+        for rid in list(dict.fromkeys(target_ids)):
+            if status in {"resolved", "revealed"} and rid not in rt.resolved_revelation_ids:
+                rt.resolved_revelation_ids.append(rid)
+            elif status in {"available", "ready", "ready_to_deduce"} and rid not in rt.ready_revelation_ids:
+                rt.ready_revelation_ids.append(rid)
+            if status in {"hidden", "seeded", "available", "revealed"} and rid not in rt.active_revelation_ids:
+                rt.active_revelation_ids.append(rid)
+    for update in updates.get("objective_updates") or []:
+        if not isinstance(update, dict):
+            continue
+        oid = str(update.get("id") or update.get("objective_id") or "").strip()
+        status = str(update.get("status") or "").strip()
+        if not oid:
+            continue
+        if status in {"complete", "completed"}:
+            if oid not in rt.completed_objective_ids:
+                rt.completed_objective_ids.append(oid)
+            if oid in rt.active_objective_ids:
+                rt.active_objective_ids.remove(oid)
+        elif status == "failed":
+            if oid not in rt.failed_objective_ids:
+                rt.failed_objective_ids.append(oid)
+            if oid in rt.active_objective_ids:
+                rt.active_objective_ids.remove(oid)
+        elif status in {"active", "available"} and oid not in rt.active_objective_ids:
+            rt.active_objective_ids.append(oid)
+    for update in (updates.get("actor_updates") or []) + (updates.get("npc_updates") or []):
+        if not isinstance(update, dict):
+            continue
+        aid = str(update.get("id") or update.get("actor_id") or update.get("npc_id") or "").strip()
+        if aid:
+            entry = dict((rt.actor_runtime or {}).get(aid) or {})
+            if update.get("status") or update.get("arc_status"):
+                entry["status"] = update.get("arc_status") or update.get("status")
+            if update.get("location") or update.get("location_id"):
+                entry["location_id"] = update.get("location_id") or update.get("location")
+            if update.get("attitude"):
+                entry["attitude"] = update.get("attitude")
+            rt.actor_runtime[aid] = entry
+    for update in updates.get("faction_updates") or []:
+        if not isinstance(update, dict):
+            continue
+        fid = str(update.get("id") or update.get("faction_id") or "").strip()
+        if fid:
+            entry = dict((rt.faction_runtime or {}).get(fid) or {})
+            if update.get("status"):
+                entry["status"] = update.get("status")
+            if update.get("pressure") is not None:
+                entry["pressure"] = int(update.get("pressure") or 0)
+            rt.faction_runtime[fid] = entry
+    for update in updates.get("location_updates") or []:
+        if not isinstance(update, dict):
+            continue
+        lid = str(update.get("id") or update.get("location_id") or update.get("node_id") or "").strip()
+        if lid:
+            entry = dict((rt.location_runtime or {}).get(lid) or {})
+            if update.get("status"):
+                entry["status"] = update.get("status")
+            if update.get("access_state"):
+                entry["access_state"] = update.get("access_state")
+            rt.location_runtime[lid] = entry
+    for raw in updates.get("location_access") or []:
+        if isinstance(raw, dict):
+            lid = str(raw.get("id") or raw.get("location_id") or raw.get("node_id") or raw.get("name") or "").strip()
+            access_state = str(raw.get("access_state") or "open")
+        else:
+            lid = str(raw or "").strip()
+            access_state = "open"
+        if lid:
+            entry = dict((rt.location_runtime or {}).get(lid) or {})
+            entry["access_state"] = access_state
+            if entry.get("status") in {None, "", "hidden", "unknown", "locked"}:
+                entry["status"] = "known"
+            rt.location_runtime[lid] = entry
+    for key, value in list(rt.clock_runtime.items()):
+        entry = dict(value or {})
+        entry["value"] = int(entry.get("value") or 0) + int(updates.get("threat_increase") or 0)
+        rt.clock_runtime[key] = entry
+    for update in updates.get("clock_updates") or []:
+        if not isinstance(update, dict):
+            continue
+        cid = str(update.get("id") or update.get("clock_id") or "").strip()
+        if cid:
+            entry = dict((rt.clock_runtime or {}).get(cid) or {})
+            if update.get("value") is not None:
+                entry["value"] = int(update.get("value") or 0)
+            if update.get("delta") is not None:
+                entry["value"] = int(entry.get("value") or 0) + int(update.get("delta") or 0)
+            if update.get("active") is not None:
+                entry["active"] = bool(update.get("active"))
+            rt.clock_runtime[cid] = entry
+    for key, value in list(rt.pressure_runtime.items()):
+        entry = dict(value or {})
+        entry["value"] = int(entry.get("value") or 0) + int(updates.get("threat_increase") or 0)
+        rt.pressure_runtime[key] = entry
+    for runtime_key, update_key in [("pressure_runtime", "pressure_updates"), ("resource_runtime", "resource_updates")]:
+        container = dict(getattr(rt, runtime_key) or {})
+        for update in updates.get(update_key) or []:
+            if not isinstance(update, dict):
+                continue
+            uid = str(update.get("id") or update.get("pressure_id") or update.get("resource_id") or "").strip()
+            if uid:
+                entry = dict(container.get(uid) or {})
+                if update.get("value") is not None:
+                    entry["value"] = int(update.get("value") or 0)
+                if update.get("delta") is not None:
+                    entry["value"] = int(entry.get("value") or 0) + int(update.get("delta") or 0)
+                container[uid] = entry
+        setattr(rt, runtime_key, container)
+    for update in updates.get("finale_updates") or []:
+        if not isinstance(update, dict):
+            continue
+        fid = str(update.get("id") or update.get("finale_id") or "").strip()
+        if fid:
+            entry = dict((rt.finale_runtime or {}).get(fid) or {})
+            if update.get("status"):
+                entry["status"] = update.get("status")
+            rt.finale_runtime[fid] = entry
+    for update in updates.get("truth_updates") or []:
+        if not isinstance(update, dict):
+            continue
+        tid = str(update.get("id") or update.get("truth_id") or "").strip()
+        if tid:
+            entry = dict((rt.truth_runtime or {}).get(tid) or {})
+            if update.get("revealed") is not None:
+                entry["revealed"] = bool(update.get("revealed"))
+                if entry["revealed"] and tid not in rt.revealed_truth_ids:
+                    rt.revealed_truth_ids.append(tid)
+            rt.truth_runtime[tid] = entry
+    if isinstance(updates.get("flags"), dict):
+        rt.flags = {**(rt.flags or {}), **updates["flags"]}
+    if game_state.map_state:
+        rt.current_scene_id = game_state.map_state.current_node_id
+        if rt.current_scene_id:
+            entry = dict((rt.location_runtime or {}).get(rt.current_scene_id) or {})
+            entry.setdefault("access_state", "open")
+            entry["status"] = "visited"
+            rt.location_runtime[rt.current_scene_id] = entry
+    if narrative:
+        rt.history = [*rt.history, narrative[:300]][-20:]
+    _refresh_runtime_derived_state(rt)
+    game_state.current_objective_ids = list(rt.active_objective_ids)
+    game_state.active_revelation_ids = list(rt.active_revelation_ids)
+    game_state.active_clock_ids = list((rt.clock_runtime or {}).keys())
+    game_state.active_pressure_ids = list((rt.pressure_runtime or {}).keys())
+
 
 @app.post("/game/master/start-bible")
 def master_start_bible_endpoint(payload: MasterStartBiblePayload):
-    """Scena d'apertura con bibbia avventura."""
+    """Scena d'apertura runtime-first.
+
+    Il vecchio avvio "bibbia senza runtime" e stato rimosso: ogni partita deve
+    avere un AdventureDefinition compilato prima di entrare in gioco.
+    """
     _sync_players_from_payload(payload.players)
-    result = master_start_with_bible(payload.genre, payload.players, payload.adventure)
-    _ensure_runtime_scene(result.get("narrative", ""))
-    return result
+    if not game_state.adventure_definition:
+        raise HTTPException(
+            status_code=409,
+            detail="Avventura non compilata: crea o importa un AdventureDefinition prima di avviare il Master.",
+        )
+    opening = _opening_context_from_definition(game_state.adventure_definition)
+    _ensure_runtime_scene(opening["narrative"])
+    if game_state.story:
+        game_state.story.premise = opening["narrative"]
+    if game_state.mission:
+        game_state.mission.objective = opening["objective"]
+    options = _initial_runtime_options(game_state.adventure_definition, payload.players)
+    return {
+        "narrative": opening["narrative"],
+        "roll": None,
+        "options": options,
+        "state_updates": {
+            "clue_progress": [], "clues_found": [], "npc_updates": [], "new_threads": [],
+            "closed_threads": [], "threat_increase": 0, "activate_combat": False,
+            "combat_scene": None, "combat_over": False, "story_over": False, "victory": False,
+            "allowed_escalation_tier": game_state.allowed_escalation_tier,
+            "allowed_escalation_types": game_state.allowed_escalation_types,
+            "forbidden_escalation_types": game_state.forbidden_escalation_types,
+            "director_reason": "compiled_runtime_start",
+        },
+    }
 
 @app.post("/game/master/turn-bible")
 def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     """Turno Master con bibbia e tracking stato."""
     _sync_players_from_payload(payload.players)
     _ensure_runtime_scene()
+    if not game_state.adventure_definition:
+        raise HTTPException(
+            status_code=409,
+            detail="Turno bloccato: manca AdventureDefinition compilato nel GameState.",
+        )
     # Tiro GURPS reale prima di chiamare Claude — vincolante per la narrativa
     active_player = next((p for p in payload.players if p["id"] == payload.active_player_id), payload.players[0] if payload.players else None)
     roll_detail = None
@@ -340,6 +1194,9 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     )
     # Arricchisce combat_scene con stat GURPS persistenti dai WorldNPC
     su = result.get("state_updates") or {}
+    if not payload.game_state_data.get("in_combat"):
+        su = _force_hot_zone_combat_update(su, payload.player_action)
+        result["state_updates"] = su
     print(f"[turn-bible] activate_combat={su.get('activate_combat')} combat_over={su.get('combat_over')} combat_scene={'presente' if su.get('combat_scene') else 'assente'}")
     if su.get("activate_combat") and su.get("combat_scene"):
         su["combat_scene"] = _enrich_combat_scene(su["combat_scene"])
@@ -349,6 +1206,20 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         game_state.pending_attack = None
         if game_state.scene:
             game_state.scene.entities = []
+    game_state.allowed_escalation_tier = int(su.get("allowed_escalation_tier", game_state.allowed_escalation_tier or 3) or 3)
+    game_state.allowed_escalation_types = list(su.get("allowed_escalation_types") or game_state.allowed_escalation_types or [])
+    game_state.forbidden_escalation_types = list(su.get("forbidden_escalation_types") or game_state.forbidden_escalation_types or [])
+    game_state.blocked_major_events = list(su.get("blocked_major_events") or su.get("blocked_state_updates") or [])
+    game_state.downgraded_events = list(su.get("downgraded_events") or [])
+    game_state.director_reason = str(su.get("director_reason") or "")
+    apply_story_updates(
+        game_state,
+        su,
+        outcome=str((roll_detail or {}).get("outcome") or "successo pieno"),
+    )
+    if game_state.scene:
+        game_state.scene.threat_level += int(su.get("threat_increase") or 0)
+    _sync_runtime_state_from_updates(su, result.get("narrative", ""))
 
     # Valutazione vittorie personali quando la storia finisce
     if su.get("story_over"):
@@ -358,6 +1229,15 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         game_state.personal_victories = personal
         su["personal_victories"] = personal
         result["state_updates"] = su
+
+    # Persiste lo stato world sul disco dopo ogni turno
+    adv_id = _adventure_id(payload.adventure)
+    if adv_id:
+        merged = _merge_game_state(payload.game_state_data, result.get("state_updates") or {})
+        patch = {"live_game_state": merged}
+        if game_state.adventure_runtime_state:
+            patch["runtime_state"] = game_state.adventure_runtime_state.model_dump()
+        update_runtime(adv_id, patch)
 
     return result
 
@@ -426,18 +1306,40 @@ def get_debug_world():
 
 @app.post("/game/setup")
 def setup_game(payload: SetupPayload):
-    global game_state, strategic_map_image_cache
+    global game_state, tactical_map_image_cache
     set_active_provider(payload.provider)
     game_state = prepare_team_setup(payload.genre, provider=payload.provider)
     game_state.team_setup.image_provider = payload.image_provider
-    strategic_map_image_cache = None
+    tactical_map_image_cache = {}
     return game_state
 
 @app.post("/game/select-team")
 def select_team(payload: TeamSelectionPayload):
-    global game_state, strategic_map_image_cache
+    global game_state, tactical_map_image_cache
+    if not payload.adventure_bible or not payload.adventure_bible.get("adventure_definition"):
+        raise HTTPException(
+            status_code=400,
+            detail="Selezione squadra bloccata: il vecchio avvio procedurale e stato rimosso. Compila prima un'avventura.",
+        )
     game_state = start_game_from_selection(game_state, payload.selected_player_ids, payload.custom_names, payload.adventure_bible)
-    strategic_map_image_cache = None
+    if payload.adventure_bible:
+        definition_data = payload.adventure_bible.get("adventure_definition")
+        runtime_data = payload.adventure_bible.get("runtime_state")
+        try:
+            if definition_data:
+                definition = AdventureDefinition(**definition_data)
+                game_state.adventure_definition_id = definition.id
+                game_state.adventure_definition = definition
+            if runtime_data:
+                runtime_state = AdventureRuntimeState(**runtime_data)
+                game_state.adventure_runtime_state = runtime_state
+                game_state.current_objective_ids = list(runtime_state.active_objective_ids)
+                game_state.active_revelation_ids = list(runtime_state.active_revelation_ids)
+                game_state.active_clock_ids = list(runtime_state.clock_runtime.keys())
+                game_state.active_pressure_ids = list(runtime_state.pressure_runtime.keys())
+        except Exception as e:
+            print(f"[select-team] runtime bridge non applicato: {type(e).__name__}: {e}")
+    tactical_map_image_cache = {}
     return game_state
 
 @app.post("/game/generate-avatar")
@@ -671,6 +1573,23 @@ def combat_npc_turn(payload: CombatNpcTurnPayload | None = None):
     return resp
 
 
+@app.post("/game/combat/retreat")
+def combat_retreat(payload: CombatNpcTurnPayload | None = None):
+    """Chiude uno scontro non finale con un costo: la squadra ripiega e la storia torna alla chat."""
+    global game_state
+    _ensure_runtime_scene()
+    if game_state.scene:
+        game_state.scene.entities = []
+        game_state.scene.threat_level = min(10, (game_state.scene.threat_level or 0) + 1)
+    game_state.pending_attack = None
+    game_state.last_attack_result = None
+    resp = game_state.model_dump()
+    resp["combat_over"] = True
+    resp["retreat"] = True
+    resp["message"] = "La squadra ripiega prima che lo scontro diventi una trappola. La minaccia avanza di 1."
+    return resp
+
+
 @app.post("/game/reaction")
 def reaction_roll(payload: ReactionPayload):
     result = resolve_reaction_roll(game_state, payload.npc_id, payload.player_id, payload.social_skill)
@@ -698,58 +1617,12 @@ def character_create(draft: CharacterDraft):
     return {"player": player, "validation": validation}
 
 
-@app.post("/game/move")
-def move_to_node(payload: MovePayload):
-    global game_state
-    game_state = advance_to_node(game_state, payload.node_id)
-    return game_state
-
 @app.post("/game/new")
 def new_game():
-    global game_state, tile_image_cache, strategic_map_image_cache
+    global game_state, tactical_map_image_cache
     game_state = empty_game_state()
-    tile_image_cache = {}
-    strategic_map_image_cache = None
+    tactical_map_image_cache = {}
     return game_state
-
-@app.post("/game/generate-strategic-map-image")
-def generate_strategic_map():
-    global strategic_map_image_cache
-    if strategic_map_image_cache:
-        return {"image_b64": strategic_map_image_cache, "available": True}
-    if not game_state.map_state or not game_state.mission:
-        return {"image_b64": None, "available": False}
-    provider = _resolve_image_provider()
-    if not provider:
-        return {"image_b64": None, "available": False}
-    set_active_provider(provider)
-    image_b64 = generate_strategic_map_image(
-        game_state.map_state.model_dump(),
-        game_state.mission.genre,
-        game_state.mission.environment_type,
-    )
-    if image_b64:
-        strategic_map_image_cache = image_b64
-    return {"image_b64": image_b64, "available": bool(image_b64)}
-
-@app.post("/game/generate-tile-image")
-def generate_tile_image(payload: TileImagePayload):
-    global tile_image_cache
-    if cached := tile_image_cache.get(payload.node_id):
-        return {"image_b64": cached, "available": True}
-    if not game_state.map_state:
-        return {"image_b64": None, "available": False}
-    node = game_state.map_state.nodes.get(payload.node_id)
-    if not node:
-        return {"image_b64": None, "available": False}
-    provider = _resolve_image_provider()
-    if not provider:
-        return {"image_b64": None, "available": False}
-    set_active_provider(provider)
-    image_b64 = generate_map_tile_image(node.name, node.kind, game_state.map_state.map_type)
-    if image_b64:
-        tile_image_cache[payload.node_id] = image_b64
-    return {"image_b64": image_b64, "available": True}
 
 @app.post("/game/generate-scene-image")
 def generate_image(payload: ImageGenPayload):
@@ -775,9 +1648,18 @@ class TacticalMapPayload(BaseModel):
 
 @app.post("/game/generate-tactical-map-image")
 def generate_tactical_map(payload: TacticalMapPayload):
+    global tactical_map_image_cache
     provider = _resolve_image_provider()
     if not provider:
         return {"image_b64": None, "available": False}
+    cache_key = "|".join([
+        payload.location_name.strip().lower(),
+        payload.environment_type.strip().lower(),
+        payload.genre.strip().lower(),
+        ",".join(sorted(payload.enemy_names or [])),
+    ])
+    if cache_key in tactical_map_image_cache:
+        return {"image_b64": tactical_map_image_cache[cache_key], "available": True, "cached": True}
     set_active_provider(provider)
     # arricchisce location_description con dati dal GameState se non forniti dal frontend
     mission_env = payload.mission_environment or (
@@ -795,6 +1677,8 @@ def generate_tactical_map(payload: TacticalMapPayload):
         mission_environment=mission_env,
         enemy_names=payload.enemy_names,
     )
+    if image_b64:
+        tactical_map_image_cache[cache_key] = image_b64
     return {"image_b64": image_b64, "available": bool(image_b64)}
 
 @app.get("/game/image-available")
@@ -871,10 +1755,11 @@ async def adventure_from_pdf(
     file: UploadFile = File(...),
     genre: str = Form(...),
     players: str = Form(...),
+    provider: str = Form(default="claude"),
     map_page: str = Form(default=""),
 ):
     """Estrae testo dal PDF e genera la bibbia. map_page opzionale: numero pagina (1-based) da usare come mappa."""
-    import json as _json, base64
+    import base64
     try:
         import pdfplumber
         from PIL import Image
@@ -882,7 +1767,7 @@ async def adventure_from_pdf(
         return {"error": "pdfplumber/Pillow non installato sul server"}
 
     pdf_bytes = await file.read()
-    text_pages = []
+    raw_text_pages = []
     map_image_b64 = None
 
     with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
@@ -910,24 +1795,61 @@ async def adventure_from_pdf(
             except Exception as e:
                 print(f"[adventure/from-pdf] errore estrazione mappa pag {map_page_idx+1}: {e}")
 
-        for page in pdf.pages[:60]:
+        for page in pdf.pages:
             t = page.extract_text()
             if t:
-                text_pages.append(t)
+                raw_text_pages.append(t)
 
-    pdf_text = "\n\n".join(text_pages).strip()
+    pdf_text = "\n\n".join(raw_text_pages).strip()
     if not pdf_text:
         return {"error": "Impossibile estrarre testo dal PDF"}
     raw_chars = len(pdf_text)
-    pdf_text = _clean_pdf_text(pdf_text)
+    text_pages = [_clean_pdf_text(page) for page in raw_text_pages]
+    text_pages = [page for page in text_pages if page.strip()]
+    pdf_text = "\n\n".join(text_pages).strip()
     print(f"[adventure/from-pdf] estratte {len(text_pages)}/{total_pages} pagine, {raw_chars} caratteri → {len(pdf_text)} dopo pulizia ({100*len(pdf_text)//max(raw_chars,1)}%)")
 
+    set_active_provider(provider)
     try:
-        players_list = _json.loads(players)
-    except Exception:
-        players_list = []
-
-    result = create_adventure_from_pdf_text(pdf_text, genre, players_list)
+        genre_hint = None if str(genre or "").lower() == "auto" else genre
+        compiled = compile_pdf_pages_to_runtime(
+            text_pages,
+            genre_hint=genre_hint,
+            runtime_profile_hint=None,
+            title=file.filename or "Avventura da PDF",
+        )
+        definition = AdventureDefinition(**compiled["adventure_definition"])
+        runtime_state = AdventureRuntimeState(**compiled["runtime_state"])
+        saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+        result = dict(definition.legacy_adventure or {})
+        result.update({
+            "from_pdf": True,
+            "from_runtime_compiler": True,
+            "runtime_id": definition.id,
+            "adventure_definition": saved["adventure_definition"],
+            "runtime_state": saved["runtime_state"],
+            "validation_report": saved["validation_report"],
+            "pdf_pages_read": len(text_pages),
+            "pdf_total_pages": total_pages,
+        })
+    except Exception as e:
+        print(f"[adventure/from-pdf] errore compiler runtime: {type(e).__name__}: {e}")
+        return {"error": f"Errore durante la compilazione runtime del PDF: {type(e).__name__}: {str(e)[:260]}"}
     if map_image_b64:
         result["map_image_b64"] = map_image_b64
+    try:
+        result.update(_save_pdf_compilation_json(
+            source_filename=file.filename or "Avventura da PDF",
+            requested_genre=genre,
+            provider=provider,
+            map_page=map_page,
+            total_pages=total_pages,
+            text_pages=text_pages,
+            raw_chars=raw_chars,
+            cleaned_pdf_text=pdf_text,
+            compiled_result=result,
+        ))
+    except Exception as e:
+        result["saved_json_error"] = f"{type(e).__name__}: {str(e)[:220]}"
+        print(f"[adventure/from-pdf] impossibile salvare JSON debug: {result['saved_json_error']}")
     return result
