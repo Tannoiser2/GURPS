@@ -230,7 +230,21 @@ class AdventureRuntime(BaseModel):
     allow_runtime_expansion: bool = False
 
 
-class AdventureDefinition(BaseModel):
+class _MappingCompatibleBase(BaseModel):
+    """Mixin che rende ``**model`` valido per le entrate richiamate dalle API
+    legacy in ``main.py`` (``AdventureDefinition(**compiled[...])``). Pydantic
+    v2 BaseModel non implementa ``keys`` / ``__getitem__``, quindi l'unpack
+    fallisce con "argument after ** must be a mapping".
+    """
+
+    def keys(self):  # pragma: no cover - delegata a Pydantic
+        return self.__class__.model_fields.keys()
+
+    def __getitem__(self, key):
+        return getattr(self, key)
+
+
+class AdventureDefinition(_MappingCompatibleBase):
     id: str = "definition"
     title: str = ""
     source_type: Literal["pdf_text", "markdown", "raw_text", "manual_json"] = "raw_text"
@@ -277,7 +291,7 @@ class AdventureDefinition(BaseModel):
     suggestions: List[str] = []
 
 
-class AdventureRuntimeState(BaseModel):
+class AdventureRuntimeState(_MappingCompatibleBase):
     definition_id: str
     current_scene_id: Optional[str] = None
     active_objective_ids: List[str] = []
