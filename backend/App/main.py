@@ -1146,6 +1146,13 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     avere un AdventureDefinition compilato prima di entrare in gioco.
     """
     _sync_players_from_payload(payload.players)
+    if not game_state.adventure_definition and payload.adventure:
+        try:
+            defn_data = payload.adventure.get("adventure_definition") or payload.adventure
+            game_state.adventure_definition = AdventureDefinition(**defn_data)
+            game_state.adventure_definition_id = game_state.adventure_definition.id
+        except Exception:
+            pass
     if not game_state.adventure_definition:
         raise HTTPException(
             status_code=409,
@@ -1179,6 +1186,13 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     """Turno Master con bibbia e tracking stato."""
     _sync_players_from_payload(payload.players)
     _ensure_runtime_scene()
+    if not game_state.adventure_definition and payload.adventure:
+        try:
+            defn_data = payload.adventure.get("adventure_definition") or payload.adventure
+            game_state.adventure_definition = AdventureDefinition(**defn_data)
+            game_state.adventure_definition_id = game_state.adventure_definition.id
+        except Exception:
+            pass
     if not game_state.adventure_definition:
         raise HTTPException(
             status_code=409,
