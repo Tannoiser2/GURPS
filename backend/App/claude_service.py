@@ -5366,6 +5366,7 @@ def master_turn_with_bible(
 
     npcs_context = ""
     npc_agenda_context = ""
+    npc_pressure_context = adventure.get("npc_pressure_context") or ""
     for npc in adventure.get("npcs", []):
         st = npc_statuses.get(npc["id"], {})
         status = st.get("status", npc.get("status", "alive"))
@@ -5487,7 +5488,7 @@ Condizione vittoria: {adventure.get('win_condition', '?')}
 
 ═══ STATO PARTITA (turno {turn}) ═══{current_location}
 PNG:{npcs_context}
-AGENDE PNG:{npc_agenda_context or "\n- nessuna agenda strutturata"}
+AGENDE PNG:{npc_agenda_context or "\n- nessuna agenda strutturata"}{npc_pressure_context}
 {clues_context}
 Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
 {threads_context}

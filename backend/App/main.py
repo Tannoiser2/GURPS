@@ -37,6 +37,7 @@ from .adventure_validator import check_raw_compilation_quality
 from .scene_context import actions_for_scene
 from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor_score
 from .clock_engine import tick_clocks, format_clock_event_narrative
+from .npc_state_machine import update_pressure_from_clues, build_npc_pressure_context
 
 app = FastAPI()
 app.add_middleware(
@@ -1161,11 +1162,19 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
     if not game_state.adventure_runtime_state:
         return
     rt = game_state.adventure_runtime_state
-    for cid in updates.get("clues_found") or []:
-        if cid not in rt.discovered_clue_ids:
-            rt.discovered_clue_ids.append(cid)
+    newly_found = [cid for cid in (updates.get("clues_found") or []) if cid not in rt.discovered_clue_ids]
+    for cid in newly_found:
+        rt.discovered_clue_ids.append(cid)
         if cid in rt.partial_clue_ids:
             rt.partial_clue_ids.remove(cid)
+    # NPC pressure: increment for each newly discovered clue
+    if newly_found and game_state.adventure_definition:
+        try:
+            changed = update_pressure_from_clues(newly_found, game_state.adventure_definition, rt)
+            for actor_id, new_pressure in changed:
+                print(f"[npc_state] {actor_id}: pressione → {new_pressure}/10")
+        except Exception as npc_e:
+            print(f"[npc_state] errore (non bloccante): {npc_e}")
     for progress in updates.get("clue_progress") or []:
         cid = progress.get("clue_id") or progress.get("id")
         if cid and cid not in rt.partial_clue_ids and cid not in rt.discovered_clue_ids:
@@ -1423,10 +1432,23 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         else:
             game_state.last_roll_details = []
 
+    # Inject NPC pressure context into adventure dict (additive, non-destructive)
+    adventure_with_npc_state = dict(payload.adventure or {})
+    if game_state.adventure_definition and game_state.adventure_runtime_state:
+        try:
+            npc_ctx = build_npc_pressure_context(
+                game_state.adventure_definition,
+                game_state.adventure_runtime_state,
+            )
+            if npc_ctx:
+                adventure_with_npc_state["npc_pressure_context"] = npc_ctx
+        except Exception as npc_ctx_e:
+            print(f"[npc_state] context build error (non bloccante): {npc_ctx_e}")
+
     result = master_turn_with_bible(
         payload.genre, payload.players, payload.history,
         payload.player_action, payload.active_player_id,
-        payload.adventure, payload.game_state_data,
+        adventure_with_npc_state, payload.game_state_data,
         prerolled=roll_detail,
     )
     # Arricchisce combat_scene con stat GURPS persistenti dai WorldNPC
