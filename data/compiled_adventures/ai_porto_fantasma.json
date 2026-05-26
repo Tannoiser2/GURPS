@@ -475,7 +475,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "scare_npc",
+            "target_id": "npc_aldo_pescatore",
+            "new_attitude": "uncooperative",
+            "narration": "Il vecchio Aldo viene trovato picchiato nel suo magazzino. Ha paura e non vuole più parlare con nessuno."
+          },
+          {
+            "at_pressure": 7,
+            "action": "destroy_clue",
+            "clue_id": "clue_corsetti_payments",
+            "replacement_clue": {
+              "id": "clue_burned_ledger",
+              "label": "Registro contabile carbonizzato recuperato dall'incendio",
+              "reveals": "Frammenti leggibili mostrano pagamenti regolari a 'C.' provenienti da conti offshore"
+            },
+            "narration": "Un incendio notturno distrugge l'ufficio del commercialista locale. Corsetti esprime pubblicamente cordoglio per la tragedia."
+          },
+          {
+            "at_pressure": 8,
+            "action": "eliminate_npc",
+            "target_id": "npc_fisherman_son",
+            "creates_clue": {
+              "id": "clue_threatening_note",
+              "label": "Biglietto minatorio trovato in tasca alla vittima",
+              "reveals": "Messaggio scritto a macchina: 'Chi scava troppo finisce in mare come suo padre'"
+            },
+            "narration": "Il figlio del pescatore scomparso viene trovato annegato. La polizia locale archivia come incidente, ma ci sono segni di colluttazione."
+          }
+        ]
       },
       {
         "id": "actor_tagliaferro",
@@ -524,7 +555,42 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "scare_npc",
+            "target_id": "npc_aldo_pescatore",
+            "new_attitude": "uncooperative",
+            "narration": "Il vecchio Aldo viene trovato tremante nel suo magazzino. Ha un occhio nero e farfuglia: 'Non so niente, lasciatemi in pace. Ho famiglia...'"
+          },
+          {
+            "at_pressure": 7,
+            "action": "destroy_clue",
+            "clue_id": "clue_tagliaferro_calls",
+            "replacement_clue": {
+              "id": "clue_burned_phone_log",
+              "label": "Registro telefonico parzialmente bruciato",
+              "reveals": [
+                "Alcuni numeri sono ancora leggibili: chiamate notturne verso Marsiglia e un numero locale che corrisponde alla villa del sindaco Corsetti"
+              ]
+            },
+            "narration": "Un incendio 'accidentale' devasta l'ufficio del centralino. Il registro chiamate è quasi completamente distrutto, ma alcuni frammenti carbonizzati sono recuperabili."
+          },
+          {
+            "at_pressure": 8,
+            "action": "eliminate_npc",
+            "target_id": "npc_figlio_pescatore",
+            "creates_clue": {
+              "id": "clue_staged_suicide",
+              "label": "Scena del suicidio sospetta",
+              "reveals": [
+                "Il figlio del pescatore viene trovato impiccato nel suo appartamento. Una perizia attenta rivela segni di colluttazione e lividi incompatibili con un suicidio. Sul tavolo, una busta con 500.000 lire e un biglietto: 'Perdonami'"
+              ]
+            },
+            "narration": "Il giovane Marco, figlio del pescatore scomparso, viene trovato morto nel suo appartamento. La polizia locale archivia rapidamente come suicidio per depressione."
+          }
+        ]
       }
     ],
     "factions": [

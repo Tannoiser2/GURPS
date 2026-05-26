@@ -486,7 +486,38 @@
         },
         "relationships": [],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "scare_npc",
+            "target_id": "npc_horace_jeweler",
+            "new_attitude": "uncooperative",
+            "narration": "Horace il Gioielliere viene trovato nel suo negozio, visibilmente scosso. Qualcuno lo ha minacciato stanotte: 'Parla ancora del passato e la tua famiglia pagherà'. Ora si rifiuta di collaborare."
+          },
+          {
+            "at_pressure": 7,
+            "action": "destroy_clue",
+            "clue_id": "clue_cult_records",
+            "narration": "Un incendio misterioso scoppia nell'archivio dove erano custoditi i registri del culto. Tra le ceneri, i PG trovano però frammenti carbonizzati ancora leggibili.",
+            "replacement_clue": {
+              "id": "clue_burned_fragments",
+              "label": "Frammenti carbonizzati dei registri",
+              "reveals": "Nomi parziali dei membri del culto e riferimenti a 'sacrifici necessari ogni lustro' per placare il Guardiano"
+            }
+          },
+          {
+            "at_pressure": 8,
+            "action": "create_clue",
+            "narration": "Il Sindaco Vane organizza una cerimonia pubblica urgente alla fontana, dichiarando che 'gli antichi patti devono essere onorati'. Il suo comportamento è sempre più instabile e fanatico.",
+            "clue": {
+              "id": "clue_vane_confession",
+              "label": "Dichiarazione pubblica del Sindaco",
+              "reveals": "Vane ammette apertamente la necessità dei sacrifici, ma lo presenta come 'dovere sacro' per proteggere Varenmoor",
+              "type": "testimony"
+            }
+          }
+        ]
       },
       {
         "id": "actor_horace",

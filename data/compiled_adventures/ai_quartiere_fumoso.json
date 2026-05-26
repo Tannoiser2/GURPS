@@ -402,7 +402,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "scare_npc",
+            "target_id": "npc_concetta",
+            "new_attitude": "uncooperative",
+            "narration": "Det. Doyle fa visita a Concetta Ferretti con due agenti. 'Signora, sarebbe un peccato se dovessimo indagare sulla sua famiglia più da vicino.' La donna diventa pallida e chiude la porta."
+          },
+          {
+            "at_pressure": 7,
+            "action": "destroy_clue",
+            "clue_id": "clue_doyle_payroll",
+            "replacement_clue": {
+              "id": "clue_burned_payroll_fragment",
+              "label": "Frammento bruciato del libro paga",
+              "reveals": "Un pezzo di carta carbonizzata trovato nel bidone dietro la stazione di polizia. Si legge solo '...Doyle...$500...Monahan'. Qualcuno ha cercato di distruggere le prove."
+            },
+            "narration": "I PG vedono del fumo uscire da un bidone dietro la stazione. Det. Doyle esce frettolosamente dalla porta sul retro, con le mani sporche di cenere. Li nota e si affretta ad allontanarsi."
+          },
+          {
+            "at_pressure": 9,
+            "action": "eliminate_npc",
+            "target_id": "npc_berni",
+            "creates_clue": {
+              "id": "clue_berni_murder",
+              "label": "Scena del crimine di Berni",
+              "reveals": "Il contabile Berni è stato trovato morto nel fiume. Segni di colluttazione. Nel suo cappotto, una chiave di cassetta di sicurezza della First National Bank con coordinate che portano al Libro Mastro completo di Monahan."
+            },
+            "narration": "Notizia sui giornali del mattino: 'Contabile trovato morto nel Chicago River. La polizia, guidata dal Det. Doyle, archivia come incidente.' Ma i segni sul corpo raccontano un'altra storia."
+          }
+        ]
       },
       {
         "id": "actor_concetta",
@@ -492,7 +523,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "scare_npc",
+            "target_id": "npc_concetta",
+            "new_attitude": "uncooperative",
+            "narration": "Concetta Ferretti riceve una visita notturna da due uomini di Monahan. Il giorno dopo è pallida e terrorizzata, rifiuta di parlare con chiunque."
+          },
+          {
+            "at_pressure": 7,
+            "action": "destroy_clue",
+            "clue_id": "clue_berni_apartment",
+            "replacement_clue": {
+              "id": "clue_berni_fire_evidence",
+              "label": "Resti carbonizzati nell'incendio dell'appartamento di Berni",
+              "reveals": "Tra le macerie si trovano frammenti di documenti contabili parzialmente bruciati che mostrano pagamenti a 'A.M.' e la stessa calligrafia del libro paga di Monahan"
+            },
+            "narration": "Un incendio 'accidentale' divora l'appartamento del contabile Berni. I vigili del fuoco parlano di una stufa difettosa, ma l'odore di benzina è inconfondibile."
+          },
+          {
+            "at_pressure": 8,
+            "action": "eliminate_npc",
+            "target_id": "npc_berni",
+            "creates_clue": {
+              "id": "clue_berni_body",
+              "label": "Corpo di Berni nel fiume",
+              "reveals": "Il contabile viene trovato nel fiume con due colpi alla nuca. In tasca ha una ricevuta di un biglietto ferroviario per New York datato il giorno dopo la sua morte, e un indirizzo: il magazzino di Monahan al molo 7"
+            },
+            "narration": "Il corpo del contabile Vittorio Berni viene ripescato dal fiume Chicago. Due colpi alla nuca, esecuzione stile gangster. La polizia corrotta archivia come regolamento di conti tra italiani."
+          }
+        ]
       }
     ],
     "factions": [

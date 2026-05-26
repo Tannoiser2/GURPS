@@ -20,13 +20,13 @@ except ImportError:
     _HAS_CLAUDE = False
 
 
-def _call_claude(prompt: str, system: str = "") -> str:
+def _call_claude(prompt: str, system: str = "", max_tokens: int = 4096) -> str:
     if not _HAS_CLAUDE:
         raise RuntimeError("anthropic package non installato. Esegui: pip install anthropic")
     messages = [{"role": "user", "content": prompt}]
     response = _CLIENT.messages.create(
         model=_MODEL,
-        max_tokens=4096,
+        max_tokens=max_tokens,
         system=system or "Sei un game designer GURPS esperto. Rispondi SOLO con JSON valido, senza markdown.",
         messages=messages,
     )

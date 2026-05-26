@@ -414,7 +414,38 @@
         "relationships": [],
         "source_status": "explicit",
         "is_preserved_from_pdf": true,
-        "confidence": 0.9
+        "confidence": 0.9,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_pryce_journal",
+            "replacement_clue": {
+              "id": "clue_burnt_journal_fragments",
+              "label": "Frammenti bruciati del diario di Pryce",
+              "reveals": "Pagine parzialmente leggibili mostrano calcoli sulla 'risonanza percettiva' e riferimenti ossessivi a 'vedere oltre il velo'. L'ultima entry leggibile: 'Non posso permettere che capiscano cosa ho visto.'"
+            },
+            "narration": "Un odore acre di carta bruciata riempie l'aria. Il Dr. Pryce ha distrutto il suo diario nel camino, ma alcuni frammenti carbonizzati sono ancora recuperabili."
+          },
+          {
+            "at_pressure": 7,
+            "action": "create_clue",
+            "clue": {
+              "id": "clue_pryce_trap",
+              "label": "Trappola sabotata nell'osservatorio",
+              "reveals": "Il meccanismo di rotazione del telescopio è stato manomesso. Se qualcuno tentasse di usarlo, un cavo elettrico esposto potrebbe causare una scarica letale. Segni di manomissione recente.",
+              "type": "evidence"
+            },
+            "narration": "Pryce ha lavorato durante la notte. Ha sabotato l'equipaggiamento dell'osservatorio per impedire che qualcuno replichi le sue osservazioni... o per eliminare chi ci proverà."
+          },
+          {
+            "at_pressure": 9,
+            "action": "move_clue",
+            "clue_id": "clue_technical_manual",
+            "new_location": "Nascosto nel sistema di ventilazione della cupola principale",
+            "narration": "Il manuale tecnico con le annotazioni cruciali è scomparso dalla scrivania. Pryce deve averlo nascosto, temendo che rivelasse troppo sui suoi esperimenti con le frequenze del telescopio."
+          }
+        ]
       }
     ],
     "factions": [],

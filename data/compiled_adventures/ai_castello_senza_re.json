@@ -404,7 +404,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_poison_source",
+            "narration": "Lady Mira si accorge che qualcuno si avvicina ai suoi appartamenti. Con un gesto rapido, getta il calice avvelenato nel camino acceso.",
+            "replacement_clue": {
+              "id": "clue_poison_residue",
+              "label": "Tracce di veleno nelle ceneri del camino di Mira",
+              "reveals": "Il calice è stato distrutto di recente, ma il veleno lascia residui riconoscibili - lo stesso tipo usato per avvelenare il re"
+            }
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_servant_elena",
+            "new_attitude": "uncooperative",
+            "narration": "Lady Mira convoca la servitrice Elena in privato. Dopo pochi minuti, Elena esce pallida e tremante, rifiutandosi di parlare con chiunque."
+          },
+          {
+            "at_pressure": 9,
+            "action": "create_clue",
+            "narration": "Disperata, Lady Mira tenta di screditare i suoi accusatori. Pianta prove false negli appartamenti di Lord Brennan.",
+            "clue": {
+              "id": "clue_false_brennan_guilt",
+              "label": "Fiala di veleno nascosta tra i vestiti di Lord Brennan",
+              "reveals": "Una fiala identica a quella usata per il re - ma un occhio esperto nota che è troppo nuova, piantata di recente",
+              "type": "misleading"
+            }
+          }
+        ]
       },
       {
         "id": "actor_voss",
@@ -452,7 +483,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_voss_cipher",
+            "narration": "L'Ambasciatore Voss si accorge che qualcuno sta indagando. Brucia rapidamente dei documenti cifrati nel camino della sua stanza.",
+            "replacement_clue": {
+              "id": "clue_voss_burned_papers",
+              "label": "Ceneri di documenti cifrati nel camino di Voss",
+              "reveals": "Analizzando le ceneri si possono recuperare frammenti del codice cifrato che collegano Voss a Keldara. Servono abilità in Crittografia o Investigazione."
+            }
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_messenger",
+            "new_attitude": "uncooperative",
+            "narration": "Voss intercetta il messaggero in un corridoio isolato. Dopo un confronto minaccioso, il messaggero appare terrorizzato e restio a parlare con chiunque."
+          },
+          {
+            "at_pressure": 9,
+            "action": "create_clue",
+            "narration": "Sentendosi braccato, Voss cerca di incastrare una casata rivale. Pianta prove false nella stanza di Lord Thalen.",
+            "clue": {
+              "id": "clue_planted_evidence",
+              "label": "Boccetta di veleno nascosta tra gli effetti di Lord Thalen",
+              "reveals": "Una boccetta di veleno identico a quello usato contro il re. Sembra troppo ovvia - un test di Investigazione (12+) rivela che è stata piazzata di recente e maldestramente.",
+              "type": "red_herring"
+            }
+          }
+        ]
       },
       {
         "id": "actor_thornwood",

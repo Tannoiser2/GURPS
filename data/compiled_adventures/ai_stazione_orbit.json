@@ -422,7 +422,38 @@
         },
         "relationships": [],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_vasquez_device",
+            "replacement_clue": {
+              "id": "clue_vasquez_device_remnants",
+              "label": "Frammenti crittografati del dispositivo di Vasquez",
+              "reveals": "Tracce di comunicazioni con un relè esterno non autorizzato. Richiede Cryptography-14 o Computer Hacking-15 per decifrare completamente."
+            },
+            "narration": "Vasquez nota che vi state avvicinando ai suoi alloggi. Con un movimento rapido, attiva un impulso EMP da un dispositivo nascosto, friggendo parzialmente il suo tablet personale prima che possiate esaminarlo."
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_sorokin",
+            "new_attitude": "uncooperative",
+            "narration": "Vasquez intercetta Sorokin in un corridoio isolato. Dopo un breve scambio di parole sussurrate che non riuscite a sentire, il tecnico russo diventa visibilmente nervoso e si allontana rapidamente evitando il vostro sguardo."
+          },
+          {
+            "at_pressure": 9,
+            "action": "create_clue",
+            "clue": {
+              "id": "clue_vasquez_emergency_protocol",
+              "label": "Protocollo di emergenza attivato da Vasquez",
+              "reveals": "Vasquez ha iniziato la procedura di autodistruzione dei sistemi centrali della stazione con timer di 90 minuti. Il codice di override è nel suo ufficio, protetto da serratura biometrica.",
+              "type": "time_pressure"
+            },
+            "narration": "Le luci di emergenza lampeggiano rosse. La voce computerizzata annuncia: 'Protocollo Omega attivato. Purga sistemi centrali in 90 minuti.' Vasquez vi fissa con uno sguardo freddo: 'Se non potete capire, allora nessuno lo farà.'"
+          }
+        ]
       },
       {
         "id": "actor_tanaka",

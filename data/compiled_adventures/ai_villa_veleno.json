@@ -430,7 +430,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_love_letter",
+            "narration": "Rossana entra nello studio del conte con aria determinata. Dopo pochi minuti, esce con una busta di lettere che getta nel camino acceso.",
+            "replacement_clue": {
+              "id": "clue_burned_letters",
+              "label": "Frammenti di lettere bruciate nel camino",
+              "reveals": "Tra le ceneri si distinguono frammenti con intestazione 'Dott. B.' e frasi romantiche incomplete. Un angolo carbonizzato mostra la data 'maggio 1953' e le parole '...non posso più vivere senza...'"
+            }
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_cook_osvaldo",
+            "new_attitude": "hostile",
+            "narration": "Rossana convoca il cuoco Osvaldo in privato. La discussione si fa accesa. Osvaldo esce pallido e tremante, rifiutandosi di parlare con chiunque."
+          },
+          {
+            "at_pressure": 9,
+            "action": "create_clue",
+            "narration": "Rossana orchestra una scena convincente: sviene drammaticamente in salotto, lamentando minacce anonime. Il suo medico personale, il Dott. Bianchi, accorre immediatamente.",
+            "clue": {
+              "id": "clue_fake_threat",
+              "label": "Lettera anonima minacciosa trovata da Rossana",
+              "reveals": "Una lettera che minaccia Rossana di 'rivelare la verità sul conte'. Calligrafia maldestra, carta comune. Un'analisi attenta rivela che l'inchiostro è fresco e la polvere sulla busta è identica a quella nella camera di Rossana.",
+              "type": "red_herring"
+            }
+          }
+        ]
       },
       {
         "id": "actor_fiamma",

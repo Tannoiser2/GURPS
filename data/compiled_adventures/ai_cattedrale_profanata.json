@@ -389,7 +389,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_godfrey_books",
+            "narration": "Mentre investigate, sentite odore di fumo. Correte alla cella di Godfrey: un braciere rovesciato ha dato fuoco ai suoi scaffali. I grimori stanno bruciando.",
+            "replacement_clue": {
+              "id": "clue_burnt_grimoire_fragment",
+              "label": "Frammento carbonizzato di grimorio",
+              "reveals": "Pagina parzialmente leggibile con invocazioni demoniache e la firma 'G.' sul margine. Stesso inchiostro dei simboli nella cripta."
+            }
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_sacristan",
+            "new_attitude": "uncooperative",
+            "narration": "Il sacrestano viene trovato tremante nella sua cella. Balbetta di una figura incappucciata che lo ha minacciato nella notte: 'Se parli, la tua famiglia brucerà come eretici.'"
+          },
+          {
+            "at_pressure": 8,
+            "action": "create_clue",
+            "narration": "Un novizio corre verso di voi terrorizzato: ha trovato qualcosa di orribile nei sotterranei della cattedrale.",
+            "clue": {
+              "id": "clue_ritual_remains",
+              "label": "Resti del rituale fallito",
+              "reveals": "Circolo di evocazione incompiuto nella cripta più profonda. Candele ancora tiepide, ceneri di incenso maledetto. Qualcuno ha tentato di evocare un'entità ma è stato interrotto. Simboli identici a quelli trovati nell'abside.",
+              "type": "physical"
+            }
+          }
+        ]
       },
       {
         "id": "actor_matteo",

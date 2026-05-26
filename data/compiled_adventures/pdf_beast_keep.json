@@ -426,7 +426,42 @@
         "relationships": [],
         "source_status": "explicit",
         "is_preserved_from_pdf": true,
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_vorn_letter",
+            "replacement_clue": {
+              "id": "clue_burned_fragments",
+              "label": "Frammenti bruciati della lettera nel camino",
+              "reveals": "Tracce di scrittura parzialmente leggibili menzionano 'maledizione' e 'luna piena'. Serve una prova di Ricerca-3 per recuperare informazioni utili"
+            },
+            "narration": "Durante la notte, Sir Aldric in forma umana brucia frettolosamente la lettera compromettente nel camino della Grande Sala, ma alcuni frammenti resistono alle fiamme"
+          },
+          {
+            "at_pressure": 7,
+            "action": "create_clue",
+            "clue": {
+              "id": "clue_false_beast_lair",
+              "label": "Tana della bestia nelle grotte a nord",
+              "reveals": "Una grotta apparentemente abitata da una creatura, con ossa e pellicce sparse. Sembra troppo evidente. Analisi attenta (Naturalista o Tracciare-2) rivela che è una messinscena recente",
+              "type": "red_herring"
+            },
+            "narration": "Sir Aldric passa una notte a preparare una falsa tana nelle grotte settentrionali, spargendo resti di animali e creando tracce evidenti per deviare le indagini"
+          },
+          {
+            "at_pressure": 8,
+            "action": "eliminate_npc",
+            "target_id": "npc_shepherd_witness",
+            "creates_clue": {
+              "id": "clue_shepherd_corpse",
+              "label": "Corpo del pastore testimone",
+              "reveals": "Ferite da artigli enormi, ma il corpo è stato trascinato fino al confine del villaggio come avvertimento. Medicina o Forensics: le ferite sono troppo precise, quasi chirurgiche per una bestia selvaggia"
+            },
+            "narration": "La Bestia attacca il pastore che aveva visto Sir Aldric aggirarsi di notte vicino al forte. Il corpo viene lasciato in vista come monito per chi indaga troppo"
+          }
+        ]
       },
       {
         "id": "actor_mayor",

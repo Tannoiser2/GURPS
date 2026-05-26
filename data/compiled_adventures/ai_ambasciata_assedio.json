@@ -427,7 +427,38 @@
           }
         ],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "scare_npc",
+            "target_id": "npc_custode_lorenzo",
+            "new_attitude": "hostile",
+            "narration": "Aquila trascina il custode Lorenzo in una stanza separata. Si sentono urla soffocate, poi silenzio. Quando Lorenzo riappare, il suo volto è livido e non vuole più parlare con nessuno."
+          },
+          {
+            "at_pressure": 7,
+            "action": "destroy_clue",
+            "clue_id": "clue_ricci_comm",
+            "replacement_clue": {
+              "id": "clue_ricci_burnt_phone",
+              "label": "Resti carbonizzati del cellulare di Ricci",
+              "reveals": "Frammenti leggibili mostrano contatti con numeri siriani e riferimenti a 'operazione cedro'. L'ultimo messaggio parzialmente visibile: '...conferma trasferimento fondi Damasco...'"
+            },
+            "narration": "Aquila irrompe nell'ufficio di Ricci, strappa il cellulare dalle mani di un ostaggio che lo stava esaminando e lo distrugge con il calcio del fucile, gettando poi i resti in un cestino metallico a cui dà fuoco."
+          },
+          {
+            "at_pressure": 8,
+            "action": "create_clue",
+            "clue": {
+              "id": "clue_aquila_deadline",
+              "label": "Ultimatum registrato di Aquila",
+              "reveals": "Registrazione video in cui Aquila, nervoso e sudato, annuncia: 'Se entro mezzanotte la Siria non rilascia i nostri fratelli, inizieremo le esecuzioni. Il primo sarà l'ambasciatore.' Sullo sfondo si intravede una mappa con segni rossi e coordinate.",
+              "type": "evidence"
+            },
+            "narration": "Aquila ordina ai suoi uomini di preparare una videocamera. Con voce tesa registra un messaggio minaccioso, fissando una scadenza definitiva. La tensione nell'ambasciata sale alle stelle."
+          }
+        ]
       },
       {
         "id": "actor_ricci",
