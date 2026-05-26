@@ -35,6 +35,7 @@ from .adventure_runtime_store import list_runtimes, load_runtime, save_runtime, 
 from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to_runtime
 from .adventure_validator import check_raw_compilation_quality
 from .scene_context import actions_for_scene
+from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor_score
 
 app = FastAPI()
 app.add_middleware(
@@ -826,6 +827,22 @@ def adventure_runtime_start(runtime_id: str, payload: RuntimeStartPayload | None
         "adventure_definition": definition.model_dump(),
         "runtime_state": runtime_state.model_dump(),
     }
+
+class DoctorPayload(BaseModel):
+    adventure_definition: dict
+    enrich: bool = False
+
+
+@app.post("/game/adventure/doctor")
+def adventure_doctor(payload: DoctorPayload):
+    """Audit (and optionally enrich) an adventure definition."""
+    try:
+        result = run_doctor(payload.adventure_definition, do_enrich=payload.enrich)
+        return result
+    except Exception as e:
+        print(f"[doctor endpoint] error: {e}")
+        return {"error": str(e), "score": 0, "findings": [], "enriched_definition": None}
+
 
 def _merge_game_state(current: dict, updates: dict) -> dict:
     """Replica applyStateUpdates del frontend — produce lo stato world dopo un turno."""
@@ -2093,6 +2110,17 @@ async def adventure_from_pdf(
         definition = AdventureDefinition(**compiled["adventure_definition"])
         runtime_state = AdventureRuntimeState(**compiled["runtime_state"])
         saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+
+        # ── Doctor: audit inline, nessun enrichment automatico (troppo lento per PDF) ──
+        try:
+            defn_dict = saved["adventure_definition"]
+            doctor_findings = doctor_audit(defn_dict)
+            doctor_sc = doctor_score(doctor_findings)
+            print(f"[adventure/from-pdf] doctor score: {doctor_sc}/10, {len(doctor_findings)} findings")
+        except Exception as de:
+            print(f"[adventure/from-pdf] doctor error (non bloccante): {de}")
+            doctor_findings, doctor_sc = [], 10.0
+
         result = dict(definition.legacy_adventure or {})
         result.update({
             "from_pdf": True,
@@ -2103,6 +2131,15 @@ async def adventure_from_pdf(
             "validation_report": saved["validation_report"],
             "pdf_pages_read": len(text_pages),
             "pdf_total_pages": total_pages,
+            "doctor": {
+                "score": doctor_sc,
+                "findings_count": len(doctor_findings),
+                "findings": [
+                    {"severity": f.severity, "category": f.category,
+                     "message": f.message, "fix_hint": f.fix_hint}
+                    for f in doctor_findings
+                ],
+            },
         })
     except Exception as e:
         print(f"[adventure/from-pdf] errore compiler runtime: {type(e).__name__}: {e}")

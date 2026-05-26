@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import caricaPdfImg from "./assets/carica_pdf.png";
 import caricaJsonImg from "./assets/carica_json.png";
+import jsonDoctorImg from "./assets/json_doctor.png";
 
 const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "/_/backend" : "http://127.0.0.1:8002");
 const VERCEL_PDF_UPLOAD_LIMIT_BYTES = 4 * 1024 * 1024;
@@ -1387,6 +1388,8 @@ function SetupScreen({ onStart }) {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfError, setPdfError] = useState("");
   const [preloadedAdventure, setPreloadedAdventure] = useState(null);
+  const [doctorReport, setDoctorReport] = useState(null); // {score, findings, enriching}
+  const [doctorEnriching, setDoctorEnriching] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [showBuilder, setShowBuilder] = useState(false);
   const [avatars, setAvatars] = useState({});
@@ -1437,6 +1440,17 @@ function SetupScreen({ onStart }) {
       setPreloadedAdventure(adventure);
       setGenre(detectedGenre);
 
+      // Doctor audit (non bloccante)
+      setDoctorReport(null);
+      try {
+        const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adventure_definition: definition, enrich: false }),
+        }).then(r => r.json());
+        if (!dr.error) setDoctorReport({ ...dr, source: "json" });
+      } catch (_) {}
+
       setLoading(true);
       await fetch(`${API_URL}/game/setup`, {
         method: "POST",
@@ -1472,6 +1486,29 @@ function SetupScreen({ onStart }) {
     if (!preloadedAdventure) return;
     const payload = buildAdventureExport({ adventure: preloadedAdventure, source: "json_load" });
     downloadJsonFile(payload, `${safeFilePart(payload.title)}-compilata.json`);
+  }
+
+  async function handleDoctorEnrich() {
+    if (!preloadedAdventure?.adventure_definition) return;
+    setDoctorEnriching(true);
+    try {
+      const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adventure_definition: preloadedAdventure.adventure_definition, enrich: true }),
+      }).then(r => r.json());
+      if (dr.error) { setDoctorEnriching(false); return; }
+      if (dr.enriched_definition) {
+        const enrichedDef = dr.enriched_definition;
+        setPreloadedAdventure(prev => ({
+          ...prev,
+          ...enrichedDef,
+          adventure_definition: enrichedDef,
+        }));
+        setDoctorReport({ score: dr.score_after ?? dr.score, findings: [], findings_count: 0, source: "enriched" });
+      }
+    } catch (_) {}
+    setDoctorEnriching(false);
   }
 
   async function handlePdfUpload(file) {
@@ -1512,6 +1549,11 @@ function SetupScreen({ onStart }) {
         from_pdf_load: true,
       };
       setPreloadedAdventure(adventure); setGenre(detectedGenre);
+
+      // Doctor report già calcolato dal backend durante la compilazione PDF
+      if (data.doctor) setDoctorReport({ ...data.doctor, source: "pdf" });
+      else setDoctorReport(null);
+
       setLoading(true);
       await fetch(`${API_URL}/game/setup`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }) });
       const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
@@ -1815,6 +1857,63 @@ function SetupScreen({ onStart }) {
         {(pdfError || jsonError) && (
           <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
             ❌ {pdfError || jsonError}
+          </div>
+        )}
+
+        {/* Doctor report badge */}
+        {doctorReport && !doctorEnriching && (
+          <div style={{
+            display: "flex", alignItems: "center", gap: 10,
+            justifyContent: "center", flexWrap: "wrap",
+            padding: "5px 16px", background: "#0d0d0d",
+            borderTop: "1px solid rgba(255,255,255,0.07)", flexShrink: 0,
+          }}>
+            {(() => {
+              const sc = doctorReport.score ?? 0;
+              const color = sc >= 9 ? "#4ade80" : sc >= 6 ? "#facc15" : "#f87171";
+              const label = sc >= 9 ? "Ottima qualità" : sc >= 6 ? "Qualità discreta" : "Qualità bassa";
+              const criticals = (doctorReport.findings || []).filter(f => f.severity === "critical").length;
+              const warnings = (doctorReport.findings || []).filter(f => f.severity === "warning").length;
+              return (
+                <>
+                  <span style={{ color, fontWeight: 700, fontSize: 13 }}>
+                    ✦ Qualità avventura: {sc}/10 — {label}
+                  </span>
+                  {(criticals > 0 || warnings > 0) && (
+                    <span style={{ color: "#94a3b8", fontSize: 12 }}>
+                      ({criticals > 0 ? `${criticals} critico${criticals > 1 ? "i" : ""}` : ""}
+                      {criticals > 0 && warnings > 0 ? ", " : ""}
+                      {warnings > 0 ? `${warnings} warning` : ""})
+                    </span>
+                  )}
+                  {sc < 9.5 && (
+                    <img
+                      src={jsonDoctorImg}
+                      alt="JSON Doctor — Migliora con AI"
+                      onClick={handleDoctorEnrich}
+                      style={{
+                        height: 32, cursor: "pointer", borderRadius: 7,
+                        transition: "opacity 0.15s",
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.opacity = "0.8"}
+                      onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                    />
+                  )}
+                  {doctorReport.source === "enriched" && (
+                    <span style={{ color: "#4ade80", fontSize: 12 }}>✓ Migliorata</span>
+                  )}
+                </>
+              );
+            })()}
+          </div>
+        )}
+        {doctorEnriching && (
+          <div style={{
+            textAlign: "center", padding: "5px 16px", background: "#0d0d0d",
+            borderTop: "1px solid rgba(255,255,255,0.07)", flexShrink: 0,
+            color: "#a5b4fc", fontSize: 12,
+          }}>
+            ✦ Miglioramento in corso con AI...
           </div>
         )}
 
