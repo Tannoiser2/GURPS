@@ -427,6 +427,39 @@ def _forced_combat_entities_for_node(node) -> list[dict]:
     return entities
 
 
+_ROUTINE_MOVE_RE = re.compile(
+    r"^\s*(spostar[si]*|andare|camminare|dirigers[i]*|avvicinar[si]*|allontan[si]*|tornare|raggiungere|uscire|entrare|seguire il sentiero|seguire la strada|procedere)\b",
+    re.IGNORECASE,
+)
+_ROUTINE_MOVE_KEYWORDS = {
+    "spostarsi", "andare a", "camminare verso", "dirigersi", "avvicinarsi verso",
+    "seguire il sentiero", "seguire la strada", "raggiungere", "tornare al",
+    "uscire dalla", "entrare nel", "entrare nella", "allontanarsi",
+}
+
+
+def _needs_roll(action_text: str, threat_level: int, in_combat: bool) -> bool:
+    """Restituisce False per azioni di routine che non richiedono tiro GURPS.
+
+    Regola base GURPS: se l'azione è banale (nessuna difficoltà reale, nessuna
+    opposizione, threat_level basso) il Master non chiede un tiro.
+    """
+    if in_combat:
+        return True  # in combattimento si tira sempre
+    if threat_level >= 3:
+        return True  # alta tensione: anche il movimento può nascondere pericoli
+    text_lower = action_text.strip().lower()
+    # Movimento semplice senza specificare ostacoli o azioni aggiuntive
+    if _ROUTINE_MOVE_RE.match(text_lower):
+        # Eccezioni: se l'azione contiene un obiettivo secondario (es. "spostarsi e cercare")
+        secondary_keywords = ("cerca", "osserv", "nascond", "furtiv", "combatt",
+                              "attacc", "scappa", "sfuggi", "investiga", "esamina",
+                              "ascolt", "spia", "intercett")
+        if not any(k in text_lower for k in secondary_keywords):
+            return False
+    return True
+
+
 def _force_hot_zone_combat_update(updates: dict, player_action: str) -> dict:
     su = dict(updates or {})
     if su.get("activate_combat") or su.get("combat_over") or su.get("story_over"):
@@ -1362,9 +1395,13 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     roll_detail = None
     if active_player:
         threat_level = payload.game_state_data.get("threat_level", 1)
+        in_combat = bool(payload.game_state_data.get("in_combat"))
         scene_tags = list(game_state.scene.scene_tags) if game_state.scene else []
-        roll_detail = roll_for_player_action(active_player, payload.player_action, threat_level, scene_tags)
-        game_state.last_roll_details = [roll_detail]
+        if _needs_roll(payload.player_action, threat_level, in_combat):
+            roll_detail = roll_for_player_action(active_player, payload.player_action, threat_level, scene_tags)
+            game_state.last_roll_details = [roll_detail]
+        else:
+            game_state.last_roll_details = []
 
     result = master_turn_with_bible(
         payload.genre, payload.players, payload.history,
