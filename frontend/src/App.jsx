@@ -2919,6 +2919,72 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
   );
 }
 
+function ClockToastOverlay({ toasts, onDismiss }) {
+  useEffect(() => {
+    if (toasts.length === 0) return;
+    const timer = setTimeout(() => onDismiss(toasts[0].id), 6000);
+    return () => clearTimeout(timer);
+  }, [toasts, onDismiss]);
+
+  if (toasts.length === 0) return null;
+  const toast = toasts[0];
+  const isCompleted = toast.completed;
+  const isFatal = toast.clock_type === "terminal_defeat";
+  const isVictory = toast.clock_type === "terminal_victory";
+
+  const borderColor = isCompleted
+    ? (isFatal ? "#ef4444" : isVictory ? "#eab308" : "#f97316")
+    : "#f59e0b";
+  const bgColor = isCompleted
+    ? (isFatal ? "rgba(239,68,68,0.18)" : isVictory ? "rgba(234,179,8,0.15)" : "rgba(249,115,22,0.15)")
+    : "rgba(245,158,11,0.13)";
+  const icon = isCompleted ? (isFatal ? "💀" : isVictory ? "👑" : "⚠️") : "⏱";
+  const title = isCompleted ? "CLOCK COMPLETATO" : "CLOCK AVANZATO";
+
+  return (
+    <div style={{
+      position: "fixed", top: 80, right: 16, zIndex: 9999,
+      maxWidth: 320, minWidth: 240,
+      background: bgColor,
+      border: `1.5px solid ${borderColor}`,
+      borderRadius: 12, padding: "12px 14px",
+      boxShadow: `0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px ${borderColor}22`,
+      animation: "fadeInRight 0.25s ease",
+      cursor: "pointer",
+    }} onClick={() => onDismiss(toast.id)}>
+      <style>{`@keyframes fadeInRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }`}</style>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+        <span style={{ fontSize: 16 }}>{icon}</span>
+        <span style={{ fontSize: 11, fontWeight: 700, color: borderColor, letterSpacing: "0.06em" }}>{title}</span>
+        <span style={{ marginLeft: "auto", fontSize: 10, opacity: 0.5 }}>✕</span>
+      </div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc", marginBottom: 4 }}>
+        {toast.label}
+      </div>
+      <div style={{ display: "flex", gap: 2, marginBottom: 6 }}>
+        {Array.from({ length: toast.max_value }, (_, i) => (
+          <div key={i} style={{
+            flex: 1, height: 5, borderRadius: 2,
+            background: i < toast.new_value ? borderColor : "rgba(255,255,255,0.1)",
+            transition: "background 0.4s",
+          }} />
+        ))}
+      </div>
+      <div style={{ fontSize: 11, color: "rgba(248,250,252,0.65)" }}>
+        {toast.old_value} → {toast.new_value} / {toast.max_value}
+        {isCompleted && toast.consequence && (
+          <div style={{ marginTop: 4, color: borderColor, fontWeight: 600 }}>{toast.consequence}</div>
+        )}
+        {!isCompleted && toast.steps_crossed?.map((s, i) => (
+          <div key={i} style={{ marginTop: 3, opacity: 0.85 }}>
+            → {s.effect || s.world_state_change || s.label || ""}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ClocksPanel({ clocks, isGM }) {
   if (!clocks || clocks.length === 0) return null;
 
@@ -5236,6 +5302,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [locationImages, setLocationImages] = useState({});
   const [showMapPanel, setShowMapPanel] = useState(false);
   const [clocksData, setClocksData] = useState([]);
+  const [clockToasts, setClockToasts] = useState([]);
   const [tokenStats, setTokenStats] = useState({ input_tokens: 0, output_tokens: 0, total_tokens: 0, cost_usd: 0, calls: 0, errors: 0 });
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
@@ -5838,6 +5905,22 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
     if (res.map_state) setMapState(res.map_state);
     if (res.clocks_data) setClocksData(res.clocks_data);
+    if (res.clock_events?.length > 0) {
+      setClockToasts(prev => [
+        ...prev,
+        ...res.clock_events.map(ev => ({
+          id: `${ev.clock_id}-${Date.now()}-${Math.random()}`,
+          label: ev.label,
+          old_value: ev.old_value,
+          new_value: ev.new_value,
+          max_value: ev.max_value,
+          steps_crossed: ev.steps_crossed || [],
+          completed: ev.completed,
+          clock_type: ev.clock_type || "narrative",
+          consequence: ev.consequence || "",
+        })),
+      ]);
+    }
     if (res.call_tokens) setTokenStats(prev => {
       const t = res.call_tokens;
       return {
@@ -6272,6 +6355,10 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       {showSecrets && adventure && (
         <SecretsPanel adventure={adventure} gameState={gameStateData} onClose={() => setShowSecrets(false)} />
       )}
+      <ClockToastOverlay
+        toasts={clockToasts}
+        onDismiss={id => setClockToasts(prev => prev.filter(t => t.id !== id))}
+      />
       {showMapPanel && adventure && mapState && (
         <FloatingMapPanel
           mapState={mapState}

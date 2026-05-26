@@ -36,6 +36,7 @@ from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to
 from .adventure_validator import check_raw_compilation_quality
 from .scene_context import actions_for_scene
 from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor_score
+from .clock_engine import tick_clocks, format_clock_event_narrative
 
 app = FastAPI()
 app.add_middleware(
@@ -1455,6 +1456,29 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     )
     if game_state.scene:
         game_state.scene.threat_level += int(su.get("threat_increase") or 0)
+
+    # ── Clock engine: tick basato sull'outcome del tiro ──
+    clock_events = []
+    if (
+        game_state.adventure_definition
+        and game_state.adventure_runtime_state
+        and roll_detail
+    ):
+        outcome_str = str((roll_detail or {}).get("outcome") or "successo pieno")
+        try:
+            clock_events, _ = tick_clocks(
+                outcome_str,
+                game_state.adventure_definition,
+                game_state.adventure_runtime_state,
+            )
+            if clock_events:
+                for ev in clock_events:
+                    print(f"[clock_engine] {format_clock_event_narrative(ev)}")
+        except Exception as ce:
+            print(f"[clock_engine] errore (non bloccante): {ce}")
+    if clock_events:
+        result["clock_events"] = clock_events
+
     _update_map_position(payload.player_action)
     if not game_state.map_state and game_state.adventure_definition:
         game_state.map_state = _build_map_from_definition(game_state.adventure_definition)
