@@ -1,0 +1,814 @@
+{
+  "adventure_definition": {
+    "id": "pdf_flaw_lens",
+    "title": "Flaw in the Lens",
+    "source_type": "pdf_text",
+    "source_mode": "pdf_import",
+    "genre": "horror",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "horror cosmico, 1974, paranoia, Lovecraftiano",
+    "premise": "Autunno 1974. L'Osservatorio astronomico Blackwell, sulle colline del Vermont, ha smesso di comunicare. Un'equipe di tre astronomi vi lavorava su un fenomeno celeste anomalo — una 'flaw in the lens', un difetto nell'obiettivo che mostrava qualcosa che non dovrebbe essere lì. I PG vengono inviati a investigare: come giornalisti, colleghi, familiari o funzionari governativi.",
+    "initial_hook": "Non ricevete più notizie dall'Osservatorio Blackwell da sei giorni. L'ultima comunicazione radio era frammentata: 'Lo vediamo attraverso lo specchio... non è una stella... è un occhio.' Siete i primi ad arrivare.",
+    "core_truths": [
+      {
+        "id": "truth_entity",
+        "statement": "Il telescopio di Blackwell ha introdotto una frequenza risonante che ha aperto una 'finestra' su una dimensione esterna. L'entità percepisce chi la osserva.",
+        "reveal_clues": [
+          "clue_research_notes",
+          "clue_resonance_data"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_astronomer_fate",
+        "statement": "Due astronomi sono morti. Il terzo, Dr. Pryce, è vivo ma ha perso la mente — è convinto che l'entità stia comunicando con lui.",
+        "reveal_clues": [
+          "clue_bodies",
+          "clue_pryce_location"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_solution",
+        "statement": "La 'finestra' può essere chiusa alterando fisicamente il telescopio — spezzando lo specchio principale o modificando la frequenza di risonanza con sufficiente disturbo elettromagnetico.",
+        "reveal_clues": [
+          "clue_research_notes",
+          "clue_technical_manual"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_enter",
+        "label": "Entrare nell'osservatorio e valutare la situazione",
+        "status": "active",
+        "unlocks": [
+          "obj_find_survivors",
+          "obj_understand_phenomenon"
+        ],
+        "success_conditions": [
+          "Accesso a observatory_main"
+        ]
+      },
+      {
+        "id": "obj_find_survivors",
+        "label": "Trovare gli astronomi",
+        "status": "inactive",
+        "unlocks": [
+          "obj_understand_phenomenon"
+        ],
+        "success_conditions": [
+          "clue_bodies E clue_pryce_location scoperti"
+        ]
+      },
+      {
+        "id": "obj_understand_phenomenon",
+        "label": "Capire cosa ha aperto la finestra dimensionale",
+        "status": "inactive",
+        "unlocks": [
+          "obj_close_window"
+        ],
+        "success_conditions": [
+          "rev_entity rivelato"
+        ]
+      },
+      {
+        "id": "obj_close_window",
+        "label": "Chiudere la finestra prima che l'entità passi",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Specchio distrutto O frequenza alterata"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_entity",
+        "thread_id": "thread_fenomeno",
+        "statement": "L'anomalia non è astronomica — è una 'finestra' su una dimensione esterna aperta dalla frequenza risonante del telescopio modificato. L'entità che osservano è reale e cosciente.",
+        "required_clues": [
+          "clue_research_notes",
+          "clue_resonance_data"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "physical"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "clue_red_herring_gas"
+        ],
+        "status": "hidden",
+        "payoff": "I PG capiscono la vera natura della minaccia. Non è fisica — è extra-dimensionale.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_fate_astronomers",
+        "thread_id": "thread_sopravvissuti",
+        "statement": "Dr. Ellis e Dr. Harmon sono morti — Elliott per arresto cardiaco durante l'osservazione, Harmon in modo più violento. Dr. Pryce è vivo ma psicotico — crede di comunicare con l'entità.",
+        "required_clues": [
+          "clue_bodies",
+          "clue_pryce_location"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "physical"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG sanno che Pryce è vivo e può essere aiutato O è un ostacolo.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_pryce_danger",
+        "thread_id": "thread_sopravvissuti",
+        "statement": "Pryce è diventato un vettore dell'entità — vuole che altri guardino nel telescopio per aprire ulteriormente la finestra.",
+        "required_clues": [
+          "clue_pryce_journal",
+          "clue_pryce_location"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "physical"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Pryce non è un alleato ma una minaccia attiva.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_solution",
+        "thread_id": "thread_soluzione",
+        "statement": "La finestra può essere chiusa distruggendo lo specchio principale del telescopio o generando un disturbo EM sufficiente. Il manuale tecnico indica come.",
+        "required_clues": [
+          "clue_research_notes",
+          "clue_technical_manual"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG hanno un piano concreto per fermare l'entità.",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_research_notes",
+        "label": "Note di ricerca del Dr. Ellis",
+        "type": "document",
+        "thread_id": "thread_fenomeno",
+        "source_location": "observatory_lab",
+        "reveals": "Appunti dettagliati di Dr. Ellis: ha modificato il telescopio per osservare una frequenza anomala. L'ultima voce: 'La frequenza 7.83 Hz crea risonanza con lo specchio. L'anomalia risponde. Non è un difetto nell'obiettivo — è una finestra. Dio mio, cosa c'è dall'altra parte?'",
+        "payoff": "rev_entity",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_entity",
+          "rev_solution"
+        ],
+        "immediate_information": "Frequenza 7.83 Hz, modifiche al telescopio, anomalia responsiva.",
+        "hidden_implication": "L'anomalia è cosciente e risponde agli osservatori.",
+        "unlocks": [
+          "clue_technical_manual",
+          "clue_resonance_data"
+        ],
+        "possible_actions": [
+          "Trovare il laboratorio",
+          "Leggere le note"
+        ],
+        "wrong_interpretations": [
+          "Ellis era paranoico e il difetto è ottico"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_resonance_data",
+        "label": "Dati di risonanza sul telescopio",
+        "type": "physical_evidence",
+        "thread_id": "thread_fenomeno",
+        "source_location": "telescope_room",
+        "reveals": "Lo strumentario ancora acceso mostra una frequenza costante di 7.83 Hz emanata dal telescopio. I grafici mostrano un picco anomalo ogni 33 minuti — come un battito cardiaco.",
+        "payoff": "rev_entity",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_entity"
+        ],
+        "immediate_information": "Il telescopio emette una frequenza regolare come un battito.",
+        "hidden_implication": "La frequenza mantiene aperta la finestra.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare gli strumenti",
+          "Analizzare i dati"
+        ],
+        "wrong_interpretations": [
+          "È solo un guasto tecnico"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_bodies",
+        "label": "Corpi di Ellis e Harmon",
+        "type": "physical_evidence",
+        "thread_id": "thread_sopravvissuti",
+        "source_location": "telescope_room",
+        "reveals": "Dr. Ellis è seduto alla sedia di osservazione, morto — arresto cardiaco. Espressione di terrore assoluto sul volto. Dr. Harmon è in un angolo: ferite da trauma contundente, come se qualcosa lo avesse colpito dall'interno della stanza — nessun segno di un aggressore.",
+        "payoff": "rev_fate_astronomers",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_fate_astronomers"
+        ],
+        "immediate_information": "Due morti. Una da paura, una da trauma. Nessun aggressore visibile.",
+        "hidden_implication": "L'entità può agire fisicamente o attraverso terrore.",
+        "unlocks": [
+          "clue_pryce_location"
+        ],
+        "possible_actions": [
+          "Esaminare la stanza del telescopio"
+        ],
+        "wrong_interpretations": [
+          "C'è un killer fisico nell'osservatorio"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pryce_location",
+        "label": "Tracce che portano al Dr. Pryce",
+        "type": "physical_evidence",
+        "thread_id": "thread_sopravvissuti",
+        "source_location": "observatory_basement",
+        "reveals": "Impronte di piedi scalzi nel corridoio del piano inferiore, portano al locale tecnico nel basement. Voci confuse da sotto.",
+        "payoff": "rev_fate_astronomers",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_fate_astronomers"
+        ],
+        "immediate_information": "Qualcuno è vivo nel basement.",
+        "hidden_implication": "È Pryce, ma non è sano di mente.",
+        "unlocks": [
+          "clue_pryce_journal"
+        ],
+        "possible_actions": [
+          "Seguire le tracce",
+          "Ascoltare le voci"
+        ],
+        "wrong_interpretations": [
+          "È un intruso"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pryce_journal",
+        "label": "Diario frenetico del Dr. Pryce",
+        "type": "document",
+        "thread_id": "thread_sopravvissuti",
+        "source_location": "observatory_basement",
+        "reveals": "Un taccuino riempito in modo febbrile: 'Sta parlando con me. Solo io posso sentirla. Ellis e Harmon hanno avuto paura — non capivano. L'occhio vuole vedere DI PIÙ. Devo aprire la finestra più in grande. Ho bisogno di più osservatori. Verrà. Verrà tutto.'",
+        "payoff": "rev_pryce_danger",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_pryce_danger"
+        ],
+        "immediate_information": "Pryce vuole aprire ulteriormente la finestra. Non è un alleato.",
+        "hidden_implication": "Pryce è un ostacolo attivo e potenzialmente violento.",
+        "unlocks": [],
+        "possible_actions": [
+          "Trovare il taccuino nel basement"
+        ],
+        "wrong_interpretations": [
+          "Pryce è solo in stato di shock"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_technical_manual",
+        "label": "Manuale tecnico del telescopio con annotazioni",
+        "type": "document",
+        "thread_id": "thread_soluzione",
+        "source_location": "observatory_lab",
+        "reveals": "Il manuale del telescopio con annotazioni di Ellis: 'Frequenza di risonanza critica: 7.83 Hz. Interruzione: disturbo EM superiore a 100 kV O distruzione meccanica dello specchio principale. Entrambi chiudono il ciclo.' Ellis ha già calcolato come fermare quello che ha iniziato.",
+        "payoff": "I personaggi ottengono il metodo scientifico per chiudere la finestra dimensionale prima che l'entità completi il passaggio. Ellis aveva compreso il pericolo e preparato una soluzione, ma è morto prima di attuarla.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution"
+        ],
+        "immediate_information": "Due metodi per chiudere la finestra: disturbo EM o distruggere lo specchio.",
+        "hidden_implication": "La frequenza 7.83 Hz è la risonanza di Schumann della Terra stessa — Ellis non stava solo osservando, ma sintonizzando il telescopio come un'antenna verso qualcosa che risuona con il nostro pianeta. Le annotazioni mostrano che sapeva esattamente cosa stava evocando.",
+        "unlocks": [],
+        "possible_actions": [
+          "Trovare il manuale nel laboratorio"
+        ],
+        "wrong_interpretations": [
+          "Le annotazioni sono solo calcoli tecnici di routine per la manutenzione del telescopio",
+          "Ellis stava cercando di amplificare il fenomeno, non di fermarlo"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_red_herring_gas",
+        "label": "Valori anomali di CO2 nell'osservatorio",
+        "type": "physical_evidence",
+        "thread_id": "thread_fenomeno",
+        "source_location": "observatory_main",
+        "reveals": "I rilevatori mostrano livelli elevati di CO2 — abbastanza da causare allucinazioni. Sembrano giustificare tutte le anomalie.",
+        "payoff": "Una spiegazione razionale e rassicurante che permette ai personaggi di abbassare la guardia, credendo che tutto sia solo un problema di ventilazione. Questo li rende più vulnerabili quando scoprono la verità cosmica.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "CO2 elevata — possibile spiegazione razionale.",
+        "hidden_implication": "Red herring — i livelli sono stati alterati da Pryce per confondere chi indaga. Se esaminati attentamente, i rilevatori mostrano segni di manomissione recente. Pryce voleva che gli investigatori arrivassero a una conclusione rassicurante e se ne andassero.",
+        "unlocks": [],
+        "possible_actions": [
+          "Controllare i rilevatori"
+        ],
+        "wrong_interpretations": [
+          "Le visioni sono causate da intossicazione da CO2",
+          "Un guasto al sistema di ventilazione spiega tutti gli eventi strani"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_pryce",
+        "name": "Dr. Arthur Pryce",
+        "role": "antagonist",
+        "location_id": "observatory_basement",
+        "status": "unintroduced",
+        "goal": "Aprire completamente la finestra dimensionale per portare l'entità nel mondo fisico",
+        "secret": "Non sa di essere un vettore — crede di comunicare liberamente con un'intelligenza superiore",
+        "agenda_pressure": 8,
+        "fear": "Che la finestra venga chiusa",
+        "current_plan": "Convincere i nuovi arrivati a guardare nel telescopio e poi usarli per aprire la finestra",
+        "fallback_plan": "Sabotare il sistema di chiusura prima che i PG agiscano",
+        "resources": [
+          "Conoscenza tecnica del telescopio",
+          "Accesso al locale tecnico"
+        ],
+        "knows": [
+          "clue_resonance_data",
+          "truth_entity"
+        ],
+        "wants": [
+          "Che l'entità arrivi",
+          "Che altri guardino nel telescopio"
+        ],
+        "avoids": [
+          "La luce del sole"
+        ],
+        "pressure_response": {
+          "pressure_low": "Pryce è lucido in modo inquietante — parla con entusiasmo scientifico di 'quello che c'è dall'altra parte'. Si comporta come se i PG fossero colleghi venuti per osservare il fenomeno. Invita a guardare nel telescopio con il tono di chi offre un caffè. Non percepisce la sua stessa pericolosità.",
+          "pressure_mid": "Pryce diventa sospettoso se i PG fanno domande sul manuale tecnico o sulla frequenza di chiusura. 'Perché volete sapere come interrompere la risonanza? Non capite — siamo sull'orlo di qualcosa di immensamente importante.' Inizia a monitorare i movimenti dei PG.",
+          "pressure_high": "Pryce capisce che i PG vogliono chiudere la finestra. Diventa franticamente difensivo: sabota l'accesso al locale tecnico, nasconde strumenti critici, parla dell'entità come di una madre che sta arrivando a portarli a casa. Può diventare fisicamente violento se si avvicina troppo allo specchio.",
+          "pressure_max": "Pryce è in modalità totale di servizio all'entità. Tenta attivamente di spingere i PG verso il telescopio — se necessario fisicamente. Non prova dolore normale. Se disarmato o immobilizzato, continua a mormorare le coordinate della frequenza. L'unico modo per fermarlo è neutralizzarlo fisicamente o trovare un modo per romperlo dalla presa dell'entità."
+        },
+        "reaction_table": {
+          "friendly_approach": "Pryce risponde con entusiasmo caldo e terrificante. È convinto che chiunque sia lì sia lì per unirsi a lui. Un approccio amichevole lo incoraggia a spiegare tutto del fenomeno — inclusi dettagli tecnici utili per chiudere la finestra. Tiro Intuizione PG a +3 per capire che qualcosa non va nel modo in cui descrive 'l'occhio'.",
+          "intimidation": "Pryce non registra l'intimidazione in modo normale. 'Avete paura? È normale. Ellis aveva paura. Poi ha guardato e ha capito. Guardate anche voi.' Non cede alla minaccia — l'entità ha rimosso il suo senso del pericolo.",
+          "bribery": "Pryce non risponde a incentivi materiali. L'unica 'corruzione' che funziona è offrirgli il pretesto di usare lui stesso la procedura di chiusura: 'Se tu spegni il telescopio, potremmo salvare il tuo lavoro scientifico.' Può funzionare se i PG hanno letto il diario e capiscono la sua psicologia.",
+          "caught_lying": "Pryce non sa di stare mentendo — crede in ogni cosa che dice. Se i PG dimostrano che l'entità non sta 'comunicando' ma lo sta usando, Pryce si destabilizza per un momento: un lampo di lucidità terrificante. Questo è il momento in cui può essere aiutato.",
+          "authority_figure": "Pryce ignora completamente le autorità. 'Governo? NASA? Non hanno idea di cosa sia questo. Nessuno ha idea tranne me.' Le gerarchie umane sono irrilevanti per lui. L'unica 'autorità' che riconosce è quella dell'entità."
+        },
+        "relationships": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "observatory_main",
+        "name": "Hall Principale dell'Osservatorio",
+        "description": "Edificio in pietra anni '30. Luci sfarfallanti. Aria stantia. Telefoni morti. Una sensazione di peso sulla nuca.",
+        "status": "known",
+        "contains_clues": [
+          "clue_red_herring_gas"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Edificio anni 30, corridoi bui, strumentazione scientifica ovunque",
+        "gameplay_function": "Punto di ingresso, atmosfera horror",
+        "concrete_features": [
+          "Telefoni sconnessi",
+          "Rilevatori CO2",
+          "Lavagne con formule"
+        ],
+        "hazards": [
+          "Rilevatori CO2 falsati da Pryce"
+        ],
+        "exits": [
+          "observatory_lab",
+          "telescope_room",
+          "observatory_basement"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_red_herring_gas"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "observatory_lab",
+        "name": "Laboratorio di Ricerca",
+        "description": "Scaffali pieni di appunti. Il terminale è ancora acceso con le ultime elaborazioni. La sedia di Ellis è girata verso la finestra, vuota.",
+        "status": "known",
+        "contains_clues": [
+          "clue_research_notes",
+          "clue_technical_manual"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Laboratorio scientifico anni 70, terminale verde, scaffali metallici",
+        "gameplay_function": "Note cruciali, soluzione tecnica",
+        "concrete_features": [
+          "Terminale IBM acceso",
+          "Scaffali di appunti",
+          "Caffè ghiacciato sulla scrivania"
+        ],
+        "hazards": [],
+        "exits": [
+          "observatory_main",
+          "telescope_room"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_research_notes",
+          "clue_technical_manual"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "telescope_room",
+        "name": "Sala del Telescopio — La Cupola",
+        "description": "La cupola aperta al cielo. Il telescopio punta verso un punto fisso. I corpi di Ellis e Harmon sono ancora qui. Dal telescopio emana un lieve calore.",
+        "status": "known",
+        "contains_clues": [
+          "clue_resonance_data",
+          "clue_bodies"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Cupola astronomica, telescopio gigante, cupola aperta sulle stelle",
+        "gameplay_function": "Corpi, dati cruciali, confronto finale",
+        "concrete_features": [
+          "Il grande telescopio",
+          "Corpi di Ellis e Harmon",
+          "Strumentazione di lettura"
+        ],
+        "hazards": [
+          "Guardare nel telescopio causa visioni dell'entità + SAN check",
+          "Pryce può sabotare la chiusura qui"
+        ],
+        "exits": [
+          "observatory_lab",
+          "observatory_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_resonance_data",
+          "clue_bodies"
+        ],
+        "tactical_features": [
+          "Lo specchio principale è il punto di chiusura",
+          "Spazio aperto sopra — vulnerabile"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "observatory_basement",
+        "name": "Locale Tecnico nel Basement",
+        "description": "Seminterrato buio con generatori e quadri elettrici. Pryce si è rifugiato qui tra i cavi, circondato di disegni frenetici alle pareti.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_pryce_location",
+          "clue_pryce_journal"
+        ],
+        "contains_actors": [
+          "actor_pryce"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Seguire le tracce"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Basement industriale, generatori ronzanti, fili ovunque, disegni alle pareti",
+        "gameplay_function": "Pryce, suo diario, confronto con l'antagonista",
+        "concrete_features": [
+          "Pryce rannicchiato tra i generatori",
+          "Disegni frenetici alle pareti",
+          "Pannello elettrico principale"
+        ],
+        "hazards": [
+          "Pryce può attaccare se sente che vogliono chiudere la finestra",
+          "Cavi sotto tensione"
+        ],
+        "exits": [
+          "observatory_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_pryce_journal"
+        ],
+        "tactical_features": [
+          "Il pannello elettrico può generare il disturbo EM per chiudere la finestra"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_apertura",
+        "label": "Apertura della Finestra Dimensionale",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "La finestra si apre completamente. L'entità entra nel mondo fisico. Fine del gioco.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Le luci iniziano a spegnersi ciclicamente. Temperature scendono di 10 gradi"
+          },
+          {
+            "tick": 4,
+            "event": "L'entità si manifesta come ombre con occhi. I PG iniziano ad avere allucinazioni"
+          },
+          {
+            "tick": 6,
+            "event": "Pryce porta il telescopio alla frequenza massima. Finestra quasi aperta"
+          },
+          {
+            "tick": 8,
+            "event": "Un vortice visivo appare attorno al telescopio. L'entità è quasi qui"
+          },
+          {
+            "tick": 10,
+            "event": "L'entità passa. Fine del mondo come lo conosciamo."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_technical_manual"
+        ],
+        "resolution_condition": "Distruggere lo specchio O generare disturbo EM dal pannello nel basement",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_research_notes",
+        "discovery_hint": "L'aria sembra più pesante a ogni ora che passa. La frequenza è costante come un battito che accelera lentamente.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "inferred",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.85
+      }
+    ],
+    "pressure_systems": [
+      {
+        "id": "pressure_sanita",
+        "label": "Erosione della Sanità",
+        "value": 0,
+        "max_value": 10,
+        "description": "Ogni clue scoperto sul fenomeno, ogni visione dell'entità, erode la sanità dei PG. A 10, un PG diventa come Pryce."
+      }
+    ],
+    "resources": [
+      {
+        "id": "res_sanita_investigatori",
+        "label": "Sanità Mentale dei PG",
+        "description": "La stabilità psichica dei PG di fronte all'entità cosmica e alle prove della sua esistenza — separato dalla pressure_sanita che misura l'esposizione complessiva",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Guardare nel telescopio perde 2 punti istantaneamente. Ogni visione dell'entità perde 1. Leggere il diario di Pryce senza preparazione perde 1. Essere in presenza di Pryce oltre 10 minuti perde 1.",
+        "depletion_consequence": "A 7: il PG inizia a sentire la frequenza 7.83 Hz come un suono fisico costante — tiro Concentrazione -1 su ogni azione tecnica. A 4: il PG deve fare un tiro Volontà per non guardare nel telescopio ogni volta che entra nella cupola. A 0: il PG diventa come Pryce — un secondo vettore dell'entità",
+        "recovery_method": "Uscire dall'osservatorio e rimanere all'aperto recupera 2 punti per ora. Nessun recupero all'interno dell'edificio finché il telescopio è attivo."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_destroy_mirror",
+        "label": "Distruzione dello Specchio",
+        "required_threads": [
+          "thread_soluzione"
+        ],
+        "required_clues": [
+          "clue_technical_manual",
+          "clue_research_notes"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Distruggere fisicamente lo specchio principale del telescopio prima che Pryce completi l'apertura",
+        "concrete_choice": "Richiede combattere o eludere Pryce che difende il telescopio"
+      },
+      {
+        "id": "finale_em_disruption",
+        "label": "Disturbo Elettromagnetico",
+        "required_threads": [
+          "thread_soluzione"
+        ],
+        "required_clues": [
+          "clue_technical_manual",
+          "clue_pryce_location"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Usare il pannello elettrico nel basement per generare un disturbo EM sufficiente — richiede che Pryce sia neutralizzato prima",
+        "concrete_choice": "Meno distruttivo della prima opzione ma richiede controllo del basement"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "horror",
+      "tone": "cosmico, Lovecraftiano, 1974",
+      "allowed_escalations": [
+        "sanity_loss",
+        "supernatural_manifestation",
+        "paranoia"
+      ],
+      "forbidden_escalations": [
+        "comedy",
+        "action_blockbuster"
+      ],
+      "terminal_events_require": [],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "Non mostrare mai l'entità direttamente — solo ombre, suoni, effetti sui PG",
+      "Pryce è tragico: era un buon scienziato distrutto dalla curiosità",
+      "Il manuale tecnico è il vero MacGuffin — chi lo trova per primo cambia la dinamica"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_fenomeno",
+        "label": "La Finestra Dimensionale",
+        "status": "active"
+      },
+      {
+        "id": "thread_sopravvissuti",
+        "label": "Il Destino degli Astronomi",
+        "status": "active"
+      },
+      {
+        "id": "thread_soluzione",
+        "label": "Come Chiudere la Finestra",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "pdf_flaw_lens",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_enter"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_apertura": {
+        "value": 0,
+        "active": true,
+        "discovered": false,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {
+      "pressure_sanita": 0
+    },
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_research_notes": [
+        "rev_entity",
+        "rev_solution"
+      ],
+      "clue_resonance_data": [
+        "rev_entity"
+      ],
+      "clue_bodies": [
+        "rev_fate_astronomers"
+      ],
+      "clue_pryce_location": [
+        "rev_fate_astronomers",
+        "rev_pryce_danger"
+      ],
+      "clue_pryce_journal": [
+        "rev_pryce_danger"
+      ],
+      "clue_technical_manual": [
+        "rev_solution"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_fenomeno": [
+        "rev_entity"
+      ],
+      "thread_sopravvissuti": [
+        "rev_fate_astronomers",
+        "rev_pryce_danger"
+      ],
+      "thread_soluzione": [
+        "rev_solution"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_entity": "thread_fenomeno",
+      "rev_fate_astronomers": "thread_sopravvissuti",
+      "rev_pryce_danger": "thread_sopravvissuti",
+      "rev_solution": "thread_soluzione"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 87,
+      "issues": [],
+      "warnings": [
+        "Solo 1 actor — normale per avventura isolata con antagonista singolo"
+      ]
+    }
+  }
+}

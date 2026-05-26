@@ -1,0 +1,480 @@
+{
+  "adventure_definition": {
+    "id": "pdf_spectral_tides",
+    "title": "Spectral Tides: The Goblin-Thing",
+    "genre": "mystery_horror",
+    "premise": "Pacific Northwest, 1985. Un gruppo di teenagers riceve sul CB radio un messaggio frenetico del loro amico Jake Samson, che dice di aver trovato il covo del leggendario 'Goblin-Thing' sull'isola di Sitka. Prima che finisca di parlare, un urlo e silenzio. I PG devono raggiungere l'isola per salvare Jake.",
+    "player_facing_objective": "Raggiungere l'isola di Sitka, trovare Jake Samson e scoprire cosa si nasconde realmente nell'isola prima di notte.",
+    "hidden_truth": "Il 'Goblin-Thing' non è un mostro: è Conroy Biggins, figlio del vecchio eremita Zacharias, che è evaso di prigione e si è nascosto sull'isola. Jake ha scoperto il suo rifugio. Conroy ha drogato Jake con LSD e lo tiene prigioniero, credendo che il padre Zacharias gli abbia mandato qualcuno a ucciderlo. L'isola ha anche una vera insidia: una vecchia miniera con gas tossici.",
+    "actors": [
+      {
+        "id": "actor_conroy",
+        "name": "Conroy Biggins",
+        "role": "antagonist",
+        "location_id": "loc_bunker_nascosto",
+        "description": "Ex-galeotto paranoico, convinto che suo padre voglia farlo fuori. Armato e pericoloso ma non violento per natura.",
+        "motivation": "Sopravvivere e vendicarsi del padre Zacharias. Crede che i PG siano inviati di Zacharias.",
+        "secret": "Non ha ancora fatto del male a Jake — lo tiene prigioniero per capire chi l'ha mandato.",
+        "attitude": "hostile",
+        "pressure_response": {
+          "low": "Conroy mantiene la facciata del guardaboschi affabile e preoccupato. Offre aiuto nelle ricerche di Jake, suggerisce false piste verso zone remote di Sitka, e monitora costantemente il CB per intercettare le comunicazioni dei teenagers. Usa la sua autorità per controllare dove cercano e quando. Somministra tranquillanti a Jake ogni 8 ore.",
+          "medium": "Conroy intensifica i falsi messaggi radio imitando la voce di Jake in preda al panico, menzionando creature e inseguimenti inesistenti per confondere le ricerche. Nasconde alcune casse di artefatti nella foresta come piano di evacuazione. Diventa più brusco e territoriale, impedendo attivamente l'accesso a certe zone 'pericolose' vicino alla baita. Aumenta il dosaggio dei sedativi per Jake.",
+          "high": "Conroy abbandona la facciata amichevole. Minaccia i teenagers con accuse di violazione di proprietà e danneggiamento. Contatta anticipatamente il collezionista di Seattle per accelerare la vendita. Inizia a spostare Jake in una grotta nascosta più remota. Sabota attrezzature dei soccorritori. Considera seriamente di incolpare Jake del furto degli artefatti per screditarlo.",
+          "extreme": "Conroy entra in modalità sopravvivenza: tenta di bruciare le prove nella baita, abbandona immediatamente Jake sedato nella foresta con abbastanza acqua per 24 ore, carica gli artefatti più preziosi sul suo pick-up e fugge verso il confine canadese attraverso percorsi forestali non mappati. Se direttamente accerchiato, si barrica e minaccia di distruggere gli artefatti nativi inestimabili."
+        },
+        "reaction_table": {
+          "se_minacciato": "Conroy sfrutta la sua conoscenza del territorio: tende imboscate, usa trappole per animali spostate strategicamente, spegne generatori per creare blackout. Se minacciato fisicamente, rivela la posizione di Jake solo come merce di scambio per la fuga, mentendo sulla sua reale condizione ('è ferito gravemente, serve aiuto immediato').",
+          "se_corrotto_o_pagato": "Conroy è tentato solo da somme superiori ai $15.000 che aspetta dal collezionista. Finge di accettare tangenti minori per guadagnare tempo e scoprire cosa sanno realmente i teenagers. Potrebbe proporre un accordo: divide i profitti se lo aiutano a trasportare gli artefatti, cercando di renderli complici.",
+          "se_i_pg_hanno_prove": "Conroy passa immediatamente alla narrazione alternativa: Jake era un complice nel furto degli artefatti che poi ha tentato di ricattarlo. Presenta false registrazioni CB modificate e 'lettere' falsificate. Afferma che Jake lo ha aggredito per primo e lui si è solo difeso. Chiama rinforzi dalla polizia tribale corrotta con cui ha contatti.",
+          "se_alleato": "Impossibile: Conroy non si fida di nessuno dopo 15 anni di traffico illecito solitario. Potrebbe fingere alleanza con un teenager isolato dal gruppo per manipolarlo, promettendo di rivelare dove si trova Jake in cambio di informazioni sui movimenti degli altri, ma è sempre pronto a tradire."
+        },
+        "current_plan": "Mantenere Jake sedato nel seminterrato sigillato della baita (accesso nascosto dietro scaffale di legname). Trasmettere messaggi falsi sul CB ogni 6-12 ore usando terminologia che solo Jake userebbe (intercettata da vecchie registrazioni). Completare l'inventario finale dei 23 artefatti Tlingit rubati dal sito archeologico protetto. Incontrare il collezionista Marcus Whelan al molo di Petersburg in 48 ore esatte. Liberare Jake nella foresta con amnesia indotta da farmaci veterinari prima della fuga in British Columbia.",
+        "fallback_plan": "Se i teenagers si avvicinano troppo alla baita: trasferire Jake incosciente nella grotta di Raven's Peak usando la vecchia jeep forestale non registrata, lasciando falsa traccia di sangue verso la costa per simulare attacco di orso. Nascondere gli artefatti in cache multiple nella foresta entro raggio di 5 miglia. Se necessario, incolpare il mitologico Goblin-Thing delle sparizioni, sfruttando le superstizioni locali Tlingit e piantando 'prove' di attività paranormale per deviare le indagini verso il folklore piuttosto che il crimine reale.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_jake",
+        "name": "Jake Samson",
+        "role": "ally",
+        "location_id": "loc_bunker_nascosto",
+        "description": "Il ragazzo scomparso. Intraprendente, curioso. Ora è sotto effetto di LSD e terrorizzato.",
+        "motivation": "Essere salvato. Se lucido, può raccontare tutto quello che ha visto.",
+        "secret": "Ha scattato fotografie del bunker di Conroy prima di essere catturato. Le foto sono ancora nella sua zaino.",
+        "attitude": "friendly",
+        "pressure_response": {
+          "low": "Jake parla rapidamente ma con lucidità, descrivendo ciò che ha visto nel bunker: macchinari strani, contenitori con liquidi luminescenti, e Conroy che parlava da solo in una lingua incomprensibile. Insiste che i PG prendano lo zaino e vadano via, ma può essere convinto a collaborare per un piano di fuga condiviso.",
+          "medium": "Jake inizia a mostrare sintomi di paranoia: controlla ossessivamente le finestre e le porte, sussurra che 'può sentirlo nella sua testa', e gratta compulsivamente una macchia rossastra sul suo avambraccio. Diventa aggressivo se qualcuno cerca di toccare lo zaino senza il suo permesso, ma supplica i PG di portarlo via dall'isola prima che 'diventi come gli altri'.",
+          "high": "Jake alterna momenti di lucidità a episodi di dissociazione in cui fissa il vuoto e mormora coordinate geografiche e formule chimiche che non dovrebbe conoscere. La macchia sul suo braccio si è estesa fino al gomito. Si rifiuta categoricamente di lasciare l'isola senza che le foto siano al sicuro, ed è disposto a creare una distrazione suicida attaccando il bunker con qualunque arma improvvisata riesca a trovare.",
+          "extreme": "Jake è convinto di essere 'già perso' e che la cosa nel bunker possa vedere attraverso i suoi occhi. Tenta di automutilare il braccio contaminato con un coltello arrugginito, urlando ai PG di correre mentre lui 'chiude il cerchio'. Se fermato, rivela delirando che Conroy sta preparando 'la marea' per la notte della luna nuova (in 48 ore), e che le fotografie mostrano un calendario rituale sulla parete del bunker. Cerca attivamente di farsi catturare da Conroy per guadagnare tempo ai PG."
+        },
+        "reaction_table": {
+          "se_minacciato": "Jake solleva le mani tremanti, credendo inizialmente che siano 'gli uomini di Conroy'. Quando riconosce i PG, crolla emotivamente e li abbraccia disperato. Se minacciato da creature o da Conroy stesso, Jake si interpone tra loro e i PG, gridando 'Prendetelo! Lo zaino blu! Il rullino nella tasca frontale!' mentre tenta di guadagnare secondi preziosi anche a costo della propria vita.",
+          "se_corrotto_o_pagato": "Jake non può essere corrotto: è ossessionato dal fare la cosa giusta dopo aver scoperto gli orrori del bunker. Se qualcuno offre denaro o vantaggi personali, Jake lo interpreta come segno che quella persona è 'già sotto l'influenza' e diventa diffidente. Potrebbe perfino nascondere dettagli critici credendo di proteggere informazioni da una talpa. Solo la sincera preoccupazione per la sicurezza della comunità lo convince a collaborare pienamente.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano le fotografie sviluppate o portano altre prove dal bunker (campioni, documenti di Conroy), Jake si sente validato e recupera momenti di lucidità. Diventa un alleato più collaborativo, rivelando dettagli aggiuntivi: 'C'era un secondo livello sotto il bunker, scale che scendevano verso le caverne marine. Ho sentito qualcosa muoversi laggiù, qualcosa di grosso che respirava.' Questo lo motiva a combattere la contaminazione per aiutare attivamente invece di sacrificarsi.",
+          "se_alleato": "Jake tratta i PG come fratelli maggiori che possono finalmente sistemare tutto. Condivide mappe disegnate a mano dell'interno del bunker, spiega i turni delle 'ronde' di Conroy (ogni 4 ore, sempre da solo), e rivela l'esistenza di un tunnel di ventilazione abbastanza largo per strisciare. Ammette di aver rubato un badge di accesso durante la fuga, ancora nella tasca dei suoi jeans. Tuttavia, rifiuta categoricamente di lasciare l'isola finché non sa che le foto sono al sicuro sulla terraferma, temendo che Conroy possa intercettare chiunque tenti di partire."
+        },
+        "current_plan": "Jake vuole che i PG prendano il suo zaino blu (con dentro la Nikon FM2, tre rullini esposti, il badge di accesso rubato e le mappe disegnate) e lo portino via dall'isola con la barca di uno dei genitori. Mentre i PG si dirigono verso il molo, Jake pianifica di accendere un falò sulla spiaggia nord usando benzina e pneumatici per attirare Conroy lontano dal bunker e dal percorso di fuga. Ha già accumulato materiali infiammabili in una grotta. Il suo piano prevede di nascondersi nelle caverne costiere finché i PG non tornano con le autorità, ma realisticamente sa di non avere molte possibilità di sopravvivere se Conroy lo trova.",
+        "fallback_plan": "Se i PG rifiutano di andarsene senza di lui o se il piano di diversione fallisce, Jake ha nascosto un secondo set di prove: ha seppellito copie delle mappe e un registratore audio con la sua testimonianza sotto il grande cedro marcato con una 'X' rossa vicino al vecchio faro dell'isola. Se catturato o ucciso, insiste che i PG cerchino quell'albero. Come ultima risorsa, se sente che la contaminazione lo sta trasformando in qualcosa di non-umano, Jake ha intenzione di rubare l'imbarcazione di Conroy (un motoscafo ancorato nel bunker sotterraneo) e deliberatamente schiantarla contro gli scogli per distruggere qualunque cosa Conroy stia trasportando via mare, sacrificandosi per impedire che 'la marea' si diffonda oltre l'isola.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_zacharias",
+        "name": "Zacharias Biggins",
+        "role": "neutral",
+        "location_id": "loc_capanna_eremita",
+        "description": "Il vecchio eremita del continente. Tormentato dal senso di colpa per aver testimoniato contro il figlio.",
+        "motivation": "Stare lontano da tutto. Non sa che Conroy è sull'isola.",
+        "secret": "Sa dell'esistenza del bunker — ci ha vissuto durante la II guerra mondiale come guardia costiera.",
+        "attitude": "suspicious",
+        "pressure_response": {
+          "low": "Finge di essere solo un vecchio pescatore curioso. Offre caffè e storie di guerra banali. Chiede casualmente dei teenagers se hanno notizie di Jake, minimizzando: 'Quel ragazzo ha sempre avuto troppa fantasia'. Usa il binocolo dalla veranda fingendo di guardare gabbiani. Continua a monitorare CB 14 alle 18:00 e 22:00.",
+          "medium": "Diventa più diretto nel dissuadere: inventa storie di correnti pericolose e scogli sommersi intorno a Sit Island. Menziona 'incidenti' vaghi degli anni '50. Offre di portare lui stesso provviste a Jake con la sua barca, domani, per guadagnare tempo. Di notte, disseppellisce la sua vecchia radio militare SCR-300 e le mappe topografiche del bunker dal baule in garage.",
+          "high": "Il panico emerge. Le mani tremano versando whisky. Confessa parzialmente: 'C'è un vecchio bunker militare, sì, ma è pericoloso, crollato, pieno di amianto'. Cerca di negoziare: offrirà 500 dollari se i teenagers dimenticano tutto. Inizia a caricare il fucile Winchester M1 Garand nel garage. Prova a contattare vecchi commilitoni superstiti tramite la VFW locale.",
+          "extreme": "Crollo psicologico. Confessa tra le lacrime: 'Nel '43 abbiamo sigillato qualcosa laggiù. Non era un esperimento. Era VIVO'. Supplica i teenagers di non andare, rivela l'ubicazione esatta del bunker e dell'ingresso di emergenza. Si prepara febbrilmente: riempie lo zaino militare con torce, bengala, il suo coltello da combattimento KA-BAR e munizioni. Parte per l'isola all'alba, con o senza i teenagers, perché 'devo finire quello che non abbiamo finito 42 anni fa'."
+        },
+        "reaction_table": {
+          "se_minacciato": "Istinto militare riemerge. Si irrigidisce, voce fredda: 'Ragazzini, state giocando con qualcosa che non capite'. Se minacciato fisicamente, disarma con tecniche CQC della Guardia Costiera. Se minacciato di esposizione pubblica, crolla: 'Nessuno crederebbe comunque a un vecchio con l'Alzheimer iniziale'. Rivela coordinate: 48°12'34''N, 122°58'17''W.",
+          "se_corrotto_o_pagato": "Il denaro non funziona. Ride amaramente: 'Ragazzini, ho 67 anni e cancro ai polmoni. I soldi non mi servono'. Ma risponde a leva emotiva: se qualcuno menziona 'salvare Jake come un fratello', gli occhi si inumidiscono. Ricorda il suo commilitone Eddie morto nel bunker. Cede, offre la mappa originale del 1943 nascosta in una Bibbia svuotata.",
+          "se_i_pg_hanno_prove": "Se vedono foto/documenti del bunker: diventa pallido, si siede pesantemente. 'Dove avete trovato questo?'. Verifica l'autenticità con dettagli tecnici (parla di 'Settore D', 'protocollo Majestic'). Capisce che non può più nascondere. Pone condizione: 'Vi dico tutto, ma giurate che bruceremo ogni documento dopo. Il governo non deve sapere che siamo tornati'. Rivela esistenza di chiave speciale sepolta sotto croce di Eddie sul lato nord dell'isola.",
+          "se_alleato": "Diventa mentore riluttante ma determinato. Insegna segnali manuali militari, procedure di ingresso in bunker compromessi. Presta equipaggiamento: razioni K ancora sigillate, maschera antigas Mark IV, torcia angolare TL-122. Racconta verità: 'Nel '43 recuperammo qualcosa dal mare. Alto un metro, pelle grigia, occhi enormi. Il Capitano Hendricks ordinò contenimento. Tre guardie morirono. Lo chiamammo Specimen 7. Voi lo chiamate Goblin-Thing'. Insiste per venire: 'Questa è la mia penitenza, non la vostra'."
+        },
+        "current_plan": "Fase 1: Monitoraggio passivo CB 14 e sorveglianza binocolare dell'isola (ore 6:00, 12:00, 18:00, 22:00). Fase 2: Se teenagers mostrano interesse, depistaggio attivo con false informazioni (Sit Island è proprietà privata, pattugliata da ranger). Fase 3: Contattare sceriffo locale Tom Wardell (vecchio amico) per 'controllare quei ragazzini turbolenti'. Fase 4: Se fallisce tutto, preparazione silenziosa per spedizione solitaria notturna - recuperare da garage: Winchester, razioni, radio SCR-300, mappa bunker, foto di Eddie per coraggio.",
+        "fallback_plan": "Se teenagers partono per Sit Island nonostante tutto: seguirli a distanza con la sua barca da pesca 'Marlin's Rest', rimanendo 200 metri indietro. Portare kit completo: armi, torce, corda 50m, piccone per forzare portellone bunker, whisky per coraggio. Se teenagers entrano nel bunker, aspettare 30 minuti, poi seguire. Obiettivo finale: assicurarsi che Specimen 7 (se ancora vivo) venga distrutto definitivamente, anche a costo della propria vita. Ha già scritto lettera confessione sigillata da consegnare postuma allo Smithsonian Institution.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_sceriffo",
+        "name": "Sceriffo Dale Pruitt",
+        "role": "ally",
+        "location_id": "loc_porto_oak",
+        "description": "Sceriffo locale, burbero ma onesto. Può essere allertato via radio se i PG trovano il modo.",
+        "motivation": "Proteggere la comunità. Si preoccupa genuinamente dei ragazzi.",
+        "secret": "Ha un mandato di cattura aperto per Conroy Biggins — non sa che è sull'isola.",
+        "attitude": "friendly",
+        "pressure_response": {
+          "low": "Coordina la ricerca con calma professionale. Divide i teenagers in squadre con walkie-talkie, assegnando loro le zone 'sicure' (spiagge, sentieri marcati) mentre lui perlusta grotte e rovine dove Biggins potrebbe nascondersi. Raccoglie informazioni su Jake senza fretta, sperando che il ragazzo emerga da solo.",
+          "medium": "Intensifica i pattugliamenti notturni con la scusa di 'predatori pericolosi nella zona'. Controlla ossessivamente capanni di pescatori e relitti lungo la costa. Inizia a fare domande dirette su 'un uomo sulla quarantina, cicatrice sul sopracciglio sinistro' spacciandola per 'possibile testimone'. Porta sempre il fucile a pompa.",
+          "high": "Stabilisce un perimetro illegale sull'isola, requisisce barche per 'emergenza SAR'. Interroga aggressivamente chiunque, perquisisce rifugi senza mandato. Se i teenagers scoprono qualcosa prima di lui, li segue di nascosto. Dorme 2-3 ore per notte nella sua jeep, paranoia crescente che Biggins stia scappando mentre lui cerca un ragazzo forse già morto.",
+          "extreme": "Abbandona completamente la farsa della ricerca. Chiama rinforzi dalla terraferma dicendo 'sospetto serial killer sull'isola'. Se avvista Biggins o chiunque somigliante, spara per uccidere giustificandolo come 'resistenza all'arresto'. Minaccia di arrestare i teenagers per ostruzione se non rivelano tutto. Pronto a bruciare prove o inscenare incidenti pur di chiudere il caso Biggins e salvare la sua carriera."
+        },
+        "reaction_table": {
+          "se_minacciato": "Mano sulla fondina, voce fredda: 'Ragazzini, state ostacolando un'indagine federale'. Se la minaccia è fisica, estrae l'arma immediatamente. Se qualcuno menziona Biggins o il mandato, nega tutto e diventa evasivo, poi pedina ossessivamente chi ha parlato per scoprire cosa sanno davvero.",
+          "se_corrotto_o_pagato": "Ride sarcastico: 'Pensate che uno sceriffo si compri con le paghette?' Ma se qualcuno offre informazioni concrete su Biggins (magari senza saperlo), diventa improvvisamente generoso: presta equipaggiamento, 'dimentica' violazioni minori, condivide dettagli sulla scomparsa di Jake che dovrebbe tenere riservati.",
+          "se_i_pg_hanno_prove": "Se le prove riguardano Jake o il Goblin-Thing, le studia professionalmente ma distrattamente. Se menzionano un uomo nascosto sull'isola, 'un eremita pericoloso', o trovano tracce di accampamenti recenti, diventa intensamente concentrato. Confisca le prove dichiarandole 'materiale per indagine attiva', promette di condividerle ma spariscono nel bagagliaio della sua auto.",
+          "se_alleato": "Tratta i teenagers come 'deputati junior onorari', li include in briefing mattutini con caffè e donuts. Condivide mappa topografica dell'isola (con zone di interesse per Biggins segnate come 'aree ad alta priorità SAR'). Racconta storie di altri casi risolti per costruire fiducia, ma deflette domande sul suo passato. Se trovano Jake, promette raccomandazioni scritte per college o lavori estivi nello sceriffo."
+        },
+        "current_plan": "Usare la ricerca di Jake come cortina fumogena perfetta. Ogni mattina organizza briefing pubblici sulla ricerca, poi si separa dai volontari per 'controllare zone pericolose non adatte ai civili' - in realtà posti dove Biggins lascerebbe tracce. Ha corrotto il vecchio Harlan al molo perché segnali barche rubate o rifornimenti sospetti. Monitora il canale CB 19 per trasmissioni di Biggins. Se i teenagers trovano Jake morti o moribondo, Dale può dichiarare 'omicidio attivo' e imporre coprifuoco totale per setacciare l'isola edificio per edificio.",
+        "fallback_plan": "Se Biggins scopre la trappola e fugge via mare, Dale ha preallertato la Guardia Costiera con la storia di un 'sospetto contrabbandiere armato'. Se i teenagers diventano troppo curiosi sul vero obiettivo di Dale, li arresta per 48 ore con accuse inventate ('vandalismo', 'possesso di alcool'), giusto il tempo per concludere la caccia senza testimoni. Scenario peggiore: se Biggins incontra i teenagers prima di Dale, lo sceriffo è pronto a inscenare una sparatoria dove 'tragicamente i giovani erano ostaggi' e tutti i morti diventano vittime del fuggitivo.",
+        "llm_enriched": true
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc_porto_oak",
+        "name": "Porto di Oak Harbor",
+        "description": "Il punto di partenza. Un vecchio peschereccio può portarli a Sitka Island.",
+        "exits": [
+          "loc_sitka_spiaggia"
+        ],
+        "is_starting_location": true
+      },
+      {
+        "id": "loc_sitka_spiaggia",
+        "name": "Spiaggia di Sitka Island",
+        "description": "Spiaggia rocciosa. Un vecchio molo distrutto. Le tracce di Jake portano verso la foresta.",
+        "exits": [
+          "loc_porto_oak",
+          "loc_foresta_sitka",
+          "loc_capanna_eremita"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_foresta_sitka",
+        "name": "Foresta di Sitka",
+        "description": "Densa, con sentieri segnati. La foresta nasconde la vecchia miniera e il bunker di Conroy.",
+        "exits": [
+          "loc_sitka_spiaggia",
+          "loc_miniera",
+          "loc_bunker_nascosto"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_miniera",
+        "name": "Vecchia Miniera Abbandonata",
+        "description": "Entrata pericolante. Gas tossici nell'aria. Dentro si trovano vecchi attrezzi e un tunnel secondario verso il bunker.",
+        "exits": [
+          "loc_foresta_sitka",
+          "loc_bunker_nascosto"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_bunker_nascosto",
+        "name": "Bunker WWII di Conroy",
+        "description": "Struttura militare sotterranea abbandonata. Conroy ci vive da settimane. Jake è rinchiuso in una stanza.",
+        "exits": [
+          "loc_miniera",
+          "loc_foresta_sitka"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_capanna_eremita",
+        "name": "Capanna dell'eremita (costa nord)",
+        "description": "La vecchia abitazione di Zacharias, ora abbandonata. Contiene documenti della sua vita sull'isola.",
+        "exits": [
+          "loc_sitka_spiaggia"
+        ],
+        "is_starting_location": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_tracce_jake",
+        "label": "Tracce di Jake nella foresta",
+        "type": "physical_evidence",
+        "description": "Impronte di sneakers che portano verso la foresta interna. Accanto: un involucro di gomma da masticare di Jake.",
+        "reveals": "Jake è entrato nella foresta — non si è perso in mare.",
+        "location_id": "loc_sitka_spiaggia",
+        "thread_ids": [
+          "T_jake"
+        ],
+        "payoff": "Direzione di ricerca.",
+        "hidden_implication": "Le impronte sono diritte e regolari — Jake non stava scappando da qualcosa quando è entrato nella foresta, ma procedeva con uno scopo preciso.",
+        "wrong_interpretations": [
+          "Jake è stato inseguito dal Goblin-Thing verso l'interno dell'isola",
+          "Jake ha lasciato queste tracce per creare un falso indizio e depistare qualcuno"
+        ]
+      },
+      {
+        "id": "clue_zaino_jake",
+        "label": "Lo zaino di Jake con le fotografie",
+        "type": "physical_evidence",
+        "description": "Nascosto tra i cespugli: lo zaino di Jake con una macchina fotografica. I rullini mostrano un bunker e una figura sfocata dentro.",
+        "reveals": "Jake ha trovato un rifugio abitativo — non un mostro, ma un essere umano.",
+        "location_id": "loc_foresta_sitka",
+        "thread_ids": [
+          "T_jake",
+          "T_conroy"
+        ],
+        "payoff": "Svela che il 'mostro' è probabilmente umano.",
+        "hidden_implication": "Lo zaino è nascosto deliberatamente, non caduto — Jake aveva il tempo e la lucidità per nasconderlo prima di essere catturato o drogato.",
+        "wrong_interpretations": [
+          "La figura sfocata è il Goblin-Thing che vive nel bunker",
+          "Jake ha abbandonato lo zaino per fuggire più velocemente da un inseguimento"
+        ]
+      },
+      {
+        "id": "clue_documenti_bunker",
+        "label": "Documenti della guardia costiera nel bunker",
+        "type": "document",
+        "description": "Documenti WWII del bunker: costruito nel 1943, assegnato al soldato Z. Biggins.",
+        "reveals": "Il bunker appartiene alla famiglia Biggins. Zacharias lo conosce.",
+        "location_id": "loc_capanna_eremita",
+        "thread_ids": [
+          "T_conroy",
+          "T_zacharias"
+        ],
+        "payoff": "Connessione tra Conroy e il bunker.",
+        "hidden_implication": "Zacharias Biggins ha probabilmente raccontato a suo nipote Conroy del bunker di famiglia — potenzialmente sapeva che l'evaso si stava nascondendo qui.",
+        "wrong_interpretations": [
+          "Il bunker è stato abbandonato dopo la guerra e Conroy lo ha trovato per caso",
+          "Zacharias vive segretamente nel bunker e ha rapito Jake"
+        ]
+      },
+      {
+        "id": "clue_mandato_cattura",
+        "label": "Articolo di giornale su Conroy Biggins",
+        "type": "document",
+        "description": "Un ritaglio nel bunker: 'Evaso pericoloso Conroy Biggins — ricercato nelle contee di Skagit e Island'.",
+        "reveals": "Conroy Biggins è un evaso pericoloso e potenzialmente armato.",
+        "location_id": "loc_bunker_nascosto",
+        "thread_ids": [
+          "T_conroy"
+        ],
+        "payoff": "Spiega chi è l'antagonista e perché è sull'isola.",
+        "hidden_implication": "Conroy ha conservato l'articolo su di stesso — segno di narcisismo o paranoia, suggerendo che potrebbe godere della sua notorietà come 'mostro'.",
+        "wrong_interpretations": [
+          "Conroy Biggins è stato falsamente accusato e si nasconde da un'ingiustizia",
+          "L'articolo è vecchio e Conroy potrebbe essere morto — qualcun altro usa la sua identità"
+        ]
+      },
+      {
+        "id": "clue_droghe_jake",
+        "label": "Siringa usata vicino a Jake",
+        "type": "physical_evidence",
+        "description": "Jake è confuso e terrorizzato. Vicino a lui: una siringa vuota e un barattolo di LSD liquido.",
+        "reveals": "Jake non è fisicamente ferito — è sotto effetto di allucinogeni. Può essere aiutato.",
+        "location_id": "loc_bunker_nascosto",
+        "thread_ids": [
+          "T_jake"
+        ],
+        "payoff": "Jake può essere riportato alla lucidità con tempo e acqua.",
+        "hidden_implication": "Conroy non voleva uccidere Jake — voleva spaventarlo o studiare i suoi effetti per alimentare la leggenda del Goblin-Thing.",
+        "wrong_interpretations": [
+          "Jake si è iniettato volontariamente l'LSD durante un esperimento adolescenziale",
+          "Il Goblin-Thing ha poteri soprannaturali che causano allucinazioni senza bisogno di droghe"
+        ]
+      },
+      {
+        "id": "clue_gas_miniera",
+        "label": "Segni di gas tossici nella miniera",
+        "type": "physical_evidence",
+        "description": "Uccelli morti all'ingresso della miniera. Odore sulfureo. Un cartello arrugginito: 'PERICOLO — GAS'.",
+        "reveals": "La miniera è pericolosa — via alternativa verso il bunker ma rischiosa.",
+        "location_id": "loc_miniera",
+        "thread_ids": [
+          "T_fuga"
+        ],
+        "payoff": "Pericolo ambientale da considerare nella fuga.",
+        "hidden_implication": "I gas potrebbero aver contribuito agli avvistamenti del Goblin-Thing negli anni — allucinazioni collettive causate da esposizione a sostanze tossiche.",
+        "wrong_interpretations": [
+          "Il Goblin-Thing ha avvelenato la miniera per proteggere il suo territorio",
+          "Il cartello è vecchio e i gas si sono dispersi — la miniera è sicura ora"
+        ]
+      },
+      {
+        "id": "clue_radio_sceriffo",
+        "label": "Radio funzionante nel bunker",
+        "type": "physical_evidence",
+        "description": "Una radio militare ancora funzionante. La frequenza dello sceriffo è nota.",
+        "reveals": "I PG possono chiamare rinforzi senza tornare al continente.",
+        "location_id": "loc_bunker_nascosto",
+        "thread_ids": [
+          "T_fuga"
+        ],
+        "payoff": "Consente di avvisare la polizia senza lasciare Jake.",
+        "hidden_implication": "Conroy ha tenuto la radio funzionante — potrebbe essere stato vicino, ascoltando le comunicazioni della polizia per evitare di essere catturato.",
+        "wrong_interpretations": [
+          "La radio è una trappola che avviserà Conroy se viene usata",
+          "La frequenza non funziona più e la chiamata non raggiungerà nessuno"
+        ]
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T_jake",
+        "label": "Trovare e salvare Jake",
+        "description": "Localizzare Jake e portarlo in salvo.",
+        "clue_ids": [
+          "clue_tracce_jake",
+          "clue_zaino_jake",
+          "clue_droghe_jake"
+        ],
+        "resolution": "Jake è libero e in condizioni di sicurezza."
+      },
+      {
+        "id": "T_conroy",
+        "label": "Chi è il 'Goblin-Thing'?",
+        "description": "Scoprire l'identità del pericolo sull'isola.",
+        "clue_ids": [
+          "clue_zaino_jake",
+          "clue_documenti_bunker",
+          "clue_mandato_cattura"
+        ],
+        "resolution": "Conroy Biggins, evaso paranoico, non un mostro soprannaturale."
+      },
+      {
+        "id": "T_zacharias",
+        "label": "Il ruolo del vecchio eremita",
+        "description": "Capire il legame tra Zacharias e l'isola.",
+        "clue_ids": [
+          "clue_documenti_bunker"
+        ],
+        "resolution": "Zacharias ha costruito il bunker durante la guerra — suo figlio lo usa ora."
+      },
+      {
+        "id": "T_fuga",
+        "label": "Come uscire dall'isola in sicurezza",
+        "description": "Trovare una via di fuga sicura per tutti.",
+        "clue_ids": [
+          "clue_gas_miniera",
+          "clue_radio_sceriffo"
+        ],
+        "resolution": "Lo sceriffo arriva in barca, Conroy è catturato."
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_conroy_umano",
+        "label": "Il mostro è un uomo, non un goblin",
+        "trigger_clue_ids": [
+          "clue_zaino_jake",
+          "clue_mandato_cattura"
+        ],
+        "description": "Conroy Biggins è un evaso, non una creatura soprannaturale.",
+        "thread_id": "T_conroy"
+      },
+      {
+        "id": "rev_jake_vivo",
+        "label": "Jake è vivo ma drogato",
+        "trigger_clue_ids": [
+          "clue_droghe_jake"
+        ],
+        "description": "Jake non è ferito mortalmente — è sotto LSD, recuperabile.",
+        "thread_id": "T_jake"
+      },
+      {
+        "id": "rev_bunker_biggins",
+        "label": "Il bunker appartiene alla famiglia Biggins",
+        "trigger_clue_ids": [
+          "clue_documenti_bunker"
+        ],
+        "description": "Zacharias conosce l'esistenza del bunker — può aiutare se contattato.",
+        "thread_id": "T_zacharias"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_jake_salvato",
+        "label": "Salvare Jake e catturare Conroy",
+        "required_clue_ids": [
+          "clue_droghe_jake",
+          "clue_radio_sceriffo"
+        ],
+        "description": "Jake è in salvo, lo sceriffo cattura Conroy.",
+        "victory": true
+      },
+      {
+        "id": "finale_fuga_sicura",
+        "label": "Fuggire dall'isola con Jake",
+        "required_clue_ids": [
+          "clue_tracce_jake",
+          "clue_radio_sceriffo"
+        ],
+        "description": "I PG portano Jake al continente e allertano le autorità.",
+        "victory": true
+      }
+    ],
+    "resources": [
+      {
+        "id": "res_tempo_jake",
+        "label": "Finestra per Salvare Jake",
+        "description": "Il tempo prima che Conroy si senta abbastanza in pericolo da eliminare il testimone — Jake — e fuggire",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni rumore fatto dai PG nella foresta, ogni errore nell'avvicinarsi al bunker, ogni ora che passa senza trovare Jake",
+        "depletion_consequence": "A 6: Conroy sposta Jake in una posizione più difficile da raggiungere. A 4: Conroy arma trappole. A 0: Conroy incendia il bunker",
+        "recovery_method": "Non recuperabile. Ogni mossa silenziosa e precisa preserva il clock"
+      },
+      {
+        "id": "res_lucidita_jake",
+        "label": "Lucidità di Jake",
+        "description": "La capacità di Jake di comunicare e aiutare i PG — ridotta dall'LSD e risanabile con tempo e acqua",
+        "current_value": 3,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni volta che Conroy lo ridroppa, ogni ora senza acqua o assistenza",
+        "depletion_consequence": "A 1: Jake non riesce a camminare da solo — i PG devono trasportarlo. A 0: Jake è completamente dissociato e non coopera neanche fisicamente",
+        "recovery_method": "Acqua fresca e calma recuperano 1 punto ogni 30 minuti. Presenza rassicurante di un PG recupera 1 punto aggiuntivo"
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_notte_sitka",
+        "label": "La notte scende su Sitka Island",
+        "clock_type": "terminal_defeat",
+        "value": 0,
+        "max_value": 10,
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "auto_balance": false,
+        "resolution_clues": [
+          "clue_radio_sceriffo",
+          "clue_droghe_jake"
+        ],
+        "resolution_condition": "I PG devono raggiungere il bunker, neutralizzare Conroy (con stealth, persuasione o forza) e liberare Jake prima che il clock raggiunga 10. Alternativamente, possono far arrivare lo sceriffo via radio con coordinate precise del bunker.",
+        "consequence": "Jake muore nell'incendio — Conroy fugge.",
+        "on_complete": "Jake muore nell'incendio — Conroy fugge.",
+        "discovery_hint": "Il sole del tardo pomeriggio cala velocemente dietro le conifere. L'aria si fa più fredda, le ombre più lunghe. Il CB radio gracchia ancora, ma nessuna risposta da Jake. Quanto tempo avete prima che il buio renda tutto impossibile?",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Jake viene ridrogato da Conroy",
+            "effect": "Jake si sveglia ancora più confuso e terrorizzato. Inizia a urlare vedendo 'il Goblin' ovunque. Conroy lo imbavaglia. Se i PG hanno tecnologia di ascolto, potrebbero sentire rumori smorzati."
+          },
+          {
+            "value": 4,
+            "label": "Conroy sposta Jake nel bunker profondo",
+            "effect": "Sentendo rumori nella foresta (animali o PG), Conroy trascina Jake in una camera interna del bunker, bloccando la porta con detriti. Ogni tentativo futuro di raggiungere Jake richiede +5 minuti e un tiro Forza o Scassinare."
+          },
+          {
+            "value": 6,
+            "label": "Conroy scopre segni di intrusione",
+            "effect": "Conroy trova tracce dei PG (impronte, rami spezzati, o li sente parlare). Entra in paranoia totale: piazza filo da pesca con lattine all'ingresso principale del bunker (-3 a Stealth per avvicinarsi) e si arma con fucile da caccia."
+          },
+          {
+            "value": 8,
+            "label": "Conroy prepara l'incendio rituale",
+            "effect": "Conroy decide che Jake è 'compromesso dai sicari di Zacharias'. Versa benzina da generatore lungo i corridoi del bunker. L'odore di carburante è percepibile a 20 metri. Ha bisogno di 'purificare tutto col fuoco'."
+          },
+          {
+            "value": 10,
+            "label": "Il bunker brucia con Jake dentro",
+            "effect": "Conroy accende l'incendio e fugge da un'uscita secondaria nascosta. Jake muore per asfissia e ustioni. Il fumo è visibile per chilometri. Lo sceriffo arriverà in 30 minuti, troppo tardi. Conroy scompare nelle profondità dell'isola, armato e completamente psicotico."
+          }
+        ],
+        "discovered": true
+      }
+    ],
+    "initial_hook": "```json\n\"È tarda sera nel garage di Mike, dove avete trasformato un vecchio furgone Chevy in una stazione radio CB. Tra le interferenze e il crepitio della pioggia battente sul tetto, la voce frenetica di Jake Samson irrompe dal ricevitore: 'Ragazzi... Cristo, l'ho trovato! Il covo del Goblin-Thing, sull'isola di Sitka, nelle grotte di—' Un urlo lacerante squarcia l'aria, seguito da un rumore di vetri infranti e poi... silenzio. Il display della radio mostra ancora la frequenza di Jake, ma trasmette solo un sinistro sibilo statico, mentre fuori il vento dell'oceano ulula come qualcosa di vivo.\"\n```"
+  },
+  "runtime_state": {
+    "definition_id": "pdf_spectral_tides",
+    "clock_runtime": {},
+    "found_clues": [],
+    "active_threads": []
+  },
+  "validation_report": {
+    "quality_gate": {
+      "passed": true,
+      "score": 100,
+      "critical": [],
+      "warnings": []
+    }
+  }
+}

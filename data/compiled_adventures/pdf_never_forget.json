@@ -1,0 +1,493 @@
+{
+  "adventure_definition": {
+    "id": "pdf_never_forget",
+    "title": "Never Forget to Die",
+    "genre": "action",
+    "premise": "1965. I PG sono agenti MI:6 lanciati con il paracadute su una nave nel Mar Nero. Devono recuperare informazioni su una droga sperimentale, la 'lethepoxide', usata dal KGB per cancellare la memoria, e catturare il suo creatore: uno scienziato ex-nazista noto come 'The Night Fog'.",
+    "player_facing_objective": "Recuperare un campione della droga sperimentale lethepoxide e rintracciare il suo creatore per neutralizzare la minaccia prima che il KGB la usi su larga scala.",
+    "hidden_truth": "Lo scienziato Wernher Nachtnebel (alias 'The Night Fog') non è a Mosul come creduto: è fuggito sulle Alpi italiane con la sua amante. Sua ex-moglie Célia lo sa, ma è in debito con la criminalità organizzata di Kotor e usa i PG come protezione in cambio dell'informazione.",
+    "actors": [
+      {
+        "id": "actor_nachtnebel",
+        "name": "Wernher Nachtnebel 'The Night Fog'",
+        "role": "antagonist",
+        "location_id": "loc_villa_merano",
+        "description": "Ex-nazista, chimico di genio. Odia l'Occidente e lavora per il KGB. Freddo, metodico, letale.",
+        "motivation": "Vendicarsi dell'Occidente consegnando al KGB un'arma capace di alterare la memoria di massa.",
+        "secret": "Ha già distribuito campioni pilota della droga a tre agenti KGB infiltrati in Europa Occidentale.",
+        "attitude": "hostile",
+        "pressure_response": {
+          "low": "Nachtnebel lavora metodicamente nel laboratorio della nave, supervisionando personalmente la cristallizzazione finale. Ordina ai marinai di intensificare le pattuglie sul ponte e fa testare la lethepoxide su un nuovo prigioniero ogni 6 ore, annotando meticolosamente i risultati. Mantiene contatti radio cifrati con Sebastopoli per confermare l'arrivo del sottomarino.",
+          "medium": "Accelera la produzione sacrificando i test di sicurezza. Ordina l'eliminazione di due prigionieri 'non essenziali' per ridurre testimoni. Sposta personalmente i campioni più puri in una cassaforte sigillata nella sua cabina. Raddoppia le guardie armate al laboratorio e fa attivare le cariche esplosive di autodistruzione collegate ai serbatoi di lethepoxide grezza.",
+          "high": "Sigilla ermeticamente il laboratorio e si barrica dentro con due scienziati fidati, completando il batch a ogni costo. Ordina al capitano di prepararsi a scuttlare la nave se necessario. Inietta preventivamente lethepoxide a tutti i tecnici di laboratorio per cancellare la loro conoscenza del processo. Prepara un radiomessaggio in codice per attivare immediatamente gli agenti infiltrati in Europa prima del previsto.",
+          "extreme": "Distrugge tutto il lethepoxide grezzo e i documenti, conservando solo tre fiale di cristalli puri nascoste in un contenitore schermato al piombo legato al suo corpo. Tenta la fuga via elicottero o scialuppa verso acque territoriali sovietiche. Se catturato, si inietta una dose massiccia per cancellare la propria memoria degli ultimi 18 mesi, diventando inutile agli interrogatori. Come ultima risorsa, fa saltare la nave con tutti a bordo."
+        },
+        "reaction_table": {
+          "se_minacciato": "Nachtnebel mostra calma glaciale prussiana. Offre uno scambio: informazioni false sulla lethepoxide in cambio di tempo per evacuare. Se i PG si avvicinano troppo, minaccia credibilmente di iniettare la droga a tutti i prigionieri britannici a bordo, rendendoli inutili come testimoni. Tiene sempre una siringa precaricata nella tasca del camice.",
+          "se_corrotto_o_pagato": "Ride sprezzante. 'Il denaro occidentale non compra idealismo.' Finge interesse solo per identificare chi nei PG è corruttibile, poi tenta di catturarlo e usarlo come test per una versione della lethepoxide che cancella selettivamente fedeltà nazionali. Se l'offerta supera £50,000, chiede 'garanzie' impossibili che rivelano la sua vera intenzione di tradire l'accordo.",
+          "se_i_pg_hanno_prove": "Passa immediatamente al protocollo 'Nebbia Totale': contamina deliberatamente tutte le prove fisiche con agenti chimici che degradano i campioni in 4 ore. Accusa i PG di essere loro stessi sotto effetto di lethepoxide, seminando confusione. Attiva l'opzione nucleare: libera gas lethepoxide aerosol in settori della nave, costringendo i PG a scegliere tra inseguirlo o salvare i prigionieri dalla perdita di memoria permanente.",
+          "se_alleato": "Nachtnebel non ha veri alleati, solo strumenti. Tratta apparenti collaboratori con cortesia meccanica mentre segretamente documenta le loro identità per futura manipolazione o eliminazione. Se un PG si finge alleato, lo coinvolge in un 'test di lealtà': iniettare lethepoxide a un altro prigioniero mentre lui osserva. Usa questo per valutare la sincerità e raccogliere prove compromettenti."
+        },
+        "current_plan": "Completare la cristallizzazione del batch finale entro 36 ore (accelerato di 12 ore causa infiltrazione). Alle 0300 trasferire personalmente 15kg di lethepoxide cristallizzata al sottomarino Zulu-class 'Volchitsa' che emergerà a 3 miglia nautiche. Prima della partenza, iniettare dosi calibrate a tutti e 7 i prigionieri britannici, cancellando precisamente i loro ultimi 8 mesi per testare l'efficacia del batch finale. Lasciare la nave con equipaggio ridotto e cariche ritardate per affondamento in acque profonde.",
+        "fallback_plan": "Se il trasferimento sottomarino è compromesso, Nachtnebel usa il trasmettitore radio d'emergenza per contattare la base aerea di Gudauta (Georgia sovietica). Un idrovolante Beriev Be-12 recupera lui e i campioni critici entro 90 minuti. Prima dell'evacuazione, rilascia tutto il lethepoxide gassoso nei sistemi di ventilazione della nave, trasformando l'intera imbarcazione in una 'nave fantasma' di amnesiaci. Se anche questo fallisce, si rifugia nella cisterna di zavorra allagata con 72 ore di ossigeno in autorespiratore, aspettando che navi sovietiche rispondano al suo beacon di soccorso.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_celia",
+        "name": "Célia Nachtnebel",
+        "role": "neutral",
+        "location_id": "loc_kotor",
+        "description": "Ex-moglie di Nachtnebel. Bella, intelligente, disperata. Sa dove si nasconde l'ex-marito.",
+        "motivation": "Liberarsi dai debiti con la criminalità organizzata. Usa i PG come scudo.",
+        "secret": "Sa che Nachtnebel ha già distribuito la droga — non lo rivelerà finché non è al sicuro.",
+        "attitude": "deceptive",
+        "pressure_response": {
+          "low": "Finge di essere una scienziata rumena costretta a lavorare per il KGB. Offre assistenza medica ai feriti per guadagnare fiducia. Nasconde i campioni di lethepoxide in fiale etichettate come 'penicillina'. Osserva chi ha il controllo tattico della nave senza schierarsi.",
+          "medium": "Ammette di aver lavorato sul progetto lethepoxide ma sostiene di essere stata tenuta all'oscuro delle applicazioni. Offre conoscenze parziali sulla droga (sintomi, antidoti temporanei) in cambio di protezione. Distrugge selettivamente documenti compromettenti bruciandoli nel lavandino del laboratorio.",
+          "high": "Rivela che Nachtnebel ha già fatto uscire dosi di lethepoxide dalla nave tre giorni fa, probabilmente verso Costanza. Baratta questa informazione per un passaggio sicuro fuori dal Mar Nero. Minaccia di distruggere gli unici campioni rimasti se non ottiene garanzie scritte di immunità dall'MI6.",
+          "extreme": "Usa un campione di lethepoxide come arma: minaccia di iniettarlo in un PG o in se stessa se non la lasciano raggiungere la scialuppa. Rivela che conosce l'identità dei destinatari occidentali della droga (nomi in codice di tre agenti dormienti NATO) e che queste informazioni moriranno con lei. Tenta la fuga anche sotto il fuoco."
+        },
+        "reaction_table": {
+          "se_minacciato": "Inizialmente supplica in rumeno mescolato a tedesco. Se la minaccia persiste, offre i documenti falsi come prova di essere una rifugiata. Come ultima risorsa, rivela la posizione di un secondo nascondiglio di lethepoxide nella stiva (falso) per guadagnare tempo mentre cerca di raggiungere un bisturi o sedativi.",
+          "se_corrotto_o_pagato": "Accetta pagamenti solo in valuta forte (sterline o marchi svizzeri) o documenti di viaggio autentici. Per 5000 sterline rivela i nomi in codice dei contatti di Nachtnebel a Istanbul. Per un passaporto britannico autentico fornisce la formula completa della lethepoxide e il protocollo di sintesi. Non si fida di promesse verbali.",
+          "se_i_pg_hanno_prove": "Se confrontata con prove del suo ruolo nel progetto, cambia tattica: si presenta come infiltrata del Mossad incaricata di sabotare il programma lethepoxide. Offre di testimoniare contro Nachtnebel in cambio di estradizione in Israele. Fornisce dettagli verificabili su esperimenti condotti su prigionieri politici per sembrare credibile.",
+          "se_alleato": "Condivide intelligence dettagliata: la lethepoxide ha un'emivita di 72 ore, dopo di che i ricordi possono essere parzialmente recuperati con terapia elettroconvulsiva. Avverte che Nachtnebel ha un agente nel personale diplomatico britannico ad Ankara. Chiede di essere inserita nel programma di protezione testimoni MI6 con nuova identità in Canada."
+        },
+        "current_plan": "Attendere nel laboratorio medico dietro lo schedario delle cartelle cliniche fino a ore 03:00. Monitorare tramite l'interfono della nave chi controlla il ponte. Se gli agenti MI6 prevalgono, presentarsi come alleata disertrice. Se vince il KGB, usare il condotto di ventilazione per raggiungere la scialuppa di tribordo già rifornita con 4 giorni di razioni, bussola e 200 lire turche nascoste. Puntare verso le acque territoriali turche navigando di notte.",
+        "fallback_plan": "Se scoperta prima di poter fuggire: fingere un malore improvviso e auto-iniettarsi un sedativo lieve per sembrare incosciente, nascondendo i campioni di lethepoxide dentro la fodera del materasso della barella. Una volta portata in infermeria o evacuata, recuperare i campioni e tentare la fuga al primo porto. Se catturata dal KGB: offrire informazioni false su una 'talpa' MI6 inesistente per essere trasferita a Mosca, dove ha un contatto nella Stasi che può organizzare un'estrazione via Berlino Est.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_colonel_petrov",
+        "name": "Colonnello Petrov",
+        "role": "neutral",
+        "location_id": "loc_nave",
+        "description": "Ufficiale KGB che trasportava i campioni. Vulnerabile ora che i PG sono a bordo.",
+        "motivation": "Completare la consegna e tornare a Mosca con la promozione.",
+        "secret": "Ha una copia del dossier completo su Nachtnebel nascosta nella cabina.",
+        "attitude": "hostile",
+        "pressure_response": {
+          "low": "Mantiene comportamento freddo e professionale da ufficiale sovietico. Ispeziona documenti di viaggio, verifica credenziali. Risponde con cortesia gelida ma non offre informazioni. Rimane nella sua cabina studiando carte nautiche false. Fuma papirosi e osserva l'orizzonte con binocolo, memorizzando volti sospetti.",
+          "medium": "Diventa nervoso ma tenta di mascherarlo con arroganza burocratica. Controlla ripetutamente che il dossier sia ancora nel doppiofondo della sua valigetta diplomatica. Evita aree comuni. Chiede al capitano di modificare rotta per 'ragioni di sicurezza nazionale'. Inizia a bruciare pagine del suo diario personale.",
+          "high": "Paranoia evidente: barrica la porta della cabina, dorme vestito con la pistola Makarov sotto il cuscino. Strappa pagine critiche del dossier Nachtnebel e le nasconde in posti diversi (fodera giacca, suola scarpe, tubature bagno). Considera seriamente di gettare tutto in mare in contenitore impermeabile con boa-segnale per recupero successivo.",
+          "extreme": "Tenta disperatamente di trasmettere via radio cifrata a Sebastopoli. Se impossibile, attiva protocollo 'Cremazione': brucia dossier nella cabina, spara ai testimoni se necessario, tenta di raggiungere acque territoriali sovietiche con scialuppa. Pronto al suicidio con cianuro nel dente cavo piuttosto che essere catturato con informazioni su Nachtnebel."
+        },
+        "reaction_table": {
+          "se_minacciato": "Mano sulla fondina ma non estrae subito. Voce ferma: 'Sono protetto da immunità diplomatica sovietica. Qualsiasi aggressione è atto di guerra.' Se minaccia persiste, spara alle gambe per guadagnare tempo di distruggere documenti, poi si arrende affermando di essere solo corriere ignaro.",
+          "se_corrotto_o_pagato": "Finge interesse per valutare serietà dell'offerta. 'Cinquantamila dollari svizzeri e passaporto canadese, forse...' Ma è trappola: sta guadagnando tempo per chiamare rinforzi o preparare imboscata. Petrov è incorruttibile - sua figlia è trattenuta a Mosca come 'garanzia di lealtà'.",
+          "se_i_pg_hanno_prove": "Cambia strategia: ammette parzialmente la verità ma depista. 'Sì, trasporto documenti, ma non so contenuto - ordini del Direttorato.' Offre compromesso: consegnare versione falsificata del dossier che contiene disinformazione su Nachtnebel (date sbagliate, nomi falsi). Guadagna tempo per vera distruzione.",
+          "se_alleato": "Impossibile alleanza genuina, ma può fingere collaborazione temporanea se vede via d'uscita. Fornisce informazioni minori veritiere (nomi agenti KGB sacrificabili, location periferiche) per costruire credibilità. Obiettivo finale: tradire PG al momento opportuno, consegnare dossier intatto, guadagnare promozione e riavere figlia."
+        },
+        "current_plan": "Rimanere in cabina 14-B fingendo mal di mare. Studiare il dossier Nachtnebel memorizzando nomi chiave (Dr. Kessler, Operazione Lethepoxide, lista 47 agenti dormienti). All'arrivo a Sebastopoli alle 0600, sbarcare per primo usando priorità militare. Valigetta diplomatica incatenata al polso. Auto blindata ZIL attende al molo. Consegna diretta al Maggiore Volkov del Direttorato S entro le 0800.",
+        "fallback_plan": "Se compromesso prima dell'arrivo: attivare fumogeno nella cabina come diversivo, gettare dossier originale in mare in contenitore galleggiante marcato con tintura fluorescente UV visibile solo con lampada speciale. Sottomarino sovietico K-52 pattuglia zona a 12 miglia nautiche - può recuperare. Petrov si consegna dichiarando trasportava solo 'rapporti meteorologici'. Se torturato, fornisce coordinate false dello scarico. Vero recupero avverrà entro 72 ore da sommozzatori Spetsnaz.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_handler_mi6",
+        "name": "Handler M (voce radio)",
+        "role": "ally",
+        "location_id": "loc_nave",
+        "description": "Il contatto MI:6. Fornisce supporto intel ma non può intervenire direttamente.",
+        "motivation": "Completare la missione senza incidenti diplomatici.",
+        "secret": "Sa che un agente MI:6 è già stato catturato e probabilmente torturato — non lo ha detto ai PG.",
+        "attitude": "friendly",
+        "pressure_response": {
+          "low": "Voce calma, professionale. Fornisce coordinate precise e timing. 'Procedete al ponte C, settore 4. Avete 18 minuti prima del cambio guardia.' Mantiene il focus sul laboratorio, evita menzioni del ponte inferiore.",
+          "medium": "Tono più urgente ma controllato. Inizia a spingere per evacuazione rapida. 'Campioni acquisiti? Bene. Dirigetevi IMMEDIATAMENTE al punto estrazione.' Se i PG esplorano troppo: 'Negative, quella sezione non è prioritaria. Il satellite rileva movimento ostile verso la vostra posizione.'",
+          "high": "Voce tesa, pause più lunghe - consulta superiori fuori radio. Usa mezze verità: 'Intelligence conferma presenza agente nemico sulla nave. Potrebbe essere già... oltre il recupero.' Se i PG si avvicinano a BISHOP: 'Fermi! Quella zona è contaminata da lethepoxide disperso. Maschere NBC insufficienti.'",
+          "extreme": "Trasmissione intermittente 'problemi tecnici'. Ordini diretti, protocollo abbandonato: 'Se trovate BISHOP, è un'esca. Il KGB sa che siamo in ascolto. NON fidatevi di ciò che dice. Autorizzazione Omega: neutralizzare se compromesso.' Può ordinare estrazione immediata minacciando di lasciare i PG sulla nave."
+        },
+        "reaction_table": {
+          "se_minacciato": "Non può essere minacciato direttamente (è voce radio), ma se i PG minacciano di non seguire ordini: 'Agenti, ricordo che la vostra estrazione dipende dal mio coordinamento con la Royal Navy. Siete in acque sovietiche. Considerate attentamente.' Può 'perdere' il segnale radio temporaneamente.",
+          "se_corrotto_o_pagato": "Impossibile corrompere via radio, ma se i PG scoprono BISHOP e questi rivela la verità sulla missione, M passa in modalità damage control: 'BISHOP è sotto effetto lethepoxide, le sue memorie sono fabbricate. Codice di verifica: chiedetegli il nome della sua prima missione.' (BISHOP non lo ricorderà, provando apparentemente che è compromesso).",
+          "se_i_pg_hanno_prove": "Se i PG trovano documenti che menzionano BISHOP o intercettano comunicazioni KGB su 'l'agente inglese al livello -2': 'Ah. Sì. BISHOP. Intelligence riteneva fosse già morto. Se è vivo, priorità massima diventa recupero dati su protocolli interrogatorio. BISHOP stesso è... secondario.' Tono diventa burocratico, distaccato.",
+          "se_alleato": "Fornisce supporto tattico eccellente: pattern pattuglie, codici porte, timing telecamere. 'Ottimo lavoro. Downing Street sarà soddisfatta.' Ma continuamente reindirizza via dal ponte inferiore con scuse tecniche: 'Il satellite perde risoluzione su quella sezione, troppo sotto la linea di galleggiamento.' Se insistono: 'I vostri obiettivi sono chiari, agenti. Non improvvisate.'"
+        },
+        "current_plan": "Fase 1: Guidare i PG attraverso rotta ottimale verso laboratorio principale (ponte B), evitando zone dove potrebbero sentire BISHOP. Fase 2: Durante raccolta campioni/documenti, creare urgenza artificiale ('patrol in avvicinamento', 'sistema allarme attivato presto'). Fase 3: Estrarre i PG entro 45 minuti dall'infiltrazione, prima che esplorino sistematicamente. Se BISHOP viene scoperto: attivare protocollo 'agente compromesso', screditare qualsiasi informazione fornisca, classificare come perdita operativa nelle comunicazioni ufficiali.",
+        "fallback_plan": "Se i PG raggiungono BISHOP e rifiutano di abbandonarlo: 'Sospendere comunicazioni per consultare C. Ritrasmetterò in 5 minuti.' Usa la pausa per contattare asset navale e ritardare estrazione di 2 ore (quando il KGB potrebbe intercettare). Se i PG estraggono BISHOP con loro: accoglienza apparentemente positiva ('straordinario recupero'), ma BISHOP viene immediatamente 'debriefato' separatamente e poi 'riassegnato' a posizione desk permanente. Se i PG diventano ostili a M post-missione: la documentazione ufficiale mostrerà che i PG furono 'pienamente informati dei rischi' e BISHOP era 'obiettivo secondario opzionale, non garantito'.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_boris_criminale",
+        "name": "Boris Ivankov",
+        "role": "neutral",
+        "location_id": "loc_kotor",
+        "description": "Boss della criminalità di Kotor. Vuole i soldi che Célia gli deve, non i guai con i servizi segreti.",
+        "motivation": "Recuperare il suo denaro. È negoziabile.",
+        "secret": "Conosce un canale di fuga dal Montenegro non monitorato.",
+        "attitude": "hostile",
+        "pressure_response": {
+          "low": "Boris mantiene la sua routine da marinaio esperto, controlla nervosamente l'orologio e evita la stiva medica. Fuma frequentemente sul ponte di poppa, osservando le acque verso la costa rumena. Continua a lamentarsi dello stipendio misero con i colleghi per mantenere la copertura.",
+          "medium": "Boris inizia a sudare freddo e controlla ossessivamente i documenti falsificati nascosti nel suo materasso. Si avvicina prematuramente a Marko via radio cifrata usando il codice 'pesce malato'. Considera di anticipare il furto a stanotte, durante il cambio turno delle 03:00.",
+          "high": "Boris diventa paranoico che qualcuno abbia scoperto le discrepanze nell'inventario medico. Tenta di incolpare il medico di bordo, il dottor Petrov, di negligenza nella tenuta registri. Prepara una scialuppa di salvataggio con provviste e tiene le due fiale già rubate legate al corpo con nastro adesivo.",
+          "extreme": "Boris ingoia una delle due fiale di lethepoxide per cancellare ogni traccia della cospirazione dalla sua memoria, sacrificando il profitto. In alternativa, prende in ostaggio il radiotelegrafista minacciando di far esplodere la santabarbara se non gli garantiscono un'imbarcazione veloce verso le acque territoriali turche entro 20 minuti."
+        },
+        "reaction_table": {
+          "se_minacciato": "Boris alza le mani tremando, tradisce immediatamente Marko offrendo coordinate precise (42°N 18°E, baia ovest di Perast) e frequenza radio (7.245 MHz). Supplica che ha famiglia a Sebastopoli. Se minacciato fisicamente, rivela il canale montenegrino: un tunnel della Seconda Guerra Mondiale sotto il forte di San Giovanni che emerge in territorio non pattugliato.",
+          "se_corrotto_o_pagato": "Gli occhi di Boris si illuminano a £500+ o garanzia di asilo britannico. Accetta di consegnare le fiale intatte e sabotare il sistema radio della nave per 72 ore. Chiede documenti falsi con nome 'Dmitri Volkov' e passaggio su mercantile occidentale da Constanța. Offre bonus: mappa delle rotte sottomarine sovietiche nel Mar Nero.",
+          "se_i_pg_hanno_prove": "Boris crolla psicologicamente, ammette tutto singhiozzando. Rivela che il dottor Petrov è complice e che esistono altri 8 flaconi di lethepoxide nella cassaforte del capitano (combinazione: 17-38-09). Offre di testimoniare contro la rete di contrabbando KGB in cambio di protezione. Avverte che il capitano Volkov ha ordine di affondare la nave piuttosto che farla ispezionare.",
+          "se_alleato": "Boris diventa risorsa preziosa: conosce ogni centimetro della nave, gli orari delle ronde, e che il commissario politico Yuri dorme dalle 23:00 alle 06:00 con vodka e sonniferi. Offre accesso alla stiva medica attraverso un condotto di ventilazione dal locale caldaie. Avverte che giovedì arriverà un sottomarino per trasferimento segreto di 'campioni biologici' - probabilmente altri agenti esposti al lethepoxide."
+        },
+        "current_plan": "Boris attende fino alle 22:30 di domani (19 ore da ora), quando la nave attraccherà a Constanța. Durante la confusione dello scarico merci, fingerà crampi addominali violenti. Il complice dottor Petrov certificherà intossicazione da pesce avariato, permettendogli sbarco per 'cure ospedaliere'. Boris ha già nascosto le due fiale in un thermos segnato con vernice blu nella stiva 3, sezione C-7. Prenderà taxi al porto vecchio dove Marko attende con motoscafo veloce verso acque internazionali.",
+        "fallback_plan": "Se impossibilitato a sbarcare a Constanța, Boris userà la scialuppa di emergenza numero 4 (tribord, ponte inferiore) durante una notte senza luna. Ha già tagliato parzialmente i cavi di sicurezza e nascosto remi extra, bussola e 3 litri d'acqua sotto i giubbotti salvagente. Remerà 8 miglia verso sud-ovest fino al faro abbandonato di Kaliakra (coordinate memorizzate: 43.3636°N, 28.4656°E) dove un pescatore bulgaro corrotto, Vassil, ritira 'pacchi' ogni martedì e venerdì all'alba per 200 leva, no domande.",
+        "llm_enriched": true
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc_nave",
+        "name": "Nave nel Mar Nero",
+        "description": "Cargo russo. Il colonnello Petrov è in cabina. Le guardie perlustrano i ponti.",
+        "exits": [
+          "loc_kotor"
+        ],
+        "is_starting_location": true
+      },
+      {
+        "id": "loc_kotor",
+        "name": "Kotor, Montenegro",
+        "description": "Porto storico. Mercato nero, café fumosi, informatori ovunque. Célia vive qui.",
+        "exits": [
+          "loc_nave",
+          "loc_villa_merano",
+          "loc_montagna_confine"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_villa_merano",
+        "name": "Villa di Nachtnebel, Merano",
+        "description": "Elegante villa alpina sulle Alpi italiane. Laboratorio nascosto nel seminterrato.",
+        "exits": [
+          "loc_montagna_confine"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_montagna_confine",
+        "name": "Passo di frontiera alpino",
+        "description": "Confine italo-jugoslavo sorvegliato. Punto di fuga o di intercettazione.",
+        "exits": [
+          "loc_kotor",
+          "loc_villa_merano"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_laboratorio",
+        "name": "Laboratorio segreto (seminterrato villa)",
+        "description": "Pieno di attrezzatura chimica. La formula della lethepoxide è qui, insieme ai campioni.",
+        "exits": [
+          "loc_villa_merano"
+        ],
+        "is_starting_location": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_campione_droga",
+        "label": "Campione di lethepoxide dalla cabina di Petrov",
+        "type": "physical_evidence",
+        "description": "Una fiala con liquido incolore. L'etichetta è in russo: 'LTX-7 — uso operativo'.",
+        "reveals": "La droga esiste ed è già in fase operativa.",
+        "location_id": "loc_nave",
+        "thread_ids": [
+          "T_droga"
+        ],
+        "payoff": "Prova fisica della minaccia.",
+        "hidden_implication": "La sigla 'LTX-7' indica che esistono almeno 6 versioni precedenti — il KGB sta perfezionando la formula da anni.",
+        "wrong_interpretations": [
+          "È solo un prototipo da laboratorio, non ancora testato su esseri umani",
+          "La dicitura 'uso operativo' significa che è destinata al personale KGB come contromisura ai loro stessi interrogatori"
+        ]
+      },
+      {
+        "id": "clue_dossier_petrov",
+        "label": "Dossier nascosto di Petrov",
+        "type": "document",
+        "description": "Contiene la vera identità di Nachtnebel, la sua ultima posizione conosciuta (Merano) e i nomi di tre agenti KGB che hanno già ricevuto campioni.",
+        "reveals": "Nachtnebel è a Merano, non a Mosul. Il KGB ha già distribuito la droga.",
+        "location_id": "loc_nave",
+        "thread_ids": [
+          "T_nachtnebel",
+          "T_distribuzione"
+        ],
+        "payoff": "Svela la vera locazione del bersaglio.",
+        "hidden_implication": "Petrov aveva il dossier nascosto invece di consegnarlo — stava pianificando di disertare o vendere le informazioni a terzi.",
+        "wrong_interpretations": [
+          "Merano è un depistaggio — Nachtnebel usa città turistiche come punti di passaggio temporanei",
+          "I tre agenti sono già stati catturati dall'MI:6 e il dossier è obsoleto"
+        ]
+      },
+      {
+        "id": "clue_confessione_celia",
+        "label": "Informazione di Célia sul divorzio e la fuga",
+        "type": "testimony",
+        "description": "Célia racconta come Nachtnebel è fuggito con la sua amante, portando solo i suoi appunti. Sa esattamente dove si trova.",
+        "reveals": "Nachtnebel è vulnerabile — è fuggito in fretta e non è protetto dal KGB localmente.",
+        "location_id": "loc_kotor",
+        "thread_ids": [
+          "T_nachtnebel"
+        ],
+        "payoff": "Conferma la posizione e la vulnerabilità del bersaglio.",
+        "hidden_implication": "Célia lo sa con troppa precisione — sta ancora ricevendo lettere o comunicazioni da lui, forse è ancora innamorata.",
+        "wrong_interpretations": [
+          "L'amante di Nachtnebel è un'agente del KGB assegnata a controllarlo",
+          "Célia sta mentendo per vendicarsi e condurre i PG in una trappola preparata dal KGB"
+        ]
+      },
+      {
+        "id": "clue_debiti_celia",
+        "label": "Documenti del debito di Célia con Ivankov",
+        "type": "document",
+        "description": "Ricevute di prestiti non pagati. Célia deve 40.000 marchi a Boris Ivankov.",
+        "reveals": "Célia non sta collaborando per altruismo — vuole protezione e denaro.",
+        "location_id": "loc_kotor",
+        "thread_ids": [
+          "T_celia"
+        ],
+        "payoff": "Spiega la vera motivazione di Célia e il suo limite di fiducia.",
+        "hidden_implication": "40.000 marchi è una somma enorme per una donna normale — Célia ha uno stile di vita molto al di sopra delle sue possibilità, forse finanziato in passato da Nachtnebel.",
+        "wrong_interpretations": [
+          "Boris Ivankov l'ha drogata con la lethepoxide e lei non ricorda di aver già pagato",
+          "Il debito è una copertura — Célia e Boris sono complici in un'operazione di controspionaggio"
+        ]
+      },
+      {
+        "id": "clue_formula_laboratorio",
+        "label": "Formula completa della lethepoxide",
+        "type": "document",
+        "description": "Quaderni di laboratorio con la sintesi completa. In russo e tedesco.",
+        "reveals": "La formula è riproducibile — se non viene distrutta, il KGB ne costruirà altra.",
+        "location_id": "loc_laboratorio",
+        "thread_ids": [
+          "T_droga"
+        ],
+        "payoff": "L'obiettivo finale: distruggere o portare via la formula.",
+        "hidden_implication": "Le note in tedesco sono più dettagliate di quelle in russo — Nachtnebel non ha condiviso tutto col KGB.",
+        "wrong_interpretations": [
+          "Esistono copie della formula già in possesso del KGB a Mosca",
+          "La formula è incompleta — manca un ingrediente segreto che Nachtnebel tiene solo nella sua memoria"
+        ]
+      },
+      {
+        "id": "clue_agenti_infiltrati",
+        "label": "Lista agenti KGB con campioni",
+        "type": "document",
+        "description": "Nel laboratorio: tre nomi in codice con paesi di destinazione — Francia, RFT, UK.",
+        "reveals": "La distribuzione è già in corso. Tre agenti dormiente hanno la droga.",
+        "location_id": "loc_laboratorio",
+        "thread_ids": [
+          "T_distribuzione"
+        ],
+        "payoff": "La missione non finisce con Nachtnebel — serve neutralizzare anche i canali.",
+        "hidden_implication": "Uno dei nomi in codice per il Regno Unito corrisponde al pattern di nomenclatura usato da agenti infiltrati nell'MI:6 stesso.",
+        "wrong_interpretations": [
+          "Sono esche — il KGB vuole che l'Occidente sprechi risorse cercando agenti inesistenti",
+          "Gli agenti hanno già usato i campioni e distrutto le prove"
+        ]
+      },
+      {
+        "id": "clue_via_fuga_boris",
+        "label": "Canale di fuga di Ivankov",
+        "type": "testimony",
+        "description": "Se i PG negoziano con Boris, rivela una via di fuga sicura dal Montenegro al confine italiano.",
+        "reveals": "Esiste un percorso non monitorato dai servizi segreti di entrambi i blocchi.",
+        "location_id": "loc_kotor",
+        "thread_ids": [
+          "T_celia"
+        ],
+        "payoff": "Abilita la fuga senza combattimento con le guardie di confine.",
+        "hidden_implication": "Boris usa questo percorso regolarmente — è un trafficante che lavora per entrambi i blocchi e nessuno lo ferma.",
+        "wrong_interpretations": [
+          "Il percorso è una trappola — conduce direttamente a un checkpoint KGB camuffato",
+          "Boris sta vendendo la stessa informazione anche al KGB per intrappolare i PG alla frontiera"
+        ]
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T_nachtnebel",
+        "label": "Trovare Nachtnebel",
+        "description": "Localizzare e catturare/eliminare lo scienziato.",
+        "clue_ids": [
+          "clue_dossier_petrov",
+          "clue_confessione_celia"
+        ],
+        "resolution": "Nachtnebel è catturato o eliminato nella sua villa di Merano."
+      },
+      {
+        "id": "T_droga",
+        "label": "Neutralizzare la lethepoxide",
+        "description": "Recuperare campioni e formula, impedire la distribuzione di massa.",
+        "clue_ids": [
+          "clue_campione_droga",
+          "clue_formula_laboratorio"
+        ],
+        "resolution": "La formula è distrutta e i campioni recuperati."
+      },
+      {
+        "id": "T_distribuzione",
+        "label": "Fermare gli agenti dormiente",
+        "description": "Identificare i tre agenti KGB che hanno già ricevuto campioni.",
+        "clue_ids": [
+          "clue_dossier_petrov",
+          "clue_agenti_infiltrati"
+        ],
+        "resolution": "MI:6 riceve la lista e neutralizza i canali di distribuzione."
+      },
+      {
+        "id": "T_celia",
+        "label": "Gestire Célia",
+        "description": "Capire le motivazioni di Célia e decidere se fidarsi di lei.",
+        "clue_ids": [
+          "clue_confessione_celia",
+          "clue_debiti_celia",
+          "clue_via_fuga_boris"
+        ],
+        "resolution": "Célia coopera pienamente o viene lasciata indietro."
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_merano",
+        "label": "Nachtnebel è a Merano, non a Mosul",
+        "trigger_clue_ids": [
+          "clue_dossier_petrov",
+          "clue_confessione_celia"
+        ],
+        "description": "Il bersaglio è in Italia, non in Montenegro come creduto.",
+        "thread_id": "T_nachtnebel"
+      },
+      {
+        "id": "rev_gia_distribuito",
+        "label": "La droga è già distribuita a tre agenti",
+        "trigger_clue_ids": [
+          "clue_dossier_petrov",
+          "clue_agenti_infiltrati"
+        ],
+        "description": "La minaccia è più grande del previsto: tre dormiente hanno già la droga.",
+        "thread_id": "T_distribuzione"
+      },
+      {
+        "id": "rev_celia_interesse",
+        "label": "Célia mente per interesse, non per altruismo",
+        "trigger_clue_ids": [
+          "clue_debiti_celia"
+        ],
+        "description": "Célia collabora per salvarsi dai creditori, non perché vuole aiutare.",
+        "thread_id": "T_celia"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_cattura_nachtnebel",
+        "label": "Catturare Nachtnebel e la formula",
+        "required_clue_ids": [
+          "clue_formula_laboratorio",
+          "clue_confessione_celia"
+        ],
+        "description": "Nachtnebel è in custodia MI:6. La formula è distrutta o portata a Londra.",
+        "victory": true
+      },
+      {
+        "id": "finale_lista_agenti",
+        "label": "Consegnare la lista degli agenti dormiente",
+        "required_clue_ids": [
+          "clue_agenti_infiltrati",
+          "clue_dossier_petrov"
+        ],
+        "description": "MI:6 riceve i nomi e neutralizza i tre canali di distribuzione.",
+        "victory": true
+      }
+    ],
+    "resources": [
+      {
+        "id": "res_tempo_operativo",
+        "label": "Finestra Operativa",
+        "description": "Il tempo prima che il KGB attivi le contromisure e Nachtnebel sparisca con la formula — ogni errore tattico brucia tempo prezioso",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni scontro armato che attira attenzione, ogni volta che i PG vengono identificati sulla nave o a Kotor, ogni fallimento nell'estrarre informazioni da Petrov o Célia",
+        "depletion_consequence": "A 6: Nachtnebel è allertato e inizia la distruzione dei documenti. A 3: la villa è sorvegliata da agenti KGB aggiuntivi. A 0: Nachtnebel fugge, missione fallita",
+        "recovery_method": "Non recuperabile. Ogni successo silenzioso (senza scontri o allarmi) preserva il clock"
+      },
+      {
+        "id": "res_copertura_missione",
+        "label": "Copertura della Missione",
+        "description": "L'identità operativa dei PG — se il KGB o la criminalità di Kotor li identifica come agenti MI:6, la rete si mobilita contro di loro",
+        "current_value": 6,
+        "max_value": 6,
+        "min_value": 0,
+        "depletion_trigger": "Ogni contatto diretto con Petrov che lascia sopravvissuti, ogni volta che vengono visti con Célia in pubblico, ogni documento MI:6 trovato dai nemici",
+        "depletion_consequence": "A 3: Boris Ivankov sa chi sono e può vendere l'informazione. A 0: Petrov ha trasmesso le loro identità a Mosca — ogni agente KGB nell'area li conosce",
+        "recovery_method": "Eliminare i testimoni o cambiare aspetto recupera 1 punto"
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_distribuzione_kgb",
+        "label": "Distribuzione della lethepoxide",
+        "clock_type": "terminal_defeat",
+        "value": 0,
+        "max_value": 10,
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "auto_balance": false,
+        "resolution_clues": [
+          "clue_formula_laboratorio",
+          "clue_agenti_infiltrati"
+        ],
+        "resolution_condition": "I PG devono distruggere le scorte di lethepoxide sulla nave E neutralizzare Nachtnebel prima che trasmetta i codici di attivazione agli agenti dormienti. Recuperare la lista degli agenti infiltrati è cruciale per prevenire la distribuzione.",
+        "consequence": "La droga è distribuita su larga scala — missione fallita, il KGB ha vinto.",
+        "on_complete": "La droga è distribuita su larga scala — missione fallita, il KGB ha vinto.",
+        "discovery_hint": "Durante la ricognizione iniziale, i PG intercettano frammenti di trasmissioni radio criptate dalla nave. Le parole 'Graf Zeppelin' e 'consegna Odessa' emergono tra le interferenze. Un marinaio nervoso controlla ossessivamente l'orologio da polso.",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Allarme rosso — scoperta dell'infiltrazione",
+            "effect": "Il KGB scopre che qualcuno ha infiltrato la nave. Il capitano Petrov trasmette un avvertimento crittografato in codice prioritario a tutte le stazioni. Le pattuglie sulla nave raddoppiano, +2 alle difficoltà di Stealth. Un elicottero da ricognizione sorvola l'area ogni 30 minuti."
+          },
+          {
+            "value": 4,
+            "label": "Protocollo di emergenza attivato",
+            "effect": "Nachtnebel riceve l'allerta nella sua villa sul Mar Nero e inizia a bruciare documenti non essenziali nel camino. I laboratori sulla nave vengono sigillati con guardie armate. Il codice di accesso cambia ogni 2 ore. Petrov ordina di preparare le fiale per il trasferimento immediato."
+          },
+          {
+            "value": 6,
+            "label": "Fuga imminente",
+            "effect": "Nachtnebel prepara la fuga dalla villa — ha 24 ore prima di sparire definitivamente. Un sommergibile sovietico classe Whiskey viene dirottato verso le coordinate della nave per evacuazione d'emergenza. I documenti critici vengono trasferiti in una valigetta diplomatica."
+          },
+          {
+            "value": 8,
+            "label": "Attivazione degli agenti dormienti",
+            "effect": "I tre agenti dormienti ricevono l'ordine di attivazione via dead drop a Londra, Parigi e Washington. La distribuzione è avviata attraverso canali diplomatici. Fiale di lethepoxide lasciano la nave su un motoscafo verso Odessa. -4 alla reputazione MI:6 se i PG vengono scoperti ora."
+          },
+          {
+            "value": 10,
+            "label": "Catastrofe operativa completa",
+            "effect": "La lethepoxide è distribuita operativamente in tre capitali occidentali. Gli agenti dormienti iniziano a somministrarla a target di alto valore nell'intelligence. Perdita catastrofica di intel MI:6 — decine di agenti perdono memorie operative critiche. La Guerra Fredda inclina drammaticamente a favore del KGB."
+          }
+        ],
+        "discovered": true
+      }
+    ],
+    "initial_hook": "```json\n\"Londra, quartier generale MI6, sala briefing sotterranea. Il Direttore M vi mostra fotografie sfocate di agenti occidentali catturati: non ricordano nulla, nemmeno il proprio nome. 'Lethepoxide', dice, indicando una nave cargo sovietica nel Mar Nero. 'Fra 48 ore attracca a Sebastopoli. Dovete infiltrarvi stanotte, recuperare i dossier sulla droga e catturare il suo creatore - un ex-nazista che chiamano Night Fog. Il lancio è previsto alle 02:00.'\"\n```"
+  },
+  "runtime_state": {
+    "definition_id": "pdf_never_forget",
+    "clock_runtime": {},
+    "found_clues": [],
+    "active_threads": []
+  },
+  "validation_report": {
+    "quality_gate": {
+      "passed": true,
+      "score": 100,
+      "critical": [],
+      "warnings": []
+    }
+  }
+}

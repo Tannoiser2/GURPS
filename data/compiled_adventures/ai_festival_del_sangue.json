@@ -1,0 +1,1096 @@
+{
+  "adventure_definition": {
+    "id": "ai_festival_del_sangue",
+    "title": "Il Festival del Sangue",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "fantasy oscuro, festival annuale, culto segreto, sacrificio",
+    "premise": "Ogni cinque anni, la città di Varenmoor celebra il Festival delle Acque — tre giorni di banchetti, musica e giochi. Ma ogni festival, qualcuno scompare. Quest'anno i PG sono presenti quando la prima scomparsa avviene il primo giorno — e hanno tre giorni prima che il festival finisca e i responsabili tornino nell'ombra.",
+    "initial_hook": "Siete giunti a Varenmoor per il festival. La prima notte, una giovane donna scompare dall'osteria — la camera è vuota, la finestra aperta. Il gioielliere Horace vi ferma: 'Ogni cinque anni succede. I guardiani non cercano mai. Voi potete cercare?' Ha paura in modo convincente.",
+    "core_truths": [
+      {
+        "id": "truth_cult",
+        "statement": "Il culto segreto di 'Le Acque Profonde' rapisce due sacrifici per ogni festival e li offre a un'entità acquatica sotto la città. I sacrifici vengono tenuti vivi nei tunnel sotto la fontana centrale.",
+        "reveal_clues": [
+          "clue_cult_symbol",
+          "clue_tunnel_entrance"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_leader",
+        "statement": "Il sindaco Aldric Vane guida il culto — è la quinta generazione della sua famiglia a guidare 'Le Acque Profonde'. Crede genuinamente che i sacrifici mantengano la città prospera.",
+        "reveal_clues": [
+          "clue_vane_lineage",
+          "clue_cult_records"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_entity",
+        "statement": "L'entità sotto la fontana è reale ma non malevola di natura — è stata corrotta dai secoli di rituali. Può essere comunicata e convinta ad accettare offerte alternative ai sacrifici umani.",
+        "reveal_clues": [
+          "clue_ancient_text",
+          "clue_entity_communication"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_investigate_disappearance",
+        "label": "Investigare la scomparsa di Mira",
+        "status": "active",
+        "unlocks": [
+          "obj_find_pattern",
+          "obj_find_cult"
+        ],
+        "success_conditions": [
+          "clue_cult_symbol scoperto"
+        ]
+      },
+      {
+        "id": "obj_find_pattern",
+        "label": "Scoprire il pattern delle scomparse storiche",
+        "status": "inactive",
+        "unlocks": [
+          "obj_find_cult"
+        ],
+        "success_conditions": [
+          "clue_horace_history scoperto"
+        ]
+      },
+      {
+        "id": "obj_find_cult",
+        "label": "Identificare il culto",
+        "status": "inactive",
+        "unlocks": [
+          "obj_find_tunnel",
+          "obj_identify_leader"
+        ],
+        "success_conditions": [
+          "rev_cult rivelato"
+        ]
+      },
+      {
+        "id": "obj_find_tunnel",
+        "label": "Trovare i tunnel sotto la fontana",
+        "status": "inactive",
+        "unlocks": [
+          "obj_rescue"
+        ],
+        "success_conditions": [
+          "clue_tunnel_entrance scoperto"
+        ]
+      },
+      {
+        "id": "obj_identify_leader",
+        "label": "Smascherare il sindaco Vane",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "rev_leader rivelato"
+        ]
+      },
+      {
+        "id": "obj_rescue",
+        "label": "Salvare i prigionieri prima del sacrificio",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Prigionieri liberati prima dell'alba del terzo giorno"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_cult",
+        "thread_id": "thread_culto",
+        "statement": "Esiste un culto segreto che rapisce sacrifici durante ogni festival. Il simbolo dell'onda nera li identifica.",
+        "required_clues": [
+          "clue_cult_symbol",
+          "clue_horace_history"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "clue_red_herring_rivalry"
+        ],
+        "status": "hidden",
+        "payoff": "I PG sanno che è un fenomeno organizzato e ripetuto.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_leader",
+        "thread_id": "thread_leader",
+        "statement": "Il sindaco Vane guida il culto da generazioni. Ha il potere e la motivazione per far sparire le prove.",
+        "required_clues": [
+          "clue_vane_lineage",
+          "clue_cult_records"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Il leader è identificato — e controlla le guardie.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_tunnels",
+        "thread_id": "thread_prigionieri",
+        "statement": "I sacrifici sono nei tunnel sotto la fontana centrale — ancora vivi, in attesa del rituale all'alba del terzo giorno.",
+        "required_clues": [
+          "clue_tunnel_entrance",
+          "clue_survivor_cry"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "physical"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Destinazione concreta per il salvataggio.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_entity_nature",
+        "thread_id": "thread_entita",
+        "statement": "L'entità è negoziabile. Non richiede sangue umano — questo è stato il culto a interpretarla così. Un'offerta alternativa (metalli preziosi, animali) è accettabile.",
+        "required_clues": [
+          "clue_ancient_text",
+          "clue_entity_communication"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Soluzione non violenta: fermare il culto E placare l'entità.",
+        "conditions": [],
+        "llm_generated": true
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_cult_symbol",
+        "label": "Simbolo dell'onda nera sulla finestra di Mira",
+        "type": "physical_evidence",
+        "thread_id": "thread_culto",
+        "source_location": "inn_room",
+        "reveals": "Nella camera di Mira: sul davanzale della finestra aperta, tracciato con cenere nera — un simbolo che ripete l'onda stilizzata presente su alcune decorazioni della città. Non è vandalo casuale.",
+        "payoff": "rev_cult",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_cult"
+        ],
+        "immediate_information": "Il simbolo dell'onda è connesso alla scomparsa.",
+        "hidden_implication": "Il simbolo è il marchio del culto.",
+        "unlocks": [
+          "clue_horace_history"
+        ],
+        "possible_actions": [
+          "Esaminare la camera di Mira"
+        ],
+        "wrong_interpretations": [
+          "Un vandalo lascia simboli casuali"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_horace_history",
+        "label": "Testimonianza storica di Horace il Gioielliere",
+        "type": "testimony",
+        "thread_id": "thread_culto",
+        "source_location": "market_square",
+        "reveals": "Horace ha tenuto un registro: ogni cinque anni, due persone scompaiono durante il festival. Sempre nei primi due giorni. Sempre persone senza legami forti in città — viaggiatori, mercanti di passaggio. 'Le guardie archiviano come fughe volontarie.'",
+        "payoff": "Conferma che le sparizioni sono sistematiche e non casuali, rivelando l'esistenza di un'organizzazione che seleziona vittime vulnerabili",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_cult"
+        ],
+        "immediate_information": "Il pattern dura da almeno 50 anni. Due persone ogni festival.",
+        "hidden_implication": "È organizzato e protetto dall'interno.",
+        "unlocks": [
+          "clue_vane_lineage"
+        ],
+        "possible_actions": [
+          "Parlare con Horace"
+        ],
+        "wrong_interpretations": [
+          "Le persone scappano volontariamente durante il festival per evitare debiti",
+          "È opera di un singolo serial killer che agisce ogni cinque anni"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_vane_lineage",
+        "label": "Genealogia della Famiglia Vane",
+        "type": "document",
+        "thread_id": "thread_leader",
+        "source_location": "city_archive",
+        "reveals": "Nell'archivio cittadino: la famiglia Vane guida Varenmoor da 200 anni. Ogni sindaco Vane era in carica durante un festival con scomparse. L'albero genealogico mostra che il ruolo di sindaco viene 'ereditato' — mai eletto da fuori famiglia.",
+        "payoff": "rev_leader",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_leader"
+        ],
+        "immediate_information": "La famiglia Vane è sempre al potere durante le scomparse.",
+        "hidden_implication": "Il sindaco guida il culto.",
+        "unlocks": [
+          "clue_cult_records"
+        ],
+        "possible_actions": [
+          "Accedere all'archivio cittadino"
+        ],
+        "wrong_interpretations": [
+          "È coincidenza"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_cult_records",
+        "label": "Registro segreto del culto",
+        "type": "document",
+        "thread_id": "thread_leader",
+        "source_location": "vane_mansion",
+        "reveals": "Nella villa del sindaco, in una stanza chiusa a chiave: un libro rilegato in pelle nera — 'Le Acque Profonde: Registro dei Sacrifici'. 200 anni di festival documentati. Ogni 5 anni, due nomi. Firma: ogni sindaco Vane.",
+        "payoff": "Prova definitiva del coinvolgimento del sindaco e della natura generazionale del culto, trasformando il mistero in certezza",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_leader"
+        ],
+        "immediate_information": "200 anni di sacrifici documentati. Il sindaco firma ogni volta.",
+        "hidden_implication": "È tradizione familiare — Vane crede di servire la città.",
+        "unlocks": [
+          "clue_tunnel_entrance"
+        ],
+        "possible_actions": [
+          "Infiltrare la villa del sindaco"
+        ],
+        "wrong_interpretations": [
+          "Il sindaco è un pazzo omicida che mantiene trofei delle sue vittime",
+          "È un falso creato da nemici politici per screditare la famiglia Vane"
+        ],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_tunnel_entrance",
+        "label": "Accesso ai tunnel sotto la fontana",
+        "type": "physical_evidence",
+        "thread_id": "thread_prigionieri",
+        "source_location": "city_fountain",
+        "reveals": "Sotto la fontana centrale — decorata con il simbolo dell'onda — un pannello di pietra si muove se premuto nel modo giusto. Porta a un sistema di tunnel vecchi di secoli.",
+        "payoff": "Apre l'accesso fisico al luogo dei sacrifici e permette il salvataggio dei prigionieri prima del rituale finale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_tunnels"
+        ],
+        "immediate_information": "I tunnel esistono sotto la fontana.",
+        "hidden_implication": "I prigionieri sono qui.",
+        "unlocks": [
+          "clue_survivor_cry"
+        ],
+        "possible_actions": [
+          "Esaminare attentamente la fontana",
+          "Seguire le indicazioni nel registro del culto"
+        ],
+        "wrong_interpretations": [
+          "Sono antiche fogne abbandonate senza connessione con le sparizioni",
+          "Sono tunnel di contrabbando usati da criminali comuni"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_survivor_cry",
+        "label": "Voci dal fondo della fontana",
+        "type": "physical_evidence",
+        "thread_id": "thread_prigionieri",
+        "source_location": "city_fountain",
+        "reveals": "Di notte, vicino alla fontana, si sentono voci fioche — qualcuno chiede aiuto dal basso. Faint ma udibili.",
+        "payoff": "rev_tunnels",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [
+          "rev_tunnels"
+        ],
+        "immediate_information": "Qualcuno è vivo sotto la fontana.",
+        "hidden_implication": "I prigionieri sono ancora vivi.",
+        "unlocks": [],
+        "possible_actions": [
+          "Avvicinarsi alla fontana di notte"
+        ],
+        "wrong_interpretations": [
+          "Eco del vento"
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_ancient_text",
+        "label": "Testo antico nelle biblioteche del culto",
+        "type": "document",
+        "thread_id": "thread_entita",
+        "source_location": "tunnel_chamber",
+        "reveals": "Nei tunnel: una stanza con testi antichi precedenti alla fondazione di Varenmoor. Il vero accordo originale con l'entità: 'Tre stagioni di prosperità per ogni offerta — la natura dell'offerta non è specificata dal Guardiano delle Acque.'",
+        "payoff": "Rivela che il patto originale è stato corrotto nel tempo e che esistono alternative al sacrificio umano, aprendo la possibilità di una risoluzione pacifica",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_entity_nature"
+        ],
+        "immediate_information": "Il testo originale non richiede sacrifici umani.",
+        "hidden_implication": "Il culto ha male interpretato o corrotto il patto originale.",
+        "unlocks": [
+          "clue_entity_communication"
+        ],
+        "possible_actions": [
+          "Leggere i testi nella camera dei tunnel"
+        ],
+        "wrong_interpretations": [
+          "È un documento falso creato da una fazione dissidente del culto",
+          "L'entità ha cambiato natura nel tempo e ora richiede sangue per forza"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_entity_communication",
+        "label": "Comunicazione diretta con il Guardiano delle Acque",
+        "type": "testimony",
+        "thread_id": "thread_entita",
+        "source_location": "tunnel_sanctum",
+        "reveals": "Nella camera più profonda dei tunnel: la fontana si nutre di un nucleo di acque oscure dove l'entità è presente. Un PG con capacità magica O usando il testo antico come guida può comunicare: l'entità vuole 'offerte di creazione, non di distruzione'. Non sangue — bellezza, arte, metalli.",
+        "payoff": "Fornisce la chiave per rinegoziare il patto e terminare i sacrifici umani, rivelando che l'entità non è malvagia ma fraintesa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_entity_nature"
+        ],
+        "immediate_information": "L'entità accetta offerte alternative. Non vuole sangue.",
+        "hidden_implication": "Il culto può essere sciolto pacificamente.",
+        "unlocks": [],
+        "possible_actions": [
+          "Entrare nella camera più profonda",
+          "Comunicare con l'entità"
+        ],
+        "wrong_interpretations": [
+          "L'entità sta mentendo per attirare più vittime nella sua tana",
+          "È un'illusione creata dal culto per proteggere i propri segreti"
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_red_herring_rivalry",
+        "label": "Rivalità commerciale tra mercanti",
+        "type": "testimony",
+        "thread_id": "thread_culto",
+        "source_location": "market_square",
+        "reveals": "Un mercante suggerisce che Mira poteva essere stata rapita da un rivale commerciale — lei aveva rubato dei contratti.",
+        "payoff": "Distrae temporaneamente dall'indagine principale ma insegna ai PG a verificare le fonti e cercare pattern più ampi",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Possibile movente economico.",
+        "hidden_implication": "Red herring — le rivalità commerciali non spiegano il pattern storico.",
+        "unlocks": [],
+        "possible_actions": [
+          "Seguire la pista commerciale"
+        ],
+        "wrong_interpretations": [
+          "Mira è stata rapita per ragioni commerciali",
+          "Esiste una rete criminale separata che opera durante il festival"
+        ],
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_vane",
+        "name": "Sindaco Aldric Vane",
+        "role": "antagonist",
+        "location_id": "festival_center",
+        "status": "introduced",
+        "goal": "Completare il festival e mantenere il ciclo di sacrifici per la prosperità della città",
+        "secret": "Guida le Acque Profonde da 30 anni. Crede genuinamente di proteggere la città.",
+        "agenda_pressure": 8,
+        "fear": "Che il ciclo venga interrotto e la città soffra",
+        "current_plan": "Monitorare i PG e depistarli verso false piste",
+        "fallback_plan": "Eliminare i PG se si avvicinano troppo alla verità",
+        "resources": [
+          "Guardie cittadine leali",
+          "Villa con documenti del culto",
+          "Controllo delle informazioni"
+        ],
+        "knows": [
+          "truth_cult",
+          "truth_leader"
+        ],
+        "wants": [
+          "Completamento del rituale"
+        ],
+        "avoids": [
+          "Chi trova i tunnel"
+        ],
+        "pressure_response": {
+          "pressure_low": "Il sindaco cordiale del festival — sorrisi larghi, ospitalità calorosissima. Usa il suo status per accedere a ogni conversazione dei PG",
+          "pressure_mid": "Fa deviare le guardie verso le zone dove si trovano i PG, piazza false informazioni sulla rivalità commerciale come pista alternativa",
+          "pressure_high": "Ordina il raddoppio delle guardie attorno alla fontana, prova a far arrestare i PG per 'disturbo dell'ordine pubblico'",
+          "pressure_max": "Di persona affronta i PG nelle ore notturne del rituale — non è un combattente ma ha fede cieca nel patto ancestrale. Pronto a morire per il ciclo"
+        },
+        "reaction_table": {
+          "friendly_approach": "+2 — ama la città e ama chi la ama. Risponde bene a chi partecipa al festival con entusiasmo",
+          "intimidation": "-2 — ha trent'anni di convinzione religiosa, l'intimidazione rafforza la sua certezza di essere nel giusto",
+          "bribery": "-3 — considera il denaro inferiore all'obbligo ancestrale. Lo rifiuta con disprezzo",
+          "caught_lying": "-3 — tira fuori la sua autorità come scudo, accusa i PG di diffamare la città",
+          "authority_figure": "+1 se locale o nobiliare, -2 se ecclesiastico esterno — teme l'interferenza della chiesa nelle pratiche del culto"
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "actor_horace",
+        "name": "Horace il Gioielliere",
+        "role": "ally",
+        "location_id": "market_square",
+        "status": "introduced",
+        "goal": "Fermare le scomparse una volta per tutte",
+        "secret": "Ha già provato a denunciare e non è stato creduto — sa di rischiare la vita a parlare",
+        "agenda_pressure": 6,
+        "fear": "Ritorsioni di Vane",
+        "current_plan": "Dare ai PG le informazioni di base e sperare che agiscano",
+        "fallback_plan": "Fuggire dalla città se i PG falliscono",
+        "resources": [
+          "Registro storico delle scomparse",
+          "Conoscenza della città"
+        ],
+        "knows": [
+          "clue_horace_history"
+        ],
+        "wants": [
+          "Fine del ciclo di sacrifici"
+        ],
+        "avoids": [
+          "Essere visto parlare con i PG vicino alle guardie"
+        ],
+        "pressure_response": {
+          "pressure_low": "Parla sottovoce e rapidamente al bancone del suo negozio, guarda sempre alle spalle, fornisce informazioni essenziali in modo frammentato",
+          "pressure_mid": "Rivela il suo registro storico con più dettagli se i PG dimostrano di prendere il problema sul serio",
+          "pressure_high": "Quando le guardie iniziano a sorvegliare lui, chiede ai PG di proteggerlo in cambio di tutte le informazioni che ha",
+          "pressure_max": "Se Vane lo fa minacciare direttamente, fugge dalla città ma lascia il registro nascosto in un posto che i PG conoscono"
+        },
+        "reaction_table": {
+          "friendly_approach": "+3 — aspettava qualcuno così da anni. Parla liberamente se si sente al sicuro",
+          "intimidation": "-3 — il panico lo paralizza, diventa inutile e smette di collaborare",
+          "bribery": "+1 — non è motivato dal denaro ma accetta un compenso se aiuta a coprire le spese di una fuga eventuale",
+          "caught_lying": "Non mente — omette per paura. Se scoperto, si scusa e aggiunge informazioni",
+          "authority_figure": "-2 — le autorità locali non lo hanno mai ascoltato. Diffidente verso chiunque abbia potere ufficiale"
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "actor_mira",
+        "name": "Mira (prima vittima)",
+        "role": "victim",
+        "location_id": "tunnel_cells",
+        "status": "unintroduced",
+        "goal": "Sopravvivere",
+        "secret": "Ha visto il volto di chi l'ha rapita",
+        "agenda_pressure": 9,
+        "fear": "Il rituale imminente",
+        "current_plan": "Aspettare i soccorsi",
+        "fallback_plan": "Gridare più forte possibile",
+        "resources": [
+          "Testimonianza visiva del rapitore"
+        ],
+        "knows": [],
+        "wants": [
+          "Essere salvata"
+        ],
+        "avoids": [],
+        "pressure_response": {
+          "pressure_low": "Silenziosa per paura di attirare le guardie, segnala la sua presenza solo a chi sembra alleato",
+          "pressure_mid": "Se i PG si avvicinano, parla sottovoce e velocemente fornendo tutto ciò che sa sul rapitore e sui tunnel",
+          "pressure_high": "Con il rituale che si avvicina, è disposta a rischiare tutto — urla, attira guardie, qualsiasi cosa per fuggire",
+          "pressure_max": "All'alba del terzo giorno, è in stato di terrore assoluto ma funzionale — seguirà ciecamente chi la libera"
+        },
+        "reaction_table": {
+          "friendly_approach": "+4 — chiunque venga a salvarla è accolto con gratitudine totale",
+          "intimidation": "-4 — è già terrorizzata, qualsiasi intimidazione la blocca completamente",
+          "bribery": "Non applicabile — è prigioniera",
+          "caught_lying": "Non mente — è una vittima innocente",
+          "authority_figure": "+2 — si fida naturalmente di chi sembra avere autorità e competenza"
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_cult",
+        "name": "Le Acque Profonde",
+        "agenda": "Completare il sacrificio festivo",
+        "pressure": 8,
+        "status": "active",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "faction_citizens",
+        "name": "Cittadini di Varenmoor",
+        "agenda": "Godersi il festival",
+        "pressure": 2,
+        "status": "quiet",
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "locations": [
+      {
+        "id": "inn_room",
+        "name": "Camera dell'Osteria — Stanza di Mira",
+        "description": "Camera vuota. Finestra aperta. Sul davanzale, il simbolo dell'onda nera.",
+        "status": "known",
+        "contains_clues": [
+          "clue_cult_symbol"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Stanza osteria medievale, letto disfatto, finestra aperta",
+        "gameplay_function": "Punto di partenza, primo clue",
+        "concrete_features": [
+          "Simbolo dell'onda sul davanzale",
+          "Effetti personali di Mira"
+        ],
+        "hazards": [],
+        "exits": [
+          "market_square"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_cult_symbol"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "market_square",
+        "name": "Piazza del Mercato",
+        "description": "Il cuore del festival. Bancarelle, musica, danze. Horace ha il suo banco di gioielli.",
+        "status": "known",
+        "contains_clues": [
+          "clue_horace_history",
+          "clue_red_herring_rivalry"
+        ],
+        "contains_actors": [
+          "actor_horace"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Piazza medievale in festa, bancarelle colorate, musica",
+        "gameplay_function": "Hub del festival, informazioni da Horace",
+        "concrete_features": [
+          "Horace al suo banco",
+          "Festival in pieno svolgimento",
+          "Simbolo dell'onda su alcune decorazioni"
+        ],
+        "hazards": [
+          "Membri del culto in borghese"
+        ],
+        "exits": [
+          "inn_room",
+          "city_fountain",
+          "city_archive",
+          "vane_mansion"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_horace_history"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "city_archive",
+        "name": "Archivio Cittadino",
+        "description": "Edificio polveroso con registri storici. Il bibliotecario è cooperativo se i PG sembrano studiosi.",
+        "status": "known",
+        "contains_clues": [
+          "clue_vane_lineage"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Archivio medievale, scaffali di pergamene, bibliotecario anziano",
+        "gameplay_function": "Prove storiche sulla famiglia Vane",
+        "concrete_features": [
+          "Alberi genealogici",
+          "Registri cittadini",
+          "Bibliotecario cooperativo"
+        ],
+        "hazards": [],
+        "exits": [
+          "market_square"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_vane_lineage"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "vane_mansion",
+        "name": "Villa del Sindaco Vane",
+        "description": "Villa elegante. Vane è spesso fuori durante il festival. La stanza chiusa a chiave contiene il registro.",
+        "status": "known",
+        "contains_clues": [
+          "clue_cult_records"
+        ],
+        "contains_actors": [
+          "actor_vane"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Infiltrazione — guardie"
+        ],
+        "type": "location",
+        "access_state": "restricted",
+        "visual_identity": "Mansion nobiliare medievale, guardie all'ingresso, giardino murato",
+        "gameplay_function": "Registro del culto, prove del sindaco come leader",
+        "concrete_features": [
+          "Registro segreto del culto",
+          "Stanza chiusa",
+          "Guardie fedeli"
+        ],
+        "hazards": [
+          "Guardie di Vane",
+          "Vane può scoprire la perquisizione"
+        ],
+        "exits": [
+          "market_square"
+        ],
+        "locked_paths": [
+          "inner_study"
+        ],
+        "clue_slots": [
+          "clue_cult_records"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "city_fountain",
+        "name": "Fontana Centrale di Varenmoor",
+        "description": "Grande fontana nel centro della piazza. Decorata con il simbolo dell'onda. Di notte, si sentono voci faint dal basso.",
+        "status": "known",
+        "contains_clues": [
+          "clue_tunnel_entrance",
+          "clue_survivor_cry"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Fontana medievale monumentale, simbolo dell'onda, acqua che scorre",
+        "gameplay_function": "Accesso ai tunnel, voci dei prigionieri",
+        "concrete_features": [
+          "Simbolo dell'onda",
+          "Pannello di pietra nascosto",
+          "Voci di notte"
+        ],
+        "hazards": [
+          "Guardie del culto di notte"
+        ],
+        "exits": [
+          "market_square",
+          "tunnel_chamber"
+        ],
+        "locked_paths": [
+          "tunnel_chamber"
+        ],
+        "clue_slots": [
+          "clue_tunnel_entrance",
+          "clue_survivor_cry"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "tunnel_chamber",
+        "name": "Tunnel sotto la Fontana — Celle",
+        "description": "Sistema di tunnel in pietra. Celle con sbarre dove sono tenuti Mira e un secondo prigioniero. Torce sui muri.",
+        "status": "hidden",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_mira"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Trovare il pannello segreto alla fontana"
+        ],
+        "type": "location",
+        "access_state": "locked",
+        "visual_identity": "Tunnel sotterranei medievali, celle con sbarre, torce",
+        "gameplay_function": "Prigionieri, testi antichi, camera dell'entità oltre",
+        "concrete_features": [
+          "Mira nella cella",
+          "Secondo prigioniero",
+          "Porta verso la camera dell'entità"
+        ],
+        "hazards": [
+          "Guardie del culto nei tunnel",
+          "Rituale all'alba del terzo giorno"
+        ],
+        "exits": [
+          "city_fountain",
+          "tunnel_sanctum"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_ancient_text"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "tunnel_sanctum",
+        "name": "Santuario dell'Entità",
+        "description": "La camera più profonda. Una vasca di acqua nera pulsante. L'entità è percepibile come presenza nell'acqua.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_ancient_text",
+          "clue_entity_communication"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Accesso dal tunnel_chamber"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Camera sotterranea con vasca d'acqua oscura, testi antichi alle pareti",
+        "gameplay_function": "Comunicazione con l'entità, soluzione alternativa",
+        "concrete_features": [
+          "Vasca d'acqua nera",
+          "Testi antichi",
+          "Presenza dell'entità"
+        ],
+        "hazards": [
+          "L'entità può manifestarsi se minacciata",
+          "Vane qui durante il rituale"
+        ],
+        "exits": [
+          "tunnel_chamber"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_ancient_text",
+          "clue_entity_communication"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ritual",
+        "label": "Il Rituale dell'Alba del Terzo Giorno",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "I prigionieri vengono sacrificati nel santuario. Il culto completa il ciclo. Missione fallita.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Il secondo prigioniero viene rapito — le celle sono piene"
+          },
+          {
+            "tick": 4,
+            "event": "I membri del culto iniziano a preparare il santuario"
+          },
+          {
+            "tick": 6,
+            "event": "Vane scompare dalla vita pubblica — si prepara al rituale"
+          },
+          {
+            "tick": 8,
+            "event": "Le guardie raddoppiano attorno alla fontana"
+          },
+          {
+            "tick": 10,
+            "event": "Rituale eseguito all'alba. Due morti."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_tunnel_entrance",
+          "clue_cult_records"
+        ],
+        "resolution_condition": "Liberare i prigionieri E smascherare il culto prima dell'alba del terzo giorno",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_horace_history",
+        "discovery_hint": "Horace dice: 'Le scomparse avvengono sempre nelle prime 48 ore. Il terzo giorno, qualcosa cambia in paese...'",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.9
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_fiducia_cittadini",
+        "label": "Fiducia dei Cittadini",
+        "description": "Il grado in cui i cittadini di Varenmoor sono disposti ad aiutare i PG contro il loro amato sindaco",
+        "current_value": 5,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni accusa pubblica contro Vane senza prove, ogni comportamento scortese durante il festival",
+        "depletion_consequence": "A 0: i cittadini attivamente ostacolano i PG e avvisano le guardie di ogni loro mossa",
+        "recovery_method": "Scoprire e mostrare il registro del culto recupera 4 punti. Liberare Mira pubblicamente recupera 3 punti"
+      },
+      {
+        "id": "res_tempo_sacrificio",
+        "label": "Ore Prima del Rituale",
+        "description": "Ore rimaste prima che il rituale all'alba venga eseguito nei tunnel",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni fallimento investigativo significativo, ogni ora reale di gioco",
+        "depletion_consequence": "A 0: il rituale viene eseguito all'alba — i prigionieri muoiono",
+        "recovery_method": "Non recuperabile"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_rescue_and_expose",
+        "label": "Salvataggio e Smascheramento",
+        "required_threads": [
+          "thread_prigionieri",
+          "thread_leader"
+        ],
+        "required_clues": [
+          "clue_tunnel_entrance",
+          "clue_cult_records"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_tunnels",
+          "rev_leader"
+        ],
+        "method": "Liberare Mira e l'altro prigioniero, presentare il registro del culto alle autorità esterne, catturare Vane",
+        "concrete_choice": "Richiede azione su due fronti prima dell'alba"
+      },
+      {
+        "id": "finale_new_pact",
+        "label": "Nuovo Patto con l'Entità",
+        "required_threads": [
+          "thread_entita"
+        ],
+        "required_clues": [
+          "clue_ancient_text",
+          "clue_entity_communication"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_entity_nature"
+        ],
+        "method": "Comunicare con l'entità e stabilire un nuovo accordo — offerte alternative ai sacrifici umani. Il culto perde il suo scopo.",
+        "concrete_choice": "Soluzione più completa — risolve sia il culto sia l'entità"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "fantasy",
+      "tone": "fantasy oscuro, culto, festival, sacrificio",
+      "allowed_escalations": [
+        "revelation",
+        "confrontation",
+        "supernatural_encounter"
+      ],
+      "forbidden_escalations": [],
+      "terminal_events_require": [],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "Il festival in corso crea contrasto surreale — musica e festa sopra, orrore sotto",
+      "Vane come antagonista tragico — non è sadico, crede genuinamente di proteggere la città",
+      "Il nuovo patto con l'entità è il finale più soddisfacente — risolve tutto senza violenza"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_culto",
+        "label": "Il Culto Segreto",
+        "status": "active"
+      },
+      {
+        "id": "thread_leader",
+        "label": "Chi Guida il Culto",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_prigionieri",
+        "label": "I Prigionieri nei Tunnel",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_entita",
+        "label": "La Vera Natura dell'Entità",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "ai_festival_del_sangue",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_investigate_disappearance"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_ritual": {
+        "value": 0,
+        "active": true,
+        "discovered": false,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_cult_symbol": [
+        "rev_cult"
+      ],
+      "clue_horace_history": [
+        "rev_cult"
+      ],
+      "clue_vane_lineage": [
+        "rev_leader"
+      ],
+      "clue_cult_records": [
+        "rev_leader"
+      ],
+      "clue_tunnel_entrance": [
+        "rev_tunnels"
+      ],
+      "clue_survivor_cry": [
+        "rev_tunnels"
+      ],
+      "clue_ancient_text": [
+        "rev_entity_nature"
+      ],
+      "clue_entity_communication": [
+        "rev_entity_nature"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_culto": [
+        "rev_cult"
+      ],
+      "thread_leader": [
+        "rev_leader"
+      ],
+      "thread_prigionieri": [
+        "rev_tunnels"
+      ],
+      "thread_entita": [
+        "rev_entity_nature"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_cult": "thread_culto",
+      "rev_leader": "thread_leader",
+      "rev_tunnels": "thread_prigionieri",
+      "rev_entity_nature": "thread_entita"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 92,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}

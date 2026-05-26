@@ -32,5 +32,6 @@ yarn-debug.log*
 yarn-error.log*
 .vercel
 
-# Local adventure compiler audit exports
-compiled_adventures/
+# Local adventure compiler audit exports (solo root, non data/)
+/compiled_adventures/
+!/data/compiled_adventures/

@@ -1,0 +1,1041 @@
+{
+  "adventure_definition": {
+    "id": "ai_stazione_orbit",
+    "title": "Stazione Orbit",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "sci-fi",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "sci-fi thriller, stazione spaziale, isolamento, paranoia",
+    "premise": "Anno 2187. La stazione orbitale Helix-9 ha smesso di comunicare con la Terra da 18 ore. I PG — tecnici di riparazione, medici, agenti di sicurezza — vengono inviati con una navetta di soccorso. Arrivano e trovano 47 persone in stato di coma medico inspiegabile. Solo 3 sono sveglie — e una di loro ha ucciso.",
+    "initial_hook": "La Helix-9 ospita 50 persone. 47 sono in coma. Tre sono sveglie: Dr. Yumiko Tanaka (medico), Engr. Pavel Sorokin (tecnico), e Comm. Rena Vasquez (capo sicurezza). Una di loro è il problema. Voi avete 12 ore prima che le riserve di ossigeno dei pazienti in coma si esauriscano.",
+    "core_truths": [
+      {
+        "id": "truth_cause",
+        "statement": "Il Comm. Rena Vasquez ha rilasciato un agente sedativo nel sistema di ventilazione per coprire il furto di dati classificati sulla navigazione FTL. Ha calcolato male la dose — invece di far dormire tutti per 6 ore, ha rischiato di ucciderli.",
+        "reveal_clues": [
+          "clue_ventilation_logs",
+          "clue_missing_data"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_antidote",
+        "statement": "L'antidoto è nel laboratorio medico. Richiede 3 ore di sintesi. Il problema è che Vasquez ha sabotato il terminale medico.",
+        "reveal_clues": [
+          "clue_medical_logs",
+          "clue_sabotage"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_data",
+        "statement": "I dati rubati da Vasquez sono stati già trasmessi a un agente della concorrenza corporativa — ma il file di trasmissione è ancora nel server.",
+        "reveal_clues": [
+          "clue_transmission_log",
+          "clue_vasquez_device"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_assess",
+        "label": "Valutare la situazione e stabilire i sopravvissuti",
+        "status": "active",
+        "unlocks": [
+          "obj_find_cause",
+          "obj_antidote"
+        ],
+        "success_conditions": [
+          "Parlato con Tanaka, Sorokin, Vasquez"
+        ]
+      },
+      {
+        "id": "obj_find_cause",
+        "label": "Scoprire cos'ha causato il coma di massa",
+        "status": "inactive",
+        "unlocks": [
+          "obj_identify_culprit"
+        ],
+        "success_conditions": [
+          "rev_cause rivelato"
+        ]
+      },
+      {
+        "id": "obj_antidote",
+        "label": "Sintetizzare l'antidoto entro 12 ore",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Terminale medico riparato E antidoto sintetizzato"
+        ]
+      },
+      {
+        "id": "obj_identify_culprit",
+        "label": "Identificare chi ha rilasciato il sedativo",
+        "status": "inactive",
+        "unlocks": [
+          "obj_confront"
+        ],
+        "success_conditions": [
+          "rev_vasquez_guilty rivelato"
+        ]
+      },
+      {
+        "id": "obj_confront",
+        "label": "Neutralizzare Vasquez",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Vasquez catturata O neutralizzata"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_cause",
+        "thread_id": "thread_coma",
+        "statement": "Un agente sedativo è stato rilasciato nel sistema di ventilazione. Non è un guasto tecnico.",
+        "required_clues": [
+          "clue_ventilation_logs"
+        ],
+        "required_evidence_kinds": [
+          "document"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [
+          "clue_red_herring_radiation"
+        ],
+        "status": "hidden",
+        "payoff": "I PG sanno che è un atto deliberato.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_vasquez_guilty",
+        "thread_id": "thread_colpevole",
+        "statement": "Vasquez ha rilasciato il sedativo per rubare e trasmettere dati classificati FTL.",
+        "required_clues": [
+          "clue_missing_data",
+          "clue_transmission_log",
+          "clue_vasquez_device"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "document",
+          "artifact"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "clue_red_herring_sorokin"
+        ],
+        "status": "hidden",
+        "payoff": "Colpevole identificato.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_antidote_blocked",
+        "thread_id": "thread_antidoto",
+        "statement": "Il terminale medico è stato sabotato deliberatamente per rallentare la sintesi dell'antidoto.",
+        "required_clues": [
+          "clue_sabotage",
+          "clue_medical_logs"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG sanno che devono riparare il terminale — e che qualcuno non vuole che lo facciano.",
+        "conditions": [],
+        "llm_generated": true
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_ventilation_logs",
+        "label": "Log del sistema di ventilazione",
+        "type": "document",
+        "thread_id": "thread_coma",
+        "source_location": "station_engineering",
+        "reveals": "I log mostrano un'iniezione anomala nel sistema HVAC 18h fa. Codice autorizzazione: Comm. R. Vasquez. La firma digitale è autentica.",
+        "payoff": "rev_cause",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_cause",
+          "rev_vasquez_guilty"
+        ],
+        "immediate_information": "Sedativo iniettato deliberatamente. Autorizzazione di Vasquez.",
+        "hidden_implication": "Vasquez è la responsabile.",
+        "unlocks": [
+          "clue_missing_data"
+        ],
+        "possible_actions": [
+          "Accedere al terminale ingegneristico"
+        ],
+        "wrong_interpretations": [
+          "La firma è stata falsificata"
+        ],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_missing_data",
+        "label": "File classificati FTL mancanti",
+        "type": "document",
+        "thread_id": "thread_colpevole",
+        "source_location": "station_server",
+        "reveals": "Il server mostra accesso non autorizzato ai file FTL classified 22 ore fa. Estratti 2.3 GB di dati di navigazione. Ultima sessione attiva: terminale di Vasquez.",
+        "payoff": "Vasquez è identificato come punto di accesso iniziale al furto dei dati classificati",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_vasquez_guilty"
+        ],
+        "immediate_information": "Dati rubati dal terminale di Vasquez.",
+        "hidden_implication": "Il furto è avvenuto PRIMA del coma — il coma potrebbe essere stato causato per coprire il crimine o eliminare testimoni",
+        "unlocks": [
+          "clue_transmission_log"
+        ],
+        "possible_actions": [
+          "Accedere al server centrale"
+        ],
+        "wrong_interpretations": [
+          "Qualcuno ha hackerato il terminale di Vasquez per incastrarlo",
+          "Il furto è conseguenza del coma, non la causa"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_transmission_log",
+        "label": "Log di trasmissione dati esterna",
+        "type": "document",
+        "thread_id": "thread_colpevole",
+        "source_location": "station_comms",
+        "reveals": "17 ore fa: trasmissione compressa verso coordinate non registrate (settore Titan-6). Dimensione: 2.3 GB. Il file di trasmissione è ancora sul server — e include la ricezione confermata.",
+        "payoff": "Conferma che i dati hanno lasciato la stazione e sono stati ricevuti da un'entità esterna corporativa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_vasquez_guilty"
+        ],
+        "immediate_information": "I dati sono già stati trasmessi fuori dalla stazione.",
+        "hidden_implication": "La missione è già fallita — i dati sono irrecuperabili. Resta solo scoprire il colpevole e il movente",
+        "unlocks": [
+          "clue_vasquez_device"
+        ],
+        "possible_actions": [
+          "Accedere al terminale comunicazioni"
+        ],
+        "wrong_interpretations": [
+          "La trasmissione può essere intercettata o annullata",
+          "Titan-6 è una base militare nemica, non una corporazione"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_vasquez_device",
+        "label": "Dispositivo personale di Vasquez",
+        "type": "artifact",
+        "thread_id": "thread_colpevole",
+        "source_location": "vasquez_quarters",
+        "reveals": "Nella camera di Vasquez: un dispositivo commerciale modificato con crittografia militare. Contiene comunicazioni con un agente 'Axion Corp' — piano dettagliato per il furto dei dati FTL.",
+        "payoff": "Prova definitiva della colpevolezza di Vasquez e del coinvolgimento di Axion Corp nello spionaggio industriale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_vasquez_guilty"
+        ],
+        "immediate_information": "Vasquez lavorava per Axion Corp.",
+        "hidden_implication": "Vasquez potrebbe aver messo in coma l'intero equipaggio per avere tempo di completare la trasmissione senza essere scoperto",
+        "unlocks": [],
+        "possible_actions": [
+          "Perquisire la camera di Vasquez"
+        ],
+        "wrong_interpretations": [
+          "Il dispositivo è stato piantato da qualcun altro per incastrare Vasquez",
+          "Axion Corp è solo un intermediario — il vero mandante è un'altra entità"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_sabotage",
+        "label": "Terminale medico sabotato fisicamente",
+        "type": "physical_evidence",
+        "thread_id": "thread_antidoto",
+        "source_location": "station_medical",
+        "reveals": "Il terminale medico ha una scheda madre rimossa — sabotaggio fisico. Richiede un sostituto dal magazzino ingegneristico. È chiaro che qualcuno non vuole che l'antidoto sia sintetizzato facilmente.",
+        "payoff": "rev_antidote_blocked",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_antidote_blocked"
+        ],
+        "immediate_information": "Il terminale medico è inutilizzabile. Richiede riparazione.",
+        "hidden_implication": "Il sabotatore voleva comprare tempo.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare il terminale medico"
+        ],
+        "wrong_interpretations": [
+          "È un guasto tecnico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_medical_logs",
+        "label": "Log medici pre-incidente",
+        "type": "document",
+        "thread_id": "thread_antidoto",
+        "source_location": "station_medical",
+        "reveals": "I log medici mostrano l'accesso di Vasquez alla farmacia 30 ore fa — ha ritirato sedativi respiratori con una prescrizione falsificata.",
+        "payoff": "Collega Vasquez al metodo del coma di massa — premeditazione e acquisizione dei mezzi chimici",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_antidote_blocked",
+          "rev_vasquez_guilty"
+        ],
+        "immediate_information": "Vasquez ha preso i sedativi dalla farmacia.",
+        "hidden_implication": "Vasquez ha pianificato il coma almeno 30 ore prima — il furto dati era parte di un'operazione calcolata nei dettagli",
+        "unlocks": [],
+        "possible_actions": [
+          "Controllare i log della farmacia"
+        ],
+        "wrong_interpretations": [
+          "Vasquez soffriva di insonnia e aveva bisogno dei sedativi per uso personale",
+          "La prescrizione era legittima ma il sistema l'ha registrata male"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_red_herring_radiation",
+        "label": "Picco di radiazioni anomalo",
+        "type": "physical_evidence",
+        "thread_id": "thread_coma",
+        "source_location": "station_engineering",
+        "reveals": "I sensori mostrano un picco di radiazioni 20 ore fa. Sembrerebbe una spiegazione medica per il coma — ma i medici confermano: l'esposizione era troppo bassa per causare effetti.",
+        "payoff": "Esclude causa accidentale e spinge verso ipotesi dolosa — ma distrae dalla vera causa chimica",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Picco di radiazioni — possibile spiegazione.",
+        "hidden_implication": "Il picco potrebbe essere stato causato intenzionalmente come depistaggio per mascherare l'uso dei sedativi",
+        "unlocks": [],
+        "possible_actions": [
+          "Controllare sensori di radiazione"
+        ],
+        "wrong_interpretations": [
+          "Le radiazioni hanno causato il coma",
+          "C'è stato un malfunzionamento del reattore che ha esposto l'equipaggio"
+        ],
+        "source_status": "generated",
+        "confidence": 0.8
+      },
+      {
+        "id": "clue_red_herring_sorokin",
+        "label": "Comportamento sospetto di Sorokin",
+        "type": "testimony",
+        "thread_id": "thread_colpevole",
+        "source_location": "station_engineering",
+        "reveals": "Sorokin è nervoso e bugiardo su dove era 18 ore fa. In realtà stava sabotando il modulo di comunicazione per parlare privatamente con la sua famiglia — violazione disciplinare, non crimine.",
+        "payoff": "Elimina Sorokin come sospetto principale ma rivela problemi di morale e sicurezza sulla stazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Sorokin nasconde qualcosa.",
+        "hidden_implication": "La violazione disciplinare di Sorokin potrebbe aver creato una finestra di vulnerabilità nelle comunicazioni che Vasquez ha sfruttato",
+        "unlocks": [],
+        "possible_actions": [
+          "Interrogare Sorokin a fondo"
+        ],
+        "wrong_interpretations": [
+          "Sorokin è il colpevole",
+          "Sorokin è complice di Vasquez e stava coprendo il furto dati"
+        ],
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_vasquez",
+        "name": "Comm. Rena Vasquez",
+        "role": "antagonist",
+        "location_id": "station_security",
+        "status": "introduced",
+        "goal": "Fuggire sulla sua navetta personale con i dati",
+        "secret": "Ha rilasciato il sedativo ed è in contatto con Axion Corp",
+        "agenda_pressure": 9,
+        "fear": "Essere catturata prima di fuggire",
+        "current_plan": "Far sembrare di cooperare mentre prepara la fuga",
+        "fallback_plan": "Ostaggio — usare i pazienti in coma come leva",
+        "resources": [
+          "Accesso alla sicurezza",
+          "Navetta personale"
+        ],
+        "knows": [
+          "truth_cause",
+          "truth_data"
+        ],
+        "wants": [
+          "Fuga con i dati"
+        ],
+        "avoids": [
+          "Il server centrale e il terminale ventilazione"
+        ],
+        "pressure_response": {
+          "pressure_low": "Vasquez è professionale e calma — coordina la risposta all'emergenza con efficienza militare. Suggerisce procedure, fa domande all'apparenza utili, tiene i PG lontani dal server e dal modulo ventilazione con pretesti burocratici.",
+          "pressure_mid": "Vasquez inizia a mostrare la sua autorità: limita l'accesso a certe aree 'per ragioni di sicurezza', ritarda risposte, fa sparire un log tecnico. Se accusata, risponde con freddezza: 'Stai accusando il capo della sicurezza senza prove. Attenzione.'",
+          "pressure_high": "Vasquez capisce che il tempo è quasi scaduto. Può bloccare porte via terminale sicurezza, tagliare comunicazioni interne con la Terra, o creare una falsa emergenza in un altro modulo per distrarre i PG mentre si avvicina alla baia di lancio.",
+          "pressure_max": "Vasquez è in modalità fuga attiva. Se i PG la bloccano fisicamente, minaccia di usare i pazienti in coma come leva: 'Il codice di disattivazione del sistema di ventilazione è nella mia testa. Se non mi lasciate passare, lo uso.' Può sparare se necessario."
+        },
+        "reaction_table": {
+          "friendly_approach": "Vasquez è cordiale e autorevole — risponde con procedure standard, sembra trasparente. Tiro Intuizione PG a -4: nasconde molto bene il nervosismo. Non rivela nulla di spontaneo.",
+          "intimidation": "Vasquez non si lascia intimidire — è addestrata. Risponde con calma glaciale: 'Questa conversazione sta diventando inappropriata. Voglio che tutto venga registrato.' Usa l'intimidazione come scudo legale.",
+          "bribery": "Vasquez finge disgusto: 'Stai cercando di corrompere un ufficiale in servizio durante un'emergenza.' — ma internamente valuta se la cifra è abbastanza alta da cambiare piano. Non accetterà mai apertamente.",
+          "caught_lying": "Vasquez non ammette mai di aver mentito — reindirizza: 'Ho detto qualcosa di diverso? Devo aver frainteso.' Se le vengono mostrate prove digitali, diventa improvvisamente ostile e cerca di prendere il controllo fisico della situazione.",
+          "authority_figure": "Se un ufficiale della Terra o della corporazione madre appare (via comms o in persona), Vasquez diventa tesa. Cerca di troncare la comunicazione con pretesti tecnici — 'Interferenze, la perdiamo.' Tiro Intuizione PG a +3 per notare il sabotaggio."
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "actor_tanaka",
+        "name": "Dr. Yumiko Tanaka",
+        "role": "ally",
+        "location_id": "station_medical",
+        "status": "introduced",
+        "goal": "Salvare i pazienti in coma",
+        "secret": "Sospetta di Vasquez ma non ha prove",
+        "agenda_pressure": 7,
+        "fear": "Che i pazienti muoiano",
+        "current_plan": "Lavorare sull'antidoto mentre i PG investigano",
+        "fallback_plan": "Usare metodi manuali lenti se il terminale non viene riparato",
+        "resources": [
+          "Competenza medica",
+          "Accesso alla farmacia"
+        ],
+        "knows": [
+          "clue_medical_logs"
+        ],
+        "wants": [
+          "Antidoto sintetizzato"
+        ],
+        "avoids": [],
+        "pressure_response": {
+          "pressure_low": "Tanaka è concentrata e pragmatica — spiega la situazione medica con precisione, condivide tutto quello che sa. Non dorme da 18 ore ma tiene la testa. Lavora accanto ai PG senza chiedere nulla in cambio.",
+          "pressure_mid": "Tanaka è visibilmente esausta e preoccupata: i parametri vitali peggiorano. Chiede aggiornamenti frequenti ai PG, può diventare brusca se si sentono perdere tempo. Rivela il suo sospetto su Vasquez se i PG le danno uno spazio di apertura.",
+          "pressure_high": "Tanaka crolla emotivamente per un momento — poi si raddrizza. 'Non posso salvarli con le mani nude. Avete bisogno di quel terminale riparato ADESSO.' Può darsi che riveli dove si trova la scheda di ricambio nel magazzino engineering, se non lo sa già Sorokin.",
+          "pressure_max": "Tanaka lavora in modalità manuale — procedure lente che allunga il countdown di 1-2 ore ma non risolve il problema. Supplica i PG di bloccare Vasquez prima che la situazione diventi irreversibile. Se il terminale viene riparato, può sintetizzare l'antidoto in 3 ore."
+        },
+        "reaction_table": {
+          "friendly_approach": "Tanaka risponde con fiducia immediata — è in modalità cooperazione totale. Tiro Diplomazia PG non necessario: Tanaka è naturalmente aperta con chi sembra voler aiutare.",
+          "intimidation": "Tanaka non si intimidisce facilmente in contesto medico — è abituata a situazioni di crisi. Se l'intimidazione riguarda i pazienti (minaccia implicita), diventa protettiva e può allontanarsi dai PG.",
+          "bribery": "Tanaka non capisce nemmeno il concetto in questo contesto. 'Cosa? Questi pazienti stanno morendo. Non mi interessa nessuna ricompensa.'",
+          "caught_lying": "Tanaka non mente — ma potrebbe aver omesso il suo sospetto su Vasquez per non fare accuse senza prove. Se pressata, ammette immediatamente e si scusa.",
+          "authority_figure": "Tanaka rispetta le catene di comando ma la sua priorità è medica. Se un superiore le ordina di rallentare il lavoro medico, si rifiuta: 'Con rispetto, queste persone vengono prima del protocollo.'"
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_sorokin",
+        "name": "Engr. Pavel Sorokin",
+        "role": "witness",
+        "location_id": "station_engineering",
+        "status": "introduced",
+        "goal": "Non essere incolpato di nulla",
+        "secret": "Stava sabotando il comms per parlare con la famiglia",
+        "agenda_pressure": 4,
+        "fear": "Essere accusato",
+        "current_plan": "Sembrare utile senza rivelare la sua violazione",
+        "fallback_plan": "Confessare la sua violazione minore pur di non essere accusato del coma",
+        "resources": [
+          "Conoscenza tecnica"
+        ],
+        "knows": [
+          "clue_red_herring_sorokin"
+        ],
+        "wants": [
+          "Essere scagionato"
+        ],
+        "avoids": [
+          "Domande sulle comunicazioni"
+        ],
+        "pressure_response": {
+          "pressure_low": "Sorokin è collaborativo ma nervoso — risponde alle domande tecniche con competenza, aiuta a interpretare i log ingegneristici, ma evita sistematicamente domande su 'dove eri 18 ore fa'. Si muove troppo velocemente da un argomento all'altro.",
+          "pressure_mid": "Sorokin diventa difensivo: 'Ho già risposto a questa domanda.' Dà informazioni tecniche preziose ma contrattacca: 'Perché non guardate Vasquez? Io stavo dormendo.' Mente su dove era, ma non mente su nient'altro.",
+          "pressure_high": "Sorokin crolla sotto pressione diretta — ma rivela solo la sua violazione minore: 'Ho modificato il modulo comms per chiamare mia moglie. È tutto. Mio figlio stava male. Ho violato il protocollo, non ho avvelenato nessuno.' Consegna spontaneamente la sua posizione come alibi.",
+          "pressure_max": "Sorokin è disposto a tutto per non essere arrestato — compreso aiutare i PG attivamente. Sa dove si trovano le schede di ricambio per il terminale medico e può trovare la baia di lancio in meno di 5 minuti. Diventa il più prezioso alleato tecnico se i PG lo scagionano."
+        },
+        "reaction_table": {
+          "friendly_approach": "Sorokin risponde con sollievo eccessivo — è così nervoso di essere accusato che l'approccio amichevole lo fa rilassare troppo. Tiro Intuizione PG a +2 per notare che nasconde qualcosa di minore, non di grave.",
+          "intimidation": "Sorokin cede rapidamente — ma confessa la violazione minore (il comms), non qualcosa di inesistente. L'intimidazione funziona ma può portare i PG su una pista falsa se non capiscono che la sua colpa è minore.",
+          "bribery": "Sorokin non vuole soldi — vuole garanzie. 'Se vi dico tutto quello che so, potete assicurarmi che non vengo licenziato?' Può essere 'comprato' con una promessa di clemenza.",
+          "caught_lying": "Sorokin cede immediatamente: 'Sì, ho mentito su dove ero. Ma non ho fatto quello che pensate.' Confessa la violazione comms in dettaglio. La sua onestà successiva è credibile.",
+          "authority_figure": "Sorokin è terrorizzato dagli ufficiali superiori — la sua paura di essere punito per la violazione minore è viscerale. In presenza di un'autorità, potrebbe confessare tutto spontaneamente prima ancora di essere interrogato."
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_axion",
+        "name": "Axion Corp (fuori scena)",
+        "agenda": "Ottenere i dati FTL",
+        "pressure": 3,
+        "status": "quiet",
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "locations": [
+      {
+        "id": "station_main",
+        "name": "Hub Centrale della Stazione",
+        "description": "Corridoi bianchi con luce fluorescente. 47 pazienti in coma nei moduli di vita. Il silenzio è assordante.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Stazione spaziale moderna, corridoi bianchi, zero g parziale",
+        "gameplay_function": "Connettore, atmosfera",
+        "concrete_features": [
+          "Moduli vita con pazienti",
+          "Schermo countdown ossigeno",
+          "Corridoi"
+        ],
+        "hazards": [],
+        "exits": [
+          "station_medical",
+          "station_engineering",
+          "station_comms",
+          "station_security",
+          "vasquez_quarters"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "station_medical",
+        "name": "Modulo Medico",
+        "description": "Il cuore della stazione. 47 corpi in letti di monitoraggio. Dr. Tanaka si muove tra loro freneticamente.",
+        "status": "known",
+        "contains_clues": [
+          "clue_sabotage",
+          "clue_medical_logs"
+        ],
+        "contains_actors": [
+          "actor_tanaka"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Reparto medico futuro, monitor vitali, Tanaka esausta",
+        "gameplay_function": "Antidoto, log medici, Tanaka alleata",
+        "concrete_features": [
+          "47 pazienti",
+          "Terminale sabotato",
+          "Farmacia"
+        ],
+        "hazards": [
+          "Countdown ossigeno"
+        ],
+        "exits": [
+          "station_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_sabotage",
+          "clue_medical_logs"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "station_engineering",
+        "name": "Modulo Ingegneristico",
+        "description": "Ventilatori e tubi. Sorokin finge di lavorare su qualcosa. Il terminale HVAC è qui.",
+        "status": "known",
+        "contains_clues": [
+          "clue_ventilation_logs",
+          "clue_red_herring_radiation"
+        ],
+        "contains_actors": [
+          "actor_sorokin"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Modulo tecnico, tubi metallici, terminali verdi",
+        "gameplay_function": "Log ventilazione, Sorokin red herring",
+        "concrete_features": [
+          "Terminale HVAC",
+          "Sorokin nervoso",
+          "Sensori radiazione"
+        ],
+        "hazards": [],
+        "exits": [
+          "station_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_ventilation_logs"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "station_comms",
+        "name": "Modulo Comunicazioni",
+        "description": "Terminali di comunicazione. I log delle trasmissioni sono qui.",
+        "status": "known",
+        "contains_clues": [
+          "clue_transmission_log"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Sala comunicazioni, antenne, terminali",
+        "gameplay_function": "Prova della trasmissione dei dati",
+        "concrete_features": [
+          "Log trasmissioni",
+          "Terminale principale"
+        ],
+        "hazards": [],
+        "exits": [
+          "station_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_transmission_log"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "station_security",
+        "name": "Quartier Generale Sicurezza",
+        "description": "Vasquez qui finge di coordinare la risposta all'emergenza.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_vasquez"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Sala sicurezza, monitor, Vasquez troppo calma",
+        "gameplay_function": "Vasquez, confronto finale",
+        "concrete_features": [
+          "Monitor di sorveglianza",
+          "Vasquez alla scrivania"
+        ],
+        "hazards": [
+          "Vasquez può chiudere le porte se smascherata"
+        ],
+        "exits": [
+          "station_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "Vasquez controlla le porte da qui"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "station_server",
+        "name": "Server Room",
+        "description": "Stanza fredda con server zumanti. I log di accesso sono qui.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_missing_data"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Codice di accesso — Tanaka lo sa"
+        ],
+        "type": "location",
+        "access_state": "locked",
+        "visual_identity": "Server room fredda, luci lampeggianti blu",
+        "gameplay_function": "Prove del furto dati",
+        "concrete_features": [
+          "Server FTL",
+          "Log di accesso"
+        ],
+        "hazards": [],
+        "exits": [
+          "station_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_missing_data"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "vasquez_quarters",
+        "name": "Camera di Vasquez",
+        "description": "Camera personale del comandante sicurezza. Il dispositivo è nascosto sotto il letto.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_vasquez_device"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Perquisizione — Vasquez si opporrà"
+        ],
+        "type": "location",
+        "access_state": "restricted",
+        "visual_identity": "Camera personale, ordine militare, dispositivo nascosto",
+        "gameplay_function": "Prova definitiva della colpevolezza",
+        "concrete_features": [
+          "Dispositivo Axion Corp"
+        ],
+        "hazards": [
+          "Vasquez può bloccare l'accesso"
+        ],
+        "exits": [
+          "station_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_vasquez_device"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ossigeno",
+        "label": "Riserve Ossigeno Pazienti",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "I 47 pazienti muoiono per mancanza di ossigeno.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Allarme ossigeno giallo — 9 ore rimaste"
+          },
+          {
+            "tick": 4,
+            "event": "Allarme arancione — 6 ore"
+          },
+          {
+            "tick": 6,
+            "event": "Alcuni pazienti mostrano segni di stress — 4 ore"
+          },
+          {
+            "tick": 8,
+            "event": "Allarme rosso — 2 ore"
+          },
+          {
+            "tick": 10,
+            "event": "Ossigeno esaurito. 47 morti."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_medical_logs",
+          "clue_sabotage"
+        ],
+        "resolution_condition": "Riparare il terminale medico e sintetizzare l'antidoto",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": true,
+        "discovery_clue_id": "",
+        "discovery_hint": "Il countdown è visibile su ogni schermo della stazione",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clock_vasquez_escape",
+        "label": "Fuga di Vasquez",
+        "value": 0,
+        "max_value": 8,
+        "consequence": "Vasquez fugge sulla sua navetta con i dati. Non può essere catturata.",
+        "active": true,
+        "on_complete": "narrative",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Vasquez accede segretamente al sistema di navigazione navetta — pre-lancio silenziato"
+          },
+          {
+            "tick": 4,
+            "event": "Vasquez sposta attrezzatura personale nella baia di lancio durante un'ispezione"
+          },
+          {
+            "tick": 5,
+            "event": "Vasquez blocca le porte del corridoio B per ostacolare l'inseguimento"
+          },
+          {
+            "tick": 6,
+            "event": "Vasquez si dirige alla baia di lancio con il dispositivo Axion"
+          },
+          {
+            "tick": 8,
+            "event": "Vasquez fugge. I dati FTL sono persi. Nessuna cattura possibile."
+          }
+        ],
+        "clock_type": "escalation",
+        "resolution_clues": [
+          "clue_vasquez_device"
+        ],
+        "resolution_condition": "Smascherare Vasquez e bloccarla prima che acceda alla baia di lancio",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_ventilation_logs",
+        "discovery_hint": "Sorokin nota che Vasquez ha fatto richiesta di accesso alla baia di lancio fuori orario",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.85
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_ossigeno_pazienti",
+        "label": "Ossigeno Pazienti",
+        "description": "Le riserve di ossigeno che mantengono in vita i 47 pazienti in coma — countdown visibile su ogni schermo della stazione",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni ora che passa senza riparare il terminale medico, ogni fallimento nelle azioni di emergenza",
+        "depletion_consequence": "A 5: alcuni pazienti iniziano a mostrare danni cerebrali — sopravvivenza ridotta. A 0: tutti e 47 i pazienti muoiono — sconfitta terminale",
+        "recovery_method": "La riparazione del terminale medico e la sintesi dell'antidoto stabilizzano il consumo. Non si recupera — si arresta la perdita"
+      },
+      {
+        "id": "res_tempo_fuga_vasquez",
+        "label": "Finestra per Bloccare Vasquez",
+        "description": "Il tempo prima che Vasquez raggiunga la baia di lancio e fugga con i dati FTL classificati",
+        "current_value": 8,
+        "max_value": 8,
+        "min_value": 0,
+        "depletion_trigger": "Ogni fallimento nell'indagine, ogni volta che Vasquez usa il sistema di sicurezza per guadagnare tempo, ogni distrazione creata da false emergenze",
+        "depletion_consequence": "A 4: Vasquez si trova già in transito verso la baia — i corridoi sono bloccati. A 0: Vasquez fugge, i dati sono persi, vittoria parziale se i pazienti sono stati salvati",
+        "recovery_method": "Smascherare Vasquez con prove concrete prima del tick 4 blocca il clock permanentemente"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_save_all",
+        "label": "Salva i pazienti E cattura Vasquez",
+        "required_threads": [
+          "thread_antidoto",
+          "thread_colpevole"
+        ],
+        "required_clues": [
+          "clue_sabotage",
+          "clue_vasquez_device"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_antidote_blocked",
+          "rev_vasquez_guilty"
+        ],
+        "method": "Riparare il terminale, sintetizzare l'antidoto, catturare Vasquez prima che fugga — tutto entro 12 ore",
+        "concrete_choice": "I PG devono dividersi: chi lavora all'antidoto, chi insegue Vasquez"
+      },
+      {
+        "id": "finale_patients_only",
+        "label": "Salva i pazienti (Vasquez fugge)",
+        "required_threads": [
+          "thread_antidoto"
+        ],
+        "required_clues": [
+          "clue_sabotage"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_antidote_blocked"
+        ],
+        "method": "Concentrarsi solo sull'antidoto. Vasquez fugge ma 47 persone sopravvivono.",
+        "concrete_choice": "Vittoria parziale moralmente giustificabile"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "sci-fi",
+      "tone": "thriller spaziale, countdown, paranoia",
+      "allowed_escalations": [
+        "chase",
+        "revelation",
+        "countdown"
+      ],
+      "forbidden_escalations": [],
+      "terminal_events_require": [],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "Il countdown dell'ossigeno crea tensione reale — aggiornarlo ogni sessione",
+      "Vasquez mantiene la calma professionale fino alla fine — è il suo superpotere e la sua debolezza",
+      "Sorokin come red herring funziona bene se i PG lo pressano troppo presto"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_coma",
+        "label": "Il Coma di Massa",
+        "status": "active"
+      },
+      {
+        "id": "thread_antidoto",
+        "label": "L'Antidoto",
+        "status": "active"
+      },
+      {
+        "id": "thread_colpevole",
+        "label": "Chi e Perché",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "ai_stazione_orbit",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_assess"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_ossigeno": {
+        "value": 0,
+        "active": true,
+        "discovered": true,
+        "resolved": false
+      },
+      "clock_vasquez_escape": {
+        "value": 0,
+        "active": true,
+        "discovered": false,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_ventilation_logs": [
+        "rev_cause",
+        "rev_vasquez_guilty"
+      ],
+      "clue_missing_data": [
+        "rev_vasquez_guilty"
+      ],
+      "clue_transmission_log": [
+        "rev_vasquez_guilty"
+      ],
+      "clue_vasquez_device": [
+        "rev_vasquez_guilty"
+      ],
+      "clue_sabotage": [
+        "rev_antidote_blocked"
+      ],
+      "clue_medical_logs": [
+        "rev_antidote_blocked",
+        "rev_vasquez_guilty"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_coma": [
+        "rev_cause"
+      ],
+      "thread_antidoto": [
+        "rev_antidote_blocked"
+      ],
+      "thread_colpevole": [
+        "rev_vasquez_guilty"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_cause": "thread_coma",
+      "rev_antidote_blocked": "thread_antidoto",
+      "rev_vasquez_guilty": "thread_colpevole"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 92,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}

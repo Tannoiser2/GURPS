@@ -1,0 +1,818 @@
+{
+  "adventure_definition": {
+    "id": "ai_treno_maledetto",
+    "title": "Il Treno Maledetto",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "horror",
+    "runtime_profiles": [
+      "pursuit_thriller"
+    ],
+    "tone": "horror claustrofobico, treno in corsa, anni '20",
+    "premise": "Europa, 1923. L'Orient Express — treno Venezia-Parigi — è bloccato da una valanga nelle Alpi. Undici passeggeri. Un cadavere che nessuno ricorda di aver visto salire. E qualcosa che si muove tra i vagoni di notte.",
+    "initial_hook": "Svegliate di notte da urla. Nel vagone letto n. 6 trovate un uomo morto — con gli occhi aperti e un'espressione di terrore assoluto. Nessuno lo conosce. Nessuno lo ha visto salire. La neve blocca ogni via d'uscita. Il treno è fermo per 48 ore almeno.",
+    "core_truths": [
+      {
+        "id": "truth_ghost",
+        "statement": "Il morto è il fantasma di Roderick Vance, ingegnere ferroviario morto in questo stesso tunnel nel 1901. È stato evocato accidentalmente da un medium a bordo.",
+        "reveal_clues": [
+          "clue_vance_records",
+          "clue_medium_ritual"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_medium",
+        "statement": "La signora Elspeth Crane è un medium che stava conducendo un esperimento a bordo usando i passeggeri come ignari partecipanti — e ha perso il controllo.",
+        "reveal_clues": [
+          "clue_crane_bag",
+          "clue_ritual_marks"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_solution",
+        "statement": "Il fantasma di Vance vuole che venga trovato e onorato il suo corpo — rimasto sepolto nel tunnel dal 1901. Riconoscerlo e promettere che il suo corpo verrà recuperato lo placa.",
+        "reveal_clues": [
+          "clue_vance_records",
+          "clue_ghost_message"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_identify_dead",
+        "label": "Identificare il cadavere misterioso",
+        "status": "active",
+        "unlocks": [
+          "obj_understand_origin"
+        ],
+        "success_conditions": [
+          "clue_vance_records scoperto"
+        ]
+      },
+      {
+        "id": "obj_understand_origin",
+        "label": "Capire cosa ha evocato il fantasma",
+        "status": "inactive",
+        "unlocks": [
+          "obj_stop_haunting"
+        ],
+        "success_conditions": [
+          "rev_medium_responsible rivelato"
+        ]
+      },
+      {
+        "id": "obj_stop_haunting",
+        "label": "Fermare le manifestazioni del fantasma",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "rev_solution rivelato E confronto con il fantasma"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_ghost_nature",
+        "thread_id": "thread_fantasma",
+        "statement": "Il morto non era un passeggero — era un fantasma materializzato. Roderick Vance, morto nel 1901 in questo tunnel.",
+        "required_clues": [
+          "clue_vance_records",
+          "clue_disappearing_body"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "physical"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "clue_red_herring_poison"
+        ],
+        "status": "hidden",
+        "payoff": "I PG capiscono con cosa hanno a che fare.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_medium_responsible",
+        "thread_id": "thread_medium",
+        "statement": "Elspeth Crane ha condotto un rituale a bordo che ha involontariamente evocato il fantasma di Vance.",
+        "required_clues": [
+          "clue_crane_bag",
+          "clue_ritual_marks"
+        ],
+        "required_evidence_kinds": [
+          "artifact",
+          "physical"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Chi ha causato il problema. Crane può aiutare a risolverlo.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_solution",
+        "thread_id": "thread_soluzione",
+        "statement": "Vance vuole riconoscimento e che il suo corpo nel tunnel venga recuperato. Promettendo questo, si placa.",
+        "required_clues": [
+          "clue_ghost_message",
+          "clue_vance_records"
+        ],
+        "required_evidence_kinds": [
+          "testimony",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Il modo di fermare le manifestazioni.",
+        "conditions": [],
+        "llm_generated": true
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_vance_records",
+        "label": "Documenti storici del tunnel nelle carte del capotreno",
+        "type": "document",
+        "thread_id": "thread_fantasma",
+        "source_location": "train_conductors",
+        "reveals": "Il capotreno ha archivi storici: nel 1901 un ingegnere, Roderick Vance, morì in questo tunnel durante la costruzione. Il suo corpo non fu mai recuperato. Il registro dice che 'le autorità decisero di procedere senza recupero'.",
+        "payoff": "Stabilisce l'identità del fantasma e la sua connessione col tunnel — ogni treno che passa disturba i suoi resti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_ghost_nature",
+          "rev_solution"
+        ],
+        "immediate_information": "Vance morì in questo tunnel. Il corpo è ancora lì.",
+        "hidden_implication": "Vance è intrappolato perché non ha ricevuto sepoltura — la sua morte è stata insabbiata per ragioni economiche, e questo alimenta la sua rabbia",
+        "unlocks": [
+          "clue_ghost_message"
+        ],
+        "possible_actions": [
+          "Chiedere al capotreno documenti storici della linea"
+        ],
+        "wrong_interpretations": [
+          "Vance è solo una vittima storica, non ha nulla a che fare con il cadavere attuale",
+          "Il capotreno ha ucciso qualcuno per coprire un segreto aziendale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_crane_bag",
+        "label": "Borsa rituale di Elspeth Crane",
+        "type": "artifact",
+        "thread_id": "thread_medium",
+        "source_location": "train_compartment_4",
+        "reveals": "La borsa di Crane contiene strumenti rituali: cristalli, sale, un grimorio. Il grimorio è aperto sulla pagina 'Evocazione di spiriti residui nei luoghi di morte'.",
+        "payoff": "Crane non è una vittima innocente — ha deliberatamente evocato lo spirito, probabilmente per dimostrare i suoi poteri o per clienti paganti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_medium_responsible"
+        ],
+        "immediate_information": "Crane è un medium con strumenti rituali.",
+        "hidden_implication": "Il rituale è stato pianificato in anticipo — Crane sapeva della morte di Vance e ha scelto questo treno apposta per attraversare il tunnel",
+        "unlocks": [
+          "clue_ritual_marks"
+        ],
+        "possible_actions": [
+          "Perquisire lo scompartimento di Crane"
+        ],
+        "wrong_interpretations": [
+          "Crane stava cercando di proteggere i passeggeri con un rituale difensivo",
+          "Il grimorio appartiene a qualcun altro che voleva incastrare Crane"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ritual_marks",
+        "label": "Segni rituali sotto il tappeto nel corridoio",
+        "type": "physical_evidence",
+        "thread_id": "thread_medium",
+        "source_location": "train_corridor",
+        "reveals": "Sotto il tappeto del corridoio centrale: simboli rituali tracciati col gesso. Il pattern corrisponde a quanto descritto nel grimorio di Crane — un cerchio di evocazione esteso per tutto il vagone letto.",
+        "payoff": "Conferma che Crane ha eseguito il rituale e che l'intero vagone era la 'camera di evocazione' — tutti i passeggeri sono stati usati come ancore inconsapevoli",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_medium_responsible"
+        ],
+        "immediate_information": "Il rituale è stato eseguito nel corridoio del treno.",
+        "hidden_implication": "La presenza di tutti i passeggeri nel cerchio ha amplificato l'evocazione oltre il controllo di Crane — la manifestazione di Vance è più potente di quanto intendesse",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare il pavimento del corridoio"
+        ],
+        "wrong_interpretations": [
+          "I simboli sono antichi e sono sempre stati lì, parte di una maledizione del treno stesso",
+          "Qualcun altro ha tracciato i simboli per sabotare Crane o incolparla"
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_ghost_message",
+        "label": "Messaggio scritto sul vapore dello specchio",
+        "type": "physical_evidence",
+        "thread_id": "thread_soluzione",
+        "source_location": "train_bathroom",
+        "reveals": "Nel bagno del vagone 6: scritto sul vapore dello specchio in modo che scompare quasi subito — 'TUNNEL 47 1901 RODERICK'. Un passeggero lo fotografa per caso con una macchina fotografica.",
+        "payoff": "rev_solution",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution"
+        ],
+        "immediate_information": "Il fantasma comunica: tunnel 47, anno 1901, nome Roderick.",
+        "hidden_implication": "Vuole essere riconosciuto e il suo corpo recuperato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Essere nel bagno al momento giusto",
+          "Trovare la fotografia"
+        ],
+        "wrong_interpretations": [
+          "È uno scherzo di un passeggero"
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_disappearing_body",
+        "label": "Il cadavere che scompare",
+        "type": "physical_evidence",
+        "thread_id": "thread_fantasma",
+        "source_location": "train_compartment_6",
+        "reveals": "Due ore dopo il ritrovamento, il cadavere non è più lì. Non ci sono impronte, non c'è segno di spostamento. La macchia di sangue è ancora sul pavimento — ma il corpo è svanito.",
+        "payoff": "rev_ghost_nature",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_ghost_nature"
+        ],
+        "immediate_information": "Il corpo è scomparso nel nulla.",
+        "hidden_implication": "Non era un cadavere fisico — era una manifestazione.",
+        "unlocks": [],
+        "possible_actions": [
+          "Tornare nello scompartimento 6"
+        ],
+        "wrong_interpretations": [
+          "Qualcuno ha nascosto il corpo"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_red_herring_poison",
+        "label": "Flacone di arsenico nella borsa di un passeggero",
+        "type": "physical_evidence",
+        "thread_id": "thread_fantasma",
+        "source_location": "train_compartment_3",
+        "reveals": "Nella borsa del Conte Moreau: un flacone di arsenico da giardiniere. Lui si giustifica: 'Per i topi nella villa'. Ma crea sospetto immediato.",
+        "payoff": "Distrae i giocatori facendoli concentrare su un possibile omicidio ordinario invece che sulla vera natura soprannaturale della minaccia",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Arsenico! Il conte potrebbe essere un avvelenatore.",
+        "hidden_implication": "Il conte ha davvero problemi economici e stava considerando soluzioni drastiche — ma per altri motivi personali, non legati agli eventi sul treno",
+        "unlocks": [],
+        "possible_actions": [
+          "Perquisire i bagagli"
+        ],
+        "wrong_interpretations": [
+          "Il conte ha avvelenato il cadavere",
+          "Il cadavere misterioso è una vittima del conte, che ora cerca di coprire le tracce"
+        ],
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_crane",
+        "name": "Elspeth Crane, medium",
+        "role": "ally",
+        "location_id": "train_compartment_4",
+        "status": "introduced",
+        "goal": "Rimediare all'errore e rimandare il fantasma",
+        "secret": "Ha condotto il rituale — è responsabile dell'evocazione",
+        "agenda_pressure": 7,
+        "fear": "Che i passeggeri la incolpino o peggio",
+        "current_plan": "Nascondere le sue responsabilità finché non capisce come risolvere",
+        "fallback_plan": "Confessare se i PG trovano le prove",
+        "resources": [
+          "Conoscenza del paranormale",
+          "Grimorio"
+        ],
+        "knows": [
+          "truth_medium",
+          "truth_solution"
+        ],
+        "wants": [
+          "Risolvere il problema senza conseguenze per lei"
+        ],
+        "avoids": [
+          "Ammettere la sua colpa"
+        ],
+        "pressure_response": {
+          "pressure_low": "Crane è composta e misteriosa — risponde alle domande con domande, offre osservazioni criptiche sul 'disturbo spirituale' senza ammettere nulla. Si mostra disponibile ma tiene la borsa rituale nascosta. È genuinamente in ansia ma la maschera regge.",
+          "pressure_mid": "Crane inizia a collaborare parzialmente: ammette di percepire 'una presenza antica' senza dire che l'ha evocata lei. Può guidare i PG verso il bagno o il corridoio senza spiegare come sa cosa cercare. Tiro Intuizione PG a +1 per notare che sa più di quanto dica.",
+          "pressure_high": "Se i PG trovano la borsa o i segni rituali, Crane crolla nella difensività: 'Non capite cosa stavo cercando di fare.' Ma se i PG le offrono una via d'uscita — collaborazione invece di accusa — confessa immediatamente e diventa il loro strumento più potente per risolvere la situazione.",
+          "pressure_max": "Crane sa che Vance si sta avvicinando al punto di non ritorno. Confessa tutto senza esitazione e chiede solo di poter eseguire il rituale di placazione. 'Sono io che l'ho chiamato. Sono io che devo mandarlo via. Fatemi fare la cosa giusta.'"
+        },
+        "reaction_table": {
+          "friendly_approach": "Crane risponde con calore discreto — è una donna di mondo che apprezza la cortesia. Un approccio gentile e non accusatorio la mette a proprio agio. Tiro Diplomazia PG a +2 per farla abbassare la guardia e rivelare indizi sulla sua conoscenza del paranormale.",
+          "intimidation": "Crane non si lascia intimidire con la violenza, ma l'emozione funziona: 'Stai dicendo che sono responsabile di queste morti? Come osi.' Si chiude se intimidita fisicamente. Ma il senso di colpa — far leva su quello — è molto più efficace.",
+          "bribery": "Crane non vuole denaro. Vuole protezione dalla reputazione e dalla legge. 'Se mi garantite che questa storia non esce dal treno, vi dico tutto.' È corrompibile solo con promesse di discrezione.",
+          "caught_lying": "Crane crolla quasi immediatamente se mostrata in contraddizione con prove fisiche. Non è una bugiarda esperta — era solo in attesa che qualcuno la smascherasse per poter confessare. Collabora pienamente dopo.",
+          "authority_figure": "In presenza delle autorità ferroviarie o della polizia, Crane trattiene tutto. Ha paura delle conseguenze legali. I PG devono gestire la situazione prima che arrivi rinforzo esterno."
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_conductor",
+        "name": "Capotreno Maurice",
+        "role": "authority",
+        "location_id": "train_conductors",
+        "status": "introduced",
+        "goal": "Mantenere l'ordine e proteggersi da responsabilità",
+        "secret": "Sa della morte di Vance nel 1901 ma non lo ha detto",
+        "agenda_pressure": 5,
+        "fear": "Scandalo e responsabilità legale",
+        "current_plan": "Ignorare il soprannaturale e spiegare tutto razionalmente",
+        "fallback_plan": "Ammettere la storia di Vance se pressato con le prove",
+        "resources": [
+          "Archivi storici della linea",
+          "Autorità sul treno"
+        ],
+        "knows": [
+          "clue_vance_records"
+        ],
+        "wants": [
+          "Arrivo in sicurezza"
+        ],
+        "avoids": [
+          "Responsabilità"
+        ],
+        "pressure_response": {
+          "pressure_low": "Maurice è formale e rassicurante — segue il protocollo: 'Il corpo è scomparso perché è un errore di osservazione. Stava dormendo.' Nega il soprannaturale con fermezza professionale. Non menziona spontaneamente la storia di Vance.",
+          "pressure_mid": "Maurice diventa difensivo: 'La compagnia ferroviaria non è responsabile di fenomeni inesplicabili.' Se i PG gli chiedono direttamente degli incidenti storici nel tunnel, esita visibilmente — sa qualcosa. Tiro Intuizione PG a +2 per cogliere l'esitazione.",
+          "pressure_high": "Con prove fisiche (il messaggio di Vance, i documenti storici), Maurice cede parzialmente: ammette che sa del tunnel 47 e della morte di Vance nel 1901, ma minimizza: 'Era un'altra epoca. Non era nostra responsabilità.' Ha sensi di colpa istituzionali, non personali.",
+          "pressure_max": "Maurice collabora pienamente — apre gli archivi storici, fornisce il fascicolo completo su Vance, e ammette che la compagnia sapeva del corpo mai recuperato da decenni. In cambio chiede discrezione: 'La stampa non può sapere.'"
+        },
+        "reaction_table": {
+          "friendly_approach": "Maurice risponde con cortesia professionale — è addestrato a gestire passeggeri difficili. Un approccio rispettoso che riconosca la sua autorità funziona meglio. Tiro Diplomazia a +1 per convincerlo ad aprire gli archivi senza pressione.",
+          "intimidation": "Maurice si irrigidisce: 'Sono il responsabile di questo convoglio. Se continua su questa linea, la farò accompagnare al vagone ristorante.' L'intimidazione diretta non funziona — bisogna usare le prove o la compassione.",
+          "bribery": "Maurice è incorruttibile nel senso classico — non accetta denaro. Ma la promessa che 'la compagnia non verrà nominata' è una moneta di scambio efficace. Vuole proteggere l'istituzione, non se stesso.",
+          "caught_lying": "Maurice non mente esattamente — omette. Se i PG dimostrano che sa di Vance, ammette l'omissione senza scuse: 'Non era rilevante. Ora capisco che lo era.' Non è una persona disonesta, solo codarda sul piano istituzionale.",
+          "authority_figure": "Maurice riconosce solo l'autorità della compagnia ferroviaria e della gendarmeria. Se un PG si presenta come agente di polizia o funzionario governativo, apre gli archivi immediatamente e senza condizioni."
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "train_compartment_6",
+        "name": "Scompartimento 6 — Il Luogo della Manifestazione",
+        "description": "Scompartimento ordinario. Macchia di sangue sul pavimento dove era il corpo. Freddo innaturale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_disappearing_body"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Scompartimento treno anni 20, velluto rosso, macchia di sangue",
+        "gameplay_function": "Luogo del crimine, corpo scomparso",
+        "concrete_features": [
+          "Macchia di sangue",
+          "Freddo innaturale",
+          "Finestra con neve"
+        ],
+        "hazards": [
+          "Manifestazioni notturne del fantasma"
+        ],
+        "exits": [
+          "train_corridor"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_disappearing_body"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "train_corridor",
+        "name": "Corridoio del Vagone Letto",
+        "description": "Corridoio stretto. Di notte, le ombre si muovono. Sotto il tappeto: i segni rituali.",
+        "status": "known",
+        "contains_clues": [
+          "clue_ritual_marks"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Corridoio treno anni 20, lampade a gas, ombre",
+        "gameplay_function": "Segni rituali, manifestazioni notturne",
+        "concrete_features": [
+          "Tappeto sopra i simboli",
+          "Lampade a gas che tremolano"
+        ],
+        "hazards": [
+          "Fantasma si manifesta qui di notte"
+        ],
+        "exits": [
+          "train_compartment_6",
+          "train_compartment_4",
+          "train_bathroom",
+          "train_compartment_3"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_ritual_marks"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "train_compartment_4",
+        "name": "Scompartimento 4 — Elspeth Crane",
+        "description": "Scompartimento di Crane. Borsa rituale sotto il sedile.",
+        "status": "known",
+        "contains_clues": [
+          "clue_crane_bag"
+        ],
+        "contains_actors": [
+          "actor_crane"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Scompartimento con valigie, Crane nervosa",
+        "gameplay_function": "Medium, strumenti rituali",
+        "concrete_features": [
+          "Borsa rituale nascosta",
+          "Crane"
+        ],
+        "hazards": [],
+        "exits": [
+          "train_corridor"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_crane_bag"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "train_bathroom",
+        "name": "Bagno del Vagone",
+        "description": "Piccolo bagno. Lo specchio si appanna con l'aria calda del riscaldamento.",
+        "status": "known",
+        "contains_clues": [
+          "clue_ghost_message"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Bagno treno anni 20, specchio piccolo, rubinetti ottone",
+        "gameplay_function": "Messaggio del fantasma",
+        "concrete_features": [
+          "Specchio che si appanna",
+          "Messaggio del fantasma"
+        ],
+        "hazards": [],
+        "exits": [
+          "train_corridor"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_ghost_message"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "train_conductors",
+        "name": "Vagone di Servizio — Ufficio del Capotreno",
+        "description": "Piccolo ufficio con schedari e strumenti di comunicazione. Maurice è qui.",
+        "status": "known",
+        "contains_clues": [
+          "clue_vance_records"
+        ],
+        "contains_actors": [
+          "actor_conductor"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Ufficio ferroviario anni 20, fascicoli, Maurice in uniforme",
+        "gameplay_function": "Documenti storici, Vance",
+        "concrete_features": [
+          "Archivio storico linea",
+          "Maurice"
+        ],
+        "hazards": [],
+        "exits": [
+          "train_corridor"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_vance_records"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "train_compartment_3",
+        "name": "Scompartimento 3 — Red Herring",
+        "description": "Scompartimento del Conte Moreau.",
+        "status": "known",
+        "contains_clues": [
+          "clue_red_herring_poison"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Scompartimento nobile, borsa di cuoio, Conte nervoso",
+        "gameplay_function": "Red herring arsenico",
+        "concrete_features": [
+          "Arsenico del Conte"
+        ],
+        "hazards": [],
+        "exits": [
+          "train_corridor"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_red_herring_poison"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_haunting",
+        "label": "Escalation delle Manifestazioni",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il fantasma di Vance perde il controllo. I passeggeri cominciano ad andare in trance o morire di paura. Il treno diventa un luogo di morte.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Rumori nelle pareti, freddo intenso, ombre"
+          },
+          {
+            "tick": 4,
+            "event": "Un passeggero viene trovato in stato di shock"
+          },
+          {
+            "tick": 6,
+            "event": "Il fantasma si manifesta fisicamente nel corridoio"
+          },
+          {
+            "tick": 8,
+            "event": "Tre passeggeri in trance profonda"
+          },
+          {
+            "tick": 10,
+            "event": "Vance non può più essere placato. Fine."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_vance_records",
+          "clue_ghost_message"
+        ],
+        "resolution_condition": "Riconoscere Vance e promettere il recupero del suo corpo prima che il fantasma perda il controllo",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_disappearing_body",
+        "discovery_hint": "Il freddo aumenta ogni ora. Il respiro degli specchi si condensa sempre di più.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.85
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_sanita_mentale",
+        "label": "Stabilità Mentale dei PG",
+        "description": "La capacità dei PG di mantenere la lucidità di fronte alle manifestazioni soprannaturali del fantasma di Vance in un ambiente claustrofobico e senza via di fuga",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni manifestazione diretta del fantasma, ogni volta che il corpo scompare davanti ai loro occhi, ogni notte passata sul treno mentre le manifestazioni aumentano",
+        "depletion_consequence": "A 6: un PG inizia ad avere difficoltà a distinguere rumori reali da allucinazioni uditive. A 3: i PG prendono decisioni affrettate o irrazionali — possono fuggire da un'area chiave nel momento sbagliato. A 0: un PG entra in trance sotto l'influenza di Vance",
+        "recovery_method": "Trovare un indizio concreto e razionale recupera 1 punto (la mente trova un appiglio). La confessione di Crane e la comprensione della situazione recupera 3 punti. Nessun recupero per dormire sul treno durante le manifestazioni."
+      },
+      {
+        "id": "res_luce_disponibile",
+        "label": "Riserve di Olio per le Lampade",
+        "description": "Le lampade a gas del corridoio e degli scompartimenti — l'oscurità è il territorio del fantasma",
+        "current_value": 6,
+        "max_value": 6,
+        "min_value": 0,
+        "depletion_trigger": "Ogni notte che passa, ogni manifestazione del fantasma che spegne le lampade, ogni volta che i PG si muovono di notte senza risparmiare carburante",
+        "depletion_consequence": "A 3: metà del corridoio è al buio — i PG investigano solo con candele. A 0: oscurità totale sul treno di notte — ogni movimento nel corridoio richiede un tiro Coraggio o il PG perde un punto Stabilità Mentale",
+        "recovery_method": "Non recuperabile sul treno bloccato. Gestire le lampade con parsimonia riduce il consumo."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_placate_ghost",
+        "label": "Placazione del Fantasma di Vance",
+        "required_threads": [
+          "thread_soluzione"
+        ],
+        "required_clues": [
+          "clue_vance_records",
+          "clue_ghost_message"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Convocando Crane per un rituale di riconoscimento, i PG promettono ufficialmente che il corpo di Vance verrà recuperato. Il fantasma si placa e sparisce.",
+        "concrete_choice": "Richiede la cooperazione di Crane — che confessa la sua responsabilità"
+      },
+      {
+        "id": "finale_break_ritual",
+        "label": "Spezzare il Rituale di Crane",
+        "required_threads": [
+          "thread_medium"
+        ],
+        "required_clues": [
+          "clue_crane_bag",
+          "clue_ritual_marks"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_medium_responsible"
+        ],
+        "method": "Cancellare i simboli rituali nel corridoio e distruggere il grimorio di Crane — questo interrompe l'evocazione ma potrebbe destabilizzare il fantasma temporaneamente.",
+        "concrete_choice": "Più rapido ma pericoloso — il fantasma potrebbe reagire violentemente"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "horror",
+      "tone": "horror gotico, treno, claustrofobia",
+      "allowed_escalations": [
+        "supernatural_manifestation",
+        "paranoia"
+      ],
+      "forbidden_escalations": [
+        "comedy"
+      ],
+      "terminal_events_require": [],
+      "max_default_tier": 3
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "Il treno come location claustrofobica è il vero protagonista",
+      "Crane come antagonista-alleato è il personaggio più ricco",
+      "Il finale più soddisfacente è la placazione — non l'esorcismo violento"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_fantasma",
+        "label": "Chi è il Fantasma",
+        "status": "active"
+      },
+      {
+        "id": "thread_medium",
+        "label": "Chi ha Evocato il Fantasma",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_soluzione",
+        "label": "Come Placarlo",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "ai_treno_maledetto",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_identify_dead"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_haunting": {
+        "value": 0,
+        "active": true,
+        "discovered": false,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_vance_records": [
+        "rev_ghost_nature",
+        "rev_solution"
+      ],
+      "clue_crane_bag": [
+        "rev_medium_responsible"
+      ],
+      "clue_ritual_marks": [
+        "rev_medium_responsible"
+      ],
+      "clue_ghost_message": [
+        "rev_solution"
+      ],
+      "clue_disappearing_body": [
+        "rev_ghost_nature"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_fantasma": [
+        "rev_ghost_nature"
+      ],
+      "thread_medium": [
+        "rev_medium_responsible"
+      ],
+      "thread_soluzione": [
+        "rev_solution"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_ghost_nature": "thread_fantasma",
+      "rev_medium_responsible": "thread_medium",
+      "rev_solution": "thread_soluzione"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 88,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}

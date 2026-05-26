@@ -1,0 +1,1065 @@
+{
+  "adventure_definition": {
+    "id": "ai_ambasciata_assedio",
+    "title": "Ambasciata sotto Assedio",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "action",
+    "runtime_profiles": [
+      "survival_escape"
+    ],
+    "tone": "thriller politico, anni 80, assedio, negoziazione",
+    "premise": "Beirut, 1983. L'ambasciata italiana viene presa d'assedio da un gruppo armato (Fronte di Liberazione del Cedro) che chiede il rilascio di 5 prigionieri politici in Siria. 23 ostaggi, tra cui l'ambasciatore. I PG sono agenti speciali, negoziatori, o militari infiltrati — devono salvare gli ostaggi senza cedere alle richieste.",
+    "initial_hook": "Siete all'interno dell'ambasciata quando scatta l'assedio. 6 uomini armati. 23 civili. Comunicazioni tagliate. Il leader del gruppo è 'Aquila' — una voce fredda che parla perfetto italiano. Ha 48 ore prima di iniziare le esecuzioni.",
+    "core_truths": [
+      {
+        "id": "truth_insider",
+        "statement": "L'assedio è stato reso possibile da un informatore interno — il secondo segretario Ricci ha fornito i codici di accesso in cambio di un pagamento.",
+        "reveal_clues": [
+          "clue_ricci_comm",
+          "clue_access_logs"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_aquila",
+        "statement": "Aquila è un ex-agente dei servizi siriani che agisce in modo autonomo — le sue 5 richieste non esistono davvero. Vuole solo il denaro che l'ambasciata tiene nella cassaforte per operazioni coperte.",
+        "reveal_clues": [
+          "clue_aquila_identity",
+          "clue_safe_knowledge"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_exit",
+        "statement": "Esiste un tunnel di emergenza sotto la biblioteca dell'ambasciata — costruito negli anni '70 ma non documentato nei piani ufficiali. Il vecchio custode lo sa.",
+        "reveal_clues": [
+          "clue_janitor_secret",
+          "clue_old_blueprints"
+        ],
+        "reveal_rule": "Uno dei due scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_assess_situation",
+        "label": "Valutare la situazione: ostaggi, armati, layout",
+        "status": "active",
+        "unlocks": [
+          "obj_communicate_outside",
+          "obj_find_informer"
+        ],
+        "success_conditions": [
+          "Parlato con 2+ ostaggi e valutato le posizioni degli armati"
+        ]
+      },
+      {
+        "id": "obj_communicate_outside",
+        "label": "Stabilire comunicazione segreta con l'esterno",
+        "status": "inactive",
+        "unlocks": [
+          "obj_coordinate_rescue"
+        ],
+        "success_conditions": [
+          "clue_radio_escape scoperto O contatto stabilito"
+        ]
+      },
+      {
+        "id": "obj_find_informer",
+        "label": "Trovare l'informatore interno",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "rev_insider rivelato"
+        ]
+      },
+      {
+        "id": "obj_coordinate_rescue",
+        "label": "Coordinare il salvataggio",
+        "status": "inactive",
+        "unlocks": [
+          "obj_escape"
+        ],
+        "success_conditions": [
+          "rev_exit rivelato"
+        ]
+      },
+      {
+        "id": "obj_escape",
+        "label": "Portare gli ostaggi in salvo",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Ostaggi evacuati attraverso il tunnel"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_insider",
+        "thread_id": "thread_tradimento",
+        "statement": "Ricci ha fornito i codici di accesso. È un mole.",
+        "required_clues": [
+          "clue_ricci_comm",
+          "clue_access_logs"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "clue_red_herring_driver"
+        ],
+        "status": "hidden",
+        "payoff": "Ricci neutralizzato come rischio interno.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_aquila_motive",
+        "thread_id": "thread_aquila",
+        "statement": "Aquila vuole i soldi della cassaforte — non i prigionieri. Le sue richieste sono false.",
+        "required_clues": [
+          "clue_aquila_identity",
+          "clue_safe_knowledge"
+        ],
+        "required_evidence_kinds": [
+          "artifact",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG possono usare questa conoscenza per negoziare in modo diverso.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_exit",
+        "thread_id": "thread_fuga",
+        "statement": "Il tunnel di emergenza sotto la biblioteca porta fuori dal perimetro.",
+        "required_clues": [
+          "clue_janitor_secret"
+        ],
+        "required_evidence_kinds": [
+          "testimony"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Via di fuga concreta per gli ostaggi.",
+        "conditions": [],
+        "llm_generated": true
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_ricci_comm",
+        "label": "Comunicazioni cifrate nel cellulare di Ricci",
+        "type": "artifact",
+        "thread_id": "thread_tradimento",
+        "source_location": "ambassador_office",
+        "reveals": "Ricci ha lasciato il cellulare in un cassetto. Messaggi cifrati ricevuti ieri: coordinate dell'accesso secondario e orario. Firma: 'Falcon'.",
+        "payoff": "rev_insider",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_insider"
+        ],
+        "immediate_information": "Ricci aveva contatti con i sequestratori prima dell'assedio.",
+        "hidden_implication": "È il mole.",
+        "unlocks": [
+          "clue_access_logs"
+        ],
+        "possible_actions": [
+          "Trovare il cellulare di Ricci"
+        ],
+        "wrong_interpretations": [
+          "Il cellulare appartiene a qualcun altro"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_access_logs",
+        "label": "Log di accesso al sistema elettronico",
+        "type": "document",
+        "thread_id": "thread_tradimento",
+        "source_location": "security_room",
+        "reveals": "Il sistema di sicurezza registra ogni accesso. 6 ore prima dell'assedio: qualcuno ha usato le credenziali di Ricci per disabilitare le telecamere dell'ingresso secondario.",
+        "payoff": "rev_insider",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_insider"
+        ],
+        "immediate_information": "Le credenziali di Ricci usate per sabotare la sicurezza.",
+        "hidden_implication": "Ricci potrebbe aver dato volontariamente i suoi codici, oppure è stato ricattato o manipolato. La disabilitazione delle telecamere dimostra una conoscenza interna dei protocolli di sicurezza.",
+        "unlocks": [],
+        "possible_actions": [
+          "Accedere alla sala sicurezza"
+        ],
+        "wrong_interpretations": [
+          "Ricci è stato hackerato da un esperto esterno",
+          "Il sistema di sicurezza ha malfunzionato casualmente"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_aquila_identity",
+        "label": "Documento d'identità siriano di Aquila",
+        "type": "artifact",
+        "thread_id": "thread_aquila",
+        "source_location": "hallway_encounter",
+        "reveals": "Durante un momento di distrazione, un PG riesce a fotografare il documento che Aquila porta. Analisi: ex-maggiore dell'intelligence siriana, congedato nel 1981. Non è un rivoluzionario — è un mercenario.",
+        "payoff": "rev_aquila_motive",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_aquila_motive"
+        ],
+        "immediate_information": "Aquila è un ex-agente, non un idealista.",
+        "hidden_implication": "Le sue richieste sono false — vuole qualcos'altro.",
+        "unlocks": [
+          "clue_safe_knowledge"
+        ],
+        "possible_actions": [
+          "Osservare Aquila attentamente",
+          "Fotografare il documento"
+        ],
+        "wrong_interpretations": [
+          "Aquila è ancora fedele al governo siriano e lavora per loro",
+          "Il documento è falso per nascondere la sua vera identità rivoluzionaria"
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_safe_knowledge",
+        "label": "Testimonianza dell'ambasciatore sulla cassaforte",
+        "type": "testimony",
+        "thread_id": "thread_aquila",
+        "source_location": "ambassador_safe",
+        "reveals": "L'ambasciatore, in privato: 'Quella cassaforte contiene 2 milioni di dollari in contanti per operazioni coperte. Se Aquila lo sa — e lo sa, perché Ricci glielo ha detto — non vuole nessun prigioniero. Vuole i soldi.'",
+        "payoff": "rev_aquila_motive",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_aquila_motive"
+        ],
+        "immediate_information": "La cassaforte contiene 2 milioni. Aquila lo sa. Vuole quelli.",
+        "hidden_implication": "Si può negoziare con i soldi invece che con prigionieri falsi.",
+        "unlocks": [],
+        "possible_actions": [
+          "Parlare in privato con l'ambasciatore"
+        ],
+        "wrong_interpretations": [
+          "I soldi sono solo un bonus, Aquila vuole comunque i prigionieri per motivi politici",
+          "L'ambasciatore mente per proteggere i fondi neri"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_janitor_secret",
+        "label": "Il custode Lorenzo e il suo segreto",
+        "type": "testimony",
+        "thread_id": "thread_fuga",
+        "source_location": "basement_storage",
+        "reveals": "Lorenzo, 70 anni, custode da 40. Alle domande sul palazzo: 'C'è un posto che non si vede sulle mappe... i vecchi americani l'hanno costruito negli anni '60. Ho la chiave.' Il tunnel nel basement porta a 200 metri fuori dal perimetro.",
+        "payoff": "rev_exit",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_exit"
+        ],
+        "immediate_information": "Un tunnel di emergenza esiste. Lorenzo ha la chiave.",
+        "hidden_implication": "Via di fuga per tutti gli ostaggi.",
+        "unlocks": [
+          "clue_old_blueprints"
+        ],
+        "possible_actions": [
+          "Trovare Lorenzo nel basement",
+          "Guadagnarsi la sua fiducia"
+        ],
+        "wrong_interpretations": [
+          "Il tunnel è troppo vecchio e pericoloso da usare",
+          "Lorenzo è senile e si confonde con ricordi del passato"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_old_blueprints",
+        "label": "Planimetrie originali degli anni '60",
+        "type": "document",
+        "thread_id": "thread_fuga",
+        "source_location": "basement_storage",
+        "reveals": "Con Lorenzo che indica: in una cassettiera del basement ci sono le planimetrie originali dell'ambasciata con il tunnel segnato come 'Emergency Exit - Classified'.",
+        "payoff": "Conferma definitiva dell'esistenza del tunnel di fuga e della sua posizione precisa, permettendo di pianificare un'evacuazione coordinata",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [
+          "rev_exit"
+        ],
+        "immediate_information": "Il tunnel è confermato dalle planimetrie.",
+        "hidden_implication": "Il tunnel potrebbe avere sistemi di sicurezza o porte sigillate che richiedono tempo o strumenti per essere aperte. La sua età significa che potrebbe essere parzialmente crollato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Cercare nel basement"
+        ],
+        "wrong_interpretations": [
+          "Il tunnel è stato murato durante le ristrutturazioni successive",
+          "Le planimetrie sono obsolete e il tunnel non esiste più"
+        ],
+        "source_status": "generated",
+        "confidence": 0.8
+      },
+      {
+        "id": "clue_radio_escape",
+        "label": "Radio nascosta nella sala comunicazioni",
+        "type": "artifact",
+        "thread_id": "thread_fuga",
+        "source_location": "comms_room",
+        "reveals": "Nella sala comunicazioni: una radio di emergenza con frequenza criptata. Con le giuste impostazioni (un tecnico o le istruzioni nel manuale), si può trasmettere all'esterno senza che gli armati lo sentano.",
+        "payoff": "Possibilità di coordinare con le forze esterne un'azione combinata durante la fuga o negoziazione, aumentando drasticamente le chance di successo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Radio di emergenza disponibile.",
+        "hidden_implication": "Può stabilire contatto con forze esterne per coordinare.",
+        "unlocks": [],
+        "possible_actions": [
+          "Trovare la sala comunicazioni"
+        ],
+        "wrong_interpretations": [
+          "La radio funziona solo per ricezione, non trasmissione",
+          "Usare la radio farà scattare rilevatori degli assedianti"
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_red_herring_driver",
+        "label": "Comportamento sospetto dell'autista",
+        "type": "testimony",
+        "thread_id": "thread_tradimento",
+        "source_location": "ambassador_office",
+        "reveals": "L'ambasciatore segnala: l'autista Mohammed non è tornato ieri sera. Sembrava nervoso. Potrebbe essere lui il mole.",
+        "payoff": "Red herring che distrae dall'indagine su Ricci, potenzialmente facendo perdere tempo prezioso o creando sospetti su un innocente",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "L'autista è scomparso, era nervoso.",
+        "hidden_implication": "Red herring — Mohammed è fuggito dalla violenza, non era il mole.",
+        "unlocks": [],
+        "possible_actions": [
+          "Indagare sull'autista"
+        ],
+        "wrong_interpretations": [
+          "Mohammed è l'informatore",
+          "Mohammed è stato rapito dagli assedianti come parte del piano"
+        ],
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_aquila",
+        "name": "'Aquila' — Leader del gruppo armato",
+        "role": "antagonist",
+        "location_id": "main_hall",
+        "status": "introduced",
+        "goal": "Ottenere i 2 milioni dalla cassaforte e uscire vivo",
+        "secret": "Le richieste politiche sono false — vuole solo i soldi",
+        "agenda_pressure": 8,
+        "fear": "Di non uscire vivo",
+        "current_plan": "Mantenere il controllo con la minaccia delle esecuzioni mentre aspetta i soldi",
+        "fallback_plan": "Uccidere qualcuno se le trattative non avanzano",
+        "resources": [
+          "6 uomini armati",
+          "Ostaggi come leva",
+          "Informazioni sull'interno da Ricci"
+        ],
+        "knows": [
+          "truth_insider",
+          "truth_aquila"
+        ],
+        "wants": [
+          "I soldi",
+          "Via di fuga sicura"
+        ],
+        "avoids": [
+          "Confronto con forze speciali"
+        ],
+        "pressure_response": {
+          "pressure_low": "Mantiene la calma professionale, parla in modo controllato, rispetta le regole della negoziazione per ora",
+          "pressure_mid": "Inizia a fare passeggiate nervose tra gli ostaggi, abbassa la voce — segnale di pericolo. Potrebbe scegliere un ostaggio come 'esempio'",
+          "pressure_high": "Minaccia esecuzione immediata se le sue richieste non vengono soddisfatte entro 30 minuti. Seleziona una vittima visibilmente",
+          "pressure_max": "Se il tunnel viene scoperto o i soldi sembrano irraggiungibili, passa all'azione: esecuzione o fuga violenta lasciando vittime"
+        },
+        "reaction_table": {
+          "friendly_approach": "+1 alla reazione — apprezza l'interlocutore competente, risponde meglio a chi tratta da pari",
+          "intimidation": "-2 — l'intimidazione lo irrita profondamente, diventa più rigido e pericoloso",
+          "bribery": "+3 — è esattamente quello che vuole. Offerta in cash apre un canale di negoziazione reale",
+          "caught_lying": "-3 — considera il tradimento un segnale per procedere con le esecuzioni",
+          "authority_figure": "+1 — rispetta chi ha potere reale, può trattare con funzionari governativi seri"
+        },
+        "relationships": [
+          {
+            "target": "actor_ricci",
+            "type": "uso",
+            "note": "Lo ha usato come informatore"
+          }
+        ],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "actor_ricci",
+        "name": "Ricci, secondo segretario (il mole)",
+        "role": "traitor",
+        "location_id": "ambassador_office",
+        "status": "introduced",
+        "goal": "Sopravvivere e incassare il pagamento",
+        "secret": "Ha fornito i codici di accesso ad Aquila",
+        "agenda_pressure": 7,
+        "fear": "Essere scoperto dagli altri ostaggi O dai PG",
+        "current_plan": "Sembrare un ostaggio normale e sperare che Aquila mantenga la parola",
+        "fallback_plan": "Rivelare la posizione del tunnel se si sente in pericolo",
+        "resources": [
+          "Codici di sicurezza",
+          "Conoscenza dell'interno"
+        ],
+        "knows": [
+          "truth_insider"
+        ],
+        "wants": [
+          "Soldi e fuga"
+        ],
+        "avoids": [
+          "I PG che investigano"
+        ],
+        "pressure_response": {
+          "pressure_low": "Recita la parte dell'ostaggio spaventato, evita il contatto visivo, risponde a monosillabi",
+          "pressure_mid": "Diventa visibilmente sudato e ansioso quando i PG si avvicinano alla verità. Cerca di distogliere l'attenzione verso l'autista Mohammed",
+          "pressure_high": "Comincia a valutare di confessare o di usare la sua conoscenza del tunnel come merce di scambio con i PG",
+          "pressure_max": "Se smascherato senza via d'uscita: crolla e confessa tutto in cambio di protezione, o tenta disperatamente di raggiungere Aquila"
+        },
+        "reaction_table": {
+          "friendly_approach": "+2 — lo tranquillizza e abbassa le sue difese, è emotivamente instabile",
+          "intimidation": "+1 — la paura lo fa crollare prima, ma potrebbe anche spingerlo verso Aquila come protezione",
+          "bribery": "+3 — un'offerta in denaro superiore a quella di Aquila potrebbe farlo girare",
+          "caught_lying": "-4 — panico totale, reagisce in modo imprevedibile, può fare qualcosa di stupido",
+          "authority_figure": "-1 — teme l'autorità perché sa di essere colpevole"
+        },
+        "relationships": [
+          {
+            "target": "actor_aquila",
+            "type": "accordo",
+            "note": "Lo ha pagato per le informazioni"
+          }
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_ambassador",
+        "name": "Ambasciatore Conti",
+        "role": "ally",
+        "location_id": "ambassador_office",
+        "status": "introduced",
+        "goal": "Salvare gli ostaggi",
+        "secret": "Sa dei 2 milioni nella cassaforte e teme che Aquila lo sappia",
+        "agenda_pressure": 6,
+        "fear": "Le esecuzioni",
+        "current_plan": "Cooperare con i PG senza essere visto da Aquila",
+        "fallback_plan": "Offrire i soldi in cambio degli ostaggi se non ci sono alternative",
+        "resources": [
+          "Autorità sugli ostaggi",
+          "Conoscenza dell'ambasciata"
+        ],
+        "knows": [
+          "clue_safe_knowledge"
+        ],
+        "wants": [
+          "Ostaggi salvi"
+        ],
+        "avoids": [
+          "Provocare Aquila"
+        ],
+        "pressure_response": {
+          "pressure_low": "Calmo e professionale, coordina i PG sottovoce, fornisce informazioni dettagliate sull'ambasciata",
+          "pressure_mid": "Si preoccupa visibilmente mentre il countdown avanza, comincia a spingere per usare i soldi come soluzione rapida",
+          "pressure_high": "Pronto a rivelare apertamente la cassaforte ai PG, vuole decisioni immediate",
+          "pressure_max": "Propone di negoziare direttamente con Aquila usando i 2 milioni, anche senza autorizzazione di Roma"
+        },
+        "reaction_table": {
+          "friendly_approach": "+3 — è già dalla parte dei PG, risponde entusiasticamente a chi sembra competente",
+          "intimidation": "-2 — è un diplomatico, l'intimidazione lo irrigidisce e lo fa diventare formale",
+          "bribery": "Non applicabile — è l'ambasciatore, non è corruttibile in questo contesto",
+          "caught_lying": "-1 — ha piccole omissioni (i 2 milioni), se smascherato si giustifica ma collabora di più",
+          "authority_figure": "+2 — rispetta la catena di comando, segue chi ha autorità reale"
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_lorenzo",
+        "name": "Lorenzo, il custode",
+        "role": "ally",
+        "location_id": "basement_storage",
+        "status": "unintroduced",
+        "goal": "Sopravvivere e proteggere il palazzo che ama",
+        "secret": "Conosce il tunnel segreto",
+        "agenda_pressure": 3,
+        "fear": "Le armi",
+        "current_plan": "Nascondersi nel basement",
+        "fallback_plan": "Rivelare il tunnel se convinto che salverà tutti",
+        "resources": [
+          "Conoscenza del palazzo",
+          "Chiave del tunnel"
+        ],
+        "knows": [
+          "truth_exit",
+          "clue_janitor_secret"
+        ],
+        "wants": [
+          "Che nessuno venga ferito"
+        ],
+        "avoids": [
+          "Gli armati"
+        ],
+        "pressure_response": {
+          "pressure_low": "Nascosto e silenzioso, non risponde a chi non conosce, osserva da lontano",
+          "pressure_mid": "Se avvicinato con gentilezza, bisbiglia risposte monosillabiche ma non rivela il tunnel spontaneamente",
+          "pressure_high": "Se convinto che rivelare il tunnel salverà tutti, si fa coraggio e parla — ha aspettato qualcuno di cui fidarsi",
+          "pressure_max": "Se sente spari o urla, si avvicina all'ingresso del tunnel pronto a fuggire da solo — a quel punto guiderà chiunque venga con lui"
+        },
+        "reaction_table": {
+          "friendly_approach": "+3 — risponde bene alla gentilezza, specialmente in italiano e con rispetto per il palazzo",
+          "intimidation": "-3 — si chiude completamente, nega tutto, non rivelerà mai il tunnel sotto minaccia",
+          "bribery": "-1 — non è interessato al denaro, lo offende l'idea",
+          "caught_lying": "Non mente — tace. Se pressato, svela tutto piuttosto che mentire",
+          "authority_figure": "+1 — rispetta l'autorità istituzionale, potrebbe aprirsi se i PG dimostrano di essere agenti governativi legittimi"
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_armed",
+        "name": "Fronte di Liberazione del Cedro",
+        "agenda": "Ottenere i soldi e fuggire",
+        "pressure": 9,
+        "status": "active",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "faction_hostages",
+        "name": "Ostaggi dell'Ambasciata",
+        "agenda": "Sopravvivere",
+        "pressure": 8,
+        "status": "active",
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "locations": [
+      {
+        "id": "main_hall",
+        "name": "Salone Principale — Ostaggi",
+        "description": "Salone elegante con ostaggi raggruppati. Aquila e due uomini sorvegliato. Le finestre sbarrate.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_aquila"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "restricted",
+        "visual_identity": "Salone ambasciata anni 80, ostaggi a terra, uomini armati",
+        "gameplay_function": "Stato attuale degli ostaggi, posizioni degli armati",
+        "concrete_features": [
+          "23 ostaggi",
+          "Aquila",
+          "2 guardie"
+        ],
+        "hazards": [
+          "Armati pronti a sparare"
+        ],
+        "exits": [
+          "ambassador_office",
+          "hallway_encounter",
+          "comms_room"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "Copertura dietro i divani",
+          "Posizione centrale degli armati"
+        ],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "ambassador_office",
+        "name": "Ufficio dell'Ambasciatore",
+        "description": "Stanza privata dove Aquila ha portato l'ambasciatore e Ricci come 'ostaggi speciali'.",
+        "status": "known",
+        "contains_clues": [
+          "clue_ricci_comm",
+          "clue_red_herring_driver"
+        ],
+        "contains_actors": [
+          "actor_ricci",
+          "actor_ambassador"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Trovare un modo di accedervi di nascosto"
+        ],
+        "type": "location",
+        "access_state": "restricted",
+        "visual_identity": "Ufficio diplomatico anni 80, scrivania, cassaforte, l'ambasciatore e Ricci",
+        "gameplay_function": "Informazioni chiave, mole",
+        "concrete_features": [
+          "Cassaforte",
+          "Ricci nervoso",
+          "Ambasciatore cooperativo",
+          "Cellulare di Ricci"
+        ],
+        "hazards": [
+          "Una guardia alla porta"
+        ],
+        "exits": [
+          "main_hall"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_ricci_comm"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "hallway_encounter",
+        "name": "Corridoio Secondario",
+        "description": "Corridoio meno sorvegliato. Aquila ci passa periodicamente.",
+        "status": "known",
+        "contains_clues": [
+          "clue_aquila_identity"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Corridoio ambasciata, quadri alle pareti, porta di emergenza",
+        "gameplay_function": "Opportunità di osservare Aquila",
+        "concrete_features": [
+          "Aquila di passaggio",
+          "Documento fotografabile"
+        ],
+        "hazards": [
+          "Armati di pattuglia"
+        ],
+        "exits": [
+          "main_hall",
+          "comms_room",
+          "security_room"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_aquila_identity"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "comms_room",
+        "name": "Sala Comunicazioni",
+        "description": "Sala tecnica con attrezzature radio. Gli armati non sanno della radio di emergenza nascosta.",
+        "status": "known",
+        "contains_clues": [
+          "clue_radio_escape"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Accesso in assenza degli armati"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Sala comunicazioni anni 80, pannelli radio, luci lampeggianti",
+        "gameplay_function": "Radio per contatto esterno",
+        "concrete_features": [
+          "Radio principale disabilitata",
+          "Radio emergenza nascosta"
+        ],
+        "hazards": [],
+        "exits": [
+          "main_hall",
+          "hallway_encounter"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_radio_escape"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "security_room",
+        "name": "Sala Sicurezza",
+        "description": "Sala con monitor di sorveglianza. I log sono qui.",
+        "status": "known",
+        "contains_clues": [
+          "clue_access_logs"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Sala sicurezza anni 80, monitor in bianco e nero, tastiera",
+        "gameplay_function": "Prove del mole — log di accesso",
+        "concrete_features": [
+          "Monitor spenti",
+          "Sistema log",
+          "Manuali tecnici"
+        ],
+        "hazards": [],
+        "exits": [
+          "hallway_encounter"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_access_logs"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "basement_storage",
+        "name": "Magazzino del Basement",
+        "description": "Magazzino polveroso con Lorenzo nascosto tra le scatole. La porta del tunnel è dietro un armadio metallico.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_janitor_secret",
+          "clue_old_blueprints"
+        ],
+        "contains_actors": [
+          "actor_lorenzo"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Trovare l'accesso al basement"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Magazzino anni 80, scatole, Lorenzo nascosto",
+        "gameplay_function": "Il tunnel, Lorenzo, via di fuga",
+        "concrete_features": [
+          "Lorenzo nascosto",
+          "Armadio metallico",
+          "Porta del tunnel",
+          "Planimetrie"
+        ],
+        "hazards": [],
+        "exits": [
+          "main_hall"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_janitor_secret",
+          "clue_old_blueprints"
+        ],
+        "tactical_features": [
+          "Il tunnel porta fuori dal perimetro"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "ambassador_safe",
+        "name": "Cassaforte dell'Ambasciatore",
+        "description": "La cassaforte nell'ufficio. L'ambasciatore conosce la combinazione.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_safe_knowledge"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Parlare in privato con l'ambasciatore"
+        ],
+        "type": "location",
+        "access_state": "locked",
+        "visual_identity": "Cassaforte a muro, combinazione, soldi all'interno",
+        "gameplay_function": "Vera motivazione di Aquila",
+        "concrete_features": [
+          "2 milioni in contanti"
+        ],
+        "hazards": [],
+        "exits": [
+          "ambassador_office"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_safe_knowledge"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_execution",
+        "label": "Countdown alle Esecuzioni",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Aquila inizia le esecuzioni. Un ostaggio ogni 2 ore fino a cedimento o assalto.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Aquila annuncia: 'Sei ore e iniziano le esecuzioni'"
+          },
+          {
+            "tick": 4,
+            "event": "Aquila porta un ostaggio in mostra come minaccia"
+          },
+          {
+            "tick": 6,
+            "event": "Primo colpo di avvertimento — ferisce un ostaggio"
+          },
+          {
+            "tick": 8,
+            "event": "Ultimatum finale — 1 ora"
+          },
+          {
+            "tick": 10,
+            "event": "Prima esecuzione. Gli ostaggi cominciano a morire."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_janitor_secret",
+          "clue_aquila_identity"
+        ],
+        "resolution_condition": "Evacuare gli ostaggi attraverso il tunnel O negoziare con la vera motivazione di Aquila (i soldi)",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": true,
+        "discovery_clue_id": "",
+        "discovery_hint": "Aquila ha già detto: 48 ore. Il countdown è visibile a tutti.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.95
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo_negoziazione",
+        "label": "Finestra di Negoziazione",
+        "description": "Il tempo prima che Aquila perda la pazienza o le forze speciali decidano di assaltare senza aspettare i PG",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni fallimento nelle trattative, ogni provocazione, ogni ora passata senza progressi",
+        "depletion_consequence": "A 0: Aquila esegue il primo ostaggio OPPURE le forze speciali assaltano senza coordinamento con i PG",
+        "recovery_method": "Ogni accordo parziale con Aquila recupera 1 punto. Rivelare la sua vera motivazione (i soldi) ne recupera 3"
+      },
+      {
+        "id": "res_munizioni_pg",
+        "label": "Munizioni dei PG",
+        "description": "Cartucce disponibili per i PG agenti — risorse limitate nell'assedio",
+        "current_value": 6,
+        "max_value": 6,
+        "min_value": 0,
+        "depletion_trigger": "Ogni scontro armato, ogni colpo sparato",
+        "depletion_consequence": "A 0: i PG non possono ingaggiare in combattimento, solo furtività e negoziazione",
+        "recovery_method": "Non recuperabile durante l'assedio — prioritizza le opzioni non violente"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_tunnel_escape",
+        "label": "Evacuazione attraverso il Tunnel",
+        "required_threads": [
+          "thread_fuga"
+        ],
+        "required_clues": [
+          "clue_janitor_secret"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_exit"
+        ],
+        "method": "Portare tutti gli ostaggi nel basement e attraverso il tunnel mentre i PG distraggono gli armati",
+        "concrete_choice": "Richiede coordinazione precisa — Ricci neutralizzato prima come rischio"
+      },
+      {
+        "id": "finale_negotiate_money",
+        "label": "Negoziazione con i Soldi come Leva",
+        "required_threads": [
+          "thread_aquila"
+        ],
+        "required_clues": [
+          "clue_aquila_identity",
+          "clue_safe_knowledge"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_aquila_motive"
+        ],
+        "method": "Offrire i soldi della cassaforte in cambio della libertà degli ostaggi — Aquila ha quello che vuole, non ha incentivi a uccidere",
+        "concrete_choice": "Rischioso ma possibile — dipende dalla fiducia di Aquila"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "action",
+      "tone": "thriller anni 80, assedio, negoziazione",
+      "allowed_escalations": [
+        "combat",
+        "negotiation",
+        "escape"
+      ],
+      "forbidden_escalations": [],
+      "terminal_events_require": [],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "Il countdown crea tensione reale — aggiornare ogni round",
+      "Aquila come antagonista pragmatico che non vuole uccidere — crea possibilità di negoziazione",
+      "Lorenzo come personaggio inaspettato — il vecchio custode che salva tutti"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_tradimento",
+        "label": "Il Mole nell'Ambasciata",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_aquila",
+        "label": "Le Vere Intenzioni di Aquila",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_fuga",
+        "label": "La Via di Fuga",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "ai_ambasciata_assedio",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_assess_situation"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_execution": {
+        "value": 0,
+        "active": true,
+        "discovered": true,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_ricci_comm": [
+        "rev_insider"
+      ],
+      "clue_access_logs": [
+        "rev_insider"
+      ],
+      "clue_aquila_identity": [
+        "rev_aquila_motive"
+      ],
+      "clue_safe_knowledge": [
+        "rev_aquila_motive"
+      ],
+      "clue_janitor_secret": [
+        "rev_exit"
+      ],
+      "clue_old_blueprints": [
+        "rev_exit"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_tradimento": [
+        "rev_insider"
+      ],
+      "thread_aquila": [
+        "rev_aquila_motive"
+      ],
+      "thread_fuga": [
+        "rev_exit"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_insider": "thread_tradimento",
+      "rev_aquila_motive": "thread_aquila",
+      "rev_exit": "thread_fuga"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 92,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}
