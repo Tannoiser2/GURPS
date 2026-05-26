@@ -10,8 +10,8 @@ Questo modulo gestisce:
 """
 
 from .models import CharacterDraft, CharacterValidation, Player, Action
-from .data_skills import SKILL_INFO, skill_default_penalty, skill_stat, default_skill_for, VALID_SKILLS, normalize_skill, skill_display, normalize_stat
-from .data_advantages import ADVANTAGES, advantage_dodge_bonus, advantage_death_threshold_mult
+from .data_skills import SKILL_INFO, default_skill_for, VALID_SKILLS, normalize_skill, normalize_stat
+from .data_advantages import ADVANTAGES, advantage_dodge_bonus, advantage_death_threshold_mult, advantage_will_modifier, advantage_per_modifier, trait_cost
 from .engine import build_players_from_dicts
 
 # ─── Costo stat GURPS ────────────────────────────────────────────────────────
@@ -33,31 +33,27 @@ def stat_cost(stat: str, value: int) -> int:
     return (value - _STAT_BASE) * cost_per
 
 
-# ─── Costo skill GURPS ───────────────────────────────────────────────────────
-# Costo per portare una skill al livello desiderato partendo dal default.
-# GURPS Lite semplificato:
-#   Facile  (E): 1 pt → default+1, 2 pt → default+2, 4 pt → default+3, +4/livello dopo
-#   Media   (M): 1 pt → default,   2 pt → default+1, 4 pt → default+2, +4/livello dopo
-#   Difficile(D): 1 pt → default-1, 2 pt → default,  4 pt → default+1, +4/livello dopo
-#
-# Per semplicità usiamo una tabella di costo cumulativo per "livelli sopra la stat base":
-#   Livelli sopra base: 0→1, 1→2, 2→4, 3→8, 4→12, 5→16, ...
-
-_SKILL_DIFF_OFFSET: dict[str, int] = {"E": 0, "M": -1, "D": -2}
-
-_SKILL_LEVEL_COSTS: list[int] = [1, 1, 2, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+# ─── Costo skill GURPS Lite 4ª ───────────────────────────────────────────────
+# Tabella costi abilita:
+#   Facile:    Attributo=1, Attributo+1=2, Attributo+2=4, Attributo+3=8, +4/livello
+#   Media:     Attributo-1=1, Attributo=2, Attributo+1=4, Attributo+2=8, +4/livello
+#   Difficile: Attributo-2=1, Attributo-1=2, Attributo=4, Attributo+1=8, +4/livello
+_SKILL_COST_TABLE: dict[str, dict[int, int]] = {
+    "E": {0: 1, 1: 2, 2: 4, 3: 8},
+    "M": {-1: 1, 0: 2, 1: 4, 2: 8, 3: 12},
+    "D": {-2: 1, -1: 2, 0: 4, 1: 8, 2: 12, 3: 16},
+}
 
 
-def _cumulative_cost(levels_above_base: int) -> int:
-    """Costo cumulativo per portare una skill a (stat + levels_above_base)."""
-    if levels_above_base <= 0:
+def _skill_cost_from_relative_level(difficulty: str, relative_level: int) -> int:
+    table = _SKILL_COST_TABLE.get(difficulty, _SKILL_COST_TABLE["M"])
+    minimum_relative = min(table)
+    if relative_level < minimum_relative:
         return 0
-    total = 0
-    for i in range(min(levels_above_base, len(_SKILL_LEVEL_COSTS))):
-        total += _SKILL_LEVEL_COSTS[i]
-    if levels_above_base > len(_SKILL_LEVEL_COSTS):
-        total += (levels_above_base - len(_SKILL_LEVEL_COSTS)) * 4
-    return total
+    if relative_level in table:
+        return table[relative_level]
+    highest_relative = max(table)
+    return table[highest_relative] + ((relative_level - highest_relative) * 4)
 
 
 def skill_cost(skill_name: str, target_level: int, stats: dict[str, int]) -> int:
@@ -70,21 +66,14 @@ def skill_cost(skill_name: str, target_level: int, stats: dict[str, int]) -> int
     stat_name = info.get("stat", "intelligenza")
     stat_val = stats.get(stat_name, 10)
 
-    # Livello base = stat + offset difficoltà
-    base_level = stat_val + _SKILL_DIFF_OFFSET.get(difficulty, -1)
-    levels_above = target_level - base_level
-
-    return _cumulative_cost(max(0, levels_above))
+    return _skill_cost_from_relative_level(difficulty, target_level - stat_val)
 
 
 # ─── Costo vantaggi / rimborso svantaggi ─────────────────────────────────────
 
 def advantage_cost(adv_name: str) -> int:
     """Costo (positivo) o rimborso (negativo) di un vantaggio/svantaggio."""
-    entry = ADVANTAGES.get(adv_name)
-    if not entry:
-        return 0
-    return entry.get("cost", 0)
+    return trait_cost(adv_name)
 
 
 # ─── Calcolo totale punti ────────────────────────────────────────────────────
@@ -147,7 +136,8 @@ def validate_draft(draft: CharacterDraft) -> CharacterValidation:
 
     # ── Vantaggi/Svantaggi ───────────────────────────────────────────────────
     for a in (draft.advantages or []):
-        entry = ADVANTAGES.get(a)
+        base = a.rsplit(" ", 1)[0] if a.rsplit(" ", 1)[-1].isdigit() else a
+        entry = ADVANTAGES.get(a) or ADVANTAGES.get(base)
         if not entry:
             warnings.append(f"Vantaggio '{a}' non riconosciuto — nessun effetto meccanico")
         elif entry.get("type") != "advantage":
@@ -155,7 +145,8 @@ def validate_draft(draft: CharacterDraft) -> CharacterValidation:
 
     disadv_refund = 0
     for d in (draft.disadvantages or []):
-        entry = ADVANTAGES.get(d)
+        base = d.rsplit(" ", 1)[0] if d.rsplit(" ", 1)[-1].isdigit() else d
+        entry = ADVANTAGES.get(d) or ADVANTAGES.get(base)
         if not entry:
             warnings.append(f"Svantaggio '{d}' non riconosciuto — nessun effetto meccanico")
         elif entry.get("type") != "disadvantage":
@@ -187,6 +178,8 @@ def validate_draft(draft: CharacterDraft) -> CharacterValidation:
     move = int(basic_speed)
     all_adv = list(draft.advantages or []) + list(draft.disadvantages or [])
     dodge = move + 3 + advantage_dodge_bonus(all_adv)
+    will += advantage_will_modifier(all_adv)
+    per += advantage_per_modifier(all_adv)
 
     return CharacterValidation(
         valid=len(errors) == 0,
@@ -234,6 +227,8 @@ def build_custom_player(draft: CharacterDraft) -> Player:
         "disadvantages": list(draft.disadvantages or []),
         "dr": draft.dr,
         "items": list(draft.items or []),
+        "backstory": draft.backstory or "",
+        "motivation": draft.motivation or "",
         "actions": [],
     }
 

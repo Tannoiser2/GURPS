@@ -11,7 +11,7 @@ All-Out Attack/Defense dichiarati come action_type sul Player prima del tiro.
 
 import random
 from .models import AttackResult, CombatDefenseRequest, Player, SceneEntity
-from .data_advantages import advantage_dodge_bonus, advantage_death_threshold_mult, advantage_combat_penalty
+from .data_advantages import advantage_dodge_bonus, advantage_death_threshold_mult, advantage_combat_penalty, advantage_ignores_shock
 
 # ─── Distribuzione esatta 3d6 (216 combinazioni) ────────────────────────────
 _3D6_OUTCOMES: dict[int, int] = {
@@ -342,8 +342,9 @@ def resolve_attack(
         if net > 0:
             # ── Shock (GURPS Lite p.14) ──────────────────────────────────────
             # Malus al prossimo tiro attacco/difesa = danno netto, max −4
-            shock_applied = compute_shock(net)
-            target_player.shock_penalty = max(target_player.shock_penalty, shock_applied)
+            if not advantage_ignores_shock(all_adv):
+                shock_applied = compute_shock(net)
+                target_player.shock_penalty = max(target_player.shock_penalty, shock_applied)
 
             # ── Major Wound (GURPS Lite p.14) ────────────────────────────────
             # Singolo colpo > max_hp/2 → tiro SA o stordito

@@ -1,6 +1,8 @@
 
 from pydantic import BaseModel
 from typing import Dict, List, Optional
+from typing import Literal
+from .runtime_models import AdventureDefinition, AdventureRuntime, AdventureRuntimeState
 
 
 class Action(BaseModel):
@@ -76,6 +78,8 @@ class Player(BaseModel):
     dr: int = 0                        # Resistenza al Danno totale (da armatura/vantaggi)
     items: List[str] = []
     actions: List[Action] = []
+    backstory: str = ""
+    motivation: str = ""
     # ── Stato condizioni GURPS ────────────────────────────────────────────────
     shock_penalty: int = 0             # −X ai prossimi tiri attacco/difesa (max −4), azzera a fine turno
     stunned: bool = False              # stordito: niente azioni attive, −4 difesa, si recupera con SA
@@ -96,6 +100,8 @@ class CharacterDraft(BaseModel):
     disadvantages: List[str] = []
     dr: int = 0
     items: List[str] = []
+    backstory: str = ""
+    motivation: str = ""
 
 
 class CharacterValidation(BaseModel):
@@ -243,6 +249,7 @@ class MapNode(BaseModel):
     outcome_summary: str = ""   # 1 frase: cosa è rimasto della zona dopo la partenza
     clue_yield: int = 0         # 0 = niente, 1 = indizio minore, 2 = indizio maggiore
     time_bonus_for_next: int = 0  # +/- al time_limit della prossima scena (consumato una volta)
+    tactical_map: Dict = {}     # scheda tattica canonica per zone calde/finali
 
 
 class MapState(BaseModel):
@@ -303,11 +310,57 @@ class ReactionResult(BaseModel):
     team_status_malus: int = 0
 
 
+class AdventureCanon(BaseModel):
+    core_truth: str = ""
+    main_antagonist: str = ""
+    false_leads: List[str] = []
+    key_locations: List[str] = []
+    required_clues: List[str] = []
+    optional_events: List[str] = []
+    finale_conditions: List[str] = []
+
+
+class CanonClue(BaseModel):
+    id: str
+    label: str = ""
+    type: Literal[
+        "physical_evidence",
+        "testimony",
+        "document",
+        "behavior",
+        "location_detail",
+        "contradiction",
+    ] = "physical_evidence"
+    thread_id: str
+    source_location: str = ""
+    reveals: str = ""
+    payoff: str = ""
+    is_required: bool = True
+    is_discovered: bool = False
+
+
+class NPCAgenda(BaseModel):
+    npc_id: str
+    role: Literal["ally", "antagonist", "witness", "red_herring", "victim", "patron", "neutral"] = "neutral"
+    secret: str = ""
+    goal: str = ""
+    methods: List[str] = []
+    recurrence_priority: Literal["low", "medium", "high"] = "medium"
+    arc_status: Literal["unintroduced", "active", "exposed", "resolved", "dead"] = "unintroduced"
+
+
 class StoryThread(BaseModel):
     id: str
+    title: str = ""
     question: str
+    true_answer: str = ""
+    partial_clues: List[str] = []
+    minimum_clues_to_deduce: int = 2
+    payoff: str = ""
+    linked_npcs: List[str] = []
+    linked_locations: List[str] = []
     purpose: str = ""           # quale pezzo della soluzione finale sblocca
-    required_clues: int = 2
+    required_clues: int | List[str] = 2
     answer: str = ""            # risposta canonica nascosta al tavolo, visibile al facilitatore
     clue_plan: List[str] = []    # indizi previsti che spiegano come arrivare alla risposta
     reveal_rule: str = ""        # quando/come la risposta puo essere narrata
@@ -327,6 +380,7 @@ class StoryThread(BaseModel):
 class StoryState(BaseModel):
     narrative_mode: str = "emergent_mission"  # "fixed_mystery" | "emergent_mission"
     premise: str = ""
+    adventure_canon: Optional[AdventureCanon] = None
     hidden_truth: str = ""
     hidden_truth_clues: List[str] = []
     hidden_truth_reveal_rule: str = ""
@@ -341,6 +395,8 @@ class StoryState(BaseModel):
     named_entities: List[str] = []
     key_entities: List[Dict[str, str | List[str]]] = []  # schede canoniche: nome, ruolo, dove, segreto, indizi, rivelazione
     key_items: List[Dict[str, str | List[str]]] = []     # oggetti/luoghi-chiave: nome, dove, uso, requisiti, indizi, rivelazione
+    canonical_clues: List[CanonClue] = []
+    npc_agendas: List[NPCAgenda] = []
     event_log: List[str] = []
 
 
@@ -354,6 +410,20 @@ class GameState(BaseModel):
     phase: Optional[PhaseState] = None
     scene: Optional[SceneState] = None
     story: Optional[StoryState] = None
+    adventure_runtime: Optional[AdventureRuntime] = None
+    adventure_definition_id: str = ""
+    adventure_definition: Optional[AdventureDefinition] = None
+    adventure_runtime_state: Optional[AdventureRuntimeState] = None
+    current_objective_ids: List[str] = []
+    active_revelation_ids: List[str] = []
+    active_clock_ids: List[str] = []
+    active_pressure_ids: List[str] = []
+    allowed_escalation_tier: int = 3
+    allowed_escalation_types: List[str] = []
+    forbidden_escalation_types: List[str] = []
+    blocked_major_events: List[str] = []
+    downgraded_events: List[Dict] = []
+    director_reason: str = ""
     map_state: Optional[MapState] = None
     world_npcs: List[WorldNPC] = []
     players: List[Player] = []

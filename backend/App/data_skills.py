@@ -224,6 +224,32 @@ SKILL_INFO: dict[str, dict[str, str]] = {
 
 DEFAULT_PENALTY_BY_DIFFICULTY: dict[str, int] = {"E": 4, "M": 5, "D": 6}
 
+# Alcune abilita GURPS non hanno valore minimo. Il catalogo attuale usa ancora
+# macro-skill ampie, quindi questa lista resta prudente e va raffinata quando
+# aggiungeremo il catalogo GURPS completo in italiano.
+NO_DEFAULT_SKILLS: set[str] = set()
+
+# Skill tecnologiche: nel catalogo GURPS completo saranno salvate come
+# "abilita/LT". Qui segnaliamo le macro-skill attuali che dipendono dal livello
+# tecnologico della campagna/personaggio.
+TECH_LEVEL_SKILLS: set[str] = {
+    "tecnologia",
+    "medicina",
+    "scassinare",
+    "ingegneria",
+    "meccanica",
+    "elettronica",
+    "informatica",
+    "astronomia",
+    "biologia",
+    "chimica",
+    "fisica",
+    "demolire",
+    "guidare",
+    "mira",
+    "navigare",
+}
+
 # ── PR1.6: alias attributi stat ──────────────────────────────────────────────
 # Chiavi interne: forza / agilita / intelligenza / empatia (zero rename nel codice).
 # STAT_DISPLAY_NAME: chiave_interna → sigla GURPS ufficiale.
@@ -402,6 +428,31 @@ def skill_default_penalty(skill: str) -> int:
     if not info:
         return 5
     return DEFAULT_PENALTY_BY_DIFFICULTY[info["difficulty"]]
+
+
+def skill_has_default(skill: str) -> bool:
+    """True se la skill puo essere usata senza addestramento."""
+    return skill not in NO_DEFAULT_SKILLS
+
+
+def skill_default_level(skill: str, stats: dict[str, int]) -> int | None:
+    """Valore minimo GURPS Lite: attributo cardine -4/-5/-6, con Regola del 20.
+
+    Ritorna None per abilita senza valore minimo.
+    """
+    if not skill_has_default(skill):
+        return None
+    info = SKILL_INFO.get(skill)
+    if not info:
+        return None
+    stat_name = info.get("stat", "intelligenza")
+    stat_val = min(int(stats.get(stat_name, 10)), 20)
+    return stat_val - skill_default_penalty(skill)
+
+
+def skill_is_tech_level(skill: str) -> bool:
+    """True se la skill va trattata come dipendente dal Livello Tecnologico."""
+    return skill in TECH_LEVEL_SKILLS
 
 # Tabella verbo italiano → effect_type canonico.
 # Il match avviene per radice (verbo troncato): "estra" copre estrarre/estrai/estratto/estrazione.
