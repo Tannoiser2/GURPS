@@ -3090,6 +3090,25 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
     disadvantages: list = player_dict.get("disadvantages") or []
     items: list = player_dict.get("items") or []
 
+    # Normalizza i tasti del dict skills (es. "Galateo" → "etichetta") così
+    # action_intent può riconoscere le skill del giocatore indipendentemente
+    # dal nome visualizzato usato al momento della creazione del personaggio.
+    skills_normalized: dict[str, int] = {normalize_skill(k): v for k, v in skills.items()}
+
+    # Se il testo dell'azione menziona esplicitamente una skill del personaggio,
+    # usa quella con priorità assoluta (es. "usando Galateo", "con Persuadere").
+    action_lower = action_text.lower()
+    explicit_skill: str | None = None
+    for display_name, level in skills.items():
+        if display_name.lower() in action_lower:
+            explicit_skill = normalize_skill(display_name)
+            break
+    if explicit_skill is None:
+        for internal_key in skills_normalized:
+            if internal_key in action_lower:
+                explicit_skill = internal_key
+                break
+
     # ── Inferisci skill ──────────────────────────────────────────────────────
     resolver_context = {
         "scene_type": " ".join(str(t) for t in scene_tags),
@@ -3103,8 +3122,8 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
     }
     if isinstance(player_dict.get("action_context"), dict):
         resolver_context.update(player_dict["action_context"])
-    action_resolution = resolve_action_skill(action_text, resolver_context, skills)
-    chosen_skill = action_resolution["selected_skill"]
+    action_resolution = resolve_action_skill(action_text, resolver_context, skills_normalized)
+    chosen_skill = explicit_skill or action_resolution["selected_skill"]
     semantic_intent = action_resolution.get("intent", "investigate")
     intent = "observation" if semantic_intent == "observe" else semantic_intent
     valid_candidates = [c for c in action_resolution.get("candidate_skills", []) if not c.get("rejected")]
@@ -3127,7 +3146,11 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
 
     skill_known = False
     fallback_reason = "semantic_low_confidence" if action_resolution.get("confidence", 1.0) < 0.45 else ""
-    if chosen_skill and chosen_skill in skills:
+    # Cerca il livello nel dict normalizzato (chiave interna) o nell'originale (nome display)
+    if chosen_skill and chosen_skill in skills_normalized:
+        base_skill_level = skills_normalized[chosen_skill]
+        skill_known = True
+    elif chosen_skill and chosen_skill in skills:
         base_skill_level = skills[chosen_skill]
         skill_known = True
     elif chosen_skill:
