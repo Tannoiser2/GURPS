@@ -45,7 +45,7 @@ Per ogni indizio estrai:
 - hidden_implication: l'implicazione nascosta, opzionale (max 180 char)
 - payoff: come l'indizio cambia le scelte successive (max 140 char)
 - possible_actions: 1-3 azioni concrete che i PG possono fare con questo indizio
-  (frasi complete con verbo + oggetto, NON solo "Cercare X")
+  (frasi complete con verbo + oggetto, NON solo "Cercare X"; SEMPRE in italiano, anche se il modulo è in inglese)
 
 Titolo modulo: {title}
 
@@ -1047,3 +1047,106 @@ def extract_finale_conditions_with_llm(
             "source_status": "llm_extracted",
         })
     return finales or None
+
+
+# ---------------------------------------------------------------------------
+# Livello B: estrazione collegamenti tra locazioni dal testo PDF
+# ---------------------------------------------------------------------------
+
+_LOCATION_CONNECTIONS_PROMPT = """Sei un analista di moduli GDR. Dato il testo del modulo e la lista delle locazioni estratte, identifica i collegamenti fisici o narrativi tra di esse.
+
+Per ogni connessione indica:
+- from_location: nome ESATTO della locazione di partenza (dalla lista sotto)
+- to_location: nome ESATTO della locazione di destinazione (dalla lista sotto)
+- description: brevissima descrizione del collegamento (max 60 char, es. "corridoio segreto", "porta nord", "scala a chiocciola")
+- bidirectional: true se si può percorrere in entrambi i sensi (default true)
+
+Locazioni disponibili:
+{location_names}
+
+Titolo modulo: {title}
+
+Testo del modulo (estratto):
+\"\"\"
+{text_excerpt}
+\"\"\"
+
+Regole:
+- Usa SOLO i nomi dalla lista sopra, non inventarne altri.
+- Non duplicare connessioni: se A↔B è bidirezionale, scrivila UNA volta sola con bidirectional=true.
+- Se non trovi connessioni esplicite, deducile dal contesto narrativo (adiacenza, flusso dell'avventura).
+- Restituisci SOLO il JSON array, nient'altro.
+
+Esempio output:
+[
+  {{"from_location": "Ingresso", "to_location": "Sala delle Guardie", "description": "porta principale", "bidirectional": true}},
+  {{"from_location": "Sala delle Guardie", "to_location": "Dungeon", "description": "scala discendente", "bidirectional": false}}
+]"""
+
+
+def extract_location_connections_with_llm(
+    text: str,
+    locations: list[dict],
+    *,
+    title: str = "",
+) -> list[dict] | None:
+    """Livello B: identifica i collegamenti reali tra locazioni dal testo PDF.
+
+    Ritorna lista di dict con from_location/to_location/description/bidirectional,
+    o None se LLM disabilitato / meno di 2 locazioni / fallimento.
+    """
+    if not _llm_extractors_enabled():
+        return None
+    if len(locations) < 2:
+        return None
+
+    loc_names = [str(l.get("name") or "") for l in locations if l.get("name")]
+    if len(loc_names) < 2:
+        return None
+
+    # Usa al massimo 6000 char dal testo per non sprecare token
+    text_excerpt = (text or "")[:6000].strip()
+    if not text_excerpt:
+        return None
+
+    location_names_str = "\n".join(f"- {n}" for n in loc_names)
+    prompt = _LOCATION_CONNECTIONS_PROMPT.format(
+        title=title or "Sconosciuto",
+        location_names=location_names_str,
+        text_excerpt=text_excerpt,
+    )
+
+    try:
+        from .claude_service import _call_text_model  # type: ignore[attr-defined]
+        raw = _call_text_model(prompt, max_tokens=600)
+    except Exception:
+        return None
+
+    import json as _json
+    array_match = _re_module.search(r"\[.*\]", raw, _re_module.DOTALL)
+    if not array_match:
+        return None
+    try:
+        parsed = _json.loads(array_match.group(0))
+    except Exception:
+        return None
+
+    if not isinstance(parsed, list):
+        return None
+
+    valid_names = set(loc_names)
+    connections: list[dict] = []
+    for item in parsed:
+        if not isinstance(item, dict):
+            continue
+        frm = str(item.get("from_location") or "").strip()
+        to = str(item.get("to_location") or "").strip()
+        if frm not in valid_names or to not in valid_names or frm == to:
+            continue
+        connections.append({
+            "from_location": frm,
+            "to_location": to,
+            "description": str(item.get("description") or "")[:60],
+            "bidirectional": bool(item.get("bidirectional", True)),
+        })
+    return connections or None

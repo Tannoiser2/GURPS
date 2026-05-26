@@ -2762,11 +2762,11 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
   // Sort each column by grid_y
   Object.values(cols).forEach(arr => arr.sort((a, b) => (a.grid_y || 0) - (b.grid_y || 0)));
 
-  const NODE_W = 148;
-  const NODE_H = 110;
-  const COL_GAP = 56;
-  const ROW_GAP = 18;
-  const PAD = 24;
+  const NODE_W = 96;
+  const NODE_H = 68;
+  const COL_GAP = 22;
+  const ROW_GAP = 10;
+  const PAD = 16;
 
   // Compute positions
   const pos = {};
@@ -2871,76 +2871,73 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
               filter={isCurrent ? "url(#glow)" : "none"}
             >
               {/* Card background */}
-              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={10}
-                fill={isCurrent ? "rgba(124,58,237,0.25)" : status === "visited" ? "rgba(0,0,0,0.55)" : "rgba(0,0,0,0.45)"}
+              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={7}
+                fill={isCurrent ? "rgba(124,58,237,0.28)" : status === "visited" ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.5)"}
                 stroke={hovered && moveable ? "#60a5fa" : borderColor}
                 strokeWidth={hovered && moveable ? 2.5 : borderW}
                 opacity={status === "unknown" ? 0.5 : 1}
               />
 
-              {/* Location image */}
+              {/* Location image (top 40px) */}
               {img && status !== "unknown" && (
                 <>
                   <clipPath id={`clip-${n.id}`}>
-                    <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={62} rx={9} />
+                    <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={6} />
                   </clipPath>
                   <image href={`data:image/jpeg;base64,${img}`}
-                    x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={62}
+                    x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40}
                     preserveAspectRatio="xMidYMid slice"
                     clipPath={`url(#clip-${n.id})`}
                     opacity={status === "adjacent" ? 0.6 : 1}
                   />
-                  {/* Image overlay gradient */}
-                  <rect x={p.x + 1} y={p.y + 30} width={NODE_W - 2} height={33}
+                  <rect x={p.x + 1} y={p.y + 22} width={NODE_W - 2} height={19}
                     fill="url(#imgFade)" clipPath={`url(#clip-${n.id})`} />
                 </>
               )}
 
-              {/* Gradient fill when no image */}
+              {/* Solid fill when no image */}
               {!img && status !== "unknown" && (
-                <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={62} rx={9}
-                  fill={isCurrent ? "rgba(124,58,237,0.3)" : "rgba(30,20,60,0.6)"}
+                <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={6}
+                  fill={isCurrent ? "rgba(124,58,237,0.35)" : "rgba(20,10,50,0.7)"}
                 />
               )}
 
+              {/* Subtle map-tile crosshatch pattern when no image */}
+              {!img && status !== "unknown" && (
+                <line x1={p.x + NODE_W/2} y1={p.y+2} x2={p.x + NODE_W/2} y2={p.y+40}
+                  stroke="rgba(255,255,255,0.04)" strokeWidth={1} />
+              )}
+
               {/* Status badge */}
-              <rect x={p.x + 6} y={p.y + 6} width={isCurrent ? 36 : 28} height={14} rx={4}
-                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.85)" : status === "visited" ? "rgba(74,222,128,0.2)" : "rgba(0,0,0,0.4)"}
+              <rect x={p.x + 4} y={p.y + 4} width={isCurrent ? 30 : 22} height={12} rx={3}
+                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.85)" : status === "visited" ? "rgba(74,222,128,0.2)" : "rgba(0,0,0,0.5)"}
               />
-              <text x={p.x + 9} y={p.y + 16} fontSize={8} fontWeight="800" fill={isCurrent ? "#fff" : isObj ? "#000" : status === "visited" ? "#4ade80" : "rgba(255,255,255,0.5)"}>
-                {isCurrent ? "● QUI" : isObj ? "★ META" : status === "visited" ? "✓" : "?"}
+              <text x={p.x + 6} y={p.y + 13} fontSize={7} fontWeight="800" fill={isCurrent ? "#fff" : isObj ? "#000" : status === "visited" ? "#4ade80" : "rgba(255,255,255,0.5)"}>
+                {isCurrent ? "● QUI" : isObj ? "★" : status === "visited" ? "✓" : "?"}
               </text>
 
               {/* Move indicator */}
               {moveable && (
-                <text x={p.x + NODE_W - 8} y={p.y + 16} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered ? 1 : 0.5}>→</text>
+                <text x={p.x + NODE_W - 5} y={p.y + 13} fontSize={8} textAnchor="end" fill="#60a5fa" opacity={hovered ? 1 : 0.4}>→</text>
               )}
 
               {/* Location name */}
-              <text x={p.x + NODE_W / 2} y={p.y + 78} textAnchor="middle" fontSize={10} fontWeight="800"
-                fill={isCurrent ? "#e9d5ff" : status === "visited" ? "var(--text-h)" : "rgba(255,255,255,0.75)"}>
-                {label.length > 20 ? label.slice(0, 18) + "…" : label}
+              <text x={p.x + NODE_W / 2} y={p.y + 52} textAnchor="middle" fontSize={8} fontWeight="800"
+                fill={isCurrent ? "#e9d5ff" : status === "visited" ? "var(--text-h)" : "rgba(255,255,255,0.8)"}>
+                {label.length > 16 ? label.slice(0, 14) + "…" : label}
               </text>
 
-              {/* Description */}
-              {status !== "unknown" && n.description && (
-                <text x={p.x + NODE_W / 2} y={p.y + 91} textAnchor="middle" fontSize={8}
-                  fill="rgba(255,255,255,0.45)">
-                  {n.description.slice(0, 26)}{n.description.length > 26 ? "…" : ""}
-                </text>
-              )}
-
-              {/* Icons */}
-              <text x={p.x + 6} y={p.y + NODE_H - 5} fontSize={9}>
-                {n.contains_enemy ? "⚔️ " : ""}{n.contains_clue ? "🔍 " : ""}{n.contains_loot ? "💰" : ""}
+              {/* Icons row */}
+              <text x={p.x + NODE_W/2} y={p.y + NODE_H - 4} textAnchor="middle" fontSize={8}>
+                {n.contains_enemy ? "⚔" : ""}{n.contains_clue ? "🔍" : ""}{n.contains_loot ? "💰" : ""}
               </text>
 
-              {/* Hover tooltip for moveable */}
+              {/* Hover tooltip */}
               {hovered && moveable && (
                 <>
-                  <rect x={p.x} y={p.y + NODE_H + 4} width={NODE_W} height={18} rx={5} fill="rgba(96,165,250,0.9)" />
-                  <text x={p.x + NODE_W / 2} y={p.y + NODE_H + 16} textAnchor="middle" fontSize={9} fontWeight="700" fill="#000">
-                    Clicca per spostarti qui
+                  <rect x={p.x} y={p.y + NODE_H + 3} width={NODE_W} height={15} rx={4} fill="rgba(96,165,250,0.9)" />
+                  <text x={p.x + NODE_W / 2} y={p.y + NODE_H + 13} textAnchor="middle" fontSize={8} fontWeight="700" fill="#000">
+                    Spostati qui
                   </text>
                 </>
               )}
@@ -2964,6 +2961,86 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(96,165,250,0.3)", display: "inline-block" }} />Raggiungibile</span>
         {isGM && <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(251,191,36,0.5)", display: "inline-block" }} />Obiettivo</span>}
         {onMove && <span style={{ color: "#60a5fa" }}>→ Clicca su una locazione per spostarti</span>}
+      </div>
+    </div>
+  );
+}
+
+function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClose }) {
+  const [pos, setPos] = useState({ x: window.innerWidth - 520, y: 80 });
+  const [size, setSize] = useState({ w: 500, h: 340 });
+  const dragging = useRef(false);
+  const dragOff = useRef({ dx: 0, dy: 0 });
+  const resizing = useRef(false);
+  const resizeStart = useRef({});
+
+  function onTitleMouseDown(e) {
+    dragging.current = true;
+    dragOff.current = { dx: e.clientX - pos.x, dy: e.clientY - pos.y };
+    e.preventDefault();
+  }
+  function onResizeMouseDown(e) {
+    resizing.current = true;
+    resizeStart.current = { mx: e.clientX, my: e.clientY, w: size.w, h: size.h };
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  useEffect(() => {
+    function onMouseMove(e) {
+      if (dragging.current) {
+        setPos({ x: e.clientX - dragOff.current.dx, y: e.clientY - dragOff.current.dy });
+      }
+      if (resizing.current) {
+        const dw = e.clientX - resizeStart.current.mx;
+        const dh = e.clientY - resizeStart.current.my;
+        setSize({
+          w: Math.max(320, resizeStart.current.w + dw),
+          h: Math.max(240, resizeStart.current.h + dh),
+        });
+      }
+    }
+    function onMouseUp() { dragging.current = false; resizing.current = false; }
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    return () => { window.removeEventListener("mousemove", onMouseMove); window.removeEventListener("mouseup", onMouseUp); };
+  }, []);
+
+  return (
+    <div style={{
+      position: "fixed", left: pos.x, top: pos.y, width: size.w, zIndex: 1200,
+      background: "var(--bg, #0f0f1a)", border: "1px solid var(--border, rgba(255,255,255,0.12))",
+      borderRadius: 12, boxShadow: "0 8px 40px rgba(0,0,0,0.7)", display: "flex", flexDirection: "column",
+      userSelect: dragging.current ? "none" : "auto",
+    }}>
+      {/* Title bar — drag handle */}
+      <div onMouseDown={onTitleMouseDown} style={{
+        display: "flex", alignItems: "center", gap: 8, padding: "8px 12px",
+        borderBottom: "1px solid var(--border, rgba(255,255,255,0.1))",
+        cursor: "grab", borderRadius: "12px 12px 0 0",
+        background: "rgba(124,58,237,0.12)",
+        flexShrink: 0,
+      }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color: "var(--accent, #a78bfa)", flex: 1 }}>🗺 Mappa Avventura</span>
+        <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.4, marginRight: 4 }}>⠿ trascina</span>
+        <button onClick={onClose} style={{
+          background: "none", border: "none", color: "var(--text)", cursor: "pointer",
+          fontSize: 16, lineHeight: 1, padding: "0 2px", opacity: 0.6,
+        }}>✕</button>
+      </div>
+      {/* Map content */}
+      <div style={{ overflow: "auto", flex: 1, padding: "8px 4px", minHeight: 200, height: size.h - 42 }}>
+        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} locationImages={locationImages} genre={genre} />
+      </div>
+      {/* Resize handle */}
+      <div onMouseDown={onResizeMouseDown} style={{
+        position: "absolute", right: 0, bottom: 0, width: 18, height: 18,
+        cursor: "se-resize", display: "flex", alignItems: "flex-end", justifyContent: "flex-end",
+        padding: "2px 3px", opacity: 0.4,
+      }}>
+        <svg width={10} height={10} viewBox="0 0 10 10">
+          <path d="M9,1 L1,9 M9,5 L5,9 M9,9 L9,9" stroke="currentColor" strokeWidth={1.5} />
+        </svg>
       </div>
     </div>
   );
@@ -5064,6 +5141,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [lastCombatLog, setLastCombatLog] = useState(null);
   const [mapState, setMapState] = useState(null);
   const [locationImages, setLocationImages] = useState({});
+  const [showMapPanel, setShowMapPanel] = useState(false);
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
   const [combatTarget, setCombatTarget] = useState(null);
@@ -5800,6 +5878,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               borderRadius: 6, padding: "4px 10px", cursor: "pointer",
             }}>📖 Bibbia</button>
           )}
+          {adventure && mapState && (
+            <button onClick={() => setShowMapPanel(v => !v)} style={{
+              fontSize: 12, color: showMapPanel ? "#a78bfa" : "var(--text)",
+              background: showMapPanel ? "rgba(124,58,237,0.15)" : "none",
+              border: `1px solid ${showMapPanel ? "rgba(124,58,237,0.5)" : "var(--border)"}`,
+              borderRadius: 6, padding: "4px 10px", cursor: "pointer",
+            }}>🗺 Mappa</button>
+          )}
           {adventure && (
             <button onClick={() => setShowSecrets(true)} style={{
               fontSize: 12, color: "#f59e0b", background: "rgba(245,158,11,0.1)",
@@ -6036,6 +6122,16 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       )}
       {showSecrets && adventure && (
         <SecretsPanel adventure={adventure} gameState={gameStateData} onClose={() => setShowSecrets(false)} />
+      )}
+      {showMapPanel && adventure && mapState && (
+        <FloatingMapPanel
+          mapState={mapState}
+          locationImages={locationImages}
+          onMove={handleMoveToLocation}
+          isGM={true}
+          genre={adventure?.genre}
+          onClose={() => setShowMapPanel(false)}
+        />
       )}
     </div>
   );

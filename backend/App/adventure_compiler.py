@@ -13,6 +13,7 @@ from .llm_extractors import (
     extract_clues_with_llm,
     extract_factions_with_llm,
     extract_finale_conditions_with_llm,
+    extract_location_connections_with_llm,
     synthesize_narrative_with_llm,
 )
 from .narrative_archetypes import get_archetype
@@ -1004,6 +1005,25 @@ def _compile_pdf_structure_to_runtime(
         raw["finale_conditions"] = finale_from_source
     if llm_meta.get("tone"):
         raw["tone"] = llm_meta["tone"]
+    # P6 (Livello B): collegamenti reali tra locazioni dal testo PDF
+    _raw_locs = raw.get("locations") or []
+    loc_connections = extract_location_connections_with_llm(text, _raw_locs, title=title)
+    if loc_connections:
+        _name_to_idx = {str(l.get("name") or ""): i for i, l in enumerate(_raw_locs) if isinstance(l, dict)}
+        for conn in loc_connections:
+            frm, to = conn["from_location"], conn["to_location"]
+            fi = _name_to_idx.get(frm)
+            ti = _name_to_idx.get(to)
+            if fi is not None and isinstance(_raw_locs[fi], dict):
+                exits = list(_raw_locs[fi].get("exits") or [])
+                if to not in exits:
+                    exits.append(to)
+                _raw_locs[fi]["exits"] = exits
+            if conn.get("bidirectional", True) and ti is not None and isinstance(_raw_locs[ti], dict):
+                exits = list(_raw_locs[ti].get("exits") or [])
+                if frm not in exits:
+                    exits.append(frm)
+                _raw_locs[ti]["exits"] = exits
     return compile_from_raw_structure(
         raw,
         source_type="pdf_text",
@@ -1114,6 +1134,25 @@ def compile_structured_text_to_runtime(text: str, *, title: str = "", genre_hint
         raw["finale_conditions"] = finale_from_source
     if llm_meta.get("tone"):
         raw["tone"] = llm_meta["tone"]
+    # P6 (Livello B): collegamenti reali tra locazioni dal testo
+    _raw_locs = raw.get("locations") or []
+    loc_connections = extract_location_connections_with_llm(text, _raw_locs, title=title)
+    if loc_connections:
+        _name_to_idx = {str(l.get("name") or ""): i for i, l in enumerate(_raw_locs) if isinstance(l, dict)}
+        for conn in loc_connections:
+            frm, to = conn["from_location"], conn["to_location"]
+            fi = _name_to_idx.get(frm)
+            ti = _name_to_idx.get(to)
+            if fi is not None and isinstance(_raw_locs[fi], dict):
+                exits = list(_raw_locs[fi].get("exits") or [])
+                if to not in exits:
+                    exits.append(to)
+                _raw_locs[fi]["exits"] = exits
+            if conn.get("bidirectional", True) and ti is not None and isinstance(_raw_locs[ti], dict):
+                exits = list(_raw_locs[ti].get("exits") or [])
+                if frm not in exits:
+                    exits.append(frm)
+                _raw_locs[ti]["exits"] = exits
     return compile_from_raw_structure(
         raw,
         source_type="raw_text",

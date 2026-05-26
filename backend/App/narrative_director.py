@@ -156,6 +156,7 @@ def director_prompt_context(decision: dict) -> str:
 
     lines = [
         "\nNARRATIVE DIRECTOR — ISTRUZIONI VINCOLANTI:",
+        "LINGUA: tutta la narrazione, i dialoghi, le descrizioni e le azioni proposte DEVONO essere in ITALIANO. Anche se il materiale sorgente è in inglese. Nomi propri e titoli di luogo possono restare nella lingua originale.",
         f"DIRETTIVA SCENA: {directive}",
         f"MAX ESCALATION TIER: {allowed_tier}. Il renderer non puo superarlo.",
         f"ESCALATION CONSENTITE: {', '.join(allowed_types[:10]) or 'solo conseguenze locali'}",
