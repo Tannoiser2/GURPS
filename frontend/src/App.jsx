@@ -5652,6 +5652,18 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading, options]);
 
+  // Carica token stats al mount e le aggiorna ogni 30s
+  useEffect(() => {
+    const fetchStats = () =>
+      fetch(`${API_URL}/game/token-stats`)
+        .then(r => r.json())
+        .then(setTokenStats)
+        .catch(() => {});
+    fetchStats();
+    const tid = setInterval(fetchStats, 30000);
+    return () => clearInterval(tid);
+  }, []);
+
   // Prepara in anticipo le battlemap delle zone calde/finali, una sola volta per avventura.
   useEffect(() => {
     if (imageProvider === "none") return;
