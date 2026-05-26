@@ -634,12 +634,17 @@ _REFUSAL_PATTERNS = (
     "i won't",
     "i will not",
     "mi dispiace",
+    "mi scuso",
+    "mi scusi",
     "non posso aiutarti",
     "non sono in grado",
     "non posso assisterti",
     "non posso fornire",
     "non posso generare",
     "non posso continuare",
+    "si prega di fornire",
+    "si prega di ripetere",
+    "elaborazione del tuo input",
     "as an ai",
     "non è appropriato",
     "non è etico",
@@ -657,6 +662,9 @@ def _looks_like_refusal(raw: str) -> bool:
     # Se c'è un blocco JSON / oggetto graffato lungo, non è un rifiuto
     if "{" in text and "}" in text and len(text) > 200:
         return False
+    # Se non c'è nessuna parentesi graffa, non può essere JSON valido
+    if "{" not in text:
+        return True
     low = text.lower()[:400]
     return any(p in low for p in _REFUSAL_PATTERNS)
 
