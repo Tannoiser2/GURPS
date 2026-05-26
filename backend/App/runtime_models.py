@@ -305,6 +305,7 @@ class AdventureDefinition(_MappingCompatibleBase):
     pressure_systems: List[PressureSystem] = []
     resources: List[ResourceState] = []
     finale_conditions: List[FinaleCondition] = []
+    story_threads: List[Dict[str, Any]] = []
     genre_runtime: Dict = {}
     genre_profile: GenreProfile = GenreProfile()
     legacy_adventure: Dict = {}

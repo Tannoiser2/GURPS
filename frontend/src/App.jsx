@@ -1424,6 +1424,7 @@ function SetupScreen({ onStart }) {
       );
       const adventure = {
         ...compiled,
+        ...definition,  // eleva clues, actors, story_threads, locations ecc. al livello root
         id: definition.id || compiled.id,
         runtime_id: definition.id || compiled.runtime_id,
         genre: detectedGenre,
@@ -1501,7 +1502,8 @@ function SetupScreen({ onStart }) {
       if (!definition) throw new Error("Compilazione fallita: adventure_definition mancante.");
       const detectedGenre = normalizeGenreKey(definition.genre || compiled.genre || "detective_classico", "detective_classico");
       const adventure = {
-        ...compiled, id: definition.id || compiled.id,
+        ...compiled, ...definition,
+        id: definition.id || compiled.id,
         runtime_id: definition.id || compiled.runtime_id,
         genre: detectedGenre, detected_genre: detectedGenre,
         adventure_definition: definition,
