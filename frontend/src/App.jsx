@@ -5107,6 +5107,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [loading, setLoading] = useState(false);
   const [storyOver, setStoryOver] = useState(false);
   const [victory, setVictory] = useState(false);
+  const [endReason, setEndReason] = useState("");
   const [personalVictories, setPersonalVictories] = useState({});
   const [history, setHistory] = useState([]);
   const [showPanel, setShowPanel] = useState(!!adventure);
@@ -5748,6 +5749,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       if (updates.story_over) {
         setStoryOver(true);
         setVictory(updates.victory || false);
+        if (updates.end_reason) setEndReason(updates.end_reason);
         if (updates.personal_victories) setPersonalVictories(updates.personal_victories);
       }
       // popola sceneState immediatamente dalla combat_scene nel payload
@@ -6045,9 +6047,25 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-h)", marginBottom: 6 }}>
             {victory ? "Vittoria di gruppo!" : "Fine dell'avventura"}
           </div>
+
+          {/* Spiegazione principale — perché si è vinto/perso */}
+          {endReason && (
+            <div style={{
+              maxWidth: 480, margin: "0 auto 18px", padding: "14px 18px",
+              borderRadius: 10, textAlign: "left",
+              background: victory ? "rgba(74,222,128,0.08)" : "rgba(248,113,113,0.08)",
+              border: `1px solid ${victory ? "rgba(74,222,128,0.25)" : "rgba(248,113,113,0.25)"}`,
+            }}>
+              <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6, color: victory ? "#4ade80" : "#f87171" }}>
+                {victory ? "Come avete vinto" : "Come avete perso"}
+              </div>
+              <div style={{ fontSize: 13, color: "var(--text)", lineHeight: 1.6 }}>{endReason}</div>
+            </div>
+          )}
+
           {adventure?.win_condition && (
-            <div style={{ fontSize: 13, color: "var(--text)", maxWidth: 420, margin: "0 auto 16px", lineHeight: 1.5 }}>
-              {victory ? "✅" : "❌"} {adventure.win_condition}
+            <div style={{ fontSize: 12, color: "var(--text)", maxWidth: 420, margin: "0 auto 16px", lineHeight: 1.5, opacity: 0.7 }}>
+              Obiettivo: {victory ? "✅" : "❌"} {adventure.win_condition}
             </div>
           )}
 

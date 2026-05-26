@@ -3513,6 +3513,83 @@ def generate_scene_image(
         return None
 
 
+def _build_map_image_prompt(location_name: str, location_description: str) -> str:
+    """Traduce nome+descrizione in un prompt cartografico top-down per immagini GDR."""
+    try:
+        prompt = (
+            "Translate this tabletop RPG location into a concise English image prompt for a top-down cartographic map.\n"
+            f"Location name: {location_name}\n"
+            f"Description: {location_description}\n\n"
+            "STYLE: hand-drawn top-down dungeon/location map, Dyson Logos ink style, "
+            "architectural floor plan, black ink on cream parchment, rooms and corridors, "
+            "no characters, no people, labeled areas.\n"
+            "Output ONLY the image prompt (1-2 sentences, in English, describing what the map shows — "
+            "layout, rooms, features — not mood or lighting)."
+        )
+        return _call_text_model(prompt, max_tokens=100).strip()
+    except Exception:
+        return f"Top-down cartographic floor plan of {location_name}, hand-drawn ink style, architectural map layout"
+
+
+def generate_location_map_image(location_name: str, location_description: str) -> str | None:
+    """Genera un'immagine cartografica top-down per una locazione (stile mappa GDR)."""
+    _clear_last_image_error()
+    map_prompt = (
+        f"Top-down hand-drawn tabletop RPG dungeon map of '{location_name}'. "
+        f"{_build_map_image_prompt(location_name, location_description)} "
+        "Style: Dyson Logos black ink line art, architectural floor plan, "
+        "cream parchment background, labeled rooms, corridors, doors and key features clearly marked, "
+        "no characters, no people, top-down orthographic view, clean cartographic detail."
+    )
+    if _ACTIVE_PROVIDER == "openai":
+        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
+            return None
+        try:
+            client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
+            response = client.images.generate(
+                model=OPENAI_IMAGE_EDIT_MODEL,
+                prompt=map_prompt,
+                size="1024x1024",
+                quality="medium",
+                n=1,
+            )
+            return response.data[0].b64_json
+        except Exception as e:
+            _set_last_image_error("generate_location_map_image/openai", e)
+            return None
+    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    if not key or not _GOOGLE_GENAI_AVAILABLE:
+        return None
+    try:
+        client = google_genai.Client(api_key=key)
+        for imagen_model in ("imagen-4.0-generate-001", "imagen-3.0-generate-001"):
+            try:
+                response = client.models.generate_images(
+                    model=imagen_model,
+                    prompt=map_prompt,
+                    config=google_genai_types.GenerateImagesConfig(
+                        number_of_images=1,
+                        aspect_ratio="1:1",
+                        output_mime_type="image/jpeg",
+                    ),
+                )
+                return base64.b64encode(response.generated_images[0].image.image_bytes).decode("utf-8")
+            except Exception as img_err:
+                if "RESOURCE_EXHAUSTED" not in str(img_err) and "429" not in str(img_err):
+                    break
+        if _OPENAI_AVAILABLE and OPENAI_API_KEY:
+            try:
+                client2 = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
+                resp2 = client2.images.generate(model=OPENAI_IMAGE_EDIT_MODEL, prompt=map_prompt, size="1024x1024", quality="medium", n=1)
+                return resp2.data[0].b64_json
+            except Exception:
+                pass
+        return None
+    except Exception as e:
+        _set_last_image_error("generate_location_map_image/gemini", e)
+        return None
+
+
 # ── Master GDR: turno narrativo ───────────────────────────────────────────────
 
 def _player_sheet(p: dict) -> str:
@@ -4534,7 +4611,8 @@ def _validate_master_state_updates(
         su["new_threads"] = [str(t).strip() for t in su["new_threads"][:1] if str(t).strip()]
 
     try:
-        su["threat_increase"] = max(0, min(3, int(su.get("threat_increase", 0) or 0)))
+        # Cap globale: max 1 per turno normale. Solo clock/finale autorizzati possono dare 2+.
+        su["threat_increase"] = max(0, min(1, int(su.get("threat_increase", 0) or 0)))
     except Exception:
         su["threat_increase"] = 0
     for key in ["activate_combat", "combat_over", "story_over", "victory"]:
@@ -4553,9 +4631,11 @@ def _validate_master_state_updates(
     finale_conditions = (adventure.get("adventure_canon") or {}).get("finale_conditions") or []
     try:
         threat_now = int(game_state_data.get("threat_level", 0) or 0)
-        threat_max = int(game_state_data.get("threat_max", 10) or 10)
+        threat_max = max(12, int(game_state_data.get("threat_max", 12) or 12))  # minimo 12 turni
     except Exception:
-        threat_now, threat_max = 0, 10
+        threat_now, threat_max = 0, 12
+    # Conta turni giocati come proxy di progressione
+    turns_played = int(game_state_data.get("turns_played", 0) or 0)
     explicit_trigger = bool(
         su.get("explicit_trigger")
         or su.get("finale_condition_met")
@@ -4568,6 +4648,14 @@ def _validate_master_state_updates(
         or su["closed_threads"]
         or (threat_max > 0 and threat_now >= threat_max)
     )
+    # Blocco minimo 6 turni prima che l'avventura possa finire
+    _MIN_TURNS_BEFORE_ENDING = 6
+    if su["story_over"] and turns_played < _MIN_TURNS_BEFORE_ENDING:
+        su["story_over"] = False
+        su["victory"] = False
+        su["threat_increase"] = min(su["threat_increase"], 1)
+        su.setdefault("validation_notes", []).append(f"fine avventura bloccata: turni giocati {turns_played} < {_MIN_TURNS_BEFORE_ENDING}")
+        blocked_updates.append("story_over_too_early")
     if su["story_over"] and su.get("victory") and finale_conditions and not has_finale_basis:
         su["story_over"] = False
         su["victory"] = False
@@ -5360,7 +5448,7 @@ ISTRUZIONI:
    - La terza è sempre "Azione custom".
 
 4. Aggiorna lo stato (clue_progress, clues_found, npc_updates, location_updates, objective_updates, faction_updates, clock/resource/finale updates, threat_increase).
-   threat_increase deve essere 1-2 se il turno fa avanzare la minaccia, 0 se i giocatori hanno guadagnato terreno.
+   threat_increase: 0 se i giocatori hanno guadagnato terreno o risolto un indizio, 1 solo su fallimento netto o conseguenza narrativa negativa. MAI 2 salvo clock completato o evento di escalation autorizzato dal Director.
 
 REGOLE CANOVACCIO PDF — OBBLIGATORIE:
 - STATE-DRIVEN: il motore ha gia deciso gli update minimi in "NARRATIVE DIRECTOR". La tua narrativa deve renderli, non sostituirli.
@@ -5394,8 +5482,8 @@ NARRATIVE AUTHORITY LIMITS — OBBLIGATORIO:
 - Non concludere l'avventura: story_over e victory valgono solo se validati dal backend.
 
 REGOLA FINE AVVENTURA — OBBLIGATORIA:
-- Se threat_level >= threat_max ({threat_pct}% attuale): questo è l'ULTIMO turno. La minaccia ha vinto. Narra un finale drammatico di sconfitta ({adventure.get('threat_description','la minaccia')[:60]} si compie), poi imposta story_over=true, victory=false. Non proporre opzioni di continuazione.
-- Se i giocatori hanno soddisfatto la condizione di vittoria ("{adventure.get('win_condition','')[:100]}"): narra il trionfo e imposta story_over=true, victory=true.
+- Se threat_level >= threat_max ({threat_pct}% attuale): questo è l'ULTIMO turno. La minaccia ha vinto. Narra un finale drammatico di sconfitta ({adventure.get('threat_description','la minaccia')[:60]} si compie), poi imposta story_over=true, victory=false, end_reason="2-3 frasi in italiano che spiegano perché il gruppo ha perso: quale minaccia si è compiuta, quale errore chiave è stato fatale, cosa è andato storto". Non proporre opzioni di continuazione.
+- Se i giocatori hanno soddisfatto la condizione di vittoria ("{adventure.get('win_condition','')[:100]}"): narra il trionfo e imposta story_over=true, victory=true, end_reason="2-3 frasi in italiano che spiegano perché il gruppo ha vinto: quale indizio chiave ha risolto il caso, quale scelta è stata decisiva".
 - Se mancano ancora indizi importanti ma la minaccia è >= 80%: fai emergere indizi chiave nelle prossime scene anche senza tiro specifico — il tempo stringe.
 
 REGOLA COMBATTIMENTO — OBBLIGATORIA:
@@ -5451,6 +5539,7 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     "combat_over": false,
     "story_over": false,
     "victory": false,
+    "end_reason": "",
     "major_event": null,
     "explicit_trigger": null,
     "finale_condition_met": false,

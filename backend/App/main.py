@@ -15,7 +15,7 @@ from .combat import stand_up
 from .character_creation import validate_draft, build_custom_player
 from .claude_service import (
     generate_scene_image, generate_character_avatar, generate_npc_avatar,
-    generate_tactical_map_image, narrate_combat_result,
+    generate_tactical_map_image, generate_location_map_image, narrate_combat_result,
     set_active_provider,
     master_turn_with_bible, create_adventure,
     generate_character_from_description, enrich_character_with_backstory,
@@ -835,6 +835,7 @@ def _merge_game_state(current: dict, updates: dict) -> dict:
         "open_threads": existing_threads,
         "resolved_threads": resolved,
         "turn": (current.get("turn") or 1) + 1,
+        "turns_played": (current.get("turns_played") or 0) + 1,
         "in_combat": in_combat,
     }
 
@@ -1788,8 +1789,7 @@ def generate_location_image(payload: LocationImagePayload):
     if not provider:
         return {"location_id": payload.location_id, "image_b64": None}
     set_active_provider(provider)
-    scene_text = f"{payload.location_name}. {payload.location_description}".strip(". ")
-    image_b64 = generate_scene_image(scene_text, payload.genre, "indoor")
+    image_b64 = generate_location_map_image(payload.location_name, payload.location_description or "")
     return {"location_id": payload.location_id, "image_b64": image_b64}
 
 class TacticalMapPayload(BaseModel):
