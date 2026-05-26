@@ -9,18 +9,10 @@ guide players toward it naturally.
 """
 
 import json
-import os
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 from .runtime_models import AdventureDefinition, AdventureRuntimeState
-
-try:
-    import anthropic
-    _CLIENT = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY", ""))
-    _MODEL = "claude-haiku-4-5-20251001"
-    _HAS_CLAUDE = True
-except ImportError:
-    _HAS_CLAUDE = False
+from .claude_service import _call_claude as _claude_raw
 
 
 def _deadlocked_revelations(
@@ -115,15 +107,7 @@ Rispondi con JSON valido (solo l'oggetto, nessun markdown):
 }}"""
 
     try:
-        if not _HAS_CLAUDE:
-            raise RuntimeError("anthropic non disponibile")
-        response = _CLIENT.messages.create(
-            model=_MODEL,
-            max_tokens=512,
-            system="Sei un game designer GURPS esperto. Rispondi SOLO con JSON valido, senza markdown.",
-            messages=[{"role": "user", "content": prompt}],
-        )
-        raw = response.content[0].text.strip()
+        raw = _claude_raw(prompt, max_tokens=512)
         if "```" in raw:
             raw = raw.split("```")[1]
             if raw.startswith("json"):
