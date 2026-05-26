@@ -2985,6 +2985,71 @@ function ClockToastOverlay({ toasts, onDismiss }) {
   );
 }
 
+function NpcEventToastOverlay({ toasts, onDismiss }) {
+  useEffect(() => {
+    if (toasts.length === 0) return;
+    const timer = setTimeout(() => onDismiss(toasts[0].id), 7000);
+    return () => clearTimeout(timer);
+  }, [toasts, onDismiss]);
+
+  if (toasts.length === 0) return null;
+  const toast = toasts[0];
+
+  const actionIcon = {
+    destroy_clue: "🔥",
+    eliminate_npc: "💀",
+    scare_npc: "😱",
+    move_clue: "📦",
+    create_clue: "🔍",
+  }[toast.action] || "⚡";
+
+  const actionLabel = {
+    destroy_clue: "INDIZIO DISTRUTTO",
+    eliminate_npc: "NPC ELIMINATO",
+    scare_npc: "TESTIMONE INTIMIDITO",
+    move_clue: "INDIZIO SPOSTATO",
+    create_clue: "NUOVO INDIZIO",
+  }[toast.action] || "EVENTO NPC";
+
+  const borderColor = toast.action === "eliminate_npc" ? "#ef4444"
+    : toast.action === "destroy_clue" ? "#f97316"
+    : toast.action === "scare_npc" ? "#a855f7"
+    : "#06b6d4";
+
+  const bgColor = toast.action === "eliminate_npc" ? "rgba(239,68,68,0.15)"
+    : toast.action === "destroy_clue" ? "rgba(249,115,22,0.15)"
+    : toast.action === "scare_npc" ? "rgba(168,85,247,0.15)"
+    : "rgba(6,182,212,0.13)";
+
+  return (
+    <div style={{
+      position: "fixed", top: 80, left: 16, zIndex: 9998,
+      maxWidth: 320, minWidth: 240,
+      background: bgColor,
+      border: `1.5px solid ${borderColor}`,
+      borderRadius: 12, padding: "12px 14px",
+      boxShadow: `0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px ${borderColor}22`,
+      animation: "fadeInLeft 0.25s ease",
+      cursor: "pointer",
+    }} onClick={() => onDismiss(toast.id)}>
+      <style>{`@keyframes fadeInLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }`}</style>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+        <span style={{ fontSize: 16 }}>{actionIcon}</span>
+        <span style={{ fontSize: 11, fontWeight: 700, color: borderColor, letterSpacing: "0.06em" }}>{actionLabel}</span>
+        <span style={{ marginLeft: "auto", fontSize: 10, opacity: 0.5 }}>✕</span>
+      </div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc", marginBottom: 4 }}>
+        {toast.actor_name}
+      </div>
+      {toast.narration && (
+        <div style={{ fontSize: 11, color: "rgba(248,250,252,0.75)", fontStyle: "italic", lineHeight: 1.4 }}>
+          {toast.narration}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ClocksPanel({ clocks, isGM }) {
   if (!clocks || clocks.length === 0) return null;
 
@@ -5303,6 +5368,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [showMapPanel, setShowMapPanel] = useState(false);
   const [clocksData, setClocksData] = useState([]);
   const [clockToasts, setClockToasts] = useState([]);
+  const [npcEventToasts, setNpcEventToasts] = useState([]);
   const [tokenStats, setTokenStats] = useState({ input_tokens: 0, output_tokens: 0, total_tokens: 0, cost_usd: 0, calls: 0, errors: 0 });
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
@@ -5921,6 +5987,18 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         })),
       ]);
     }
+    if (res.npc_events?.length > 0) {
+      setNpcEventToasts(prev => [
+        ...prev,
+        ...res.npc_events.map(ev => ({
+          id: `npc-${ev.actor_id}-${Date.now()}-${Math.random()}`,
+          actor_name: ev.actor_name || ev.actor_id,
+          action: ev.action,
+          narration: ev.narration || "",
+          at_pressure: ev.at_pressure,
+        })),
+      ]);
+    }
     if (res.call_tokens) setTokenStats(prev => {
       const t = res.call_tokens;
       return {
@@ -6358,6 +6436,10 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       <ClockToastOverlay
         toasts={clockToasts}
         onDismiss={id => setClockToasts(prev => prev.filter(t => t.id !== id))}
+      />
+      <NpcEventToastOverlay
+        toasts={npcEventToasts}
+        onDismiss={id => setNpcEventToasts(prev => prev.filter(t => t.id !== id))}
       />
       {showMapPanel && adventure && mapState && (
         <FloatingMapPanel
