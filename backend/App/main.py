@@ -18,6 +18,7 @@ from .claude_service import (
     generate_tactical_map_image, generate_location_map_image, narrate_combat_result,
     set_active_provider,
     get_session_token_stats, reset_session_token_stats,
+    reset_last_request_tokens, get_last_request_tokens,
     master_turn_with_bible, create_adventure,
     generate_character_from_description, enrich_character_with_backstory,
     evaluate_personal_victories,
@@ -1390,6 +1391,7 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
             status_code=409,
             detail="Turno bloccato: manca AdventureDefinition compilato nel GameState.",
         )
+    reset_last_request_tokens()
     # Tiro GURPS reale prima di chiamare Claude — vincolante per la narrativa
     active_player = next((p for p in payload.players if p["id"] == payload.active_player_id), payload.players[0] if payload.players else None)
     roll_detail = None
@@ -1464,7 +1466,7 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
             patch["runtime_state"] = game_state.adventure_runtime_state.model_dump()
         update_runtime(adv_id, patch)
 
-    result["token_stats"] = get_session_token_stats()
+    result["call_tokens"] = get_last_request_tokens()
     return result
 
 class CharacterAIPayload(BaseModel):

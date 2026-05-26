@@ -5135,7 +5135,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [locationImages, setLocationImages] = useState({});
   const [showMapPanel, setShowMapPanel] = useState(false);
   const [clocksData, setClocksData] = useState([]);
-  const [tokenStats, setTokenStats] = useState(null);
+  const [tokenStats, setTokenStats] = useState({ input_tokens: 0, output_tokens: 0, total_tokens: 0, cost_usd: 0, calls: 0, errors: 0 });
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
   const [combatTarget, setCombatTarget] = useState(null);
@@ -5652,17 +5652,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading, options]);
 
-  // Carica token stats al mount e le aggiorna ogni 30s
-  useEffect(() => {
-    const fetchStats = () =>
-      fetch(`${API_URL}/game/token-stats`)
-        .then(r => r.json())
-        .then(setTokenStats)
-        .catch(() => {});
-    fetchStats();
-    const tid = setInterval(fetchStats, 30000);
-    return () => clearInterval(tid);
-  }, []);
 
   // Prepara in anticipo le battlemap delle zone calde/finali, una sola volta per avventura.
   useEffect(() => {
@@ -5748,7 +5737,17 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
     if (res.map_state) setMapState(res.map_state);
     if (res.clocks_data) setClocksData(res.clocks_data);
-    if (res.token_stats) setTokenStats(res.token_stats);
+    if (res.call_tokens) setTokenStats(prev => {
+      const t = res.call_tokens;
+      return {
+        input_tokens:  prev.input_tokens  + (t.input  || 0),
+        output_tokens: prev.output_tokens + (t.output || 0),
+        total_tokens:  prev.total_tokens  + (t.input  || 0) + (t.output || 0),
+        cost_usd:      prev.cost_usd      + (t.cost_usd || 0),
+        calls:         prev.calls         + (t.calls   || 0),
+        errors:        prev.errors        + (t.errors  || 0),
+      };
+    });
     const updates = res.state_updates;
     console.log("[GURPS] state_updates:", JSON.stringify(updates));
     if (updates) {
@@ -5870,7 +5869,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       {/* Main column */}
       <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
       {/* Token stats bar */}
-      {tokenStats && (
+      {(
         <div style={{
           padding: "4px 20px", borderBottom: "1px solid var(--border)",
           display: "flex", alignItems: "center", gap: 16, flexShrink: 0,

@@ -65,6 +65,19 @@ _session_tokens: dict = {
     "calls": 0, "errors": 0,
 }
 
+# Token usati nell'ultima richiesta HTTP (aggregato tra tutte le chiamate LLM di un turno)
+_last_request_tokens: dict = {"input": 0, "output": 0, "cost_usd": 0.0, "calls": 0}
+
+
+def reset_last_request_tokens() -> None:
+    """Azzera il contatore per la prossima richiesta HTTP."""
+    for k in _last_request_tokens:
+        _last_request_tokens[k] = 0.0 if k == "cost_usd" else 0
+
+
+def get_last_request_tokens() -> dict:
+    return dict(_last_request_tokens)
+
 
 def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
     prices = _PRICE_PER_M.get(model, {"input": 0.0, "output": 0.0})
@@ -73,6 +86,10 @@ def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
     _session_tokens["output"] += output_tokens
     _session_tokens["cost_usd"] += cost
     _session_tokens["calls"] += 1
+    _last_request_tokens["input"] += input_tokens
+    _last_request_tokens["output"] += output_tokens
+    _last_request_tokens["cost_usd"] += cost
+    _last_request_tokens["calls"] += 1
 
 
 def get_session_token_stats() -> dict:
