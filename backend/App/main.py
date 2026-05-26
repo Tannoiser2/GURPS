@@ -38,6 +38,7 @@ from .scene_context import actions_for_scene
 from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor_score
 from .clock_engine import tick_clocks, format_clock_event_narrative
 from .npc_state_machine import update_pressure_from_clues, build_npc_pressure_context
+from .deadlock_guard import check_and_fix_deadlocks
 
 app = FastAPI()
 app.add_middleware(
@@ -1180,6 +1181,23 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
                 game_state.flags["pending_npc_events"] = existing + fired_events
         except Exception as npc_e:
             print(f"[npc_state] errore (non bloccante): {npc_e}")
+        # Anti-deadlock: if pressure_events destroyed clues, ensure revelations stay reachable
+        if fired_events and game_state.adventure_definition:
+            try:
+                fixed = check_and_fix_deadlocks(game_state.adventure_definition, rt)
+                if fixed:
+                    existing_npc = game_state.flags.get("pending_npc_events") or []
+                    for clue in fixed:
+                        existing_npc.append({
+                            "actor_id": "system",
+                            "actor_name": "Sistema",
+                            "action": "failforward_clue",
+                            "narration": f"[Anti-deadlock] Pista alternativa iniettata: '{clue['label']}'",
+                            "clue_id": clue["id"],
+                        })
+                    game_state.flags["pending_npc_events"] = existing_npc
+            except Exception as dl_e:
+                print(f"[deadlock_guard] errore (non bloccante): {dl_e}")
     for progress in updates.get("clue_progress") or []:
         cid = progress.get("clue_id") or progress.get("id")
         if cid and cid not in rt.partial_clue_ids and cid not in rt.discovered_clue_ids:
