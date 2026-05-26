@@ -1774,7 +1774,7 @@ function SetupScreen({ onStart }) {
     return (
       <div style={{ height: "100vh", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {/* banner full-width */}
-        <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "cover", maxHeight: 100, marginTop: 12 }} />
+        <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0 }} />
 
         {/* barra provider + carica JSON */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, padding: "12px 24px", background: "#0a0a0a", flexWrap: "wrap" }}>
