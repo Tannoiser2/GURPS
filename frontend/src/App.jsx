@@ -1305,42 +1305,43 @@ function normalizeGenreKey(value, fallback = "detective_classico") {
 
 // ─── Setup screen ──────────────────────────────────────────────────────────
 
-function ProviderBtn({ pkey, label, icon, desc, selected, available, onClick }) {
+function ProviderBtn({ pkey, label, icon, selected, available, onClick }) {
   const avail = available !== false;
   const sel = selected;
   return (
     <button onClick={() => avail && onClick(pkey)}
+      title={pkey}
       style={{
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
-        padding: "8px 16px", borderRadius: 10,
-        border: sel ? "2px solid #c084fc" : "1px solid rgba(255,255,255,0.18)",
+        display: "flex", alignItems: "center", gap: 5,
+        padding: "4px 10px", borderRadius: 20,
+        border: sel ? "1.5px solid #c084fc" : "1px solid rgba(255,255,255,0.18)",
         background: sel ? "rgba(170,59,255,0.35)" : "rgba(0,0,0,0.5)",
         color: sel ? "#fff" : avail ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.3)",
         cursor: avail ? "pointer" : "default",
         backdropFilter: "blur(8px)",
         transition: "all 0.15s",
-        boxShadow: sel ? "0 0 14px rgba(192,132,252,0.4)" : "none",
-        minWidth: 72,
-        opacity: avail ? 1 : 0.5,
+        boxShadow: sel ? "0 0 8px rgba(192,132,252,0.35)" : "none",
+        fontSize: 12, fontWeight: sel ? 700 : 400,
+        opacity: avail ? 1 : 0.45,
+        whiteSpace: "nowrap",
       }}>
-      <span style={{ fontSize: 20 }}>{icon}</span>
-      <span style={{ fontSize: 12, fontWeight: sel ? 800 : 500 }}>{label}</span>
-      <span style={{ fontSize: 9, opacity: 0.6 }}>{avail ? desc : "non config."}</span>
+      <span style={{ fontSize: 13 }}>{icon}</span>
+      <span>{label}</span>
     </button>
   );
 }
 
 function TextProviderPicker({ value, onChange, available }) {
   const options = [
-    { key: "claude", label: "Claude", icon: "🤖", desc: "Anthropic" },
-    { key: "openai", label: "OpenAI", icon: "🟢", desc: "GPT-4o" },
+    { key: "claude", label: "Claude", icon: "🤖" },
+    { key: "openai", label: "OpenAI", icon: "🟢" },
   ];
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: 2, fontWeight: 600 }}>AI Narrativa</span>
-      <div style={{ display: "flex", gap: 8 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <span style={{ fontSize: 9, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 600 }}>Testo</span>
+      <div style={{ display: "flex", gap: 4 }}>
         {options.map(p => (
-          <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon} desc={p.desc}
+          <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon}
             selected={value === p.key} available={available[p.key] !== false} onClick={onChange} />
         ))}
       </div>
@@ -1350,19 +1351,19 @@ function TextProviderPicker({ value, onChange, available }) {
 
 function ImageProviderPicker({ value, onChange, available }) {
   const options = [
-    { key: "auto",   label: "Auto",   icon: "✨", desc: "primo disponibile" },
-    { key: "openai", label: "OpenAI", icon: "🟢", desc: "gpt-image-1" },
-    { key: "gemini", label: "Gemini", icon: "💫", desc: "Imagen 4" },
-    { key: "none",   label: "Nessuna",icon: "🚫", desc: "solo testo" },
+    { key: "auto",   label: "Auto",    icon: "✨" },
+    { key: "openai", label: "OpenAI",  icon: "🟢" },
+    { key: "gemini", label: "Gemini",  icon: "💫" },
+    { key: "none",   label: "Nessuna", icon: "🚫" },
   ];
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: 2, fontWeight: 600 }}>AI Grafica</span>
-      <div style={{ display: "flex", gap: 8 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <span style={{ fontSize: 9, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 600 }}>Immagini</span>
+      <div style={{ display: "flex", gap: 4 }}>
         {options.map(p => {
           const avail = p.key === "auto" || p.key === "none" ? true : available[p.key] !== false;
           return (
-            <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon} desc={p.desc}
+            <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon}
               selected={value === p.key} available={avail} onClick={onChange} />
           );
         })}
@@ -1774,19 +1775,19 @@ function SetupScreen({ onStart }) {
     return (
       <div style={{ height: "100vh", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {/* banner full-width */}
-        <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0 }} />
+        <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0, maxHeight: "18vh" }} />
 
         {/* barra provider + carica JSON */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, padding: "12px 24px", background: "#0a0a0a", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, padding: "6px 16px", background: "#0a0a0a", flexWrap: "wrap", flexShrink: 0 }}>
           <TextProviderPicker value={provider} onChange={setProvider} available={providersAvail} />
-          <div style={{ width: 1, height: 64, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
+          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
           <ImageProviderPicker value={imageProvider} onChange={setImageProvider} available={providersAvail} />
-          <div style={{ width: 1, height: 64, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
+          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
           <label style={{ cursor: "pointer", flexShrink: 0 }}>
             <img
               src={caricaPdfImg}
               alt="Carica PDF"
-              style={{ height: 56, display: "block", borderRadius: 10, transition: "opacity 0.15s" }}
+              style={{ height: 32, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"}
             />
@@ -1799,7 +1800,7 @@ function SetupScreen({ onStart }) {
             <img
               src={caricaJsonImg}
               alt="Carica JSON"
-              style={{ height: 56, display: "block", borderRadius: 10, transition: "opacity 0.15s" }}
+              style={{ height: 32, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"}
             />
