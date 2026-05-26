@@ -227,6 +227,53 @@ Restituisci SOLO una stringa JSON (non un oggetto, solo la stringa tra virgolett
         return ""
 
 
+def _enrich_pressure_events(actor: Dict, clues: List[Dict], context: str) -> List[Dict]:
+    """Generate pressure_events for an antagonist NPC based on pressure_response and available clues."""
+    name = actor.get("name", actor.get("id"))
+    role = actor.get("role", "neutral")
+    pr = actor.get("pressure_response", {})
+    clue_list = "\n".join(
+        f'  - id: "{c.get("id")}", label: "{c.get("label","")}"'
+        for c in clues[:12]
+    )
+
+    prompt = f"""Avventura: {context}
+
+NPC antagonista: {name} (ruolo: {role})
+Comportamento a pressione high: {pr.get("high", "")}
+Comportamento a pressione extreme: {pr.get("extreme", "")}
+
+Indizi disponibili nell'avventura:
+{clue_list or "  (nessuno)"}
+
+Genera una lista JSON di 2-3 pressure_events realistici per questo NPC.
+Ogni evento deve avere:
+- at_pressure: soglia (6-9)
+- action: uno tra "destroy_clue", "eliminate_npc", "scare_npc", "create_clue", "move_clue"
+- narration: frase breve che il GM può leggere quando l'evento scatta
+- Per destroy_clue: clue_id (usa un id dalla lista sopra), replacement_clue ({{id, label, reveals}})
+- Per eliminate_npc: target_id (id di un altro NPC minore), creates_clue ({{id, label, reveals}})
+- Per scare_npc: target_id, new_attitude ("hostile" o "uncooperative")
+- Per create_clue: clue ({{id, label, reveals, type}})
+
+Regola: gli eventi NON devono rendere l'avventura irrisolvibile.
+Se distruggi un indizio, fornisci SEMPRE un replacement_clue con informazioni equivalenti.
+Restituisci SOLO la lista JSON."""
+
+    try:
+        raw = _call_claude(prompt, max_tokens=1024)
+        if "```" in raw:
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+        events = json.loads(raw.strip())
+        if isinstance(events, list):
+            return events
+    except Exception as e:
+        print(f"  [warn] pressure_events per '{name}' fallito: {e}", file=sys.stderr)
+    return []
+
+
 def enrich(data: Dict, findings: List[Finding], dry_run: bool = False) -> Dict:
     """
     Enrich an adventure JSON based on audit findings.
@@ -258,6 +305,25 @@ def enrich(data: Dict, findings: List[Finding], dry_run: bool = False) -> Dict:
                 enriched_actors.append(_enrich_npc(actor, context))
             else:
                 enriched_actors.append(actor)
+        result["actors"] = enriched_actors
+
+    # pressure_events: genera per antagonisti che non ne hanno ancora
+    if not dry_run:
+        clues = result.get("clues", [])
+        enriched_actors = []
+        for actor in result.get("actors", []):
+            role = actor.get("role", "neutral")
+            is_antagonist = role in ("villain", "antagonist")
+            has_events = bool(actor.get("pressure_events"))
+            has_pressure_response = bool(actor.get("pressure_response"))
+            if is_antagonist and not has_events and has_pressure_response:
+                name = actor.get("name", actor.get("id"))
+                print(f"  → Generazione pressure_events per: {name}")
+                events = _enrich_pressure_events(actor, clues, context)
+                if events:
+                    actor = dict(actor)
+                    actor["pressure_events"] = events
+            enriched_actors.append(actor)
         result["actors"] = enriched_actors
 
     # Clock enrichment

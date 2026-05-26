@@ -5367,6 +5367,16 @@ def master_turn_with_bible(
     npcs_context = ""
     npc_agenda_context = ""
     npc_pressure_context = adventure.get("npc_pressure_context") or ""
+    # Runtime-injected clues (created by pressure events) and destroyed clues
+    injected_clues = adventure.get("injected_clues") or []
+    destroyed_clue_ids = set(adventure.get("destroyed_clue_ids") or [])
+    if injected_clues:
+        npc_pressure_context += "\nINDIZI CREATI DAGLI EVENTI NPC (disponibili ora):\n" + "\n".join(
+            f"- [{c.get('id')}] {c.get('label','')}: {c.get('reveals') or c.get('payoff','')}"
+            for c in injected_clues
+        )
+    if destroyed_clue_ids:
+        npc_pressure_context += "\nINDIZI DISTRUTTI/NON PIÙ ACCESSIBILI: " + ", ".join(destroyed_clue_ids)
     for npc in adventure.get("npcs", []):
         st = npc_statuses.get(npc["id"], {})
         status = st.get("status", npc.get("status", "alive"))

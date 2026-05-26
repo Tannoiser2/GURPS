@@ -76,6 +76,7 @@ class ActorState(BaseModel):
     avoids: List[str] = []
     pressure_response: Dict = {}
     reaction_table: Dict = {}
+    pressure_events: List[Dict[str, Any]] = []
     relationships: List[Dict[str, Any]] = []
     source_ref: Dict[str, Any] = {}
     source_status: SourceStatus = "generated"
@@ -337,3 +338,5 @@ class AdventureRuntimeState(_MappingCompatibleBase):
     revelation_to_thread_id: Dict[str, str] = {}
     flags: Dict = {}
     history: List[str] = []
+    destroyed_clue_ids: List[str] = []
+    injected_clues: List[Dict[str, Any]] = []

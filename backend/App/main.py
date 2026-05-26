@@ -1170,9 +1170,14 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
     # NPC pressure: increment for each newly discovered clue
     if newly_found and game_state.adventure_definition:
         try:
-            changed = update_pressure_from_clues(newly_found, game_state.adventure_definition, rt)
+            changed, fired_events = update_pressure_from_clues(
+                newly_found, game_state.adventure_definition, rt
+            )
             for actor_id, new_pressure in changed:
                 print(f"[npc_state] {actor_id}: pressione → {new_pressure}/10")
+            if fired_events:
+                existing = game_state.flags.get("pending_npc_events") or []
+                game_state.flags["pending_npc_events"] = existing + fired_events
         except Exception as npc_e:
             print(f"[npc_state] errore (non bloccante): {npc_e}")
     for progress in updates.get("clue_progress") or []:
@@ -1432,7 +1437,7 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         else:
             game_state.last_roll_details = []
 
-    # Inject NPC pressure context into adventure dict (additive, non-destructive)
+    # Inject NPC pressure context and runtime-created clues into adventure dict
     adventure_with_npc_state = dict(payload.adventure or {})
     if game_state.adventure_definition and game_state.adventure_runtime_state:
         try:
@@ -1442,6 +1447,13 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
             )
             if npc_ctx:
                 adventure_with_npc_state["npc_pressure_context"] = npc_ctx
+            # Inject runtime-created clues so the LLM knows they exist
+            rt_state = game_state.adventure_runtime_state
+            injected = list(rt_state.injected_clues or [])
+            destroyed = list(rt_state.destroyed_clue_ids or [])
+            if injected or destroyed:
+                adventure_with_npc_state["injected_clues"] = injected
+                adventure_with_npc_state["destroyed_clue_ids"] = destroyed
         except Exception as npc_ctx_e:
             print(f"[npc_state] context build error (non bloccante): {npc_ctx_e}")
 
@@ -1500,6 +1512,11 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
             print(f"[clock_engine] errore (non bloccante): {ce}")
     if clock_events:
         result["clock_events"] = clock_events
+
+    # Flush pending NPC pressure events to the response
+    pending_npc_events = (game_state.flags or {}).pop("pending_npc_events", [])
+    if pending_npc_events:
+        result["npc_events"] = pending_npc_events
 
     _update_map_position(payload.player_action)
     if not game_state.map_state and game_state.adventure_definition:
