@@ -1170,6 +1170,7 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
             rt.partial_clue_ids.remove(cid)
     # NPC pressure: increment for each newly discovered clue
     if newly_found and game_state.adventure_definition:
+        fired_events = []
         try:
             changed, fired_events = update_pressure_from_clues(
                 newly_found, game_state.adventure_definition, rt
