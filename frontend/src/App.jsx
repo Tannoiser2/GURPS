@@ -2966,6 +2966,80 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
   );
 }
 
+function ClocksPanel({ clocks, isGM }) {
+  if (!clocks || clocks.length === 0) return null;
+
+  // Giocatori vedono solo clock scoperti; GM vede tutto
+  const visible = isGM ? clocks : clocks.filter(c => c.discovered && c.active !== false);
+  if (visible.length === 0) {
+    if (!isGM) return (
+      <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.45, fontStyle: "italic", padding: "10px 0" }}>
+        Nessun conto alla rovescia scoperto.
+      </div>
+    );
+    return null;
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, padding: "4px 0" }}>
+      {visible.map(clock => {
+        const pct = clock.max_value > 0 ? clock.value / clock.max_value : 0;
+        const remaining = clock.max_value - clock.value;
+        const urgent = pct >= 0.66;
+        const critical = pct >= 0.85;
+        const barColor = critical ? "#ef4444" : urgent ? "#f59e0b" : "#60a5fa";
+        const hidden = !clock.discovered;
+
+        return (
+          <div key={clock.id} style={{
+            borderRadius: 10, padding: "10px 12px",
+            background: hidden ? "rgba(255,255,255,0.03)" : (critical ? "rgba(239,68,68,0.07)" : urgent ? "rgba(245,158,11,0.07)" : "rgba(96,165,250,0.07)"),
+            border: `1px solid ${hidden ? "rgba(255,255,255,0.08)" : (critical ? "rgba(239,68,68,0.3)" : urgent ? "rgba(245,158,11,0.3)" : "rgba(96,165,250,0.25)")}`,
+          }}>
+            {/* Header */}
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 7 }}>
+              <span style={{ fontSize: 13 }}>{hidden ? "👁" : (critical ? "🔴" : urgent ? "🟡" : "🕐")}</span>
+              <span style={{ flex: 1, fontSize: 12, fontWeight: 700, color: hidden ? "rgba(255,255,255,0.4)" : "var(--text-h)" }}>
+                {hidden ? `[Nascosto] ${clock.label}` : clock.label}
+              </span>
+              {!hidden && (
+                <span style={{ fontSize: 11, fontWeight: 700, color: barColor }}>
+                  {remaining} {remaining === 1 ? "segmento" : "segmenti"}
+                </span>
+              )}
+              {isGM && hidden && (
+                <span style={{ fontSize: 9, padding: "1px 6px", borderRadius: 4, background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)" }}>
+                  GM only
+                </span>
+              )}
+            </div>
+
+            {/* Barra segmenti */}
+            <div style={{ display: "flex", gap: 3, marginBottom: hidden ? 0 : 6 }}>
+              {Array.from({ length: clock.max_value }, (_, i) => (
+                <div key={i} style={{
+                  flex: 1, height: 8, borderRadius: 3,
+                  background: i < clock.value
+                    ? (hidden ? "rgba(255,255,255,0.15)" : barColor)
+                    : "rgba(255,255,255,0.08)",
+                  transition: "background 0.3s",
+                }} />
+              ))}
+            </div>
+
+            {/* Conseguenza — solo se scoperto o GM */}
+            {(clock.discovered || isGM) && clock.consequence && (
+              <div style={{ fontSize: 11, color: hidden ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.55)", lineHeight: 1.4, fontStyle: "italic" }}>
+                {hidden ? `⚠ ${clock.consequence}` : `Se si completa: ${clock.consequence}`}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClose }) {
   const [pos, setPos] = useState({ x: window.innerWidth - 520, y: 80 });
   const [size, setSize] = useState({ w: 500, h: 340 });
@@ -3046,7 +3120,7 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClo
   );
 }
 
-function SidePanel({ adventure, gameState, mapState, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
+function SidePanel({ adventure, gameState, mapState, clocksData, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
   const [tab, setTab] = useState("clues");
   const [audience, setAudience] = useState("players");
   const [expandedNpc, setExpandedNpc] = useState(null);
@@ -3226,6 +3300,11 @@ function SidePanel({ adventure, gameState, mapState, locationImages, onMove, pre
             <button style={tabStyle("map")} onClick={() => setTab("map")}>Mappa</button>
             <button style={tabStyle("players")} onClick={() => setTab("players")}>Gruppo</button>
             <button style={tabStyle("threads")} onClick={() => setTab("threads")}>Piste{readyThreads.length ? ` ${readyThreads.length}` : ""}</button>
+            {(clocksData || []).some(c => c.discovered) && (
+              <button style={tabStyle("clocks")} onClick={() => setTab("clocks")}>
+                ⏱ Clock{(clocksData || []).filter(c => c.discovered && c.active !== false).length > 0 ? ` ${(clocksData || []).filter(c => c.discovered && c.active !== false).length}` : ""}
+              </button>
+            )}
           </>
         ) : (
           <>
@@ -3234,6 +3313,9 @@ function SidePanel({ adventure, gameState, mapState, locationImages, onMove, pre
             <button style={tabStyle("gm_clues")} onClick={() => setTab("gm_clues")}>Indizi</button>
             <button style={tabStyle("gm_npcs")} onClick={() => setTab("gm_npcs")}>PNG</button>
             <button style={tabStyle("gm_map")} onClick={() => setTab("gm_map")}>Mappa</button>
+            <button style={tabStyle("gm_clocks")} onClick={() => setTab("gm_clocks")}>
+              ⏱ Clock{(clocksData || []).length > 0 ? ` ${(clocksData || []).length}` : ""}
+            </button>
             <button style={tabStyle("gm_maps")} onClick={() => setTab("gm_maps")}>Tattiche{tacticalNodes.length ? ` ${tacticalNodes.length}` : ""}</button>
           </>
         )}
@@ -3399,6 +3481,20 @@ function SidePanel({ adventure, gameState, mapState, locationImages, onMove, pre
           <LocationGraph mapState={mapState} isGM={true} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
         )}
 
+        {audience === "gm" && tab === "gm_clocks" && (
+          <div style={{ padding: "4px 0" }}>
+            <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 10 }}>
+              Vista GM — tutti i clock (nascosti e scoperti)
+            </div>
+            <ClocksPanel clocks={clocksData} isGM={true} />
+            {(!clocksData || clocksData.length === 0) && (
+              <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.45, fontStyle: "italic" }}>
+                Nessun clock attivo in questa avventura.
+              </div>
+            )}
+          </div>
+        )}
+
         {audience === "gm" && tab === "gm_maps" && (
           <div>
             {tacticalNodes.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessuna zona calda preparata.</div>}
@@ -3438,6 +3534,12 @@ function SidePanel({ adventure, gameState, mapState, locationImages, onMove, pre
 
         {tab === "map" && (
           <LocationGraph mapState={mapState} isGM={false} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
+        )}
+
+        {tab === "clocks" && (
+          <div style={{ padding: "4px 0" }}>
+            <ClocksPanel clocks={clocksData} isGM={false} />
+          </div>
         )}
 
         {tab === "clues" && (
@@ -5143,6 +5245,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [mapState, setMapState] = useState(null);
   const [locationImages, setLocationImages] = useState({});
   const [showMapPanel, setShowMapPanel] = useState(false);
+  const [clocksData, setClocksData] = useState([]);
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
   const [combatTarget, setCombatTarget] = useState(null);
@@ -5628,6 +5731,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       setOptions(res.options || []);
       if (res.state_updates) applyStateUpdates(res.state_updates);
       if (res.map_state) setMapState(res.map_state);
+      if (res.clocks_data) setClocksData(res.clocks_data);
       setLoading(false);
       setStartupLoading(false);
       if (imageProvider !== "none") fetchSceneImage(res.narrative, 0);
@@ -5741,6 +5845,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     setOptions(res.options || []);
 
     if (res.map_state) setMapState(res.map_state);
+    if (res.clocks_data) setClocksData(res.clocks_data);
     const updates = res.state_updates;
     console.log("[GURPS] state_updates:", JSON.stringify(updates));
     if (updates) {
@@ -6127,6 +6232,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           adventure={adventure}
           gameState={gameStateData}
           mapState={mapState}
+          clocksData={clocksData}
           locationImages={locationImages}
           onMove={handleMoveToLocation}
           preparedTacticalMaps={preparedTacticalMaps}

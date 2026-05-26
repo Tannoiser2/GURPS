@@ -844,6 +844,37 @@ def _adventure_id(adventure: dict) -> str | None:
     return (adventure or {}).get("id") or (adventure or {}).get("adventure_definition_id") or None
 
 
+def _build_clocks_data(runtime, runtime_state) -> list[dict]:
+    """Costruisce la lista clock da inviare al frontend, rispettando la visibilità."""
+    clocks = []
+    clock_rt = {}
+    if runtime_state:
+        clock_rt = dict(runtime_state.clock_runtime or {})
+    for clock in (runtime.event_clocks or []):
+        entry = dict(clock_rt.get(clock.id) or {})
+        current_value = int(entry.get("value") or 0)
+        is_discovered = clock.discovered or bool(entry.get("discovered", False))
+        clocks.append({
+            "id": clock.id,
+            "label": clock.label,
+            "value": current_value,
+            "max_value": clock.max_value,
+            "consequence": clock.consequence,
+            "discovered": is_discovered,
+            "discovery_hint": getattr(clock, "discovery_hint", "") or "",
+            "active": bool(entry.get("active", clock.active)),
+            "steps": [
+                {
+                    "step": s.get("step"),
+                    "scene_prompt": s.get("scene_prompt") or "",
+                    "world_state_change": s.get("world_state_change") or "",
+                }
+                for s in (clock.steps or [])
+            ],
+        })
+    return clocks
+
+
 _ENGLISH_MARKERS = {
     " the ", " through ", " from ", " are ", " is ", " a ", " an ", " to ", " with ",
     "recover", "bring", "hidden", "located", "castle", "tunnels", "jewels", "safety",
@@ -1172,10 +1203,8 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
             if entry.get("status") in {None, "", "hidden", "unknown", "locked"}:
                 entry["status"] = "known"
             rt.location_runtime[lid] = entry
-    for key, value in list(rt.clock_runtime.items()):
-        entry = dict(value or {})
-        entry["value"] = int(entry.get("value") or 0) + int(updates.get("threat_increase") or 0)
-        rt.clock_runtime[key] = entry
+    # I clock NON avanzano più con threat_increase globale:
+    # ogni clock ha il proprio delta in clock_updates (gestito dal world_simulator per-clock).
     for update in updates.get("clock_updates") or []:
         if not isinstance(update, dict):
             continue
@@ -1185,9 +1214,15 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
             if update.get("value") is not None:
                 entry["value"] = int(update.get("value") or 0)
             if update.get("delta") is not None:
-                entry["value"] = int(entry.get("value") or 0) + int(update.get("delta") or 0)
+                new_val = int(entry.get("value") or 0) + int(update.get("delta") or 0)
+                # Trova max_value dalla definizione del clock
+                clock_def = next((c for c in (rt.event_clocks or []) if c.id == cid), None)
+                max_v = clock_def.max_value if clock_def else 999
+                entry["value"] = min(new_val, max_v)
             if update.get("active") is not None:
                 entry["active"] = bool(update.get("active"))
+            if update.get("discovered") is True:
+                entry["discovered"] = True
             rt.clock_runtime[cid] = entry
     for key, value in list(rt.pressure_runtime.items()):
         entry = dict(value or {})
@@ -1291,6 +1326,8 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     }
     if game_state.map_state:
         resp["map_state"] = game_state.map_state.model_dump()
+    if game_state.adventure_runtime:
+        resp["clocks_data"] = _build_clocks_data(game_state.adventure_runtime, game_state.adventure_runtime_state)
     return resp
 
 @app.post("/game/master/turn-bible")
@@ -1357,6 +1394,9 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         game_state.map_state = _build_map_from_definition(game_state.adventure_definition)
     if game_state.map_state:
         result["map_state"] = game_state.map_state.model_dump()
+    # Invia stato clock aggiornato al frontend
+    if game_state.adventure_runtime:
+        result["clocks_data"] = _build_clocks_data(game_state.adventure_runtime, game_state.adventure_runtime_state)
     _sync_runtime_state_from_updates(su, result.get("narrative", ""))
 
     # Valutazione vittorie personali quando la storia finisce

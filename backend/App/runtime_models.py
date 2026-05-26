@@ -144,6 +144,13 @@ class EventClock(BaseModel):
     active: bool = True
     on_complete: str = ""
     steps: List[Dict] = []
+    # Discovery: il clock esiste dal turno 1 ma è visibile ai giocatori solo dopo scoperta
+    discovered: bool = False          # True = i giocatori sanno che esiste
+    discovery_clue_id: str = ""       # id dell'indizio che rivela questo clock
+    discovery_hint: str = ""          # cosa il GM può narrare prima della scoperta (ambiguo)
+    ticks_per_failure: int = 1        # quanto avanza su fallimento (default 1)
+    ticks_per_partial: int = 1        # quanto avanza su successo parziale
+    ticks_per_success: int = 0        # quanto avanza su successo pieno (di solito 0)
     source_ref: Dict[str, Any] = {}
     source_status: SourceStatus = "generated"
     is_explicit_from_source: bool = False

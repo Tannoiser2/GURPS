@@ -109,33 +109,72 @@ def _npcs_to_introduce(runtime: AdventureRuntime, game_state_data: dict) -> list
     return [npc_id for _, npc_id in candidates[:1]]
 
 
-def _check_clock_triggers(runtime: AdventureRuntime, game_state_data: dict, clock_tick: int) -> list[dict]:
-    """Calcola quali clock raggiungono il massimo dopo i tick di questo turno."""
-    threat_level = int(game_state_data.get("threat_level") or 0)
+def _clock_runtime_value(clock_id: str, game_state_data: dict) -> int:
+    """Valore corrente del clock dal runtime (contatore proprio, indipendente da threat_level)."""
+    rt = game_state_data.get("clock_runtime") or {}
+    return int((rt.get(clock_id) or {}).get("value") or 0)
+
+
+def _clock_is_discovered(clock: AdventureRuntime, game_state_data: dict) -> bool:
+    """True se i giocatori sanno già di questo clock."""
+    if getattr(clock, "discovered", False):
+        return True
+    rt = game_state_data.get("clock_runtime") or {}
+    return bool((rt.get(clock.id) or {}).get("discovered", False))
+
+
+def _per_clock_ticks(runtime: AdventureRuntime, prerolled: dict) -> dict[str, int]:
+    """Calcola quanti tick avanza ogni clock singolo in base all'esito del tiro."""
+    success = bool(prerolled.get("success", True))
+    critical = bool(prerolled.get("critical", False))
+    margin = int(prerolled.get("margin", 0))
+    outcome = str(prerolled.get("outcome") or "").lower()
+    is_partial = "parziale" in outcome
+
+    result: dict[str, int] = {}
+    for clock in runtime.event_clocks:
+        if not clock.active:
+            continue
+        if not success:
+            base = getattr(clock, "ticks_per_failure", 1)
+            result[clock.id] = base + 1 if (critical or margin <= -5) else base
+        elif is_partial:
+            result[clock.id] = getattr(clock, "ticks_per_partial", 1)
+        else:
+            result[clock.id] = getattr(clock, "ticks_per_success", 0)
+    return result
+
+
+def _check_clock_triggers(runtime: AdventureRuntime, game_state_data: dict, per_clock_ticks: dict[str, int]) -> list[dict]:
+    """Calcola quali clock raggiungono il massimo dopo i tick di questo turno (contatori propri)."""
     triggers = []
     for clock in runtime.event_clocks:
         if not clock.active:
             continue
-        new_value = threat_level + clock_tick
-        if new_value >= clock.max_value > threat_level:
+        current = _clock_runtime_value(clock.id, game_state_data)
+        tick = per_clock_ticks.get(clock.id, 0)
+        new_value = current + tick
+        if new_value >= clock.max_value > current:
             triggers.append({
                 "clock_id": clock.id,
                 "label": clock.label,
                 "consequence": clock.consequence,
                 "on_complete": clock.on_complete,
+                "discovered": _clock_is_discovered(clock, game_state_data),
             })
     return triggers
 
 
-def _clock_step_reactions(runtime: AdventureRuntime, game_state_data: dict, clock_tick: int) -> list[dict]:
-    if clock_tick <= 0:
-        return []
-    threat_level = int(game_state_data.get("threat_level") or 0)
+def _clock_step_reactions(runtime: AdventureRuntime, game_state_data: dict, per_clock_ticks: dict[str, int]) -> list[dict]:
     reactions = []
     for clock in runtime.event_clocks:
         if not clock.active or not clock.steps:
             continue
-        for value in range(threat_level + 1, min(threat_level + clock_tick, clock.max_value) + 1):
+        current = _clock_runtime_value(clock.id, game_state_data)
+        tick = per_clock_ticks.get(clock.id, 0)
+        if tick <= 0:
+            continue
+        for value in range(current + 1, min(current + tick, clock.max_value) + 1):
             step = next((s for s in clock.steps if int(s.get("step") or 0) == value), None)
             if not step:
                 continue
@@ -143,11 +182,32 @@ def _clock_step_reactions(runtime: AdventureRuntime, game_state_data: dict, cloc
                 "clock_id": clock.id,
                 "clock_label": clock.label,
                 "step": value,
+                "discovered": _clock_is_discovered(clock, game_state_data),
                 "world_state_change": step.get("world_state_change") or step.get("event") or "",
                 "scene_prompt": step.get("scene_prompt") or "",
                 "possible_player_response": step.get("possible_player_response") or "",
             })
     return reactions
+
+
+def _auto_discover_clocks(runtime: AdventureRuntime, game_state_data: dict, just_found_clues: list[str]) -> list[dict]:
+    """Se un indizio appena trovato è la chiave di scoperta di un clock, lo svela ai giocatori."""
+    just_found = set(just_found_clues)
+    discoveries = []
+    for clock in runtime.event_clocks:
+        if not clock.active or _clock_is_discovered(clock, game_state_data):
+            continue
+        disc_clue = getattr(clock, "discovery_clue_id", "") or ""
+        if disc_clue and disc_clue in just_found:
+            discoveries.append({
+                "clock_id": clock.id,
+                "label": clock.label,
+                "current_value": _clock_runtime_value(clock.id, game_state_data),
+                "max_value": clock.max_value,
+                "consequence": clock.consequence,
+                "discovery_clue_id": disc_clue,
+            })
+    return discoveries
 
 
 def simulate_world_state(
@@ -163,11 +223,14 @@ def simulate_world_state(
     outcome = str(prerolled.get("outcome") or "").lower()
     skill = str(prerolled.get("skill") or "")
 
+    # Per compatibilità: _compute_clock_tick dà il tick "generico" usato da threat_level
     clock_tick = _compute_clock_tick(prerolled)
+    # Clock indipendenti: ogni clock ha il proprio contatore
+    per_clock = _per_clock_ticks(runtime, prerolled)
     clue_id, clue_reason = _select_clue(runtime, game_state_data, player_action, skill, success)
     npcs_to_introduce = _npcs_to_introduce(runtime, game_state_data)
-    clock_triggers = _check_clock_triggers(runtime, game_state_data, clock_tick)
-    clock_step_reactions = _clock_step_reactions(runtime, game_state_data, clock_tick)
+    clock_triggers = _check_clock_triggers(runtime, game_state_data, per_clock)
+    clock_step_reactions = _clock_step_reactions(runtime, game_state_data, per_clock)
 
     progress = game_state_data.get("clue_progress") or {}
     found = set(game_state_data.get("clues_found") or [])
@@ -188,6 +251,9 @@ def simulate_world_state(
             })
 
     found_after = found | set(clues_found_update)
+    # Scoperta automatica di clock: se un indizio trovato ora svela un clock nascosto
+    newly_discovered_clocks = _auto_discover_clocks(runtime, game_state_data, clues_found_update)
+
     ready = []
     for rev in runtime.revelations:
         if rev.status == "revealed" or not rev.required_clues:
@@ -210,10 +276,26 @@ def simulate_world_state(
             events.append(f"Indizio [{clue_id}] avanza di 1 tick: progresso parziale, non ancora prova.")
     if npcs_to_introduce:
         events.append(f"NPC da introdurre in questa scena: {', '.join(npcs_to_introduce)}.")
+    for disc in newly_discovered_clocks:
+        remaining = disc["max_value"] - disc["current_value"]
+        events.append(
+            f"CLOCK SVELATO [{disc['label']}]: i giocatori scoprono che esiste questo conto alla rovescia. "
+            f"Valore attuale {disc['current_value']}/{disc['max_value']} — restano {remaining} segmenti prima che: {disc['consequence']}. "
+            "Narra la rivelazione in modo drammatico."
+        )
     for t in clock_triggers:
-        events.append(f"CLOCK COMPLETO [{t['label']}]: {t['consequence'] or t['on_complete']}.")
+        if t.get("discovered"):
+            events.append(f"CLOCK COMPLETO [{t['label']}] (noto ai giocatori): {t['consequence'] or t['on_complete']}.")
+        else:
+            events.append(f"CLOCK COMPLETO [{t['label']}] (silente — i giocatori non sapevano): {t['consequence'] or t['on_complete']}. Narra la conseguenza come evento improvviso, non come 'countdown scaduto'.")
     for reaction in clock_step_reactions:
-        events.append(f"CLOCK STEP [{reaction['clock_label']} {reaction['step']}]: {reaction['world_state_change']}.")
+        if reaction.get("discovered"):
+            events.append(f"CLOCK STEP [{reaction['clock_label']} {reaction['step']}]: {reaction['world_state_change']}.")
+        else:
+            # Clock nascosto: dai solo il segnale ambiguo dal campo discovery_hint o scene_prompt
+            hint = reaction.get("scene_prompt") or reaction.get("world_state_change") or ""
+            if hint:
+                events.append(f"SEGNALE AMBIGUO (clock nascosto {reaction['clock_label']}): {hint} — narra in modo misterioso, senza rivelare il clock.")
     if ready:
         events.append(f"Piste pronte alla deduzione: {', '.join(ready)}.")
     actor_agendas = [
@@ -262,6 +344,22 @@ def simulate_world_state(
             })
             break
 
+    # Costruisce clock_updates: avanza il valore di ogni clock nel runtime
+    clock_updates = []
+    for clock in runtime.event_clocks:
+        if not clock.active:
+            continue
+        tick = per_clock.get(clock.id, 0)
+        current = _clock_runtime_value(clock.id, game_state_data)
+        entry: dict = {"id": clock.id, "delta": tick}
+        # Segna come scoperto se appena svelato
+        if any(d["clock_id"] == clock.id for d in newly_discovered_clocks):
+            entry["discovered"] = True
+        clock_updates.append(entry)
+
+    def _clock_display_value(c) -> int:
+        return _clock_runtime_value(c.id, game_state_data)
+
     return {
         "proposed_updates": {
             "clue_progress": clue_progress_update,
@@ -270,18 +368,25 @@ def simulate_world_state(
             "new_threads": [],
             "closed_threads": [],
             "threat_increase": clock_tick,
+            "clock_updates": clock_updates,
             "location_access": [],
             "objective_progress": 0,
         },
         "events": events,
         "ready_threads": ready,
-        "clock_summary": "; ".join(f"{c.label} {c.value}/{c.max_value}" for c in runtime.event_clocks),
+        "clock_summary": "; ".join(
+            f"{c.label} {_clock_display_value(c)}/{c.max_value}"
+            + (" [scoperto]" if _clock_is_discovered(c, game_state_data) else " [nascosto]")
+            for c in runtime.event_clocks
+        ),
         # Campi strutturati per il director
         "clock_tick": clock_tick,
+        "per_clock_ticks": per_clock,
         "selected_clue_id": clue_id,
         "selected_clue_reason": clue_reason,
         "npcs_to_introduce": npcs_to_introduce,
         "clock_triggers": clock_triggers,
         "clock_step_reactions": clock_step_reactions,
         "world_reactions": world_reactions,
+        "newly_discovered_clocks": newly_discovered_clocks,
     }
