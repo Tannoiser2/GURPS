@@ -243,6 +243,8 @@ def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
         max_tokens=max_tokens,
         messages=[{"role": "user", "content": prompt}],
     )
+    if not response.content:
+        raise RuntimeError("Claude API ha restituito una risposta vuota (content=[])")
     return response.content[0].text
 
 
@@ -4835,7 +4837,7 @@ OUTPUT JSON SHAPE:
   "clues": [{{"id":"clue_1","label":"specific clue","type":"physical_evidence|testimony|document|behavior|location_detail|contradiction","thread_id":"T1","source_location":"specific location","reveals":"what it reveals","payoff":"what it enables","revelation_ids":["rev_1"],"is_required":true,"source_status":"explicit","is_preserved_from_pdf":true}}],
   "actors": [{{"id":"actor_1","name":"name","role":"antagonist|ally|witness|neutral","location_id":"loc_1","goal":"goal","secret":"secret or useful knowledge","fear":"fear","current_plan":"operational plan","fallback_plan":"fallback plan","resources":["resource"],"knows":["information"],"wants":["want"],"avoids":["avoid"],"pressure_response":{{"low":"response","medium":"response","high":"response","critical":"response"}},"source_status":"explicit","is_preserved_from_pdf":true}}],
   "locations": [{{"id":"loc_1","name":"name","description":"module-accurate description","type":"room|site|region","access_state":"open|locked|hidden|blocked","visual_identity":"specific visual identity","gameplay_function":"what players do here","concrete_features":["usable feature"],"hazards":["hazard"],"exits":["exit"],"locked_paths":["locked path"],"clue_slots":["clue_1"],"tactical_features":["feature"],"tactical_map":{{"enabled":false}},"source_status":"explicit","is_preserved_from_pdf":true}}],
-  "event_clocks": [{{"id":"clock_1","label":"clock","progress":0,"max":6,"on_complete":"consequence","steps":[{{"step":1,"world_state_change":"change","scene_prompt":"visible sign","possible_player_response":"response"}}]}}],
+  "event_clocks": [{{"id":"clock_1","label":"clock","clock_type":"narrative|terminal_defeat|terminal_victory|escalation","progress":0,"max":6,"on_complete":"consequence in italiano","resolution_clues":["clue_id_needed_to_stop_clock"],"resolution_condition":"come i giocatori fermano questo clock","discovery_clue_id":"clue_id_that_reveals_this_clock_exists","discovery_hint":"segnale ambiguo prima della scoperta","steps":[{{"step":1,"world_state_change":"change","scene_prompt":"visible sign","possible_player_response":"response"}}]}}],
   "finale_conditions": [{{"id":"finale_1","label":"final condition","depends_on":["obj_1"],"required_clues":["clue_1"],"method":"concrete method","concrete_choice":"player-facing choice"}}],
   "genre_runtime": {{"routes":[],"safe_nodes":[],"maps":[],"special_items":[]}},
   "suggestions": ["uncertain repair or missing source material"]
@@ -4997,7 +4999,7 @@ OUTPUT JSON SHAPE:
   "actors": [{{"id":"actor_1","name":"name","role":"antagonist|ally|witness|neutral","location_id":"loc_1","goal":"goal","secret":"secret","fear":"fear","current_plan":"current operational plan","fallback_plan":"fallback plan","resources":["concrete resource"],"knows":["useful information"],"wants":["want"],"avoids":["avoid"],"pressure_response":{{"low":"response","medium":"response","high":"response","critical":"response"}}}}],
   "factions": [],
   "locations": [{{"id":"loc_1","name":"name","description":"short","type":"room|site|region","access_state":"open","visual_identity":"specific visual identity","gameplay_function":"what players can do here","concrete_features":["usable feature"],"hazards":["hazard"],"exits":["exit"],"locked_paths":["locked path"],"clue_slots":["clue_1"],"tactical_features":["cover, choke point, elevation"],"tactical_map":{{"enabled":false}}}}],
-  "event_clocks": [{{"id":"clock_1","label":"clock","progress":0,"max":6,"on_complete":"consequence","steps":[{{"step":1,"world_state_change":"concrete change","scene_prompt":"what becomes visible","possible_player_response":"what players can do"}}]}}],
+  "event_clocks": [{{"id":"clock_1","label":"clock","clock_type":"narrative|terminal_defeat|terminal_victory|escalation","progress":0,"max":6,"on_complete":"consequence in italiano","resolution_clues":["clue_id_needed_to_stop_clock"],"resolution_condition":"come i giocatori fermano questo clock","discovery_clue_id":"clue_id_that_reveals_this_clock_exists","discovery_hint":"segnale ambiguo prima della scoperta","steps":[{{"step":1,"world_state_change":"concrete change","scene_prompt":"what becomes visible","possible_player_response":"what players can do"}}]}}],
   "pressure_systems": [],
   "resources": [],
   "finale_conditions": [{{"id":"finale_1","label":"finale condition","depends_on":["obj_1"],"required_clues":["clue_1"],"method":"concrete method","concrete_choice":"player-facing final choice"}}],
@@ -5012,7 +5014,9 @@ VALIDATION TARGETS
 - Every finale depends on objective/revelation/clock/state/flag.
 - Important NPCs have role, goal, current/possible location.
 - Locations have id, name, type, access_state.
-- Event clocks have max/progress/on_complete.
+- Event clocks have max/progress/on_complete and clock_type (narrative=world changes only, terminal_defeat=story_over+defeat, terminal_victory=story_over+victory, escalation=massive threat spike).
+- Terminal clocks (terminal_defeat/terminal_victory) MUST have resolution_clues listing the clue IDs players must find to stop them, and discovery_clue_id indicating which clue reveals the clock exists.
+- max for terminal clocks must be >= len(resolution_clues) + 2 to ensure players have time to resolve it.
 - Every clue is concrete: visible, physical/testimonial, in a precise location, and tied to possible player actions.
 - Major NPCs have operational agenda: goal, fear, current_plan, fallback_plan and pressure_response.
 - Locations have playable features, hazards, exits, clue slots and tactical features when useful.
@@ -5620,19 +5624,42 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     )
     result["state_updates"] = su
     if su.get("needs_alternative_narration"):
-        blocked = ", ".join(su.get("blocked_major_events") or su.get("blocked_state_updates") or ["evento maggiore"])
-        safe_progress = ""
+        actor_name = active.get("name", "il personaggio")
         if su.get("clue_progress"):
-            safe_progress = " Un dettaglio utile emerge, ma resta incompleto e dovra essere verificato."
+            safe_progress = f"{actor_name} nota qualcosa di interessante, ma non abbastanza da trarre conclusioni definitive — serve ancora verificare."
         elif su.get("npc_updates"):
-            safe_progress = " Qualcuno reagisce, cambia posizione o atteggiamento, aprendo una nuova possibilita concreta."
+            safe_progress = f"La mossa di {actor_name} produce una reazione: qualcuno cambia posizione, atteggiamento o intenzione, aprendo una nuova possibilità."
+        elif su.get("threat_increase"):
+            safe_progress = f"L'azione di {actor_name} agita le acque senza risolvere nulla — la tensione sale di un gradino."
         else:
-            safe_progress = " La pressione aumenta, ma la situazione resta giocabile e legata al canovaccio."
-        result["narrative"] = (
-            f"L'esito non puo far scattare {blocked}: manca un innesco esplicito o una condizione finale. "
-            f"L'azione di {active.get('name', 'chi agisce')} produce invece una conseguenza locale coerente con il tiro {{{{ROLL}}}}."
-            f"{safe_progress}"
-        )
+            safe_progress = f"{actor_name} ottiene un risultato parziale: la situazione si muove, ma l'esito finale resta aperto."
+        result["narrative"] = safe_progress
+    # Terminal clock override: if engine fired a terminal clock, force story_over regardless of AI decision
+    for trigger in simulation.get("clock_triggers") or []:
+        ctype = trigger.get("clock_type", "narrative")
+        if ctype == "terminal_defeat":
+            su["story_over"] = True
+            su["victory"] = False
+            if not su.get("end_reason"):
+                su["end_reason"] = f"Il clock '{trigger['label']}' si è completato: {trigger['consequence'] or trigger['on_complete']}. Il gruppo non è riuscito a fermare la minaccia in tempo."
+            break
+        elif ctype == "terminal_victory":
+            su["story_over"] = True
+            su["victory"] = True
+            if not su.get("end_reason"):
+                su["end_reason"] = f"Il clock '{trigger['label']}' ha raggiunto la condizione di vittoria: {trigger['consequence'] or trigger['on_complete']}."
+            break
+        elif ctype == "escalation":
+            su["threat_increase"] = max(int(su.get("threat_increase") or 0), 3)
+    # Auto-resolved terminal_victory: if all resolution_clues found for a terminal_victory clock, end with victory
+    for resolved in simulation.get("auto_resolved_clocks") or []:
+        if resolved.get("clock_type") == "terminal_victory" and not su.get("story_over"):
+            su["story_over"] = True
+            su["victory"] = True
+            if not su.get("end_reason"):
+                su["end_reason"] = f"Il gruppo ha trovato tutti gli indizi necessari e risolto il clock '{resolved['label']}'. L'avventura si conclude con la loro vittoria."
+            break
+    result["state_updates"] = su
     return result
 
 
@@ -5676,11 +5703,11 @@ Rispondi SOLO con questo JSON (nessun testo extra):
   ]
 }}"""
 
-    raw = _call_text_model(prompt, max_tokens=400)
     try:
+        raw = _call_text_model(prompt, max_tokens=400)
         data = _extract_json_object(raw)
         results = data.get("results", [])
         return {r["player_id"]: bool(r.get("achieved", False)) for r in results if "player_id" in r}
-    except Exception:
-        # Fallback: tutti raggiungono se vittoria di gruppo
+    except Exception as exc:
+        print(f"[evaluate_personal_victories] fallback (errore: {type(exc).__name__}: {exc})")
         return {p["id"]: group_victory for p in players}

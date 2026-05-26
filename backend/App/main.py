@@ -31,6 +31,7 @@ from .models import GameState, CombatDefenseRequest, CharacterDraft, SceneEntity
 from .runtime_models import AdventureDefinition, AdventureRuntimeState
 from .adventure_runtime_store import list_runtimes, load_runtime, save_runtime, update_runtime
 from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to_runtime
+from .adventure_validator import check_raw_compilation_quality
 from .scene_context import actions_for_scene
 
 app = FastAPI()
@@ -854,12 +855,16 @@ def _build_clocks_data(runtime, runtime_state) -> list[dict]:
         entry = dict(clock_rt.get(clock.id) or {})
         current_value = int(entry.get("value") or 0)
         is_discovered = clock.discovered or bool(entry.get("discovered", False))
+        is_resolved = getattr(clock, "resolved", False) or bool(entry.get("resolved", False))
         clocks.append({
             "id": clock.id,
             "label": clock.label,
             "value": current_value,
             "max_value": clock.max_value,
             "consequence": clock.consequence,
+            "clock_type": getattr(clock, "clock_type", "narrative") or "narrative",
+            "resolved": is_resolved,
+            "resolution_condition": getattr(clock, "resolution_condition", "") or "",
             "discovered": is_discovered,
             "discovery_hint": getattr(clock, "discovery_hint", "") or "",
             "active": bool(entry.get("active", clock.active)),
@@ -1215,14 +1220,18 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
                 entry["value"] = int(update.get("value") or 0)
             if update.get("delta") is not None:
                 new_val = int(entry.get("value") or 0) + int(update.get("delta") or 0)
-                # Trova max_value dalla definizione del clock
-                clock_def = next((c for c in (rt.event_clocks or []) if c.id == cid), None)
+                # Trova max_value dalla definizione del clock (sta su AdventureDefinition, non su RuntimeState)
+                _defn = game_state.adventure_definition
+                _defn_clocks = _defn.event_clocks if _defn else []
+                clock_def = next((c for c in (_defn_clocks or []) if c.id == cid), None)
                 max_v = clock_def.max_value if clock_def else 999
                 entry["value"] = min(new_val, max_v)
             if update.get("active") is not None:
                 entry["active"] = bool(update.get("active"))
             if update.get("discovered") is True:
                 entry["discovered"] = True
+            if update.get("resolved") is True:
+                entry["resolved"] = True
             rt.clock_runtime[cid] = entry
     for key, value in list(rt.pressure_runtime.items()):
         entry = dict(value or {})
@@ -2013,6 +2022,22 @@ async def adventure_from_pdf(
             runtime_profile_hint=None,
             title=file.filename or "Avventura da PDF",
         )
+
+        # ── Quality gate: blocca se la compilazione è chiaramente fallita ──
+        quality_gate = check_raw_compilation_quality(compiled.get("adventure_definition") or {})
+        print(f"[adventure/from-pdf] quality gate: passed={quality_gate['passed']} score={quality_gate['score']} critical={quality_gate['critical']}")
+        if not quality_gate["passed"]:
+            issues = "; ".join(quality_gate["critical"])
+            return {
+                "error": f"Compilazione fallita: il PDF non ha prodotto un'avventura giocabile. Problemi rilevati: {issues}",
+                "quality_gate": quality_gate,
+                "compilation_failed": True,
+            }
+
+        if compiled.get("validation_report") is None:
+            compiled["validation_report"] = {}
+        compiled["validation_report"]["quality_gate"] = quality_gate
+
         definition = AdventureDefinition(**compiled["adventure_definition"])
         runtime_state = AdventureRuntimeState(**compiled["runtime_state"])
         saved = save_runtime(definition, runtime_state, compiled["validation_report"])

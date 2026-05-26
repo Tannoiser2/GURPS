@@ -10,10 +10,13 @@ from .llm_classifier import classify_adventure_metadata
 from .llm_extractors import (
     build_deduction_graph_with_llm,
     enrich_actors_with_llm,
+    extract_actors_with_llm,
+    extract_clocks_with_llm,
     extract_clues_with_llm,
     extract_factions_with_llm,
     extract_finale_conditions_with_llm,
     extract_location_connections_with_llm,
+    extract_locations_with_llm,
     synthesize_narrative_with_llm,
 )
 from .narrative_archetypes import get_archetype
@@ -492,14 +495,34 @@ def definition_from_compiler_json(raw: dict, *, source_type: str, title: str = "
 
     clocks = []
     for idx, clock in enumerate(raw.get("event_clocks") or [], start=1):
+        clock_type = str(clock.get("clock_type") or "narrative")
+        resolution_clues = list(clock.get("resolution_clues") or [])
+        auto_balance = bool(clock.get("auto_balance", True))
+        # Default max più alto per clocks terminali: danno più respiro all'avventura
+        _default_max = 10 if clock_type in ("terminal_defeat", "terminal_victory") else 6
+        declared_max = max(1, int(clock.get("max_value") or clock.get("max") or _default_max))
+        # Auto-balance: max_value must be >= resolution_clues count + 2 buffer
+        # so players always have enough turns to resolve the clock before it fires
+        if auto_balance and resolution_clues:
+            declared_max = max(declared_max, len(resolution_clues) + 2)
         clocks.append(EventClock(
             id=clock.get("id") or _id("clock", clock.get("label") or "clock", idx),
             label=clock.get("label") or clock.get("name") or "Clock",
             value=int(clock.get("value") or clock.get("progress") or 0),
-            max_value=max(1, int(clock.get("max_value") or clock.get("max") or 6)),
+            max_value=declared_max,
             consequence=clock.get("consequence") or clock.get("on_complete") or "",
             on_complete=clock.get("on_complete") or clock.get("consequence") or "",
             steps=list(clock.get("steps") or []),
+            clock_type=clock_type,
+            resolution_clues=resolution_clues,
+            resolution_condition=str(clock.get("resolution_condition") or ""),
+            auto_balance=auto_balance,
+            discovery_clue_id=str(clock.get("discovery_clue_id") or ""),
+            discovery_hint=str(clock.get("discovery_hint") or ""),
+            ticks_per_failure=int(clock.get("ticks_per_failure") or 1),
+            # escalation avanza anche sui parziali (è la sua natura); terminali solo sui fallimenti
+            ticks_per_partial=int(clock.get("ticks_per_partial") if clock.get("ticks_per_partial") is not None else (1 if clock_type == "escalation" else 0)),
+            ticks_per_success=int(clock.get("ticks_per_success") or 0),
             source_ref=dict(clock.get("source_ref") or {}),
             source_status=clock.get("source_status") if clock.get("source_status") in {"explicit", "inferred", "suggested", "generated"} else ("explicit" if clock.get("is_explicit_from_source") else "generated"),
             is_explicit_from_source=bool(clock.get("is_explicit_from_source", False)),
@@ -951,6 +974,13 @@ def _compile_pdf_structure_to_runtime(
         counts = dict(structure.get("counts") or {})
         counts["clues"] = len(enriched_clues)
         structure["counts"] = counts
+    heuristic_actors = list((structure or {}).get("npcs") or [])
+    if len(heuristic_actors) < 2:
+        # Heuristic trovato troppo poco: chiedi al LLM di estrarre da zero
+        extracted_actors = extract_actors_with_llm(text, title=title)
+        if extracted_actors is not None:
+            structure = dict(structure)
+            structure["npcs"] = extracted_actors
     enriched_actors = enrich_actors_with_llm(text, structure, title=title)
     if enriched_actors is not None:
         structure = dict(structure)
@@ -959,6 +989,11 @@ def _compile_pdf_structure_to_runtime(
     if deduction_revelations is not None:
         structure = dict(structure)
         structure["revelations"] = deduction_revelations
+    # P4b: estrazione clock semantici (clock_type, resolution_clues, discovery_clue_id)
+    enriched_clocks = extract_clocks_with_llm(text, structure, title=title)
+    if enriched_clocks is not None:
+        structure = dict(structure)
+        structure["event_clocks"] = enriched_clocks
     policy = build_preservation_policy("pdf_import", structure, archetype_profile)
     raw = build_shape_for_pdf_import(
         text or "",
@@ -1005,8 +1040,19 @@ def _compile_pdf_structure_to_runtime(
         raw["finale_conditions"] = finale_from_source
     if llm_meta.get("tone"):
         raw["tone"] = llm_meta["tone"]
-    # P6 (Livello B): collegamenti reali tra locazioni dal testo PDF
+    # P6a: se tutte le location sono generiche, estrai da zero con LLM
     _raw_locs = raw.get("locations") or []
+    import re as _re
+    _generic_id_re = _re.compile(r'^p\d+_room_\d+$|^room_\d+$|^section_\d+$|^loc_\d+$|^area_\d+$')
+    _n_generic = sum(1 for l in _raw_locs if isinstance(l, dict) and _generic_id_re.match(str(l.get("id") or "")))
+    if _raw_locs and _n_generic == len(_raw_locs):
+        print(f"[compiler] tutte le {len(_raw_locs)} location sono generiche → estrazione LLM")
+        llm_locs = extract_locations_with_llm(text, title=title)
+        if llm_locs:
+            raw["locations"] = llm_locs
+            _raw_locs = llm_locs
+            print(f"[compiler] LLM ha estratto {len(llm_locs)} location con nome")
+    # P6 (Livello B): collegamenti reali tra locazioni dal testo PDF
     loc_connections = extract_location_connections_with_llm(text, _raw_locs, title=title)
     if loc_connections:
         _name_to_idx = {str(l.get("name") or ""): i for i, l in enumerate(_raw_locs) if isinstance(l, dict)}
@@ -1070,6 +1116,13 @@ def compile_structured_text_to_runtime(text: str, *, title: str = "", genre_hint
         counts = dict(structure.get("counts") or {})
         counts["clues"] = len(enriched_clues)
         structure["counts"] = counts
+    heuristic_actors = list((structure or {}).get("npcs") or [])
+    if len(heuristic_actors) < 2:
+        # Heuristic trovato troppo poco: chiedi al LLM di estrarre da zero
+        extracted_actors = extract_actors_with_llm(text, title=title)
+        if extracted_actors is not None:
+            structure = dict(structure)
+            structure["npcs"] = extracted_actors
     enriched_actors = enrich_actors_with_llm(text, structure, title=title)
     if enriched_actors is not None:
         structure = dict(structure)

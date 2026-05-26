@@ -229,6 +229,8 @@ def build_shape_for_pdf_import(
     gm_notes = extracted_structure.get("gm_notes") or []
     sections = extracted_structure.get("sections") or []
     source_cards = extracted_structure.get("source_cards") or []
+    # Clock già estratti da LLM (con clock_type, resolution_clues, ecc.)
+    llm_clocks = extracted_structure.get("event_clocks") or []
     actor_name_set = {
         str((npc.get("label") or npc.get("name") or "")).strip().lower()
         for npc in (npcs or [])
@@ -504,7 +506,10 @@ def build_shape_for_pdf_import(
         })
 
     event_clocks = []
-    if events:
+    # Se LLM ha estratto clock semantici, usali direttamente — non fare il fallback euristico
+    if llm_clocks:
+        event_clocks = llm_clocks
+    elif events:
         event_clocks.append({
             "id": "clock_timeline_pdf",
             "label": "Timeline del modulo",

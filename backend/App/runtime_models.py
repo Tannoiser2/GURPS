@@ -139,18 +139,31 @@ class EventClock(BaseModel):
     id: str
     label: str
     value: int = 0
-    max_value: int = 6
+    max_value: int = 8
     consequence: str = ""
     active: bool = True
     on_complete: str = ""
     steps: List[Dict] = []
+    # Tipo: determina cosa succede quando il clock completa
+    clock_type: str = "narrative"
+    # "narrative"        → il mondo cambia (NPC fugge, documento bruciato, ecc.) ma l'avventura continua
+    # "terminal_defeat"  → story_over=true, victory=false
+    # "terminal_victory" → story_over=true, victory=true
+    # "escalation"       → aumento massiccio threat_level, non termina
+    # Risoluzione: come i giocatori fermano questo clock
+    resolution_clues: List[str] = []    # ID indizi che, trovati tutti, fermano/pausano il clock
+    resolution_condition: str = ""      # descrizione leggibile di come fermarlo
+    resolved: bool = False              # True = giocatori l'hanno fermato in tempo
+    # Auto-bilanciamento: max_value >= len(resolution_clues) + buffer
+    auto_balance: bool = True
+    _balance_buffer: int = 2            # turni extra oltre il percorso minimo
     # Discovery: il clock esiste dal turno 1 ma è visibile ai giocatori solo dopo scoperta
-    discovered: bool = False          # True = i giocatori sanno che esiste
-    discovery_clue_id: str = ""       # id dell'indizio che rivela questo clock
-    discovery_hint: str = ""          # cosa il GM può narrare prima della scoperta (ambiguo)
-    ticks_per_failure: int = 1        # quanto avanza su fallimento (default 1)
-    ticks_per_partial: int = 1        # quanto avanza su successo parziale
-    ticks_per_success: int = 0        # quanto avanza su successo pieno (di solito 0)
+    discovered: bool = False            # True = i giocatori sanno che esiste
+    discovery_clue_id: str = ""         # id dell'indizio che rivela questo clock
+    discovery_hint: str = ""            # cosa il GM può narrare prima (ambiguo)
+    ticks_per_failure: int = 1
+    ticks_per_partial: int = 0   # parziale = hai agito, ma con complicazioni → non avanza il pericolo
+    ticks_per_success: int = 0
     source_ref: Dict[str, Any] = {}
     source_status: SourceStatus = "generated"
     is_explicit_from_source: bool = False

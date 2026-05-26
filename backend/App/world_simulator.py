@@ -20,16 +20,15 @@ def _action_is_investigative(player_action: str, skill: str = "") -> bool:
 
 
 def _compute_clock_tick(prerolled: dict) -> int:
-    """Quanti tick avanza il clock questo turno — decisione del motore, non dell'AI."""
+    """Quanti tick avanza il threat_level questo turno.
+    Solo i fallimenti fanno avanzare la pressione: il successo parziale è
+    'ce l'hai fatta con complicazioni', non un fallimento."""
     success = bool(prerolled.get("success", True))
     margin = int(prerolled.get("margin", 0))
-    outcome = str(prerolled.get("outcome") or "").lower()
     critical = bool(prerolled.get("critical", False))
 
     if not success:
         return 2 if (critical or margin <= -5) else 1
-    if "parziale" in outcome:
-        return 1
     return 0
 
 
@@ -145,11 +144,21 @@ def _per_clock_ticks(runtime: AdventureRuntime, prerolled: dict) -> dict[str, in
     return result
 
 
+def _clock_is_resolved(clock, game_state_data: dict) -> bool:
+    """True se i giocatori hanno già risolto questo clock trovando tutti gli indizi di risoluzione."""
+    if getattr(clock, "resolved", False):
+        return True
+    rt = game_state_data.get("clock_runtime") or {}
+    return bool((rt.get(clock.id) or {}).get("resolved", False))
+
+
 def _check_clock_triggers(runtime: AdventureRuntime, game_state_data: dict, per_clock_ticks: dict[str, int]) -> list[dict]:
     """Calcola quali clock raggiungono il massimo dopo i tick di questo turno (contatori propri)."""
     triggers = []
     for clock in runtime.event_clocks:
         if not clock.active:
+            continue
+        if _clock_is_resolved(clock, game_state_data):
             continue
         current = _clock_runtime_value(clock.id, game_state_data)
         tick = per_clock_ticks.get(clock.id, 0)
@@ -161,6 +170,7 @@ def _check_clock_triggers(runtime: AdventureRuntime, game_state_data: dict, per_
                 "consequence": clock.consequence,
                 "on_complete": clock.on_complete,
                 "discovered": _clock_is_discovered(clock, game_state_data),
+                "clock_type": getattr(clock, "clock_type", "narrative"),
             })
     return triggers
 
@@ -253,6 +263,19 @@ def simulate_world_state(
     found_after = found | set(clues_found_update)
     # Scoperta automatica di clock: se un indizio trovato ora svela un clock nascosto
     newly_discovered_clocks = _auto_discover_clocks(runtime, game_state_data, clues_found_update)
+    # Auto-risoluzione: se tutti gli indizi di risoluzione di un clock sono stati trovati, il clock si ferma
+    auto_resolved_clocks: list[dict] = []
+    for clock in runtime.event_clocks:
+        if not clock.active or _clock_is_resolved(clock, game_state_data):
+            continue
+        res_clues = getattr(clock, "resolution_clues", []) or []
+        if res_clues and all(cid in found_after for cid in res_clues):
+            auto_resolved_clocks.append({
+                "clock_id": clock.id,
+                "label": clock.label,
+                "clock_type": getattr(clock, "clock_type", "narrative"),
+                "resolution_condition": getattr(clock, "resolution_condition", "") or "",
+            })
 
     ready = []
     for rev in runtime.revelations:
@@ -276,6 +299,15 @@ def simulate_world_state(
             events.append(f"Indizio [{clue_id}] avanza di 1 tick: progresso parziale, non ancora prova.")
     if npcs_to_introduce:
         events.append(f"NPC da introdurre in questa scena: {', '.join(npcs_to_introduce)}.")
+    for r in auto_resolved_clocks:
+        ctype = r.get("clock_type", "narrative")
+        cond = r.get("resolution_condition") or "trovando tutti gli indizi necessari"
+        if ctype == "terminal_defeat":
+            events.append(f"CLOCK SVENTATO [{r['label']}] (terminal_defeat): i giocatori hanno trovato tutti gli indizi e fermato il conto alla rovescia in tempo! Narra la risoluzione drammatica come salvezza all'ultimo momento.")
+        elif ctype == "terminal_victory":
+            events.append(f"CLOCK COMPLETATO CON VITTORIA [{r['label']}]: i giocatori hanno raggiunto la condizione di vittoria ({cond}). L'avventura si conclude con il loro trionfo.")
+        else:
+            events.append(f"CLOCK RISOLTO [{r['label']}]: i giocatori hanno fermato questo conto alla rovescia ({cond}). Il pericolo immediato passa.")
     for disc in newly_discovered_clocks:
         remaining = disc["max_value"] - disc["current_value"]
         events.append(
@@ -284,7 +316,14 @@ def simulate_world_state(
             "Narra la rivelazione in modo drammatico."
         )
     for t in clock_triggers:
-        if t.get("discovered"):
+        ctype = t.get("clock_type", "narrative")
+        if ctype == "terminal_defeat":
+            events.append(f"CLOCK TERMINALE [{t['label']}] — SCONFITTA: {t['consequence'] or t['on_complete']}. Questo è l'ultimo turno dell'avventura. story_over=true, victory=false.")
+        elif ctype == "terminal_victory":
+            events.append(f"CLOCK TERMINALE [{t['label']}] — VITTORIA: {t['consequence'] or t['on_complete']}. Questo è l'ultimo turno dell'avventura. story_over=true, victory=true.")
+        elif ctype == "escalation":
+            events.append(f"CLOCK ESCALATION [{t['label']}]: {t['consequence'] or t['on_complete']}. La minaccia scala massivamente — threat_increase +3.")
+        elif t.get("discovered"):
             events.append(f"CLOCK COMPLETO [{t['label']}] (noto ai giocatori): {t['consequence'] or t['on_complete']}.")
         else:
             events.append(f"CLOCK COMPLETO [{t['label']}] (silente — i giocatori non sapevano): {t['consequence'] or t['on_complete']}. Narra la conseguenza come evento improvviso, non come 'countdown scaduto'.")
@@ -345,6 +384,7 @@ def simulate_world_state(
             break
 
     # Costruisce clock_updates: avanza il valore di ogni clock nel runtime
+    auto_resolved_ids = {r["clock_id"] for r in auto_resolved_clocks}
     clock_updates = []
     for clock in runtime.event_clocks:
         if not clock.active:
@@ -352,9 +392,10 @@ def simulate_world_state(
         tick = per_clock.get(clock.id, 0)
         current = _clock_runtime_value(clock.id, game_state_data)
         entry: dict = {"id": clock.id, "delta": tick}
-        # Segna come scoperto se appena svelato
         if any(d["clock_id"] == clock.id for d in newly_discovered_clocks):
             entry["discovered"] = True
+        if clock.id in auto_resolved_ids:
+            entry["resolved"] = True
         clock_updates.append(entry)
 
     def _clock_display_value(c) -> int:
@@ -389,4 +430,5 @@ def simulate_world_state(
         "clock_step_reactions": clock_step_reactions,
         "world_reactions": world_reactions,
         "newly_discovered_clocks": newly_discovered_clocks,
+        "auto_resolved_clocks": auto_resolved_clocks,
     }

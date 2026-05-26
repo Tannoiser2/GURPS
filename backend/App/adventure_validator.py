@@ -1,6 +1,15 @@
 from __future__ import annotations
 
+import re
 from .runtime_models import AdventureDefinition
+
+# ── Patterns per il quality gate ──────────────────────────────────────────────
+_OCR_STAT_RE = re.compile(
+    r'\b(AC\s*[:=]\s*\d|HD\s*[:=]\s*\d|AT\s*[:=]|HP\s*[:=]\s*\d|MV\s*[:=]\s*\d|THAC0|thac0|D\s*[:=]\s*\d-\d)',
+    re.IGNORECASE,
+)
+_OCR_GARBAGE_RE = re.compile(r'[~□■●▪]|ln ~|[^\x09\x0a\x0d\x20-\x7e\x80-\xff]')
+_GENERIC_LOC_ID_RE = re.compile(r'^p\d+_room_\d+$|^room_\d+$|^section_\d+$|^loc_\d+$|^area_\d+$')
 
 
 def _score(parts: list[bool]) -> int:
@@ -266,4 +275,144 @@ def _validate_adventure_definition(definition: AdventureDefinition, *, mode: str
             "clues": len(clue_ids),
             "revelations": len(revelation_ids),
         },
+    }
+
+
+def check_raw_compilation_quality(defn) -> dict:
+    """Quality gate su adventure_definition (dict grezzo O oggetto AdventureDefinition).
+    Rileva compilazioni fallite prima del salvataggio.
+    Ritorna {"passed": bool, "blocking": bool, "critical": [...], "warnings": [...]}
+    """
+    critical: list[str] = []
+    warnings_: list[str] = []
+
+    # Normalizza: Pydantic model → estrai attributi; dict → usa .get()
+    if isinstance(defn, dict):
+        clues = defn.get("clues") or []
+        actors = defn.get("actors") or []
+        locations = defn.get("locations") or []
+        threads = defn.get("story_threads") or []
+        clocks = defn.get("event_clocks") or []
+        finales = defn.get("finale_conditions") or []
+        title = str(defn.get("title") or "")
+        player_obj = str(defn.get("player_facing_objective") or "").strip()
+        # Per i dict raw, la label clue è in c.get("label") o c.get("id")
+        def _clue_label(c): return str(c.get("label") or c.get("id") or "")
+        def _clue_id(c): return str(c.get("id") or "")
+        def _loc_id(l): return str(l.get("id") or "")
+        def _clock_label(cl): return str(cl.get("label") or cl.get("id") or "")
+        def _clock_steps(cl): return cl.get("steps") or []
+    else:
+        # AdventureDefinition Pydantic model
+        clues = list(defn.clues or [])
+        actors = list(defn.actors or [])
+        locations = list(defn.locations or [])
+        # story_threads su Pydantic = revelations (una per thread)
+        threads = list(defn.revelations or [])
+        clocks = list(defn.event_clocks or [])
+        finales = list(defn.finale_conditions or [])
+        title = str(defn.title or "")
+        player_obj = str((defn.objectives[0].label if defn.objectives else "") or "").strip()
+        def _clue_label(c): return str(getattr(c, "label", "") or getattr(c, "id", "") or "")
+        def _clue_id(c): return str(getattr(c, "id", "") or "")
+        def _loc_id(l): return str(getattr(l, "id", "") or "")
+        def _clock_label(cl): return str(getattr(cl, "label", "") or getattr(cl, "id", "") or "")
+        def _clock_steps(cl): return list(getattr(cl, "steps", None) or [])
+
+    # ── 1. Conteggio clue ───────────────────────────────────────────────────
+    n_clues = len(clues)
+    if n_clues == 0:
+        critical.append(
+            "Nessun indizio estratto: il compilatore non ha trovato contenuto narrativo utile."
+        )
+    elif n_clues < 4:
+        critical.append(
+            f"Solo {n_clues} indizi estratti (minimo 4). "
+            "L'estrazione è fallita o il PDF non era leggibile."
+        )
+
+    # ── 2. OCR / stat-block nelle label dei clue ────────────────────────────
+    garbage_clues = []
+    for c in clues:
+        label = _clue_label(c)
+        if _OCR_STAT_RE.search(label) or _OCR_GARBAGE_RE.search(label):
+            garbage_clues.append(_clue_id(c) or "?")
+    if garbage_clues:
+        critical.append(
+            f"Indizi con contenuto OCR non valido (stat block o caratteri corrotti): "
+            f"{', '.join(garbage_clues[:5])}. "
+            "Il testo del PDF non è stato estratto correttamente."
+        )
+
+    # ── 3. Conteggio attori ─────────────────────────────────────────────────
+    n_actors = len(actors)
+    if n_actors == 0:
+        critical.append("Nessun NPC estratto: il compilatore non ha riconosciuto i personaggi.")
+    elif n_actors < 2:
+        warnings_.append(
+            f"Solo {n_actors} NPC estratto: idealmente un'avventura ne ha almeno 2-3. "
+            "L'estrazione potrebbe essere incompleta."
+        )
+
+    # ── 4. Location con ID generici/numerici ────────────────────────────────
+    if locations:
+        generic = [_loc_id(l) for l in locations if _GENERIC_LOC_ID_RE.match(_loc_id(l))]
+        generic_ratio = len(generic) / len(locations)
+        if generic_ratio == 1.0:
+            # Tutte generiche → blocco (non c'è nulla di reale)
+            critical.append(
+                f"Tutte le location hanno ID generici o numerici "
+                f"({', '.join(generic[:3])}{'...' if len(generic) > 3 else ''}): "
+                "il compilatore non ha estratto la mappa reale dell'avventura."
+            )
+        elif generic_ratio >= 0.6:
+            warnings_.append(
+                f"{len(generic)}/{len(locations)} location hanno ID generici "
+                f"({', '.join(generic[:3])}...): la mappa è estratta parzialmente."
+            )
+
+    # ── 5. Story threads ────────────────────────────────────────────────────
+    if len(threads) == 0:
+        critical.append(
+            "Nessun story thread: l'avventura non ha struttura narrativa riconoscibile. "
+            "I giocatori non avranno fili conduttori da seguire."
+        )
+
+    # ── 6. Titolo == nome file ──────────────────────────────────────────────
+    if title.lower().endswith(".pdf"):
+        warnings_.append(
+            f"Il titolo è il nome del file PDF ('{title}'): "
+            "il compilatore non ha estratto un titolo reale."
+        )
+
+    # ── 7. Obiettivo giocatori vuoto ────────────────────────────────────────
+    if not player_obj:
+        warnings_.append(
+            "Obiettivo visibile ai giocatori assente: "
+            "i giocatori non sapranno cosa fare all'inizio."
+        )
+
+    # ── 8. Nessun finale ────────────────────────────────────────────────────
+    if not finales:
+        warnings_.append(
+            "Nessuna condizione di finale: "
+            "i giocatori non sapranno mai quando hanno vinto."
+        )
+
+    # ── 9. Clock senza step ──────────────────────────────────────────────────
+    for cl in clocks:
+        if not _clock_steps(cl):
+            warnings_.append(
+                f"Clock '{_clock_label(cl)}' senza step operativi: "
+                "il GM non saprà cosa succede ad ogni tick."
+            )
+
+    blocking = len(critical) > 0
+    score = max(0, 100 - len(critical) * 25 - len(warnings_) * 8)
+    return {
+        "passed": not blocking,
+        "blocking": blocking,
+        "score": score,
+        "critical": critical,
+        "warnings": warnings_,
     }

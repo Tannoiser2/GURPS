@@ -1379,17 +1379,11 @@ function SetupScreen({ onStart }) {
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
   const [teamStarting, setTeamStarting] = useState(false);
+  const [jsonLoading, setJsonLoading] = useState(false);
+  const [jsonError, setJsonError] = useState("");
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfError, setPdfError] = useState("");
-  const [pdfMapPage, setPdfMapPage] = useState("");
   const [preloadedAdventure, setPreloadedAdventure] = useState(null);
-  const [runtimeCompilerOpen, setRuntimeCompilerOpen] = useState(false);
-  const [runtimeSource, setRuntimeSource] = useState("");
-  const [runtimeTitle, setRuntimeTitle] = useState("");
-  const [runtimeCompileResult, setRuntimeCompileResult] = useState(null);
-  const [runtimeCompileLoading, setRuntimeCompileLoading] = useState(false);
-  const [runtimeCompilePhase, setRuntimeCompilePhase] = useState("");
-  const [runtimeCompileError, setRuntimeCompileError] = useState("");
   const [hovered, setHovered] = useState(null);
   const [showBuilder, setShowBuilder] = useState(false);
   const [avatars, setAvatars] = useState({});
@@ -1403,52 +1397,42 @@ function SetupScreen({ onStart }) {
     }).catch(() => {});
   }, []);
 
-  async function handlePdfUpload(file) {
-    setPdfLoading(true); setPdfError(""); setPreloadedAdventure(null);
-    if (import.meta.env.PROD && file.size > VERCEL_PDF_UPLOAD_LIMIT_BYTES) {
-      const mb = (file.size / (1024 * 1024)).toFixed(1);
-      setPdfError(`PDF troppo grande per il deploy Vercel (${mb} MB). Limite pratico: circa 4 MB. Per PDF grandi usa il backend locale oppure carica una versione ridotta/estratta.`);
-      setPdfLoading(false);
-      return;
-    }
+  async function handleJsonLoad(file) {
+    setJsonLoading(true);
+    setJsonError("");
+    setPreloadedAdventure(null);
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 240000); // 4 minuti
     try {
-      const form = new FormData();
-      form.append("file", file);
-      form.append("genre", "auto");
-      form.append("players", JSON.stringify([]));
-      form.append("provider", provider);
-      if (pdfMapPage.trim()) form.append("map_page", pdfMapPage.trim());
-      const response = await fetch(`${API_URL}/game/adventure/from-pdf`, {
-        method: "POST", body: form, signal: controller.signal,
-      });
-      const contentType = response.headers.get("content-type") || "";
-      if (!response.ok) {
-        const body = await response.text().catch(() => "");
-        if (response.status === 413) {
-          throw new Error("PDF troppo grande per Vercel. Usa un file sotto circa 4 MB o avvia il backend locale.");
-        }
-        if (response.status === 504 || response.status === 503) {
-          throw new Error("Il server ha impiegato troppo tempo ad analizzare il PDF. Prova una versione più corta o usa il backend locale.");
-        }
-        throw new Error(`Errore server PDF (${response.status}). ${body.slice(0, 180)}`);
+      const text = await file.text();
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        throw new Error("File non valido: non è un JSON leggibile.");
       }
-      if (!contentType.includes("application/json")) {
-        const body = await response.text().catch(() => "");
-        throw new Error(`Risposta non valida dal server PDF. ${body.slice(0, 180)}`);
-      }
-      const res = await response.json();
-      clearTimeout(timeoutId);
-      if (res.error) { setPdfError(res.error); setPdfLoading(false); return; }
+      // Supporta sia il formato export completo che il formato compiled_adventure
+      const compiled = parsed.compiled_adventure || parsed;
+      const definition = compiled.adventure_definition || parsed.adventure_definition || null;
+      if (!definition) throw new Error("JSON non valido: adventure_definition mancante.");
+
       const detectedGenre = normalizeGenreKey(
-        res.detected_genre || res.genre || res.adventure_definition?.genre || "detective_classico",
+        definition.genre || compiled.genre || parsed.genre || "detective_classico",
         "detective_classico"
       );
-      res.genre = detectedGenre;
-      res.detected_genre = detectedGenre;
-      setPreloadedAdventure(res);
-      // Ora i PG vengono generati DOPO il compiler, cosi possono essere legati all'avventura.
+      const adventure = {
+        ...compiled,
+        id: definition.id || compiled.id,
+        runtime_id: definition.id || compiled.runtime_id,
+        genre: detectedGenre,
+        detected_genre: detectedGenre,
+        adventure_definition: definition,
+        runtime_state: compiled.runtime_state || parsed.runtime_state || null,
+        validation_report: compiled.validation_report || parsed.validation_report || null,
+        from_json_load: true,
+      };
+      setPreloadedAdventure(adventure);
+      setGenre(detectedGenre);
+
       setLoading(true);
       await fetch(`${API_URL}/game/setup`, {
         method: "POST",
@@ -1456,131 +1440,92 @@ function SetupScreen({ onStart }) {
         body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }),
       });
       const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
-      setGenre(detectedGenre);
       const rawPool = s?.team_setup?.candidate_pool || [];
-      if (rawPool.length === 0) throw new Error(`PDF compilato, ma nessun personaggio generato per il genere "${detectedGenre}".`);
+      if (rawPool.length === 0) throw new Error(`JSON caricato, ma nessun personaggio generato per il genere "${detectedGenre}".`);
       let contextualPool = rawPool;
       try {
         const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
-          body: JSON.stringify({ characters: rawPool, adventure: res, genre: detectedGenre }),
+          body: JSON.stringify({ characters: rawPool, adventure, genre: detectedGenre }),
         }).then(r => r.json());
         if (enriched.characters) contextualPool = enriched.characters;
       } catch (_) {}
       setPool(contextualPool);
       setSelected([]);
       setLoading(false);
-      setPdfLoading(false);
+      setJsonLoading(false);
       setStep("team");
     } catch (e) {
-      clearTimeout(timeoutId);
       setLoading(false);
-      setPdfLoading(false);
-      const msg = e.name === "AbortError"
-        ? "Il server ha impiegato troppo tempo. Riprova o usa un PDF più corto."
-        : (e.message || "Errore di rete durante il caricamento del PDF. Controlla che il backend sia attivo.");
-      setPdfError(msg);
+      setJsonLoading(false);
+      setJsonError(e.message || "Errore durante il caricamento del JSON.");
     }
   }
 
-  async function handleRuntimeCompile() {
-    if (!runtimeSource.trim()) return;
-    setRuntimeCompileLoading(true);
-    setRuntimeCompilePhase("Compilo il runtime...");
-    setRuntimeCompileError("");
-    setRuntimeCompileResult(null);
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 120000);
-    try {
-      const response = await fetch(`${API_URL}/game/adventure/compile`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        signal: controller.signal,
-        body: JSON.stringify({
-          source_type: "raw_text",
-          title: runtimeTitle || "Avventura compilata",
-          content: runtimeSource,
-          genre_hint: genre || undefined,
-        }),
-      });
-      const bodyText = await response.text();
-      if (!response.ok) throw new Error(`Errore compiler (${response.status}). ${bodyText.slice(0, 180)}`);
-      let res;
-      try {
-        res = JSON.parse(bodyText);
-      } catch {
-        throw new Error(`Risposta compiler non valida. ${bodyText.slice(0, 180)}`);
-      }
-      if (res.error) throw new Error(res.error);
-      setRuntimeCompileResult(res);
-      setRuntimeCompilePhase("Runtime compilato. Creo personaggi contestuali...");
-      const legacy = res.adventure_definition?.legacy_adventure || {};
-      const compiledAdventure = {
-        ...legacy,
-        id: res.adventure_definition?.id || legacy.id,
-        runtime_id: res.adventure_definition?.id || legacy.runtime_id,
-        from_runtime_compiler: true,
-        adventure_definition: res.adventure_definition,
-        runtime_state: res.runtime_state,
-        validation_report: res.validation_report,
-      };
-      {
-        const detectedGenre = normalizeGenreKey(legacy.detected_genre || legacy.genre || res.adventure_definition?.genre || genre, "detective_classico");
-        compiledAdventure.genre = detectedGenre;
-        compiledAdventure.detected_genre = detectedGenre;
-        setPreloadedAdventure(compiledAdventure);
-        setGenre(detectedGenre);
-        const setupRes = await fetch(`${API_URL}/game/setup`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }),
-        });
-        if (!setupRes.ok) throw new Error(`Runtime compilato, ma preparazione personaggi fallita (${setupRes.status}).`);
-        const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
-        const nextPool = s?.team_setup?.candidate_pool || [];
-        if (nextPool.length === 0) throw new Error(`Runtime compilato, ma nessun personaggio generato per il genere "${detectedGenre}".`);
-        let contextualPool = nextPool;
-        try {
-          const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            signal: controller.signal,
-            body: JSON.stringify({ characters: nextPool, adventure: compiledAdventure, genre: detectedGenre }),
-          }).then(r => r.json());
-          if (enriched.characters) contextualPool = enriched.characters;
-        } catch (_) {}
-        setPool(contextualPool);
-        setSelected([]);
-        setRuntimeCompilePhase("Pronto.");
-        setStep("team");
-      }
-    } catch (e) {
-      const msg = e.name === "AbortError"
-        ? "Il compiler sta impiegando troppo tempo. Prova con un testo più corto o riprova."
-        : (e.message || "Errore compilazione runtime");
-      setRuntimeCompileError(msg);
-    }
-    clearTimeout(timeoutId);
-    setRuntimeCompileLoading(false);
-    setRuntimeCompilePhase("");
-  }
-
-  function handleDownloadRuntimeJson() {
-    if (!runtimeCompileResult && !preloadedAdventure) return;
-    const payload = buildAdventureExport({
-      adventure: preloadedAdventure,
-      runtimeCompileResult,
-      source: runtimeCompileResult ? "runtime_compiler" : "pdf_import",
-    });
+  function handleDownloadAdventureJson() {
+    if (!preloadedAdventure) return;
+    const payload = buildAdventureExport({ adventure: preloadedAdventure, source: "json_load" });
     downloadJsonFile(payload, `${safeFilePart(payload.title)}-compilata.json`);
+  }
+
+  async function handlePdfUpload(file) {
+    setPdfLoading(true); setPdfError(""); setPreloadedAdventure(null);
+    try {
+      if (file.size > VERCEL_PDF_UPLOAD_LIMIT_BYTES)
+        throw new Error(`PDF troppo grande (${(file.size/1024/1024).toFixed(1)} MB). Limite: 4 MB.`);
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("genre", genre || "detective_classico");
+      fd.append("players", "4");
+      fd.append("provider", provider);
+      const res = await fetch(`${API_URL}/game/adventure/from-pdf`, { method: "POST", body: fd });
+      const data = await res.json();
+      if (data.compilation_failed) {
+        const gate = data.quality_gate || {};
+        const critical = (gate.critical || []).map(c => `• ${c}`).join("\n");
+        const warn = (gate.warnings || []).map(w => `⚠ ${w}`).join("\n");
+        throw new Error(
+          `Il PDF non ha prodotto un'avventura giocabile (score: ${gate.score ?? "??"}/100).\n\n` +
+          (critical ? `Problemi critici:\n${critical}` : "") +
+          (warn ? `\n\nAvvertimenti:\n${warn}` : "")
+        );
+      }
+      if (data.error) throw new Error(data.error);
+      const compiled = data.compiled_adventure || data;
+      const definition = compiled.adventure_definition || null;
+      if (!definition) throw new Error("Compilazione fallita: adventure_definition mancante.");
+      const detectedGenre = normalizeGenreKey(definition.genre || compiled.genre || "detective_classico", "detective_classico");
+      const adventure = {
+        ...compiled, id: definition.id || compiled.id,
+        runtime_id: definition.id || compiled.runtime_id,
+        genre: detectedGenre, detected_genre: detectedGenre,
+        adventure_definition: definition,
+        runtime_state: compiled.runtime_state || null,
+        validation_report: compiled.validation_report || null,
+        from_pdf_load: true,
+      };
+      setPreloadedAdventure(adventure); setGenre(detectedGenre);
+      setLoading(true);
+      await fetch(`${API_URL}/game/setup`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }) });
+      const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
+      const rawPool = s?.team_setup?.candidate_pool || [];
+      const enriched = await Promise.all(rawPool.map(async p => {
+        try {
+          const r = await fetch(`${API_URL}/game/enrich-backstory`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ character: p, adventure_context: definition?.premise || definition?.title || "" }) });
+          const d = await r.json(); return d.character || p;
+        } catch { return p; }
+      }));
+      setPool(enriched); setStep("team");
+    } catch (e) { setPdfError(e.message || "Errore caricamento PDF"); }
+    finally { setPdfLoading(false); setLoading(false); }
   }
 
   async function handleGenreSelect(g) {
     setGenre(g);
     setLoading(true);
-    setPdfError("");
+    setJsonError("");
     try {
       const created = await fetch(`${API_URL}/game/adventure/create`, {
         method: "POST",
@@ -1617,7 +1562,7 @@ function SetupScreen({ onStart }) {
       setSelected([]);
       setStep("team");
     } catch (e) {
-      setPdfError(e.message || "Impossibile generare l'avventura.");
+      setJsonError(e.message || "Impossibile generare l'avventura.");
     }
     setLoading(false);
   }
@@ -1797,16 +1742,26 @@ function SetupScreen({ onStart }) {
   if (pdfLoading) return (
     <LoadingProgress
       icon="📄"
-      title="Leggo il PDF e preparo la bibbia..."
+      title="Compilo l'avventura dal PDF..."
       steps={[
-        { at: 0,     pill: "Estrazione",  label: "Estraggo il testo grezzo dal PDF..." },
-        { at: 2500,  pill: "Pulizia",     label: "Rimuovo rumore OCR, intestazioni e note a piè di pagina..." },
-        { at: 5000,  pill: "Struttura",   label: "Identifico sezioni: ambientazione, NPC, indizi, timeline..." },
-        { at: 10000, pill: "Genere",      label: "Classifico il genere narrativo e l'archetipo dell'avventura..." },
-        { at: 18000, pill: "Indizi",      label: "Estraggo e tipizzo gli indizi (fisici, testimonianze, documenti...)..." },
-        { at: 32000, pill: "NPC",         label: "Arricchisco i personaggi non giocanti con agende e segreti..." },
-        { at: 47000, pill: "Deduction",   label: "Costruisco il grafo deduttivo e le rivelazioni possibili..." },
-        { at: 57000, pill: "Sintesi",     label: "Genero premessa, verità nascosta e condizioni di vittoria..." },
+        { at: 0,     pill: "Lettura",     label: "Estraggo il testo dal PDF..." },
+        { at: 3000,  pill: "Struttura",   label: "Analizzo la struttura narrativa..." },
+        { at: 10000, pill: "Personaggi",  label: "Genero attori, clue e location..." },
+        { at: 25000, pill: "Runtime",     label: "Costruisco il runtime e i clock..." },
+      ]}
+    />
+  );
+
+  // ── JSON loading a schermo intero ──
+  if (jsonLoading) return (
+    <LoadingProgress
+      icon="📂"
+      title="Carico l'avventura e preparo i personaggi..."
+      steps={[
+        { at: 0,    pill: "Lettura",     label: "Leggo il file JSON..." },
+        { at: 800,  pill: "Parsing",     label: "Valido adventure_definition e runtime_state..." },
+        { at: 2000, pill: "Setup",       label: "Genero il pool personaggi per il genere rilevato..." },
+        { at: 6000, pill: "Backstory",   label: "Contestualizzo i backstory dei personaggi all'avventura..." },
       ]}
     />
   );
@@ -1819,148 +1774,42 @@ function SetupScreen({ onStart }) {
         {/* banner full-width */}
         <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "cover", maxHeight: 100, marginTop: 12 }} />
 
-        {/* barra provider + carica pdf */}
+        {/* barra provider + carica JSON */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, padding: "12px 24px", background: "#0a0a0a", flexWrap: "wrap" }}>
           <TextProviderPicker value={provider} onChange={setProvider} available={providersAvail} />
           <div style={{ width: 1, height: 64, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
           <ImageProviderPicker value={imageProvider} onChange={setImageProvider} available={providersAvail} />
           <div style={{ width: 1, height: 64, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5, flexShrink: 0 }}>
-            <label style={{ cursor: "pointer", opacity: pdfLoading ? 0.6 : 1, lineHeight: 0 }}>
-              {pdfLoading
-                ? <span style={{ color: "#fff", fontSize: 13, fontWeight: 600, padding: "10px 16px", background: "rgba(255,255,255,0.08)", borderRadius: 10, display: "inline-block" }}>⏳ Leggo PDF...</span>
-                : <img src="/Carica PDF.png" alt="Carica PDF" style={{ height: 52, objectFit: "contain", display: "block" }} />
-              }
-              <input type="file" accept=".pdf" style={{ display: "none" }} disabled={pdfLoading}
-                onChange={e => e.target.files[0] && handlePdfUpload(e.target.files[0])} />
-            </label>
-            <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }}>pag. mappa:</span>
-              <input
-                type="number" min="1" placeholder="—"
-                value={pdfMapPage}
-                onChange={e => setPdfMapPage(e.target.value)}
-                style={{
-                  width: 44, padding: "2px 5px", borderRadius: 5, fontSize: 11,
-                  background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)",
-                  color: "#fff", textAlign: "center",
-                }}
-              />
-            </div>
-          </div>
-          <button
-            onClick={() => setRuntimeCompilerOpen(v => !v)}
-            style={{
-              padding: "10px 14px", borderRadius: 10, border: "1px solid rgba(96,165,250,0.45)",
-              background: runtimeCompilerOpen ? "rgba(96,165,250,0.18)" : "rgba(255,255,255,0.05)",
-              color: "#bfdbfe", fontWeight: 800, cursor: "pointer", fontSize: 12,
-            }}
-          >
-            Compila Runtime
-          </button>
-        </div>
-        {runtimeCompilerOpen && (
-          <div style={{
-            maxWidth: 980, width: "calc(100% - 32px)", margin: "10px auto", padding: 14,
-            background: "#0a0a0a", border: "1px solid rgba(96,165,250,0.28)", borderRadius: 12,
-          }}>
-            <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
-              <input
-                value={runtimeTitle}
-                onChange={e => setRuntimeTitle(e.target.value)}
-                placeholder="Titolo avventura"
-                style={{
-                  flex: "1 1 220px", padding: "8px 10px", borderRadius: 8,
-                  background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.14)",
-                  color: "#fff",
-                }}
-              />
-              <button
-                onClick={handleRuntimeCompile}
-                disabled={runtimeCompileLoading || !runtimeSource.trim()}
-                style={{
-                  padding: "8px 14px", borderRadius: 8, border: "none",
-                  background: runtimeCompileLoading ? "rgba(96,165,250,0.35)" : "#3b82f6",
-                  color: "#fff", fontWeight: 800, cursor: runtimeCompileLoading ? "default" : "pointer",
-                }}
-              >
-                {runtimeCompileLoading ? (runtimeCompilePhase || "Compilo...") : "Compila e prepara"}
-              </button>
-            </div>
-            <textarea
-              value={runtimeSource}
-              onChange={e => setRuntimeSource(e.target.value)}
-              placeholder="Incolla qui testo, markdown o appunti dell'avventura. Il compiler produrrà AdventureDefinition + RuntimeState validati."
-              style={{
-                width: "100%", minHeight: 130, resize: "vertical", boxSizing: "border-box",
-                padding: 10, borderRadius: 8, background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.12)", color: "#fff", lineHeight: 1.5,
-              }}
+          <label style={{ cursor: "pointer", flexShrink: 0 }}>
+            <img
+              src="/src/assets/carica_pdf.png"
+              alt="Carica PDF"
+              style={{ height: 56, display: "block", borderRadius: 10, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
             />
-            {runtimeCompileLoading && (
-              <div style={{ color: "#93c5fd", fontSize: 12, marginTop: 8, fontWeight: 700 }}>
-                {runtimeCompilePhase || "Compilo..."} Può richiedere qualche secondo.
-              </div>
-            )}
-            {runtimeCompileError && <div style={{ color: "#f87171", fontSize: 12, marginTop: 8 }}>❌ {runtimeCompileError}</div>}
-            {runtimeCompileResult && (
-              <div style={{ marginTop: 10, display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)", gap: 10 }}>
-                <div style={{ padding: 10, borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                  <div style={{ fontSize: 11, color: "#93c5fd", fontWeight: 800, textTransform: "uppercase", marginBottom: 6 }}>Validation Report</div>
-                  <div style={{ fontSize: 12, color: runtimeCompileResult.validation_report?.playable ? "#4ade80" : "#facc15", fontWeight: 800 }}>
-                    {runtimeCompileResult.validation_report?.playable ? "Runtime giocabile" : "Runtime da rifinire"}
-                  </div>
-                  {runtimeCompileResult.validation_report?.playable_score !== undefined && (
-                    <div style={{ fontSize: 11, color: "#93c5fd", marginTop: 4, fontWeight: 800 }}>
-                      Score giocabilità: {runtimeCompileResult.validation_report.playable_score}/100
-                    </div>
-                  )}
-                  {(runtimeCompileResult.validation_report?.warnings || []).slice(0, 5).map((w, i) => (
-                    <div key={i} style={{ fontSize: 11, color: "#facc15", marginTop: 4 }}>• {w}</div>
-                  ))}
-                  {(runtimeCompileResult.validation_report?.errors || []).slice(0, 5).map((err, i) => (
-                    <div key={i} style={{ fontSize: 11, color: "#f87171", marginTop: 4 }}>• {err}</div>
-                  ))}
-                </div>
-                <div style={{ padding: 10, borderRadius: 8, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)" }}>
-                  <div style={{ fontSize: 11, color: "#93c5fd", fontWeight: 800, textTransform: "uppercase", marginBottom: 6 }}>Runtime Profile</div>
-                  <div style={{ fontSize: 12, color: "#fff", fontWeight: 800 }}>{runtimeCompileResult.adventure_definition?.title}</div>
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.62)", marginTop: 3 }}>
-                    {(runtimeCompileResult.adventure_definition?.runtime_profiles || []).join(" · ")}
-                  </div>
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", marginTop: 6 }}>
-                    Clue {runtimeCompileResult.validation_report?.counts?.clues || 0} · Revelation {runtimeCompileResult.validation_report?.counts?.revelations || 0} · Location {runtimeCompileResult.validation_report?.counts?.locations || 0}
-                  </div>
-                  <button
-                    onClick={handleDownloadRuntimeJson}
-                    style={{
-                      marginTop: 10, width: "100%", padding: "7px 10px", borderRadius: 7,
-                      border: "1px solid rgba(74,222,128,0.45)", background: "rgba(74,222,128,0.12)",
-                      color: "#bbf7d0", fontWeight: 800, cursor: "pointer", fontSize: 12,
-                    }}
-                  >
-                    Scarica JSON compilato
-                  </button>
-                </div>
-              </div>
-            )}
-            {!runtimeCompileResult && preloadedAdventure && (
-              <button
-                onClick={handleDownloadRuntimeJson}
-                style={{
-                  marginTop: 10, padding: "8px 12px", borderRadius: 8,
-                  border: "1px solid rgba(74,222,128,0.45)", background: "rgba(74,222,128,0.12)",
-                  color: "#bbf7d0", fontWeight: 800, cursor: "pointer", fontSize: 12,
-                }}
-              >
-                Scarica JSON avventura
-              </button>
-            )}
-          </div>
-        )}
-        {pdfError && (
+            <input
+              type="file" accept=".pdf" style={{ display: "none" }}
+              onChange={e => e.target.files[0] && handlePdfUpload(e.target.files[0])}
+            />
+          </label>
+          <label style={{ cursor: "pointer", flexShrink: 0 }}>
+            <img
+              src="/src/assets/carica_json.png"
+              alt="Carica JSON"
+              style={{ height: 56, display: "block", borderRadius: 10, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+            />
+            <input
+              type="file" accept=".json" style={{ display: "none" }}
+              onChange={e => e.target.files[0] && handleJsonLoad(e.target.files[0])}
+            />
+          </label>
+        </div>
+        {(pdfError || jsonError) && (
           <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
-            ❌ {pdfError}
+            ❌ {pdfError || jsonError}
           </div>
         )}
 
@@ -1999,9 +1848,9 @@ function SetupScreen({ onStart }) {
           </div>
         </div>
 
-        {(loading || pdfLoading) && (
+        {(loading || jsonLoading) && (
           <div style={{ textAlign: "center", padding: 12, color: "rgba(255,255,255,0.6)", fontSize: 14, background: "#0a0a0a" }}>
-            {pdfLoading ? "📄 Leggo il PDF, compilo il runtime e preparo l'engine..." : "Carico personaggi..."}
+            {jsonLoading ? "📂 Carico avventura dal JSON..." : "Carico personaggi..."}
           </div>
         )}
       </div>
@@ -2047,7 +1896,7 @@ function SetupScreen({ onStart }) {
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             {preloadedAdventure && (
-              <button onClick={handleDownloadRuntimeJson} style={{
+              <button onClick={handleDownloadAdventureJson} style={{
                 padding: "7px 12px", borderRadius: 8, border: "1px solid rgba(74,222,128,0.45)",
                 background: "rgba(74,222,128,0.10)", color: "#bbf7d0",
                 cursor: "pointer", fontSize: 13, fontWeight: 800,
@@ -2678,9 +2527,9 @@ function downloadJsonFile(payload, filename) {
   URL.revokeObjectURL(url);
 }
 
-function buildAdventureExport({ adventure, gameState, mapState, preparedTacticalMaps, runtimeCompileResult, source = "app" }) {
-  const definition = runtimeCompileResult?.adventure_definition || adventure?.adventure_definition || null;
-  const runtimeState = runtimeCompileResult?.runtime_state || adventure?.runtime_state || adventure?.adventure_runtime_state || null;
+function buildAdventureExport({ adventure, gameState, mapState, preparedTacticalMaps, source = "app" }) {
+  const definition = adventure?.adventure_definition || null;
+  const runtimeState = adventure?.runtime_state || adventure?.adventure_runtime_state || null;
   return {
     export_version: 1,
     exported_at: new Date().toISOString(),
@@ -2688,7 +2537,7 @@ function buildAdventureExport({ adventure, gameState, mapState, preparedTactical
     title: definition?.title || adventure?.title || "Avventura",
     adventure_definition: definition,
     runtime_state: runtimeState,
-    validation_report: runtimeCompileResult?.validation_report || adventure?.validation_report || null,
+    validation_report: adventure?.validation_report || null,
     legacy_adventure: definition?.legacy_adventure || adventure || null,
     live_game_state: gameState || null,
     strategic_map_state: mapState || null,
@@ -2969,7 +2818,6 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
 function ClocksPanel({ clocks, isGM }) {
   if (!clocks || clocks.length === 0) return null;
 
-  // Giocatori vedono solo clock scoperti; GM vede tutto
   const visible = isGM ? clocks : clocks.filter(c => c.discovered && c.active !== false);
   if (visible.length === 0) {
     if (!isGM) return (
@@ -2980,31 +2828,62 @@ function ClocksPanel({ clocks, isGM }) {
     return null;
   }
 
+  const typeIcon = (ctype) => {
+    if (ctype === "terminal_defeat") return "💀";
+    if (ctype === "terminal_victory") return "👑";
+    if (ctype === "escalation") return "⚠️";
+    return null;
+  };
+  const typeLabel = (ctype) => {
+    if (ctype === "terminal_defeat") return "FATALE";
+    if (ctype === "terminal_victory") return "OBIETTIVO";
+    if (ctype === "escalation") return "ESCALATION";
+    return null;
+  };
+  const typeBadgeColor = (ctype) => {
+    if (ctype === "terminal_defeat") return { bg: "rgba(239,68,68,0.25)", color: "#ef4444" };
+    if (ctype === "terminal_victory") return { bg: "rgba(234,179,8,0.2)", color: "#eab308" };
+    if (ctype === "escalation") return { bg: "rgba(249,115,22,0.2)", color: "#f97316" };
+    return null;
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12, padding: "4px 0" }}>
       {visible.map(clock => {
+        const ctype = clock.clock_type || "narrative";
+        const isResolved = !!clock.resolved;
         const pct = clock.max_value > 0 ? clock.value / clock.max_value : 0;
         const remaining = clock.max_value - clock.value;
-        const urgent = pct >= 0.66;
-        const critical = pct >= 0.85;
-        const barColor = critical ? "#ef4444" : urgent ? "#f59e0b" : "#60a5fa";
+        const urgent = !isResolved && pct >= 0.66;
+        const critical = !isResolved && pct >= 0.85;
         const hidden = !clock.discovered;
+        const barColor = isResolved ? "#22c55e" : (critical ? "#ef4444" : urgent ? "#f59e0b" : "#60a5fa");
+        const badge = typeLabel(ctype);
+        const badgeStyle = typeBadgeColor(ctype);
+        const icon = isResolved ? "✅" : (hidden ? "👁" : (typeIcon(ctype) || (critical ? "🔴" : urgent ? "🟡" : "🕐")));
 
         return (
           <div key={clock.id} style={{
             borderRadius: 10, padding: "10px 12px",
-            background: hidden ? "rgba(255,255,255,0.03)" : (critical ? "rgba(239,68,68,0.07)" : urgent ? "rgba(245,158,11,0.07)" : "rgba(96,165,250,0.07)"),
-            border: `1px solid ${hidden ? "rgba(255,255,255,0.08)" : (critical ? "rgba(239,68,68,0.3)" : urgent ? "rgba(245,158,11,0.3)" : "rgba(96,165,250,0.25)")}`,
+            background: isResolved ? "rgba(34,197,94,0.06)" : (hidden ? "rgba(255,255,255,0.03)" : (critical ? "rgba(239,68,68,0.07)" : urgent ? "rgba(245,158,11,0.07)" : "rgba(96,165,250,0.07)")),
+            border: `1px solid ${isResolved ? "rgba(34,197,94,0.3)" : (hidden ? "rgba(255,255,255,0.08)" : (critical ? "rgba(239,68,68,0.3)" : urgent ? "rgba(245,158,11,0.3)" : "rgba(96,165,250,0.25)"))}`,
+            opacity: isResolved ? 0.7 : 1,
           }}>
             {/* Header */}
             <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 7 }}>
-              <span style={{ fontSize: 13 }}>{hidden ? "👁" : (critical ? "🔴" : urgent ? "🟡" : "🕐")}</span>
-              <span style={{ flex: 1, fontSize: 12, fontWeight: 700, color: hidden ? "rgba(255,255,255,0.4)" : "var(--text-h)" }}>
+              <span style={{ fontSize: 13 }}>{icon}</span>
+              <span style={{ flex: 1, fontSize: 12, fontWeight: 700, color: isResolved ? "#22c55e" : (hidden ? "rgba(255,255,255,0.4)" : "var(--text-h)") }}>
                 {hidden ? `[Nascosto] ${clock.label}` : clock.label}
+                {isResolved && " — RISOLTO"}
               </span>
-              {!hidden && (
+              {badge && !hidden && badgeStyle && (
+                <span style={{ fontSize: 9, padding: "1px 6px", borderRadius: 4, fontWeight: 700, background: badgeStyle.bg, color: badgeStyle.color }}>
+                  {badge}
+                </span>
+              )}
+              {!hidden && !isResolved && (
                 <span style={{ fontSize: 11, fontWeight: 700, color: barColor }}>
-                  {remaining} {remaining === 1 ? "segmento" : "segmenti"}
+                  {remaining} {remaining === 1 ? "seg." : "seg."}
                 </span>
               )}
               {isGM && hidden && (
@@ -3015,22 +2894,29 @@ function ClocksPanel({ clocks, isGM }) {
             </div>
 
             {/* Barra segmenti */}
-            <div style={{ display: "flex", gap: 3, marginBottom: hidden ? 0 : 6 }}>
-              {Array.from({ length: clock.max_value }, (_, i) => (
-                <div key={i} style={{
-                  flex: 1, height: 8, borderRadius: 3,
-                  background: i < clock.value
-                    ? (hidden ? "rgba(255,255,255,0.15)" : barColor)
-                    : "rgba(255,255,255,0.08)",
-                  transition: "background 0.3s",
-                }} />
-              ))}
-            </div>
+            {!isResolved && (
+              <div style={{ display: "flex", gap: 3, marginBottom: hidden ? 0 : 6 }}>
+                {Array.from({ length: clock.max_value }, (_, i) => (
+                  <div key={i} style={{
+                    flex: 1, height: 8, borderRadius: 3,
+                    background: i < clock.value
+                      ? (hidden ? "rgba(255,255,255,0.15)" : barColor)
+                      : "rgba(255,255,255,0.08)",
+                    transition: "background 0.3s",
+                  }} />
+                ))}
+              </div>
+            )}
 
-            {/* Conseguenza — solo se scoperto o GM */}
-            {(clock.discovered || isGM) && clock.consequence && (
+            {/* Conseguenza e condizione */}
+            {(clock.discovered || isGM) && clock.consequence && !isResolved && (
               <div style={{ fontSize: 11, color: hidden ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.55)", lineHeight: 1.4, fontStyle: "italic" }}>
                 {hidden ? `⚠ ${clock.consequence}` : `Se si completa: ${clock.consequence}`}
+              </div>
+            )}
+            {(clock.discovered || isGM) && clock.resolution_condition && !isResolved && (
+              <div style={{ fontSize: 10, color: "rgba(34,197,94,0.7)", lineHeight: 1.4, marginTop: 3 }}>
+                🛡 {clock.resolution_condition}
               </div>
             )}
           </div>

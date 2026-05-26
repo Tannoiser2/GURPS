@@ -543,6 +543,93 @@ def enrich_actors_with_llm(
     return enriched if any_match else None
 
 
+_EXTRACT_ACTORS_PROMPT = """Sei un analista di moduli GDR. Estrai TUTTI i personaggi non giocanti (NPC/PNG) importanti da questo modulo.
+
+Un NPC importante è: un antagonista, un alleato, un testimone, un contatto, una vittima nominata, un PNG con cui i PG interagiscono. NON includere: mostri generici senza nome, PNG di folla, oggetti personificati.
+
+Titolo modulo: {title}
+
+Testo del modulo (estratto):
+\"\"\"
+{excerpt}
+\"\"\"
+
+Ritorna un JSON con questa struttura esatta:
+{{
+  "actors": [
+    {{
+      "id": "actor_slug_minuscolo",
+      "name": "Nome Completo",
+      "role": "antagonist|ally|witness|contact|victim|neutral",
+      "description": "Descrizione fisica e comportamentale in 1-2 frasi",
+      "motivation": "Cosa vuole questo personaggio",
+      "secret": "Cosa nasconde (null se non ha segreti evidenti)",
+      "location": "Dove si trova normalmente",
+      "attitude": "friendly|neutral|hostile|deceptive|suspicious"
+    }}
+  ]
+}}
+
+Estrai almeno 2 NPC, massimo 12. Solo JSON, nessun testo aggiuntivo.
+"""
+
+
+def extract_actors_with_llm(
+    text: str,
+    *,
+    title: str = "",
+) -> list[dict] | None:
+    """Estrae NPC da zero dal testo grezzo quando l'heuristic non ne trova."""
+    if not _llm_extractors_enabled():
+        return None
+    try:
+        from . import claude_service
+    except Exception:
+        return None
+    if not getattr(claude_service, "_text_provider_available", None) or not claude_service._text_provider_available():
+        return None
+
+    excerpt = _truncate_excerpt(text or "", limit=8000)
+    prompt = _EXTRACT_ACTORS_PROMPT.format(title=title or "(senza titolo)", excerpt=excerpt)
+    try:
+        raw = claude_service._call_claude(prompt, max_tokens=3000)
+    except Exception as exc:
+        print(f"[llm_extractors] extract_actors fallito: {exc}")
+        return None
+    try:
+        parsed = claude_service._extract_json_object(raw)
+    except Exception as exc:
+        print(f"[llm_extractors] extract_actors parse fallito: {exc}")
+        return None
+    items = parsed.get("actors") or []
+    if not isinstance(items, list) or len(items) == 0:
+        return None
+    # Normalizza verso il formato atteso dal pipeline
+    result = []
+    for item in items:
+        if not isinstance(item, dict) or not item.get("name"):
+            continue
+        name = str(item["name"])
+        slug = name.lower().replace(" ", "_").replace("'", "").replace("-", "_")[:30]
+        result.append({
+            "id": item.get("id") or f"actor_{slug}",
+            "name": name,
+            "role": str(item.get("role") or "neutral"),
+            "description": str(item.get("description") or ""),
+            "goal": str(item.get("motivation") or ""),
+            "current_plan": "",
+            "fallback_plan": "",
+            "pressure_response": "",
+            "knows": [],
+            "resources": [],
+            "secret": str(item.get("secret") or "") if item.get("secret") else "",
+            "location": str(item.get("location") or ""),
+            "attitude": str(item.get("attitude") or "neutral"),
+            "llm_extracted": True,
+        })
+    return result if result else None
+
+
 _REVELATION_PROMPT = """Sei un analista di moduli GDR. Devi costruire il GRAFO DI DEDUZIONE di un'avventura.
 
 Una rivelazione (revelation) e una verita centrale che i PG devono dedurre combinando piu indizi di tipi diversi. NON deve essere derivabile da un solo indizio: serve corroborazione (testimony + physical_evidence, o document + forensic, ecc.).
@@ -1050,6 +1137,87 @@ def extract_finale_conditions_with_llm(
 
 
 # ---------------------------------------------------------------------------
+# Estrazione location da zero quando l'heuristic produce solo ID numerici
+# ---------------------------------------------------------------------------
+
+_EXTRACT_LOCATIONS_PROMPT = """Sei un analista di moduli GDR. Estrai tutte le LOCATION giocabili da questo modulo.
+
+Una location è: una stanza, un edificio, una zona esterna, un'area con nome proprio dove i PG possono recarsi e fare cose. NON includere: aree anonime, blocchi statistici, descrizioni generiche senza nome.
+
+Titolo modulo: {title}
+
+Testo del modulo (estratto):
+\"\"\"
+{excerpt}
+\"\"\"
+
+Ritorna un JSON con questa struttura:
+{{
+  "locations": [
+    {{
+      "id": "loc_slug_minuscolo",
+      "name": "Nome della Location",
+      "description": "Descrizione in 1-2 frasi: cosa c'è, che atmosfera ha",
+      "type": "indoor|outdoor|dungeon|urban|wilderness|vehicle",
+      "gameplay_function": "Cosa fanno i PG qui (combattono, investigano, parlano, riposano...)",
+      "notable_features": ["feature 1", "feature 2"],
+      "is_starting_location": false
+    }}
+  ]
+}}
+
+Estrai 3-12 location. Metti is_starting_location=true solo per la location iniziale principale. Solo JSON, nessun testo aggiuntivo.
+"""
+
+
+def extract_locations_with_llm(text: str, *, title: str = "") -> list[dict] | None:
+    """Estrae location con nome reale dal testo grezzo quando l'heuristic produce solo ID numerici."""
+    if not _llm_extractors_enabled():
+        return None
+    try:
+        from . import claude_service
+    except Exception:
+        return None
+    if not getattr(claude_service, "_text_provider_available", None) or not claude_service._text_provider_available():
+        return None
+
+    excerpt = _truncate_excerpt(text or "", limit=8000)
+    prompt = _EXTRACT_LOCATIONS_PROMPT.format(title=title or "(senza titolo)", excerpt=excerpt)
+    try:
+        raw = claude_service._call_claude(prompt, max_tokens=3000)
+    except Exception as exc:
+        print(f"[llm_extractors] extract_locations fallito: {exc}")
+        return None
+    try:
+        parsed = claude_service._extract_json_object(raw)
+    except Exception as exc:
+        print(f"[llm_extractors] extract_locations parse fallito: {exc}")
+        return None
+    items = parsed.get("locations") or []
+    if not isinstance(items, list) or len(items) == 0:
+        return None
+    result = []
+    for item in items:
+        if not isinstance(item, dict) or not item.get("name"):
+            continue
+        name = str(item["name"])
+        slug = name.lower().replace(" ", "_").replace("'", "").replace("-", "_")[:40]
+        result.append({
+            "id": item.get("id") or f"loc_{slug}",
+            "name": name,
+            "description": str(item.get("description") or ""),
+            "type": str(item.get("type") or "indoor"),
+            "gameplay_function": str(item.get("gameplay_function") or ""),
+            "concrete_features": list(item.get("notable_features") or [])[:6],
+            "visual_identity": str(item.get("description") or "")[:120],
+            "exits": [],
+            "access_state": "open",
+            "is_starting_location": bool(item.get("is_starting_location", False)),
+            "llm_extracted": True,
+        })
+    return result if result else None
+
+
 # Livello B: estrazione collegamenti tra locazioni dal testo PDF
 # ---------------------------------------------------------------------------
 
@@ -1150,3 +1318,177 @@ def extract_location_connections_with_llm(
             "bidirectional": bool(item.get("bidirectional", True)),
         })
     return connections or None
+
+
+# ---------------------------------------------------------------------------
+# Livello B: estrazione clock semantici dal testo PDF
+# ---------------------------------------------------------------------------
+
+_CLOCK_EXTRACTION_PROMPT = """Sei un analista di moduli GDR. Devi identificare i CLOCK narrativi reali nel testo di questa avventura.
+
+Un clock è una minaccia che avanza nel tempo, indipendente dalle azioni dei giocatori — o un obiettivo con scadenza.
+
+Per ogni clock identifica:
+- id: slug snake_case univoco (es. "clock_golem_completamento")
+- label: nome breve (max 50 char, in italiano)
+- clock_type: uno tra:
+    "terminal_defeat"  → se il clock completa = sconfitta totale del gruppo (morte, apocalisse, obiettivo irrecuperabile)
+    "terminal_victory" → se il clock completa = vittoria del gruppo (obietivo raggiunto automaticamente)
+    "escalation"       → se il clock completa = la situazione peggiora drasticamente ma l'avventura continua
+    "narrative"        → cambia lo stato del mondo ma non termina l'avventura
+- max_value: numero di turni/segmenti prima che scatti (intero, 4-12; almeno resolution_clues+2)
+- consequence: cosa succede quando il clock raggiunge max_value (in italiano, 1-2 frasi)
+- resolution_clues: lista degli ID indizi che i giocatori devono trovare per FERMARE/RISOLVERE questo clock.
+  Usa solo ID dalla lista indizi fornita. Lascia [] se il clock è inevitabile.
+- resolution_condition: frase leggibile che descrive come i giocatori fermano il clock (in italiano)
+- discovery_clue_id: ID dell'indizio che RIVELA ai giocatori che questo clock esiste.
+  Quando i giocatori trovano questo indizio, il clock diventa visibile. Lascia "" se sempre visibile.
+- discovery_hint: segnale atmosferico ambiguo prima della scoperta (es. "Le rocce vibrano leggermente")
+- steps: lista di eventi intermedi (1 per ogni step intermedio, non obbligatorio):
+    [{{"step": 1, "world_state_change": "...", "scene_prompt": "cosa diventa visibile"}}]
+
+INDIZI DISPONIBILI (usa solo questi ID per resolution_clues e discovery_clue_id):
+{clue_ids_block}
+
+TITOLO AVVENTURA: {title}
+
+TESTO DEL MODULO:
+\"\"\"
+{text_excerpt}
+\"\"\"
+
+REGOLE IMPORTANTI:
+- Identifica SOLO clock espliciti o fortemente impliciti nel testo — non inventare pericoli non presenti.
+- Se c'è una minaccia centrale (nemico che completa un rituale, pericolo ambientale che avanza) → terminal_defeat con i giusti resolution_clues.
+- max_value per clock terminal_defeat deve essere >= len(resolution_clues) + 2.
+- Un modulo tipico ha 1-3 clock. Non crearne di più a meno che non siano tutti espliciti.
+- Restituisci SOLO il JSON array, nient'altro.
+
+Esempio:
+[
+  {{
+    "id": "clock_golem",
+    "label": "Completamento del Golem di Platino",
+    "clock_type": "terminal_defeat",
+    "max_value": 8,
+    "consequence": "I'Zor'zah completa il golem che distrugge la torre dei Maghi. Sconfitta totale.",
+    "resolution_clues": ["clue_piano_golem", "clue_fonte_platino"],
+    "resolution_condition": "I giocatori bloccano l'estrazione del platino o distruggono il laboratorio",
+    "discovery_clue_id": "clue_iscrizioni_naniche",
+    "discovery_hint": "Le pareti della montagna sembrano vibrare come se qualcosa si stesse muovendo nelle profondità",
+    "steps": [
+      {{"step": 2, "world_state_change": "Arriva un carico di platino grezzo alla miniera", "scene_prompt": "Carrelli di minerale scorrono lungo le rotaie"}},
+      {{"step": 5, "world_state_change": "Il golem è per metà completato — si sentono colpi sordi nella roccia", "scene_prompt": "Vibrazioni sempre più forti dal sottosuolo"}}
+    ]
+  }}
+]"""
+
+
+def extract_clocks_with_llm(
+    text: str,
+    structure: dict,
+    *,
+    title: str = "",
+) -> list[dict] | None:
+    """Estrae clock semantici reali dal testo PDF con tipi, resolution_clues e discovery_clue_id.
+
+    Ritorna lista di dict clock pronti per adventure_compiler, o None se LLM non disponibile.
+    """
+    if not _llm_extractors_enabled():
+        return None
+    try:
+        from . import claude_service
+    except Exception:
+        return None
+    if not getattr(claude_service, "_text_provider_available", None) or not claude_service._text_provider_available():
+        return None
+
+    clues = (structure or {}).get("clues") or []
+    if not clues:
+        return None
+
+    clue_ids_lines = []
+    for c in clues[:30]:
+        if not isinstance(c, dict):
+            continue
+        cid = str(c.get("id") or "")
+        label = str(c.get("label") or "")[:70]
+        if cid:
+            clue_ids_lines.append(f"- {cid}: {label}")
+    clue_ids_block = "\n".join(clue_ids_lines) or "(nessun indizio)"
+
+    text_excerpt = _truncate_excerpt(text or "", limit=7000)
+    prompt = _CLOCK_EXTRACTION_PROMPT.format(
+        title=title or "Sconosciuto",
+        clue_ids_block=clue_ids_block,
+        text_excerpt=text_excerpt,
+    )
+
+    try:
+        raw = claude_service._call_text_model(prompt, max_tokens=1400)
+    except Exception as exc:
+        print(f"[llm_extractors] clock extraction fallita: {type(exc).__name__}: {exc}")
+        return None
+
+    import json as _json
+    array_match = _re_module.search(r"\[.*\]", raw, _re_module.DOTALL)
+    if not array_match:
+        return None
+    try:
+        parsed = _json.loads(array_match.group(0))
+    except Exception:
+        return None
+
+    if not isinstance(parsed, list):
+        return None
+
+    valid_clue_ids = {str(c.get("id") or "") for c in clues if isinstance(c, dict) and c.get("id")}
+    valid_clock_types = {"narrative", "terminal_defeat", "terminal_victory", "escalation"}
+
+    clocks: list[dict] = []
+    for item in parsed:
+        if not isinstance(item, dict):
+            continue
+        cid = str(item.get("id") or "").strip()
+        label = str(item.get("label") or "").strip()[:50]
+        if not cid or not label:
+            continue
+        clock_type = str(item.get("clock_type") or "narrative")
+        if clock_type not in valid_clock_types:
+            clock_type = "narrative"
+        res_clues = [r for r in (item.get("resolution_clues") or []) if isinstance(r, str) and r in valid_clue_ids]
+        disc_clue = str(item.get("discovery_clue_id") or "")
+        if disc_clue and disc_clue not in valid_clue_ids:
+            disc_clue = ""
+        declared_max = max(1, int(item.get("max_value") or 6))
+        # Auto-balance: terminale non può scattare prima che i giocatori abbiano avuto
+        # turni sufficienti per trovare tutti i resolution_clues
+        if res_clues and clock_type in {"terminal_defeat", "terminal_victory"}:
+            declared_max = max(declared_max, len(res_clues) + 2)
+        clocks.append({
+            "id": cid,
+            "label": label,
+            "clock_type": clock_type,
+            "max_value": declared_max,
+            "consequence": str(item.get("consequence") or "")[:200],
+            "on_complete": str(item.get("consequence") or "")[:200],
+            "resolution_clues": res_clues,
+            "resolution_condition": str(item.get("resolution_condition") or "")[:200],
+            "discovery_clue_id": disc_clue,
+            "discovery_hint": str(item.get("discovery_hint") or "")[:120],
+            "steps": [
+                {
+                    "step": int(s.get("step") or 0),
+                    "world_state_change": str(s.get("world_state_change") or "")[:120],
+                    "scene_prompt": str(s.get("scene_prompt") or "")[:120],
+                }
+                for s in (item.get("steps") or [])
+                if isinstance(s, dict)
+            ],
+            "auto_balance": True,
+            "source_status": "llm_extracted",
+            "is_explicit_from_source": False,
+            "is_inferred": True,
+            "confidence": 0.75,
+        })
+    return clocks or None
