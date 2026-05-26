@@ -1821,7 +1821,7 @@ function SetupScreen({ onStart }) {
           <img
             src="/Temi_Narrativi_2.png"
             alt="Generi narrativi"
-            style={{ width: "100%", height: "100%", display: "block", objectFit: "contain" }}
+            style={{ width: "100%", height: "100%", display: "block", objectFit: "cover", objectPosition: "center" }}
           />
 
           {/* zone cliccabili — 7 colonne uguali */}
