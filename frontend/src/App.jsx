@@ -1,5 +1,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import caricaPdfImg from "./assets/carica_pdf.png";
+import caricaJsonImg from "./assets/carica_json.png";
 
 const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "/_/backend" : "http://127.0.0.1:8002");
 const VERCEL_PDF_UPLOAD_LIMIT_BYTES = 4 * 1024 * 1024;
@@ -1770,7 +1772,7 @@ function SetupScreen({ onStart }) {
   if (step === "genre") {
     const genres = Object.keys(GENRE_META);
     return (
-      <div style={{ minHeight: "100vh", background: "#000", display: "flex", flexDirection: "column" }}>
+      <div style={{ height: "100vh", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
         {/* banner full-width */}
         <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "cover", maxHeight: 100, marginTop: 12 }} />
 
@@ -1782,7 +1784,7 @@ function SetupScreen({ onStart }) {
           <div style={{ width: 1, height: 64, background: "rgba(255,255,255,0.1)", flexShrink: 0 }} />
           <label style={{ cursor: "pointer", flexShrink: 0 }}>
             <img
-              src="/src/assets/carica_pdf.png"
+              src={caricaPdfImg}
               alt="Carica PDF"
               style={{ height: 56, display: "block", borderRadius: 10, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
@@ -1795,7 +1797,7 @@ function SetupScreen({ onStart }) {
           </label>
           <label style={{ cursor: "pointer", flexShrink: 0 }}>
             <img
-              src="/src/assets/carica_json.png"
+              src={caricaJsonImg}
               alt="Carica JSON"
               style={{ height: 56, display: "block", borderRadius: 10, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
@@ -1814,11 +1816,11 @@ function SetupScreen({ onStart }) {
         )}
 
         {/* splash image con overlay zone cliccabili */}
-        <div style={{ position: "relative", width: "100%" }}>
+        <div style={{ position: "relative", width: "100%", flex: 1, minHeight: 0 }}>
           <img
             src="/Temi_Narrativi_2.png"
             alt="Generi narrativi"
-            style={{ width: "100%", display: "block", objectFit: "contain" }}
+            style={{ width: "100%", height: "100%", display: "block", objectFit: "contain" }}
           />
 
           {/* zone cliccabili — 7 colonne uguali */}
@@ -1860,7 +1862,7 @@ function SetupScreen({ onStart }) {
   // ── Step 2: scegli personaggi ──
   const meta = GENRE_META[genre] || { emoji: "🎲", label: genre, gradient: "135deg, #1a1a1a, #2a2a2a" };
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", padding: "40px 24px", background: "var(--bg)" }}>
+    <div style={{ height: "100vh", display: "flex", flexDirection: "column", alignItems: "center", overflowY: "auto", padding: "24px 16px", background: "var(--bg)", boxSizing: "border-box" }}>
       {showBuilder && (
         <CharacterBuilderModal
           genre={genre}
@@ -1872,10 +1874,10 @@ function SetupScreen({ onStart }) {
 
       {/* header genere */}
       <div style={{
-        width: "100%", maxWidth: 720, borderRadius: 16, marginBottom: 32, overflow: "hidden",
+        width: "100%", maxWidth: 860, borderRadius: 16, marginBottom: 20, overflow: "hidden",
         background: `linear-gradient(${meta.gradient})`, boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
       }}>
-        <div style={{ padding: "28px 32px", display: "flex", alignItems: "center", gap: 18 }}>
+        <div style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: 14 }}>
           <span style={{ fontSize: 48 }}>{meta.emoji}</span>
           <div>
             <div style={{ fontSize: 22, fontWeight: 900, color: "#fff" }}>{meta.label}</div>
@@ -1889,7 +1891,7 @@ function SetupScreen({ onStart }) {
         </div>
       </div>
 
-      <div style={{ width: "100%", maxWidth: 720 }}>
+      <div style={{ width: "100%", maxWidth: 860 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
           <div style={{ fontWeight: 700, fontSize: 15, color: "var(--text-h)" }}>
             Scegli il tuo gruppo (1–4 personaggi)
@@ -5944,7 +5946,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       )}
 
       {/* Chat */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px", maxWidth: 760, width: "100%", margin: "0 auto", boxSizing: "border-box" }}>
+      <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px", maxWidth: 1100, width: "100%", margin: "0 auto", boxSizing: "border-box" }}>
 
         {/* Banner combattimento attivo — collega chat e mappa */}
         {gameStateData.in_combat && (
@@ -5990,7 +5992,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
       {/* Options + input */}
       {!loading && !storyOver && (
-        <div style={{ padding: "12px 20px 20px", borderTop: "1px solid var(--border)", flexShrink: 0, maxWidth: 760, width: "100%", margin: "0 auto", boxSizing: "border-box", alignSelf: "stretch" }}>
+        <div style={{ padding: "12px 20px 20px", borderTop: "1px solid var(--border)", flexShrink: 0, maxWidth: 1100, width: "100%", margin: "0 auto", boxSizing: "border-box", alignSelf: "stretch" }}>
 
           {/* Blocco chat durante combattimento */}
           {gameStateData.in_combat ? (
