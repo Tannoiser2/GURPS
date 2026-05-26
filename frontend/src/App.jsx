@@ -5132,6 +5132,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [locationImages, setLocationImages] = useState({});
   const [showMapPanel, setShowMapPanel] = useState(false);
   const [clocksData, setClocksData] = useState([]);
+  const [tokenStats, setTokenStats] = useState(null);
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
   const [combatTarget, setCombatTarget] = useState(null);
@@ -5732,6 +5733,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
     if (res.map_state) setMapState(res.map_state);
     if (res.clocks_data) setClocksData(res.clocks_data);
+    if (res.token_stats) setTokenStats(res.token_stats);
     const updates = res.state_updates;
     console.log("[GURPS] state_updates:", JSON.stringify(updates));
     if (updates) {
@@ -5852,6 +5854,28 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
       {/* Main column */}
       <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
+      {/* Token stats bar */}
+      {tokenStats && (
+        <div style={{
+          padding: "4px 20px", borderBottom: "1px solid var(--border)",
+          display: "flex", alignItems: "center", gap: 16, flexShrink: 0,
+          background: "rgba(0,0,0,0.2)", fontSize: 11, color: "var(--text-muted, #888)",
+          fontFamily: "monospace",
+        }}>
+          <span title="Token inviati al modello">↑ {tokenStats.input_tokens.toLocaleString()}</span>
+          <span title="Token ricevuti dal modello">↓ {tokenStats.output_tokens.toLocaleString()}</span>
+          <span title="Token totali">= {tokenStats.total_tokens.toLocaleString()}</span>
+          <span style={{ color: tokenStats.cost_usd > 0.5 ? "#f87171" : tokenStats.cost_usd > 0.1 ? "#fb923c" : "#4ade80" }}
+                title="Costo stimato dall'inizio dell'avventura">
+            $ {tokenStats.cost_usd.toFixed(4)}
+          </span>
+          <span title="Chiamate al modello">{tokenStats.calls} call{tokenStats.calls !== 1 ? "s" : ""}</span>
+          {tokenStats.errors > 0 && (
+            <span style={{ color: "#f87171" }} title="Errori API">⚠ {tokenStats.errors} err</span>
+          )}
+        </div>
+      )}
+
       {/* Header */}
       <div style={{
         padding: "12px 20px", borderBottom: "1px solid var(--border)",

@@ -50,6 +50,47 @@ except Exception as _oe:
 
 LAST_IMAGE_ERROR = ""
 
+# ── Token usage tracking ─────────────────────────────────────────────────────
+# Prezzi per milione di token (USD), aggiornati a maggio 2025
+_PRICE_PER_M = {
+    "claude-sonnet-4-5":   {"input": 3.0,  "output": 15.0},
+    "gpt-4o":              {"input": 2.5,  "output": 10.0},
+    "gpt-4o-mini":         {"input": 0.15, "output": 0.60},
+    "dall-e-3":            {"input": 0.0,  "output": 0.0},
+    "gpt-image-1":         {"input": 0.0,  "output": 0.0},
+}
+
+_session_tokens: dict = {
+    "input": 0, "output": 0, "cost_usd": 0.0,
+    "calls": 0, "errors": 0,
+}
+
+
+def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
+    prices = _PRICE_PER_M.get(model, {"input": 0.0, "output": 0.0})
+    cost = (input_tokens * prices["input"] + output_tokens * prices["output"]) / 1_000_000
+    _session_tokens["input"] += input_tokens
+    _session_tokens["output"] += output_tokens
+    _session_tokens["cost_usd"] += cost
+    _session_tokens["calls"] += 1
+
+
+def get_session_token_stats() -> dict:
+    t = _session_tokens
+    return {
+        "input_tokens": t["input"],
+        "output_tokens": t["output"],
+        "total_tokens": t["input"] + t["output"],
+        "cost_usd": round(t["cost_usd"], 4),
+        "calls": t["calls"],
+        "errors": t["errors"],
+    }
+
+
+def reset_session_token_stats() -> None:
+    for k in ("input", "output", "cost_usd", "calls", "errors"):
+        _session_tokens[k] = 0.0 if k in ("cost_usd",) else 0
+
 
 def _set_last_image_error(context: str, error: Exception | str) -> None:
     global LAST_IMAGE_ERROR
@@ -238,13 +279,20 @@ def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
     client = _claude_client()
     if not client:
         raise RuntimeError("API key Anthropic non configurata")
-    response = client.messages.create(
-        model=MODEL_NAME,
-        max_tokens=max_tokens,
-        messages=[{"role": "user", "content": prompt}],
-    )
+    try:
+        response = client.messages.create(
+            model=MODEL_NAME,
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}],
+        )
+    except Exception:
+        _session_tokens["errors"] += 1
+        raise
     if not response.content:
         raise RuntimeError("Claude API ha restituito una risposta vuota (content=[])")
+    usage = getattr(response, "usage", None)
+    if usage:
+        _record_usage(MODEL_NAME, getattr(usage, "input_tokens", 0), getattr(usage, "output_tokens", 0))
     return response.content[0].text
 
 
@@ -252,11 +300,18 @@ def _call_openai(prompt: str, max_tokens: int = 1200) -> str:
     if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
         raise RuntimeError("API key OpenAI non configurata o openai non installato")
     client = _openai_module.OpenAI(api_key=OPENAI_API_KEY, timeout=120.0)
-    response = client.chat.completions.create(
-        model=OPENAI_TEXT_MODEL,
-        max_tokens=max_tokens,
-        messages=[{"role": "user", "content": prompt}],
-    )
+    try:
+        response = client.chat.completions.create(
+            model=OPENAI_TEXT_MODEL,
+            max_tokens=max_tokens,
+            messages=[{"role": "user", "content": prompt}],
+        )
+    except Exception as e:
+        _session_tokens["errors"] += 1
+        raise
+    usage = getattr(response, "usage", None)
+    if usage:
+        _record_usage(OPENAI_TEXT_MODEL, getattr(usage, "prompt_tokens", 0), getattr(usage, "completion_tokens", 0))
     return response.choices[0].message.content
 
 

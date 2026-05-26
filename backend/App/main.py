@@ -17,6 +17,7 @@ from .claude_service import (
     generate_scene_image, generate_character_avatar, generate_npc_avatar,
     generate_tactical_map_image, generate_location_map_image, narrate_combat_result,
     set_active_provider,
+    get_session_token_stats, reset_session_token_stats,
     master_turn_with_bible, create_adventure,
     generate_character_from_description, enrich_character_with_backstory,
     evaluate_personal_victories,
@@ -1426,6 +1427,7 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
             patch["runtime_state"] = game_state.adventure_runtime_state.model_dump()
         update_runtime(adv_id, patch)
 
+    result["token_stats"] = get_session_token_stats()
     return result
 
 class CharacterAIPayload(BaseModel):
@@ -1901,6 +1903,17 @@ def debug_image():
         "openai_available": _OPENAI_AVAILABLE, "openai_import_error": _OPENAI_IMPORT_ERROR,
         "last_image_error": claude_service.LAST_IMAGE_ERROR,
     }
+
+@app.get("/game/token-stats")
+def token_stats_endpoint():
+    return get_session_token_stats()
+
+
+@app.post("/game/token-stats/reset")
+def token_stats_reset_endpoint():
+    reset_session_token_stats()
+    return {"ok": True}
+
 
 @app.get("/game/providers-available")
 def providers_available():
