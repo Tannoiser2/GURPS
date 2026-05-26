@@ -1022,25 +1022,61 @@ ADVANTAGES: dict[str, dict] = {
     "Voto Superiore": {"type": "disadvantage", "cost": -15, "notes": "Giuramento molto gravoso e vincolante."},
 }
 
+# Alias case-insensitive + nomi alternativi comuni → chiave canonica in ADVANTAGES
+_TRAIT_ALIASES: dict[str, str] = {
+    "forza bruta":           "Forza Aumentata",
+    "riflessi veloci":       "Riflessi da Combattimento",
+    "vista acuta":           "Sensi Acuti",
+    "udito acuto":           "Sensi Acuti",
+    "istinto":               "Riflessi da Combattimento",
+    "sangue freddo":         "Sangue Freddo",
+    "duro da uccidere":      "Duro da Uccidere",
+    "tiro fortunato":        "Tiro Fortunato",
+    "memoria fotografica":   "Memoria Fotografica",
+    "ambidestria":           "Ambidestria",
+    "fobia":                 "Fobia",
+    "dipendenza":            "Dipendenza",
+    "avarizia":              "Avarizia",
+    "codardìa":              "Codardo",
+    "impulsivita":           "Impulsività",
+    "curiosita morbosa":     "Curiosità Morbosa",
+}
+
+# Indice lowercase di tutte le chiavi per lookup case-insensitive
+_ADVANTAGES_LC: dict[str, str] = {k.lower(): k for k in ADVANTAGES}
+
 # ── Helper ──────────────────────────────────────────────────────────────────
+
+def _canonical_trait_key(raw: str) -> str | None:
+    """Restituisce la chiave canonica in ADVANTAGES, o None se non trovata.
+    Prova: match esatto → alias → case-insensitive."""
+    if raw in ADVANTAGES:
+        return raw
+    alias = _TRAIT_ALIASES.get(raw.lower())
+    if alias and alias in ADVANTAGES:
+        return alias
+    return _ADVANTAGES_LC.get(raw.lower())
+
 
 def _trait_entry_and_level(trait: str) -> tuple[str, dict | None, int]:
     """Riconosce 'Vantaggio 3' come base 'Vantaggio', livello 3.
 
     Mantiene compatibilita con le chiavi esatte gia esistenti: se la stringa
-    completa e nel catalogo, vince quella.
+    completa e nel catalogo, vince quella. Supporta case-insensitive e alias.
     """
     raw = str(trait or "").strip()
-    if raw in ADVANTAGES:
-        return raw, ADVANTAGES[raw], 1
+    canon = _canonical_trait_key(raw)
+    if canon:
+        return canon, ADVANTAGES[canon], 1
     match = re.match(r"^(.*?)[ ]+([1-9][0-9]*)$", raw)
     if match:
         base = match.group(1).strip()
         level = int(match.group(2))
-        if base in ADVANTAGES:
-            entry = ADVANTAGES[base]
+        canon_base = _canonical_trait_key(base)
+        if canon_base:
+            entry = ADVANTAGES[canon_base]
             max_level = int(entry.get("max_level", level) or level)
-            return base, entry, max(1, min(level, max_level))
+            return canon_base, entry, max(1, min(level, max_level))
     return raw, None, 1
 
 
