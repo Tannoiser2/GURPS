@@ -12,7 +12,7 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 60,
-      "includeFiles": "backend/**,data/compiled_adventures/**/*.json,data/maps/**,data/genres/**"
+      "includeFiles": "{backend,data/compiled_adventures}/**"
     }
   }
 }

@@ -1,0 +1,19 @@
+# Escludi file che non servono nel Lambda Python
+# (le static assets sono già servite dal CDN)
+
+# Immagini e PDF nella data/
+data/compiled_adventures/**/*.pdf
+data/compiled_adventures/**/*.png
+data/compiled_adventures/adventure_catalog_4up_A4.pdf
+data/compiled_adventures/adventure_catalog_4up_A4_page1.png
+data/compiled_adventures/_debug_pdf/
+
+# Tools e docs (non servono a runtime)
+tools/
+docs/
+
+# Script batch e log
+backend/scripts/
+
+# PDF sorgente
+PDF/
