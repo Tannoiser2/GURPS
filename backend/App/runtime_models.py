@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 from typing import Any, Dict, List, Literal, Optional
 
 
@@ -100,7 +100,7 @@ class FactionState(BaseModel):
 class Revelation(BaseModel):
     id: str
     thread_id: str = ""
-    statement: str
+    statement: str = ""
     required_clues: List[str] = []
     required_evidence_kinds: List[str] = []
     minimum_independent_kinds: int = 1
@@ -109,6 +109,18 @@ class Revelation(BaseModel):
     payoff: str = ""
     conditions: List[str] = []
     llm_generated: bool = False
+
+    @model_validator(mode="before")
+    @classmethod
+    def _fill_statement(cls, values):
+        # Some older adventure files use 'description' or 'label' instead of 'statement'
+        if isinstance(values, dict) and not values.get("statement"):
+            values["statement"] = (
+                values.get("description")
+                or values.get("label")
+                or ""
+            )
+        return values
 
 
 class RuntimeClue(BaseModel):
