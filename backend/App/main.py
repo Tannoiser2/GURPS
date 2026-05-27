@@ -146,10 +146,27 @@ def _update_map_position(player_action: str) -> None:
     if not game_state.map_state or not game_state.adventure_definition:
         return
     import re as _re
-    m = _re.search(r"[Ss]postar[si]* verso\s+(.+)", player_action or "")
-    if not m:
+    # Match many movement patterns: "spostarsi verso X", "vai a X", "andare a X",
+    # "raggiungere X", "dirigersi a X", "recarsi a X", "entrare in X", "tornare a X"
+    patterns = [
+        r"[Ss]postar[si]* (?:verso|a|al|alla|allo|agli|alle)\s+(.+)",
+        r"[Vv]a(?:i|do|)? (?:a|al|alla|allo|agli|alle)\s+(.+)",
+        r"[Aa]ndar[ei]? (?:a|al|alla|allo|agli|alle)\s+(.+)",
+        r"[Rr]aggiungere\s+(.+)",
+        r"[Dd]irigers[i]* (?:a|al|alla|verso)\s+(.+)",
+        r"[Rr]ecars[i]* (?:a|al|alla)\s+(.+)",
+        r"[Ee]ntrare (?:in|nel|nella|nello|nei|negli|nelle)\s+(.+)",
+        r"[Tt]ornare (?:a|al|alla|allo)\s+(.+)",
+        r"[Mm]uovers[i]* (?:verso|a|al)\s+(.+)",
+    ]
+    dest_name = None
+    for pat in patterns:
+        m = _re.search(pat, player_action or "")
+        if m:
+            dest_name = m.group(1).strip().rstrip(".!?,;")
+            break
+    if not dest_name:
         return
-    dest_name = m.group(1).strip().rstrip(".")
     dest_name_l = dest_name.lower()
     nodes = game_state.map_state.nodes
     match_id = None
@@ -906,7 +923,11 @@ def _build_clocks_data(runtime, runtime_state) -> list[dict]:
     clock_rt = {}
     if runtime_state:
         clock_rt = dict(runtime_state.clock_runtime or {})
-    for clock in (runtime.event_clocks or []):
+    # Prefer adventure_runtime.event_clocks, fall back to adventure_definition.event_clocks
+    clock_source = getattr(runtime, "event_clocks", None) or []
+    if not clock_source and game_state.adventure_definition:
+        clock_source = game_state.adventure_definition.event_clocks or []
+    for clock in clock_source:
         entry = dict(clock_rt.get(clock.id) or {})
         current_value = int(entry.get("value") or 0)
         is_discovered = clock.discovered or bool(entry.get("discovered", False))
@@ -1421,7 +1442,7 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     }
     if game_state.map_state:
         resp["map_state"] = game_state.map_state.model_dump()
-    if game_state.adventure_runtime:
+    if game_state.adventure_definition or game_state.adventure_runtime:
         resp["clocks_data"] = _build_clocks_data(game_state.adventure_runtime, game_state.adventure_runtime_state)
     return resp
 

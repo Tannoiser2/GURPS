@@ -3241,17 +3241,18 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClo
   );
 }
 
-function SidePanel({ adventure, gameState, mapState, clocksData, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
+function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
   const [tab, setTab] = useState("clues");
   const [audience, setAudience] = useState("players");
   const [expandedNpc, setExpandedNpc] = useState(null);
   const [expandedPlayer, setExpandedPlayer] = useState(null);
-  const clues = adventure?.clues || [];
+  const _def = adventure?.adventure_definition || adventure || {};
+  const clues = _def.clues || [];
   const clueProgress = gameState?.clue_progress || {};
   const storyThreads = deriveStoryThreads(adventure, gameState?.clues_found || [], clueProgress, gameState?.resolved_threads || []);
   const readyThreads = storyThreads.filter(t => t.status === "ready_to_deduce");
   const resolvedThreads = storyThreads.filter(t => t.status === "resolved");
-  const advNpcs = adventure?.npcs || [];
+  const advNpcs = _def.actors || _def.npcs || [];
   const worldNpcs = gameState?.world_npcs || [];
   // Merge: world_npcs prende il sopravvento per nomi corrispondenti
   const npcMap = new Map();
@@ -3269,15 +3270,20 @@ function SidePanel({ adventure, gameState, mapState, clocksData, locationImages,
   const npcStatuses = gameState?.npc_statuses || {};
   const tacticalNodes = deriveTacticalNodes(adventure, mapState);
   const canon = adventure?.adventure_canon || {};
+  const finaleConditions = canon?.finale_conditions || _def.finale_conditions || adventure?.finale_conditions || [];
+  const _finaleLabel = finaleConditions.length > 0
+    ? finaleConditions.map(f => f.label || f.id).filter(Boolean).join(" oppure ")
+    : null;
   const primaryObjective = textValue(
     adventure?.win_condition,
+    _def.win_condition,
     adventure?.objective,
     gameState?.mission?.objective,
     canon?.objective,
+    _finaleLabel,
     "Completare l'avventura."
   );
   const hiddenTruth = textValue(adventure?.hidden_truth, canon?.core_truth);
-  const finaleConditions = canon?.finale_conditions || adventure?.finale_conditions || [];
   const runtimeQuality = adventure?.validation_report?.quality || {};
   const sourceMode = adventure?.source_mode || adventure?.adventure_definition?.source_mode || "";
   const archetypeProfile = adventure?.archetype_profile || adventure?.adventure_definition?.archetype_profile || {};
@@ -3356,39 +3362,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, locationImages,
         <div style={{ height: 5, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
           <div style={{ height: "100%", width: `${threatPct}%`, background: threatColor, transition: "width 0.5s, background 0.5s" }} />
         </div>
-        {gameState?.allowed_escalation_tier !== null && gameState?.allowed_escalation_tier !== undefined && (
-          <div style={{
-            marginTop: 8, padding: "7px 8px", borderRadius: 7,
-            background: "rgba(96,165,250,0.08)", border: "1px solid rgba(96,165,250,0.25)",
-            fontSize: 10, color: "var(--text)", lineHeight: 1.35,
-          }}>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 3 }}>
-              <span style={{ color: "#93c5fd", fontWeight: 800 }}>Director tier</span>
-              <span style={{ color: "#fff", fontWeight: 800 }}>{gameState.allowed_escalation_tier}/6</span>
-            </div>
-            {gameState.director_reason && <div style={{ opacity: 0.75 }}>{gameState.director_reason}</div>}
-            {(gameState.allowed_escalation_types || []).length > 0 && (
-              <div style={{ color: "#bbf7d0", marginTop: 4 }}>
-                Consentite: {(gameState.allowed_escalation_types || []).slice(0, 3).join(", ")}
-              </div>
-            )}
-            {(gameState.forbidden_escalation_types || []).length > 0 && (
-              <div style={{ color: "#c4b5fd", marginTop: 3 }}>
-                Vietate: {(gameState.forbidden_escalation_types || []).slice(0, 3).join(", ")}
-              </div>
-            )}
-            {(gameState.blocked_major_events || []).length > 0 && (
-              <div style={{ color: "#fca5a5", marginTop: 4 }}>
-                Bloccati: {(gameState.blocked_major_events || []).slice(0, 3).join(", ")}
-              </div>
-            )}
-            {(gameState.downgraded_events || []).length > 0 && (
-              <div style={{ color: "#fde68a", marginTop: 3 }}>
-                Downgrade: {(gameState.downgraded_events || []).map(e => e.replacement || e.blocked).slice(0, 2).join(", ")}
-              </div>
-            )}
-          </div>
-        )}
+        {/* Director tier hidden — internal system data, not useful for players or GM */}
       </div>
 
       <div style={{ display: "flex", gap: 6, padding: "9px 14px", borderBottom: "1px solid var(--border)" }}>
@@ -3438,6 +3412,9 @@ function SidePanel({ adventure, gameState, mapState, clocksData, locationImages,
               ⏱ Clock{(clocksData || []).length > 0 ? ` ${(clocksData || []).length}` : ""}
             </button>
             <button style={tabStyle("gm_maps")} onClick={() => setTab("gm_maps")}>Tattiche{tacticalNodes.length ? ` ${tacticalNodes.length}` : ""}</button>
+            <button style={tabStyle("gm_events")} onClick={() => setTab("gm_events")}>
+              ⚡ Log{gmEventLog?.length > 0 ? ` ${gmEventLog.length}` : ""}
+            </button>
           </>
         )}
       </div>
@@ -3613,6 +3590,35 @@ function SidePanel({ adventure, gameState, mapState, clocksData, locationImages,
                 Nessun clock attivo in questa avventura.
               </div>
             )}
+          </div>
+        )}
+
+        {audience === "gm" && tab === "gm_events" && (
+          <div style={{ padding: "4px 0" }}>
+            <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 10 }}>
+              Log eventi GM
+            </div>
+            {(!gmEventLog || gmEventLog.length === 0) && (
+              <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.45, fontStyle: "italic" }}>Nessun evento ancora.</div>
+            )}
+            {[...(gmEventLog || [])].reverse().map((ev, i) => {
+              const isClock = ev._type === "clock";
+              const borderColor = isClock ? (ev.completed ? "#ef4444" : "#f59e0b") : ev.action === "eliminate_npc" ? "#ef4444" : ev.action === "destroy_clue" ? "#f97316" : ev.action === "scare_npc" ? "#a855f7" : "#06b6d4";
+              const icon = isClock ? (ev.completed ? "💀" : "⏱") : { destroy_clue: "🔥", eliminate_npc: "💀", scare_npc: "😱", move_clue: "📦", create_clue: "🔍", failforward_clue: "🛡" }[ev.action] || "⚡";
+              const title = isClock ? ev.label : (ev.actor_name || ev.action);
+              const detail = isClock
+                ? (ev.completed ? `COMPLETATO → ${ev.consequence}` : `${ev.old_value} → ${ev.new_value}/${ev.max_value}`)
+                : ev.narration;
+              return (
+                <div key={ev.id || i} style={{ padding: "7px 9px", borderRadius: 8, marginBottom: 5, background: "var(--code-bg)", borderLeft: `3px solid ${borderColor}` }}>
+                  <div style={{ display: "flex", gap: 6, alignItems: "center", marginBottom: 2 }}>
+                    <span style={{ fontSize: 13 }}>{icon}</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: borderColor }}>{title}</span>
+                  </div>
+                  {detail && <div style={{ fontSize: 11, color: "rgba(248,250,252,0.7)", lineHeight: 1.35 }}>{detail}</div>}
+                </div>
+              );
+            })}
           </div>
         )}
 
@@ -5369,6 +5375,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [clocksData, setClocksData] = useState([]);
   const [clockToasts, setClockToasts] = useState([]);
   const [npcEventToasts, setNpcEventToasts] = useState([]);
+  const [gmEventLog, setGmEventLog] = useState([]); // persistent GM event history
   const [tokenStats, setTokenStats] = useState({ input_tokens: 0, output_tokens: 0, total_tokens: 0, cost_usd: 0, calls: 0, errors: 0 });
   const [pendingAttack, setPendingAttack] = useState(null);
   const [combatAttacker, setCombatAttacker] = useState(null);
@@ -5978,32 +5985,24 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     if (res.map_state) setMapState(res.map_state);
     if (res.clocks_data) setClocksData(res.clocks_data);
     if (res.clock_events?.length > 0) {
-      setClockToasts(prev => [
-        ...prev,
-        ...res.clock_events.map(ev => ({
-          id: `${ev.clock_id}-${Date.now()}-${Math.random()}`,
-          label: ev.label,
-          old_value: ev.old_value,
-          new_value: ev.new_value,
-          max_value: ev.max_value,
-          steps_crossed: ev.steps_crossed || [],
-          completed: ev.completed,
-          clock_type: ev.clock_type || "narrative",
-          consequence: ev.consequence || "",
-        })),
-      ]);
+      const mapped = res.clock_events.map(ev => ({
+        id: `${ev.clock_id}-${Date.now()}-${Math.random()}`,
+        label: ev.label, old_value: ev.old_value, new_value: ev.new_value,
+        max_value: ev.max_value, steps_crossed: ev.steps_crossed || [],
+        completed: ev.completed, clock_type: ev.clock_type || "narrative",
+        consequence: ev.consequence || "",
+      }));
+      setClockToasts(prev => [...prev, ...mapped]);
+      setGmEventLog(prev => [...prev, ...mapped.map(e => ({ ...e, _type: "clock", _ts: Date.now() }))]);
     }
     if (res.npc_events?.length > 0) {
-      setNpcEventToasts(prev => [
-        ...prev,
-        ...res.npc_events.map(ev => ({
-          id: `npc-${ev.actor_id}-${Date.now()}-${Math.random()}`,
-          actor_name: ev.actor_name || ev.actor_id,
-          action: ev.action,
-          narration: ev.narration || "",
-          at_pressure: ev.at_pressure,
-        })),
-      ]);
+      const mapped = res.npc_events.map(ev => ({
+        id: `npc-${ev.actor_id}-${Date.now()}-${Math.random()}`,
+        actor_name: ev.actor_name || ev.actor_id, action: ev.action,
+        narration: ev.narration || "", at_pressure: ev.at_pressure,
+      }));
+      setNpcEventToasts(prev => [...prev, ...mapped]);
+      setGmEventLog(prev => [...prev, ...mapped.map(e => ({ ...e, _type: "npc", _ts: Date.now() }))]);
     }
     if (res.call_tokens) setTokenStats(prev => {
       const t = res.call_tokens;
@@ -6423,6 +6422,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           gameState={gameStateData}
           mapState={mapState}
           clocksData={clocksData}
+          gmEventLog={gmEventLog}
           locationImages={locationImages}
           onMove={handleMoveToLocation}
           preparedTacticalMaps={preparedTacticalMaps}
