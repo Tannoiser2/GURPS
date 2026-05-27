@@ -5948,6 +5948,12 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     setPendingOption(null);
     setCustomText("");
     setLoading(true);
+    try { return await _sendActionInner(actionText, skill, pid, player, newHistory); }
+    catch (e) { console.error("[GURPS] sendAction error:", e); _setMessages(prev => [...prev, { role: "master", name: "Master", text: `⚠ Errore: ${e.message || "risposta non ricevuta"}` }]); }
+    finally { setLoading(false); }
+  }
+
+  async function _sendActionInner(actionText, skill, pid, player, newHistory) {
 
     if (!adventure) throw new Error("Avventura compilata mancante: riavvia dalla schermata di setup.");
     const res = await fetch(`${API_URL}/game/master/turn-bible`, {
@@ -6077,8 +6083,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         });
       }
     }
-    setLoading(false);
-
     const idx = players.findIndex(p => p.id === pid);
     setActivePlayerId(players[(idx + 1) % players.length].id);
     if (imageProvider !== "none") fetchSceneImage(res.narrative, masterIdx);
