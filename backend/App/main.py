@@ -794,6 +794,9 @@ def _persist_combat_scene(combat_scene: dict | None, preserve_live_hp: bool = Fa
         entity.setdefault("active_defense", 8)
         entity.setdefault("damage_dice", "1d6")
         entity.setdefault("damage_type", "cr")
+        # Propaga l'id generato (es. "enemy_1") al dict originale nella combat_scene,
+        # così il frontend riceve lo stesso id che sarà usato dal backend per trovare l'entità.
+        raw["id"] = entity["id"]
         try:
             entities.append(SceneEntity(**entity))
         except Exception:
