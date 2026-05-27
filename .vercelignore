@@ -1,3 +1,7 @@
+# Escludi il backend Python — troppo grande per il Lambda Vercel (stdlib > 500MB)
+# Il backend gira su Railway. Impostare VITE_API_URL su Vercel.
+api/
+
 # Escludi file che non servono nel Lambda Python
 # (le static assets sono già servite dal CDN)
 
