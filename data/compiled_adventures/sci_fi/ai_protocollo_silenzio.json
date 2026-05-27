@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_protocollo_silenzio",
+    "title": "Protocollo Silenzio",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "sci_fi",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "sci-fi paranoico, horror cosmico industriale, luce fredda",
+    "premise": "La stazione orbitale Kessler-9 produceva materiali rari per reattori di quinta generazione e ospitava 340 persone. Da undici giorni non risponde. Una nave di soccorso viene mandata con i PG a bordo: troveranno una stazione silenziosa, con aria respirabile, luci accese e nessuno in vista — tranne tracce di pasto servito a metà su ogni tavolo della mensa.",
+    "initial_hook": "L'agenzia spaziale li incarica di recuperare i dati del reattore e scoprire la sorte dell'equipaggio. Hanno 48 ore prima che l'orbita della stazione si deteriori irreversibilmente.",
+    "player_facing_objective": "Scoprire cosa è successo all'equipaggio, recuperare i dati del reattore e uscire vivi.",
+    "hidden_truth": "Un parassita quantistico — un'entità che esiste nello spazio tra gli stati di materia — si è ancorato al reattore durante un test sperimentale. Non ha ucciso l'equipaggio: li ha 'sovrascritti' — ciascuno è ancora fisicamente presente ma crede di essere in un momento diverso della propria vita, con ricordi e comportamenti di una versione passata di sé stessa. Sono vivi ma perduti nel tempo soggettivo.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Un parassita quantistico — un'entità che esiste nello spazio tra gli stati di materia — si è ancorato al reattore durante un test sperimentale. Non ha ucciso l'equipaggio: li ha 'sovrascritti' — ciascuno è ancora fisicamente presente ma crede di essere in un momento diverso della propria vita, con ricordi e comportamenti di una versione passata di sé stessa. Sono vivi ma perduti nel tempo soggettivo.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire cosa è successo all'equipaggio, recuperare i dati del reattore e uscire vivi.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Un parassita quantistico — un'entità che esiste nello spazio tra gli stati di materia — si è ancorato al reattore durante un test sperimentale. Non ha ucciso l'equipaggio: li ha 'sovrascritti' — ciascuno è ancora fisicamente presente ma crede di essere in un momento diverso della propria vita, con ricordi e comportamenti di una versione passata di sé stessa. Sono vivi ma perduti nel tempo soggettivo.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Trovare il log di isolamento del reattore nella sala macchine, costruire un emettitore di frequenza dissonante con i componenti trovati nel laboratorio di fisica, poi trasmettere il segnale dissonante dal nodo centrale per disconnettere il parassita senza distruggere il reattore — operazione che richiede due persone in stazioni diverse.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Log audio del comandante che descrive 'voci dal proprio passato' ore prima del silenzio",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Il comandante descrive la sensazione esatta della sovrascrittura — è documentazione preziosa.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il comandante descrive la sensazione esatta della sovrascrittura — è documentazione preziosa.",
+        "hidden_implication": "Il parassita non ha intenzioni: è come un parassita biologico che si nutre di stati quantistici cerebrali.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il silenzio potrebbe essere un ammutinamento organizzato che ha messo tutti sotto sedazione.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza balbettante di un tecnico che crede di essere in accademia vent'anni prima",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Il tecnico non è pazzo: il parassita lo ha bloccato in un ricordo specifico senza via d'uscita.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il tecnico non è pazzo: il parassita lo ha bloccato in un ricordo specifico senza via d'uscita.",
+        "hidden_implication": "L'equipaggio può essere recuperato completamente se disconnesso entro 72 ore dalla sovrascrittura.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il tecnico balbettante potrebbe simulare per evitare interrogatori su un sabotaggio.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Note del ricercatore sul parassita quantistico con schema di frequenza dissonante",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Le note descrivono il parassita come 'entità di fase' che può essere disconnessa con frequenza giusta.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Le note descrivono il parassita come 'entità di fase' che può essere disconnessa con frequenza giusta.",
+        "hidden_implication": "Il ricercatore capo è ancora cosciente — ha costruito uno scudo di frequenza nel proprio laboratorio.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Le note potrebbero essere un esperimento fallito senza applicazione pratica reale.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Componenti elettronici nel laboratorio compatibili con la costruzione dell'emettitore",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Con i componenti giusti e le note del ricercatore si può costruire l'emettitore in 3 ore.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Con i componenti giusti e le note del ricercatore si può costruire l'emettitore in 3 ore.",
+        "hidden_implication": "Il parassita può sovrascodificare anche i PG se si avvicinano al reattore senza protezione.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "I componenti nel laboratorio potrebbero servire a un sistema d'arma, non a un emettitore.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Il log di isolamento del reattore con la sequenza di disconnessione del parassita",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Il log specifica esattamente la sequenza — ma richiede due operatori simultanei in stazioni diverse.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il log specifica esattamente la sequenza — ma richiede due operatori simultanei in stazioni diverse.",
+        "hidden_implication": "L'emettitore dissonante, se mal calibrato, può accelerare il deterioramento orbitale.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il log potrebbe essere stato alterato — la sequenza di disconnessione è una trappola.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Firma energetica anomala nel campo del reattore visibile agli strumenti di scansione",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "La firma energetica conferma che il parassita è ancora ancorato e attivo — non è fuggito.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La firma energetica conferma che il parassita è ancora ancorato e attivo — non è fuggito.",
+        "hidden_implication": "Una seconda entità minore è già partita su un satellite cargo — è in rotta verso una colonia.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La firma energetica potrebbe essere un'anomalia del reattore danneggiato, non un'entità.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Tecnico Kasha Morr",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Donna di 30 anni bloccata nel ricordo dell'esame di laurea — risponde solo a domande del suo professore.",
+        "goal": "Tornare alla realtà presente.",
+        "motivation": "Tornare alla realtà presente.",
+        "secret": "Porta ancora sul polso un emettitore personale semi-funzionante che il ricercatore le ha dato come protezione parziale.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Risponde a domande se i PG simulano il contesto del suo ricordo (aula universitaria, tono formale).",
+        "fallback_plan": "Se i PG usano le parole del professore che ella ricorda, si sblocca temporaneamente e rivela la posizione del laboratorio.",
+        "pressure_response": {
+          "low": "Tecnico Kasha Morr osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Tecnico Kasha Morr accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Tecnico Kasha Morr sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Tecnico Kasha Morr tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Ingegnere Capo Reto Blum",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Uomo sui 50 anni, bloccato nel ricordo di una missione su Marte di vent'anni prima. Fisicamente aggressivo con 'alieni sconosciuti'.",
+        "goal": "Proteggere la 'base marziana' dagli intrusi.",
+        "motivation": "Proteggere la 'base marziana' dagli intrusi.",
+        "secret": "È quello che conosce la sequenza completa di disconnessione del reattore — ma non ne è consapevole nel suo stato attuale.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Attacca chiunque non conosca il codice di accesso della base marziana (è nella sua scheda personale).",
+        "fallback_plan": "Se i PG trovano la scheda e usano il codice corretto, lo riconoscono come 'colleghi' e lui rivela la sequenza.",
+        "pressure_response": {
+          "low": "Ingegnere Capo Reto Blum osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Ingegnere Capo Reto Blum accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Ingegnere Capo Reto Blum sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Ingegnere Capo Reto Blum tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Ricercatrice Yun-Hee Park",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Donna di 45 anni, l'unica con scudo di frequenza parziale. Cosciente ma esausta, barricata nel laboratorio.",
+        "goal": "Completare l'emettitore e salvare l'equipaggio prima che il deterioramento orbitale diventi irreversibile.",
+        "motivation": "Completare l'emettitore e salvare l'equipaggio prima che il deterioramento orbitale diventi irreversibile.",
+        "secret": "Sa che una seconda entità minore è partita su un cargo — ha mandato un messaggio cifrato all'agenzia ma non sa se è arrivato.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Collabora immediatamente con i PG, fornisce le note e i componenti, guida la costruzione dell'emettitore.",
+        "fallback_plan": "Se i PG completano l'emettitore, rivela la seconda entità — e chiede di essere evacuata per inseguirla.",
+        "pressure_response": {
+          "low": "Ricercatrice Yun-Hee Park osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Ricercatrice Yun-Hee Park accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Ricercatrice Yun-Hee Park sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Ricercatrice Yun-Hee Park tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Il Parassita Quantistico",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Invisibile all'occhio nudo — visibile come distorsione luminosa pulsante nel campo del reattore.",
+        "goal": "Nutrirsi di stati quantistici cerebrali — non ha coscienza di fare del male.",
+        "motivation": "Nutrirsi di stati quantistici cerebrali — non ha coscienza di fare del male.",
+        "secret": "Non ha piano: reagisce alla vicinanza con sovrascrittura automatica. Non può fuggire senza l'ancora del reattore.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Sovrascrivi chiunque si avvicini al reattore senza protezione di frequenza.",
+        "fallback_plan": "Non può essere comunicato — può solo essere disconnesso o contenuto.",
+        "pressure_response": {
+          "low": "Il Parassita Quantistico osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Il Parassita Quantistico accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Il Parassita Quantistico sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Il Parassita Quantistico tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Atrio di Attracco — Kessler-9",
+        "description": "Corridoi bianchi e silenziosi, luci che funzionano, nessuna persona. Odore di cibo ancora caldo dalla mensa vicina. Pannelli di controllo accesi senza operatori.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Corridoi bianchi e silenziosi, luci che funzionano, nessuna persona. Odore di cibo ancora caldo dalla mensa vicina. Pannelli di controllo accesi senza operatori.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Campo del parassita: sovrascrittura della memoria se ci si avvicina al reattore senza protezione di frequenza."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Mensa dell'Equipaggio",
+        "description": "340 posti, 47 pasti serviti a metà e mai finiti. Tracce di persone che si sono alzate all'improvviso. Alcune sedie ribaltate, nessun segno di lotta.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "340 posti, 47 pasti serviti a metà e mai finiti. Tracce di persone che si sono alzate all'improvviso. Alcune sedie ribaltate, nessun segno di lotta.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Deterioramento orbitale: piccoli tremori strutturali che aumentano di frequenza col passare delle ore."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Modulo Abitativo — Settore C",
+        "description": "Cabine personali. Alcuni occupanti sono fisicamente presenti ma non rispondono al contesto: parlano di eventi passati come se fossero presenti.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Cabine personali. Alcuni occupanti sono fisicamente presenti ma non rispondono al contesto: parlano di eventi passati come se fossero presenti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Equipaggio sovrascritto: potenzialmente violento se i PG interrompono il loro 'ricordo presente'."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Laboratorio di Fisica — Livello 3",
+        "description": "Strumenti avanzati, esperimenti abbandonati a metà. Qui si trovano i componenti per l'emettitore dissonante e le note del ricercatore capo sul parassita.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Strumenti avanzati, esperimenti abbandonati a metà. Qui si trovano i componenti per l'emettitore dissonante e le note del ricercatore capo sul parassita.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Radiazioni contenute ma crescenti vicino al reattore: esposizione prolungata causa mal di radiazioni."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Sala Macchine — Reattore di Quinta Gen",
+        "description": "Il cuore pulsante della stazione. Temperatura alta, radiazioni contenute. Il parassita è visibile come distorsione visiva nel campo del reattore.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il cuore pulsante della stazione. Temperatura alta, radiazioni contenute. Il parassita è visibile come distorsione visiva nel campo del reattore.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "La stazione ha punti di pressurizzazione instabili — forzare certe porte può causare depressurizzazione locale."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Deterioramento orbitale di Kessler-9",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Dopo 48 ore il deterioramento orbitale è irreversibile: la stazione cade nell'atmosfera con tutto l'equipaggio.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Dopo 48 ore il deterioramento orbitale è irreversibile: la stazione cade nell'atmosfera con tutto l'equipaggio."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Disconnettere il parassita e attivare i sistemi di correzione orbitale prima della scadenza.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Disconnettere il parassita, recuperare l'equipaggio, stabilizzare l'orbita — missione riuscita con dati sulla seconda entità.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Trovare il log di isolamento del reattore nella sala macchine, costruire un emettitore di frequenza dissonante con i componenti trovati nel laboratorio di fisica, poi trasmettere il segnale dissonante dal nodo centrale per disconnettere il parassita senza distruggere il reattore — operazione che richiede due persone in stazioni diverse.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Disconnettere il parassita ma non recuperare tutto l'equipaggio: orbita stabilizzata, alcuni rimangono in stato sovrascritta.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Protocollo Silenzio",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

@@ -18,6 +18,11 @@ _GURPS_ACTOR_RE = re.compile(
 )
 _FACTION_RE = re.compile(r"(?im)^\s*(?:fazione|faction|casata|gilda|clan)[:\s-]+(.+)$")
 _CLUE_RE = re.compile(r"(?im)^\s*(?:clue|indizio|prova|evidence|testimonianza|documento)[:\s-]+(.+)$")
+# Pattern to detect if a clue label is predominantly a stat block (e.g. "HP 14 ST 12 DX 11")
+_STAT_BLOCK_DENSE_RE = re.compile(
+    r'\b(AC|HD|HP|MV|THAC0|ST|DX|IQ|HT|FP|Move|Speed|Dodge|Parry|Block)\s*[:=]?\s*\d',
+    re.IGNORECASE,
+)
 _ENCOUNTER_RE = re.compile(r"(?im)^\s*(?:encounter|incontro|combattimento|trappola|hazard|pericolo)[:\s-]+(.+)$")
 _TIMELINE_RE = re.compile(r"(?im)^\s*(?:giorno|turno|ora|timeline|evento)\s*([0-9IVX:-]*)[:\s-]+(.+)$")
 _TIMELINE_LADDER_RE = re.compile(
@@ -224,8 +229,22 @@ def extract_faction_blocks(text: str) -> list[dict[str, Any]]:
     return _blocks_from_regex(_FACTION_RE, text or "", "faction")
 
 
+def _is_stat_block_label(label: str) -> bool:
+    """Returns True if the label looks like a stat block row rather than a narrative clue.
+
+    Triggers when ≥ 2 distinct stat field names are present in the label — a
+    density that almost always means the regex matched a D&D/GURPS stat line
+    that happened to follow an 'indizio:' keyword on the same page.
+    """
+    if not label:
+        return False
+    return len(_STAT_BLOCK_DENSE_RE.findall(label)) >= 2
+
+
 def extract_clue_blocks(text: str) -> list[dict[str, Any]]:
-    return _blocks_from_regex(_CLUE_RE, text or "", "clue")
+    blocks = _blocks_from_regex(_CLUE_RE, text or "", "clue")
+    # Drop blocks whose label is predominantly a stat block (OCR artefact)
+    return [b for b in blocks if not _is_stat_block_label(b.get("label") or "")]
 
 
 def extract_encounter_blocks(text: str) -> list[dict[str, Any]]:

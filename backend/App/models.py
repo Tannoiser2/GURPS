@@ -18,7 +18,58 @@ class Action(BaseModel):
     # Combattimento meccanico PR2
     attack_kind: Optional[str] = None   # "melee" | "ranged" | None
     damage: Optional[str] = None        # formula dado, es. "2d6", "1d6+2"
-    damage_type: Optional[str] = None   # "cut" | "imp" | "cr" | "burn"
+    damage_type: Optional[str] = None   # "cut" | "imp" | "cr" | "burn" | "pi" | "pi+" | "pi-" | "tox"
+    # Arma a distanza (ranged)
+    acc: int = 0                        # bonus Accuratezza (arco 2, pistola 2, fucile 4, ecc.)
+    range_half: int = 0                 # gittata ½D in yard/esagoni (−3 oltre questa)
+    range_max: int = 0                  # gittata massima in yard/esagoni (−6 oltre questa, impossibile oltre il doppio)
+    bulk: int = 0                       # penalità Bulk (solo distanza; solitamente negativo)
+    ammo: int = 0                       # capacità caricatore (0 = non applicabile)
+    ammo_current: int = 0              # munizioni rimanenti nel caricatore corrente
+    rcl: int = 1                        # rinculo per colpo extra (burst); 1 = nessuno
+    reload: int = 0                     # turni per ricaricare (0 = istantaneo)
+    weapon_id: str = ""                 # id in WEAPON_TABLE (es. "pistola_9mm")
+    weapon_notes: str = ""              # note regole speciali
+
+
+class EquipmentItem(BaseModel):
+    """Oggetto fisico nell'inventario di un PG o NPC."""
+    id: str = ""                   # slug univoco, es. "pistola_9mm_1", "frecce_30"
+    name: str
+    category: str = "misc"         # "weapon" | "armor" | "ammo" | "misc" | "consumable" | "quest_item" | "key_item"
+    weapon_id: str = ""            # se weapon, link a WEAPON_TABLE (es. "pistola_9mm")
+    quantity: int = 1              # per ammo/consumabili: numero di pezzi/pacchi
+    ammo_per_pack: int = 0         # per category=="ammo": munizioni per unità (es. 20 cartucce/pacco)
+    ammo_type: str = ""            # tipo di munizioni: abbinato al weapon_id dell'arma corrispondente
+    armor_dr: int = 0              # per category=="armor": DR fornita
+    armor_location: str = ""       # "torso" | "testa" | "totale" | …
+    equipped: bool = True          # True = in mano / indosso
+    weight: float = 0.0            # kg (approssimato)
+    cost: int = 0                  # valore/costo in moneta di gioco
+    notes: str = ""
+    # ── Bonus/malus alle abilità ─────────────────────────────────────────────
+    # Mappa skill → modificatore (positivo = bonus, negativo = malus).
+    # Applicato automaticamente quando il PG usa quella skill con l'oggetto equipaggiato.
+    # Es. scanner: {"ricerca": 2, "percezione": 1}
+    # Es. armatura pesante: {"furtivita": -2, "acrobazia": -1}
+    skill_bonuses: Dict[str, int] = {}
+    # Bonus condizionali: applicati solo in specifici contesti
+    # Es. [{"skill": "ricerca", "bonus": 3, "tags": ["tecnologico", "laboratorio"]}]
+    conditional_bonuses: List[Dict] = []
+    # Tracciabilità narrativa
+    source_npc_id: str = ""        # id del WorldNPC o SceneEntity da cui è stato ottenuto
+    source_location: str = ""      # nome della location in cui è stato trovato
+    found_at_turn: int = 0         # turno in cui è stato raccolto
+
+
+class LootEntry(BaseModel):
+    """Oggetto disponibile per la raccolta nella scena corrente."""
+    item: "EquipmentItem"
+    source_type: str = "scene"     # "npc_defeat" | "scene" | "chest" | "clue" | "quest"
+    source_id: str = ""            # id NPC/entità di origine
+    source_name: str = ""          # nome leggibile (es. "Guardia Nord")
+    collected_by: int = 0          # player_id che l'ha raccolto (0 = ancora disponibile)
+    visible: bool = True           # False = nascosto finché non scoperto
 
 
 class SceneEntity(BaseModel):
@@ -77,6 +128,7 @@ class Player(BaseModel):
     move: int = 5                      # Movimento (= floor(basic_speed))
     dr: int = 0                        # Resistenza al Danno totale (da armatura/vantaggi)
     items: List[str] = []
+    equipment: List["EquipmentItem"] = []   # inventario strutturato
     actions: List[Action] = []
     backstory: str = ""
     motivation: str = ""
@@ -84,8 +136,16 @@ class Player(BaseModel):
     shock_penalty: int = 0             # −X ai prossimi tiri attacco/difesa (max −4), azzera a fine turno
     stunned: bool = False              # stordito: niente azioni attive, −4 difesa, si recupera con SA
     prone: bool = False                # a terra: −3 attacco, −3 difesa melee, +1 difesa ranged
-    action_type: str = "normal"        # "normal" | "all_out_attack" | "all_out_defense"
+    posture: str = "standing"          # "standing" | "kneeling" | "prone"  (sincronizzato con prone)
+    action_type: str = "normal"        # "normal" | "all_out_attack" | "all_out_defense" | "aim"
     death_check_pending: bool = False  # True se è appena sceso sotto 0 PF e deve tiro SA
+    aimed: bool = False                # True se ha usato l'azione Aim il turno precedente (+Acc al prossimo tiro)
+    aimed_turns: int = 0              # turni consecutivi di mira (max +Acc dell'arma)
+    # ── Manovre GURPS ────────────────────────────────────────────────────────
+    evaluate_bonus: int = 0            # bonus cumulativo dalla manovra Valuta (max +3, vs stesso bersaglio)
+    evaluate_target: str = ""          # ID bersaglio corrente della manovra Valuta
+    all_out_defense_active: bool = False  # True → +2 a tutte le difese questo turno, no attacco
+    last_maneuver: str = ""            # ultima manovra usata (per UI e log)
 
 
 class CharacterDraft(BaseModel):
@@ -293,6 +353,9 @@ class WorldNPC(BaseModel):
     combat_active_defense: Optional[int] = None
     combat_damage_dice: str = ""
     combat_damage_type: str = "cr"
+    # Equipaggiamento e azioni (come i Player — usato in combattimento tattico)
+    actions: List[Action] = []
+    equipment: List["EquipmentItem"] = []
 
 
 class ReactionResult(BaseModel):
@@ -437,3 +500,8 @@ class GameState(BaseModel):
     last_roll_details: List[Dict] = []  # per_player_outcomes dell'ultimo resolve_actions (playtest)
     personal_victories: Dict[int, bool] = {}  # player_id → obiettivo personale raggiunto
     flags: Dict = {}  # runtime flags: pending_npc_events, pe_triggered_*, etc.
+    locked_context: List[str] = []  # fatti pilastro bloccati — iniettati in ogni turno, non troncabili
+    consecutive_no_progress_turns: int = 0  # turni consecutivi senza indizi trovati — usato dal soft escalation
+    # Inventario persistente: oggetti disponibili per la raccolta nella scena corrente
+    loot_pool: List["LootEntry"] = []          # bottino visibile/raccoglibile ora
+    scene_items_given: List[str] = []          # item_id già distribuiti (evita duplicati)

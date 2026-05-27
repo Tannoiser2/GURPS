@@ -59,9 +59,9 @@ def roll_damage(formula: str) -> int:
         bonus = -int(parts[1].strip())
 
     if "d" in formula:
-        num_d, sides = formula.split("d")
+        num_d, sides = formula.split("d", 1)
         num_d = int(num_d) if num_d else 1
-        sides = int(sides)
+        sides = int(sides) if sides else 6   # "3d" → 3d6
         result = sum(random.randint(1, sides) for _ in range(num_d))
     else:
         result = int(formula)
@@ -70,12 +70,17 @@ def roll_damage(formula: str) -> int:
 
 
 # ─── Modificatore danno per tipo ─────────────────────────────────────────────
-# GURPS: taglio ×1.5, impalante ×2 (applicati prima del DR per le ferite narrative)
+# GURPS 4e: taglio ×1.5, impalante ×2, perforante pesante ×1.5, tox ×1.0
 _DAMAGE_TYPE_WOUNDING: dict[str, float] = {
     "cut":  1.5,
     "imp":  2.0,
     "cr":   1.0,
     "burn": 1.0,
+    "pi":   1.0,    # perforante standard (proiettili normali)
+    "pi+":  1.5,    # perforante pesante (.45 ACP, pallottola espansiva)
+    "pi-":  0.5,    # perforante piccolo (bossolo, pellet)
+    "pi++": 2.0,    # perforante colossale (railgun, calibro grande)
+    "tox":  1.0,    # tossico (stordente, veleno)
 }
 
 
@@ -116,51 +121,74 @@ def _defense_value(
     defense_request: CombatDefenseRequest | None,
     cover_bonus: int = 0,
     rear_attack: bool = False,
+    attack_kind: str = "melee",
 ) -> int:
     """Calcola il valore di difesa effettivo inclusi vantaggi, postura e All-Out Defense.
 
-    cover_bonus: +2 se il bersaglio è in copertura (terrain=1) — passato dal frontend.
-    rear_attack: True se l'attacco arriva da dietro — annulla la difesa attiva (dv→0).
+    cover_bonus:  +X se il bersaglio è in copertura — passato dal frontend.
+    rear_attack:  True se l'attacco arriva da dietro → nessuna difesa attiva.
+    attack_kind:  "melee" | "ranged" — le armi ranged non possono essere parate
+                  (GURPS Lite: solo schivata o blocco con scudo).
     """
     if rear_attack:
         return 0  # attacco da retro: nessuna difesa attiva GURPS Lite p.394
+
+    is_ranged = attack_kind == "ranged"
 
     if target_player is not None:
         all_adv = target_player.advantages + target_player.disadvantages
         dodge_adv = advantage_dodge_bonus(all_adv)
 
-        if defense_request and defense_request.defense_type == "parry":
+        if defense_request and defense_request.defense_type == "parry" and not is_ranged:
+            # Parata: skill/2 + 3. NON disponibile contro armi a distanza.
             skill_name = defense_request.defense_skill
             base = target_player.skills.get(skill_name, 0)
             dv = base // 2 + 3
         elif defense_request and defense_request.defense_type == "block":
+            # Blocco con scudo: disponibile anche contro proiettili (GURPS Lite p.12)
             skill_name = defense_request.defense_skill
             base = target_player.skills.get(skill_name, 0)
             dv = base // 2 + 3
         else:
+            # Schivata (o tentativo di parata ranged → fallback automatico a schivata)
             dv = target_player.dodge
+            if is_ranged and defense_request and defense_request.defense_type == "parry":
+                # Tentativo di parare un proiettile: −1 malus (GURPS B376)
+                dv -= 1
 
         dv += dodge_adv
 
-        # All-Out Defense: +2 schivata/parata
-        if target_player.action_type == "all_out_defense":
+        # All-Out Defense: +2 schivata/parata/blocco (action_type O flag proattivo)
+        if target_player.action_type == "all_out_defense" or getattr(target_player, "all_out_defense_active", False):
             dv += 2
 
-        # Copertura: +2 difesa da terreno
+        # Copertura: +bonus difesa da terreno
         dv += cover_bonus
 
         # Stordito: −4 difesa
         if target_player.stunned:
             dv -= 4
 
-        # Prone: −3 in mischia, +1 contro proiettili (semplificato: −2 netto)
-        if target_player.prone:
-            dv -= 2
+        # Postura: kneeling = −2 difesa mischia; prone = −3 mischia, +1 ranged
+        posture = getattr(target_player, "posture", "standing")
+        if posture == "kneeling":
+            if not is_ranged:
+                dv -= 2
+        elif posture == "prone" or target_player.prone:
+            if is_ranged:
+                dv += 1   # a terra è più difficile da colpire con proiettili
+            else:
+                dv -= 3
 
         return max(0, dv)
 
     elif target_entity is not None:
-        return max(0, target_entity.active_defense + cover_bonus)
+        # Entità NPC: active_defense base; a distanza usa sempre la schivata
+        base = max(0, target_entity.active_defense + cover_bonus)
+        if is_ranged:
+            # Entità ranged: nessun bonus/malus aggiuntivo — già schivata
+            pass
+        return base
 
     return 0
 
@@ -171,12 +199,16 @@ def _resolve_defense(
     target_entity: SceneEntity | None,
     cover_bonus: int = 0,
     rear_attack: bool = False,
+    attack_kind: str = "melee",
 ) -> tuple[int, int, bool]:
     """
     Risolve il tiro di difesa.
     Ritorna (defense_value, roll, is_critical_fail).
     """
-    dv = _defense_value(target_player, target_entity, defense_request, cover_bonus, rear_attack)
+    dv = _defense_value(
+        target_player, target_entity, defense_request,
+        cover_bonus, rear_attack, attack_kind,
+    )
 
     if dv <= 0:
         return 0, 99, False  # nessuna difesa (incluso attacco da retro)
@@ -186,9 +218,36 @@ def _resolve_defense(
     return dv, roll, crit_fail
 
 
+def _range_penalty(distance: int, range_half: int, range_max: int) -> int:
+    """Penalità GURPS per distanza (GURPS Lite semplificato).
+
+    0 yard … range_half  → 0
+    range_half+1 … range_max → −3
+    range_max+1 … range_max×2 → −6   (limite pratico)
+    oltre → impossibile (ritorna −99)
+    """
+    if distance <= 0 or range_half <= 0:
+        return 0  # mischia o range non definito
+    if distance <= range_half:
+        return 0
+    if distance <= range_max:
+        return -3
+    if distance <= range_max * 2:
+        return -6
+    return -99  # fuori gittata massima
+
+
 # ─── Calcolo livello attacco ─────────────────────────────────────────────────
 
-def _attack_level(attacker: Player, attack_skill_name: str) -> int:
+def _attack_level(
+    attacker: Player,
+    attack_skill_name: str,
+    attack_kind: str = "melee",
+    acc: int = 0,
+    distance: int = 0,
+    range_half: int = 0,
+    range_max: int = 0,
+) -> int:
     level = attacker.skills.get(attack_skill_name, 0)
     if level == 0:
         from .data_skills import SKILL_INFO, skill_default_penalty
@@ -200,6 +259,30 @@ def _attack_level(attacker: Player, attack_skill_name: str) -> int:
     # All-Out Attack: +4 attacco, nessuna difesa attiva questo turno
     if attacker.action_type == "all_out_attack":
         level += 4
+
+    # Move and Attack: −4 al tiro (minimo 9, GURPS B324)
+    if attacker.action_type == "move_attack":
+        level = max(9, level - 4)
+
+    # Evaluate: bonus cumulativo dalla manovra Valuta (max +3, si azzera se cambia bersaglio)
+    if getattr(attacker, "evaluate_bonus", 0) > 0:
+        level += attacker.evaluate_bonus
+
+    # Kneeling: −2 attacco melee, −2 attacco ranged (ma +2 difesa ranged)
+    if getattr(attacker, "posture", "standing") == "kneeling":
+        level -= 2
+
+    # Ranged: bonus Aim + penalità distanza
+    if attack_kind == "ranged":
+        # Bonus Aim accumulato (max +Acc dell'arma)
+        if attacker.aimed and acc > 0:
+            aim_bonus = min(attacker.aimed_turns, acc)
+            level += aim_bonus
+
+        # Penalità distanza
+        if distance > 0 and range_half > 0:
+            rp = _range_penalty(distance, range_half, range_max)
+            level += rp  # rp è negativo o 0
 
     # Shock: malus al tiro attacco
     level -= attacker.shock_penalty
@@ -224,13 +307,30 @@ def resolve_attack(
     defense_request: CombatDefenseRequest | None = None,
     cover_bonus: int = 0,
     rear_attack: bool = False,
+    # ── Parametri armi a distanza ──────────────────────────────────────────
+    attack_kind: str = "melee",
+    acc: int = 0,            # Acc dell'arma (da Action)
+    distance: int = 0,       # distanza in esagoni/yard dal bersaglio (0 = contatto)
+    range_half: int = 0,     # gittata ½D dell'arma
+    range_max: int = 0,      # gittata massima dell'arma
+    ammo_current: int = -1,  # munizioni rimanenti (−1 = non tracciato)
 ) -> AttackResult:
     """
     Risolve un singolo scambio attacco/difesa/danno GURPS Lite completo.
 
     Include: Shock, Major Wound, Knockdown, Death Check,
-             All-Out Attack/Defense, penalità postura (prone), fatica (FP).
+             All-Out Attack/Defense, penalità postura (prone), fatica (FP),
+             regole ranged (no parry, penalità distanza, bonus Aim).
     """
+    # ── Munizioni: verifica prima di tutto ──────────────────────────────────
+    if attack_kind == "ranged" and ammo_current == 0:
+        return AttackResult(
+            hit=False,
+            attacker_margin=0,
+            narrative_hint="munizioni_esaurite",
+            fp_cost=0,
+        )
+
     # ── FP: attaccare costa 1 FP se già sotto FP/3 (affaticamento) ──────────
     fp_cost = 0
     if attacker.fp <= attacker.max_fp // 3:
@@ -246,7 +346,11 @@ def resolve_attack(
             fp_cost=fp_cost,
         )
 
-    effective_level = _attack_level(attacker, attack_skill_name)
+    effective_level = _attack_level(
+        attacker, attack_skill_name,
+        attack_kind=attack_kind, acc=acc,
+        distance=distance, range_half=range_half, range_max=range_max,
+    )
     attack_roll = _roll3d6()
     attacker_critical = _is_critical_success(attack_roll, effective_level)
     attacker_crit_fail = _is_critical_failure(attack_roll, effective_level)
@@ -273,6 +377,11 @@ def resolve_attack(
             fp_cost=fp_cost,
         )
 
+    # ── Aim: azzera flag dopo lo sparo (il bonus si consuma) ────────────────
+    if attack_kind == "ranged":
+        attacker.aimed = False
+        attacker.aimed_turns = 0
+
     # ── All-Out Attack: attaccante non può difendersi questo turno ──────────
     # (registrato su attacker.action_type; l'engine lo azzera a fine scambio)
 
@@ -285,11 +394,10 @@ def resolve_attack(
         defense_margin = 0
         def_crit_fail = False
     else:
-        # All-Out Attack: bersaglio non può difendersi se l'attaccante ha AoA
-        # (GURPS: AoA non toglie la difesa al bersaglio, la toglie all'attaccante)
         def_value, defense_roll, def_crit_fail = _resolve_defense(
             defense_request, target_player, target_entity,
             cover_bonus=cover_bonus, rear_attack=rear_attack,
+            attack_kind=attack_kind,
         )
         defense_margin = def_value - defense_roll
         defended = defense_roll <= def_value and not def_crit_fail
@@ -364,6 +472,7 @@ def resolve_attack(
                 knockdown_check_passed = kd_passed
                 if not kd_passed:
                     target_player.prone = True
+                    target_player.posture = "prone"
                     target_prone = True
 
             # ── Death Check (GURPS Lite p.14) ────────────────────────────────
@@ -458,5 +567,7 @@ def stand_up(player: Player) -> None:
 # ─── Azzera action_type a fine scambio ──────────────────────────────────────
 
 def reset_action_type(player: Player) -> None:
-    """Riporta action_type a 'normal' dopo che l'azione è stata usata."""
+    """Riporta action_type a 'normal' e azzera i flag di manovra dopo l'azione."""
     player.action_type = "normal"
+    player.all_out_defense_active = False   # reset difesa totale proattiva
+    player.last_maneuver = ""

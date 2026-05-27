@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_contrabbando_di_stelle",
+    "title": "Contrabbando di Stelle",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "sci_fi",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "sci-fi noir spaziale, criminalità e doppi giochi in orbita bassa",
+    "premise": "La materia stellare compressa — frammenti di nane bianche stabili — è illegale perché può essere usata come innesco per bombe termonucleari portatili. Sulla stazione di commercio Nexus-7, un contrabbandiere viene trovato morto con cento grammi di materia stellare nella tuta, e tre diverse fazioni si presentano entro due ore reclamando la stessa partita.",
+    "initial_hook": "Il responsabile della sicurezza di Nexus-7 ingaggia i PG come investigatori indipendenti: non può usare la polizia federale senza scatenare una guerra tra le fazioni. Hanno 24 ore prima che le fazioni decidano di risolvere la questione con la violenza.",
+    "player_facing_objective": "Scoprire chi ha ucciso il contrabbandiere, trovare il resto della partita (1.8 kg mancanti) e impedire che venga usata come arma.",
+    "hidden_truth": "Il contrabbandiere non è stato ucciso da nessuna delle tre fazioni — è stato ucciso dal suo stesso partner, un ex fisico nucleare che ha usato i 100 grammi trovati come distrazione. I 1.8 kg restanti sono nascosti in un container marcato 'rifiuti organici' in attesa di essere consegnati a un gruppo terroristico. Il partner sta per completare la consegna.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Il contrabbandiere non è stato ucciso da nessuna delle tre fazioni — è stato ucciso dal suo stesso partner, un ex fisico nucleare che ha usato i 100 grammi trovati come distrazione. I 1.8 kg restanti sono nascosti in un container marcato 'rifiuti organici' in attesa di essere consegnati a un gruppo terroristico. Il partner sta per completare la consegna.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire chi ha ucciso il contrabbandiere, trovare il resto della partita (1.8 kg mancanti) e impedire che venga usata come arma.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Il contrabbandiere non è stato ucciso da nessuna delle tre fazioni — è stato ucciso dal suo stesso partner, un ex fisico nucleare che ha usato i 100 grammi trovati come distrazione. I 1.8 kg restanti sono nascosti in un container marcato 'rifiuti organici' in attesa di essere consegnati a un gruppo terroristico. Il partner sta per completare la consegna.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Accedere al registro dei container di Nexus-7, identificare il container 'rifiuti organici' con firma energetica anomala, intercettare il partner prima del trasferimento, poi contattare la sicurezza federale senza scatenare la reazione delle fazioni.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Ferita sul contrabbandiere incompatibile con le armi delle tre fazioni — è una lama ad alta temperatura",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "La lama ad alta temperatura è uno strumento da laboratorio, non un'arma convenzionale — il killer è un tecnico.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La lama ad alta temperatura è uno strumento da laboratorio, non un'arma convenzionale — il killer è un tecnico.",
+        "hidden_implication": "Una delle tre fazioni è un'unità sotto copertura dell'intelligence federale — sa più di quanto dice.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La lama potrebbe essere un'arma personalizzata usata da un mercenario delle fazioni.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza di un barista che ha visto il contrabbandiere con un uomo 'dall'aspetto scientifico' due ore prima della morte",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "L'uomo 'scientifico' corrisponde alla descrizione fisica di Enrik Sass nel registro delle fazioni.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "L'uomo 'scientifico' corrisponde alla descrizione fisica di Enrik Sass nel registro delle fazioni.",
+        "hidden_implication": "Il Gruppo Meridiano ha già un secondo corriere pronto: se Sass viene fermato, la consegna non si interrompe.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il 'tipo scientifico' potrebbe essere uno dei tanti ricercatori commerciali che frequentano Nexus-7.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Il registro delle comunicazioni della vittima con messaggi cifrati a un contatto non identificato",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "I messaggi cifrati comunicano con un contatto identificato come 'Gruppo Meridiano' — terrorismo noto.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "I messaggi cifrati comunicano con un contatto identificato come 'Gruppo Meridiano' — terrorismo noto.",
+        "hidden_implication": "Sass non si considera terrorista: crede che la materia stellare venga usata come deterrente, non come bomba.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "I messaggi cifrati potrebbero essere comunicazioni commerciali legali usate da contrabbandieri per privacy.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Firma energetica di materia stellare sul container 'rifiuti organici' nel registro dell'hangar",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Il container ha una firma identica alla materia stellare — trovato.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il container ha una firma identica alla materia stellare — trovato.",
+        "hidden_implication": "Il responsabile della sicurezza di Nexus-7 sapeva del contrabbando da settimane — ha aspettato per raccogliere prove.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La firma energetica potrebbe essere un'anomalia del sensore — falso positivo frequente nei container organici.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Profilo di Enrik Sass — ex fisico nucleare con precedenti per traffico di materiale fissile",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Sass ha un movente: il contrabbandiere stava per rivenderla a una quarta parte senza condividere il profitto.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Sass ha un movente: il contrabbandiere stava per rivenderla a una quarta parte senza condividere il profitto.",
+        "hidden_implication": "La materia stellare nei 100 grammi trovati è già stata resa inerte: era davvero una distrazione.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Sass potrebbe essere una vittima collaterale del contrabbandiere che cercava di fermare il traffico.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Codice di accesso al container trovato in un'applicazione cifrata sul dispositivo della vittima",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Il codice è valido — può aprire il container direttamente dall'hangar senza passare per Sass.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il codice è valido — può aprire il container direttamente dall'hangar senza passare per Sass.",
+        "hidden_implication": "Il container ha un sistema di autodistruzione che Sass attiva se si sente braccato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il codice potrebbe essere obsoleto — il container potrebbe essere stato già spostato.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Responsabile Sicurezza Holt Varren",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Uomo sui 50 anni, cicatrice sul mento, aspetto da ex militare. Gestisce Nexus-7 da dodici anni.",
+        "goal": "Risolvere la crisi senza coinvolgere le autorità federali che revocherebbero la licenza della stazione.",
+        "motivation": "Risolvere la crisi senza coinvolgere le autorità federali che revocherebbero la licenza della stazione.",
+        "secret": "Sa del contrabbando da settimane — lo usava come leverage sui trafficanti per ottenere informazioni.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Fornisce ai PG tutto il necessario ma nasconde la sua conoscenza pregressa.",
+        "fallback_plan": "Se i PG scoprono che sapeva, offre i dati di intelligence in cambio di essere escluso dal rapporto finale.",
+        "pressure_response": {
+          "low": "Responsabile Sicurezza Holt Varren osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Responsabile Sicurezza Holt Varren accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Responsabile Sicurezza Holt Varren sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Responsabile Sicurezza Holt Varren tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Portavoce Fazione 'Sindacato Esterno'",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Donna sui 40 anni, elegante, parla con eccessiva calma. È quella dell'intelligence federale sotto copertura.",
+        "goal": "Recuperare la materia stellare prima che venga consegnata al Gruppo Meridiano.",
+        "motivation": "Recuperare la materia stellare prima che venga consegnata al Gruppo Meridiano.",
+        "secret": "La sua vera identità è un'agente di Divisione 9 — ha già identificato Sass ma non ha autorità di agire da sola su Nexus-7.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Offre ai PG informazioni parziali per guidarli verso Sass, senza rivelare la propria copertura.",
+        "fallback_plan": "Se i PG le mostrano di aver identificato Sass, rivela la propria identità e offre backup federale.",
+        "pressure_response": {
+          "low": "Portavoce Fazione 'Sindacato Esterno' osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Portavoce Fazione 'Sindacato Esterno' accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Portavoce Fazione 'Sindacato Esterno' sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Portavoce Fazione 'Sindacato Esterno' tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Ex Fisico Enrik Sass",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Uomo sui 55 anni, capelli grigi, occhi stanchi. Brillante ma disilluso. Non sembra pericoloso.",
+        "goal": "Completare la consegna per il Gruppo Meridiano e poi sparire con una nuova identità.",
+        "motivation": "Completare la consegna per il Gruppo Meridiano e poi sparire con una nuova identità.",
+        "secret": "Crede che la materia stellare verrà usata come deterrente in una regione di guerra — è convinto di fare il bene.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Sta già sulla navetta. Non è armato ma ha il telecomando dell'autodistruzione del container.",
+        "fallback_plan": "Se i PG lo confrontano con le prove e argomentano sulla reale destinazione della materia stellare, esita — poi collabora o fugge.",
+        "pressure_response": {
+          "low": "Ex Fisico Enrik Sass osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Ex Fisico Enrik Sass accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Ex Fisico Enrik Sass sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Ex Fisico Enrik Sass tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Contatto Fazione 'Clan Vega'",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Giovane uomo sui 25 anni, nervoso, tatuaggi di famiglia sul collo. Non è un criminale endurci.",
+        "goal": "Recuperare la materia stellare per conto del clan — ma principalmente non morire in questo incrocio.",
+        "motivation": "Recuperare la materia stellare per conto del clan — ma principalmente non morire in questo incrocio.",
+        "secret": "Il Clan Vega non sapeva che la partita era destinata al Gruppo Meridiano — si ritirerebbe se lo scoprisse.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Bluffa su quanto il clan sappia — in realtà è stato mandato da solo come sonda per vedere le reazioni.",
+        "fallback_plan": "Se i PG gli dicono del Gruppo Meridiano, contatta immediatamente il capo clan e ritira la richiesta.",
+        "pressure_response": {
+          "low": "Contatto Fazione 'Clan Vega' osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Contatto Fazione 'Clan Vega' accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Contatto Fazione 'Clan Vega' sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Contatto Fazione 'Clan Vega' tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Hub Centrale di Nexus-7",
+        "description": "Stazione commerciale ad alta densità: mercanti, militari, contrabbandieri. Bar affollati, corridoi di logistica, odore di carburante e cibo speziato.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Stazione commerciale ad alta densità: mercanti, militari, contrabbandieri. Bar affollati, corridoi di logistica, odore di carburante e cibo speziato.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Le tre fazioni hanno agenti armati ovunque nella stazione: muoversi con il materiale è pericoloso."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Camera del Crimine — Modulo 14-C",
+        "description": "Il posto dove è stato trovato il corpo. La scena è stata preservata. Tracce di lotta, i 100 grammi di materia stellare in una borsa termica.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il posto dove è stato trovato il corpo. La scena è stata preservata. Tracce di lotta, i 100 grammi di materia stellare in una borsa termica.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il container ha autodistruzione: se Sass si sente braccato, può attivarlo danneggiando l'hangar."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Sala Riunioni delle Fazioni",
+        "description": "Dove le tre fazioni aspettano una risposta. Tensione palpabile. Ciascuna ha un portavoce disponibile a parlare — ma con agende diverse.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Dove le tre fazioni aspettano una risposta. Tensione palpabile. Ciascuna ha un portavoce disponibile a parlare — ma con agende diverse.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "La polizia federale, se chiamata, arresta tutti i presenti compresi i PG — è l'ultima risorsa."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Hangar dei Container",
+        "description": "Il magazzino principale di Nexus-7: migliaia di container. Il registro digitale è accessibile ai tecnici. La firma energetica della materia stellare è rilevabile con gli strumenti giusti.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il magazzino principale di Nexus-7: migliaia di container. Il registro digitale è accessibile ai tecnici. La firma energetica della materia stellare è rilevabile con gli strumenti giusti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il Gruppo Meridiano ha un agente a bordo della stazione che sorveglia l'operazione."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Navetta di Trasferimento — Molo 7",
+        "description": "Il partner è già a bordo, pronto a partire con il container. Il trasferimento è previsto tra 90 minuti.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il partner è già a bordo, pronto a partire con il container. Il trasferimento è previsto tra 90 minuti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "La firma energetica della materia stellare è rilevabile da tutti gli scanner — portarla in giro è rischiosa."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Trasferimento del container al Molo 7",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Se la navetta parte con il container, la materia stellare esce da Nexus-7 e sparisce — consegna completata, impossibile da fermare.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Se la navetta parte con il container, la materia stellare esce da Nexus-7 e sparisce — consegna completata, impossibile da fermare."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Intercettare Sass o bloccare il trasferimento del container prima della partenza della navetta.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Intercettare Sass, recuperare la materia stellare, consegnarla all'agente federale — rischio risolto e Nexus-7 salvata.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Accedere al registro dei container di Nexus-7, identificare il container 'rifiuti organici' con firma energetica anomala, intercettare il partner prima del trasferimento, poi contattare la sicurezza federale senza scatenare la reazione delle fazioni.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Bloccare il container senza catturare Sass: materia stellare sicura ma Sass fugge e il Gruppo Meridiano riprova.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Contrabbando di Stelle",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

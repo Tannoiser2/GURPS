@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_autostrada_dei_santi",
+    "title": "Autostrada dei Santi",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "action",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "road thriller soprannaturale",
+    "premise": "Un convoglio umanitario attraversa una zona di guerra lungo un'autostrada disseminata di cappelle votive che indicano imboscate future.",
+    "initial_hook": "I PG devono scortare medicine prima dell'alba mentre radio e mappe smettono di concordare.",
+    "player_facing_objective": "Portare il convoglio al campo profughi, interpretare le cappelle e sopravvivere alle imboscate.",
+    "hidden_truth": "Le cappelle non predicono il futuro: sono coordinate lasciate da una rete di civili che usa simboli religiosi per guidare i soccorsi.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Le cappelle non predicono il futuro: sono coordinate lasciate da una rete di civili che usa simboli religiosi per guidare i soccorsi.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Portare il convoglio al campo profughi, interpretare le cappelle e sopravvivere alle imboscate.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Le cappelle non predicono il futuro: sono coordinate lasciate da una rete di civili che usa simboli religiosi per guidare i soccorsi.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Decifrare il codice votivo, smascherare il comandante che intercetta i convogli e scegliere una rotta di salvataggio.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Ceri freschi nella cappella",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Qualcuno vivo aggiorna le cappelle.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Qualcuno vivo aggiorna le cappelle.",
+        "hidden_implication": "La rete civile è attiva.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Miracolo reale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Frequenza radio spezzata",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "La milizia ascolta e imita i soccorritori.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La milizia ascolta e imita i soccorritori.",
+        "hidden_implication": "Le radio non sono affidabili.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Interferenza meteo"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Simboli votivi ripetuti",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "I simboli sono un codice di rotta.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "I simboli sono un codice di rotta.",
+        "hidden_implication": "Il codice è leggibile con pattern.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Graffiti casuali"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Bolle di carico false",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Rask devia aiuti sistematicamente.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Rask devia aiuti sistematicamente.",
+        "hidden_implication": "La corruzione è interna al checkpoint.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Errore burocratico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Mappa forata da chiodi",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "La stazione è stata sabotata in anticipo.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La stazione è stata sabotata in anticipo.",
+        "hidden_implication": "Il blocco era previsto.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Raid casuale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Cappella bruciata",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Vetro distrugge il sistema quando lo teme.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Vetro distrugge il sistema quando lo teme.",
+        "hidden_implication": "Il clock include perdita di indizi.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Fanatismo religioso"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Suor Agata",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Medica del convoglio.",
+        "goal": "Portare vaccini al campo.",
+        "motivation": "Portare vaccini al campo.",
+        "secret": "Conosce alcuni simboli ma non l'intero codice.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Protegge i civili feriti.",
+        "fallback_plan": "Rivela contatti clandestini se il convoglio è minacciato.",
+        "pressure_response": {
+          "low": "Suor Agata osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Suor Agata accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Suor Agata sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Suor Agata tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Milan il Radioamatore",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Ragazzo che intercetta frequenze.",
+        "goal": "Ritrovare suo padre al campo.",
+        "motivation": "Ritrovare suo padre al campo.",
+        "secret": "Ha registrato la voce del comandante traditore.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Ripara radio con pezzi rubati.",
+        "fallback_plan": "Baratta la registrazione per un posto sul camion.",
+        "pressure_response": {
+          "low": "Milan il Radioamatore osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Milan il Radioamatore accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Milan il Radioamatore sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Milan il Radioamatore tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Tenente Rask",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Ufficiale al posto di blocco.",
+        "goal": "Deviare convogli verso la sua milizia.",
+        "motivation": "Deviare convogli verso la sua milizia.",
+        "secret": "Vende medicine sul mercato nero.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Finge autorizzazioni e urgenze militari.",
+        "fallback_plan": "Ordina imboscata se smascherato.",
+        "pressure_response": {
+          "low": "Tenente Rask osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Tenente Rask accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Tenente Rask sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Tenente Rask tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Comandante Vetro",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Capo milizia invisibile alla radio.",
+        "goal": "Catturare il carico prima dell'alba.",
+        "motivation": "Catturare il carico prima dell'alba.",
+        "secret": "Usa simboli falsi per confondere il codice.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Muove squadre lungo il viadotto.",
+        "fallback_plan": "Brucia una cappella per rompere la rete civile.",
+        "pressure_response": {
+          "low": "Comandante Vetro osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Comandante Vetro accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Comandante Vetro sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Comandante Vetro tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Casello Bruciato",
+        "description": "Barriere contorte e statue annerite.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Barriere contorte e statue annerite.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "mine"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Cappella del Chilometro 18",
+        "description": "Ceri freschi in una zona dichiarata deserta.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Ceri freschi in una zona dichiarata deserta.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "cecchini"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Stazione di Servizio",
+        "description": "Pompe vuote e pneumatici forati.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Pompe vuote e pneumatici forati.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "benzina scarsa"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Viadotto dei Martiri",
+        "description": "Linea di tiro perfetta sopra una gola.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Linea di tiro perfetta sopra una gola.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "posti di blocco"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Campo Profughi Aurora",
+        "description": "Luci lontane dietro filo spinato e tende.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Luci lontane dietro filo spinato e tende.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "panico civili"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Carburante e Alba",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il convoglio resta fermo in campo aperto e viene catturato prima di raggiungere il campo.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Il convoglio resta fermo in campo aperto e viene catturato prima di raggiungere il campo."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Decifrare il codice delle cappelle e tagliare fuori il posto di blocco traditore.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Convoglio salvo attraverso rotta civile",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Decifrare il codice votivo, smascherare il comandante che intercetta i convogli e scegliere una rotta di salvataggio.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Medicine consegnate ma rete compromessa",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Autostrada dei Santi",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_la_biblioteca_che_respira",
+    "title": "La Biblioteca che Respira",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "horror",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "weird horror accademico",
+    "premise": "Una biblioteca universitaria chiude le porte durante la notte e gli scaffali iniziano a respirare nomi di studenti scomparsi.",
+    "initial_hook": "I PG restano chiusi dentro dopo aver consultato un fondo proibito.",
+    "player_facing_objective": "Trovare l'uscita, salvare gli studenti intrappolati e capire quale libro sta riscrivendo l'edificio.",
+    "hidden_truth": "La biblioteca è un organismo contrattuale: ogni tesi mai plagiata le deve una vita intellettuale e ora riscuote con interessi.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "La biblioteca è un organismo contrattuale: ogni tesi mai plagiata le deve una vita intellettuale e ora riscuote con interessi.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Trovare l'uscita, salvare gli studenti intrappolati e capire quale libro sta riscrivendo l'edificio.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "La biblioteca è un organismo contrattuale: ogni tesi mai plagiata le deve una vita intellettuale e ora riscuote con interessi.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Identificare il catalogo vivo, restituire le attribuzioni rubate e bruciare solo l'indice, non i libri.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Scheda con nome caldo",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Gli studenti sono trasformati in record.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Gli studenti sono trasformati in record.",
+        "hidden_implication": "Il nome è vulnerabile.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Scherzo studentesco"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Tesi con paragrafo duplicato",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Il plagio è la regola di riscossione.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il plagio è la regola di riscossione.",
+        "hidden_implication": "La colpa può essere indiretta.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Errore di stampa"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Registro prestiti impossibili",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "I prestiti avvengono prima della nascita.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "I prestiti avvengono prima della nascita.",
+        "hidden_implication": "Il tempo è contrattuale.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Archivio corrotto"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Timbro sanguinante",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Il bibliotecario applica un contratto.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il bibliotecario applica un contratto.",
+        "hidden_implication": "Le regole sono sfruttabili.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Allucinazione"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Libro che cita il PG",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "La biblioteca può scrivere i vivi.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La biblioteca può scrivere i vivi.",
+        "hidden_implication": "I PG possono diventare testo.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Libro profetico benevolo"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Indice senza autore",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "L'indice è il cuore legale dell'orrore.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "L'indice è il cuore legale dell'orrore.",
+        "hidden_implication": "Bruciare tutto peggiora il debito.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Catalogo normale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Marta Sieni",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Studentessa intrappolata.",
+        "goal": "Ritrovare il fratello scomparso.",
+        "motivation": "Ritrovare il fratello scomparso.",
+        "secret": "Ha plagiato una pagina senza saperlo.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Segue tracce nell'archivio.",
+        "fallback_plan": "Cede il suo nome per salvare il fratello.",
+        "pressure_response": {
+          "low": "Marta Sieni osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Marta Sieni accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Marta Sieni sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Marta Sieni tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Professor Olmi",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Docente elegante e colpevole.",
+        "goal": "Proteggere la sua carriera.",
+        "motivation": "Proteggere la sua carriera.",
+        "secret": "Ha costruito fama su lavori rubati.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Minimizza tutto e cerca l'uscita privata.",
+        "fallback_plan": "Confessa se il catalogo pronuncia il suo vero debito.",
+        "pressure_response": {
+          "low": "Professor Olmi osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Professor Olmi accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Professor Olmi sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Professor Olmi tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Bibliotecario Grigio",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Custode che parla sottovoce.",
+        "goal": "Mantenere il contratto.",
+        "motivation": "Mantenere il contratto.",
+        "secret": "Non è umano ma può interpretare le regole.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Guida i PG verso errori formali.",
+        "fallback_plan": "Accetta correzioni precise come pagamento.",
+        "pressure_response": {
+          "low": "Bibliotecario Grigio osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Bibliotecario Grigio accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Bibliotecario Grigio sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Bibliotecario Grigio tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Indice Vivente",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Massa di schede e fili rossi.",
+        "goal": "Catalogare i debitori.",
+        "motivation": "Catalogare i debitori.",
+        "secret": "Muore solo se le attribuzioni vengono riparate.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Sposta sale e nomi.",
+        "fallback_plan": "Offre sapere rubato in cambio di un nome.",
+        "pressure_response": {
+          "low": "Indice Vivente osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Indice Vivente accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Indice Vivente sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Indice Vivente tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Sala Lettura Centrale",
+        "description": "Lampade verdi e tavoli occupati da appunti non scritti dai presenti.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Lampade verdi e tavoli occupati da appunti non scritti dai presenti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "porte chiuse"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Archivio Tesi",
+        "description": "Scaffali mobili e cartellini con nomi vivi.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Scaffali mobili e cartellini con nomi vivi.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "inchiostro vivo"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Ufficio del Bibliotecario",
+        "description": "Schedari in pelle e timbri che sanguinano inchiostro.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Schedari in pelle e timbri che sanguinano inchiostro.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "scaffali mobili"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Deposito Sotterraneo",
+        "description": "Libri incatenati che respirano polvere.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Libri incatenati che respirano polvere.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "furto memoria"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Catalogo Vivo",
+        "description": "Una stanza rotonda piena di schede che battono come cuori.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Una stanza rotonda piena di schede che battono come cuori.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "silenzio coercitivo"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Catalogazione dei Vivi",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "I PG vengono indicizzati come volumi e dimenticati dal mondo esterno.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "I PG vengono indicizzati come volumi e dimenticati dal mondo esterno."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Correggere almeno tre attribuzioni e distruggere l'indice vivente.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Indice distrutto e nomi restituiti",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Identificare il catalogo vivo, restituire le attribuzioni rubate e bruciare solo l'indice, non i libri.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Biblioteca placata ma debiti futuri restano",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "La Biblioteca che Respira",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

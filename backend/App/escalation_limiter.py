@@ -12,6 +12,43 @@ TIER_NAMES = {
     6: "terminal_event",
 }
 
+# Descrizioni narrative per tier — iniettate nel prompt del Director
+# così Claude sa esattamente cosa può narrare a ogni livello.
+TIER_DESCRIPTIONS = {
+    0: (
+        "TIER 0 — COLOR: dettaglio atmosferico, NPC che si sposta, oggetto che cambia stato. "
+        "Nessuna conseguenza meccanica. Nessun pericolo. Solo texture."
+    ),
+    1: (
+        "TIER 1 — COMPLICAZIONE MINORE: piccolo ostacolo superabile, un NPC che si irrigidisce, "
+        "una porta chiusa, un documento incompleto. Nessuna perdita reale. Zero threat_increase."
+    ),
+    2: (
+        "TIER 2 — COSTO O RITARDO: il personaggio ottiene qualcosa ma paga un prezzo: "
+        "tempo perso, risorsa consumata, NPC che diventa meno collaborativo, accesso parziale. "
+        "threat_increase=0. Nessun allarme, nessun nemico."
+    ),
+    3: (
+        "TIER 3 — AUMENTO PRESSIONE: qualcosa va storto in modo visibile — allarme locale, "
+        "NPC che si chiude, copertura compromessa, clock che avanza di 1. "
+        "threat_increase=1. Nessun combattimento diretto, nessun ferimento grave."
+    ),
+    4: (
+        "TIER 4 — SCENA PERICOLOSA: nemico che attacca, trappola scattata, inseguimento, "
+        "confronto fisico. activate_combat ammesso. Ferite possibili. "
+        "Ogni combattimento non-finale deve avere una via di uscita."
+    ),
+    5: (
+        "TIER 5 — EVENTO MAGGIORE: rivelazione devastante, tradimento di un alleato, "
+        "location distrutta, antagonista che si manifesta, clock completato. "
+        "Solo con explicit_trigger o clock completato."
+    ),
+    6: (
+        "TIER 6 — EVENTO TERMINALE: fine avventura, vittoria o sconfitta definitiva. "
+        "Solo con finale_condition soddisfatta E explicit_trigger o clock completato."
+    ),
+}
+
 OUTCOME_DEFAULT_TIER = {
     "critico": 2,
     "critical_success": 2,
@@ -54,8 +91,15 @@ def compute_allowed_escalation_tier(
     active_clocks: list[dict] | None = None,
     scene_context: dict | None = None,
     genre_profile: dict | None = None,
+    investigation_progress: int = 0,
 ) -> int:
-    """Il Director usa questa funzione per fissare il tetto massimo del renderer."""
+    """Il Director usa questa funzione per fissare il tetto massimo del renderer.
+
+    investigation_progress:
+      > 0  → progressi questa sessione (indizi trovati, thread risolti) — riduce tier
+      < 0  → turni di stallo consecutivi — aumenta tier (pressione narrativa)
+      = 0  → neutro
+    """
     profile = genre_profile or get_genre_profile([runtime_profile] if runtime_profile else [], None)
     tier = OUTCOME_DEFAULT_TIER.get(_outcome_key(roll_outcome), 3)
     tier = min(tier, int(profile.get("max_default_tier", 4)))
@@ -65,6 +109,16 @@ def compute_allowed_escalation_tier(
         tier = min(tier, 3 if intent != "stealth" else 4)
     if intent == "combat":
         tier = max(tier, 4)
+
+    # ── Soft escalation: modifica tier in base ai progressi investigativi ─────
+    if investigation_progress > 0:
+        # I giocatori stanno avanzando → frena la pressione
+        # Un indizio trovato in questo turno: abbassa tier di 1 (min 1)
+        tier = max(1, tier - 1)
+    elif investigation_progress <= -3:
+        # Tre o più turni di stallo consecutivi → aumenta leggermente la pressione
+        # per spingere i giocatori verso una svolta narrativa
+        tier = min(int(profile.get("max_default_tier", 4)), tier + 1)
 
     scene_context = scene_context or {}
     active_clocks = active_clocks or []

@@ -1,0 +1,1237 @@
+{
+  "adventure_definition": {
+    "id": "pdf_mound_yard",
+    "title": "The Mound in the Yard",
+    "source_type": "pdf_text",
+    "source_mode": "pdf_import",
+    "genre": "horror",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "cosmic horror, rural dread, psychological",
+    "premise": "Estate del 1981. Nel piccolo paese di Harrowfield, Tennessee, misteriosi cumuli di terra sono apparsi nei cortili di diverse famiglie. Chi li disturba impazzisce o muore. I personaggi vengono chiamati per indagare sulla morte di Ellis Loughty, trovato cadavere in cima a uno di questi tumuli il 3 luglio.",
+    "initial_hook": "Il sceriffo locale vi contatta: un giovane bracciante agricolo è stato trovato morto in circostanze inspiegabili su un tumulo che è comparso nel suo cortile. La sua vedova è in stato di shock. Il paese è in fermento.",
+    "core_truths": [
+      {
+        "id": "truth_entity",
+        "statement": "Sotto i tumuli dorme un'entità pre-umana che si nutre della sanità mentale dei viventi. I tumuli sono le sue escrescenze.",
+        "reveal_clues": [
+          "clue_tunnels",
+          "clue_diary_full",
+          "clue_elder_testament"
+        ],
+        "reveal_rule": "Tutti e tre i clue scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_cycle",
+        "statement": "L'entità si risveglia ogni 40 anni. L'ultima volta fu nel 1941: tre famiglie scomparvero.",
+        "reveal_clues": [
+          "clue_1941_records",
+          "clue_elder_testament"
+        ],
+        "reveal_rule": "Entrambi i clue scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_ritual",
+        "statement": "Un rituale specifico usando sale, ferro e fuoco può sigillare i tumuli per altri 40 anni.",
+        "reveal_clues": [
+          "clue_ritual_notes",
+          "clue_cherokee_symbol"
+        ],
+        "reveal_rule": "Entrambi i clue scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_investigate_death",
+        "label": "Scoprire la causa della morte di Ellis Loughty",
+        "status": "active",
+        "unlocks": [
+          "obj_find_mounds",
+          "obj_talk_widow"
+        ],
+        "success_conditions": [
+          "clue_autopsy scoperto",
+          "clue_diary_fragment scoperto"
+        ]
+      },
+      {
+        "id": "obj_find_mounds",
+        "label": "Identificare quanti tumuli esistono in paese",
+        "status": "inactive",
+        "unlocks": [
+          "obj_research"
+        ],
+        "success_conditions": [
+          "locations visitate: loughty_yard, henderson_farm, church_yard"
+        ]
+      },
+      {
+        "id": "obj_talk_widow",
+        "label": "Interrogare Martha Loughty",
+        "status": "inactive",
+        "unlocks": [
+          "obj_research"
+        ],
+        "success_conditions": [
+          "clue_martha_testimony scoperto"
+        ]
+      },
+      {
+        "id": "obj_research",
+        "label": "Trovare il pattern storico",
+        "status": "inactive",
+        "unlocks": [
+          "obj_ritual"
+        ],
+        "success_conditions": [
+          "clue_1941_records scoperto O clue_elder_testament scoperto"
+        ]
+      },
+      {
+        "id": "obj_ritual",
+        "label": "Trovare il modo di sigillare i tumuli",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "clue_ritual_notes scoperto E clue_cherokee_symbol scoperto"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_not_natural",
+        "thread_id": "thread_deaths",
+        "statement": "I tumuli non sono formazioni naturali — crescono attivamente e rispondono alla presenza umana.",
+        "required_clues": [
+          "clue_autopsy",
+          "clue_martha_testimony"
+        ],
+        "required_evidence_kinds": [
+          "testimony",
+          "physical"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG capiscono che i tumuli sono organismi o escrescenze di qualcosa di vivo.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_cycle_40",
+        "thread_id": "thread_history",
+        "statement": "Questo è accaduto prima. Nel 1941 tre famiglie sparirono. Qualcuno ancora ricorda.",
+        "required_clues": [
+          "clue_1941_records"
+        ],
+        "required_evidence_kinds": [
+          "historical"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Il pericolo è ciclico e imminente — l'entità si sta risvegliando del tutto.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_entity_below",
+        "thread_id": "thread_entity",
+        "statement": "Sotto i tumuli c'è una rete di tunnel e al centro dorme qualcosa di enorme e antico.",
+        "required_clues": [
+          "clue_tunnels",
+          "clue_diary_full"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG sanno cosa devono affrontare e dove è il nucleo della minaccia.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_ritual_solution",
+        "thread_id": "thread_solution",
+        "statement": "Esiste un rituale tradizionale Cherokee che può sigillare i tumuli. Richiede sale, ferro e fuoco in simultanea sui tumuli principali.",
+        "required_clues": [
+          "clue_ritual_notes",
+          "clue_cherokee_symbol"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "artifact"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG hanno il metodo per fermare l'entità.",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_autopsy",
+        "label": "Referto autoptico di Ellis Loughty",
+        "type": "document",
+        "thread_id": "thread_deaths",
+        "source_location": "sheriff_office",
+        "reveals": "Ellis è morto di arresto cardiaco da spavento estremo, ma ha anche tracce di terra nei polmoni — stava respirando dal basso, dentro il tumulo.",
+        "payoff": "rev_not_natural",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_not_natural"
+        ],
+        "immediate_information": "Cause di morte: arresto cardiaco. Anomalia: terra nei polmoni.",
+        "hidden_implication": "Ellis era sotto il tumulo o il tumulo stava crescendo su di lui.",
+        "unlocks": [
+          "clue_diary_fragment"
+        ],
+        "possible_actions": [
+          "Convincere il medico legale a mostrare il referto",
+          "Persuadere lo sceriffo"
+        ],
+        "wrong_interpretations": [
+          "Qualcuno lo ha seppellito vivo"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_diary_fragment",
+        "label": "Pagine strappate dal diario di Ellis",
+        "type": "document",
+        "thread_id": "thread_deaths",
+        "source_location": "loughty_yard",
+        "reveals": "Ellis descrive il tumulo che cresce di notte, i sogni che non riesce a fermare, qualcosa che chiama da sotto.",
+        "payoff": "rev_entity_below",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_entity_below"
+        ],
+        "immediate_information": "Ellis sapeva che il tumulo era pericoloso ma non riusciva ad allontanarsi.",
+        "hidden_implication": "L'entità ha un effetto ipnotico sui vicini.",
+        "unlocks": [
+          "clue_diary_full"
+        ],
+        "possible_actions": [
+          "Cercare nella proprietà dei Loughty",
+          "Interrogare Martha"
+        ],
+        "wrong_interpretations": [
+          "Ellis era psicotico"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_martha_testimony",
+        "label": "Testimonianza di Martha Loughty",
+        "type": "testimony",
+        "thread_id": "thread_deaths",
+        "source_location": "loughty_house",
+        "reveals": "Martha descrive come il tumulo sia apparso da un giorno all'altro, come Ellis non riuscisse a dormire, e come la notte prima della morte abbia sentito canti dal suolo.",
+        "payoff": "rev_not_natural",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_not_natural"
+        ],
+        "immediate_information": "Il tumulo è apparso improvvisamente. I canti dal suolo.",
+        "hidden_implication": "L'entità usa un richiamo sonoro per attirare le vittime.",
+        "unlocks": [
+          "clue_henderson_account"
+        ],
+        "possible_actions": [
+          "Visitare Martha",
+          "Guadagnarsi la sua fiducia"
+        ],
+        "wrong_interpretations": [
+          "Martha è sconvolta dal lutto"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_henderson_account",
+        "label": "Resoconto del vecchio Henderson",
+        "type": "testimony",
+        "thread_id": "thread_history",
+        "source_location": "henderson_farm",
+        "reveals": "Il vecchio Silas Henderson, 78 anni, ricorda il 1941. Tre famiglie sparirono. Suo padre seppellì qualcosa sotto la chiesa per fermare i tumuli.",
+        "payoff": "rev_cycle_40",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_cycle_40"
+        ],
+        "immediate_information": "È accaduto prima nel 1941. Qualcosa fu seppellito per fermare i tumuli.",
+        "hidden_implication": "La soluzione è già nota a qualcuno in paese.",
+        "unlocks": [
+          "clue_1941_records",
+          "clue_elder_testament"
+        ],
+        "possible_actions": [
+          "Trovare Silas Henderson",
+          "Guadagnarsi la sua fiducia"
+        ],
+        "wrong_interpretations": [
+          "Silas è senile"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_1941_records",
+        "label": "Registri della contea del 1941",
+        "type": "document",
+        "thread_id": "thread_history",
+        "source_location": "county_archive",
+        "reveals": "Sparizioni di massa nel luglio 1941. Tre famiglie. Polizia locale chiuse il caso come 'emigrazione improvvisa'. Una nota manoscritta dice: 'sigillato con il ferro dei Cherokee'.",
+        "payoff": "rev_cycle_40",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_cycle_40"
+        ],
+        "immediate_information": "Le sparizioni del 1941 sono documentate. Nota su 'ferro dei Cherokee'.",
+        "hidden_implication": "Qualcuno conosceva il rimedio nel 1941.",
+        "unlocks": [
+          "clue_ritual_notes"
+        ],
+        "possible_actions": [
+          "Cercare nell'archivio della contea",
+          "Convincere il cancelliere"
+        ],
+        "wrong_interpretations": [
+          "Le famiglie emigrarono davvero"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_tunnels",
+        "label": "Rete di tunnel sotto il tumulo principale",
+        "type": "physical_evidence",
+        "thread_id": "thread_entity",
+        "source_location": "main_mound",
+        "reveals": "Sotto il tumulo ci sono tunnel umidi e pulsanti. Le pareti trasudano qualcosa di organico. I tunnel convergono in una direzione — verso il centro della proprietà.",
+        "payoff": "rev_entity_below",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_entity_below"
+        ],
+        "immediate_information": "Il tumulo è cavo. I tunnel sono biologici, non scavati da umani.",
+        "hidden_implication": "C'è qualcosa di enorme al centro.",
+        "unlocks": [
+          "clue_diary_full"
+        ],
+        "possible_actions": [
+          "Scavare nel tumulo",
+          "Usare un sensore o radar del terreno"
+        ],
+        "wrong_interpretations": [
+          "Sono tunnel di talpe giganti"
+        ],
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "confidence": 0.8
+      },
+      {
+        "id": "clue_diary_full",
+        "label": "Diario completo di Ellis (ultimo capitolo)",
+        "type": "document",
+        "thread_id": "thread_entity",
+        "source_location": "loughty_house",
+        "reveals": "L'ultima pagina del diario, nascosta sotto il pavimento: Ellis ha visto l'entità in sogno. La descrive come 'mille occhi nel fango'. Sa che morirà ma non può smettere di tornare al tumulo.",
+        "payoff": "rev_entity_below",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_entity_below"
+        ],
+        "immediate_information": "L'entità usa i sogni per controllare le sue vittime.",
+        "hidden_implication": "L'entità è cosciente e predatrice.",
+        "unlocks": [
+          "clue_ritual_notes"
+        ],
+        "possible_actions": [
+          "Perquisire casa Loughty a fondo",
+          "Convincere Martha ad aiutare"
+        ],
+        "wrong_interpretations": [
+          "Ellis era schizzofrenico"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_elder_testament",
+        "label": "Testamento dell'anziano Cherokee",
+        "type": "document",
+        "thread_id": "thread_history",
+        "source_location": "county_archive",
+        "reveals": "Un documento Cherokee del 1891 descrive 'il dormiente sotto le colline'. Avverte che si risveglia ogni generazione. Fornisce un metodo di sigillo: sale per purificare, ferro per legare, fuoco per chiudere.",
+        "payoff": "rev_entity_below",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [
+          "rev_entity_below",
+          "rev_ritual_solution"
+        ],
+        "immediate_information": "L'entità è nota da secoli. Il metodo di sigillo è documentato.",
+        "hidden_implication": "Questo problema è più antico di quanto pensato.",
+        "unlocks": [
+          "clue_cherokee_symbol"
+        ],
+        "possible_actions": [
+          "Cercare documenti storici nativi nell'archivio"
+        ],
+        "wrong_interpretations": [
+          "Sono solo leggende Cherokee"
+        ],
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "confidence": 0.75
+      },
+      {
+        "id": "clue_ritual_notes",
+        "label": "Appunti rituali del padre di Henderson",
+        "type": "artifact",
+        "thread_id": "thread_solution",
+        "source_location": "henderson_farm",
+        "reveals": "In un cassetto arrugginito nella fattoria Henderson: istruzioni precise su come eseguire il sigillo. Sale kosher, chiodi di ferro, torce di catrame. Devono essere applicati simultaneamente su tutti i tumuli principali.",
+        "payoff": "rev_ritual_solution",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_ritual_solution"
+        ],
+        "immediate_information": "Procedura dettagliata per il sigillo. Materiali specifici richiesti.",
+        "hidden_implication": "Occorrono più persone per coprire tutti i tumuli in simultanea.",
+        "unlocks": [],
+        "possible_actions": [
+          "Convincere Silas a mostrare l'eredità del padre"
+        ],
+        "wrong_interpretations": [
+          "Sono superstizioni inutili"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_cherokee_symbol",
+        "label": "Simbolo Cherokee inciso sotto la chiesa",
+        "type": "physical_evidence",
+        "thread_id": "thread_solution",
+        "source_location": "church_yard",
+        "reveals": "Nel basement della chiesa, un antico simbolo Cherokee inciso nel pavimento. Conferma il rituale. Indica anche i punti esatti dove applicare il sigillo nel paese.",
+        "payoff": "rev_ritual_solution",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_ritual_solution"
+        ],
+        "immediate_information": "Conferma visiva del rituale. Mappa dei punti di sigillo.",
+        "hidden_implication": "La chiesa è costruita sopra un punto di controllo dell'entità.",
+        "unlocks": [],
+        "possible_actions": [
+          "Perquisire la chiesa",
+          "Convincere il pastore"
+        ],
+        "wrong_interpretations": [
+          "È solo decorazione architettonica"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_martha",
+        "name": "Martha Loughty",
+        "role": "witness",
+        "location_id": "loughty_house",
+        "status": "introduced",
+        "goal": "Capire cosa ha ucciso suo marito e non impazzire",
+        "secret": "Ha sentito la 'voce' dell'entità anche lei ma non lo dice per paura di sembrare pazza",
+        "agenda_pressure": 3,
+        "fear": "Di essere la prossima vittima",
+        "current_plan": "Aspettare che qualcuno faccia qualcosa",
+        "fallback_plan": "Fuggire dal paese",
+        "resources": [
+          "Accesso alla casa e alle cose di Ellis",
+          "Conoscenza della comunità locale"
+        ],
+        "knows": [
+          "clue_martha_testimony",
+          "clue_diary_fragment"
+        ],
+        "wants": [
+          "Giustizia per Ellis",
+          "Spiegazioni"
+        ],
+        "avoids": [
+          "Avvicinarsi al tumulo"
+        ],
+        "pressure_response": {
+          "pressure_low": "Martha è in shock dissociativo — risponde alle domande in modo meccanico, porta caffè, parla di Ellis come se fosse ancora vivo. Dà informazioni sparse senza connessione. Tiro Empatia PG a +2 per capire che sta trattenendo qualcosa di grosso.",
+          "pressure_mid": "Se i PG la trattano con cura e non la pressano, Martha rompe il silenzio sul suono che ha sentito dal suolo — 'come quando qualcuno canta sotto l'acqua'. Rivela le pagine del diario di Ellis se i PG guadagnano la sua fiducia.",
+          "pressure_high": "Martha inizia a cedere alla paura: 'Anche io lo sento. Ogni notte. Non voglio che voi finiate come Ellis.' Può rivelare che sente la 'voce' dell'entità ma nega che la attiri — sta mentendo a se stessa.",
+          "pressure_max": "Martha è sull'orlo: o fugge dal paese quella notte stessa o crolla in un momento di sincerità totale, rivelando tutto — incluso che la voce le dice di tornare al tumulo. Se i PG non la proteggono fisicamente, può essere la prossima vittima."
+        },
+        "reaction_table": {
+          "friendly_approach": "Martha risponde con gratitudine disperata — qualcuno che la tratta come persona e non come testimone la smuove. Tiro Diplomazia PG a +2. Il caffè e la conversazione normale prima delle domande difficili è il metodo giusto.",
+          "intimidation": "Martha si chiude completamente. L'intimidazione in una vedova in lutto è controproducente e può alienarla permanentemente. Lo sceriffo Purvis la protegge se le cose diventano aggressive.",
+          "bribery": "Martha non vuole soldi. Vuole risposte e vuole che qualcuno fermi 'quella cosa'. Non è corrompibile in senso classico — ma una promessa di risolvere il caso vale tutto.",
+          "caught_lying": "Martha non mente esattamente — tace. Se i PG dimostrano gentilmente che sa più di quanto dica (la voce), reagisce con lacrime e poi con sollievo: 'Avevo paura che pensaste che fossi pazza.'",
+          "authority_figure": "Lo sceriffo Purvis conta più di qualsiasi altra autorità per Martha. Se Purvis dice ai PG che possono fidarsi di lei, Martha si apre completamente entro pochi minuti."
+        },
+        "relationships": [
+          {
+            "target": "actor_sheriff",
+            "type": "dipendenza",
+            "note": "Si fida dello sceriffo"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "actor_silas",
+        "name": "Silas Henderson",
+        "role": "ally",
+        "location_id": "henderson_farm",
+        "status": "unintroduced",
+        "goal": "Che qualcuno fermi i tumuli prima che succeda di nuovo",
+        "secret": "Sa esattamente cosa sta succedendo ma ha paura che non gli credano",
+        "agenda_pressure": 7,
+        "fear": "Che la storia del 1941 si ripeta",
+        "current_plan": "Aspettare che qualcuno abbastanza coraggioso arrivi a chiedergli",
+        "fallback_plan": "Tentare il rituale da solo anche se è troppo vecchio",
+        "resources": [
+          "clue_ritual_notes",
+          "Conoscenza storica",
+          "Rete di contatti locali"
+        ],
+        "knows": [
+          "clue_henderson_account",
+          "clue_ritual_notes",
+          "truth_cycle",
+          "truth_ritual"
+        ],
+        "wants": [
+          "Che i PG fermino l'entità",
+          "Che la comunità sopravviva"
+        ],
+        "avoids": [
+          "Avvicinarsi ai tumuli di notte"
+        ],
+        "pressure_response": {
+          "pressure_low": "Silas siede sul portico con il fucile sulle ginocchia e valuta chi è degno di ascoltare. Non parla di cosa sa finché i PG non dimostrano che prendono la faccenda sul serio. Una domanda giusta — 'Questo è accaduto prima?' — sblocca tutto.",
+          "pressure_mid": "Silas parla a lungo una volta avviato — conosce ogni dettaglio del 1941, ogni famiglia scomparsa, ogni nome. Si ferma solo quando vede che i PG cercano di prendere scorciatoie. 'Non potete saltare passi. Mio padre ha seguito il rituale alla lettera e ha funzionato.'",
+          "pressure_high": "Silas è impaziente: 'Non c'è più tempo da perdere con le domande. Avete bisogno del sale, del ferro e del fuoco. Vi dico dove trovarli in paese.' Diventa proattivo e direttivo — prende in mano la situazione.",
+          "pressure_max": "Silas tenta di fare il rituale da solo se i PG esitano troppo. 'Ho 78 anni e un fucile. Non sono abbastanza giovane per correre tra i tumuli ma posso farne uno.' I PG devono convincerlo a coordinarsi con loro."
+        },
+        "reaction_table": {
+          "friendly_approach": "Silas risponde meglio a chi lo tratta come un esperto, non come un vecchio bizzarro. Tiro Rispetto PG (o Empatia) per il primo contatto — se passa, Silas mostra gli appunti del padre prima ancora di essere chiesto.",
+          "intimidation": "Silas non si lascia intimidire. 'Ho visto cose che farebbero scappare un orso. Tu pensi di farmi paura?' Rimane cooperativo indipendentemente dal tono, ma perde rispetto per i PG aggressivi.",
+          "bribery": "Silas ride all'idea di essere pagato. 'Volete salvarvi la vita e volete pagarmi per aiutarvi? Tenete i vostri soldi.' Non è corrompibile ma risponde alle richieste dirette e rispettose.",
+          "caught_lying": "Silas non mente mai — ha trascorso decenni a essere il solo a sapere la verità e sa quanto costi. Se i PG mentono a lui, se ne accorge subito: 'Non andiamo avanti fino a quando non mi dite la verità.'",
+          "authority_figure": "Silas rispetta lo sceriffo Purvis come persona ma non la sua autorità istituzionale in questa questione. 'Purvis è un bravo uomo ma non sa niente di questo. Non mettetelo in mezzo.'"
+        },
+        "relationships": [
+          {
+            "target": "actor_pastor",
+            "type": "conflitto",
+            "note": "Il pastore non crede alle sue storie"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_sheriff",
+        "name": "Sceriffo Dale Purvis",
+        "role": "authority",
+        "location_id": "sheriff_office",
+        "status": "introduced",
+        "goal": "Mantenere l'ordine e trovare una spiegazione razionale",
+        "secret": "Ha trovato una seconda vittima ma l'ha insabbiata per non creare panico",
+        "agenda_pressure": 5,
+        "fear": "Di perdere il controllo della situazione",
+        "current_plan": "Cooperare con i PG ma tenere le carte coperte",
+        "fallback_plan": "Chiamare la polizia di stato e perdere il controllo",
+        "resources": [
+          "Accesso ai file ufficiali",
+          "Autorità locale",
+          "clue_autopsy"
+        ],
+        "knows": [
+          "clue_autopsy"
+        ],
+        "wants": [
+          "Una spiegazione razionale",
+          "Che i PG risolvano il caso velocemente"
+        ],
+        "avoids": [
+          "Ammettere che la situazione lo supera"
+        ],
+        "pressure_response": {
+          "pressure_low": "Purvis è professionale e guardingo — condivide il referto autoptico ma trattiene la seconda vittima insabbiata. Risponde alle domande con risposte brevi e accurate. Vuole che i PG siano efficienti e discreti.",
+          "pressure_mid": "Purvis inizia a mostrare la stanchezza: non ha dormito bene, ha già tre familiari che gli chiedono cosa sta succedendo. Se i PG gli portano informazioni concrete, ricambia con accesso agli archivi e all'autorizzazione per l'archivio della contea.",
+          "pressure_high": "Purvis confessa la seconda vittima insabbiata — 'Non potevo creare panico. Ho fatto la cosa sbagliata.' Chiede ai PG di aiutarlo a gestire l'informazione. Diventa un alleato pieno ma vulnerabile.",
+          "pressure_max": "Purvis valuta di chiamare la polizia di stato — il che porterebbe giornalisti e caos. I PG devono convincerlo che possono risolvere la situazione prima di quel punto."
+        },
+        "reaction_table": {
+          "friendly_approach": "Purvis risponde alla professionalità — se i PG si comportano come investigatori seri e non come curiosi, collabora senza riserve entro i limiti del suo ruolo.",
+          "intimidation": "Purvis è lo sceriffo — l'intimidazione inverte i ruoli. Può cacciarli dalla contea se si comportano male. L'intimidazione è sempre controproducente con lui.",
+          "bribery": "Purvis non accetta bustarelle. Ma 'informazioni in cambio di informazioni' funziona — è uno scambio che rispetta.",
+          "caught_lying": "Purvis li caccia dall'ufficio temporaneamente e poi decide se possono ancora collaborare. Sa quando viene mentito e non lo tollera. Richiede una scusa diretta.",
+          "authority_figure": "Purvis riconosce solo l'autorità statale. Se i PG hanno credenziali governative legittime (FBI, agenzie federali), Purvis apre tutto senza riserve — compresa la seconda vittima insabbiata."
+        },
+        "relationships": [
+          {
+            "target": "actor_martha",
+            "type": "protezione",
+            "note": "Si sente responsabile della vedova"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_pastor",
+        "name": "Reverendo Thomas Hale",
+        "role": "obstacle",
+        "location_id": "church_yard",
+        "status": "unintroduced",
+        "goal": "Proteggere la chiesa e il suo ruolo nella comunità",
+        "secret": "Ha trovato il simbolo Cherokee sotto la chiesa e lo ha coperto con una tavola",
+        "agenda_pressure": 4,
+        "fear": "Che i 'pagani' abbiano ragione",
+        "current_plan": "Ignorare i tumuli e predicare calma",
+        "fallback_plan": "Fuggire dalla città se le cose peggiorano",
+        "resources": [
+          "Accesso al basement della chiesa",
+          "Fiducia della comunità"
+        ],
+        "knows": [
+          "clue_cherokee_symbol"
+        ],
+        "wants": [
+          "Che la situazione torni normale",
+          "Che la chiesa rimanga al centro"
+        ],
+        "avoids": [
+          "Ammettere l'esistenza del simbolo Cherokee"
+        ],
+        "pressure_response": {
+          "pressure_low": "Hale è ostile ma non violento — risponde alle domande con vaghezza teologica. 'Il Signore non permetterà che accada nulla di male alla sua chiesa.' Nega l'esistenza del simbolo Cherokee con fermezza tranquilla.",
+          "pressure_mid": "Se i PG dimostrano che conoscono il simbolo (da altre fonti), Hale diventa difensivo: 'Quella roba pagana non ha posto nel mio edificio.' Ma la difensività aumenta la sua stanchezza emotiva — comincia a cedere.",
+          "pressure_high": "Hale è sveglio di notte a pregare e non dorme — il tumulo nel cimitero lo disturba più di quanto voglia ammettere. Se i PG lo affrontano con le prove che il simbolo è l'unica cosa che ha funzionato nel 1941, si trova davanti a una scelta di fede.",
+          "pressure_max": "Hale cede alla logica pragmatica: 'Non posso lasciare che la mia congregazione muoia per principio teologico.' Apre il basement e mostra il simbolo, ma chiede che nessuno sappia mai che 'un pastore cristiano ha usato simboli pagani'."
+        },
+        "reaction_table": {
+          "friendly_approach": "Hale risponde alla retorica che rispetta la sua posizione di guida spirituale. Tiro Teologia o Eloquenza PG a +1 se si parte da un approccio che riconosce il suo ruolo.",
+          "intimidation": "Hale non si lascia intimidire fisicamente — ha una congregazione che lo protegge. Ma la minaccia di far sapere che ha insabbiato il simbolo Cherokee può farlo cedere se usata con delicatezza.",
+          "bribery": "Hale si offende moralmente ma può essere 'compensato' con una promessa di discrezione assoluta sull'uso del simbolo — la sua reputazione è tutto.",
+          "caught_lying": "Hale non nega mai di aver trovato il simbolo se confrontato direttamente. Dice invece che 'l'aveva rimosso per sicurezza'. Ammette solo l'omissione, non la bugia esplicita.",
+          "authority_figure": "Lo sceriffo Purvis è l'unica figura istituzionale che Hale rispetta davvero in paese. Se Purvis accompagna i PG alla chiesa, Hale apre il basement senza quasi resistenza."
+        },
+        "relationships": [
+          {
+            "target": "actor_silas",
+            "type": "conflitto",
+            "note": "Considera Silas un sovversivo"
+          }
+        ],
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "confidence": 0.8
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_townspeople",
+        "name": "Comunità di Harrowfield",
+        "agenda": "Sopravvivere e mantenere la normalità",
+        "pressure": 3,
+        "status": "watching",
+        "source_status": "inferred",
+        "confidence": 0.8
+      }
+    ],
+    "locations": [
+      {
+        "id": "loughty_house",
+        "name": "Casa Loughty",
+        "description": "Una fattoria bianca scrostata. Martha siede sul portico con gli occhi rossi. L'aria odora di terra umida.",
+        "status": "known",
+        "contains_clues": [
+          "clue_martha_testimony",
+          "clue_diary_fragment",
+          "clue_diary_full"
+        ],
+        "contains_actors": [
+          "actor_martha"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Fattoria bianca, portico in legno, campo aperto sul retro",
+        "gameplay_function": "Hub investigativo iniziale, testimone principale",
+        "concrete_features": [
+          "Portico con dondolo",
+          "Cucina con caffè sempre pronto",
+          "Stanza da letto con pavimento che scricchiola"
+        ],
+        "hazards": [],
+        "exits": [
+          "loughty_yard",
+          "sheriff_office"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_martha_testimony",
+          "clue_diary_fragment",
+          "clue_diary_full"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "loughty_yard",
+        "name": "Cortile dei Loughty — Il Tumulo",
+        "description": "Un tumulo di terra alta 2 metri, perfettamente ovale, che non c'era tre settimane fa. L'erba intorno è morta. Il silenzio qui è innaturale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_diary_fragment",
+          "clue_tunnels"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Tumulo ovale, erba morta in cerchio, terra nerastra",
+        "gameplay_function": "Luogo del crimine, accesso ai tunnel",
+        "concrete_features": [
+          "Il tumulo",
+          "Attrezzi abbandonati di Ellis",
+          "Tracce di sangue essiccato in cima"
+        ],
+        "hazards": [
+          "Presenza di SAN check se avvicinati di notte",
+          "Tunnels instabili"
+        ],
+        "exits": [
+          "loughty_house",
+          "main_mound"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_tunnels"
+        ],
+        "tactical_features": [
+          "Il tumulo offre copertura elevata",
+          "I tunnel possono essere usati per muoversi sotterraneamente"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "sheriff_office",
+        "name": "Ufficio dello Sceriffo",
+        "description": "Un edificio mattone in centro paese. Lo sceriffo Purvis ha i referto sul suo tavolo e l'aria stanca di chi non ha dormito.",
+        "status": "known",
+        "contains_clues": [
+          "clue_autopsy"
+        ],
+        "contains_actors": [
+          "actor_sheriff"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Edificio in mattoni rossi, insegna consumata, cella sul retro",
+        "gameplay_function": "Autorità locale, accesso ai documenti ufficiali",
+        "concrete_features": [
+          "Scrivania con referto",
+          "Cella vuota",
+          "Mappa del paese appesa al muro"
+        ],
+        "hazards": [],
+        "exits": [
+          "loughty_house",
+          "county_archive",
+          "church_yard"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_autopsy"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "henderson_farm",
+        "name": "Fattoria Henderson",
+        "description": "Una proprietà isolata a 3 km dal paese. Silas Henderson, 78 anni, siede sul portico con un fucile sulle ginocchia e gli occhi svegli di chi sa cose.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_henderson_account",
+          "clue_ritual_notes"
+        ],
+        "contains_actors": [
+          "actor_silas"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Fattoria isolata, campi incolti, vecchio fienile",
+        "gameplay_function": "Alleato cruciale, fonte del rituale",
+        "concrete_features": [
+          "Portico con vista sui campi",
+          "Interno buio pieno di libri",
+          "Cassetto nascosto con appunti"
+        ],
+        "hazards": [
+          "Silas inizialmente diffidente e armato"
+        ],
+        "exits": [
+          "loughty_yard",
+          "county_archive"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_henderson_account",
+          "clue_ritual_notes"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "church_yard",
+        "name": "Chiesa Battista e Cortile",
+        "description": "La chiesa principale di Harrowfield. Un tumulo è apparso nel cimitero sul lato est. Il reverendo Hale guarda i PG con sospetto.",
+        "status": "known",
+        "contains_clues": [
+          "clue_cherokee_symbol"
+        ],
+        "contains_actors": [
+          "actor_pastor"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Chiesa bianca con campanile, cimitero annesso, tumulo nel cimitero",
+        "gameplay_function": "Secondo tumulo, simbolo chiave nel basement",
+        "concrete_features": [
+          "Il tumulo nel cimitero",
+          "Basement con pavimento in legno",
+          "Simbolo Cherokee nascosto sotto una tavola"
+        ],
+        "hazards": [
+          "Reverendo ostile all'inizio"
+        ],
+        "exits": [
+          "sheriff_office",
+          "county_archive"
+        ],
+        "locked_paths": [
+          "basement"
+        ],
+        "clue_slots": [
+          "clue_cherokee_symbol"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "county_archive",
+        "name": "Archivio della Contea",
+        "description": "Un edificio soffocante con scatole di documenti dal 1850 in poi. La bibliotecaria è sospettosa ma aiuta se convinta.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_1941_records",
+          "clue_elder_testament"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Convincere la bibliotecaria O avere autorizzazione dello sceriffo"
+        ],
+        "type": "location",
+        "access_state": "locked",
+        "visual_identity": "Edificio squallido, scaffali pieni, aria di carta polverosa",
+        "gameplay_function": "Hub storico, pattern del 1941",
+        "concrete_features": [
+          "Registri della contea ordinati per anno",
+          "Sezione documenti nativi",
+          "Microfiche"
+        ],
+        "hazards": [],
+        "exits": [
+          "sheriff_office",
+          "henderson_farm"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_1941_records",
+          "clue_elder_testament"
+        ],
+        "tactical_features": [],
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "confidence": 0.8
+      },
+      {
+        "id": "main_mound",
+        "name": "Il Tumulo Centrale (Proprietà Abbandonata)",
+        "description": "A 500 metri dai Loughty, una proprietà abbandonata ha il tumulo più grande — alto 4 metri, largo 10. Da qui partono tutti i tunnel.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_tunnels"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Scoperto solo dopo aver esaminato la mappa dal simbolo Cherokee O dai tunnel sotto il tumulo dei Loughty"
+        ],
+        "type": "location",
+        "access_state": "hidden",
+        "visual_identity": "Tumulo enorme, proprietà in rovina, silenzio assoluto",
+        "gameplay_function": "Clue cruciale, luogo del confronto finale",
+        "concrete_features": [
+          "Il tumulo centrale",
+          "Ingresso dei tunnel",
+          "Odore di terra umida e qualcosa di organico"
+        ],
+        "hazards": [
+          "Effetto ipnotico progressivo",
+          "Tunnel instabili",
+          "L'entità può rispondere se disturbata"
+        ],
+        "exits": [
+          "loughty_yard"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "Alto punto di osservazione sul tumulo",
+          "I tunnel permettono di posizionarsi sotto"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_awakening",
+        "label": "Il Risveglio del Dormiente",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "L'entità si risveglia completamente. Harrowfield viene divorata. Fine del gioco.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Una seconda persona in paese inizia ad avere sogni e si ammala"
+          },
+          {
+            "tick": 4,
+            "event": "I tumuli crescono visibilmente di notte. Panico iniziale in paese"
+          },
+          {
+            "tick": 6,
+            "event": "Tre persone scompaiono, trascinate sotto un tumulo"
+          },
+          {
+            "tick": 8,
+            "event": "I tunnel emergono nelle case. L'evacuazione diventa necessaria"
+          },
+          {
+            "tick": 10,
+            "event": "Il Dormiente si risveglia. Harrowfield non esiste più"
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_ritual_notes",
+          "clue_cherokee_symbol"
+        ],
+        "resolution_condition": "Eseguire il rituale di sigillo su tutti i tumuli principali",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_henderson_account",
+        "discovery_hint": "Silas parla di come 'le cose si facciano più urgenti' man mano che le settimane passano",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "inferred",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.85
+      }
+    ],
+    "pressure_systems": [
+      {
+        "id": "pressure_sanity",
+        "label": "Erosione della Sanità Mentale",
+        "value": 0,
+        "max_value": 10,
+        "description": "Ogni notte trascorsa vicino ai tumuli erode la sanità. A 10, un PG cade sotto il controllo dell'entità."
+      }
+    ],
+    "resources": [
+      {
+        "id": "res_fiducia_comunita",
+        "label": "Fiducia della Comunità di Harrowfield",
+        "description": "La disponibilità della comunità a cooperare con i PG — se si comportano male o generano panico, perdono l'accesso a testimoni chiave e risorse locali",
+        "current_value": 5,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni approccio aggressivo con i testimoni, ogni volta che le indagini diventano pubbliche e creano panico, ogni errore che mette in discussione la competenza dei PG",
+        "depletion_consequence": "A 3: Martha e il pastore smettono di cooperare. A 1: Purvis considera di cacciarli dalla contea. A 0: la comunità è contro di loro — impossibile proseguire l'indagine",
+        "recovery_method": "Un gesto di supporto concreto alla comunità (aiutare Martha, proteggere Henderson dalla folla) recupera 1 punto. Risolvere qualcosa di concreto recupera 2 punti"
+      },
+      {
+        "id": "res_luce_notturna",
+        "label": "Illuminazione Notturna",
+        "description": "Le torce, lanterne e batterie disponibili per esplorare i tumuli di notte — l'oscurità potenzia l'effetto ipnotico dell'entità",
+        "current_value": 5,
+        "max_value": 5,
+        "min_value": 0,
+        "depletion_trigger": "Ogni notte trascorsa a investigare i tumuli, ogni volta che la luce viene usata in un tunnel",
+        "depletion_consequence": "A 2: i PG esplorano al buio — ogni tiro SAN vicino ai tumuli è a -2. A 0: oscurità totale nei tunnel — l'effetto ipnotico dell'entità è automatico senza tiro di resistenza",
+        "recovery_method": "Tornare al paese durante il giorno e rifornirsi al negozio di ferramenta recupera 3 punti"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_seal",
+        "label": "Sigillo del Dormiente",
+        "required_threads": [
+          "thread_solution"
+        ],
+        "required_clues": [
+          "clue_ritual_notes",
+          "clue_cherokee_symbol"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_ritual_solution"
+        ],
+        "method": "Eseguire il rituale simultaneo su tutti e tre i tumuli principali prima che il clock raggiunga 10",
+        "concrete_choice": "I PG devono dividersi sui tre tumuli e eseguire sale/ferro/fuoco in simultanea"
+      },
+      {
+        "id": "finale_collapse",
+        "label": "Collasso dei Tunnel",
+        "required_threads": [
+          "thread_entity"
+        ],
+        "required_clues": [
+          "clue_tunnels",
+          "clue_diary_full"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_entity_below"
+        ],
+        "method": "Distruggere il nucleo dell'entità facendo collassare il tumulo centrale con esplosivi",
+        "concrete_choice": "Rischioso — potrebbe liberare l'entità invece di distruggerla"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "horror",
+      "tone": "cosmic horror, rurale, psicologico",
+      "allowed_escalations": [
+        "sanity_loss",
+        "physical_threat",
+        "environmental_horror"
+      ],
+      "forbidden_escalations": [
+        "comedy",
+        "action_blockbuster"
+      ],
+      "terminal_events_require": [
+        "rev_entity_below"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "La notte i PG possono sentire un ronzio basso dalla terra vicino ai tumuli",
+      "Silas può diventare un mentore cruciale se i PG lo trattano con rispetto",
+      "Il rituale richiede cooperazione — ottimo per creare tensione tra PG su chi va dove"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_deaths",
+        "label": "Le Morti Misteriose",
+        "status": "active"
+      },
+      {
+        "id": "thread_history",
+        "label": "Il Ciclo del 1941",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_entity",
+        "label": "Il Dormiente Sotto",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_solution",
+        "label": "Il Rituale di Sigillo",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "pdf_mound_yard",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_investigate_death"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_awakening": {
+        "value": 0,
+        "active": true,
+        "discovered": false,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {
+      "pressure_sanity": 0
+    },
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_autopsy": [
+        "rev_not_natural"
+      ],
+      "clue_martha_testimony": [
+        "rev_not_natural"
+      ],
+      "clue_1941_records": [
+        "rev_cycle_40"
+      ],
+      "clue_henderson_account": [
+        "rev_cycle_40"
+      ],
+      "clue_tunnels": [
+        "rev_entity_below"
+      ],
+      "clue_diary_full": [
+        "rev_entity_below"
+      ],
+      "clue_elder_testament": [
+        "rev_entity_below",
+        "rev_ritual_solution"
+      ],
+      "clue_ritual_notes": [
+        "rev_ritual_solution"
+      ],
+      "clue_cherokee_symbol": [
+        "rev_ritual_solution"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_deaths": [
+        "rev_not_natural"
+      ],
+      "thread_history": [
+        "rev_cycle_40"
+      ],
+      "thread_entity": [
+        "rev_entity_below"
+      ],
+      "thread_solution": [
+        "rev_ritual_solution"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_not_natural": "thread_deaths",
+      "rev_cycle_40": "thread_history",
+      "rev_entity_below": "thread_entity",
+      "rev_ritual_solution": "thread_solution"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 88,
+      "issues": [],
+      "warnings": [
+        "Faction count bassa (1) — normale per avventura small-town"
+      ]
+    }
+  }
+}

@@ -1,0 +1,969 @@
+{
+  "adventure_definition": {
+    "id": "ai_cattedrale_profanata",
+    "title": "La Cattedrale Profanata",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "horror",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "horror religioso, medioevo, eresia e demoni",
+    "premise": "Anno 1237, Germania. La cattedrale di Hartenberg è stata trovata profanata all'alba — altari rovesciati, simboli oscuri alle pareti, il vescovo morto nell'abside. L'inquisitore Padre Matteo vi convoca: 'O troviamo il colpevole in tre giorni, o brucio l'intero quartiere ebraico come misura preventiva.' I PG devono trovare il vero responsabile prima che un innocente venga punito.",
+    "initial_hook": "Tre giorni. La cattedrale profanata. Il vescovo morto. Padre Matteo ha già scelto il suo capro espiatorio — la comunità ebraica del quartiere vicino. Voi sapete che è ingiusto. Avete 72 ore.",
+    "core_truths": [
+      {
+        "id": "truth_killer",
+        "statement": "Il canonico Godfrey ha profanato la cattedrale e ucciso il vescovo perché questi stava per smascherarlo: Godfrey pratica magia nera e ha venduto reliquie false per anni.",
+        "reveal_clues": [
+          "clue_godfrey_books",
+          "clue_sold_relics"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_demon",
+        "statement": "La profanazione non è solo eresia umana — Godfrey ha davvero evocato qualcosa durante il rito. L'entità è ancora nella cattedrale.",
+        "reveal_clues": [
+          "clue_entity_signs",
+          "clue_godfrey_books"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_bishop",
+        "statement": "Il vescovo aveva scoperto la frode delle reliquie attraverso le lettere di un mercante. Le lettere sono nel suo studio.",
+        "reveal_clues": [
+          "clue_bishop_letters",
+          "clue_merchant_account"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_scene",
+        "label": "Esaminare la scena della profanazione",
+        "status": "active",
+        "unlocks": [
+          "obj_bishop_death",
+          "obj_symbols"
+        ],
+        "success_conditions": [
+          "clue_entity_signs scoperto"
+        ]
+      },
+      {
+        "id": "obj_bishop_death",
+        "label": "Capire come è morto il vescovo",
+        "status": "inactive",
+        "unlocks": [
+          "obj_find_motive"
+        ],
+        "success_conditions": [
+          "clue_bishop_letters scoperto"
+        ]
+      },
+      {
+        "id": "obj_symbols",
+        "label": "Decifrare i simboli della profanazione",
+        "status": "inactive",
+        "unlocks": [
+          "obj_find_practitioner"
+        ],
+        "success_conditions": [
+          "clue_godfrey_books scoperto"
+        ]
+      },
+      {
+        "id": "obj_find_motive",
+        "label": "Trovare il movente del colpevole",
+        "status": "inactive",
+        "unlocks": [
+          "obj_confront"
+        ],
+        "success_conditions": [
+          "rev_godfrey_guilty rivelato"
+        ]
+      },
+      {
+        "id": "obj_find_practitioner",
+        "label": "Identificare il praticante di magia nera",
+        "status": "inactive",
+        "unlocks": [
+          "obj_confront"
+        ],
+        "success_conditions": [
+          "clue_godfrey_books E clue_sold_relics scoperti"
+        ]
+      },
+      {
+        "id": "obj_confront",
+        "label": "Fermare Godfrey prima di Padre Matteo",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Confronto con Godfrey con prove sufficienti"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_human_cause",
+        "thread_id": "thread_profanazione",
+        "statement": "La profanazione è opera umana — qualcuno con conoscenza approfondita di liturgia e simbolismo oscuro.",
+        "required_clues": [
+          "clue_entity_signs"
+        ],
+        "required_evidence_kinds": [
+          "physical"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [
+          "clue_red_herring_jewish"
+        ],
+        "status": "hidden",
+        "payoff": "Non è un atto di odio esterno — è qualcuno dentro la chiesa.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_godfrey_guilty",
+        "thread_id": "thread_colpevole",
+        "statement": "Godfrey ha profanato la cattedrale per ragioni di autopreservazione — il vescovo lo stava smascherando.",
+        "required_clues": [
+          "clue_godfrey_books",
+          "clue_sold_relics",
+          "clue_bishop_letters"
+        ],
+        "required_evidence_kinds": [
+          "artifact",
+          "document",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Colpevole identificato con movente chiaro.",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "rev_entity_present",
+        "thread_id": "thread_demone",
+        "statement": "Qualcosa è stato evocato ed è ancora nella cattedrale. Non è solo un simbolo — è reale.",
+        "required_clues": [
+          "clue_entity_signs",
+          "clue_godfrey_books"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "artifact"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Il confronto finale ha una componente soprannaturale.",
+        "conditions": [],
+        "llm_generated": true
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entity_signs",
+        "label": "Simboli di evocazione nella cripta",
+        "type": "physical_evidence",
+        "thread_id": "thread_profanazione",
+        "source_location": "cathedral_crypt",
+        "reveals": "Nella cripta sotto la cattedrale: cerchio di evocazione con simboli non cristiani né ebraici — questo è occultismo classico europeo. L'aria ha un odore di zolfo e bruciato. Al centro del cerchio: macchie di sangue fresco.",
+        "payoff": "rev_human_cause",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_human_cause",
+          "rev_entity_present"
+        ],
+        "immediate_information": "Evocazione eseguita nella cripta. Conoscenza tecnica richiesta.",
+        "hidden_implication": "Non è odio razziale — è pratica magica deliberata.",
+        "unlocks": [
+          "clue_godfrey_books"
+        ],
+        "possible_actions": [
+          "Esplorare la cripta"
+        ],
+        "wrong_interpretations": [
+          "Simboli ebraici"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_godfrey_books",
+        "label": "Grimori nascosti nella cella di Godfrey",
+        "type": "artifact",
+        "thread_id": "thread_colpevole",
+        "source_location": "godfrey_cell",
+        "reveals": "Sotto il pavimento della cella di Godfrey: tre grimori con simboli identici a quelli nella cripta. Annotazioni a margine nella sua calligrafia. Il libro più recente è aperto sulla pagina 'Evocazione del Custode'.",
+        "payoff": "Godfrey non è solo un truffatore — pratica attivamente stregoneria e ha evocato un'entità soprannaturale. La profanazione non è solo messa in scena.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_godfrey_guilty",
+          "rev_entity_present"
+        ],
+        "immediate_information": "Godfrey pratica magia nera. I simboli coincidono.",
+        "hidden_implication": "Ha evocato qualcosa — e sa come controllarlo.",
+        "unlocks": [
+          "clue_sold_relics"
+        ],
+        "possible_actions": [
+          "Perquisire la cella di Godfrey"
+        ],
+        "wrong_interpretations": [
+          "I grimori sono solo vecchi libri di teologia eretica",
+          "Qualcun altro li ha nascosti lì per incastrare Godfrey"
+        ],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_sold_relics",
+        "label": "Registro delle reliquie false",
+        "type": "document",
+        "thread_id": "thread_colpevole",
+        "source_location": "godfrey_cell",
+        "reveals": "Un registro contabile nascosto: Godfrey ha venduto 23 'reliquie autentiche' a chiese e nobili nell'arco di 10 anni. I prezzi sono esorbitanti. Alcune reliquie erano ossa di animali.",
+        "payoff": "Il movente della profanazione: Godfrey aveva costruito un impero di frodi che stava per crollare. Il vescovo rappresentava la sua rovina economica e spirituale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_godfrey_guilty"
+        ],
+        "immediate_information": "Godfrey faceva commercio di reliquie false per anni.",
+        "hidden_implication": "Il vescovo lo stava scoprendo — questo è il movente.",
+        "unlocks": [
+          "clue_bishop_letters"
+        ],
+        "possible_actions": [
+          "Esaminare i documenti nella cella di Godfrey"
+        ],
+        "wrong_interpretations": [
+          "Stava solo aiutando i poveri vendendo reliquie a prezzi accessibili",
+          "Il registro è contraffatto per screditare un sacerdote rispettato"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_bishop_letters",
+        "label": "Lettere del mercante allo studio del vescovo",
+        "type": "document",
+        "thread_id": "thread_colpevole",
+        "source_location": "bishop_study",
+        "reveals": "Nello studio del vescovo: lettere di un mercante di Colonia che aveva comprato una reliquia da Godfrey — e poi verificato che era falsa. Il vescovo aveva convocato Godfrey per 'chiarire la questione' il giorno prima della morte.",
+        "payoff": "La timeline si completa: Godfrey sapeva che sarebbe stato smascherato entro ore. Non aveva scelta se non agire immediatamente e drasticamente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_godfrey_guilty"
+        ],
+        "immediate_information": "Il vescovo sapeva delle reliquie false. Aveva convocato Godfrey.",
+        "hidden_implication": "Godfrey sapeva di essere smascherato — ha agito prima.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare lo studio del vescovo"
+        ],
+        "wrong_interpretations": [
+          "Il vescovo voleva semplicemente un chiarimento, non un'accusa",
+          "Il mercante è un concorrente geloso che vuole rovinare Godfrey"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_merchant_account",
+        "label": "Testimonianza del mercante di Colonia",
+        "type": "testimony",
+        "thread_id": "thread_colpevole",
+        "source_location": "inn_outside",
+        "reveals": "Il mercante è ancora in città all'osteria fuori porta. Conferma tutto: ha pagato 50 marchi d'argento per una 'reliquia di San Martino' che un orafo ha poi identificato come osso bovino. 'Ho scritto al vescovo tre settimane fa.'",
+        "payoff": "Testimone oculare credibile che può inchiodare Godfrey davanti a qualsiasi tribunale — se sopravvive abbastanza a lungo per testimoniare.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [
+          "rev_godfrey_guilty"
+        ],
+        "immediate_information": "Testimone diretto della frode.",
+        "hidden_implication": "Può testimoniare davanti all'inquisitore.",
+        "unlocks": [],
+        "possible_actions": [
+          "Cercare all'osteria fuori porta"
+        ],
+        "wrong_interpretations": [
+          "È un truffatore lui stesso che cerca di estorcere denaro",
+          "L'orafo si è sbagliato nell'analisi dell'osso"
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_red_herring_jewish",
+        "label": "Simbolo pseudo-ebraico sulla parete",
+        "type": "physical_evidence",
+        "thread_id": "thread_profanazione",
+        "source_location": "cathedral_nave",
+        "reveals": "Sulla parete della navata: quello che sembra un simbolo ebraico — ma un'analisi attenta mostra che è un'imitazione imperfetta, scritta da qualcuno che non conosce l'ebraico.",
+        "payoff": "Godfrey ha cercato di depistare le indagini verso la comunità ebraica — un pogrom avrebbe nascosto il suo crimine nel caos e nella violenza.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Simbolo ebraico sulla parete.",
+        "hidden_implication": "Red herring — qualcuno lo ha messo lì per incolpare la comunità ebraica.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare i simboli"
+        ],
+        "wrong_interpretations": [
+          "La comunità ebraica è responsabile della profanazione",
+          "È un avvertimento o una maledizione lasciata da streghe ebraiche"
+        ],
+        "source_status": "generated",
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_godfrey",
+        "name": "Canonico Godfrey",
+        "role": "antagonist",
+        "location_id": "cathedral_main",
+        "status": "introduced",
+        "goal": "Coprire i suoi crimini e fuggire con i proventi della frode",
+        "secret": "Ha profanato la cattedrale, ucciso il vescovo, e ha davvero evocato qualcosa che non riesce più a controllare",
+        "agenda_pressure": 9,
+        "fear": "L'inquisizione — e l'entità che ha evocato",
+        "current_plan": "Sembrare devoto e collaborare alle indagini mentre pianifica la fuga",
+        "fallback_plan": "Accusare la comunità ebraica usando il simbolo falso che ha piazzato",
+        "resources": [
+          "Conoscenza occultistica",
+          "Accesso alla cattedrale",
+          "Soldi delle reliquie"
+        ],
+        "knows": [
+          "truth_killer",
+          "truth_demon"
+        ],
+        "wants": [
+          "Fuga"
+        ],
+        "avoids": [
+          "La sua cella"
+        ],
+        "pressure_response": {
+          "pressure_low": "Devoto e collaborativo, si offre di aiutare le indagini, usa il suo status ecclesiastico per apparire al di sopra dei sospetti",
+          "pressure_mid": "Quando i sospetti si avvicinano, inizia a parlare di 'possessione demoniaca di terzi' e punta sottilmente verso la comunità ebraica",
+          "pressure_high": "Mostra segni di panico mal controllato — la sua performance comincia a cedere. Cerca di accelerare la partenza con una scusa religiosa",
+          "pressure_max": "Tenta di fuggire con i soldi durante la notte, oppure — se l'entità lo minaccia direttamente — chiede aiuto ai PG pur confessando parzialmente"
+        },
+        "reaction_table": {
+          "friendly_approach": "+2 — è un manipolatore nato, risponde bene alla deferenza religiosa e alla cortesia formale",
+          "intimidation": "-1 — finge umiltà ma pianifica ritorsioni. La paura dell'entità lo rende meno stabile sotto pressione",
+          "bribery": "+3 — ha venduto reliquie per anni, il denaro è il suo punto debole. Un'offerta credibile lo può far vacillare",
+          "caught_lying": "-4 — crolla nel panico, attacca o cerca di fuggire immediatamente",
+          "authority_figure": "+1 se clericale, -2 se inquisitoriale — rispetta la gerarchia ecclesiastica ma teme Padre Matteo specificamente"
+        },
+        "relationships": [
+          {
+            "target": "actor_matteo",
+            "type": "manipolazione",
+            "note": "Cerca di pilotare le sue indagini verso la comunità ebraica"
+          }
+        ],
+        "source_status": "generated",
+        "confidence": 0.95,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_godfrey_books",
+            "narration": "Mentre investigate, sentite odore di fumo. Correte alla cella di Godfrey: un braciere rovesciato ha dato fuoco ai suoi scaffali. I grimori stanno bruciando.",
+            "replacement_clue": {
+              "id": "clue_burnt_grimoire_fragment",
+              "label": "Frammento carbonizzato di grimorio",
+              "reveals": "Pagina parzialmente leggibile con invocazioni demoniache e la firma 'G.' sul margine. Stesso inchiostro dei simboli nella cripta."
+            }
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_sacristan",
+            "new_attitude": "uncooperative",
+            "narration": "Il sacrestano viene trovato tremante nella sua cella. Balbetta di una figura incappucciata che lo ha minacciato nella notte: 'Se parli, la tua famiglia brucerà come eretici.'"
+          },
+          {
+            "at_pressure": 8,
+            "action": "create_clue",
+            "narration": "Un novizio corre verso di voi terrorizzato: ha trovato qualcosa di orribile nei sotterranei della cattedrale.",
+            "clue": {
+              "id": "clue_ritual_remains",
+              "label": "Resti del rituale fallito",
+              "reveals": "Circolo di evocazione incompiuto nella cripta più profonda. Candele ancora tiepide, ceneri di incenso maledetto. Qualcuno ha tentato di evocare un'entità ma è stato interrotto. Simboli identici a quelli trovati nell'abside.",
+              "type": "physical"
+            }
+          }
+        ]
+      },
+      {
+        "id": "actor_matteo",
+        "name": "Padre Matteo, inquisitore",
+        "role": "authority",
+        "location_id": "cathedral_main",
+        "status": "introduced",
+        "goal": "Trovare un colpevole entro tre giorni — preferibilmente quello che già sospetta",
+        "secret": "Sa che la comunità ebraica è probabilmente innocente ma ha pressioni politiche",
+        "agenda_pressure": 6,
+        "fear": "Perdere autorità se non risolve in fretta",
+        "current_plan": "Lasciar lavorare i PG mentre prepara l'arresto della comunità ebraica come backup",
+        "fallback_plan": "Procedere con l'arresto preventivo se i PG falliscono",
+        "resources": [
+          "Autorità inquisitoriale",
+          "Guardie",
+          "Prigioni"
+        ],
+        "knows": [],
+        "wants": [
+          "Un colpevole"
+        ],
+        "avoids": [
+          "Figuracce pubbliche"
+        ],
+        "pressure_response": {
+          "pressure_low": "Formalmente cooperativo, stabilisce regole per le indagini dei PG, mantiene il controllo della situazione",
+          "pressure_mid": "Comincia a emettere 'avvisi preventivi' alla comunità ebraica — pressione visibile che si traduce in tempo che scorre",
+          "pressure_high": "Procede con gli arresti preventivi, i PG hanno pochissimo tempo per presentare prove convincenti",
+          "pressure_max": "Processo sommario avviato — solo prove schiaccianti e immediatamente verificabili possono fermare la macchina inquisitoriale"
+        },
+        "reaction_table": {
+          "friendly_approach": "+1 — apprezza la deferenza, risponde bene a chi usa il linguaggio della fede",
+          "intimidation": "-3 — è lui il potere qui. Qualsiasi intimidazione ottiene l'effetto opposto",
+          "bribery": "-2 — un uomo di chiesa corrotto, ma non da stranieri. Lo offende profondamente in pubblico",
+          "caught_lying": "-2 — perde fiducia nei PG ma li ascolta ancora se portano prove concrete",
+          "authority_figure": "+3 se vescovile o papale, -1 se civile — rispetta la gerarchia della chiesa sopra tutto"
+        },
+        "relationships": [
+          {
+            "target": "actor_godfrey",
+            "type": "fiducia",
+            "note": "Lo considera un alleato — Godfrey lo manipola"
+          }
+        ],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "actor_rabbi",
+        "name": "Rabbi Samuele",
+        "role": "ally",
+        "location_id": "jewish_quarter",
+        "status": "unintroduced",
+        "goal": "Proteggere la sua comunità",
+        "secret": "Ha visto Godfrey aggirarsi vicino alla cattedrale la notte prima",
+        "agenda_pressure": 8,
+        "fear": "Che Matteo proceda con il pogrom",
+        "current_plan": "Restare nascosto e sperare che qualcuno trovi il vero colpevole",
+        "fallback_plan": "Fuggire con le famiglie se la situazione peggiora",
+        "resources": [
+          "Conoscenza della comunità",
+          "Testimonianza visiva"
+        ],
+        "knows": [
+          "clue_entity_signs"
+        ],
+        "wants": [
+          "Salvezza della sua comunità"
+        ],
+        "avoids": [
+          "Le autorità cristiane"
+        ],
+        "pressure_response": {
+          "pressure_low": "Non si fida degli estranei, risponde a monosillabi, osserva da lontano prima di decidere",
+          "pressure_mid": "Se convinto che i PG siano in buona fede, condivide informazioni di base sulla comunità e sulle accuse",
+          "pressure_high": "Quando gli arresti sembrano imminenti, rivela di aver visto Godfrey quella notte — la disperazione supera la diffidenza",
+          "pressure_max": "Organizza la fuga delle famiglie più vulnerabili, ma rimane per testimoniare se i PG gli garantiscono protezione"
+        },
+        "reaction_table": {
+          "friendly_approach": "+3 — la gentilezza genuina è rara. Risponde molto bene a chi lo tratta con rispetto umano",
+          "intimidation": "-4 — chiude tutto, non parla più, considera i PG nemici",
+          "bribery": "-1 — non è interessato al denaro in questo momento, vuole protezione concreta",
+          "caught_lying": "Non mente — nasconde informazioni per paura. Se si scopre che tace, si scusa e racconta tutto",
+          "authority_figure": "-2 — l'autorità cristiana lo spaventa, risponde meglio a privati senza insegne ufficiali"
+        },
+        "relationships": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_church",
+        "name": "Clero Locale",
+        "agenda": "Trovare un colpevole e proteggere la reputazione della chiesa",
+        "pressure": 7,
+        "status": "active",
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "faction_jewish",
+        "name": "Comunità Ebraica",
+        "agenda": "Sopravvivere all'accusa",
+        "pressure": 8,
+        "status": "active",
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "locations": [
+      {
+        "id": "cathedral_main",
+        "name": "Navata Principale",
+        "description": "La cattedrale profanata. Altari rovesciati, panche spezzate. Il simbolo pseudo-ebraico sulla parete nord.",
+        "status": "known",
+        "contains_clues": [
+          "clue_red_herring_jewish"
+        ],
+        "contains_actors": [
+          "actor_godfrey",
+          "actor_matteo"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Cattedrale gotica profanata, luce filtrata, rovine sacre",
+        "gameplay_function": "Hub principale, antagonisti presenti",
+        "concrete_features": [
+          "Altari rovesciati",
+          "Simbolo falso",
+          "Godfrey e Matteo"
+        ],
+        "hazards": [
+          "Presenza dell'entità di notte"
+        ],
+        "exits": [
+          "cathedral_crypt",
+          "bishop_study",
+          "godfrey_cell"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_red_herring_jewish"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "cathedral_crypt",
+        "name": "Cripta della Cattedrale",
+        "description": "Sotterraneo umido con tombe. Il cerchio di evocazione è al centro — ancora pulsante debolmente.",
+        "status": "known",
+        "contains_clues": [
+          "clue_entity_signs"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Cripta medievale, pietra umida, tombe, odore di zolfo",
+        "gameplay_function": "Prova centrale dell'evocazione",
+        "concrete_features": [
+          "Cerchio di evocazione",
+          "Odore di zolfo",
+          "Sangue fresco"
+        ],
+        "hazards": [
+          "L'entità si manifesta nella cripta di notte"
+        ],
+        "exits": [
+          "cathedral_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_entity_signs"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "bishop_study",
+        "name": "Studio del Vescovo",
+        "description": "Studio privato intatto. Le lettere del mercante sono sul tavolo con altri documenti non esaminati ancora.",
+        "status": "known",
+        "contains_clues": [
+          "clue_bishop_letters"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Studio ecclesiastico medievale, pergamene, calice d'argento",
+        "gameplay_function": "Movente — lettere del vescovo",
+        "concrete_features": [
+          "Lettere del mercante",
+          "Documenti personali del vescovo"
+        ],
+        "hazards": [],
+        "exits": [
+          "cathedral_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_bishop_letters"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "godfrey_cell",
+        "name": "Cella del Canonico Godfrey",
+        "description": "Cella austera. Sotto il pavimento allentato: i grimori e il registro delle reliquie.",
+        "status": "known",
+        "contains_clues": [
+          "clue_godfrey_books",
+          "clue_sold_relics"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Perquisizione in assenza di Godfrey"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Cella monastica medievale, paglia, inginocchiatoio",
+        "gameplay_function": "Prove della colpevolezza di Godfrey",
+        "concrete_features": [
+          "Pavimento allentato",
+          "Grimori",
+          "Registro reliquie"
+        ],
+        "hazards": [
+          "Godfrey può tornare"
+        ],
+        "exits": [
+          "cathedral_main"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_godfrey_books",
+          "clue_sold_relics"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.95
+      },
+      {
+        "id": "jewish_quarter",
+        "name": "Quartiere Ebraico",
+        "description": "Quartiere chiuso, porte sbarrate. Rabbi Samuele non si fida degli estranei.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_rabbi"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Conquistarsi la fiducia della comunità"
+        ],
+        "type": "location",
+        "access_state": "restricted",
+        "visual_identity": "Quartiere ebraico medievale, menorah, porte chiuse",
+        "gameplay_function": "Alleato e testimone",
+        "concrete_features": [
+          "Rabbi Samuele",
+          "Testimonianza su Godfrey"
+        ],
+        "hazards": [],
+        "exits": [
+          "inn_outside"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      },
+      {
+        "id": "inn_outside",
+        "name": "Osteria Fuori Porta",
+        "description": "Osteria fuori dalle mura. Il mercante di Colonia è ancora qui.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_merchant_account"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Sapere del mercante dalle lettere"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Osteria medievale, viaggiatori, fieno e birra",
+        "gameplay_function": "Testimone della frode delle reliquie",
+        "concrete_features": [
+          "Mercante di Colonia",
+          "Testimonianza diretta"
+        ],
+        "hazards": [],
+        "exits": [
+          "jewish_quarter"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_merchant_account"
+        ],
+        "tactical_features": [],
+        "source_status": "generated",
+        "confidence": 0.85
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_pogrom",
+        "label": "Il Pogrom di Padre Matteo",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Matteo arresta e processa la comunità ebraica. Esecuzioni pubbliche. Gli innocenti muoiono.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Matteo interroga leader della comunità ebraica"
+          },
+          {
+            "tick": 4,
+            "event": "Matteo emette un primo avviso pubblico di sospetto"
+          },
+          {
+            "tick": 6,
+            "event": "Arresti preventivi iniziano"
+          },
+          {
+            "tick": 8,
+            "event": "Processo sommario annunciato"
+          },
+          {
+            "tick": 10,
+            "event": "Esecuzione. La comunità è distrutta."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_godfrey_books",
+          "clue_sold_relics"
+        ],
+        "resolution_condition": "Presentare le prove di Godfrey a Matteo prima che il processo cominci",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": true,
+        "discovery_clue_id": "",
+        "discovery_hint": "Matteo ha già detto: 'Tre giorni. Poi il quartiere brucia.'",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.9
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_sanita_mentale",
+        "label": "Stabilità Mentale dei PG",
+        "description": "L'esposizione all'entità evocata nella cripta erode la stabilità psicologica. I sogni diventano disturbi, i simboli prendono vita",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni visione dell'entità di notte, ogni volta che si passa tempo nella cripta, ogni clue demoniaco scoperto",
+        "depletion_consequence": "A 5: i PG iniziano ad avere allucinazioni che rendono difficile distinguere clue reali da falsi. A 0: un PG cade in stato di terrore paralizzante",
+        "recovery_method": "Preghiera in luogo sacro recupera 1. Dormire fuori dalla cattedrale recupera 2. Esorcismo riuscito recupera 4"
+      },
+      {
+        "id": "res_luce_disponibile",
+        "label": "Fonti di Luce",
+        "description": "Torce e candele disponibili per esplorare la cripta di notte — l'entità è più attiva nell'oscurità",
+        "current_value": 8,
+        "max_value": 8,
+        "min_value": 0,
+        "depletion_trigger": "Ogni ora nella cripta, ogni scontro con l'entità",
+        "depletion_consequence": "A 0: i PG non possono esplorare la cripta in sicurezza senza esporsi all'entità",
+        "recovery_method": "Reperibili in paese — 1d6 ore per rifornirsi"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_expose_godfrey",
+        "label": "Smascheramento di Godfrey davanti a Matteo",
+        "required_threads": [
+          "thread_colpevole"
+        ],
+        "required_clues": [
+          "clue_godfrey_books",
+          "clue_sold_relics",
+          "clue_bishop_letters"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_godfrey_guilty"
+        ],
+        "method": "Presentare le prove a Matteo — i grimori, il registro delle reliquie, le lettere del vescovo. Godfrey viene arrestato invece della comunità.",
+        "concrete_choice": "Richiede superare la resistenza iniziale di Matteo che si fida di Godfrey"
+      },
+      {
+        "id": "finale_banish_entity",
+        "label": "Esorcismo dell'Entità",
+        "required_threads": [
+          "thread_demone"
+        ],
+        "required_clues": [
+          "clue_entity_signs",
+          "clue_godfrey_books"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_entity_present"
+        ],
+        "method": "Usando il grimorio di Godfrey, eseguire il rito inverso per chiudere l'evocazione. Richiede un PG con conoscenza magica O l'aiuto di Godfrey catturato.",
+        "concrete_choice": "Secondo obiettivo — necessario per il finale completo"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "horror",
+      "tone": "horror religioso medievale",
+      "allowed_escalations": [
+        "supernatural_manifestation",
+        "political_pressure",
+        "moral_choice"
+      ],
+      "forbidden_escalations": [],
+      "terminal_events_require": [],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "Il simbolo ebraico falso è il cuore del dilemma morale — chi lo vede ci crede subito",
+      "Godfrey come antagonista simpatetico: non era malvagio, solo avido e spaventato",
+      "Il confronto con Matteo con le prove è catartico — ma lui deve scegliere di credere ai PG"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_profanazione",
+        "label": "Chi ha Profanato la Cattedrale",
+        "status": "active"
+      },
+      {
+        "id": "thread_colpevole",
+        "label": "Il Vero Colpevole",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_demone",
+        "label": "L'Entità Evocata",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "ai_cattedrale_profanata",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_scene"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_pogrom": {
+        "value": 0,
+        "active": true,
+        "discovered": true,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_entity_signs": [
+        "rev_human_cause",
+        "rev_entity_present"
+      ],
+      "clue_godfrey_books": [
+        "rev_godfrey_guilty",
+        "rev_entity_present"
+      ],
+      "clue_sold_relics": [
+        "rev_godfrey_guilty"
+      ],
+      "clue_bishop_letters": [
+        "rev_godfrey_guilty"
+      ],
+      "clue_merchant_account": [
+        "rev_godfrey_guilty"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_profanazione": [
+        "rev_human_cause"
+      ],
+      "thread_colpevole": [
+        "rev_godfrey_guilty"
+      ],
+      "thread_demone": [
+        "rev_entity_present"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_human_cause": "thread_profanazione",
+      "rev_godfrey_guilty": "thread_colpevole",
+      "rev_entity_present": "thread_demone"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 90,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}

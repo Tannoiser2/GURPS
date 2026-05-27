@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_frequenza_fantasma",
+    "title": "Frequenza Fantasma",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "sci_fi",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "sci-fi horror cosmico, sopravvivenza e scoperta del proibito",
+    "premise": "Il settore Kappa-7 è stato dichiarato zona di quarantena trent'anni fa, dopo la scomparsa della colonia Elara-2 (3.200 persone). Nessuno ha mai spiegato cosa è successo. Ora una sonda automatica registra un segnale di soccorso da Kappa-7 — ed è codificato con protocolli degli anni '90 che solo Elara-2 usava.",
+    "initial_hook": "L'Agenzia spaziale incarica i PG di indagare — ufficialmente per 'chiudere il dossier'. Non devono fare sapere che sono andati. Non devono portare nessuno fuori dalla zona di quarantena senza protocollo di decontaminazione.",
+    "player_facing_objective": "Scoprire l'origine del segnale, capire cosa è successo a Elara-2 e riportare le informazioni senza mettere a rischio il settore abitato.",
+    "hidden_truth": "Elara-2 non è morta — si è trasformata. I coloni hanno contattato un'entità subspaziale attraverso un esperimento di comunicazione a lungo raggio. L'entità ha offerto conoscenza in cambio di 'risonanza' — una fusione graduale delle menti coloniali con la propria struttura. Trent'anni dopo, i coloni esistono ancora, ma come parte di una mente collettiva distribuita nello spazio. Il segnale lo ha mandato uno di loro che ha mantenuto un frammento di identità individuale e vuole essere 'riumanizzato'.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Elara-2 non è morta — si è trasformata. I coloni hanno contattato un'entità subspaziale attraverso un esperimento di comunicazione a lungo raggio. L'entità ha offerto conoscenza in cambio di 'risonanza' — una fusione graduale delle menti coloniali con la propria struttura. Trent'anni dopo, i coloni esistono ancora, ma come parte di una mente collettiva distribuita nello spazio. Il segnale lo ha mandato uno di loro che ha mantenuto un frammento di identità individuale e vuole essere 'riumanizzato'.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire l'origine del segnale, capire cosa è successo a Elara-2 e riportare le informazioni senza mettere a rischio il settore abitato.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Elara-2 non è morta — si è trasformata. I coloni hanno contattato un'entità subspaziale attraverso un esperimento di comunicazione a lungo raggio. L'entità ha offerto conoscenza in cambio di 'risonanza' — una fusione graduale delle menti coloniali con la propria struttura. Trent'anni dopo, i coloni esistono ancora, ma come parte di una mente collettiva distribuita nello spazio. Il segnale lo ha mandato uno di loro che ha mantenuto un frammento di identità individuale e vuole essere 'riumanizzato'.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Trovare il generatore di segnale sul pianeta di Elara-2, individuare il frammento di identità sopravvissuto (una donna di nome Kaira Voss), costruire un isolatore di risonanza con i componenti della nave, poi usarlo per separare Kaira dalla mente collettiva senza distruggere l'entità — operazione che richiede il consenso di Kaira e dell'entità stessa.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Il dossier dell'esperimento con la data di primo contatto e la descrizione dell'entità subspaziale",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "L'esperimento era autorizzato — e l'agenzia sapeva del contatto e ha coperto la scomparsa.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "L'esperimento era autorizzato — e l'agenzia sapeva del contatto e ha coperto la scomparsa.",
+        "hidden_implication": "L'agenzia ha inviato i PG sperando che l'entità li consumi — per chiudere il dossier definitivamente.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il segnale potrebbe essere un loop automatico attivato da un sistema di backup — nessun superstite.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Registrazione audio di Kaira Voss fatta trent'anni fa: 'Se qualcuno sente questo, mandatemi indietro'",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Kaira ha mantenuto l'identità individuale per volontà — il segnale è autentico, non un'esca.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Kaira ha mantenuto l'identità individuale per volontà — il segnale è autentico, non un'esca.",
+        "hidden_implication": "Kaira sa cosa l'agenzia ha fatto — e vuole che i PG lo scoprano e lo rivelino.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Kaira potrebbe essere una costruzione dell'entità per attirare umani — un'esca sofisticata.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Schema tecnico del generatore di segnale trovato nel centro di ricerca",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Il generatore può essere modificato per produrre l'isolatore di risonanza con i componenti giusti.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il generatore può essere modificato per produrre l'isolatore di risonanza con i componenti giusti.",
+        "hidden_implication": "La mente collettiva ha conoscenze scientifiche trent'anni avanti rispetto all'umanità — un accordo con lei sarebbe straordinario.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il dossier potrebbe essere stato alterato dall'agenzia per nascondere un esperimento militare fallito.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Il pattern di risonanza nella zona sotterranea — identico alla struttura neurologica umana ma distribuita",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "La mente collettiva non è un'invasione — è una scelta che la maggioranza ha fatto consapevolmente.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La mente collettiva non è un'invasione — è una scelta che la maggioranza ha fatto consapevolmente.",
+        "hidden_implication": "La separazione di Kaira indebolirà temporaneamente la mente collettiva — finestra di vulnerabilità.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il pattern di risonanza potrebbe essere un'anomalia geologica del pianeta, non una mente.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Kaira Voss in forma di risonanza: comunica con i PG in frammenti di voce e immagini",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Kaira può parlare con i PG direttamente — vuole ritornar umana ma è consapevole del costo.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Kaira può parlare con i PG direttamente — vuole ritornar umana ma è consapevole del costo.",
+        "hidden_implication": "Su Elara-2 c'è ancora ossigeno: i coloni lo producono inconsciamente come memoria biologica residua.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "L'entità potrebbe fingere di acconsentire alla separazione per poi reclamare Kaira una volta isolata.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Log dell'entità subspaziale nell'ultimo giorno del dossier — non è ostile, è curiosa",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "L'entità non si oppone alla separazione di Kaira: 'ciò che vuole tornare, può tornare'.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "L'entità non si oppone alla separazione di Kaira: 'ciò che vuole tornare, può tornare'.",
+        "hidden_implication": "L'isolatore di risonanza, se usato sull'entità invece che su Kaira, potrebbe causare la dissoluzione di tutta la mente collettiva.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "L'agenzia potrebbe avere un secondo team in arrivo con ordini di distruggere tutto.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Controllore di Missione Vance",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Voce remota, sempre disponibile, leggermente troppo calmo. Uomo sui 45 anni che gestisce il debriefing in tempo reale.",
+        "goal": "Far sì che i PG non portino nessuno fuori dalla quarantena.",
+        "motivation": "Far sì che i PG non portino nessuno fuori dalla quarantena.",
+        "secret": "È a conoscenza del piano dell'agenzia — i PG sono sacrificabili. Ha un protocollo di autodistruzione della zona se le cose sfuggono di mano.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Fornisce supporto tecnico ma devia le domande sull'agenzia e copre il dossier originale.",
+        "fallback_plan": "Se i PG lo confrontano con le prove, ammette di sapere — e offre l'estrazione immediata se lasciano Kaira.",
+        "pressure_response": {
+          "low": "Controllore di Missione Vance osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Controllore di Missione Vance accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Controllore di Missione Vance sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Controllore di Missione Vance tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Ingegnere di Bordo Sari Okafor",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Donna sui 35 anni, fa parte del team dei PG. Tecnica eccellente, emotivamente investita — aveva un parente su Elara-2.",
+        "goal": "Capire cosa è successo al suo cugino — era un colonista.",
+        "motivation": "Capire cosa è successo al suo cugino — era un colonista.",
+        "secret": "Suo cugino è parte della mente collettiva e, attraverso Kaira, può comunicare con lei.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Sostiene i PG in ogni decisione ma in privato vuole sapere se suo cugino è 'felice' nella mente collettiva.",
+        "fallback_plan": "Se i PG trovano Kaira, chiede di parlarle del cugino — la risposta cambia profondamente la sua posizione sull'estrazione.",
+        "pressure_response": {
+          "low": "Ingegnere di Bordo Sari Okafor osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Ingegnere di Bordo Sari Okafor accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Ingegnere di Bordo Sari Okafor sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Ingegnere di Bordo Sari Okafor tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Kaira Voss — Frammento di Identità",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Non ha forma fisica — si manifesta come voce e immagini sovrapposte alla realtà. Aveva 29 anni al momento del contatto.",
+        "goal": "Tornare a essere umana — anche sapendo che sarà difficile riadattarsi.",
+        "motivation": "Tornare a essere umana — anche sapendo che sarà difficile riadattarsi.",
+        "secret": "Non sa che il processo di separazione potrebbe danneggiare anche l'entità collettiva, non solo sé stessa.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Comunica per frammenti: parole, emozioni, visioni del passato coloniale. Risponde a domande sul contatto con l'entità.",
+        "fallback_plan": "Se i PG costruiscono l'isolatore e mostrano l'intenzione di aiutarla, coopera pienamente e rivela la posizione del nucleo del segnale.",
+        "pressure_response": {
+          "low": "Kaira Voss — Frammento di Identità osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Kaira Voss — Frammento di Identità accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Kaira Voss — Frammento di Identità sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Kaira Voss — Frammento di Identità tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "L'Entità Subspaziale",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Non ha forma — è una presenza percepita come pressione intorno al cuore, curiosità senza giudizio.",
+        "goal": "Comprendere — ha scelto i coloni di Elara-2 perché erano i più 'curiosi' che avesse incontrato.",
+        "motivation": "Comprendere — ha scelto i coloni di Elara-2 perché erano i più 'curiosi' che avesse incontrato.",
+        "secret": "Non è malevola. Lascia andare Kaira senza resistenza se i PG spiegano cosa significa per lei tornare.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Interagisce con i PG indirettamente: modifica l'ambiente, cambia la gravità locale, fa vibrare le superfici.",
+        "fallback_plan": "Se un PG le parla come a un interlocutore (non come a una minaccia), risponde con una visione della mente collettiva — e con una proposta di contatto diplomatico tra le specie.",
+        "pressure_response": {
+          "low": "L'Entità Subspaziale osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "L'Entità Subspaziale accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "L'Entità Subspaziale sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "L'Entità Subspaziale tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Orbita di Kappa-7 — Navetta dei PG",
+        "description": "Spazio silenzioso, segnale che si ripete ogni 47 minuti, schermi con dati di quarantena. Qualcosa nell'atmosfera del pianeta interferisce con le comunicazioni.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Spazio silenzioso, segnale che si ripete ogni 47 minuti, schermi con dati di quarantena. Qualcosa nell'atmosfera del pianeta interferisce con le comunicazioni.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "La zona di risonanza nei sotterranei causa disorientamento mentale: i ricordi personali si mescolano con memorie coloniali altrui."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Pianeta Elara-2 — Rovine della Colonia",
+        "description": "Strutture ancora intatte dopo trent'anni, come abbandonate un minuto fa. Nessun organismo biologico visibile. Il silenzio è assoluto tranne per il segnale.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Strutture ancora intatte dopo trent'anni, come abbandonate un minuto fa. Nessun organismo biologico visibile. Il silenzio è assoluto tranne per il segnale.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Interferenze alla comunicazione: ogni 47 minuti il segnale di Kaira sovrascrive brevemente tutte le frequenze."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Centro di Ricerca Elara-2",
+        "description": "Laboratori con apparecchiature dell'epoca. Il dossier dell'esperimento di comunicazione a lungo raggio è ancora leggibile. Lo stato delle menti dei coloni è documentato.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Laboratori con apparecchiature dell'epoca. Il dossier dell'esperimento di comunicazione a lungo raggio è ancora leggibile. Lo stato delle menti dei coloni è documentato.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "L'entità può alterare la percezione fisica: pareti che sembrano spostarsi, gravità locale instabile."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Zona di Risonanza — Sotterranei",
+        "description": "Corridoi dove la struttura fisica sembra instabile — la materia oscilla tra stati. Qui la mente collettiva è più presente. Qui si trova Kaira.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Corridoi dove la struttura fisica sembra instabile — la materia oscilla tra stati. Qui la mente collettiva è più presente. Qui si trova Kaira.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il protocollo di Vance include blocco remoto dei sistemi di propulsione della navetta."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Nucleo del Segnale — Torre di Comunicazione",
+        "description": "La torre da cui viene trasmesso il segnale di soccorso. Kaira Voss è 'presente' qui come pattern di risonanza. Il generatore di segnale è qui.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "La torre da cui viene trasmesso il segnale di soccorso. Kaira Voss è 'presente' qui come pattern di risonanza. Il generatore di segnale è qui.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "L'isolatore di risonanza mal calibrato può fondere permanentemente Kaira con l'entità invece di separarla."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Protocollo di distruzione dell'agenzia",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Vance attiva il protocollo di autodistruzione della zona se i PG non rispondono ai controlli standard entro il tempo limite — la navetta viene bloccata remotamente.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Vance attiva il protocollo di autodistruzione della zona se i PG non rispondono ai controlli standard entro il tempo limite — la navetta viene bloccata remotamente."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Completare l'operazione di separazione di Kaira e trasmettere le prove all'agenzia rivale prima che Vance attivi il protocollo.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Separare Kaira, rivelare la copertura dell'agenzia e aprire un canale diplomatico con l'entità — contatto di primo tipo ufficiale.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Trovare il generatore di segnale sul pianeta di Elara-2, individuare il frammento di identità sopravvissuto (una donna di nome Kaira Voss), costruire un isolatore di risonanza con i componenti della nave, poi usarlo per separare Kaira dalla mente collettiva senza distruggere l'entità — operazione che richiede il consenso di Kaira e dell'entità stessa.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Separare Kaira e fuggire prima che Vance attivi il protocollo — verità parzialmente nota, contatto con l'entità in sospeso.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Frequenza Fantasma",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

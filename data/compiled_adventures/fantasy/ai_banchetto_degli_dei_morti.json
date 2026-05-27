@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_banchetto_degli_dei_morti",
+    "title": "Il Banchetto degli Dèi Morti",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "dark fantasy sacro e claustrofobico, con atmosfera di profanazione",
+    "premise": "Il Tempio Dimenticato di Arath-Nakul — dedicato a dèi che il mondo ha smesso di venerare cinque secoli fa — è stato riaperto da un gruppo di studiosi di reliquie. In tre settimane, due di loro sono morti e gli altri sono scomparsi. Nella cripta ancora fumano candele che nessuno ha acceso.",
+    "initial_hook": "L'Ordine dei Custodi incarica i PG di recuperare le reliquie sacre trafugate e scoprire la sorte degli studiosi — con la condizione di non portare nulla fuori dal tempio senza autorizzazione.",
+    "player_facing_objective": "Scoprire cosa si cela nel tempio, salvare i superstiti e decidere il destino delle reliquie.",
+    "hidden_truth": "Le reliquie del tempio sono i 'Pezzi di Voce' — frammenti di divinità morta che ancora contengono potere. Riunirli nel Salone del Banchetto (dove i dèi si nutrivano di preghiere) risveglia un eco divino che consuma chiunque sia presente. Gli studiosi sono stati 'mangiati' dall'eco di un dio che ha fame dopo cinque secoli di silenzio.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Le reliquie del tempio sono i 'Pezzi di Voce' — frammenti di divinità morta che ancora contengono potere. Riunirli nel Salone del Banchetto (dove i dèi si nutrivano di preghiere) risveglia un eco divino che consuma chiunque sia presente. Gli studiosi sono stati 'mangiati' dall'eco di un dio che ha fame dopo cinque secoli di silenzio.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire cosa si cela nel tempio, salvare i superstiti e decidere il destino delle reliquie.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Le reliquie del tempio sono i 'Pezzi di Voce' — frammenti di divinità morta che ancora contengono potere. Riunirli nel Salone del Banchetto (dove i dèi si nutrivano di preghiere) risveglia un eco divino che consuma chiunque sia presente. Gli studiosi sono stati 'mangiati' dall'eco di un dio che ha fame dopo cinque secoli di silenzio.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Disperdere di nuovo i Pezzi di Voce in stanze separate, recitare la formula di 'dimenticanza rituale' trovata nell'ultimo codex del sommo sacerdote, poi sigillare il Salone del Banchetto con il Sigillo del Silenzio — un artefatto che i PG trovano nella cripta più profonda.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Diario dello studioso Fennick con l'ultima descrizione del 'canto delle pietre'",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Il 'canto delle pietre' è l'eco divino che si attiva quando le reliquie sono ravvicinate.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il 'canto delle pietre' è l'eco divino che si attiva quando le reliquie sono ravvicinate.",
+        "hidden_implication": "Uno degli studiosi scomparsi è ancora vivo nel Salone del Banchetto, paralizzato ma cosciente.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il 'canto' potrebbe essere una trappola meccanica costruita dai sacerdoti contro i ladri.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza del sopravvissuto Orlan che descrive 'essere diventato cibo'",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Orlan è stato parzialmente consumato: ha perso i ricordi degli ultimi tre giorni ma è sopravvissuto.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Orlan è stato parzialmente consumato: ha perso i ricordi degli ultimi tre giorni ma è sopravvissuto.",
+        "hidden_implication": "L'eco divino non è malvagio: è solo fame. Se si 'nutre' di una preghiera sincera, si quieta temporaneamente.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Orlan potrebbe mentire — la perdita di memoria è una tecnica nota per sfuggire all'interrogatorio.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Il codex del sommo sacerdote con la formula di dimenticanza rituale",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Il codex contiene la formula e avverte che il tempio va svuotato, non esplorato.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il codex contiene la formula e avverte che il tempio va svuotato, non esplorato.",
+        "hidden_implication": "Il codex rivela che i dèi di Arath-Nakul non erano benevoli — le preghiere erano coercizioni.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il codex potrebbe essere un falso piantato da un rivale per scoraggiare l'esplorazione.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Un frammento di reliquia (Pezzo di Voce) trovato nella Sala delle Offerte",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Il Pezzo di Voce è caldo al tatto e pulsa se tenuto vicino ad altri frammenti.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il Pezzo di Voce è caldo al tatto e pulsa se tenuto vicino ad altri frammenti.",
+        "hidden_implication": "Il Sigillo del Silenzio funziona anche come contenitore: può rinchiudere l'eco indefinitamente.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il Pezzo di Voce potrebbe essere semplicemente radioattivo — la magia è alchimia non compresa.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Il Sigillo del Silenzio nella cripta più profonda — un disco di ossidiana intagliato",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Il Sigillo era usato durante i periodi di digium divino — quando i dèi erano 'spenti' per scelta.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il Sigillo era usato durante i periodi di digium divino — quando i dèi erano 'spenti' per scelta.",
+        "hidden_implication": "I Pezzi di Voce sono sei, ma nel tempio ne esistono solo cinque — il sesto è nell'Ordine dei Custodi.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il Sigillo potrebbe essere la chiave per aprire qualcosa, non per chiudere.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Movimenti notturni di candele e oggetti osservati dal guardiano del villaggio vicino",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Le candele si muovono seguendo i Pezzi di Voce — sono sensori del dio che cerca i propri frammenti.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Le candele si muovono seguendo i Pezzi di Voce — sono sensori del dio che cerca i propri frammenti.",
+        "hidden_implication": "L'Ordine sapeva del rischio e ha mandato i PG sapendo che potrebbero diventare 'esca'.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Le candele potrebbero avere un meccanismo automatico di riaccensione, niente di sovrannaturale.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Orlan il Sopravvissuto",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Studioso sui 50 anni, tremante, seduto nell'atrio. Occhi vuoti ma reagisce a nomi familiari.",
+        "goal": "Capire cosa gli è successo e uscire vivo.",
+        "motivation": "Capire cosa gli è successo e uscire vivo.",
+        "secret": "Ha portato di nascosto un Pezzo di Voce nella sua borsa — è per questo che è sopravvissuto (era 'troppo prezioso' per essere consumato).",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Risponde a domande semplici ma ha amnesia degli ultimi tre giorni. Mostra la borsa solo se pensa di morire.",
+        "fallback_plan": "Se i PG trovano il secondo Pezzo nella Sala, la vicinanza dei due frammenti risveglia i suoi ricordi.",
+        "pressure_response": {
+          "low": "Orlan il Sopravvissuto osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Orlan il Sopravvissuto accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Orlan il Sopravvissuto sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Orlan il Sopravvissuto tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Acolito Mira Daless",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Giovane dell'Ordine dei Custodi, 24 anni, inviata come 'supporto logistico'. Porta una mappa del tempio.",
+        "goal": "Eseguire gli ordini segreti dell'Ordine: portare i Pezzi di Voce fuori dal tempio.",
+        "motivation": "Eseguire gli ordini segreti dell'Ordine: portare i Pezzi di Voce fuori dal tempio.",
+        "secret": "Sa dell'eco divino. Il suo vero ordine è raccogliere i Pezzi per l'Ordine, non salvare gli studiosi.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Collabora con i PG finché non trovano i Pezzi, poi cerca un modo per impossessarsene.",
+        "fallback_plan": "Se smascherata, rivela che l'Ordine possiede il sesto Pezzo — e cosa intende farci.",
+        "pressure_response": {
+          "low": "Acolito Mira Daless osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Acolito Mira Daless accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Acolito Mira Daless sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Acolito Mira Daless tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Fantasma di Sacerdotessa Irath",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Presenza semi-visibile nella Biblioteca Sacra, donna anziana in abiti sacerdotali sbiaditi, non ostile.",
+        "goal": "Proteggere il codex dal uso improprio.",
+        "motivation": "Proteggere il codex dal uso improprio.",
+        "secret": "Ha nascosto la formula di dimenticanza in un secondo posto — il codex visibile è una copia incompleta.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Appare solo quando i PG leggono il codex e indica una differenza con movimenti silenziosi.",
+        "fallback_plan": "Se i PG recitano la prima riga della formula, diventa pienamente visibile e rivela il nascondiglio della copia completa.",
+        "pressure_response": {
+          "low": "Fantasma di Sacerdotessa Irath osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Fantasma di Sacerdotessa Irath accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Fantasma di Sacerdotessa Irath sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Fantasma di Sacerdotessa Irath tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "L'Eco di Arath-Nakul",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Non ha forma — è un'onda di calore e suono, voce di qualcosa che parla in una lingua preistorica che si sente dentro la testa.",
+        "goal": "Trovare i propri frammenti e nutrirsi di preghiera per recuperare la piena coscienza.",
+        "motivation": "Trovare i propri frammenti e nutrirsi di preghiera per recuperare la piena coscienza.",
+        "secret": "È confuso: non capisce che il mondo è cambiato e che i suoi fedeli sono morti da secoli.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Attira i PG verso il Salone con visioni, non con violenza diretta — finché non lo si provoca.",
+        "fallback_plan": "Se qualcuno prega sinceramente (qualunque divinità), l'Eco si ferma per 10 minuti — sufficiente per il sigillo.",
+        "pressure_response": {
+          "low": "L'Eco di Arath-Nakul osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "L'Eco di Arath-Nakul accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "L'Eco di Arath-Nakul sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "L'Eco di Arath-Nakul tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Ingresso del Tempio — Atrio dei Pellegrini",
+        "description": "Colonne alte scolpite con volti divini dai tratti cancellati. Fiaccole magiche che si riaccendono da sole. Odore di incenso antico.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Colonne alte scolpite con volti divini dai tratti cancellati. Fiaccole magiche che si riaccendono da sole. Odore di incenso antico.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "L'eco divino causa visioni disorientanti in chi porta un Pezzo di Voce."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Sala delle Offerte",
+        "description": "Tavoli di pietra con offerte votive portate dagli studiosi, alcune ancora intatte. Tracce di sangue asciutto e frammenti di appunti dispersi.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Tavoli di pietra con offerte votive portate dagli studiosi, alcune ancora intatte. Tracce di sangue asciutto e frammenti di appunti dispersi.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "La cripta è senza ossigeno magico: le fiamme si spengono e serve incantesimo di luce."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Biblioteca Sacra",
+        "description": "Centinaia di rotoli in lingue morte, alcuni ancora leggibili. Qui si trovava l'ultimo codex — ora mancante dal suo piedistallo.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Centinaia di rotoli in lingue morte, alcuni ancora leggibili. Qui si trovava l'ultimo codex — ora mancante dal suo piedistallo.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Le candele nel Salone inseguono i Pezzi di Voce — mostrare la direzione dei PG."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Cripta Profonda",
+        "description": "Corridoi stretti sotto il tempio, tombe dei sommi sacerdoti, il Sigillo del Silenzio custodito nell'ultima urna. Buio assoluto senza magia.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Corridoi stretti sotto il tempio, tombe dei sommi sacerdoti, il Sigillo del Silenzio custodito nell'ultima urna. Buio assoluto senza magia.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il sopravvissuto Orlan può avere crisi di panico violente se stimolato troppo brutalmente."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Salone del Banchetto",
+        "description": "Camera circolare enorme con un tavolo di pietra al centro. Le candele bruciano da sole. L'aria vibra con qualcosa di antico e affamato.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Camera circolare enorme con un tavolo di pietra al centro. Le candele bruciano da sole. L'aria vibra con qualcosa di antico e affamato.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Leggere il codex ad alta voce prima di avere il Sigillo attira l'Eco verso i PG."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Riunificazione involontaria dei Pezzi di Voce",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Se tre o più Pezzi vengono portati insieme nel Salone, l'Eco si manifesta fisicamente e il tempio diventa una trappola mortale.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Se tre o più Pezzi vengono portati insieme nel Salone, l'Eco si manifesta fisicamente e il tempio diventa una trappola mortale."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Separare i Pezzi nelle stanze designate e applicare il Sigillo del Silenzio prima della riunificazione.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Sigillare l'Eco con il Sigillo del Silenzio, liberare lo studioso prigioniero, esporre la doppiezza dell'Ordine.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Disperdere di nuovo i Pezzi di Voce in stanze separate, recitare la formula di 'dimenticanza rituale' trovata nell'ultimo codex del sommo sacerdote, poi sigillare il Salone del Banchetto con il Sigillo del Silenzio — un artefatto che i PG trovano nella cripta più profonda.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Recitare la formula di dimenticanza completa: l'Eco si dissolve ma tutti nel tempio perdono il ricordo della giornata.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Il Banchetto degli Dèi Morti",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

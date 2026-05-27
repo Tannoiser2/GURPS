@@ -68,15 +68,44 @@ _session_tokens: dict = {
 # Token usati nell'ultima richiesta HTTP (aggregato tra tutte le chiamate LLM di un turno)
 _last_request_tokens: dict = {"input": 0, "output": 0, "cost_usd": 0.0, "calls": 0}
 
+# ── Image usage tracking ──────────────────────────────────────────────────────
+# Prezzi per immagine generata (USD), aggiornati a maggio 2025
+_IMAGE_PRICE_PER_UNIT: dict[str, float] = {
+    "imagen-4.0-generate-001":  0.04,   # Google Imagen 4
+    "imagen-3.0-generate-001":  0.03,   # Google Imagen 3
+    "gemini-2.5-flash-image":   0.04,   # Gemini Flash image (estimate)
+    "dall-e-3":                 0.04,   # OpenAI DALL-E 3 standard 1024×1024
+    "gpt-image-1":              0.02,   # OpenAI gpt-image-1 medium quality 1024×1024
+}
+
+_session_images: dict = {"count": 0, "cost_usd": 0.0}
+_last_request_images: dict = {"count": 0, "cost_usd": 0.0}
+
+
+def _record_image_usage(model: str, count: int = 1) -> None:
+    """Registra l'uso di una chiamata di generazione immagine."""
+    cost_per = _IMAGE_PRICE_PER_UNIT.get(model, 0.04)
+    cost = cost_per * count
+    _session_images["count"] += count
+    _session_images["cost_usd"] += cost
+    _last_request_images["count"] += count
+    _last_request_images["cost_usd"] += cost
+
 
 def reset_last_request_tokens() -> None:
     """Azzera il contatore per la prossima richiesta HTTP."""
     for k in _last_request_tokens:
         _last_request_tokens[k] = 0.0 if k == "cost_usd" else 0
+    for k in _last_request_images:
+        _last_request_images[k] = 0.0 if k == "cost_usd" else 0
 
 
 def get_last_request_tokens() -> dict:
-    return dict(_last_request_tokens)
+    d = dict(_last_request_tokens)
+    d["image_count"] = _last_request_images["count"]
+    d["image_cost_usd"] = round(_last_request_images["cost_usd"], 4)
+    d["total_cost_usd"] = round(d.get("cost_usd", 0.0) + d["image_cost_usd"], 4)
+    return d
 
 
 def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
@@ -94,19 +123,26 @@ def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
 
 def get_session_token_stats() -> dict:
     t = _session_tokens
+    text_cost = round(t["cost_usd"], 4)
+    img_cost = round(_session_images["cost_usd"], 4)
     return {
         "input_tokens": t["input"],
         "output_tokens": t["output"],
         "total_tokens": t["input"] + t["output"],
-        "cost_usd": round(t["cost_usd"], 4),
+        "cost_usd": text_cost,
         "calls": t["calls"],
         "errors": t["errors"],
+        "image_count": _session_images["count"],
+        "image_cost_usd": img_cost,
+        "total_cost_usd": round(text_cost + img_cost, 4),
     }
 
 
 def reset_session_token_stats() -> None:
     for k in ("input", "output", "cost_usd", "calls", "errors"):
         _session_tokens[k] = 0.0 if k in ("cost_usd",) else 0
+    for k in ("count", "cost_usd"):
+        _session_images[k] = 0.0 if k == "cost_usd" else 0
 
 
 def _set_last_image_error(context: str, error: Exception | str) -> None:
@@ -2289,6 +2325,7 @@ def build_scene_seed_with_canon(
     ) if structured_lines else ""
 
     # Stato attuale degli NPC persistenti (posizione e ruolo nel mondo)
+    _NPC_EXPOSED_STATUSES = {"exposed", "captured", "resolved"}
     npc_block = ""
     if world_npcs:
         npc_lines = []
@@ -2307,6 +2344,9 @@ def build_scene_seed_with_canon(
             clue_marker = f" [chiave di {npc.holds_clue_for}]" if npc.holds_clue_for else ""
             threat_marker = f" T{npc.threat_to_player}" if npc.threat_to_player > 0 else ""
             reaction_marker = f" [reazione: {npc.last_reaction_level}]" if getattr(npc, "last_reaction_level", "") else ""
+            # Marker esposizione — antagonisti non smascherati non cedono i loro segreti
+            is_exposed = npc.status in _NPC_EXPOSED_STATUSES
+            exposure_marker = " [ESPOSTO]" if is_exposed else (" [COPERTO]" if npc.threat_to_player >= 2 else "")
             # Aggiungi stat GURPS se pre-generate
             gurps_stat_line = ""
             if getattr(npc, "gurps_fo", None) is not None:
@@ -2326,7 +2366,7 @@ def build_scene_seed_with_canon(
                 if npc.gurps_disadvantages:
                     dis_str = " | svantaggi: " + ", ".join(npc.gurps_disadvantages)
                 gurps_stat_line = f" [GURPS: {attrs}{skills_str}{adv_str}{dis_str}]"
-            npc_lines.append(f"  - {npc.name} ({npc.role}{threat_marker}){clue_marker}{reaction_marker}{gurps_stat_line} — a {location_name}{here}: {npc.description}")
+            npc_lines.append(f"  - {npc.name} ({npc.role}{threat_marker}){exposure_marker}{clue_marker}{reaction_marker}{gurps_stat_line} — a {location_name}{here}: {npc.description}")
         if npc_lines:
             npc_block = "NPC_PERSISTENTI (chi è dove ora — usa solo questi nomi, non inventarne di nuovi):\n" + "\n".join(npc_lines) + "\n"
 
@@ -2582,7 +2622,10 @@ def generate_scene_package(scene_seed: str, active_slots: int, action_results_su
             "1b. scene_problem deve essere un ostacolo FISICO e SPECIFICO di questo luogo, non una condizione generica.\n"
             "   MAI: 'la squadra deve trovare un modo per...', 'la situazione è critica perché...'\n"
             "   SÌ: 'Il portello B-7 è saldato dall'interno e Kovač ha il saldatore', 'Il terminale richiede l'impronta di Chen'\n"
-            "2. Sii coerente con FATTI SCOPERTI e MEMORIA — non contraddirli mai.\n"
+            "2. Sii coerente con FATTI SCOPERTI, MEMORIA e STATO RIVELAZIONI — non contraddirli mai.\n"
+            "   - Cio che e in NOTO AI GIOCATORI non puo essere presentato come sorpresa, twist o informazione nuova.\n"
+            "   - Cio che e in PARZIALMENTE NOTO puo essere approfondito (tick +1) ma non consegnato con il payoff completo.\n"
+            "   - Cio che non compare in nessuna delle due sezioni e ancora IGNOTO e deve essere trattato come tale nella narrativa.\n"
             "2a. Non eliminare improvvisamente PNG/alleati/oggetti chiave legati alla condizione di vittoria, "
             "a meno che l'ESITO sia missione fallita o che la MEMORIA dica esplicitamente che sono stati distrutti o uccisi. "
             "Nei fallimenti intermedi usa: ferito, separato, bloccato, catturato, sentiero perso temporaneamente, rituale accelerato.\n"
@@ -3149,6 +3192,7 @@ def generate_character_avatar(
                 output_format="png",
             )
             if getattr(response, "data", None) and getattr(response.data[0], "b64_json", None):
+                _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
             _set_last_image_error("generate_character_avatar/openai", f"risposta senza immagine base64: {repr(response)[:500]}")
             return None
@@ -3194,6 +3238,7 @@ def generate_character_avatar(
         )
         for part in response.candidates[0].content.parts:
             if hasattr(part, "inline_data") and part.inline_data:
+                _record_image_usage("gemini-2.5-flash-image")
                 return base64.b64encode(part.inline_data.data).decode("utf-8")
         _set_last_image_error("generate_character_avatar/gemini", f"risposta senza parte immagine: {repr(response)[:500]}")
         return None
@@ -3258,6 +3303,7 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
                 n=1,
             )
             if getattr(response, "data", None) and getattr(response.data[0], "b64_json", None):
+                _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
             return None
         except Exception as e:
@@ -3276,6 +3322,7 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
         )
         for part in response.candidates[0].content.parts:
             if hasattr(part, "inline_data") and part.inline_data:
+                _record_image_usage("gemini-2.5-flash-image")
                 return base64.b64encode(part.inline_data.data).decode("utf-8")
         return None
     except Exception as e:
@@ -3339,6 +3386,7 @@ def _generate_scene_with_photos(
     )
     for part in response.candidates[0].content.parts:
         if hasattr(part, "inline_data") and part.inline_data:
+            _record_image_usage("gemini-2.5-flash-image")
             return base64.b64encode(part.inline_data.data).decode("utf-8")
     return None
 
@@ -3387,7 +3435,10 @@ def _generate_scene_image_openai(
                 input_fidelity="high",
                 output_format="png",
             )
-            return response.data[0].b64_json if getattr(response, "data", None) else None
+            if getattr(response, "data", None) and response.data[0].b64_json:
+                _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+                return response.data[0].b64_json
+            return None
 
         response = client.images.generate(
             model=OPENAI_IMAGE_EDIT_MODEL,  # gpt-image-1 supporta b64_json nativo
@@ -3396,7 +3447,10 @@ def _generate_scene_image_openai(
             quality="medium",
             n=1,
         )
-        return response.data[0].b64_json
+        if getattr(response, "data", None) and response.data[0].b64_json:
+            _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+            return response.data[0].b64_json
+        return None
     except Exception as e:
         _set_last_image_error("generate_scene_image_openai", e)
         return None
@@ -3449,10 +3503,36 @@ def generate_tactical_map_image(
     scene_narrative: str = "",
     mission_environment: str = "",
     enemy_names: list[str] | None = None,
+    layout: str = "room",
 ) -> str | None:
-    """Genera uno sfondo mappa tattica hex top-down stile GDR per il combattimento."""
+    """Genera uno sfondo mappa tattica hex top-down stile GDR per il combattimento.
+
+    layout: "room" (10×7, ~1.2:1) | "narrow" (12×6, ~1.6:1) | "open" (12×8, ~1.25:1)
+    L'aspect ratio dell'immagine viene scelto per avvicinarsi a quello della hex grid.
+    """
     _clear_last_image_error()
     style = _GENRE_TACTICAL_STYLE.get(genre, _GENRE_TACTICAL_STYLE["fantasy"])
+
+    # Aspect ratio e dimensioni immagine in base al layout hex
+    # hex grid calcolata con HEX_SIZE=36: room 562×471, narrow 670×410, open 670×535
+    _OPENAI_SIZE = {
+        "narrow": "1536x1024",   # 1.5:1  ←  hex narrow è ~1.63:1
+        "open":   "1536x1024",   # 1.5:1  ←  hex open è ~1.25:1
+        "room":   "1024x1024",   # 1:1    ←  hex room è ~1.19:1
+    }
+    _GEMINI_RATIO = {
+        "narrow": "16:9",   # 1.78:1 — il più vicino a 1.63:1 disponibile
+        "open":   "4:3",    # 1.33:1 — il più vicino a 1.25:1
+        "room":   "4:3",    # 1.33:1 — il più vicino a 1.19:1
+    }
+    _LAYOUT_HINT = {
+        "narrow": "long corridor or narrow passage, elongated horizontal composition, clearly wider than tall",
+        "open":   "open courtyard or large room, wider than tall, clear open floor space in center",
+        "room":   "single room or enclosed area, roughly square composition",
+    }
+    openai_size   = _OPENAI_SIZE.get(layout, "1024x1024")
+    gemini_ratio  = _GEMINI_RATIO.get(layout, "4:3")
+    layout_hint   = _LAYOUT_HINT.get(layout, _LAYOUT_HINT["room"])
 
     # Usa Claude per tradurre il contesto italiano in un prompt immagine preciso
     try:
@@ -3465,6 +3545,7 @@ def generate_tactical_map_image(
             f"Location name: {location_name}. "
             f"Location description (Italian): {location_description[:300]}. "
             f"Mission environment type: {env_context}. "
+            f"Map layout type: {layout_hint}. "
             f"{narrative_line}"
             f"{enemy_line}"
             f"RULES: pure overhead bird's-eye view, no people, no tokens, no grid lines, no labels, no text, "
@@ -3472,22 +3553,23 @@ def generate_tactical_map_image(
             f"Make it a real tabletop RPG battlemap: clear playable areas, readable entrances, cover, obstacles, "
             f"and environmental details that match the exact location, not a generic texture. "
             f"The visual style and architecture MUST match the location type and enemies described above. "
+            f"Composition: {layout_hint}. "
             f"Style reference: {style}. Output ONLY the English prompt, no explanations."
         )
-        image_prompt = _call_text_model(translate_prompt, max_tokens=120).strip()
+        image_prompt = _call_text_model(translate_prompt, max_tokens=130).strip()
     except Exception:
         image_prompt = (
-            f"{location_name}, {environment_type}, {style}, "
+            f"{location_name}, {environment_type}, {style}, {layout_hint}, "
             "top-down bird's-eye view battle map, no people, no text, no grid lines, detailed floor and terrain"
         )
 
-    # Aggiungi regole fisse di composizione alla fine
+    # Regole fisse di composizione
     full_prompt = (
         f"{image_prompt} "
         "Top-down 90-degree overhead view, flat floor perspective, no people, no tokens, no grid overlay, "
         "no text, no labels. Show terrain features, walls, furniture and cover objects only. "
-        "Readable tabletop RPG battlemap, clear movement spaces, entrances, cover and obstacles, suitable for a sparse hex grid overlay. "
-        "Aspect ratio 4:3, square-ish composition."
+        f"Readable tabletop RPG battlemap, {layout_hint}, clear movement spaces, "
+        "entrances, cover and obstacles visible from above, suitable for a hex grid overlay."
     )
 
     if _ACTIVE_PROVIDER == "openai":
@@ -3498,11 +3580,14 @@ def generate_tactical_map_image(
             response = client.images.generate(
                 model=OPENAI_IMAGE_EDIT_MODEL,
                 prompt=full_prompt,
-                size="1024x1024",
+                size=openai_size,
                 quality="medium",
                 n=1,
             )
-            return response.data[0].b64_json
+            if getattr(response, "data", None) and response.data[0].b64_json:
+                _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+                return response.data[0].b64_json
+            return None
         except Exception as e:
             _set_last_image_error("generate_tactical_map_image/openai", e)
             return None
@@ -3517,11 +3602,12 @@ def generate_tactical_map_image(
             prompt=full_prompt,
             config=google_genai_types.GenerateImagesConfig(
                 number_of_images=1,
-                aspect_ratio="1:1",
+                aspect_ratio=gemini_ratio,
                 output_mime_type="image/jpeg",
             ),
         )
         image_bytes = response.generated_images[0].image.image_bytes
+        _record_image_usage("imagen-4.0-generate-001")
         return base64.b64encode(image_bytes).decode("utf-8")
     except Exception as e:
         _set_last_image_error("generate_tactical_map_image/gemini", e)
@@ -3572,6 +3658,7 @@ def generate_scene_image(
                 )
                 image_bytes = response.generated_images[0].image.image_bytes
                 print(f"[generate_scene_image] immagine generata con {imagen_model}")
+                _record_image_usage(imagen_model)
                 return base64.b64encode(image_bytes).decode("utf-8")
             except Exception as img_err:
                 print(f"[generate_scene_image] {imagen_model} fallito: {img_err}")
@@ -3627,7 +3714,10 @@ def generate_location_map_image(location_name: str, location_description: str) -
                 quality="medium",
                 n=1,
             )
-            return response.data[0].b64_json
+            if getattr(response, "data", None) and response.data[0].b64_json:
+                _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+                return response.data[0].b64_json
+            return None
         except Exception as e:
             _set_last_image_error("generate_location_map_image/openai", e)
             return None
@@ -3647,6 +3737,7 @@ def generate_location_map_image(location_name: str, location_description: str) -
                         output_mime_type="image/jpeg",
                     ),
                 )
+                _record_image_usage(imagen_model)
                 return base64.b64encode(response.generated_images[0].image.image_bytes).decode("utf-8")
             except Exception as img_err:
                 if "RESOURCE_EXHAUSTED" not in str(img_err) and "429" not in str(img_err):
@@ -3655,7 +3746,9 @@ def generate_location_map_image(location_name: str, location_description: str) -
             try:
                 client2 = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
                 resp2 = client2.images.generate(model=OPENAI_IMAGE_EDIT_MODEL, prompt=map_prompt, size="1024x1024", quality="medium", n=1)
-                return resp2.data[0].b64_json
+                if getattr(resp2, "data", None) and resp2.data[0].b64_json:
+                    _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+                    return resp2.data[0].b64_json
             except Exception:
                 pass
         return None
@@ -3665,6 +3758,68 @@ def generate_location_map_image(location_name: str, location_description: str) -
 
 
 # ── Master GDR: turno narrativo ───────────────────────────────────────────────
+
+def _build_combat_context(game_state_data: dict) -> str:
+    """
+    Costruisce il blocco di contesto sul combattimento in corso da inserire nel prompt.
+    Include HP corrente dei nemici e l'esito dell'ultimo round GURPS, se disponibili.
+    """
+    if not game_state_data.get("in_combat"):
+        return ""
+
+    lines = []
+    live_entities = game_state_data.get("live_combat_entities") or []
+    if live_entities:
+        enemy_lines = []
+        for e in live_entities:
+            hp = e.get("hp", "?")
+            max_hp = e.get("max_hp", "?")
+            status = e.get("status") or ""
+            if hp == 0 or status == "eliminato":
+                state = "ELIMINATO"
+            elif isinstance(hp, (int, float)) and isinstance(max_hp, (int, float)) and max_hp > 0:
+                pct = hp / max_hp
+                if pct <= 0:
+                    state = "ELIMINATO"
+                elif pct <= 0.33:
+                    state = f"GRAVEMENTE FERITO (HP {hp}/{max_hp})"
+                elif pct <= 0.70:
+                    state = f"FERITO (HP {hp}/{max_hp})"
+                else:
+                    state = f"INTEGRO (HP {hp}/{max_hp})"
+            else:
+                state = f"HP {hp}/{max_hp}"
+            enemy_lines.append(f"  - {e.get('name','?')}: {state}")
+        if enemy_lines:
+            lines.append("STATO NEMICI IN CAMPO (HP reali da motore GURPS, NON rigenerare):")
+            lines.extend(enemy_lines)
+
+    last_round = game_state_data.get("last_combat_round")
+    if last_round and isinstance(last_round, dict):
+        attacker = last_round.get("attacker", "?")
+        target = last_round.get("target", "?")
+        result = last_round.get("result") or {}
+        net = result.get("net_damage", 0)
+        wound = result.get("wound_threshold", "")
+        hint = result.get("narrative_hint", "")
+        is_npc = last_round.get("is_npc_turn", False)
+        if result.get("hit") and not result.get("defended"):
+            wound_tag = {
+                "ferito": "ferito", "ferito_grave": "gravemente ferito",
+                "fuori_combattimento": "abbattuto", "morto": "morto",
+            }.get(wound, "")
+            lines.append(
+                f"ULTIMO ROUND GURPS: {'NPC' if is_npc else 'PG'} {attacker} ha colpito {target} "
+                f"per {net} PF netti{'  — ' + wound_tag if wound_tag else ''}. "
+                f"Rifletti questo nella narrativa."
+            )
+        elif result.get("defended"):
+            lines.append(f"ULTIMO ROUND GURPS: {target} ha parato/schivato l'attacco di {attacker}.")
+        elif not result.get("hit"):
+            lines.append(f"ULTIMO ROUND GURPS: {attacker} ha mancato {target}.")
+
+    return ("\n" + "\n".join(lines) + "\n") if lines else ""
+
 
 def _player_sheet(p: dict) -> str:
     """Formatta la scheda sintetica di un personaggio per il prompt Master."""
@@ -5299,7 +5454,24 @@ def master_turn_with_bible(
     # F5: se l'azione del giocatore è uno spostamento (generato da F2 con "Spostarsi verso X"),
     # risolve la destinazione PRIMA della decisione del director per allineare i vincoli di visibilità.
     _current_scene_id = _resolve_movement_destination(player_action, runtime, _current_scene_id) or _current_scene_id
-    director_decision = make_director_decision(runtime, simulation, prerolled=prerolled, current_scene_id=_current_scene_id or None)
+
+    # ── Soft escalation: calcola investigation_progress ──────────────────────
+    # > 0 = progressi recenti (clue trovati o thread chiusi) → frena pressione
+    # < 0 = turni consecutivi di stallo → aumenta pressione narrativa
+    _clues_found_this_turn = set(game_state_data.get("clues_found_this_turn") or [])
+    _threads_closed_this_turn = list(game_state_data.get("threads_closed_this_turn") or [])
+    _consecutive_no_progress = int(game_state_data.get("consecutive_no_progress_turns") or 0)
+    if _clues_found_this_turn or _threads_closed_this_turn:
+        _inv_progress = len(_clues_found_this_turn) + len(_threads_closed_this_turn)
+    else:
+        _inv_progress = -_consecutive_no_progress  # negativo = stallo
+
+    director_decision = make_director_decision(
+        runtime, simulation,
+        prerolled=prerolled,
+        current_scene_id=_current_scene_id or None,
+        investigation_progress=_inv_progress,
+    )
     engine_updates = director_decision.get("state_updates_required") or {}
     runtime_context = runtime_prompt_context(runtime)
     director_context = director_prompt_context(director_decision)
@@ -5364,6 +5536,18 @@ def master_turn_with_bible(
         f"\n- Condizioni finale: {'; '.join(canon.get('finale_conditions') or []) or adventure.get('win_condition','')}"
     )
 
+    # ── Locked context — fatti pilastro iniettati a ogni turno ─────────────────
+    locked_context_items = list(adventure.get("locked_context") or [])
+    locked_context_block = ""
+    if locked_context_items:
+        locked_context_block = (
+            "\n═══ VERITÀ ACQUISITE (bloccate — non possono sparire) ═══\n"
+            "Questi fatti sono stati scoperti in turni precedenti e sono PERMANENTI.\n"
+            "Non trattarli come informazioni nuove, non contraddirli, non ignorarli.\n"
+            + "\n".join(f"  • {fact}" for fact in locked_context_items)
+            + "\n"
+        )
+
     npcs_context = ""
     npc_agenda_context = ""
     npc_pressure_context = adventure.get("npc_pressure_context") or ""
@@ -5377,17 +5561,28 @@ def master_turn_with_bible(
         )
     if destroyed_clue_ids:
         npc_pressure_context += "\nINDIZI DISTRUTTI/NON PIÙ ACCESSIBILI: " + ", ".join(destroyed_clue_ids)
+    _EXPOSED_STATUSES = {"exposed", "captured", "resolved"}
     for npc in adventure.get("npcs", []):
         st = npc_statuses.get(npc["id"], {})
         status = st.get("status", npc.get("status", "alive"))
         attitude = st.get("attitude", npc.get("attitude", "neutral"))
         loc = st.get("location", npc.get("location", "?"))
-        npcs_context += f"\n- {npc['name']} ({npc['role']}): status={status}, attitude={attitude}, location={loc}"
+        is_exposed = status in _EXPOSED_STATUSES
+        exposure_marker = "[ESPOSTO]" if is_exposed else "[COPERTO]"
+        npcs_context += f"\n- {npc['name']} ({npc['role']}) {exposure_marker}: status={status}, attitude={attitude}, location={loc}"
         agenda = npc.get("npc_agenda") or {}
         if agenda:
+            # Nasconde il segreto per NPC non ancora smascherati — evita spoiler involontari
+            secret_raw = agenda.get("secret", "") or ""
+            if is_exposed:
+                secret_display = secret_raw
+            elif secret_raw:
+                secret_display = "[RISERVATO — visibile solo se l'NPC è ESPOSTO, catturato o presenta prove concrete]"
+            else:
+                secret_display = ""
             npc_agenda_context += (
-                f"\n- {npc.get('name')}: ruolo={agenda.get('role','neutral')} | arco={st.get('arc_status', agenda.get('arc_status','unintroduced'))} | "
-                f"obiettivo={agenda.get('goal','')} | segreto={agenda.get('secret','')} | priorita={agenda.get('recurrence_priority','medium')}"
+                f"\n- {npc.get('name')} {exposure_marker}: ruolo={agenda.get('role','neutral')} | arco={st.get('arc_status', agenda.get('arc_status','unintroduced'))} | "
+                f"obiettivo={agenda.get('goal','')} | segreto={secret_display} | priorita={agenda.get('recurrence_priority','medium')}"
             )
 
     threat_level = game_state_data.get("threat_level", 0)
@@ -5396,28 +5591,61 @@ def master_turn_with_bible(
     open_threads = game_state_data.get("open_threads", [])
     turn = game_state_data.get("turn", 1)
 
+    # ── Clues context con progressione gated (hint → partial → payoff) ─────────
+    # Tick 0 (nascosto)  : GM vede solo dove trovarlo e come — NON il contenuto
+    # Tick 1 (parziale)  : immediate_information — fatto concreto incompleto
+    # Tick 2 / clues_found: reveals + hidden_implication — verità completa
     clues_context = ""
     n_found = len(found_clues)
     n_total = len(all_clues)
     clues_context += f"\nIndizi canonici: {n_found}/{n_total} ottenuti"
     if threat_pct >= 80 and missing_clues:
         clues_context += f" — ATTENZIONE: tempo quasi esaurito ({threat_pct}%), fai emergere i restanti indizi ATTIVAMENTE nelle prossime scene"
+
+    # Trovati (tick 2) — verità piena disponibile
     if found_clues:
-        clues_context += "\nIndizi scoperti: " + "; ".join(f"[{c['id']}] {c['text']}" for c in found_clues)
+        found_lines = []
+        for c in found_clues:
+            reveals = c.get("reveals") or c.get("text") or c.get("label") or c["id"]
+            impl = c.get("hidden_implication") or ""
+            impl_str = f" | implicazione: {impl}" if impl else ""
+            found_lines.append(f"[{c['id']}] {reveals}{impl_str}")
+        clues_context += "\nINDIZI TROVATI (verità completa — già nelle mani dei giocatori):\n  " + "\n  ".join(found_lines)
+
+    # Parziali (tick 1) — immediate_information visibile, hidden_implication ancora coperta
     partial_clues = [
         c for c in all_clues
         if c.get("id") not in clues_found_ids and (clue_progress_state.get(c.get("id"), {}) or {}).get("ticks", 0) > 0
     ]
     if partial_clues:
-        clues_context += "\nIndizi in progresso: " + "; ".join(
-            f"[{c['id']}] {min(2, int((clue_progress_state.get(c['id'], {}) or {}).get('ticks', 0)))}/2 passi — {(clue_progress_state.get(c['id'], {}) or {}).get('note','')}"
-            for c in partial_clues
-        )
+        partial_lines = []
+        for c in partial_clues:
+            ticks = min(2, int((clue_progress_state.get(c["id"], {}) or {}).get("ticks", 0)))
+            note = (clue_progress_state.get(c["id"], {}) or {}).get("note", "")
+            immediate = c.get("immediate_information") or note or "(informazione parziale in corso)"
+            partial_lines.append(
+                f"[{c['id']}] {ticks}/2 passi — PARTIAL REVEAL visibile: \"{immediate}\" "
+                f"| implicazione ancora nascosta | trovabile: {c.get('source_location') or c.get('location','?')}"
+            )
+        clues_context += "\nINDIZI IN PROGRESSO (narrazione al livello PARTIAL — non rivelare ancora l'implicazione finale):\n  " + "\n  ".join(partial_lines)
+
+    # Nascosti (tick 0) — solo indicazioni di placement, zero contenuto
     if missing_clues:
         urgency = "FAI TROVARE ORA" if threat_pct >= 80 else "da rivelare gradualmente"
-        clues_context += f"\nIndizi ancora nascosti ({urgency}): " + "; ".join(
-            f"[{c['id']}] ({c.get('thread_id','?')}) \"{c['text']}\" — trovabile: {c.get('location') or c.get('source_location','?')} — payoff: {c.get('payoff', c.get('reveals',''))}" for c in missing_clues
-        )
+        hidden_lines = []
+        for c in missing_clues:
+            if (clue_progress_state.get(c.get("id"), {}) or {}).get("ticks", 0) > 0:
+                continue  # già nei partial
+            ctype = c.get("type") or "indizio"
+            location = c.get("source_location") or c.get("location") or "?"
+            actions = c.get("possible_actions") or []
+            action_hint = f" — come trovarlo: {actions[0]}" if actions else ""
+            hidden_lines.append(
+                f"[{c['id']}] ({c.get('thread_id','?')}) tipo={ctype} — dove: {location}{action_hint} "
+                f"[CONTENUTO BLOCCATO: usa clue_progress tick=1 per sbloccare il partial reveal]"
+            )
+        if hidden_lines:
+            clues_context += f"\nINDIZI NASCOSTI ({urgency}) — placement guidance ONLY, NON rivelare il testo:\n  " + "\n  ".join(hidden_lines)
     threads_context = ""
     if thread_runtime:
         lines = []
@@ -5444,6 +5672,63 @@ def master_turn_with_bible(
     if twists_available and threat_pct > 50:
         twists_context = f"\nColpi di scena disponibili (puoi attivarne uno se drammaticamente appropriato): " + "; ".join(f"[{t['id']}] trigger: {t['trigger']}" for t in twists_available)
 
+    # ── Narrative State Validation snapshot ──────────────────────────────────
+    # Costruisce un blocco esplicito di ciò che è NOTO vs IGNOTO ai giocatori.
+    # Impedisce a Claude di re-rivelare sorprese già svelate o di trattare come
+    # ovvio ciò che non è ancora stato scoperto.
+    _EXPOSED_SET = {"exposed", "captured", "resolved"}
+    nsv_known_lines = []
+    nsv_partial_lines = []
+    nsv_locked_lines = []
+    nsv_exposed_npcs = []
+    nsv_closed_threads = []
+
+    # Indizi trovati → già noti, non possono più sorprendere
+    for c in found_clues:
+        reveals = c.get("reveals") or c.get("text") or c.get("label") or c.get("id", "?")
+        nsv_known_lines.append(f"[{c.get('id','?')}] {reveals[:100]}")
+
+    # Indizi parziali → solo immediate_information è nota
+    for c in partial_clues:
+        immediate = c.get("immediate_information") or "(fatto parziale)"
+        nsv_partial_lines.append(f"[{c.get('id','?')}] noto: \"{immediate[:80]}\" — implicazione non ancora scoperta")
+
+    # Verità/fatti scoperti da discovered_facts (storia del frontend)
+    discovered_facts_raw = game_state_data.get("discovered_facts") or []
+    for f in discovered_facts_raw[-10:]:
+        text = f.get("text", f) if isinstance(f, dict) else str(f)
+        if text and text not in nsv_known_lines:
+            nsv_known_lines.append(f"[fatto] {text[:100]}")
+
+    # NPC smascherati
+    for npc_id, st in npc_statuses.items():
+        if (st.get("status") or "") in _EXPOSED_SET:
+            npc_obj = next((n for n in adventure.get("npcs", []) if n.get("id") == npc_id), None)
+            name = npc_obj.get("name", npc_id) if npc_obj else npc_id
+            nsv_exposed_npcs.append(f"{name} [status={st.get('status')}]")
+
+    # Thread chiusi/risolti
+    for t in thread_runtime:
+        if t.get("status") in ("resolved", "closed"):
+            nsv_closed_threads.append(f"{t.get('id')}: {t.get('question','')[:60]}")
+
+    # Costruisci il blocco
+    nsv_lines = []
+    if nsv_known_lines:
+        nsv_lines.append("NOTO AI GIOCATORI (non ri-rivelare come sorpresa, non trattare come ignoto):\n  " + "\n  ".join(nsv_known_lines))
+    if nsv_partial_lines:
+        nsv_lines.append("PARZIALMENTE NOTO (solo la parte indicata è emersa — il resto è ancora nascosto):\n  " + "\n  ".join(nsv_partial_lines))
+    if nsv_exposed_npcs:
+        nsv_lines.append("NPC SMASCHERATI (il loro coinvolgimento è già pubblico — non fingere che non si sappia):\n  " + "\n  ".join(nsv_exposed_npcs))
+    if nsv_closed_threads:
+        nsv_lines.append("THREAD CHIUSI (conclusi — non riaprirli come misteri):\n  " + "\n  ".join(nsv_closed_threads))
+
+    revelation_state_block = (
+        "\n═══ STATO RIVELAZIONI (validazione narrativa) ═══\n"
+        + "\n".join(nsv_lines)
+        + "\nREGOLA: non contraddire questo stato. Ciò che è NOTO non produce sorpresa; ciò che è PARZIALMENTE NOTO non produce payoff completo. Ciò che non è in questo blocco è ancora IGNOTO ai giocatori e deve restare tale.\n"
+    ) if nsv_lines else ""
+
     # Location corrente dal map_state (passato via game_state_data)
     current_location = ""
     map_state = game_state_data.get("map_state") or {}
@@ -5452,7 +5737,7 @@ def master_turn_with_bible(
         nodes = map_state.get("nodes") or {}
         cur_node = nodes.get(cur_node_id) or {}
         if cur_node.get("name"):
-            current_location = f"\nLocation attuale: {cur_node['name']} — {cur_node.get('description','')}"
+            current_location = f"\nLocation attuale: [{cur_node_id}] {cur_node['name']} — {cur_node.get('description','')}"
             tactical_map = cur_node.get("tactical_map") or {}
             if tactical_map.get("enabled"):
                 current_location += (
@@ -5474,6 +5759,23 @@ def master_turn_with_bible(
                           or (c.get("location","") or "").lower()[:6] in cur_node.get("name","").lower()]
             if clues_here:
                 current_location += f"\nIndizi trovabili qui: {'; '.join(c['text'] for c in clues_here)}"
+        # Elenco location raggiungibili (per permettere all'AI di compilare new_location_id)
+        if nodes:
+            reachable_lines = []
+            connections = map_state.get("connections_meta") or {}
+            connected_ids = set()
+            for conn_key, conn in connections.items():
+                parts = conn_key.split("__")
+                if len(parts) == 2:
+                    a, b = parts
+                    if a == cur_node_id: connected_ids.add(b)
+                    elif b == cur_node_id: connected_ids.add(a)
+            for nid, node in nodes.items():
+                if isinstance(node, dict) and nid != cur_node_id:
+                    conn_flag = " [connessa]" if nid in connected_ids else ""
+                    reachable_lines.append(f"  - [{nid}] {node.get('name','?')}{conn_flag}")
+            if reachable_lines:
+                current_location += "\nALTRE LOCATION DISPONIBILI (usa l'id in new_location_id se il gruppo si sposta):\n" + "\n".join(reachable_lines[:12])
 
     # Ultime azioni proposte (per evitare ripetizioni)
     last_options = []
@@ -5496,13 +5798,13 @@ Condizione vittoria: {adventure.get('win_condition', '?')}
 {runtime_context}
 {director_context}
 
-═══ STATO PARTITA (turno {turn}) ═══{current_location}
+{locked_context_block}═══ STATO PARTITA (turno {turn}) ═══{current_location}
 PNG:{npcs_context}
 AGENDE PNG:{npc_agenda_context or "\n- nessuna agenda strutturata"}{npc_pressure_context}
 {clues_context}
 Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
 {threads_context}
-
+{revelation_state_block}
 ═══ PERSONAGGI ═══
 {sheets}
 Ultimo ad agire: {active["name"]} ({active.get("role","")})
@@ -5525,7 +5827,7 @@ ISTRUZIONI:
 2. NARRATIVA (3-5 frasi vivide): descrivi l'esito dell'azione E fai muovere la storia. Inserisci {{{{ROLL}}}} nel punto drammatico.
    - La scena deve CAMBIARE rispetto a quella precedente: nuova informazione, reazione di un PNG, spostamento, escalation.
    - Se il gruppo è fermo sulla stessa situazione da 2+ turni, introduce una svolta: arriva un PNG, scatta una trappola, si apre un passaggio, un alleato tradisce.
-   - REGOLA INDIZI: non creare indizi nuovi. Fai avanzare un indizio canonico con clue_progress; usa clues_found solo quando la prova è stata davvero ottenuta.
+   - REGOLA INDIZI (segui la progressione in PROGRESSIONE INDIZI): tick=0→hint atmosferico; tick=1→partial reveal (immediate_information); tick=2/clues_found→payoff completo. Un'azione avanza al massimo 1 tick. Non rivelare il contenuto di un indizio NASCOSTO.
 
 3. OPZIONI (3 proposte per il prossimo turno):
    - DEVONO essere diverse da queste azioni già fatte: {'; '.join(player_actions_recent[-4:]) if player_actions_recent else 'nessuna'}
@@ -5534,8 +5836,30 @@ ISTRUZIONI:
    - Assegna ogni opzione al personaggio più adatto per skill e motivazione.
    - La terza è sempre "Azione custom".
 
+4. SPOSTAMENTO LOCATION: se nella narrativa il gruppo si sposta fisicamente in una nuova location,
+   compila "new_location_id" in state_updates con l'id esatto dalla lista ALTRE LOCATION DISPONIBILI.
+   Se rimangono nella stessa location, lascia "new_location_id" vuoto ("").
+
 4. Aggiorna lo stato (clue_progress, clues_found, npc_updates, location_updates, objective_updates, faction_updates, clock/resource/finale updates, threat_increase).
    threat_increase: 0 se i giocatori hanno guadagnato terreno o risolto un indizio, 1 solo su fallimento netto o conseguenza narrativa negativa. MAI 2 salvo clock completato o evento di escalation autorizzato dal Director.
+
+PROGRESSIONE INDIZI — REGOLA ASSOLUTA (hint → partial → payoff):
+- Gli indizi hanno tre livelli. Non puoi saltare livelli. Non puoi dare al livello 1 ciò che appartiene al livello 2.
+- LIVELLO 0 — HINT (indizio NASCOSTO, nessun tick): introduci solo un dettaglio ambiguo che orienta verso la location o la persona giusta. Atmosfera, sensazione, traccia vaga. MAI il testo o il contenuto dell'indizio. Usa clue_progress con ticks=1 per registrare l'avanzamento.
+- LIVELLO 1 — PARTIAL REVEAL (tick=1): puoi narrare l'immediate_information indicata — un fatto concreto ma incompleto. Il personaggio capisce un pezzo ma non l'intera implicazione. Non rivelare hidden_implication né il payoff finale. Usa clue_progress con ticks=2 per avanzare.
+- LIVELLO 2 — PAYOFF (ticks=2 oppure clues_found): solo ora puoi rivelare la verità completa (reveals + hidden_implication). Usa clues_found per registrare l'ottenimento definitivo.
+- Regola di integrità: una singola azione può avanzare al massimo 1 tick. Non è possibile passare da tick=0 a clues_found in un solo turno, salvo successo critico (margine >= 5) o scena di confronto diretto con prove già in mano.
+- Se un indizio è NASCOSTO ma il giocatore è nella location giusta e il tiro riesce: aggiungi clue_progress tick=1 e narra il HINT. Non il contenuto.
+
+PROTEZIONE SEGRETI NPC — REGOLA ASSOLUTA (priorità massima, vale sempre):
+- Gli NPC marcati [COPERTO] non rivelano MAI spontaneamente il proprio segreto, colpevolezza, piano o coinvolgimento nel crimine/mistero.
+- Un NPC [COPERTO] può rivelare informazioni riservate SOLO in uno di questi tre casi:
+  (a) Il suo status diventa [ESPOSTO] — il giocatore lo ha smascherato con prove concrete;
+  (b) Il giocatore presenta durante la scena un clue già ottenuto (clues_found) che lo riguarda direttamente;
+  (c) Il giocatore supera un tiro di negoziare o intimidire con SUCCESSO PIENO — mai con successo parziale o fallimento.
+- Con successo parziale o fallimento sociale: l'NPC si chiude, devia, mente o cambia argomento — non cede nulla.
+- Un NPC [COPERTO] può essere sospettato, può comportarsi in modo ambiguo, può dire frasi che insospettiscono — ma non confessa mai da solo.
+- Questa regola vale anche se la narrativa sembra "portare naturalmente" alla rivelazione: blocca il dialogo prima dello spoiler, fai reagire l'NPC con evasione, ostilità o cambio di scena.
 
 REGOLE CANOVACCIO PDF — OBBLIGATORIE:
 - STATE-DRIVEN: il motore ha gia deciso gli update minimi in "NARRATIVE DIRECTOR". La tua narrativa deve renderli, non sostituirli.
@@ -5544,9 +5868,10 @@ REGOLE CANOVACCIO PDF — OBBLIGATORIE:
 - Usa solo adventure_canon, story_threads, clues, npcs e locations gia presenti nella bibbia. Non creare nuovi filoni portanti.
 - Gli indizi sono FISSI: non generare nuovi indizi, nomi-prova, simboli, documenti o sottotrame. Puoi solo far progredire o ottenere indizi gia elencati in clues.
 - Ogni clues_found o clue_progress deve usare un id clue esistente e quella clue deve avere thread_id valido.
-- Ogni scena puo far avanzare al massimo 1 indizio canonico in clue_progress, scegliendo SOLO id esistenti fra gli indizi nascosti.
-- clues_found deve restare raro: usalo solo quando la prova canonica è stata recuperata, letta, confermata o testimoniata in modo chiaro.
-- Se narri solo un avvicinamento, sospetto, accesso parziale o frammento, NON usare clues_found: usa clue_progress.
+- Ogni scena puo far avanzare al massimo 1 indizio canonico in clue_progress, scegliendo SOLO id esistenti fra gli indizi NASCOSTI o IN PROGRESSO.
+- clues_found deve restare raro: usalo solo quando la prova canonica è stata recuperata fisicamente, letta, confermata da un testimone o ottenuta con ticks>=2. Non usarlo mai su un indizio ancora a tick=0.
+- SALTO DI LIVELLO VIETATO: non puoi mettere un id in clues_found se non compare già in clue_progress con ticks>=2, salvo successo critico (margine>=5) o scena di confronto diretto con prove già in mano.
+- Se narri solo un avvicinamento, sospetto, accesso parziale o frammento: clue_progress ticks=1. Se narri la scoperta concreta: clue_progress ticks=2. Solo quando il giocatore ottiene la prova in mano: clues_found.
 - new_threads deve essere sempre []. Se emerge una nuova complicazione, mettila in npc_updates, threat_increase, combat_scene o narrativa, non come thread.
 - discovered_facts deve contenere solo fatti concreti gia derivati da un clue, non atmosfera.
 - Usa npc_updates per far cambiare stato, luogo, atteggiamento o arc_status agli NPC del canovaccio; non inventare PNG importanti se ci sono NPC canonici inutilizzati.
@@ -5575,15 +5900,15 @@ REGOLA FINE AVVENTURA — OBBLIGATORIA:
 
 REGOLA COMBATTIMENTO — OBBLIGATORIA:
 Stato attuale combattimento: {"IN COMBATTIMENTO" if game_state_data.get("in_combat") else "NON in combattimento"}.
-
+{_build_combat_context(game_state_data)}
 - Se NON in combattimento: imposta activate_combat=true SE la narrativa porta a uno scontro fisico diretto (nemico attacca, i giocatori attaccano, sparatoria inizia, aggressione esplicita). NON aspettare che il giocatore lo chieda — se il contesto porta allo scontro, ATTIVALO.
 - Se la Location attuale contiene una scheda tattica canonica e il trigger indicato si verifica, activate_combat=true è fortemente preferito: quella zona è stata progettata come zona calda/finale.
-- Se GIÀ IN COMBATTIMENTO: activate_combat=false (il combattimento è già attivo). Imposta combat_over=true se i nemici sono stati eliminati/fuggiti/catturati e lo scontro è concluso.
-- combat_scene (solo quando activate_combat=true): popola ESCLUSIVAMENTE con PNG antagonisti vivi che combattono (persone, creature). NO luoghi, ambienti, oggetti. HP realistici: umano normale 10-12 HP, guardia 12-15, boss 20+. attack_skill: 10-14 per umani, active_defense: 8-10, damage_dice: "1d6" corpo a corpo, "2d6-1" arma da fuoco.
+- Se GIÀ IN COMBATTIMENTO: activate_combat=false e combat_scene=null (il combattimento è già attivo — NON rigenerare le entità). Imposta combat_over=true se i nemici sono stati eliminati/fuggiti/catturati e lo scontro è concluso. Quando narri azioni durante il combattimento, rifletti lo stato HP reale degli avversari (vedi STATO NEMICI sopra).
+- combat_scene (SOLO quando activate_combat=true, primo ingresso): popola ESCLUSIVAMENTE con PNG antagonisti vivi che combattono (persone, creature). NO luoghi, ambienti, oggetti. HP realistici: umano normale 10-12 HP, guardia 12-15, boss 20+. attack_skill: 10-14 per umani, active_defense: 8-10, damage_dice: "1d6" corpo a corpo, "2d6-1" arma da fuoco.
 - BILANCIAMENTO: se non è una zona finale/boss, genera al massimo {max(1, min(3, len(players)))} nemici, meglio 1-3, con skill 9-11 e danni contenuti. Gli scontri iniziali devono poter essere evitati, vinti o abbandonati.
 - VIA DI USCITA: ogni combat_scene non finale deve lasciare una ritirata plausibile o una via alternativa nella fiction; non chiudere i giocatori in una trappola letale salvo scena finale dichiarata.
 
-Esempio combat_scene corretto:
+Esempio combat_scene corretto (primo ingresso):
 {{"entities": [{{"id": "nemico_1", "name": "Guardia Armata", "type": "enemy", "zone": "centro", "hp": 12, "max_hp": 12, "dr": 2, "attack_skill": 12, "active_defense": 9, "damage_dice": "2d6-1", "damage_type": "cr"}}]}}
 
 Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
@@ -5620,6 +5945,7 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     "flags": {{}},
     "new_threads": [],
     "closed_threads": [],
+    "new_location_id": "",
     "threat_increase": 0,
     "activate_combat": false,
     "combat_scene": null,

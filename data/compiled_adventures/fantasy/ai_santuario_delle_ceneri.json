@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_santuario_delle_ceneri",
+    "title": "Il Santuario delle Ceneri",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "sacro, tragico, esplorativo",
+    "premise": "Un santuario montano che custodiva reliquie di guarigione comincia a produrre cenere calda invece di miracoli.",
+    "initial_hook": "I PG scortano pellegrini malati quando il primo altare si spegne davanti a loro.",
+    "player_facing_objective": "Riaprire la via sacra, capire la corruzione delle reliquie e salvare i pellegrini.",
+    "hidden_truth": "Il santo non è corrotto: un abate vivo sta bruciando reliquie minori per alimentare un miracolo privato.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Il santo non è corrotto: un abate vivo sta bruciando reliquie minori per alimentare un miracolo privato.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Riaprire la via sacra, capire la corruzione delle reliquie e salvare i pellegrini.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Il santo non è corrotto: un abate vivo sta bruciando reliquie minori per alimentare un miracolo privato.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Esporre l'abate, restituire le ceneri ai tre altari e scegliere chi riceve l'ultimo miracolo.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Cenere con frammenti d'oro",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "La cenere viene da reliquie bruciate.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La cenere viene da reliquie bruciate.",
+        "hidden_implication": "Il santo non è la fonte della corruzione.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Maledizione esterna"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Registro reliquie abraso",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Le reliquie spariscono prima dello spegnimento.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Le reliquie spariscono prima dello spegnimento.",
+        "hidden_implication": "Il registro punta a un colpevole interno.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Furto di banditi"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Testimonianza del novizio",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "L'abate ha ordinato falsificazioni.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "L'abate ha ordinato falsificazioni.",
+        "hidden_implication": "Teren è complice forzato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Novizio colpevole"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Calore dietro muro sacro",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Esiste una stanza-forno proibita.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Esiste una stanza-forno proibita.",
+        "hidden_implication": "Il forno è ancora attivo.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Incendio naturale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Reliquia falsa sull'altare",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Gli altari sono stati sostituiti con copie.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Gli altari sono stati sostituiti con copie.",
+        "hidden_implication": "Serve restituire reliquie vere.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Reliquia esaurita"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Tosse nera dei pellegrini",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Il clock fisico colpisce i malati prima dei sani.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il clock fisico colpisce i malati prima dei sani.",
+        "hidden_implication": "Il tempo morale è limitato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Epidemia comune"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Sorella Maela",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Guaritrice esausta.",
+        "goal": "Salvare i pellegrini più gravi.",
+        "motivation": "Salvare i pellegrini più gravi.",
+        "secret": "Ha visto l'abate portare reliquie nel forno.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Cura chi può e copre i bambini.",
+        "fallback_plan": "Accusa l'abate solo con prove.",
+        "pressure_response": {
+          "low": "Sorella Maela osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Sorella Maela accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Sorella Maela sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Sorella Maela tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Novizio Teren",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Giovane monaco spaventato.",
+        "goal": "Non tradire i voti.",
+        "motivation": "Non tradire i voti.",
+        "secret": "Ha falsificato un registro su ordine dell'abate.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Evita l'archivio e mente male.",
+        "fallback_plan": "Consegna la chiave se protetto.",
+        "pressure_response": {
+          "low": "Novizio Teren osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Novizio Teren accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Novizio Teren sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Novizio Teren tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Capitano Orso",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Guardia laica del santuario.",
+        "goal": "Mantenere ordine e fede.",
+        "motivation": "Mantenere ordine e fede.",
+        "secret": "Sa che i miracoli sono diminuiti da mesi.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Blocca accessi proibiti.",
+        "fallback_plan": "Si schiera coi PG se vede pellegrini morire.",
+        "pressure_response": {
+          "low": "Capitano Orso osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Capitano Orso accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Capitano Orso sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Capitano Orso tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Abate Calvian",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Anziano autorevole e dolente.",
+        "goal": "Salvare una persona amata con un miracolo rubato.",
+        "motivation": "Salvare una persona amata con un miracolo rubato.",
+        "secret": "Sta consumando reliquie per alimentare la cripta privata.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Ritarda i PG con liturgia e autorità.",
+        "fallback_plan": "Brucia l'ultima reliquia e fugge nella cripta.",
+        "pressure_response": {
+          "low": "Abate Calvian osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Abate Calvian accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Abate Calvian sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Abate Calvian tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Sentiero dei Pellegrini",
+        "description": "Scalini bianchi coperti da cenere tiepida.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Scalini bianchi coperti da cenere tiepida.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "frane"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Chiostro Spento",
+        "description": "Monaci in silenzio e fontana asciutta.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Monaci in silenzio e fontana asciutta.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "monaci reticenti"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Archivio delle Reliquie",
+        "description": "Inventari raschiati e sigilli rotti.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Inventari raschiati e sigilli rotti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "cenere ustionante"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Forno Reliquiario",
+        "description": "Una stanza proibita scaldata da ossa sacre.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Una stanza proibita scaldata da ossa sacre.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "guardie devote"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Cripta del Santo",
+        "description": "Altare finale sotto una neve di cenere luminosa.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Altare finale sotto una neve di cenere luminosa.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "miracolo instabile"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Cenere nei Polmoni",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "I pellegrini soffocano e il santuario perde per sempre la grazia residua.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "I pellegrini soffocano e il santuario perde per sempre la grazia residua."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Purificare almeno due altari e fermare il forno reliquiario dell'abate.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Santuario purificato con scelta dell'ultimo miracolo",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Esporre l'abate, restituire le ceneri ai tre altari e scegliere chi riceve l'ultimo miracolo.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Abate fermato ma grazia quasi perduta",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Il Santuario delle Ceneri",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

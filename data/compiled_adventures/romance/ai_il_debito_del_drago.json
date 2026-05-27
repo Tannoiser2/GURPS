@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_il_debito_del_drago",
+    "title": "Il Debito del Drago",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "romance",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "romance fantasy politico",
+    "premise": "Due casate rivali devono celebrare un fidanzamento diplomatico, ma un antico drago reclama un debito di sangue proprio durante la festa.",
+    "initial_hook": "I PG sono consiglieri, guardie o parenti incaricati di far arrivare la coppia all'altare senza guerra.",
+    "player_facing_objective": "Proteggere il patto, capire il debito del drago e scegliere tra amore, onore e sopravvivenza politica.",
+    "hidden_truth": "Il debito non riguarda oro o sangue nobile: una promessa d'amore tradita cento anni prima vincola le due casate alla stessa menzogna.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Il debito non riguarda oro o sangue nobile: una promessa d'amore tradita cento anni prima vincola le due casate alla stessa menzogna.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Proteggere il patto, capire il debito del drago e scegliere tra amore, onore e sopravvivenza politica.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Il debito non riguarda oro o sangue nobile: una promessa d'amore tradita cento anni prima vincola le due casate alla stessa menzogna.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Rivelare la promessa originale, far scegliere pubblicamente la coppia e offrire al drago memoria vera invece di vittime.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Anello con due stemmi",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Le casate erano unite prima della faida.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Le casate erano unite prima della faida.",
+        "hidden_implication": "Il conflitto è costruito su una cancellazione.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Prova di adulterio"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Lettere notturne di Darian",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Darian sogna parole che non conosce.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Darian sogna parole che non conosce.",
+        "hidden_implication": "Il drago comunica tramite sogni.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Maledizione personale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Diario della promessa antica",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "La promessa antica fu cancellata dagli archivi.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La promessa antica fu cancellata dagli archivi.",
+        "hidden_implication": "Serve verità pubblica, non pagamento.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Falso diario"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Dono bruciato senza fiamma",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Il drago può colpire simboli senza uccidere.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il drago può colpire simboli senza uccidere.",
+        "hidden_implication": "Il drago vuole memoria.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Minaccia militare"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Contratto matrimoniale raschiato",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Il contratto nasconde una clausola amorosa.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il contratto nasconde una clausola amorosa.",
+        "hidden_implication": "La clausola protegge una scelta libera.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Clausola economica"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Canto del drago al brindisi",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Il brindisi è il momento della riscossione.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il brindisi è il momento della riscossione.",
+        "hidden_implication": "Il clock sociale ha scadenza precisa.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Tradizione decorativa"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Liora Valcastel",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Promessa sposa brillante e stanca.",
+        "goal": "Sposarsi per scelta, non per ricatto.",
+        "motivation": "Sposarsi per scelta, non per ricatto.",
+        "secret": "Ama davvero l'erede rivale ma teme di tradire la madre.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Cerca prove per fermare il debito.",
+        "fallback_plan": "Fugge sul balcone se umiliata.",
+        "pressure_response": {
+          "low": "Liora Valcastel osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Liora Valcastel accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Liora Valcastel sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Liora Valcastel tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Darian Rovescuro",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Promesso sposo diplomatico.",
+        "goal": "Evitare guerra e proteggere Liora.",
+        "motivation": "Evitare guerra e proteggere Liora.",
+        "secret": "Ha ricevuto sogni dal drago.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Nasconde lettere ricevute di notte.",
+        "fallback_plan": "Sfida il drago se Liora è minacciata.",
+        "pressure_response": {
+          "low": "Darian Rovescuro osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Darian Rovescuro accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Darian Rovescuro sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Darian Rovescuro tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Marchesa Elenna",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Madre di Liora, maestra di etichetta.",
+        "goal": "Controllare il matrimonio.",
+        "motivation": "Controllare il matrimonio.",
+        "secret": "Conosce metà della promessa originale.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Sposta documenti e manipola invitati.",
+        "fallback_plan": "Confessa se la figlia rischia esilio.",
+        "pressure_response": {
+          "low": "Marchesa Elenna osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Marchesa Elenna accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Marchesa Elenna sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Marchesa Elenna tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Auralis il Drago",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Drago antico e ferito nell'orgoglio.",
+        "goal": "Riscuotere memoria e verità.",
+        "motivation": "Riscuotere memoria e verità.",
+        "secret": "Fu tradito da un patto amoroso cancellato.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Mette alla prova gli amanti.",
+        "fallback_plan": "Brucia i doni e chiede un nome se mentono ancora.",
+        "pressure_response": {
+          "low": "Auralis il Drago osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Auralis il Drago accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Auralis il Drago sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Auralis il Drago tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Giardino delle Lanterne",
+        "description": "Festa sospesa tra profumi, seta e guardie armate.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Festa sospesa tra profumi, seta e guardie armate.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "duelli"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Sala dei Doni",
+        "description": "Scrigni diplomatici e lettere nascoste.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Scrigni diplomatici e lettere nascoste.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "scandali"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Balcone degli Sposi",
+        "description": "Luogo di incontri segreti e confessioni.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Luogo di incontri segreti e confessioni.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "spie di corte"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Archivio di Famiglia",
+        "description": "Contratti matrimoniali e diari proibiti.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Contratti matrimoniali e diari proibiti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "incendio draconico"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Terrazza del Drago",
+        "description": "Pietra annerita dove il drago viene a riscuotere.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Pietra annerita dove il drago viene a riscuotere.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "cuori spezzati"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Brindisi del Drago",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il drago interrompe la cerimonia, una casata accusa l'altra e la guerra ricomincia.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Il drago interrompe la cerimonia, una casata accusa l'altra e la guerra ricomincia."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Scoprire la promessa originale e preparare una confessione pubblica prima del brindisi finale.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Patto rinnovato per scelta d'amore",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Rivelare la promessa originale, far scegliere pubblicamente la coppia e offrire al drago memoria vera invece di vittime.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Matrimonio salvo ma debito rimandato",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Il Debito del Drago",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

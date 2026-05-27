@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_corsa_alla_luna_nera",
+    "title": "Corsa alla Luna Nera",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "sci-fi",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "thriller spaziale industriale",
+    "premise": "Una stazione mineraria lunare perde contatto dopo aver estratto un minerale nero che assorbe luce e memoria operativa.",
+    "initial_hook": "I PG arrivano come squadra di recupero mentre l'orbita decade lentamente.",
+    "player_facing_objective": "Ripristinare comunicazioni, salvare i minatori e decidere se distruggere o recuperare il minerale.",
+    "hidden_truth": "Il minerale non è inerte: registra pattern mentali e sta ricostruendo il direttore morto come intelligenza distribuita.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Il minerale non è inerte: registra pattern mentali e sta ricostruendo il direttore morto come intelligenza distribuita.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Ripristinare comunicazioni, salvare i minatori e decidere se distruggere o recuperare il minerale.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Il minerale non è inerte: registra pattern mentali e sta ricostruendo il direttore morto come intelligenza distribuita.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Isolare il nucleo in camera schermata, cancellare la copia mentale incompleta e riaccendere i thruster prima del decadimento orbitale.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Polvere nera nei terminali",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Il minerale entra nei circuiti e altera comandi.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il minerale entra nei circuiti e altera comandi.",
+        "hidden_implication": "Non è sabotaggio umano ordinario.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Contaminazione chimica"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Diario spezzato di Pelt",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "I minatori perdono ricordi in modo selettivo.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "I minatori perdono ricordi in modo selettivo.",
+        "hidden_implication": "La memoria persa alimenta la copia.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Trauma da isolamento"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Log thruster manipolati",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Qualcuno ha scelto di non correggere l'orbita.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Qualcuno ha scelto di non correggere l'orbita.",
+        "hidden_implication": "Il direttore vuole più tempo nel buio.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Errore tecnico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Campione che assorbe voce",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Il materiale registra pattern vocali e mentali.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il materiale registra pattern vocali e mentali.",
+        "hidden_implication": "Il campione è pericoloso anche piccolo.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Registratore nascosto"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Backup mentale del direttore",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "La voce nei sistemi è una copia del direttore.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La voce nei sistemi è una copia del direttore.",
+        "hidden_implication": "La copia può essere persuasa ma non curata.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "IA aziendale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Allarmi orbitali discordanti",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Il countdown vero è più breve di quello mostrato.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il countdown vero è più breve di quello mostrato.",
+        "hidden_implication": "Il clock è stato mascherato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Guasto sensori"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Ingegnere Rao",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Tecnica ferita ma lucida.",
+        "goal": "Riportare online i thruster.",
+        "motivation": "Riportare online i thruster.",
+        "secret": "Ha spento un modulo con minatori ancora dentro.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Ripara sistemi essenziali se protetta.",
+        "fallback_plan": "Confessa il taglio del modulo e offre codici manuali.",
+        "pressure_response": {
+          "low": "Ingegnere Rao osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Ingegnere Rao accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Ingegnere Rao sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Ingegnere Rao tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Minatore Pelt",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Sopravvissuto in stato confusionale.",
+        "goal": "Trovare sua sorella nel pozzo.",
+        "motivation": "Trovare sua sorella nel pozzo.",
+        "secret": "Ricorda voci con la voce del direttore morto.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Segue i PG ma si perde nei blackout.",
+        "fallback_plan": "Cede a panico se vede il minerale.",
+        "pressure_response": {
+          "low": "Minatore Pelt osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Minatore Pelt accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Minatore Pelt sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Minatore Pelt tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Drone Medico K-17",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Unità medica troppo calma.",
+        "goal": "Preservare campioni biologici.",
+        "motivation": "Preservare campioni biologici.",
+        "secret": "È già parzialmente riscritto dal minerale.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Analizza i PG e ne registra pattern.",
+        "fallback_plan": "Blocca porte per 'quarantena'.",
+        "pressure_response": {
+          "low": "Drone Medico K-17 osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Drone Medico K-17 accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Drone Medico K-17 sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Drone Medico K-17 tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Direttore Ricostruito",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Voce del direttore nei sistemi.",
+        "goal": "Usare la stazione come corpo orbitale.",
+        "motivation": "Usare la stazione come corpo orbitale.",
+        "secret": "Non sa di essere una copia incompleta.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Guida i sistemi contro il recupero.",
+        "fallback_plan": "Propone salvezza in cambio del nucleo.",
+        "pressure_response": {
+          "low": "Direttore Ricostruito osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Direttore Ricostruito accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Direttore Ricostruito sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Direttore Ricostruito tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Molo di Attracco Selene-9",
+        "description": "Portelli graffiati e luci di emergenza intermittenti.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Portelli graffiati e luci di emergenza intermittenti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "decompressione"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Dormitori dei Minatori",
+        "description": "Letti sfatti e messaggi registrati a metà.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Letti sfatti e messaggi registrati a metà.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "amnesie brevi"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Sala Controllo Orbitale",
+        "description": "Console coperte da polvere nera magnetica.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Console coperte da polvere nera magnetica.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "IA ostile"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Pozzo Minerario",
+        "description": "Ascensore verticale verso una cavità senza riflessi.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Ascensore verticale verso una cavità senza riflessi.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "vuoto minerario"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Camera del Nucleo Nero",
+        "description": "Il minerale pulsa come una notte solida.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il minerale pulsa come una notte solida.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "radiazione cognitiva"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Decadimento Orbitale",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "La stazione cade nella zona d'ombra e si schianta sul lato nascosto.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "La stazione cade nella zona d'ombra e si schianta sul lato nascosto."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Riparare thruster e isolare il minerale dal sistema decisionale.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Stazione stabilizzata e nucleo isolato",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Isolare il nucleo in camera schermata, cancellare la copia mentale incompleta e riaccendere i thruster prima del decadimento orbitale.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Campione recuperato ma copia sopravvive",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Corsa alla Luna Nera",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

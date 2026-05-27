@@ -1,0 +1,1176 @@
+{
+  "adventure_definition": {
+    "id": "pdf_thrusher_manor",
+    "title": "Thrusher Manor",
+    "source_type": "pdf_text",
+    "source_mode": "pdf_import",
+    "genre": "horror",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "gothic horror, coloniale, soprannaturale",
+    "premise": "Caribbean, 1689. La piantagione Thrusher sull'isola di St. Donat è silenziosa da tre settimane. Nessun messaggero è tornato. I personaggi vengono mandati a investigare su una nave mercantile. Trovano la piantagione abbandonata, campi distrutti, e un'atmosfera di terrore che permea ogni pietra del manor.",
+    "initial_hook": "Il governatore di Port Royal vi incarica: la piantagione Thrusher vale una fortuna in zucchero. Il proprietario Aldous Thrusher ha smesso di comunicare. Trovate cosa è successo e se possibile ripristinate le operazioni.",
+    "core_truths": [
+      {
+        "id": "truth_ritual",
+        "statement": "Il supervisore schiavista Cornelius Wade ha praticato un rituale vodun corrotto per controllare gli schiavi, risvegliando invece un'entità della maledizione ancestrale.",
+        "reveal_clues": [
+          "clue_wade_journal",
+          "clue_ritual_chamber"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_thrusher",
+        "statement": "Aldous Thrusher è ancora vivo, rinchiuso nella torre est, ma ha perso la ragione dopo aver visto cosa Wade ha fatto.",
+        "reveal_clues": [
+          "clue_locked_tower",
+          "clue_servant_testimony"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_malediction",
+        "statement": "La maledizione è legata all'anello di Thrusher — un idolo rubato da un sito sacro africano. Restituirlo spezza il ciclo.",
+        "reveal_clues": [
+          "clue_oshun_idol",
+          "clue_marie_knowledge"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_arrive",
+        "label": "Sbarcare e valutare la situazione",
+        "status": "active",
+        "unlocks": [
+          "obj_find_survivors",
+          "obj_explore_manor"
+        ],
+        "success_conditions": [
+          "Arrivo al manor"
+        ]
+      },
+      {
+        "id": "obj_find_survivors",
+        "label": "Trovare sopravvissuti",
+        "status": "inactive",
+        "unlocks": [
+          "obj_understand_cause"
+        ],
+        "success_conditions": [
+          "Trovato Aldous O Marie O il servo"
+        ]
+      },
+      {
+        "id": "obj_explore_manor",
+        "label": "Esplorare la piantagione",
+        "status": "inactive",
+        "unlocks": [
+          "obj_understand_cause"
+        ],
+        "success_conditions": [
+          "Visitato manor_house, slave_quarters, ritual_chamber"
+        ]
+      },
+      {
+        "id": "obj_understand_cause",
+        "label": "Scoprire cosa ha scatenato l'orrore",
+        "status": "inactive",
+        "unlocks": [
+          "obj_break_curse"
+        ],
+        "success_conditions": [
+          "rev_ritual_cause rivelato"
+        ]
+      },
+      {
+        "id": "obj_break_curse",
+        "label": "Spezzare la maledizione",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "clue_oshun_idol restituito al sito sacro"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_wade_did_it",
+        "thread_id": "thread_wade",
+        "statement": "Cornelius Wade ha eseguito un rituale per aumentare la produttività degli schiavi, corrompendo un rito vodun. Il risultato ha scatenato qualcosa di ancestrale.",
+        "required_clues": [
+          "clue_wade_journal"
+        ],
+        "required_evidence_kinds": [
+          "document"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [
+          "clue_red_herring_fever"
+        ],
+        "status": "hidden",
+        "payoff": "I PG hanno il colpevole e il metodo. Ora devono trovare il rimedio.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_thrusher_alive",
+        "thread_id": "thread_survivors",
+        "statement": "Aldous Thrusher è vivo nella torre est, psicotico ma vivo. Può fornire informazioni cruciali se stabilizzato.",
+        "required_clues": [
+          "clue_locked_tower",
+          "clue_servant_testimony"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG hanno un testimone oculare delle prime fasi.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_idol_solution",
+        "thread_id": "thread_solution",
+        "statement": "La maledizione è legata all'idolo di Oshun rubato da Thrusher dieci anni fa. Restituirlo al suo sito sacro spezza il legame.",
+        "required_clues": [
+          "clue_oshun_idol",
+          "clue_marie_knowledge"
+        ],
+        "required_evidence_kinds": [
+          "artifact",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG hanno la soluzione concreta.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_ritual_chamber",
+        "thread_id": "thread_wade",
+        "statement": "Nel basement del manor c'è una camera rituale dove Wade ha eseguito il rito. Contiene gli ultimi elementi necessari per capire e spezzare la maledizione.",
+        "required_clues": [
+          "clue_ritual_chamber"
+        ],
+        "required_evidence_kinds": [
+          "physical"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Luogo cruciale per il confronto finale.",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_servant_testimony",
+        "label": "Testimonianza di Tomás, servo sopravvissuto",
+        "type": "testimony",
+        "thread_id": "thread_survivors",
+        "source_location": "slave_quarters",
+        "reveals": "Tomás, nascosto nei quartieri degli schiavi, ha visto tutto. Descrive Wade che eseguiva il rito, le ombre che prendevano vita, Thrusher che fuggiva urlando nella torre.",
+        "payoff": "rev_thrusher_alive",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_thrusher_alive",
+          "rev_wade_did_it"
+        ],
+        "immediate_information": "Wade è il colpevole. Thrusher è nella torre.",
+        "hidden_implication": "Tomás sa dove si trova l'idolo.",
+        "unlocks": [
+          "clue_locked_tower",
+          "clue_marie_knowledge"
+        ],
+        "possible_actions": [
+          "Cercare tra i quartieri degli schiavi",
+          "Guadagnarsi la fiducia di Tomás"
+        ],
+        "wrong_interpretations": [
+          "Una rivolta degli schiavi"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_wade_journal",
+        "label": "Diario di Cornelius Wade",
+        "type": "document",
+        "thread_id": "thread_wade",
+        "source_location": "overseer_house",
+        "reveals": "Il diario dettagliato di Wade. Documenta il suo studio del vodun, il rituale mal eseguito, e la sua crescente paura di ciò che ha evocato. L'ultima voce: 'Non posso fermarla. L'ombra vuole il cuore dell'idolo.'",
+        "payoff": "rev_wade_did_it",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_wade_did_it"
+        ],
+        "immediate_information": "Wade ha causato tutto con un rito vodun. L'entità è legata all'idolo.",
+        "hidden_implication": "Wade potrebbe essere ancora vivo da qualche parte.",
+        "unlocks": [
+          "clue_ritual_chamber",
+          "clue_oshun_idol"
+        ],
+        "possible_actions": [
+          "Entrare nella casa del supervisore",
+          "Cercare tra i documenti"
+        ],
+        "wrong_interpretations": [
+          "Wade è la vittima di una cospirazione"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_locked_tower",
+        "label": "La Torre Est Sbarrata dall'Interno",
+        "type": "physical_evidence",
+        "thread_id": "thread_survivors",
+        "source_location": "manor_house",
+        "reveals": "La torre est del manor è chiusa a chiave dall'interno. Si sentono rumori — qualcuno o qualcosa è vivo. Attraverso il buco della serratura si vede una figura rannicchiata.",
+        "payoff": "rev_thrusher_alive",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_thrusher_alive"
+        ],
+        "immediate_information": "Qualcuno è vivo nella torre.",
+        "hidden_implication": "È Thrusher, che si è rinchiuso per sopravvivere.",
+        "unlocks": [
+          "clue_thrusher_account"
+        ],
+        "possible_actions": [
+          "Forzare la porta",
+          "Comunicare attraverso la serratura",
+          "Trovare la chiave"
+        ],
+        "wrong_interpretations": [
+          "È Wade che si nasconde"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_thrusher_account",
+        "label": "Il racconto delirante di Aldous Thrusher",
+        "type": "testimony",
+        "thread_id": "thread_survivors",
+        "source_location": "manor_house",
+        "reveals": "Thrusher è psicotico ma lucido a tratti. Descrive l'idolo che ha portato dall'Africa 10 anni fa, il furto da un sito sacro, e come Wade lo abbia usato nel rito.",
+        "payoff": "rev_idol_solution",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [
+          "rev_idol_solution"
+        ],
+        "immediate_information": "L'idolo è stato rubato. È al centro di tutto.",
+        "hidden_implication": "Thrusher stesso è parzialmente responsabile portando l'idolo via.",
+        "unlocks": [],
+        "possible_actions": [
+          "Aprire la torre",
+          "Calmare Thrusher per farlo parlare"
+        ],
+        "wrong_interpretations": [
+          "Thrusher è completamente pazzo e inutile"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_ritual_chamber",
+        "label": "Camera Rituale nel Basement",
+        "type": "physical_evidence",
+        "thread_id": "thread_wade",
+        "source_location": "manor_basement",
+        "reveals": "Una stanza nascosta dietro una scaffalatura. Cerchi di sangue, candele nere, simboli vodun alle pareti. Al centro, una nicchia vuota dove stava qualcosa di piccolo — l'idolo.",
+        "payoff": "rev_ritual_chamber",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_ritual_chamber",
+          "rev_wade_did_it"
+        ],
+        "immediate_information": "Il rito è stato eseguito qui. La nicchia vuota indica dove era l'idolo.",
+        "hidden_implication": "L'entità è ancora legata a questo luogo.",
+        "unlocks": [
+          "clue_oshun_idol"
+        ],
+        "possible_actions": [
+          "Trovare l'accesso segreto al basement",
+          "Esaminare i simboli"
+        ],
+        "wrong_interpretations": [
+          "La camera appartiene a Thrusher"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_oshun_idol",
+        "label": "Idolo di Oshun",
+        "type": "artifact",
+        "thread_id": "thread_solution",
+        "source_location": "overseer_house",
+        "reveals": "Una statuetta in ottone dorato di circa 20 cm. Raffigura una figura femminile con pesci. Emana un calore innaturale. Un'iscrizione sul basamento indica il sito sacro di origine.",
+        "payoff": "rev_idol_solution",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_idol_solution"
+        ],
+        "immediate_information": "L'idolo esiste e il sito di origine è indicato sul basamento.",
+        "hidden_implication": "Restituirlo spezza la maledizione.",
+        "unlocks": [],
+        "possible_actions": [
+          "Cercare nella casa di Wade",
+          "Seguire le indicazioni nel diario"
+        ],
+        "wrong_interpretations": [
+          "L'idolo è una reliquia preziosa da portare via"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_marie_knowledge",
+        "label": "Conoscenza di Marie, guaritrice vodun",
+        "type": "testimony",
+        "thread_id": "thread_solution",
+        "source_location": "village_edge",
+        "reveals": "Marie, una guaritrice vodun che viveva ai margini della piantagione, ha sopravvissuto nascondendosi nella foresta. Spiega il significato dell'idolo di Oshun e che solo la restituzione al sito sacro può fermare la maledizione.",
+        "payoff": "rev_idol_solution",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_idol_solution"
+        ],
+        "immediate_information": "Il rituale di restituzione e il significato dell'idolo.",
+        "hidden_implication": "Marie può accompagnare i PG al sito sacro per eseguire il rito correttamente.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esplorare la foresta ai margini",
+          "Tomás può indicarla"
+        ],
+        "wrong_interpretations": [
+          "Marie è responsabile della maledizione"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_red_herring_fever",
+        "label": "Diario medico: epidemia di febbre",
+        "type": "document",
+        "thread_id": "thread_wade",
+        "source_location": "manor_house",
+        "reveals": "Un registro medico parziale suggerisce un'epidemia di febbre come causa delle morti. Ma le date non tornano e i sintomi descritti non corrispondono ad alcuna malattia nota.",
+        "payoff": "Rivela che qualcuno ha tentato di nascondere la vera causa delle morti attraverso una falsa narrativa medica. Le incongruenze nelle date e nei sintomi indicano che i decessi non sono avvenuti per cause naturali, e che qualcuno con conoscenze mediche ha deliberatamente falsificato i registri.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Apparente evidenza di epidemia.",
+        "hidden_implication": "Red herring — i dati sono falsificati da Wade per coprire le sue azioni.",
+        "unlocks": [],
+        "possible_actions": [
+          "Trovare il registro medico",
+          "Analizzarlo"
+        ],
+        "wrong_interpretations": [
+          "La causa è una malattia naturale",
+          "Un'epidemia tropicale sconosciuta ha decimato la piantagione"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_tomas",
+        "name": "Tomás",
+        "role": "witness",
+        "location_id": "slave_quarters",
+        "status": "unintroduced",
+        "goal": "Sopravvivere e vendicare i suoi compagni morti",
+        "secret": "Sa dove è nascosta Marie",
+        "agenda_pressure": 4,
+        "fear": "Che i PG siano lì per ripristinare la schiavitù",
+        "current_plan": "Nascondersi finché non capisce le intenzioni dei nuovi arrivati",
+        "fallback_plan": "Fuggire nella foresta con Marie",
+        "resources": [
+          "Conoscenza della piantagione",
+          "Accesso ai quartieri"
+        ],
+        "knows": [
+          "clue_servant_testimony",
+          "clue_marie_knowledge"
+        ],
+        "wants": [
+          "Libertà",
+          "Giustizia per Wade"
+        ],
+        "avoids": [
+          "Chiunque sembri un emissario del governatore"
+        ],
+        "pressure_response": {
+          "pressure_low": "Tomás osserva i PG da lontano, nascosto tra le baracche. Non risponde alle chiamate ma segue i loro movimenti per capire se sono una minaccia.",
+          "pressure_mid": "Se un PG mostra di non essere alleato del governatore — per esempio non portando uniformi o non parlando da padrone — Tomás emerge parzialmente e fa una domanda diretta: 'Siete qui per riportarci in catene?'",
+          "pressure_high": "Se i PG hanno già aiutato qualcuno o mostrato compassione, Tomás abbassa la guardia e parla apertamente. Racconta tutto — il rito, Wade, Thrusher nella torre — e offre di portarli da Marie.",
+          "pressure_max": "Se i PG sembrano lavorare per il governatore o minacciano la sua libertà, Tomás fugge nella foresta e Marie diventa inaccessibile per il resto dell'avventura."
+        },
+        "reaction_table": {
+          "friendly_approach": "Tomás nota subito se i PG lo trattano come un essere umano. Una domanda sul suo nome, un gesto di rispetto — basta poco. +2 alla fiducia, inizia a parlare.",
+          "intimidation": "Tomás è già terrorizzato. L'intimidazione lo congela per un momento poi lo fa fuggire. Una volta sparito, non torna facilmente. -3 alla fiducia.",
+          "bribery": "I soldi non significano nulla per Tomás in questo contesto — la sua libertà vale più dell'oro. Offerte materiali lo insospettiscono. Neutro o -1.",
+          "caught_lying": "Se i PG mentono sul loro scopo e Tomás lo scopre, la fiducia crolla. Si chiude, smette di parlare e valuta se denunciarli a Marie come possibile minaccia.",
+          "authority_figure": "Qualsiasi riferimento al governatore o alle autorità coloniali chiude Tomás immediatamente. Sa che le autorità significano catene."
+        },
+        "relationships": [
+          {
+            "target": "actor_marie",
+            "type": "alleanza",
+            "note": "Si fidano reciprocamente"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_thrusher",
+        "name": "Aldous Thrusher",
+        "role": "victim",
+        "location_id": "manor_house",
+        "status": "unintroduced",
+        "goal": "Sopravvivere e capire cosa gli è successo",
+        "secret": "È lui ad aver portato l'idolo rubandolo da un sito sacro",
+        "agenda_pressure": 6,
+        "fear": "Le ombre che Wade ha evocato",
+        "current_plan": "Non aprire la porta della torre per nessun motivo",
+        "fallback_plan": "Morire piuttosto che uscire",
+        "resources": [
+          "Informazioni sul passato dell'idolo",
+          "Chiavi del manor"
+        ],
+        "knows": [
+          "clue_thrusher_account",
+          "clue_oshun_idol"
+        ],
+        "wants": [
+          "Salvezza",
+          "Che i PG fermino la cosa"
+        ],
+        "avoids": [
+          "Uscire dalla torre"
+        ],
+        "pressure_response": {
+          "pressure_low": "Thrusher urla attraverso la porta sbarrata — frammenti incoerenti su 'le ombre', 'il colpevole', 'non aprire mai'. Non risponde a domande dirette ma le sue urla contengono informazioni.",
+          "pressure_mid": "Se i PG dimostrano di sapere qualcosa sul rituale o su Wade, Thrusher si calma parzialmente. Inizia a fare domande attraverso la porta: 'Avete visto cosa ha fatto? Sapete come fermarlo?'",
+          "pressure_high": "Se un PG gli offre una promessa credibile di protezione e mostra conoscenza dell'accaduto, Thrusher apre la porta di un dito. Parla, a scatti, dell'idolo — il furto dal sito sacro, il patto con Wade, il suo senso di colpa.",
+          "pressure_max": "Se i PG usano forza o minacciano di sfondare la porta, Thrusher si barrica ancora di più e smette di comunicare. La torre diventa inaccessibile senza violenza aperta."
+        },
+        "reaction_table": {
+          "friendly_approach": "La gentilezza è l'unica valuta che funziona con Thrusher. Un tono calmo e comprensivo riduce il suo panico. +2 alla comunicazione; risponde a domande specifiche sull'idolo.",
+          "intimidation": "Thrusher è già al limite della sanità. Le minacce lo spingono oltre — urla incoerenti, rifiuto totale di cooperare. -3 alla comunicazione.",
+          "bribery": "Thrusher non si cura dei soldi in questa situazione. Ma se gli si offre protezione concreta ('ti portiamo via dall'isola') reagisce positivamente. +1 alla fiducia.",
+          "caught_lying": "Se i PG mentono su chi sono o sul loro piano e Thrusher lo capisce attraverso le domande che fa, si chiude. Ha già vissuto il tradimento di Wade — non accetta altri inganni.",
+          "authority_figure": "Il nome del governatore o della Compagnia delle Indie lo spaventa tanto quanto Wade. Teme conseguenze legali per il furto dell'idolo."
+        },
+        "relationships": [
+          {
+            "target": "actor_wade",
+            "type": "tradimento",
+            "note": "Wade lo ha usato"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_marie",
+        "name": "Marie Celestine",
+        "role": "ally",
+        "location_id": "village_edge",
+        "status": "unintroduced",
+        "goal": "Spezzare la maledizione e liberare l'isola",
+        "secret": "Conosce il sito sacro esatto dove restituire l'idolo",
+        "agenda_pressure": 8,
+        "fear": "Che i PG distruggano l'idolo invece di restituirlo",
+        "current_plan": "Aspettare qualcuno abbastanza disperato da ascoltarla",
+        "fallback_plan": "Tentare il rituale da sola, anche se è pericoloso",
+        "resources": [
+          "Conoscenza vodun profonda",
+          "Accesso al sito sacro"
+        ],
+        "knows": [
+          "clue_marie_knowledge",
+          "truth_malediction"
+        ],
+        "wants": [
+          "Restituzione dell'idolo al sito sacro"
+        ],
+        "avoids": [
+          "Il manor e la camera rituale"
+        ],
+        "pressure_response": {
+          "pressure_low": "Marie osserva i PG dall'ombra della foresta. Non si avvicina finché Tomás non li ha 'approvati'. Se i PG arrivano senza Tomás, Marie si nasconde e non risponde.",
+          "pressure_mid": "Con l'introduzione di Tomás, Marie emerge e valuta i PG con occhi calmi e diretti. Non fa piccole chiacchiere — va subito al punto: 'Sapete cos'è l'idolo di Oshun? Sapete cosa avete in mano?'",
+          "pressure_high": "Se i PG dimostrano rispetto per il vodun e l'intenzione di restituire l'idolo, Marie diventa un'alleata totale. Spiega il rito, conosce il sito sacro, offre di guidarli. Ma chiede garanzie: 'Se lo portate via invece di restituirlo, la maledizione vi seguirà.'",
+          "pressure_max": "Se i PG parlano di distruggere l'idolo o di portarlo a Londra come 'reperto', Marie si ritira nella foresta e nega la propria esistenza a chiunque. Il rituale diventa impossibile senza di lei."
+        },
+        "reaction_table": {
+          "friendly_approach": "Marie risponde alla curiosità rispettosa con apertura. Se un PG fa domande sul vodun senza scherno, lei valuta se possono capire. +2 alla fiducia; risponde a domande sul rituale.",
+          "intimidation": "Marie ha sopravvissuto a cose peggiori. L'intimidazione non la spaventa — la convince che i PG sono pericolosi quanto Wade. Si chiude e comincia a pianificare come allontanarli.",
+          "bribery": "Le offerte materiali la offendono. Sa che la sua conoscenza vale più di qualsiasi somma che i PG potrebbero offrire. Neutro o -1 alla fiducia.",
+          "caught_lying": "Marie è acuta. Se i PG mentono sulle loro intenzioni con l'idolo, lei lo intuisce prima che lo ammettano. Può fingere di non accorgersene mentre pianifica di sparire.",
+          "authority_figure": "Le autorità coloniali non hanno potere su Marie nella foresta. Ma se i PG usano la loro posizione come leva, lei capisce che non possono aiutarla veramente."
+        },
+        "relationships": [
+          {
+            "target": "actor_tomas",
+            "type": "alleanza",
+            "note": "Si fidano reciprocamente"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_wade",
+        "name": "Cornelius Wade",
+        "role": "antagonist",
+        "location_id": "manor_basement",
+        "status": "unintroduced",
+        "goal": "Controllare ciò che ha evocato prima che lo consumi",
+        "secret": "È ancora vivo, nascosto nella camera rituale, parzialmente posseduto",
+        "agenda_pressure": 9,
+        "fear": "L'entità che ha evocato",
+        "current_plan": "Trovare un modo per controllare l'entità",
+        "fallback_plan": "Fuggire sull'isola",
+        "resources": [
+          "Camera rituale",
+          "Conoscenza parziale del rituale"
+        ],
+        "knows": [
+          "clue_ritual_chamber",
+          "clue_oshun_idol"
+        ],
+        "wants": [
+          "Potere",
+          "Sopravvivenza"
+        ],
+        "avoids": [
+          "Ammettere il fallimento"
+        ],
+        "pressure_response": {
+          "pressure_low": "Wade è nel basement, circondato dai suoi simboli, che mormora invocazioni per cercare di riprendere controllo dell'entità. Non sa ancora dei PG — si muove nel manor solo di notte.",
+          "pressure_mid": "Quando Wade sente i PG nel manor, inizia a testarli. Movimenti nell'ombra, rumori fuori posto. Osserva per capire se cercano l'idolo. Se sì, si prepara allo scontro.",
+          "pressure_high": "Se i PG trovano il diario o entrano nel basement, Wade agisce — prima con minacce verbali ('Non capite cosa avete trovato'), poi con violenza se non si ritirano. La sua possessione parziale lo rende erratico e pericoloso.",
+          "pressure_max": "Completamente posseduto, Wade non parla più. Attacca chiunque si avvicini all'idolo. L'unica cosa che lo rallenta sono i simboli vodun di protezione che Marie conosce."
+        },
+        "reaction_table": {
+          "friendly_approach": "Non c'è approccio amichevole che funzioni con Wade nella fase avanzata. Nelle fasi iniziali, Wade può fingere di cooperare per scoprire dove si trova l'idolo.",
+          "intimidation": "Wade è parzialmente posseduto — il dolore e la paura fisica non lo fermano come farebbero con un essere umano normale. L'intimidazione funziona solo nelle prime fasi, quando è ancora più sé stesso.",
+          "bribery": "Wade non vuole denaro — vuole potere e sopravvivenza. Se qualcuno offre una via per controllare l'entità, Wade potrebbe ascoltare brevemente prima di capire che è impossibile.",
+          "caught_lying": "Wade, nella sua paranoia da possessione, assume sempre che tutti mentano. Non cambia il suo comportamento se scopre una bugia — era già ostile.",
+          "authority_figure": "Wade ha violato abbastanza leggi da non aver paura delle autorità. Se qualcuno minaccia di denunciarlo, ride — in questo manor, non contano nulla."
+        },
+        "relationships": [
+          {
+            "target": "actor_thrusher",
+            "type": "utilizzo",
+            "note": "Ha usato Thrusher e la sua proprietà"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_wade_journal",
+            "replacement_clue": {
+              "id": "clue_burnt_journal_pages",
+              "label": "Pagine bruciate del diario di Wade",
+              "reveals": "Frammenti leggibili menzionano 'il patto con Oshun' e 'Thrusher ha scoperto tutto'. Cenere fresca, bruciato di recente."
+            },
+            "narration": "Un odore di carta bruciata proviene dalla biblioteca. Qualcuno ha distrutto il diario di Wade, ma non completamente."
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_tomas_servant",
+            "new_attitude": "hostile",
+            "narration": "Tomás viene trovato tremante e urlante. 'Wade mi ha minacciato! Dice che parlerò solo se voglio finire come gli altri! Andatevene!'"
+          },
+          {
+            "at_pressure": 9,
+            "action": "create_clue",
+            "clue": {
+              "id": "clue_wade_trap",
+              "label": "Trappola preparata da Wade",
+              "reveals": "La scala per il basement è stata sabotata. Wade sta cercando di impedire l'accesso alla camera rituale con metodi letali.",
+              "type": "physical"
+            },
+            "narration": "Un cigolìo sinistro: qualcuno ha segato quasi completamente i gradini che portano al basement. Una trappola mortale appena preparata."
+          }
+        ]
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_survivors",
+        "name": "Sopravvissuti della Piantagione",
+        "agenda": "Sopravvivere e liberarsi",
+        "pressure": 5,
+        "status": "active",
+        "source_status": "inferred",
+        "confidence": 0.8
+      }
+    ],
+    "locations": [
+      {
+        "id": "manor_house",
+        "name": "Thrusher Manor",
+        "description": "Una grande casa coloniale in stile georgiano. Finestre rotte, porte aperte sbattono nel vento. Tracce di sangue nel corridoio principale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_locked_tower",
+          "clue_thrusher_account",
+          "clue_red_herring_fever"
+        ],
+        "contains_actors": [
+          "actor_thrusher"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Manor coloniale georgiano, finestre rotte, atmosfera di abbandono",
+        "gameplay_function": "Hub principale, Thrusher rinchiuso nella torre",
+        "concrete_features": [
+          "Salone d'ingresso con lampadario spezzato",
+          "Torre est sbarrata",
+          "Scala verso il piano superiore"
+        ],
+        "hazards": [
+          "Pavimenti instabili",
+          "L'entità può manifestarsi nelle ombre"
+        ],
+        "exits": [
+          "manor_basement",
+          "manor_grounds",
+          "east_tower"
+        ],
+        "locked_paths": [
+          "east_tower"
+        ],
+        "clue_slots": [
+          "clue_locked_tower",
+          "clue_red_herring_fever"
+        ],
+        "tactical_features": [
+          "La torre è difendibile",
+          "Il salone è troppo aperto"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "manor_basement",
+        "name": "Basement del Manor — Camera Rituale",
+        "description": "Scantinato buio con cantina del vino. Dietro una scaffalatura mobile, la camera rituale: cerchi di sangue, candele nere, odore di zolfo.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_ritual_chamber"
+        ],
+        "contains_actors": [
+          "actor_wade"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Trovare l'accesso segreto (difficoltà media)"
+        ],
+        "type": "location",
+        "access_state": "hidden",
+        "visual_identity": "Cantina buia, scaffalatura nasconde porta, camera con simboli vodun",
+        "gameplay_function": "Luogo del crimine, confronto con Wade",
+        "concrete_features": [
+          "Scaffalatura mobile come porta segreta",
+          "Cerchi rituali",
+          "Nicchia vuota dell'idolo"
+        ],
+        "hazards": [
+          "Wade è qui, parzialmente posseduto",
+          "L'entità è più forte vicino alla camera"
+        ],
+        "exits": [
+          "manor_house"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_ritual_chamber"
+        ],
+        "tactical_features": [
+          "Spazio ristretto, difficile combattere",
+          "I simboli sulle pareti possono rallentare l'entità"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "slave_quarters",
+        "name": "Quartieri degli Schiavi",
+        "description": "Una fila di baracche in legno a est del manor. Molte sono vuote e saccheggiate. In una, qualcuno si muove.",
+        "status": "known",
+        "contains_clues": [
+          "clue_servant_testimony"
+        ],
+        "contains_actors": [
+          "actor_tomas"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Baracche in legno, porte aperte, pochi oggetti personali abbandonati",
+        "gameplay_function": "Testimone principale, punto di partenza per trovare Marie",
+        "concrete_features": [
+          "Baracche con materassi di paglia",
+          "Piccolo fuoco nascosto",
+          "Tomás rannicchiato in un angolo"
+        ],
+        "hazards": [
+          "Tomás inizialmente si nasconde e potrebbe fuggire"
+        ],
+        "exits": [
+          "manor_grounds",
+          "village_edge"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_servant_testimony"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "overseer_house",
+        "name": "Casa del Supervisore",
+        "description": "La piccola casa di Wade, separata dal manor. Tende chiuse, porta sbarrata. All'interno, segni di ricerca frenetica.",
+        "status": "known",
+        "contains_clues": [
+          "clue_wade_journal",
+          "clue_oshun_idol"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Forzare la porta O trovare la chiave"
+        ],
+        "type": "location",
+        "access_state": "locked",
+        "visual_identity": "Casetta in legno, tende chiuse, disordine all'interno",
+        "gameplay_function": "Diario del colpevole, idolo nascosto",
+        "concrete_features": [
+          "Scrivania con libri vodun",
+          "Diario nascosto sotto il pavimento",
+          "Cassetto con l'idolo"
+        ],
+        "hazards": [
+          "Wade potrebbe tornare qui"
+        ],
+        "exits": [
+          "manor_grounds"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_wade_journal",
+          "clue_oshun_idol"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "village_edge",
+        "name": "Margine della Foresta",
+        "description": "Dove la foresta inizia oltre i campi di canna. Marie si nasconde qui tra le radici di un vecchio albero sacro.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_marie_knowledge"
+        ],
+        "contains_actors": [
+          "actor_marie"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Tomás deve indicare dove Marie si nasconde"
+        ],
+        "type": "location",
+        "access_state": "hidden",
+        "visual_identity": "Foresta tropicale densa, radici enormi, albero sacro decorato",
+        "gameplay_function": "Alleata cruciale, soluzione della maledizione",
+        "concrete_features": [
+          "Grande albero con offerte ai piedi",
+          "Marie nascosta tra le radici",
+          "Erbe medicinali"
+        ],
+        "hazards": [],
+        "exits": [
+          "slave_quarters",
+          "sacred_site"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_marie_knowledge"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      },
+      {
+        "id": "sacred_site",
+        "name": "Sito Sacro di Oshun",
+        "description": "Una radura nascosta nella foresta con una fonte d'acqua. Le pietre intorno alla fonte hanno segni dove l'idolo stava. Un'atmosfera di pace innaturale.",
+        "status": "hidden",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Marie deve guidare al sito"
+        ],
+        "type": "location",
+        "access_state": "hidden",
+        "visual_identity": "Radura con fonte, pietre con incisioni, fiori dorati intorno",
+        "gameplay_function": "Luogo del finale — restituzione dell'idolo",
+        "concrete_features": [
+          "Fonte d'acqua sacra",
+          "Pietre con nicchia per l'idolo",
+          "Atmosfera di quiete"
+        ],
+        "hazards": [
+          "L'entità tenterà di bloccare il viaggio qui"
+        ],
+        "exits": [
+          "village_edge"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "confidence": 0.8
+      },
+      {
+        "id": "manor_grounds",
+        "name": "Terreni della Piantagione",
+        "description": "Campi di canna distrutti. Tracce di lotta nel terreno. Un'oppressiva sensazione di essere osservati.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Campi bruciati, canna da zucchero spezzata, cielo pesante",
+        "gameplay_function": "Connettore tra aree, atmosfera horror",
+        "concrete_features": [
+          "Campi distrutti",
+          "Tracce di fuga nel terreno",
+          "Ossa di animali"
+        ],
+        "hazards": [
+          "L'entità si manifesta qui di notte"
+        ],
+        "exits": [
+          "manor_house",
+          "slave_quarters",
+          "overseer_house"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "Campi alti offrono copertura ma anche nascondigli per l'entità"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_possession",
+        "label": "Possessione Totale di Wade",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Wade diventa completamente un vettore dell'entità. L'entità usa il suo corpo per cercare l'idolo e distruggerlo. Il sigillo non può più essere rotto.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Wade inizia a muoversi più aggressivamente per recuperare l'idolo"
+          },
+          {
+            "tick": 4,
+            "event": "L'entità si manifesta fisicamente di notte nel manor"
+          },
+          {
+            "tick": 6,
+            "event": "Wade attacca i sopravvissuti — Tomás o Marie potrebbero morire"
+          },
+          {
+            "tick": 8,
+            "event": "L'entità inizia a distruggere le vie di fuga"
+          },
+          {
+            "tick": 10,
+            "event": "Wade/entità trova e distrugge l'idolo. La maledizione diventa permanente."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_oshun_idol",
+          "clue_marie_knowledge"
+        ],
+        "resolution_condition": "Portare l'idolo al sito sacro con Marie prima che Wade sia completamente posseduto",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_servant_testimony",
+        "discovery_hint": "Tomás menziona che Wade 'stava diventando qualcos'altro' negli ultimi giorni",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "inferred",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.85
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_sanita_mentale",
+        "label": "Sanità Mentale dei PG",
+        "description": "La capacità psicologica di affrontare il soprannaturale — ogni manifestazione dell'entità, ogni orrore nel manor erode la lucidità",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni manifestazione fisica dell'entità, scoperta della camera rituale, vedere Wade parzialmente posseduto, sentire le urla di Thrusher di notte",
+        "depletion_consequence": "A 6: un PG sviluppa un tic o una fobia specifica (buio, ombre). A 3: i PG iniziano a sentire sussurri non reali. A 0: un PG cade in stato di shock e deve essere trascinato via",
+        "recovery_method": "La presenza di Marie e i suoi rituali di protezione recuperano 1-2 punti. Il contatto con oggetti sacri vodun stabilizza la mente."
+      },
+      {
+        "id": "res_luce_disponibile",
+        "label": "Riserva di Luce",
+        "description": "Candele, torce, lanterne a olio — la luce è l'unica protezione pratica contro le manifestazioni dell'entità nei corridoi bui del manor",
+        "current_value": 8,
+        "max_value": 8,
+        "min_value": 0,
+        "depletion_trigger": "Ogni ora nel manor dopo il tramonto, ogni manifestazione dell'entità che spegne fonti di luce, ogni fuga precipitosa che lascia una lanterna indietro",
+        "depletion_consequence": "A 4: i PG devono muoversi più lentamente nel buio. A 2: l'entità inizia a manifestarsi anche di giorno nelle zone più buie. A 0: il manor è completamente al buio — l'entità domina",
+        "recovery_method": "Nella casa del supervisore ci sono scorte di candele. Marie può creare torce vodun che non si spengono per influenza soprannaturale."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_return_idol",
+        "label": "Restituzione dell'Idolo di Oshun",
+        "required_threads": [
+          "thread_solution"
+        ],
+        "required_clues": [
+          "clue_oshun_idol",
+          "clue_marie_knowledge"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_idol_solution"
+        ],
+        "method": "Portare l'idolo al sito sacro con la guida di Marie ed eseguire il rito di restituzione",
+        "concrete_choice": "I PG devono scortare Marie al sito sacro mentre Wade/entità tenta di bloccarli"
+      },
+      {
+        "id": "finale_destroy_wade",
+        "label": "Eliminazione di Wade",
+        "required_threads": [
+          "thread_wade"
+        ],
+        "required_clues": [
+          "clue_ritual_chamber",
+          "clue_wade_journal"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_ritual_chamber"
+        ],
+        "method": "Distruggere Wade nella camera rituale — ma questo non spezza la maledizione, solo la ritarda",
+        "concrete_choice": "Soluzione incompleta — la maledizione rimane senza la restituzione dell'idolo"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "horror",
+      "tone": "gothic coloniale, vodun, soprannaturale",
+      "allowed_escalations": [
+        "possession",
+        "supernatural_manifestation",
+        "paranoia"
+      ],
+      "forbidden_escalations": [
+        "comedy"
+      ],
+      "terminal_events_require": [
+        "rev_wade_did_it"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "L'entità si manifesta principalmente come ombre animate e rumori nelle pareti",
+      "Tomás è la chiave per trovare Marie — trattarlo con rispetto è fondamentale",
+      "Wade nel finale è un nemico terrificante: fisicamente capace ma psicologicamente spezzato"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_wade",
+        "label": "Il Rituale di Wade",
+        "status": "active"
+      },
+      {
+        "id": "thread_survivors",
+        "label": "I Sopravvissuti",
+        "status": "active"
+      },
+      {
+        "id": "thread_solution",
+        "label": "L'Idolo e il Sito Sacro",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "pdf_thrusher_manor",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_arrive"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_possession": {
+        "value": 0,
+        "active": true,
+        "discovered": false,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_servant_testimony": [
+        "rev_thrusher_alive",
+        "rev_wade_did_it"
+      ],
+      "clue_wade_journal": [
+        "rev_wade_did_it"
+      ],
+      "clue_locked_tower": [
+        "rev_thrusher_alive"
+      ],
+      "clue_thrusher_account": [
+        "rev_idol_solution"
+      ],
+      "clue_ritual_chamber": [
+        "rev_ritual_chamber",
+        "rev_wade_did_it"
+      ],
+      "clue_oshun_idol": [
+        "rev_idol_solution"
+      ],
+      "clue_marie_knowledge": [
+        "rev_idol_solution"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_wade": [
+        "rev_wade_did_it",
+        "rev_ritual_chamber"
+      ],
+      "thread_survivors": [
+        "rev_thrusher_alive"
+      ],
+      "thread_solution": [
+        "rev_idol_solution"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_wade_did_it": "thread_wade",
+      "rev_ritual_chamber": "thread_wade",
+      "rev_thrusher_alive": "thread_survivors",
+      "rev_idol_solution": "thread_solution"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 90,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}

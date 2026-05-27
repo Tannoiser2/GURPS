@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_opera_delle_maschere",
+    "title": "L'Opera delle Maschere",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "investigation",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "noir teatrale e occulto",
+    "premise": "Durante la prima di un'opera veneziana, il tenore muore in scena mentre tutte le maschere del teatro sembrano sorridere nello stesso istante.",
+    "initial_hook": "I PG sono invitati, guardie private o consulenti chiamati prima che la polizia chiuda il teatro.",
+    "player_facing_objective": "Scoprire chi ha ucciso il tenore e impedire che il secondo atto completi un rituale pubblico.",
+    "hidden_truth": "La morte non è un delitto passionale: il libretto contiene una formula mnemonica e ogni applauso alimenta una possessione collettiva.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "La morte non è un delitto passionale: il libretto contiene una formula mnemonica e ogni applauso alimenta una possessione collettiva.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire chi ha ucciso il tenore e impedire che il secondo atto completi un rituale pubblico.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "La morte non è un delitto passionale: il libretto contiene una formula mnemonica e ogni applauso alimenta una possessione collettiva.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Interrompere l'aria finale, smascherare il suggeritore occulto e sostituire la maschera originale con una copia inerte.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Maschera incrinata del tenore",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "La maschera si è stretta da sola durante l'acuto.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La maschera si è stretta da sola durante l'acuto.",
+        "hidden_implication": "Il tenore è stato usato come prima cassa di risonanza.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Delitto passionale di Lia"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza della sarta",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Qualcuno ha scambiato i costumi dopo la prova generale.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Qualcuno ha scambiato i costumi dopo la prova generale.",
+        "hidden_implication": "La sarta protegge Lia ma non è colpevole.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Ricatto della contessa"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Libretto con versi cambiati",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "I versi nuovi sono istruzioni rituali mascherate da poesia.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "I versi nuovi sono istruzioni rituali mascherate da poesia.",
+        "hidden_implication": "Il libretto è un diagramma acustico.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Codice politico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Eco impossibile nella buca",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "La voce del suggeritore arriva da un punto non previsto.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La voce del suggeritore arriva da un punto non previsto.",
+        "hidden_implication": "La soffitta amplifica la voce verso tutta la sala.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Trucco scenico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Maschera originale di Arlecchino",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "La maschera è il vero supporto della presenza.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La maschera è il vero supporto della presenza.",
+        "hidden_implication": "Distruggere la maschera sbagliata non ferma nulla.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Reliquia decorativa"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Applausi fuori tempo",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Il pubblico risponde a comandi sonori senza accorgersene.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il pubblico risponde a comandi sonori senza accorgersene.",
+        "hidden_implication": "Il clock avanza a ogni applauso guidato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Entusiasmo del pubblico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Contessa Elvira Nani",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Mecenate del teatro, gelida e influente.",
+        "goal": "Salvare il nome della famiglia.",
+        "motivation": "Salvare il nome della famiglia.",
+        "secret": "Ha finanziato il restauro delle maschere originali.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Blocca la polizia finché può controllare lo scandalo.",
+        "fallback_plan": "Consegna i registri contabili se minacciata di rovina pubblica.",
+        "pressure_response": {
+          "low": "Contessa Elvira Nani osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Contessa Elvira Nani accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Contessa Elvira Nani sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Contessa Elvira Nani tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Lia Morosini",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Soprano brillante e terrorizzata.",
+        "goal": "Sopravvivere alla replica dell'aria finale.",
+        "motivation": "Sopravvivere alla replica dell'aria finale.",
+        "secret": "Ha sentito il morto cantare dopo il decesso.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Finge isteria per non tornare in scena.",
+        "fallback_plan": "Aiuta i PG se le promettono protezione.",
+        "pressure_response": {
+          "low": "Lia Morosini osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Lia Morosini accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Lia Morosini sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Lia Morosini tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Maestro Belloro",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Direttore d'orchestra ossessionato dalla perfezione.",
+        "goal": "Finire l'opera a ogni costo.",
+        "motivation": "Finire l'opera a ogni costo.",
+        "secret": "Ha corretto la partitura su istruzione anonima.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Spinge per riaprire il sipario.",
+        "fallback_plan": "Accusa Lia e distrugge una pagina compromettente.",
+        "pressure_response": {
+          "low": "Maestro Belloro osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Maestro Belloro accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Maestro Belloro sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Maestro Belloro tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Il Suggeritore Senza Volto",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Voce invisibile dietro la scena.",
+        "goal": "Completare la possessione del pubblico.",
+        "motivation": "Completare la possessione del pubblico.",
+        "secret": "È una coscienza conservata nella maschera del primo Arlecchino.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Guida cantanti e pubblico verso l'ultima nota.",
+        "fallback_plan": "Si trasferisce in un'altra maschera se la cabina viene scoperta.",
+        "pressure_response": {
+          "low": "Il Suggeritore Senza Volto osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Il Suggeritore Senza Volto accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Il Suggeritore Senza Volto sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Il Suggeritore Senza Volto tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Foyer del Teatro Fenice Nera",
+        "description": "Specchi, velluti rossi e maschere appese sopra gli ospiti.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Specchi, velluti rossi e maschere appese sopra gli ospiti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "panico elegante"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Palco e Buca d'Orchestra",
+        "description": "Il corpo del tenore resta davanti a una scenografia impossibile.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il corpo del tenore resta davanti a una scenografia impossibile.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "testimoni vanitosi"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Camerini degli Artisti",
+        "description": "Profumi, lettere strappate e costumi scambiati.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Profumi, lettere strappate e costumi scambiati.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "prove contaminate"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Archivio del Librettista",
+        "description": "Bozze antiche annotate con simboli vocali.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Bozze antiche annotate con simboli vocali.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "scale buie"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Soffitta del Suggeritore",
+        "description": "Una cabina nascosta domina acusticamente tutta la sala.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Una cabina nascosta domina acusticamente tutta la sala.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "possessione sonora"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Secondo Atto del Rituale",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il pubblico completa inconsapevolmente il coro e il teatro diventa un unico medium posseduto.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Il pubblico completa inconsapevolmente il coro e il teatro diventa un unico medium posseduto."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Provare la natura rituale del libretto e bloccare l'aria finale prima dell'ultimo applauso.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Aria finale interrotta",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Interrompere l'aria finale, smascherare il suggeritore occulto e sostituire la maschera originale con una copia inerte.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Teatro posseduto ma colpevole smascherato",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "L'Opera delle Maschere",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

@@ -1,0 +1,814 @@
+{
+  "id": "gurps-gameplay-flowchart",
+  "title": "Flowchart del flusso di gioco GURPS",
+  "version": "1.0.0",
+  "root": "/Users/stefan0/Desktop/GURPS",
+  "scope": "Flusso di gioco dal lancio dell'app alla conclusione dell'avventura, visto dal giocatore/facilitatore.",
+  "legend": {
+    "start": "inizio del flusso",
+    "screen": "schermata/interfaccia",
+    "process": "fase automatica o preparatoria",
+    "decision": "scelta o bivio",
+    "loop": "ciclo ripetuto",
+    "terminal": "fine del flusso"
+  },
+  "nodes": [
+    {
+      "id": "start_app",
+      "type": "start",
+      "label": "Avvio app",
+      "description": "Il giocatore/facilitatore apre l'app GURPS."
+    },
+    {
+      "id": "home_setup",
+      "type": "screen",
+      "label": "Setup iniziale",
+      "description": "Si sceglie come iniziare: nuova avventura, import PDF, personaggi custom/AI, genere e provider."
+    },
+    {
+      "id": "choose_adventure_source",
+      "type": "decision",
+      "label": "Sorgente avventura",
+      "question": "Da dove nasce l'avventura?"
+    },
+    {
+      "id": "ai_prompt_setup",
+      "type": "screen",
+      "label": "Prompt nuova avventura",
+      "description": "Il facilitatore inserisce tema, genere, tono o premessa."
+    },
+    {
+      "id": "pdf_import_setup",
+      "type": "screen",
+      "label": "Import PDF",
+      "description": "Il facilitatore carica un modulo PDF da trasformare in runtime giocabile."
+    },
+    {
+      "id": "legacy_team_setup",
+      "type": "screen",
+      "label": "Setup legacy",
+      "description": "Flusso storico: selezione genere, generazione pool PG e scelta squadra."
+    },
+    {
+      "id": "generate_adventure_bible",
+      "type": "process",
+      "label": "Generazione bibbia avventura",
+      "description": "Il sistema produce premessa, obiettivo, luoghi, PNG, indizi, minaccia, canovaccio e condizioni di vittoria."
+    },
+    {
+      "id": "extract_pdf_structure",
+      "type": "process",
+      "label": "Estrazione struttura PDF",
+      "description": "Il sistema preserva stanze, sezioni, incontri, indizi, mappe, PNG e note del modulo."
+    },
+    {
+      "id": "compile_runtime",
+      "type": "process",
+      "label": "Compilazione runtime",
+      "description": "La bibbia o il PDF vengono trasformati in runtime giocabile: obiettivi, clock, rivelazioni, luoghi, attori e indizi."
+    },
+    {
+      "id": "review_adventure",
+      "type": "screen",
+      "label": "Revisione avventura",
+      "description": "Il facilitatore vede il riepilogo dell'avventura e puo confermare l'inizio."
+    },
+    {
+      "id": "choose_or_create_party",
+      "type": "screen",
+      "label": "Creazione gruppo",
+      "description": "Si scelgono o creano i personaggi giocanti, anche con generazione AI o schede custom."
+    },
+    {
+      "id": "validate_party",
+      "type": "process",
+      "label": "Validazione personaggi",
+      "description": "Il sistema controlla attributi, abilita, vantaggi, svantaggi, equipaggiamento e derivate GURPS."
+    },
+    {
+      "id": "party_ready_decision",
+      "type": "decision",
+      "label": "Gruppo pronto?",
+      "question": "I personaggi sono validi e selezionati?"
+    },
+    {
+      "id": "start_adventure",
+      "type": "process",
+      "label": "Inizio avventura",
+      "description": "Il sistema sincronizza i PG, inizializza GameState e chiede la prima scena al Master AI."
+    },
+    {
+      "id": "show_prologue",
+      "type": "screen",
+      "label": "Prologo e prima scena",
+      "description": "Il gioco mostra hook iniziale, scena corrente, obiettivo, opzioni e stato visibile."
+    },
+    {
+      "id": "main_game_loop",
+      "type": "loop",
+      "label": "Loop principale di gioco",
+      "description": "Il ciclo base continua finche la missione non termina, il gruppo abortisce o fallisce."
+    },
+    {
+      "id": "player_turn_start",
+      "type": "screen",
+      "label": "Turno del giocatore",
+      "description": "Il giocatore legge scena, mappa, diario, indizi, stato PG e sceglie cosa fare."
+    },
+    {
+      "id": "choose_action",
+      "type": "decision",
+      "label": "Scelta azione",
+      "question": "Che tipo di azione viene dichiarata?"
+    },
+    {
+      "id": "free_text_action",
+      "type": "screen",
+      "label": "Azione libera",
+      "description": "Il giocatore scrive un'azione in linguaggio naturale."
+    },
+    {
+      "id": "suggested_action",
+      "type": "screen",
+      "label": "Opzione suggerita",
+      "description": "Il giocatore sceglie una delle opzioni proposte dal Master."
+    },
+    {
+      "id": "map_movement",
+      "type": "screen",
+      "label": "Movimento su mappa",
+      "description": "Il gruppo prova a spostarsi verso un nodo o una zona tattica."
+    },
+    {
+      "id": "combat_action",
+      "type": "screen",
+      "label": "Azione di combattimento",
+      "description": "Il giocatore attacca, difende, si rialza, si ritira o tenta recuperi in scena tattica."
+    },
+    {
+      "id": "resolve_skill",
+      "type": "process",
+      "label": "Risoluzione abilita",
+      "description": "Il motore interpreta l'intento, sceglie l'abilita GURPS piu adatta e calcola il valore effettivo."
+    },
+    {
+      "id": "roll_3d6",
+      "type": "process",
+      "label": "Tiro 3d6",
+      "description": "Il sistema tira 3d6 contro abilita, attributo o difesa. L'esito meccanico viene deciso prima della narrazione."
+    },
+    {
+      "id": "roll_outcome_decision",
+      "type": "decision",
+      "label": "Esito tiro",
+      "question": "Il tiro e riuscito?"
+    },
+    {
+      "id": "critical_success",
+      "type": "process",
+      "label": "Successo critico",
+      "description": "L'azione riesce con vantaggio forte, informazione extra, danno superiore o avanzamento netto."
+    },
+    {
+      "id": "success",
+      "type": "process",
+      "label": "Successo",
+      "description": "L'azione raggiunge l'obiettivo previsto o apre un avanzamento concreto."
+    },
+    {
+      "id": "failure",
+      "type": "process",
+      "label": "Fallimento",
+      "description": "L'azione non ottiene l'effetto voluto, oppure riesce solo con costo, rischio o complicazione."
+    },
+    {
+      "id": "critical_failure",
+      "type": "process",
+      "label": "Fallimento critico",
+      "description": "L'azione produce una complicazione grave, perdita di posizione, danno, allarme o escalation."
+    },
+    {
+      "id": "master_narration",
+      "type": "process",
+      "label": "Narrazione Master",
+      "description": "Il Master AI riceve il risultato meccanico gia deciso e racconta conseguenze coerenti con canovaccio e runtime."
+    },
+    {
+      "id": "apply_state_updates",
+      "type": "process",
+      "label": "Aggiornamento stato",
+      "description": "Il sistema aggiorna scena, diario, indizi, minaccia, PNG, mappa, clock, condizioni e possibili opzioni successive."
+    },
+    {
+      "id": "state_update_decision",
+      "type": "decision",
+      "label": "Tipo aggiornamento",
+      "question": "Che cosa e cambiato dopo l'azione?"
+    },
+    {
+      "id": "discover_clue",
+      "type": "process",
+      "label": "Indizio scoperto",
+      "description": "Il diario/canovaccio visibile riceve una nuova informazione o una rivelazione parziale."
+    },
+    {
+      "id": "advance_objective",
+      "type": "process",
+      "label": "Avanzamento obiettivo",
+      "description": "La squadra si avvicina a una meta, sblocca una zona, chiarisce una pista o completa un passaggio."
+    },
+    {
+      "id": "increase_threat",
+      "type": "process",
+      "label": "Aumento minaccia",
+      "description": "Clock, pressione, allarme, conseguenze o rischio globale aumentano."
+    },
+    {
+      "id": "world_reaction",
+      "type": "process",
+      "label": "Reazione del mondo",
+      "description": "PNG, fazioni, ambiente o minaccia reagiscono alle scelte del gruppo."
+    },
+    {
+      "id": "movement_resolution",
+      "type": "process",
+      "label": "Risoluzione movimento",
+      "description": "La mappa aggiorna nodo corrente, stanza, connessioni disponibili e descrizione del nuovo luogo."
+    },
+    {
+      "id": "combat_trigger_decision",
+      "type": "decision",
+      "label": "Combattimento attivato?",
+      "question": "La scena genera o mantiene una combat_scene?"
+    },
+    {
+      "id": "enter_combat",
+      "type": "process",
+      "label": "Ingresso in combattimento",
+      "description": "Il sistema prepara entita, HP, DR, skill attacco, difese, zone, coperture e mappa tattica."
+    },
+    {
+      "id": "combat_loop",
+      "type": "loop",
+      "label": "Loop combattimento",
+      "description": "Si ripetono azioni PG, difese, danni e turni NPC finche lo scontro termina o il gruppo si ritira."
+    },
+    {
+      "id": "player_attack",
+      "type": "process",
+      "label": "Attacco PG",
+      "description": "Il PG attacca con abilita, arma e modificatori correnti."
+    },
+    {
+      "id": "active_defense_decision",
+      "type": "decision",
+      "label": "Difesa attiva?",
+      "question": "Il bersaglio puo tentare schivata, parata o blocco?"
+    },
+    {
+      "id": "resolve_defense",
+      "type": "process",
+      "label": "Risoluzione difesa",
+      "description": "Il sistema tira la difesa attiva e determina se il colpo viene evitato."
+    },
+    {
+      "id": "apply_damage",
+      "type": "process",
+      "label": "Danno e ferite",
+      "description": "Si tirano danni, si sottrae DR, si aggiornano HP, shock, ferite gravi, stordimento o morte."
+    },
+    {
+      "id": "npc_turn",
+      "type": "process",
+      "label": "Turno NPC",
+      "description": "I nemici attaccano, si muovono, cambiano bersaglio, arretrano o reagiscono tatticamente."
+    },
+    {
+      "id": "combat_end_decision",
+      "type": "decision",
+      "label": "Fine combattimento?",
+      "question": "Nemici neutralizzati, ritirata riuscita o gruppo fuori combattimento?"
+    },
+    {
+      "id": "exit_combat",
+      "type": "process",
+      "label": "Uscita dal combattimento",
+      "description": "La scena torna al flusso narrativo con conseguenze, ferite, bottino, nuove opzioni o minaccia aggiornata."
+    },
+    {
+      "id": "check_finale",
+      "type": "decision",
+      "label": "Controllo finale",
+      "question": "Sono soddisfatte le condizioni di vittoria, fallimento, aborto o finale?"
+    },
+    {
+      "id": "continue_adventure",
+      "type": "process",
+      "label": "Continua avventura",
+      "description": "Il gioco prepara la prossima scena, nuove opzioni e ritorna al turno del giocatore."
+    },
+    {
+      "id": "final_scene",
+      "type": "screen",
+      "label": "Scena finale",
+      "description": "Il Master presenta la risoluzione: successo, fallimento, costo, rivelazione conclusiva o esito misto."
+    },
+    {
+      "id": "personal_victories",
+      "type": "process",
+      "label": "Vittorie personali",
+      "description": "Il sistema valuta obiettivi personali, contributi dei PG e conseguenze individuali."
+    },
+    {
+      "id": "end_summary",
+      "type": "screen",
+      "label": "Riepilogo finale",
+      "description": "Il giocatore vede esito missione, stato personaggi, rivelazioni, scelte importanti e conseguenze."
+    },
+    {
+      "id": "restart_or_new_game",
+      "type": "decision",
+      "label": "Nuova partita?",
+      "question": "Si vuole ricominciare o creare una nuova avventura?"
+    },
+    {
+      "id": "end",
+      "type": "terminal",
+      "label": "Fine sessione",
+      "description": "La sessione di gioco termina."
+    }
+  ],
+  "edges": [
+    {
+      "from": "start_app",
+      "to": "home_setup",
+      "label": "apre app"
+    },
+    {
+      "from": "home_setup",
+      "to": "choose_adventure_source",
+      "label": "sceglie modalita"
+    },
+    {
+      "from": "choose_adventure_source",
+      "to": "ai_prompt_setup",
+      "label": "nuova avventura AI"
+    },
+    {
+      "from": "choose_adventure_source",
+      "to": "pdf_import_setup",
+      "label": "importa PDF"
+    },
+    {
+      "from": "choose_adventure_source",
+      "to": "legacy_team_setup",
+      "label": "setup legacy"
+    },
+    {
+      "from": "ai_prompt_setup",
+      "to": "generate_adventure_bible",
+      "label": "genera"
+    },
+    {
+      "from": "pdf_import_setup",
+      "to": "extract_pdf_structure",
+      "label": "carica ed estrae"
+    },
+    {
+      "from": "extract_pdf_structure",
+      "to": "compile_runtime",
+      "label": "preserva e struttura"
+    },
+    {
+      "from": "generate_adventure_bible",
+      "to": "compile_runtime",
+      "label": "normalizza"
+    },
+    {
+      "from": "legacy_team_setup",
+      "to": "choose_or_create_party",
+      "label": "genera pool PG"
+    },
+    {
+      "from": "compile_runtime",
+      "to": "review_adventure",
+      "label": "mostra riepilogo"
+    },
+    {
+      "from": "review_adventure",
+      "to": "choose_or_create_party",
+      "label": "conferma avventura"
+    },
+    {
+      "from": "choose_or_create_party",
+      "to": "validate_party",
+      "label": "valida schede"
+    },
+    {
+      "from": "validate_party",
+      "to": "party_ready_decision",
+      "label": "controllo"
+    },
+    {
+      "from": "party_ready_decision",
+      "to": "choose_or_create_party",
+      "label": "no, correggi PG"
+    },
+    {
+      "from": "party_ready_decision",
+      "to": "start_adventure",
+      "label": "si"
+    },
+    {
+      "from": "start_adventure",
+      "to": "show_prologue",
+      "label": "prima scena"
+    },
+    {
+      "from": "show_prologue",
+      "to": "main_game_loop",
+      "label": "inizia gioco"
+    },
+    {
+      "from": "main_game_loop",
+      "to": "player_turn_start",
+      "label": "nuovo turno"
+    },
+    {
+      "from": "player_turn_start",
+      "to": "choose_action",
+      "label": "dichiara intenzione"
+    },
+    {
+      "from": "choose_action",
+      "to": "free_text_action",
+      "label": "scrive azione"
+    },
+    {
+      "from": "choose_action",
+      "to": "suggested_action",
+      "label": "sceglie opzione"
+    },
+    {
+      "from": "choose_action",
+      "to": "map_movement",
+      "label": "si muove"
+    },
+    {
+      "from": "choose_action",
+      "to": "combat_action",
+      "label": "azione tattica"
+    },
+    {
+      "from": "free_text_action",
+      "to": "resolve_skill",
+      "label": "interpreta intento"
+    },
+    {
+      "from": "suggested_action",
+      "to": "resolve_skill",
+      "label": "interpreta opzione"
+    },
+    {
+      "from": "map_movement",
+      "to": "movement_resolution",
+      "label": "risolve spostamento"
+    },
+    {
+      "from": "movement_resolution",
+      "to": "master_narration",
+      "label": "narra transizione"
+    },
+    {
+      "from": "combat_action",
+      "to": "combat_loop",
+      "label": "entra nel ciclo tattico"
+    },
+    {
+      "from": "resolve_skill",
+      "to": "roll_3d6",
+      "label": "tira"
+    },
+    {
+      "from": "roll_3d6",
+      "to": "roll_outcome_decision",
+      "label": "calcola margine"
+    },
+    {
+      "from": "roll_outcome_decision",
+      "to": "critical_success",
+      "label": "critico positivo"
+    },
+    {
+      "from": "roll_outcome_decision",
+      "to": "success",
+      "label": "successo"
+    },
+    {
+      "from": "roll_outcome_decision",
+      "to": "failure",
+      "label": "fallimento"
+    },
+    {
+      "from": "roll_outcome_decision",
+      "to": "critical_failure",
+      "label": "critico negativo"
+    },
+    {
+      "from": "critical_success",
+      "to": "master_narration",
+      "label": "racconta vantaggio"
+    },
+    {
+      "from": "success",
+      "to": "master_narration",
+      "label": "racconta riuscita"
+    },
+    {
+      "from": "failure",
+      "to": "master_narration",
+      "label": "racconta costo"
+    },
+    {
+      "from": "critical_failure",
+      "to": "master_narration",
+      "label": "racconta complicazione"
+    },
+    {
+      "from": "master_narration",
+      "to": "apply_state_updates",
+      "label": "produce conseguenze"
+    },
+    {
+      "from": "apply_state_updates",
+      "to": "state_update_decision",
+      "label": "classifica effetti"
+    },
+    {
+      "from": "state_update_decision",
+      "to": "discover_clue",
+      "label": "indizio/rivelazione"
+    },
+    {
+      "from": "state_update_decision",
+      "to": "advance_objective",
+      "label": "obiettivo"
+    },
+    {
+      "from": "state_update_decision",
+      "to": "increase_threat",
+      "label": "minaccia"
+    },
+    {
+      "from": "state_update_decision",
+      "to": "world_reaction",
+      "label": "reazione mondo"
+    },
+    {
+      "from": "discover_clue",
+      "to": "combat_trigger_decision",
+      "label": "continua"
+    },
+    {
+      "from": "advance_objective",
+      "to": "combat_trigger_decision",
+      "label": "continua"
+    },
+    {
+      "from": "increase_threat",
+      "to": "combat_trigger_decision",
+      "label": "continua"
+    },
+    {
+      "from": "world_reaction",
+      "to": "combat_trigger_decision",
+      "label": "continua"
+    },
+    {
+      "from": "combat_trigger_decision",
+      "to": "enter_combat",
+      "label": "si, scena tattica"
+    },
+    {
+      "from": "combat_trigger_decision",
+      "to": "check_finale",
+      "label": "no"
+    },
+    {
+      "from": "enter_combat",
+      "to": "combat_loop",
+      "label": "inizia scontro"
+    },
+    {
+      "from": "combat_loop",
+      "to": "player_attack",
+      "label": "PG attacca"
+    },
+    {
+      "from": "player_attack",
+      "to": "roll_3d6",
+      "label": "tiro attacco"
+    },
+    {
+      "from": "success",
+      "to": "active_defense_decision",
+      "label": "se attacco colpisce"
+    },
+    {
+      "from": "critical_success",
+      "to": "apply_damage",
+      "label": "difesa negata o vantaggio critico"
+    },
+    {
+      "from": "active_defense_decision",
+      "to": "resolve_defense",
+      "label": "si"
+    },
+    {
+      "from": "active_defense_decision",
+      "to": "apply_damage",
+      "label": "no"
+    },
+    {
+      "from": "resolve_defense",
+      "to": "apply_damage",
+      "label": "difesa fallita"
+    },
+    {
+      "from": "resolve_defense",
+      "to": "npc_turn",
+      "label": "difesa riuscita"
+    },
+    {
+      "from": "failure",
+      "to": "npc_turn",
+      "label": "se attacco manca"
+    },
+    {
+      "from": "critical_failure",
+      "to": "npc_turn",
+      "label": "complicazione tattica"
+    },
+    {
+      "from": "apply_damage",
+      "to": "npc_turn",
+      "label": "aggiorna bersaglio"
+    },
+    {
+      "from": "npc_turn",
+      "to": "combat_end_decision",
+      "label": "dopo reazione"
+    },
+    {
+      "from": "combat_end_decision",
+      "to": "combat_loop",
+      "label": "no, prossimo scambio"
+    },
+    {
+      "from": "combat_end_decision",
+      "to": "exit_combat",
+      "label": "si"
+    },
+    {
+      "from": "exit_combat",
+      "to": "check_finale",
+      "label": "ritorno narrativa"
+    },
+    {
+      "from": "check_finale",
+      "to": "continue_adventure",
+      "label": "non ancora"
+    },
+    {
+      "from": "continue_adventure",
+      "to": "main_game_loop",
+      "label": "prossima scena"
+    },
+    {
+      "from": "check_finale",
+      "to": "final_scene",
+      "label": "finale raggiunto"
+    },
+    {
+      "from": "final_scene",
+      "to": "personal_victories",
+      "label": "valuta PG"
+    },
+    {
+      "from": "personal_victories",
+      "to": "end_summary",
+      "label": "riepiloga"
+    },
+    {
+      "from": "end_summary",
+      "to": "restart_or_new_game",
+      "label": "chiusura"
+    },
+    {
+      "from": "restart_or_new_game",
+      "to": "home_setup",
+      "label": "nuova partita"
+    },
+    {
+      "from": "restart_or_new_game",
+      "to": "end",
+      "label": "fine"
+    }
+  ],
+  "main_path": [
+    "start_app",
+    "home_setup",
+    "choose_adventure_source",
+    "generate_adventure_bible",
+    "compile_runtime",
+    "review_adventure",
+    "choose_or_create_party",
+    "validate_party",
+    "start_adventure",
+    "show_prologue",
+    "main_game_loop",
+    "player_turn_start",
+    "choose_action",
+    "resolve_skill",
+    "roll_3d6",
+    "roll_outcome_decision",
+    "master_narration",
+    "apply_state_updates",
+    "state_update_decision",
+    "combat_trigger_decision",
+    "check_finale",
+    "continue_adventure",
+    "main_game_loop",
+    "final_scene",
+    "personal_victories",
+    "end_summary",
+    "restart_or_new_game",
+    "end"
+  ],
+  "loops": [
+    {
+      "id": "narrative_loop",
+      "label": "Loop narrativo",
+      "from": "main_game_loop",
+      "to": "continue_adventure",
+      "returns_to": "main_game_loop",
+      "exit_condition": "check_finale produce finale, fallimento, aborto o conclusione missione"
+    },
+    {
+      "id": "combat_loop",
+      "label": "Loop combattimento",
+      "from": "combat_loop",
+      "to": "combat_end_decision",
+      "returns_to": "combat_loop",
+      "exit_condition": "nemici neutralizzati, ritirata, resa, gruppo fuori combattimento o fine scena tattica"
+    },
+    {
+      "id": "party_creation_loop",
+      "label": "Loop creazione gruppo",
+      "from": "choose_or_create_party",
+      "to": "party_ready_decision",
+      "returns_to": "choose_or_create_party",
+      "exit_condition": "tutti i PG richiesti sono validi e selezionati"
+    }
+  ],
+  "end_conditions": [
+    {
+      "id": "mission_success",
+      "label": "Successo missione",
+      "description": "Obiettivo principale completato e condizioni finale disponibili."
+    },
+    {
+      "id": "mission_failure",
+      "label": "Fallimento missione",
+      "description": "Clock, minaccia, morte/fuori combattimento o scelte dei giocatori rendono impossibile la vittoria."
+    },
+    {
+      "id": "mixed_ending",
+      "label": "Finale misto",
+      "description": "La missione si chiude con successo parziale, costo alto o verita rivelata solo in parte."
+    },
+    {
+      "id": "retreat_or_abort",
+      "label": "Ritirata o aborto",
+      "description": "Il gruppo abbandona la missione o il facilitatore interrompe la partita."
+    }
+  ],
+  "rendering_hints": {
+    "preferred_direction": "TD",
+    "group_by": [
+      "setup",
+      "adventure_generation",
+      "party_creation",
+      "narrative_loop",
+      "combat_loop",
+      "finale"
+    ],
+    "highlight_nodes": [
+      "main_game_loop",
+      "roll_3d6",
+      "master_narration",
+      "combat_loop",
+      "check_finale"
+    ]
+  }
+}

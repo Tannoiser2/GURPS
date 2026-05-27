@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_trincea_17",
+    "title": "Trincea 17",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "action",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "military horror bellico",
+    "premise": "Una squadra deve recuperare un ufficiale disperso in una trincea che non appare su nessuna mappa e trasmette ordini da guerre diverse.",
+    "initial_hook": "I PG ricevono coordinate radio impossibili durante una tregua di quattro ore.",
+    "player_facing_objective": "Entrare nella trincea, trovare l'ufficiale e impedire che gli ordini falsi riaprano il fronte.",
+    "hidden_truth": "La trincea è un nodo psichico creato da ordini mai revocati; obbedisce alla catena di comando più convincente.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "La trincea è un nodo psichico creato da ordini mai revocati; obbedisce alla catena di comando più convincente.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Entrare nella trincea, trovare l'ufficiale e impedire che gli ordini falsi riaprano il fronte.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "La trincea è un nodo psichico creato da ordini mai revocati; obbedisce alla catena di comando più convincente.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Ricostruire l'ordine originale, farlo revocare con autorità valida e uscire prima che la tregua finisca.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Coordinate impossibili",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "La trincea non è geografica.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La trincea non è geografica.",
+        "hidden_implication": "Serve logica militare, non solo esplosivi.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Errore cartografico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Piastrine di guerre diverse",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Soldati di epoche diverse sono passati qui.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Soldati di epoche diverse sono passati qui.",
+        "hidden_implication": "Il fenomeno è ricorrente.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Propaganda nemica"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Cartella medica futura",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Il tempo della trincea è piegato.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il tempo della trincea è piegato.",
+        "hidden_implication": "La medicina prova anacronismo.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Falso documento"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Registrazione del padre",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "La presenza usa affetti per imporre obbedienza.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La presenza usa affetti per imporre obbedienza.",
+        "hidden_implication": "Irena è bersaglio.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Interferenza radio"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Ordine originale incorniciato",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Un ordine specifico alimenta il nodo.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Un ordine specifico alimenta il nodo.",
+        "hidden_implication": "La revoca è la chiave.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Trofeo"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Orologi fermi alla tregua",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "La tregua è una soglia reale.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La tregua è una soglia reale.",
+        "hidden_implication": "Il clock è fisso.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Guasto meccanico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Sergente Lupo",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Veterano pragmatico.",
+        "goal": "Riportare tutti indietro.",
+        "motivation": "Riportare tutti indietro.",
+        "secret": "Ha già sentito la trincea chiamarlo per nome.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Tiene disciplina e scorte.",
+        "fallback_plan": "Disobbedisce a un ordine se vede la prova.",
+        "pressure_response": {
+          "low": "Sergente Lupo osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Sergente Lupo accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Sergente Lupo sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Sergente Lupo tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Caporale Irena",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Radio-operatrice giovane.",
+        "goal": "Distinguere segnali veri da falsi.",
+        "motivation": "Distinguere segnali veri da falsi.",
+        "secret": "La trincea usa la voce di suo padre.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Registra ogni trasmissione.",
+        "fallback_plan": "Rischia possessione radio per inviare revoca.",
+        "pressure_response": {
+          "low": "Caporale Irena osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Caporale Irena accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Caporale Irena sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Caporale Irena tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Maggiore Kess",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Ufficiale disperso.",
+        "goal": "Finire una missione ormai assurda.",
+        "motivation": "Finire una missione ormai assurda.",
+        "secret": "Obbedisce a un ordine di decenni prima.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Fortifica il bunker.",
+        "fallback_plan": "Consegna l'ordine se i PG provano la revoca.",
+        "pressure_response": {
+          "low": "Maggiore Kess osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Maggiore Kess accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Maggiore Kess sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Maggiore Kess tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "La Catena di Comando",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Presenza fatta di ordini e gradi.",
+        "goal": "Essere obbedita.",
+        "motivation": "Essere obbedita.",
+        "secret": "Non distingue guerre o nazioni.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Emette comandi contraddittori.",
+        "fallback_plan": "Accetta solo autorità formalmente superiore.",
+        "pressure_response": {
+          "low": "La Catena di Comando osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "La Catena di Comando accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "La Catena di Comando sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "La Catena di Comando tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Linea di Partenza",
+        "description": "Fango, filo spinato e radio gracchianti.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Fango, filo spinato e radio gracchianti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "cecchini"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Trincea Senza Mappa",
+        "description": "Pareti con uniformi di epoche diverse.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Pareti con uniformi di epoche diverse.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "gas"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Posto Medico Sepolto",
+        "description": "Barelle e cartelle di soldati non nati.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Barelle e cartelle di soldati non nati.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "ordini falsi"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Nido Radio",
+        "description": "Apparecchi che parlano con voci di generali morti.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Apparecchi che parlano con voci di generali morti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "crolli"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Bunker dell'Ufficiale",
+        "description": "Stanza asciutta con ordine incorniciato.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Stanza asciutta con ordine incorniciato.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "artiglieria"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Fine della Tregua",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Artiglieria amica e nemica colpiscono la trincea con i PG dentro.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Artiglieria amica e nemica colpiscono la trincea con i PG dentro."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Recuperare ordine originale e inviare revoca verificabile prima dello scadere della tregua.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Ordine revocato e squadra evacua",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Ricostruire l'ordine originale, farlo revocare con autorità valida e uscire prima che la tregua finisca.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Ufficiale recuperato ma trincea resta attiva",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Trincea 17",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

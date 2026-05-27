@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_maledizione_di_raven_hollow",
+    "title": "La Maledizione di Raven Hollow",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "folk horror rurale, nebbia e tradimento comunitario",
+    "premise": "Raven Hollow è un villaggio di cinquecento anime che, da sei settimane, perde un bambino ogni luna piena. I corpi vengono trovati nel bosco al mattino, senza segni di violenza, con gli occhi aperti e un sorriso gelato sul volto. Il villaggio dice che è la maledizione della Strega del Bosco — ma la strega è morta trent'anni fa.",
+    "initial_hook": "Il parroco di Raven Hollow manda un messaggero disperato: tra quattro giorni è luna piena e c'è ancora un bambino in età a rischio. I PG sono gli unici che possono investigare senza che la comunità chiusa li cacci subito.",
+    "player_facing_objective": "Scoprire la vera causa delle morti, proteggere il prossimo bambino e chiudere il ciclo mortale.",
+    "hidden_truth": "Non esiste alcuna strega. Trent'anni fa, il villaggio ha sacrificato una bambina innocente accusandola di stregoneria per coprire un segreto: il capofamiglia della famiglia dominante aveva avvelenato il pozzo per eliminare concorrenza economica. I morti di oggi sono i discendenti di chi sapeva e tacque. A ucciderli è un alchimista che usa un composto trovato nei diari della 'strega' — ma l'alchimista è nipote della bambina uccisa.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Non esiste alcuna strega. Trent'anni fa, il villaggio ha sacrificato una bambina innocente accusandola di stregoneria per coprire un segreto: il capofamiglia della famiglia dominante aveva avvelenato il pozzo per eliminare concorrenza economica. I morti di oggi sono i discendenti di chi sapeva e tacque. A ucciderli è un alchimista che usa un composto trovato nei diari della 'strega' — ma l'alchimista è nipote della bambina uccisa.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire la vera causa delle morti, proteggere il prossimo bambino e chiudere il ciclo mortale.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Non esiste alcuna strega. Trent'anni fa, il villaggio ha sacrificato una bambina innocente accusandola di stregoneria per coprire un segreto: il capofamiglia della famiglia dominante aveva avvelenato il pozzo per eliminare concorrenza economica. I morti di oggi sono i discendenti di chi sapeva e tacque. A ucciderli è un alchimista che usa un composto trovato nei diari della 'strega' — ma l'alchimista è nipote della bambina uccisa.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Trovare il laboratorio dell'alchimista nella grotta al margine del bosco, procurarsi l'antidoto nel diario alchimico, poi affrontare il ciclo di vendetta rivelando pubblicamente la verità storica al villaggio — l'alchimista si ferma solo se la menzogna collettiva viene smontata.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Residui di un composto organico sui cadaveri che non corrisponde a nessun veleno noto",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Il composto è un veleno a base di funghi del bosco locale, non magia — qualcuno lo produce.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il composto è un veleno a base di funghi del bosco locale, non magia — qualcuno lo produce.",
+        "hidden_implication": "L'alchimista è una donna di 28 anni cresciuta fuori dal villaggio — è tornata per vendetta.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il composto potrebbe essere un fungo che cresce naturalmente e la strega era la vera colpevole.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza di una vecchia contadina che ricorda 'la bambina che non era strega'",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "La vecchia ricorda che la bambina si chiamava Lianna Mourne e non aveva mai fatto del male a nessuno.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La vecchia ricorda che la bambina si chiamava Lianna Mourne e non aveva mai fatto del male a nessuno.",
+        "hidden_implication": "Il parroco sa della confessione nella cripta ma l'ha tenuta nascosta per proteggere la comunità.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La vecchia contadina potrebbe confondere i ricordi — è molto anziana e spesso confusa.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Documenti contabili della famiglia Grenn con un pagamento anomalo trent'anni fa",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Il pagamento è per 'servizi di discrezione' — qualcuno fu pagato per tacere su qualcosa di grave.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il pagamento è per 'servizi di discrezione' — qualcuno fu pagato per tacere su qualcosa di grave.",
+        "hidden_implication": "Alcuni genitori dei bambini morti sapevano cosa era successo trent'anni fa ma erano troppo giovani.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il pagamento anomalo potrebbe essere per una terra o un servizio legittimo non registrato.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Il simbolo alchimico sulla tomba senza nome — identico a quelli nei diari trovati nella grotta",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Il simbolo è il marchio alchimico della famiglia Mourne — i discendenti della bambina uccisa.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il simbolo è il marchio alchimico della famiglia Mourne — i discendenti della bambina uccisa.",
+        "hidden_implication": "L'alchimista non vuole uccidere il prossimo bambino: vuole fermarsi ma non sa come farlo senza rivelare tutto.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il simbolo alchimico potrebbe essere vandalismi di un abitante locale con interessi esoterici.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "L'antidoto nel laboratorio: un composto che prova l'esistenza del veleno e di chi lo produce",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "L'antidoto funziona: chi è stato esposto può essere salvato se trattato entro 48 ore.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "L'antidoto funziona: chi è stato esposto può essere salvato se trattato entro 48 ore.",
+        "hidden_implication": "Il composto usato è reversibile ma l'alchimista non ha rivelato l'antidoto a nessuno.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "L'antidoto potrebbe essere un farmaco comune che l'alchimista usa per sé stessa.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "La lista dei prossimi obiettivi scritti nell'agenda dell'alchimista — nomi di discendenti",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "La lista include il nome del prossimo bambino e la data: la prossima luna piena, fra due giorni.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La lista include il nome del prossimo bambino e la data: la prossima luna piena, fra due giorni.",
+        "hidden_implication": "La famiglia Grenn attuale non sa nulla del crimine dei nonni — è un'eredità di vergogna inconsapevole.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La lista potrebbe essere un elenco di famiglie a cui vendere prodotti, non una lista di obiettivi.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Parroco Aldous Brennan",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Uomo sui 60 anni, abiti neri consumati, mani tremanti. Ha più segreti di quante ne confessi.",
+        "goal": "Proteggere il villaggio — anche a costo di non rivelare la verità storica.",
+        "motivation": "Proteggere il villaggio — anche a costo di non rivelare la verità storica.",
+        "secret": "Ha trovato la cripta con la confessione cinque anni fa e ha sigillato la botola per non destabilizzare la comunità.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Collabora con i PG ma li distoglie attivamente dalla cripta con scuse e deviazioni.",
+        "fallback_plan": "Se i PG trovano la botola, confessa e offre la chiave — a patto che decidano insieme come usare la confessione.",
+        "pressure_response": {
+          "low": "Parroco Aldous Brennan osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Parroco Aldous Brennan accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Parroco Aldous Brennan sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Parroco Aldous Brennan tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Anziana Meg Tully",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Contadina sui 80 anni, vive ai margini del villaggio, coltiva erbe. Ha vissuto trent'anni fa.",
+        "goal": "Che la verità venga a galla prima che un altro bambino muoia.",
+        "motivation": "Che la verità venga a galla prima che un altro bambino muoia.",
+        "secret": "Conserva una ciocca di capelli della bambina Lianna — la ricorda chiaramente.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Parla volentieri con i PG ma il villaggio la considera pazza — le sue parole vengono sminuite dagli altri.",
+        "fallback_plan": "Se i PG la credono, mostra la ciocca e rivela dove si trovava il laboratorio della 'strega' — uguale a quello attuale.",
+        "pressure_response": {
+          "low": "Anziana Meg Tully osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Anziana Meg Tully accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Anziana Meg Tully sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Anziana Meg Tully tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Capo famiglia Daron Grenn",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Uomo sui 50 anni, ricco, rispettato, ignaro di tutto. Si difende istintivamente.",
+        "goal": "Proteggere la reputazione della famiglia senza sapere da cosa.",
+        "motivation": "Proteggere la reputazione della famiglia senza sapere da cosa.",
+        "secret": "Non sa nulla del crimine del nonno — ma ha letto i documenti contabili e sospetta che nascondano qualcosa.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Ostacola i PG per paura, non per colpa. Se trova la confessione del nonno prima dei PG, tenta di distruggerla.",
+        "fallback_plan": "Se i PG lo affrontano con rispetto, collabora alla rivelazione pubblica — è lui a leggere la confessione in piazza.",
+        "pressure_response": {
+          "low": "Capo famiglia Daron Grenn osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Capo famiglia Daron Grenn accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Capo famiglia Daron Grenn sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Capo famiglia Daron Grenn tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Alchimista Nira Mourne",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Donna di 28 anni, capelli scuri, modi precisi. Entra in scena solo al livello quattro o cinque.",
+        "goal": "Ottenere giustizia per la nonna attraverso la confessione pubblica del crimine.",
+        "motivation": "Ottenere giustizia per la nonna attraverso la confessione pubblica del crimine.",
+        "secret": "Non vuole uccidere altri bambini — il prossimo avvelenamento è già avvenuto, non il futuro.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Usa il laboratorio solo di notte, ha già preparato l'antidoto per il bambino avvelenato.",
+        "fallback_plan": "Se i PG raggiungono la grotta con le prove del crimine storico, si ferma, consegna l'antidoto e chiede di essere giudicata.",
+        "pressure_response": {
+          "low": "Alchimista Nira Mourne osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Alchimista Nira Mourne accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Alchimista Nira Mourne sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Alchimista Nira Mourne tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Raven Hollow — Piazza del Villaggio",
+        "description": "Villaggio medievale compatto, strade di terra, locanda al centro. Silenzio insolito, bambini non si vedono. Gli adulti guardano i forestieri con sospetto.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Villaggio medievale compatto, strade di terra, locanda al centro. Silenzio insolito, bambini non si vedono. Gli adulti guardano i forestieri con sospetto.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il bosco di notte è davvero pericoloso: cinghiali, terreno instabile e fosse nascoste."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Casa della Famiglia Grenn — Famiglia Dominante",
+        "description": "La casa più grande del villaggio, ben tenuta. Archivio familiare al piano superiore con documenti contabili e lettere private dell'epoca.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "La casa più grande del villaggio, ben tenuta. Archivio familiare al piano superiore con documenti contabili e lettere private dell'epoca.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il villaggio può diventare ostile se i PG fanno troppe domande alla famiglia Grenn."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Cimitero del Bosco",
+        "description": "Il luogo dove venivano trovati i corpi. Tombe antiche e nuove. Una lapide senza nome con un simbolo alchimico inciso di recente.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il luogo dove venivano trovati i corpi. Tombe antiche e nuove. Una lapide senza nome con un simbolo alchimico inciso di recente.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il laboratorio ha trappole di allarme che avvertono Nira — lei fuggirà se sente i PG avvicinarsi."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Grotta dell'Alchimista",
+        "description": "Laboratorio nascosto nel bosco, raggiungibile solo di notte. Attrezzatura sofisticata, diari, l'antidoto e la prova del composto usato.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Laboratorio nascosto nel bosco, raggiungibile solo di notte. Attrezzatura sofisticata, diari, l'antidoto e la prova del composto usato.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "La cripta è parzialmente allagata e il documento è fragile: maneggiarlo senza cura lo danneggia."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Cripta Abbandonata sotto la chiesa",
+        "description": "Nascosta sotto una botola nell'ufficio del parroco. Contiene i documenti originali del processo alla 'strega' e una confessione autografa del capofamiglia Grenn.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Nascosta sotto una botola nell'ufficio del parroco. Contiene i documenti originali del processo alla 'strega' e una confessione autografa del capofamiglia Grenn.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Rivelare troppo presto senza prove genera un linciaggio — del capro espiatorio sbagliato."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Il bambino avvelenato peggiora",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il bambino Tobin (7 anni) muore entro 48 ore: è già stato esposto al composto, anche senza un nuovo avvelenamento.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Il bambino Tobin (7 anni) muore entro 48 ore: è già stato esposto al composto, anche senza un nuovo avvelenamento."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Portare l'antidoto al bambino entro 48 ore — trovando la grotta o convincendo Nira a consegnarlo.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Salvare il bambino, rivelare la confessione in pubblico, permettere a Nira di testimoniare — il villaggio ottiene giustizia e cicatrizza.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Trovare il laboratorio dell'alchimista nella grotta al margine del bosco, procurarsi l'antidoto nel diario alchimico, poi affrontare il ciclo di vendetta rivelando pubblicamente la verità storica al villaggio — l'alchimista si ferma solo se la menzogna collettiva viene smontata.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Salvare il bambino portando Nira davanti alle autorità — la confessione storica rimane sepolta, il ciclo si chiude ma la ferita no.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "La Maledizione di Raven Hollow",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

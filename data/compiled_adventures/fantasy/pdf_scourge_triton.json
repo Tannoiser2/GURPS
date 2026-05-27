@@ -1,0 +1,1837 @@
+{
+  "adventure_definition": {
+    "id": "pdf_scourge_triton",
+    "title": "Scourge of Triton",
+    "source_type": "pdf_text",
+    "source_mode": "pdf_import",
+    "genre": "mythic",
+    "runtime_profiles": [
+      "mythic_quest"
+    ],
+    "tone": "Grecia mitica, epicità omerica, intriga divino",
+    "premise": "La città portuale di Naxemia è sotto la maledizione di Tritone: ogni luna piena, un mostro marino emerge dal mare e devasta il porto. Tre sacrifici di giovani pescatori sono già stati offerti senza risultato. I personaggi vengono consultati come eroi — devono scoprire la vera ragione della maledizione, placare Tritone o trovare un modo di fermare il mostro.",
+    "initial_hook": "L'arconte di Naxemia vi convoca con urgenza. Il quarto mostro marinaro emergerà alla prossima luna piena — tra sette giorni. La città non può sopravvivere un altro attacco. Dovete fermare la Sciagura di Tritone.",
+    "core_truths": [
+      {
+        "id": "truth_real_cause",
+        "statement": "La maledizione non è di Tritone — è di Poseidone. Il capitano mercantile Demetrion ha rubato un'offerta votiva dal tempio di Poseidone e l'ha venduta a Corinto.",
+        "reveal_clues": [
+          "clue_temple_theft",
+          "clue_demetrion_ledger"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_monster",
+        "statement": "Il mostro è un Ichthyocentaur — servo di Poseidone, non di Tritone. Non può essere ucciso permanentemente: tornerà finché il sacrilegio non è riparato.",
+        "reveal_clues": [
+          "clue_monster_description",
+          "clue_oracle"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_offering",
+        "statement": "L'offerta votiva rubata è la Conchiglia di Anfitrite — un dono antico della dea del mare al tempio. Solo la sua restituzione può placare Poseidone.",
+        "reveal_clues": [
+          "clue_corinth_merchant",
+          "clue_oracle"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_investigate",
+        "label": "Scoprire la vera causa della maledizione",
+        "status": "active",
+        "unlocks": [
+          "obj_find_offering",
+          "obj_deal_demetrion"
+        ],
+        "success_conditions": [
+          "rev_real_cause rivelato"
+        ]
+      },
+      {
+        "id": "obj_consult_oracle",
+        "label": "Consultare l'Oracolo di Apollo a Delfi",
+        "status": "active",
+        "unlocks": [
+          "obj_investigate"
+        ],
+        "success_conditions": [
+          "clue_oracle scoperto"
+        ]
+      },
+      {
+        "id": "obj_find_offering",
+        "label": "Recuperare la Conchiglia di Anfitrite",
+        "status": "inactive",
+        "unlocks": [
+          "obj_placate_poseidon"
+        ],
+        "success_conditions": [
+          "clue_corinth_merchant trovato E conchiglia recuperata"
+        ]
+      },
+      {
+        "id": "obj_deal_demetrion",
+        "label": "Portare Demetrion alla giustizia",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Confronto con actor_demetrion"
+        ]
+      },
+      {
+        "id": "obj_placate_poseidon",
+        "label": "Placare Poseidone con la restituzione",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Conchiglia restituita al tempio"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_real_cause",
+        "thread_id": "thread_sacrilegio",
+        "statement": "Non è Tritone ma Poseidone. Il furto dell'offerta votiva dal suo tempio ha scatenato la maledizione.",
+        "required_clues": [
+          "clue_temple_theft",
+          "clue_oracle"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "clue_red_herring_rival"
+        ],
+        "status": "hidden",
+        "payoff": "I PG capiscono che i sacrifici a Tritone sono inutili. Devono agire diversamente.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_demetrion_guilty",
+        "thread_id": "thread_sacrilegio",
+        "statement": "Demetrion il mercante è il colpevole. Il suo registro delle vendite lo prova: ha venduto la conchiglia a un collezionista a Corinto.",
+        "required_clues": [
+          "clue_demetrion_ledger",
+          "clue_temple_theft"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "physical"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG hanno il colpevole e la pista per recuperare l'offerta.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_monster_nature",
+        "thread_id": "thread_mostro",
+        "statement": "L'Ichthyocentaur non può essere ucciso — è una manifestazione della collera di Poseidone. Tornerà finché il sacrilegio persiste.",
+        "required_clues": [
+          "clue_monster_description",
+          "clue_oracle"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG smettono di cercare di uccidere il mostro e cercano la causa.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_conchiglia_location",
+        "thread_id": "thread_offerta",
+        "statement": "La Conchiglia di Anfitrite è nelle mani del collezionista Lysander a Corinto. Può essere comprata, rubata o recuperata con inganno.",
+        "required_clues": [
+          "clue_corinth_merchant",
+          "clue_demetrion_ledger"
+        ],
+        "required_evidence_kinds": [
+          "testimony",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG hanno la destinazione per recuperare l'offerta.",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_temple_theft",
+        "label": "Segni di furto nel Tempio di Poseidone",
+        "type": "physical_evidence",
+        "thread_id": "thread_sacrilegio",
+        "source_location": "poseidon_temple",
+        "reveals": "Sul piedistallo dove stava la Conchiglia di Anfitrite: graffi di metallo, impronte di sandali insoliti, cera di torcia diversa da quella usata dai sacerdoti. Qualcuno ha rubato l'offerta di notte.",
+        "payoff": "rev_real_cause",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_real_cause",
+          "rev_demetrion_guilty"
+        ],
+        "immediate_information": "Qualcosa di sacro è stato rubato dal tempio. Il piedistallo è vuoto.",
+        "hidden_implication": "La maledizione è causata da questo sacrilegio.",
+        "unlocks": [
+          "clue_demetrion_ledger"
+        ],
+        "possible_actions": [
+          "Interrogare i sacerdoti",
+          "Esaminare il tempio"
+        ],
+        "wrong_interpretations": [
+          "I graffi sono normale usura"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_oracle",
+        "label": "Responso dell'Oracolo di Delfi",
+        "type": "testimony",
+        "thread_id": "thread_mostro",
+        "source_location": "delphi_oracle",
+        "reveals": "La Pizia declama: 'Non è il Padre del Mare che punisce — è il Re dei Mari. Non il figlio, ma il padre. Il ladro beve vino a Corinto. La conchiglia piange nelle mani sbagliate. Finché non torna, il servo verrà ogni luna.'",
+        "payoff": "rev_monster_nature",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_monster_nature",
+          "rev_real_cause"
+        ],
+        "immediate_information": "Non Tritone ma Poseidone. Il colpevole è a Corinto. La conchiglia deve tornare.",
+        "hidden_implication": "Il mostro è indistruttibile finché la conchiglia non torna.",
+        "unlocks": [
+          "clue_corinth_merchant"
+        ],
+        "possible_actions": [
+          "Viaggiare a Delfi",
+          "Offrire doni all'oracolo per una risposta chiara"
+        ],
+        "wrong_interpretations": [
+          "L'oracolo parla di Poseidone e Tritone come intercambiabili"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_demetrion_ledger",
+        "label": "Registro commerciale di Demetrion",
+        "type": "document",
+        "thread_id": "thread_sacrilegio",
+        "source_location": "harbor_warehouse",
+        "reveals": "Il registro del mercante: una voce cifrata ma decifrabile — 'oggetto sacro, bronzo e madreperla — venduto a L. di Corinto per 40 dracme d'argento'. La data coincide con l'inizio delle apparizioni del mostro.",
+        "payoff": "rev_demetrion_guilty",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_demetrion_guilty"
+        ],
+        "immediate_information": "Demetrion ha venduto qualcosa di sacro a qualcuno con iniziale L a Corinto.",
+        "hidden_implication": "L. = Lysander, il collezionista.",
+        "unlocks": [
+          "clue_corinth_merchant"
+        ],
+        "possible_actions": [
+          "Infiltrarsi nel magazzino di Demetrion",
+          "Rubare o copiare il registro"
+        ],
+        "wrong_interpretations": [
+          "La voce è commercio legittimo"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_monster_description",
+        "label": "Testimonianza dei sopravvissuti all'attacco",
+        "type": "testimony",
+        "thread_id": "thread_mostro",
+        "source_location": "naxemia_harbor",
+        "reveals": "I pescatori sopravvissuti descrivono una creatura mezzo uomo mezzo cavallo-pesce, con corona di coralli e tridente d'ambra. Ogni volta che viene ferita, le ferite si rimarginano nel giro di un respiro. Non muore.",
+        "payoff": "rev_monster_nature",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_monster_nature"
+        ],
+        "immediate_information": "Il mostro è immortale o quasi. Le ferite si rimarginano.",
+        "hidden_implication": "È un servo divino, non un animale — non può essere ucciso.",
+        "unlocks": [],
+        "possible_actions": [
+          "Interrogare i sopravvissuti",
+          "Aspettare il prossimo attacco per osservarlo"
+        ],
+        "wrong_interpretations": [
+          "È abbastanza ferito, basta colpirlo meglio"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_corinth_merchant",
+        "label": "Lysander il Collezionista a Corinto",
+        "type": "testimony",
+        "thread_id": "thread_offerta",
+        "source_location": "corinth_agora",
+        "reveals": "Nell'agorà di Corinto, un mercante d'antichità indica Lysander — ricco collezionista con villa privata. Ha acquistato 'una rara conchiglia marina di straordinaria bellezza' qualche mese fa. La tiene come pezzo pregiato nella sua villa.",
+        "payoff": "rev_conchiglia_location",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conchiglia_location"
+        ],
+        "immediate_information": "Lysander ha la conchiglia. Vive in una villa privata a Corinto.",
+        "hidden_implication": "Può essere convinto a cederla con la storia giusta — o è necessario rubarla.",
+        "unlocks": [
+          "clue_shell"
+        ],
+        "possible_actions": [
+          "Cercare informazioni su Lysander nell'agorà",
+          "Trovare un contatto locale"
+        ],
+        "wrong_interpretations": [
+          "Lysander è complice del furto sacrilego",
+          "La conchiglia è solo una delle tante nel mercato nero di Corinto"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_shell",
+        "label": "La Conchiglia di Anfitrite",
+        "type": "artifact",
+        "thread_id": "thread_offerta",
+        "source_location": "lysander_villa",
+        "reveals": "Una conchiglia spiralata di circa 30 cm, che cambia colore con la luce, con una risonanza marina anche in terra. Sul bordo, incisa in bronzo antico, è visibile l'iniziale di Anfitrite in alfabeto pre-ellenico.",
+        "payoff": "Rivela che l'oggetto rubato dal tempio è la conchiglia sacra di Anfitrite, moglie di Poseidone. La sua assenza ha causato l'ira di Tritone. Solo restituendola al tempio di Poseidone la maledizione può essere spezzata.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "La conchiglia esiste, è autentica, è qui.",
+        "hidden_implication": "Portarla al tempio di Poseidone e restituirla è il finale.",
+        "unlocks": [],
+        "possible_actions": [
+          "Negoziare con Lysander",
+          "Rubare la conchiglia",
+          "Convincere Lysander del pericolo divino"
+        ],
+        "wrong_interpretations": [
+          "È solo un oggetto decorativo",
+          "La conchiglia deve essere distrutta per fermare la maledizione"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_red_herring_rival",
+        "label": "Testimonianza di Theron il Rivale",
+        "type": "testimony",
+        "thread_id": "thread_sacrilegio",
+        "source_location": "naxemia_harbor",
+        "reveals": "Theron, rivale commerciale di Demetrion, sostiene di aver visto 'sacerdoti stranieri di Ares' in porto la notte del furto. Le date non tornano e Theron ha chiaramente interesse a screditare Demetrion.",
+        "payoff": "Svela che Theron sta usando la crisi per fini personali, tentando di incolpare falsamente il rivale commerciale. La testimonianza è completamente inventata e distrae dall'indagine reale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Accusa di sacerdoti stranieri.",
+        "hidden_implication": "Red herring — Theron mente per danneggiare Demetrion in modo diverso.",
+        "unlocks": [],
+        "possible_actions": [
+          "Interrogare Theron"
+        ],
+        "wrong_interpretations": [
+          "I sacerdoti di Ares hanno rubato la conchiglia",
+          "Demetrion è coinvolto nel furto sacrilego"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_demetrion",
+        "name": "Demetrion il Mercante",
+        "role": "antagonist",
+        "location_id": "harbor_warehouse",
+        "status": "introduced",
+        "goal": "Proteggere i suoi affari e la sua reputazione",
+        "secret": "Ha rubato e venduto la Conchiglia di Anfitrite, scatenando inconsapevolmente la maledizione",
+        "agenda_pressure": 8,
+        "fear": "Essere scoperto e condannato per empietà",
+        "current_plan": "Collaborare superficialmente con le indagini puntando il dito su altri",
+        "fallback_plan": "Fuggire a Corinto se smascherato",
+        "resources": [
+          "Influenza commerciale",
+          "Contatti a Corinto"
+        ],
+        "knows": [
+          "clue_demetrion_ledger",
+          "truth_real_cause"
+        ],
+        "wants": [
+          "Che la colpa cada su qualcun altro"
+        ],
+        "avoids": [
+          "Il tempio di Poseidone"
+        ],
+        "pressure_response": {
+          "pressure_low": "Demetrion accoglie i PG con falsa ospitalità — offre vino, racconta storie su altri mercanti sospetti, indica Theron come possibile colpevole. Sembra un cittadino preoccupato che collabora pienamente.",
+          "pressure_mid": "Con domande specifiche sul furto o sui suoi viaggi a Corinto, Demetrion diventa difensivo: 'Commercio oggetti d'arte legittimamente. Non ho nulla a che fare con il tempio.' Tiro Intuizione PG a +1 per notare che evita lo sguardo al piedistallo vuoto.",
+          "pressure_high": "Se i PG hanno il registro o la testimonianza dell'oracolo, Demetrion crolla parzialmente: ammette di aver 'trovato' la conchiglia fuori dal tempio, minimizza: 'Non sapevo fosse sacra.' Può ancora fuggire se non fisicamente bloccato.",
+          "pressure_max": "Demetrion fugge verso il porto se sente che le prove sono schiaccianti — ha una barca pronta. Se catturato, implora misericordia e rivela tutto, inclusa la vendita a Lysander, in cambio di una punizione minore."
+        },
+        "reaction_table": {
+          "friendly_approach": "Demetrion risponde con eccesso di cordialità — troppo disponibile. Tiro Intuizione PG a +2 per notare che guida la conversazione lontano da certi argomenti.",
+          "intimidation": "Demetrion cede rapidamente all'intimidazione fisica ma può fare accuse false sotto pressione. L'intimidazione verbale con prove funziona meglio — crolla senza violenza se le prove sono solide.",
+          "bribery": "Demetrion comprende il linguaggio del denaro — può essere corrotto per rivelare dettagli su Lysander in cambio di immunità. Richiede una cifra non inferiore ai 40 dracme che ha guadagnato dalla vendita.",
+          "caught_lying": "Demetrion non è un bugiardo esperto — sotto pressione cede e reindirizza. Se mostrato in contraddizione chiara, ammette 'parte' della verità per proteggere la versione più conveniente.",
+          "authority_figure": "In presenza dell'archonte, Demetrion è estremamente servile e rispettoso. Ma la sua paura è visibile — l'archonte è l'unica autorità che potrebbe condannarlo. Tiro Intuizione PG a +3 per cogliere il terrore sotto la maschera."
+        },
+        "relationships": [
+          {
+            "target": "actor_archon",
+            "type": "clientela",
+            "note": "Ha donazioni all'archonte"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "scare_npc",
+            "target_id": "npc_lysander",
+            "new_attitude": "uncooperative",
+            "narration": "Demetrion invia i suoi uomini a Corinto per intimidire Lysander il Collezionista. Il mercante ora teme per la sua vita e rifiuta di parlare apertamente."
+          },
+          {
+            "at_pressure": 7,
+            "action": "destroy_clue",
+            "clue_id": "clue_demetrion_ledger",
+            "replacement_clue": {
+              "id": "clue_burnt_ledger_fragment",
+              "label": "Frammento bruciato del registro",
+              "reveals": "Un frammento carbonizzato recuperato dalle ceneri mostra transazioni con un 'collezionista corinzio' per 'reliquie marine sacre'"
+            },
+            "narration": "Gli uomini di Demetrion incendiano il suo magazzino principale, distruggendo deliberatamente i registri commerciali compromettenti. Solo frammenti bruciati possono essere recuperati."
+          },
+          {
+            "at_pressure": 9,
+            "action": "eliminate_npc",
+            "target_id": "npc_temple_priest",
+            "creates_clue": {
+              "id": "clue_priest_final_testimony",
+              "label": "Ultima testimonianza del sacerdote",
+              "reveals": "Il sacerdote morente sussurra che Demetrion lo ha avvelenato per impedirgli di rivelare chi ha rubato la conchiglia sacra dal tempio"
+            },
+            "narration": "Il vecchio sacerdote del Tempio di Poseidone viene trovato morto, avvelenato. Prima di spirare, lascia un messaggio finale a chi lo assiste."
+          }
+        ]
+      },
+      {
+        "id": "actor_archon",
+        "name": "Archonte Kallisthenes",
+        "role": "authority",
+        "location_id": "naxemia_agora",
+        "status": "introduced",
+        "goal": "Salvare la città dalla maledizione",
+        "secret": "Sospetta di Demetrion ma ha paura di agire senza prove per via dei suoi soldi",
+        "agenda_pressure": 7,
+        "fear": "Un altro attacco del mostro",
+        "current_plan": "Affidarsi agli eroi (i PG) sperando che trovino una soluzione",
+        "fallback_plan": "Ordinare l'evacuazione della città",
+        "resources": [
+          "Autorità cittadina",
+          "Fondi pubblici",
+          "Guardie"
+        ],
+        "knows": [],
+        "wants": [
+          "La fine della maledizione"
+        ],
+        "avoids": [
+          "Accusare Demetrion senza prove"
+        ],
+        "pressure_response": {
+          "pressure_low": "Kallisthenes è autorevole e directivo — ingaggia i PG come eroi della città, fornisce fondi pubblici e autorizzazione a indagare ovunque. Si fida di loro ma vuole aggiornamenti frequenti.",
+          "pressure_mid": "Se i PG impiegano troppo, Kallisthenes inizia a mostrare insofferenza: 'La luna piena si avvicina e i cittadini mi chiedono risposte.' Può essere convinto a usare la sua autorità contro Demetrion se i PG gli portano prove concrete.",
+          "pressure_high": "Kallisthenes è sotto pressione pubblica — i pescatori lo accusano di inazione. Se i PG gli rivelano Demetrion come colpevole, Kallisthenes prende azione immediata nonostante i debiti di patronato: 'Non posso mettere i soldi di un uomo davanti agli dei.'",
+          "pressure_max": "Kallisthenes ordina l'evacuazione del porto se il clock supera tick 7 senza soluzione. Questo riduce la finestra d'azione dei PG ma non la chiude — c'è ancora tempo per la restituzione della conchiglia."
+        },
+        "reaction_table": {
+          "friendly_approach": "Kallisthenes risponde con calore istituzionale — tratta i PG come eroi della tradizione greca. Fornisce qualsiasi risorsa pubblica richiesta ragionevolmente.",
+          "intimidation": "L'intimidazione di un archonte è un'offesa civica — può far arrestare i PG o almeno bandirli dalla città. Non funziona mai.",
+          "bribery": "Kallisthenes non può essere corrotto direttamente, ma una dimostrazione di abilità o un dono votivo agli dei (in nome della città) lo rende più flessibile sulle procedure.",
+          "caught_lying": "Kallisthenes non mente — omette il suo sospetto su Demetrion per mancanza di prove. Se i PG lo spingono, ammette: 'Sospetto di Demetrion da settimane. Ma l'accusa senza prove è peggio del nulla.'",
+          "authority_figure": "Kallisthenes è la massima autorità civica di Naxemia — nessun altro sopra di lui localmente. Se i PG rappresentano un oracolo o un mandato divino, Kallisthenes li tratta con deferenza totale."
+        },
+        "relationships": [
+          {
+            "target": "actor_demetrion",
+            "type": "patronato",
+            "note": "Demetrion è un suo sostenitore"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_lysander",
+        "name": "Lysander il Collezionista",
+        "role": "obstacle",
+        "location_id": "lysander_villa",
+        "status": "unintroduced",
+        "goal": "Mantenere la sua collezione intatta",
+        "secret": "Non sa che la conchiglia è sacra — l'ha comprata in buona fede",
+        "agenda_pressure": 3,
+        "fear": "Che qualcuno voglia rubargli le sue opere d'arte",
+        "current_plan": "Ostacolare chi cerca la conchiglia con burocrazia e guardie",
+        "fallback_plan": "Cederla se convinto che sia una questione divina — non vuole guai con gli dei",
+        "resources": [
+          "Villa privata con guardie",
+          "Influenza a Corinto"
+        ],
+        "knows": [
+          "clue_shell"
+        ],
+        "wants": [
+          "Che la sua collezione rimanga intatta"
+        ],
+        "avoids": [
+          "L'ira degli dei"
+        ],
+        "pressure_response": {
+          "pressure_low": "Lysander è un padrone di casa orgoglioso — mostra la sua collezione con entusiasmo, compresa la conchiglia 'di straordinaria bellezza marina'. Non ha idea del suo valore sacro e parla liberamente della provenienza.",
+          "pressure_mid": "Se i PG accennano al significato religioso della conchiglia, Lysander diventa nervoso: 'L'ho acquistata in buona fede. Non sapevo fosse rubata.' La paura degli dei è la sua vulnerabilità principale.",
+          "pressure_high": "Con la storia completa della maledizione e del mostro, Lysander crolla: 'Poseidone si vendicherà su di me!' Può cedere la conchiglia spontaneamente se convinto del rischio divino personale.",
+          "pressure_max": "Se i PG tentano il furto e falliscono, Lysander chiama la guardia di Corinto. Ma se vengono catturati e spiegano la situazione, Lysander trova più conveniente cederla 'come gesto di pietà' che rischiare rappresaglie divine."
+        },
+        "reaction_table": {
+          "friendly_approach": "Lysander risponde positivamente al rispetto per la sua collezione. Un approccio da 'estimatori d'arte' lo mette a proprio agio. Tiro Arte o Eloquenza PG a +2 per il primo contatto.",
+          "intimidation": "Lysander non è un guerriero — cede all'intimidazione fisica rapidamente. Ma ha guardie private e può chiamarle. L'intimidazione divina ('Poseidone stesso ti punirà') funziona meglio.",
+          "bribery": "Lysander risponde al compenso economico equo. Il prezzo giusto è almeno quello che ha pagato a Demetrion — ma la paura degli dei lo rende disposto a cedere anche a meno con il giusto inquadramento.",
+          "caught_lying": "Lysander non mente sulla provenienza della conchiglia — l'ha comprata legittimamente. Se i PG pensano che menta, è un malinteso risolvibile con le prove del registro di Demetrion.",
+          "authority_figure": "Le autorità di Corinto non hanno giurisdizione sulla questione religiosa di Naxemia — Lysander lo sa. Ma un sacerdote di Poseidone presente alla richiesta sarebbe efficace."
+        },
+        "relationships": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      },
+      {
+        "id": "actor_pythia",
+        "name": "La Pizia di Delfi",
+        "role": "ally",
+        "location_id": "delphi_oracle",
+        "status": "unintroduced",
+        "goal": "Trasmettere la volontà degli dei",
+        "secret": "Può dare un responso più chiaro se i PG la consultano di persona con offerte adeguate",
+        "agenda_pressure": 1,
+        "fear": "Nessuna",
+        "current_plan": "Rispondere alle domande poste",
+        "fallback_plan": "Nessun fallback — parla sempre",
+        "resources": [
+          "Conoscenza divina"
+        ],
+        "knows": [
+          "truth_real_cause",
+          "truth_monster",
+          "truth_offering"
+        ],
+        "wants": [
+          "Offerte votive adeguate"
+        ],
+        "avoids": [],
+        "pressure_response": {
+          "pressure_low": "La Pizia parla in versi criptici ma significativi — è il suo linguaggio naturale. Risponde alla prima domanda con il responso standard. Se i PG portano offerte adeguate, la risposta è più diretta.",
+          "pressure_mid": "Se i PG non capiscono il primo responso, possono chiedere chiarimento — la Pizia risponde con un'immagine diversa della stessa verità: 'Il padre è offeso, non il figlio. Il ladro beve vino tra gli Istmici.' Più diretto ma ancora poetico.",
+          "pressure_high": "In presenza di gravi offerte votive (oro, animali sacrificali), la Pizia può parlare direttamente — senza metafore: 'Demetrion di Naxemia ha rubato la Conchiglia di Anfitrite. È a Corinto. Riportala.'",
+          "pressure_max": "La Pizia non ha un 'massimo' di pressione — è un tramite divino, non una persona. Qualsiasi pressione umana viene ignorata. Ma gli dei possono scegliere di parlare più chiaramente in situazioni di estrema urgenza."
+        },
+        "reaction_table": {
+          "friendly_approach": "La Pizia risponde a qualsiasi approccio rispettoso — è il protocollo. Offerte votive di valore fanno la differenza nella chiarezza del responso.",
+          "intimidation": "La Pizia non può essere intimidita — è protetta da Apollo. Chi tenta di forzarla viene espulso dal santuario dai sacerdoti.",
+          "bribery": "Le offerte votive non sono corruzione — sono il protocollo divino. Portare doni di valore agli dei aumenta la qualità del responso.",
+          "caught_lying": "La Pizia non mente — dice la verità degli dei come la percepisce. Se il responso sembra contraddittorio, è il limite della comprensione umana, non della Pizia.",
+          "authority_figure": "Nessuna autorità umana supera Apollo nell'oracolo. I re vengono qui a supplicare, non a comandare."
+        },
+        "relationships": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_citizens",
+        "name": "Cittadini di Naxemia",
+        "agenda": "Sopravvivere alla maledizione",
+        "pressure": 7,
+        "status": "active",
+        "source_status": "explicit",
+        "confidence": 0.9
+      }
+    ],
+    "locations": [
+      {
+        "id": "naxemia_harbor",
+        "name": "Porto di Naxemia",
+        "description": "Il porto è semi-abbandonato. Barche distrutte dal precedente attacco. I pescatori guardano il mare con terrore. La luna piena si avvicina.",
+        "status": "known",
+        "contains_clues": [
+          "clue_monster_description",
+          "clue_red_herring_rival"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Porto greco antico, barche sfasciate, molo deserto, odore di sale e paura",
+        "gameplay_function": "Punto di partenza, testimoni oculari, atmosfera di urgenza",
+        "concrete_features": [
+          "Barche distrutte",
+          "Pescatori traumatizzati",
+          "Segni degli attacchi precedenti"
+        ],
+        "hazards": [
+          "Attacco del mostro alla prossima luna piena"
+        ],
+        "exits": [
+          "naxemia_agora",
+          "harbor_warehouse",
+          "poseidon_temple"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_monster_description"
+        ],
+        "tactical_features": [
+          "Il molo è difendibile ma il mostro emerge dal mare"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "naxemia_agora",
+        "name": "Agorà di Naxemia",
+        "description": "Piazza pubblica animata ma tesa. Mercanti sussurrano. L'archonte convoca i PG nel suo ufficio.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_archon"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Piazza greca con colonnati, mercanti nervosi, ufficio dell'archonte",
+        "gameplay_function": "Autorità, missione principale, informazioni generali",
+        "concrete_features": [
+          "Ufficio dell'archonte",
+          "Stoa dei mercanti",
+          "Altare pubblico"
+        ],
+        "hazards": [],
+        "exits": [
+          "naxemia_harbor",
+          "poseidon_temple"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "poseidon_temple",
+        "name": "Tempio di Poseidone",
+        "description": "Sul promontorio a nord del porto. Maestoso ma turbato — i sacerdoti sono inquieti, l'offerta principale è sparita. L'altare centrale ha un piedistallo vuoto.",
+        "status": "known",
+        "contains_clues": [
+          "clue_temple_theft"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Tempio dorico sul promontorio, vista sul mare, pietra bianca con incrostazioni di sale",
+        "gameplay_function": "Evidenza del furto, luogo finale della restituzione",
+        "concrete_features": [
+          "Piedistallo vuoto",
+          "Sacerdoti in preghiera",
+          "Graffi sul piedistallo"
+        ],
+        "hazards": [],
+        "exits": [
+          "naxemia_harbor",
+          "naxemia_agora"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_temple_theft"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "harbor_warehouse",
+        "name": "Magazzino di Demetrion",
+        "description": "Grande magazzino al porto pieno di merci. Demetrion accoglie i PG con falsa cordialità. Il registro è sul suo tavolo.",
+        "status": "known",
+        "contains_clues": [
+          "clue_demetrion_ledger"
+        ],
+        "contains_actors": [
+          "actor_demetrion"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Magazzino portuale greco, anfore e merci impilate, scrivania con registri",
+        "gameplay_function": "Prove del tradimento, colpevole principale",
+        "concrete_features": [
+          "Scrivania con registro",
+          "Merci di lusso",
+          "Porta sul retro per la fuga"
+        ],
+        "hazards": [
+          "Demetrion può fuggire se smascherato"
+        ],
+        "exits": [
+          "naxemia_harbor"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_demetrion_ledger"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "delphi_oracle",
+        "name": "Oracolo di Delfi",
+        "description": "Il santuario di Apollo sul Parnaso. Incenso e vapori sulfurei. La Pizia è in trance e parla in versi criptici ma decifrabili.",
+        "status": "known",
+        "contains_clues": [
+          "clue_oracle"
+        ],
+        "contains_actors": [
+          "actor_pythia"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Viaggio di 2 giorni da Naxemia",
+          "Offerte votive per consultare la Pizia"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Santuario apollineo, vapori dal suolo, Pizia sul tripode sacro",
+        "gameplay_function": "Risposta divina cruciale, indicazione della soluzione",
+        "concrete_features": [
+          "Adyton con la Pizia",
+          "Vapori sulfurei",
+          "Sacerdoti di Apollo"
+        ],
+        "hazards": [
+          "Il viaggio costa tempo — il clock avanza"
+        ],
+        "exits": [
+          "corinth_agora"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_oracle"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "corinth_agora",
+        "name": "Agorà di Corinto",
+        "description": "Città prospera e cosmopolita. Mercanti da tutta la Grecia. Con le giuste domande, le informazioni su Lysander emergono.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_corinth_merchant"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [
+          "Viaggio da Delfi"
+        ],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Città greca ricca, mercato vivace, portici eleganti",
+        "gameplay_function": "Localizzare Lysander e la conchiglia",
+        "concrete_features": [
+          "Mercato di antichità",
+          "Locanda per stranieri",
+          "Informatori locali"
+        ],
+        "hazards": [],
+        "exits": [
+          "delphi_oracle",
+          "lysander_villa"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_corinth_merchant"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      },
+      {
+        "id": "lysander_villa",
+        "name": "Villa di Lysander a Corinto",
+        "description": "Villa privata con giardino murato. Guardie discrete. All'interno, una sala delle collezioni con oggetti d'arte. La conchiglia è in mostra.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_shell"
+        ],
+        "contains_actors": [
+          "actor_lysander"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Trovare Lysander nell'agorà di Corinto"
+        ],
+        "type": "location",
+        "access_state": "restricted",
+        "visual_identity": "Villa greca con peristilio, collezione d'arte, atmosfera di lusso",
+        "gameplay_function": "Recupero della conchiglia, confronto con Lysander",
+        "concrete_features": [
+          "Sala delle collezioni",
+          "La Conchiglia di Anfitrite in mostra",
+          "Guardie private"
+        ],
+        "hazards": [
+          "Guardie se si tenta un furto",
+          "Lysander può allarmare la polizia cittadina"
+        ],
+        "exits": [
+          "corinth_agora"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_shell"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_luna_piena",
+        "label": "La Luna Piena — Attacco dell'Ichthyocentaur",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il mostro attacca di nuovo. Se non è stato risolto, Naxemia è devastata. Altro ciclo = città non sopravvive.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "I pescatori iniziano a abbandonare la città. Panico iniziale"
+          },
+          {
+            "tick": 4,
+            "event": "Il cielo si oscura inaspettatamente. Il mare è agitato anche senza vento"
+          },
+          {
+            "tick": 6,
+            "event": "L'archonte ordina l'evacuazione del porto — il tempo stringe"
+          },
+          {
+            "tick": 8,
+            "event": "Il mostro emerge dalla baia — attacco preliminare, distrugge le barche"
+          },
+          {
+            "tick": 10,
+            "event": "Attacco pieno. Naxemia è devastata. Missione fallita."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_shell"
+        ],
+        "resolution_condition": "Restituire la Conchiglia di Anfitrite al tempio di Poseidone prima della luna piena",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": true,
+        "discovery_clue_id": "",
+        "discovery_hint": "Tutti sanno che la luna piena porta l'attacco — è la premessa della missione",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "explicit",
+        "is_explicit_from_source": true,
+        "is_inferred": false,
+        "confidence": 0.95
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_fiducia_naxemia",
+        "label": "Fiducia dei Cittadini di Naxemia",
+        "description": "Il sostegno della città agli eroi — se i PG falliscono o agiscono male, Naxemia non coopererà nei momenti cruciali",
+        "current_value": 7,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni notte che passa senza progressi visibili, ogni volta che i PG sembrano ignorare la situazione, ogni errore pubblico a Naxemia",
+        "depletion_consequence": "A 4: i cittadini non forniscono più testimonianze — la paura dell'impietà li blocca. A 2: l'archonte valuta di pagare un'altra squadra. A 0: Naxemia espelle i PG come portatori di sfortuna",
+        "recovery_method": "Ogni clue scoperto condiviso pubblicamente recupera 1 punto. Dimostrare il collegamento tra il furto e la maledizione davanti all'archonte recupera 3 punti."
+      },
+      {
+        "id": "res_giorni_prima_luna_piena",
+        "label": "Giorni Rimanenti alla Luna Piena",
+        "description": "Il countdown visivo della missione — sette giorni all'inizio, ognuno che passa è una pressione narrativa concreta",
+        "current_value": 7,
+        "max_value": 7,
+        "min_value": 0,
+        "depletion_trigger": "Ogni giorno che passa nella narrazione",
+        "depletion_consequence": "A 4: il viaggio a Delfi e poi Corinto è ancora possibile ma richiede marce forzate. A 2: solo la via diretta Corinto-Naxemia è praticabile. A 0: l'Ichthyocentaur emerge",
+        "recovery_method": "Non recuperabile. Le divinità greche non invertono il tempo."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_restituzione",
+        "label": "Restituzione della Conchiglia di Anfitrite",
+        "required_threads": [
+          "thread_offerta"
+        ],
+        "required_clues": [
+          "clue_shell",
+          "clue_oracle"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_conchiglia_location",
+          "rev_real_cause"
+        ],
+        "method": "Portare la conchiglia al tempio di Poseidone e compiere il rito di restituzione prima della luna piena",
+        "concrete_choice": "I PG devono correre da Corinto a Naxemia con la conchiglia, scortandola attraverso il mare"
+      },
+      {
+        "id": "finale_confronto_demetrion",
+        "label": "Giustizia per Demetrion",
+        "required_threads": [
+          "thread_sacrilegio"
+        ],
+        "required_clues": [
+          "clue_demetrion_ledger",
+          "clue_temple_theft"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_demetrion_guilty"
+        ],
+        "method": "Portare Demetrion davanti all'archonte con le prove del sacrilegio",
+        "concrete_choice": "Seconda condizione di vittoria — non sufficiente da sola ma necessaria per il finale completo"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "mythic",
+      "tone": "epico, divino, tragedia greca",
+      "allowed_escalations": [
+        "divine_intervention",
+        "monster_combat",
+        "heroic_trial"
+      ],
+      "forbidden_escalations": [
+        "modern_cynicism"
+      ],
+      "terminal_events_require": [],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "La visita all'Oracolo è quasi obbligatoria ma costa tempo — tensione reale",
+      "Lysander può essere convinto con la paura degli dei: 'Vuoi che Poseidone ti punisca?'",
+      "Il mostro può apparire come momento di terrore durante l'avventura, non solo alla fine — costringendo i PG a fuggire"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_sacrilegio",
+        "label": "Il Furto Sacrilego",
+        "status": "active"
+      },
+      {
+        "id": "thread_mostro",
+        "label": "La Natura dell'Ichthyocentaur",
+        "status": "active"
+      },
+      {
+        "id": "thread_offerta",
+        "label": "La Conchiglia di Anfitrite",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "pdf_scourge_triton",
+    "current_scene_id": "naxemia_harbor",
+    "active_objective_ids": [
+      "obj_investigate",
+      "obj_consult_oracle"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [
+      "clue_temple_theft",
+      "clue_oracle",
+      "clue_demetrion_ledger",
+      "clue_monster_description",
+      "clue_corinth_merchant",
+      "clue_shell"
+    ],
+    "partial_clue_ids": [
+      "clue_red_herring_rival"
+    ],
+    "active_revelation_ids": [
+      "rev_real_cause",
+      "rev_demetrion_guilty",
+      "rev_monster_nature",
+      "rev_conchiglia_location"
+    ],
+    "ready_revelation_ids": [
+      "rev_real_cause",
+      "rev_demetrion_guilty",
+      "rev_monster_nature",
+      "rev_conchiglia_location"
+    ],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "pescatori_porto": {
+        "status": "hostile",
+        "location_id": "naxemia_harbor"
+      },
+      "sacerdote_tempio": {
+        "status": "collaborativo ma spaventato",
+        "location_id": "tempio_poseidone"
+      },
+      "sacerdote_poseidone": {
+        "status": "hostile",
+        "location_id": "tempio_poseidone"
+      },
+      "demetrion_guards": {
+        "status": "allertati e ostili",
+        "location_id": "naxemia_harbor"
+      },
+      "actor_demetrion": {
+        "pressure": 9
+      },
+      "npc_temple_priest": {
+        "status": "dead"
+      },
+      "servo_demetrion": {
+        "status": "catturato e terrorizzato",
+        "location_id": "magazzino_porto"
+      },
+      "figura_incappucciata": {
+        "status": "fuggita attraverso botola sotterranea",
+        "location_id": "gallerie_sotterranee"
+      },
+      "demetrion_servant": {},
+      "harbor_guards": {
+        "status": "Tre guardie del porto arrestano Fenn per violazione e sequestro illegale",
+        "location_id": "naxemia_harbor"
+      },
+      "demetrion": {},
+      "captain_guards": {},
+      "lysander": {
+        "location_id": "lysander_villa"
+      },
+      "actor_lysander": {
+        "pressure": 4
+      },
+      "phaedrus_servo": {
+        "location_id": "corinth_agora",
+        "attitude": "nervous_helpful"
+      },
+      "phaedrus": {
+        "status": "in_fuga",
+        "location_id": "naxemia_harbor"
+      },
+      "theron_guards": {
+        "status": "attivo",
+        "location_id": "naxemia_harbor"
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "naxemia_harbor": {
+        "access_state": "open",
+        "status": "visited"
+      }
+    },
+    "clock_runtime": {
+      "clock_luna_piena": {
+        "value": 10,
+        "active": true,
+        "discovered": true,
+        "resolved": false,
+        "completed": true
+      },
+      "main_threat": {
+        "value": 9
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {
+      "finale_restituzione": {
+        "status": "locked"
+      },
+      "finale_confronto_demetrion": {
+        "status": "locked"
+      }
+    },
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_temple_theft": [
+        "rev_real_cause",
+        "rev_demetrion_guilty"
+      ],
+      "clue_oracle": [
+        "rev_monster_nature",
+        "rev_real_cause"
+      ],
+      "clue_demetrion_ledger": [
+        "rev_demetrion_guilty"
+      ],
+      "clue_monster_description": [
+        "rev_monster_nature"
+      ],
+      "clue_corinth_merchant": [
+        "rev_conchiglia_location"
+      ],
+      "clue_demetrion_ledger_2": [
+        "rev_conchiglia_location"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_sacrilegio": [
+        "rev_real_cause",
+        "rev_demetrion_guilty"
+      ],
+      "thread_mostro": [
+        "rev_monster_nature"
+      ],
+      "thread_offerta": [
+        "rev_conchiglia_location"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_real_cause": "thread_sacrilegio",
+      "rev_demetrion_guilty": "thread_sacrilegio",
+      "rev_monster_nature": "thread_mostro",
+      "rev_conchiglia_location": "thread_offerta"
+    },
+    "flags": {
+      "conchiglia_anfitrite_identified": true,
+      "cera_viola_connection": true,
+      "demetrion_alerted": true,
+      "harbor_hostile": true,
+      "pe_triggered_actor_demetrion_2_9": true,
+      "registro_recuperato": true,
+      "servo_catturato": true,
+      "botola_scoperta": true,
+      "stealth_compromised": true,
+      "chase_active": true,
+      "servant_interrogated": true,
+      "lysander_connection_revealed": true,
+      "fenn_arrested": true,
+      "registry_confiscated_risk": true,
+      "contact_failed": true,
+      "registro_ottenuto": true,
+      "demetrion_allertato_probabile": true
+    },
+    "history": [
+      "Fenn si avvicina a un gruppo di pescatori accovacciati contro un magazzino scrostato. L'Ispettore inizia con tono calmo, professionale, ma gli uomini si irrigidiscono. Uno sputa in mare. «Altro forestiero che fa domande. Come quelli del Consiglio, come i sacerdoti. E noi continuiamo a morire.» {{ROL",
+      "Fenn si stacca dal gruppo di pescatori e si dirige verso la banchina orientale, dove la figura incappucciata sostava pochi istanti prima. L'Ispettore scruta le ombre tra i magazzini abbandonati, i sensi acuti in allerta. {{ROLL}} Riesce a scorgere un lembo di tessuto viola che scompare dietro l'ango",
+      "Fenn risale la strada tortuosa che dal porto conduce all'acropoli, dove il Tempio di Poseidone domina la città con le sue colonne bianche macchiate di salsedine. L'aria si fa più fresca, ma anche più carica di tensione. Un sacerdote anziano, le vesti sporche di cenere, attende sulla soglia con sguar",
+      "Fenn attraversa l'agorà di Naxemia con passo deciso, gli occhi che scrutano le bancarelle dei mercanti. La piazza brucia sotto il sole del mezzogiorno — odore di pesce fritto, incenso e sudore. L'Ispettore si ferma davanti a un vecchio venditore di candele e unguenti, mostrando la goccia di cera vio",
+      "Fenn torna al Tempio di Poseidone mentre il sole del pomeriggio tinge di rosso le colonne. Il sacerdote anziano sta spazzando la cenere dall'altare con gesti stanchi, quasi rituali. L'Ispettore si avvicina con tono rispettoso: «Padre, l'Oracolo di Delfi ha parlato. Devo capire il legame tra il vostr",
+      "Fenn scatta verso il magazzino del porto, il cuore che batte forte. Le assi della banchina scricchiolano sotto i suoi passi mentre la figura incappucciata scompare dietro l'angolo del deposito marcato con il sigillo di Demetrion. L'Ispettore afferra la maniglia della porta laterale, pronto a irrompe",
+      "Fenn lascia la porta principale e aggira il magazzino di Demetrion con passo rapido ma silenzioso, i sensi acuti in allerta. Sul retro, tra le casse ammucchiate e le reti marcite, trova una finestra alta con le imposte sconnesse. {{ROLL}} Riesce a issarsi sul davanzale e a sbirciare dentro: il magaz",
+      "Fenn si lancia attraverso la finestra con precisione da veterano, rotolando sull'impiantito del magazzino e bloccando l'uscita con il corpo. Le due figure si voltano di scatto — uno è un giovane servo con la tunica di Demetrion, l'altro porta il cappuccio viola che l'Ispettore ha seguito fin dal por",
+      "Fenn scende nella botola con decisione, aggrappandosi alla scala di legno corroso. La galleria sotterranea è stretta e umida — odore di salsedine e muffa. Avanza chinato, seguendo il rumore di passi affrettati che echeggiano davanti a lui. {{ROLL}} Ma il piede sinistro scivola su una pietra viscida ",
+      "Fenn risale la galleria con passo deciso, le ginocchia ancora doloranti dalla scivolata. Nel magazzino il servo è accovacciato contro una cassa, il registro abbandonato ai suoi piedi. L'Ispettore lo afferra per il colletto e lo solleva in piedi con una stretta ferma. «La figura incappucciata. Dove p",
+      "Fenn solleva il registro di Demetrion alla luce della lanterna nel magazzino, le dita che scorrono le colonne di cifre e nomi greci. L'inchiostro è sbiadito, le pagine impregnate di umidità salmastra. L'Ispettore cerca la voce del tempio, la transazione sospetta, ma i caratteri si confondono — diale",
+      "Fenn estrae dalla tasca il sigillo di bronzo del Consiglio degli Arconti — il lascito di un vecchio alleato — e lo mostra alle guardie con mano ferma. «Ordine del Consiglio. Questo registro è prova in un'indagine sulla maledizione di Tritone. Ritiratevi.» {{ROLL}} Il capitano delle guardie afferra i",
+      "Fenn si fa avanti di un passo, la mascella serrata, lo sguardo che trafigge il capitano delle guardie. «Ogni notte che passa, Tritone divora un altro pescatore. Ogni giorno che Demetrion nasconde la verità, avvicina la città alla rovina.» La voce dell'Ispettore è bassa, tagliente come una lama. «Se ",
+      "Fenn si appoggia contro una cassa nel magazzino, il registro di Demetrion aperto sotto la luce tremolante della lanterna. Le dita scorrono le pagine con metodo, gli occhi acuti che cercano la transazione sospetta. Colonne di nomi, cifre, porti di destinazione — poi, nascosta tra le voci di olio e gr",
+      "Fenn lascia il magazzino di Demetrion e attraversa l'agorà deserta verso il porto, il registro stretto sotto il braccio. La luna piena si alza pallida sull'orizzonte — mancano due notti all'attacco. Al molo, il capitano di una nave mercantile accetta il pagamento e prepara la vela per Corinto. Il vi",
+      "Fenn si apposta dietro una siepe di mirto, gli occhi che scrutano il perimetro della villa di Lysander. Le mura sono alte, ma nella sezione est nota un punto dove l'intonaco è crollato, lasciando sporgere le pietre irregolari — appigli sufficienti per un'arrampicata. Una finestra al primo piano è so",
+      "Fenn attraversa l'agorà di Corinto al tramonto, gli occhi che scrutano le botteghe e i portici dove i servitori si radunano dopo il lavoro. Mercanti gridano, anfore tintinnano, ma l'Ispettore cerca un volto specifico — qualcuno legato alla villa di Lysander. Presso una fontana nota un giovane con la",
+      "Fenn trova Phaedrus nel vicolo dietro la locanda del porto, mentre il giovane servitore sta caricando anfore su un carretto. L'Ispettore lo afferra per il braccio e lo trascina nell'ombra di un magazzino. «Theron il mercante — dimmi tutto quello che sai. Chi gli ha parlato della conchiglia? Come fa "
+    ],
+    "destroyed_clue_ids": [],
+    "injected_clues": [
+      {
+        "id": "clue_priest_final_testimony",
+        "label": "Ultima testimonianza del sacerdote",
+        "reveals": "Il sacerdote morente sussurra che Demetrion lo ha avvelenato per impedirgli di rivelare chi ha rubato la conchiglia sacra dal tempio",
+        "_injected": true,
+        "state": "available",
+        "type": "physical_evidence"
+      }
+    ]
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 89,
+      "issues": [],
+      "warnings": []
+    }
+  },
+  "live_game_state": {
+    "clues_found": [
+      "clue_temple_theft",
+      "clue_oracle",
+      "clue_shell",
+      "clue_demetrion_ledger",
+      "clue_corinth_merchant",
+      "clue_monster_description"
+    ],
+    "clue_progress": {
+      "clue_red_herring_rival": {
+        "ticks": 2,
+        "note": "Phaedrus conferma che Theron sta cercando informazioni su Lysander e Demetrion, ma l'interrogatorio fallisce — le guardie di Theron intervengono e bloccano ulteriori rivelazioni"
+      }
+    },
+    "discovered_clues": [
+      {
+        "id": "clue_temple_theft",
+        "label": "Segni di furto nel Tempio di Poseidone",
+        "thread_id": "thread_sacrilegio",
+        "type": "physical_evidence",
+        "source_location": "poseidon_temple",
+        "reveals": "Sul piedistallo dove stava la Conchiglia di Anfitrite: graffi di metallo, impronte di sandali insoliti, cera di torcia diversa da quella usata dai sacerdoti. Qualcuno ha rubato l'offerta di notte.",
+        "payoff": "rev_real_cause"
+      },
+      {
+        "id": "clue_oracle",
+        "label": "Responso dell'Oracolo di Delfi",
+        "thread_id": "thread_mostro",
+        "type": "testimony",
+        "source_location": "delphi_oracle",
+        "reveals": "La Pizia declama: 'Non è il Padre del Mare che punisce — è il Re dei Mari. Non il figlio, ma il padre. Il ladro beve vino a Corinto. La conchiglia piange nelle mani sbagliate. Finché non torna, il servo verrà ogni luna.'",
+        "payoff": "rev_monster_nature"
+      },
+      {
+        "id": "clue_demetrion_ledger",
+        "label": "Registro commerciale di Demetrion",
+        "thread_id": "thread_sacrilegio",
+        "type": "document",
+        "source_location": "harbor_warehouse",
+        "reveals": "Il registro del mercante: una voce cifrata ma decifrabile — 'oggetto sacro, bronzo e madreperla — venduto a L. di Corinto per 40 dracme d'argento'. La data coincide con l'inizio delle apparizioni del mostro.",
+        "payoff": "rev_demetrion_guilty"
+      },
+      {
+        "id": "clue_monster_description",
+        "label": "Testimonianza dei sopravvissuti all'attacco",
+        "thread_id": "thread_mostro",
+        "type": "testimony",
+        "source_location": "naxemia_harbor",
+        "reveals": "I pescatori sopravvissuti descrivono una creatura mezzo uomo mezzo cavallo-pesce, con corona di coralli e tridente d'ambra. Ogni volta che viene ferita, le ferite si rimarginano nel giro di un respiro. Non muore.",
+        "payoff": "rev_monster_nature"
+      },
+      {
+        "id": "clue_corinth_merchant",
+        "label": "Lysander il Collezionista a Corinto",
+        "thread_id": "thread_offerta",
+        "type": "testimony",
+        "source_location": "corinth_agora",
+        "reveals": "Nell'agorà di Corinto",
+        "payoff": "rev_conchiglia_location"
+      },
+      {
+        "id": "clue_shell",
+        "label": "La Conchiglia di Anfitrite",
+        "thread_id": "thread_offerta",
+        "type": "artifact",
+        "source_location": "lysander_villa",
+        "reveals": "Una conchiglia spiralata di circa 30 cm, che cambia colore con la luce, con una risonanza marina anche in terra. Sul bordo, incisa in bronzo antico, è visibile l'iniziale di Anfitrite in alfabeto pre-ellenico.",
+        "payoff": "Rivela che l'oggetto rubato dal tempio è la conchiglia sacra di Anfitrite, moglie di Poseidone. La sua assenza ha causato l'ira di Tritone. Solo restituendola al tempio di Poseidone la maledizione può essere spezzata."
+      }
+    ],
+    "discovered_facts": [],
+    "resolved_threads": [],
+    "npc_statuses": {
+      "pescatori_porto": {
+        "npc_id": "pescatori_porto",
+        "location": "naxemia_harbor",
+        "status": "hostile",
+        "id": "pescatori_porto"
+      },
+      "sacerdote_tempio": {
+        "npc_id": "sacerdote_tempio",
+        "note": "Il sacerdote anziano del Tempio di Poseidone è nervoso ma collaborativo. Ha rivelato l'identità dell'oggetto rubato. Sembra terrorizzato più dall'ira divina che dal ladro stesso.",
+        "status": "collaborativo ma spaventato",
+        "location": "tempio_poseidone",
+        "id": "sacerdote_tempio"
+      },
+      "sacerdote_poseidone": {
+        "npc_id": "sacerdote_poseidone",
+        "note": "Il sacerdote ha reagito con paura alla vista della cassa di Demetrion scoperta — è coinvolto o terrorizzato? Ha cacciato Fenn dal tempio",
+        "location": "tempio_poseidone",
+        "status": "hostile",
+        "id": "sacerdote_poseidone"
+      },
+      "demetrion_guards": {
+        "npc_id": "demetrion_guards",
+        "location": "naxemia_harbor",
+        "status": "allertati e ostili",
+        "note": "Tre guardie sorvegliano il magazzino, mascherate da pescatori",
+        "id": "demetrion_guards"
+      },
+      "servo_demetrion": {
+        "npc_id": "servo_demetrion",
+        "status": "catturato e terrorizzato",
+        "location": "magazzino_porto",
+        "note": "Complice riluttante della figura incappucciata, disposto a parlare",
+        "id": "servo_demetrion"
+      },
+      "figura_incappucciata": {
+        "npc_id": "figura_incappucciata",
+        "status": "fuggita attraverso botola sotterranea",
+        "location": "gallerie_sotterranee",
+        "note": "L'elemento sorpresa è perduto; la figura conosce i tunnel meglio dell'Ispettore",
+        "id": "figura_incappucciata"
+      },
+      "demetrion_servant": {
+        "npc_id": "demetrion_servant",
+        "id": "demetrion_servant"
+      },
+      "harbor_guards": {
+        "npc_id": "harbor_guards",
+        "location": "naxemia_harbor",
+        "status": "Tre guardie del porto arrestano Fenn per violazione e sequestro illegale",
+        "note": "Arrivate su ordine dell'arconte, bloccano l'indagine",
+        "id": "harbor_guards"
+      },
+      "demetrion": {
+        "npc_id": "demetrion",
+        "note": "Demetrion ha saputo dell'irruzione al magazzino e ha mobilitato le guardie — ora è attivamente ostile",
+        "id": "demetrion"
+      },
+      "captain_guards": {
+        "npc_id": "captain_guards",
+        "note": "Il capitano delle guardie si è ritirato, intimidito ma risentito — potrebbe avvisare Demetrion dell'intrusione",
+        "id": "captain_guards"
+      },
+      "lysander": {
+        "npc_id": "lysander",
+        "note": "Lysander è nella sua villa a Corinto, protetto dai servi — diffidente verso estranei",
+        "location": "lysander_villa",
+        "id": "lysander"
+      },
+      "phaedrus_servo": {
+        "npc_id": "phaedrus_servo",
+        "note": "Servo di Lysander contattato nell'agorà; ha rivelato l'interesse di Theron per la conchiglia",
+        "location": "corinth_agora",
+        "attitude": "nervous_helpful",
+        "id": "phaedrus_servo"
+      },
+      "phaedrus": {
+        "npc_id": "phaedrus",
+        "status": "in_fuga",
+        "location": "naxemia_harbor",
+        "note": "Phaedrus fugge dal vicolo dopo l'arrivo delle guardie di Theron",
+        "id": "phaedrus"
+      },
+      "theron_guards": {
+        "npc_id": "theron_guards",
+        "status": "attivo",
+        "location": "naxemia_harbor",
+        "note": "Due guardie armate di Theron intercettano Fenn e richiedono un incontro immediato con il loro padrone",
+        "id": "theron_guards"
+      }
+    },
+    "threat_level": 7,
+    "open_threads": [],
+    "turn": 21,
+    "in_combat": false,
+    "world_npcs": [
+      {
+        "id": "actor_demetrion",
+        "name": "Demetrion il Mercante",
+        "role": "antagonist",
+        "current_node_id": "harbor_warehouse",
+        "status": "introduced",
+        "threat_to_player": 3,
+        "holds_clue_for": "",
+        "description": "Proteggere i suoi affari e la sua reputazione",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr"
+      },
+      {
+        "id": "actor_archon",
+        "name": "Archonte Kallisthenes",
+        "role": "authority",
+        "current_node_id": "naxemia_agora",
+        "status": "introduced",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "Salvare la città dalla maledizione",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr"
+      },
+      {
+        "id": "actor_lysander",
+        "name": "Lysander il Collezionista",
+        "role": "obstacle",
+        "current_node_id": "lysander_villa",
+        "status": "alive",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "Mantenere la sua collezione intatta",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr"
+      },
+      {
+        "id": "actor_pythia",
+        "name": "La Pizia di Delfi",
+        "role": "ally",
+        "current_node_id": "delphi_oracle",
+        "status": "alive",
+        "threat_to_player": 0,
+        "holds_clue_for": "",
+        "description": "Trasmettere la volontà degli dei",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr"
+      }
+    ],
+    "allowed_escalation_tier": 2,
+    "allowed_escalation_types": [
+      "atmosphere",
+      "minor_complication",
+      "cost_or_delay",
+      "pressure_increase",
+      "partial_clue",
+      "npc_suspicion",
+      "enemy_alerted",
+      "danger_scene",
+      "suspect lies",
+      "alibi pressure",
+      "evidence contested"
+    ],
+    "forbidden_escalation_types": [
+      "apocalypse",
+      "world ending",
+      "world_destroyed",
+      "black sun",
+      "cosmic doom",
+      "city destroyed",
+      "region permanently doomed",
+      "untriggered game over",
+      "party_death",
+      "boss_release",
+      "finale without conditions",
+      "genre_shift",
+      "massacre from one roll",
+      "villain revealed without evidence"
+    ],
+    "blocked_major_events": [],
+    "downgraded_events": [],
+    "director_reason": "Roll=SUCCESSO PIENO; intent=investigate; profile=escalating_horror; archetype=escalating_horror; clock_triggers=0",
+    "map_state": {
+      "map_type": "mythic",
+      "theme": "Grecia mitica, epicità omerica, intriga divino",
+      "nodes": {
+        "naxemia_harbor": {
+          "id": "naxemia_harbor",
+          "name": "Porto di Naxemia",
+          "kind": "location",
+          "description": "Il porto è semi-abbandonato. Barche distrutte dal precedente attacco. I pescatori guardano il mare con terrore. La luna piena si avvicina.",
+          "phase_gate": 1,
+          "connections": [
+            "naxemia_agora"
+          ],
+          "visited": true,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "start",
+            "indizio"
+          ],
+          "contains_clue": true,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 0,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "naxemia_agora": {
+          "id": "naxemia_agora",
+          "name": "Agorà di Naxemia",
+          "kind": "location",
+          "description": "Piazza pubblica animata ma tesa. Mercanti sussurrano. L'archonte convoca i PG nel suo ufficio.",
+          "phase_gate": 1,
+          "connections": [
+            "naxemia_harbor",
+            "poseidon_temple"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "png"
+          ],
+          "contains_clue": false,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 2,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "poseidon_temple": {
+          "id": "poseidon_temple",
+          "name": "Tempio di Poseidone",
+          "kind": "location",
+          "description": "Sul promontorio a nord del porto. Maestoso ma turbato — i sacerdoti sono inquieti, l'offerta principale è sparita. L'altare centrale ha un piedistallo vuoto.",
+          "phase_gate": 1,
+          "connections": [
+            "naxemia_agora",
+            "harbor_warehouse"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "indizio"
+          ],
+          "contains_clue": true,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 4,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "harbor_warehouse": {
+          "id": "harbor_warehouse",
+          "name": "Magazzino di Demetrion",
+          "kind": "location",
+          "description": "Grande magazzino al porto pieno di merci. Demetrion accoglie i PG con falsa cordialità. Il registro è sul suo tavolo.",
+          "phase_gate": 1,
+          "connections": [
+            "poseidon_temple",
+            "delphi_oracle"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "indizio",
+            "png"
+          ],
+          "contains_clue": true,
+          "contains_enemy": true,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 4,
+          "grid_y": 2,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "delphi_oracle": {
+          "id": "delphi_oracle",
+          "name": "Oracolo di Delfi",
+          "kind": "location",
+          "description": "Il santuario di Apollo sul Parnaso. Incenso e vapori sulfurei. La Pizia è in trance e parla in versi criptici ma decifrabili.",
+          "phase_gate": 1,
+          "connections": [
+            "harbor_warehouse",
+            "corinth_agora"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "indizio",
+            "png"
+          ],
+          "contains_clue": true,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 2,
+          "grid_y": 2,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "corinth_agora": {
+          "id": "corinth_agora",
+          "name": "Agorà di Corinto",
+          "kind": "location",
+          "description": "Città prospera e cosmopolita. Mercanti da tutta la Grecia. Con le giuste domande, le informazioni su Lysander emergono.",
+          "phase_gate": 1,
+          "connections": [
+            "delphi_oracle",
+            "lysander_villa"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "indizio"
+          ],
+          "contains_clue": true,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 0,
+          "grid_y": 2,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "lysander_villa": {
+          "id": "lysander_villa",
+          "name": "Villa di Lysander a Corinto",
+          "kind": "location",
+          "description": "Villa privata con giardino murato. Guardie discrete. All'interno, una sala delle collezioni con oggetti d'arte. La conchiglia è in mostra.",
+          "phase_gate": 1,
+          "connections": [
+            "corinth_agora"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": true,
+          "is_final": true,
+          "tags": [
+            "indizio",
+            "png",
+            "finale"
+          ],
+          "contains_clue": true,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 0,
+          "grid_y": 4,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        }
+      },
+      "connections_meta": {
+        "naxemia_agora|naxemia_harbor": {
+          "from_id": "naxemia_harbor",
+          "to_id": "naxemia_agora",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "naxemia_agora|poseidon_temple": {
+          "from_id": "naxemia_agora",
+          "to_id": "poseidon_temple",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "harbor_warehouse|poseidon_temple": {
+          "from_id": "poseidon_temple",
+          "to_id": "harbor_warehouse",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "delphi_oracle|harbor_warehouse": {
+          "from_id": "harbor_warehouse",
+          "to_id": "delphi_oracle",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "corinth_agora|delphi_oracle": {
+          "from_id": "delphi_oracle",
+          "to_id": "corinth_agora",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "corinth_agora|lysander_villa": {
+          "from_id": "corinth_agora",
+          "to_id": "lysander_villa",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        }
+      },
+      "current_node_id": "naxemia_harbor",
+      "start_node_id": "naxemia_harbor",
+      "objective_node_id": "lysander_villa",
+      "extraction_node_id": "lysander_villa"
+    },
+    "turns_played": 1
+  }
+}

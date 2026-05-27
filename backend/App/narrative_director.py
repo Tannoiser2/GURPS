@@ -1,9 +1,38 @@
 from __future__ import annotations
 
 from .runtime_models import AdventureRuntime
-from .escalation_limiter import compute_allowed_escalation_tier
+from .escalation_limiter import compute_allowed_escalation_tier, TIER_DESCRIPTIONS
 from .genre_constraints import get_genre_profile
 from .scene_context import present_actors_at, visible_clues_at
+
+
+_PHASE_LABELS = {
+    "investigation": "INDAGINE",
+    "extraction":    "ESTRAZIONE PROVE",
+    "escape":        "FUGA / SOPRAVVIVENZA",
+    "delivery":      "CONSEGNA / FINALE",
+}
+
+_EXTRACTION_DIRECTIVE = (
+    "MODALITÀ ESTRAZIONE PROVE: i giocatori hanno già raccolto prove sufficienti. "
+    "Non proporre ulteriori attività investigative. "
+    "L'obiettivo ora è: proteggere le prove, mettere in sicurezza i testimoni, "
+    "raggiungere un'autorità affidabile o un luogo sicuro, evitare la polizia corrotta. "
+    "Ogni scena deve muovere il gruppo verso la consegna delle prove o la fuga."
+)
+
+_ESCAPE_DIRECTIVE = (
+    "MODALITÀ FUGA CRITICA: il tempo è quasi scaduto. "
+    "Non si raccolgono nuovi indizi — la priorità assoluta è sopravvivere e portare le prove in salvo. "
+    "Ogni turno di esitazione ha un costo immediato. "
+    "Proponi solo azioni di movimento, evasione, protezione o consegna urgente."
+)
+
+_DELIVERY_DIRECTIVE = (
+    "MODALITÀ CONSEGNA / FINALE: le condizioni per il finale sono soddisfatte. "
+    "Prepara la scena conclusiva: consegna delle prove, confronto finale con l'antagonista, "
+    "o fuga con il testimone al sicuro."
+)
 
 
 def make_director_decision(
@@ -12,6 +41,7 @@ def make_director_decision(
     *,
     prerolled: dict | None = None,
     current_scene_id: str | None = None,
+    investigation_progress: int = 0,
 ) -> dict:
     """Trasforma lo stato simulato in una direttiva singola e concreta per il renderer AI."""
     prerolled = prerolled or {}
@@ -22,6 +52,12 @@ def make_director_decision(
     clock_tick = int(simulation.get("clock_tick") or 0)
     clock_triggers = simulation.get("clock_triggers") or []
     action_intent = str(prerolled.get("intent") or "")
+    phase = simulation.get("narrative_phase") or "investigation"
+    fail_tier = simulation.get("fail_tier") or "none"
+    urgency_warnings = simulation.get("urgency_warnings") or []
+    next_best_actions = simulation.get("next_best_actions") or []
+    witness_updates = simulation.get("witness_updates") or []
+
     genre_profile = runtime.genre_profile.model_dump() if hasattr(runtime.genre_profile, "model_dump") else (runtime.genre_profile or {})
     if not genre_profile:
         genre_profile = get_genre_profile([runtime.runtime_profile], runtime.genre)
@@ -35,6 +71,7 @@ def make_director_decision(
             "finale_condition_met": any(f.status == "satisfied" for f in runtime.finale_conditions),
         },
         genre_profile=genre_profile,
+        investigation_progress=investigation_progress,
     )
     primary_archetype = (runtime.archetype_profile or {}).get("primary_archetype") or runtime.runtime_profile
     archetype_bias = {
@@ -48,19 +85,53 @@ def make_director_decision(
         "faction_sandbox": "Bias archetipo: privilegia agende di fazione, eventi offscreen e cambi di alleanza.",
     }.get(primary_archetype, "")
 
-    # Gerarchia di priorità: clock completo > deduzione pronta > NPC > indizio > fallimento > idle
+    # ── Gerarchia di priorità ────────────────────────────────────────────────
+    # 1. Clock completo (conseguenza inevitabile)
+    # 2. Fase escape/extraction/delivery (override investigativo)
+    # 3. Deduzione pronta (pista quasi chiusa)
+    # 4. Testimone in crisi
+    # 5. NPC da introdurre
+    # 6. Indizio da avanzare (solo fase investigation)
+    # 7. Fallimento / idle
+
     if clock_triggers:
         t = clock_triggers[0]
         scene_directive = (
             f"CLOCK COMPLETO [{t['label']}]: la conseguenza si manifesta ora. "
             f"Narra: {t['consequence'] or t['on_complete']}. Non è evitabile."
         )
+    elif phase == "escape":
+        scene_directive = _ESCAPE_DIRECTIVE
+    elif phase == "delivery":
+        scene_directive = _DELIVERY_DIRECTIVE
+    elif phase == "extraction":
+        # In extraction, la deduzione di pista è ancora possibile ma poi si passa all'azione
+        if ready:
+            rev = next((r for r in runtime.revelations if (r.thread_id or r.id) == ready[0]), None)
+            statement = rev.statement if rev else ready[0]
+            scene_directive = (
+                f"DEDUZIONE FINALE sulla pista '{ready[0]}': {statement}. "
+                f"Dopo la deduzione, spingi immediatamente verso l'estrazione prove. {_EXTRACTION_DIRECTIVE}"
+            )
+        else:
+            scene_directive = _EXTRACTION_DIRECTIVE
     elif ready:
         rev = next((r for r in runtime.revelations if (r.thread_id or r.id) == ready[0]), None)
         statement = rev.statement if rev else ready[0]
         scene_directive = (
             f"Offri una scena di deduzione sulla pista '{ready[0]}': {statement}. "
             f"Non aprire nuovi filoni prima di aver chiuso questa."
+        )
+    elif witness_updates:
+        wu = witness_updates[0]
+        ws = wu["witness_state"]
+        ws_desc = {
+            "fearful": "è visibilmente spaventato e difficile da raggiungere",
+            "panicked": "sta per fuggire o ritirarsi — i giocatori devono calmarlo o proteggerlo subito",
+        }.get(ws, f"è in stato {ws}")
+        scene_directive = (
+            f"TESTIMONE [{wu['npc_name']}] {ws_desc}. "
+            f"Crea una scena in cui questo cambiamento di stato è percepibile e richiede una risposta."
         )
     elif npcs_to_introduce:
         npc_id = npcs_to_introduce[0]
@@ -75,22 +146,42 @@ def make_director_decision(
     elif clue_id:
         clue = next((c for c in runtime.clues if c.id == clue_id), None)
         label = clue.label if clue else clue_id
+        clue_role = getattr(clue, "type", "clue") if clue else "clue"
         found_update = simulation.get("proposed_updates", {}).get("clues_found") or []
         if found_update:
-            scene_directive = (
-                f"Narra l'ottenimento definitivo dell'indizio canonico [{clue_id}]: {label}. "
-                f"Il personaggio lo recupera, legge o conferma in modo chiaro."
-            )
+            if clue_role in ("payload_object", "finale_key"):
+                scene_directive = (
+                    f"Narra il recupero dell'OGGETTO CRITICO [{clue_id}]: {label}. "
+                    f"Questo è materiale che va fisicamente portato fuori — non basta saperlo, bisogna averlo."
+                )
+            else:
+                scene_directive = (
+                    f"Narra l'ottenimento definitivo dell'indizio canonico [{clue_id}]: {label}. "
+                    f"Il personaggio lo recupera, legge o conferma in modo chiaro."
+                )
         else:
             scene_directive = (
                 f"Fai progredire l'indizio canonico [{clue_id}]: {label}. "
                 f"Solo avanzamento parziale — non ancora prova completa."
             )
     elif not success:
-        scene_directive = (
-            "Narra un costo narrativo concreto: non bloccare la storia, "
-            "ma imponi una conseguenza visibile (allarme, ferita, PNG che si chiude, accesso bloccato)."
-        )
+        # Fail-forward: diversifica la risposta per tier
+        if fail_tier == "soft":
+            scene_directive = (
+                "SOFT FAIL: narra una piccola complicazione o un costo minore (malinteso, ritardo, indizio parziale). "
+                "La storia avanza comunque — nessuna conseguenza bloccante."
+            )
+        elif fail_tier == "hard":
+            scene_directive = (
+                "HARD FAIL: narra una conseguenza immediata e concreta — un NPC si chiude, "
+                "una prova viene a rischio, la posizione del gruppo viene esposta. "
+                "La storia non si blocca, ma il costo è reale e visibile."
+            )
+        else:
+            scene_directive = (
+                "PRESSURE FAIL: il clock avanza — la minaccia si fa più vicina. "
+                "Narra un segnale ambientale che comunica l'aumento di pressione senza chiudere la storia."
+            )
     else:
         scene_directive = (
             "Muovi un elemento canonico: NPC che cambia posizione, "
@@ -122,7 +213,8 @@ def make_director_decision(
         "forbidden_escalation_types": list(genre_profile.get("forbidden_escalations") or []),
         "reason": (
             f"Roll={prerolled.get('outcome','?')}; intent={action_intent or '?'}; "
-            f"profile={runtime.runtime_profile}; archetype={primary_archetype}; clock_triggers={len(clock_triggers)}"
+            f"profile={runtime.runtime_profile}; archetype={primary_archetype}; clock_triggers={len(clock_triggers)}; "
+            f"phase={phase}; fail_tier={fail_tier}"
         ),
         "director_authorization": allowed_tier >= 5 and bool(clock_triggers),
         # Strutturati
@@ -134,6 +226,12 @@ def make_director_decision(
         "scene_clues": scene_clues,
         "scene_actors": scene_actors,
         "current_scene_id": current_scene_id or "",
+        # Nuovi campi di fase
+        "narrative_phase": phase,
+        "fail_tier": fail_tier,
+        "urgency_warnings": urgency_warnings,
+        "next_best_actions": next_best_actions,
+        "witness_updates": witness_updates,
     }
 
 
@@ -153,15 +251,65 @@ def director_prompt_context(decision: dict) -> str:
     scene_clues = decision.get("scene_clues") or []
     scene_actors = decision.get("scene_actors") or []
     current_scene_id = decision.get("current_scene_id") or ""
+    phase = decision.get("narrative_phase") or "investigation"
+    fail_tier = decision.get("fail_tier") or "none"
+    urgency_warnings = decision.get("urgency_warnings") or []
+    next_best_actions = decision.get("next_best_actions") or []
+    witness_updates = decision.get("witness_updates") or []
+
+    phase_label = _PHASE_LABELS.get(phase, phase.upper())
+    tier_desc = TIER_DESCRIPTIONS.get(allowed_tier, f"tier {allowed_tier}")
 
     lines = [
         "\nNARRATIVE DIRECTOR — ISTRUZIONI VINCOLANTI:",
         "LINGUA: tutta la narrazione, i dialoghi, le descrizioni e le azioni proposte DEVONO essere in ITALIANO. Anche se il materiale sorgente è in inglese. Nomi propri e titoli di luogo possono restare nella lingua originale.",
+        f"FASE NARRATIVA CORRENTE: {phase_label} — questa fase determina cosa deve fare il gruppo ADESSO.",
         f"DIRETTIVA SCENA: {directive}",
-        f"MAX ESCALATION TIER: {allowed_tier}. Il renderer non puo superarlo.",
+        f"MAX ESCALATION TIER: {allowed_tier} — {tier_desc}",
         f"ESCALATION CONSENTITE: {', '.join(allowed_types[:10]) or 'solo conseguenze locali'}",
         f"ESCALATION VIETATE: {', '.join(forbidden_types[:12]) or 'nessuna dichiarata'}",
     ]
+
+    # Regole fail-forward per tier
+    if fail_tier == "soft":
+        lines.append(
+            "FAIL-FORWARD SOFT: il fallimento produce solo una piccola complicazione narrativa. "
+            "NON avanzare il clock principale. NON compromettere NPC. NON mettere prove a rischio. "
+            "threat_increase=0."
+        )
+    elif fail_tier == "pressure":
+        lines.append(
+            "FAIL-FORWARD PRESSURE: il clock avanza di 1, la situazione si deteriora leggermente. "
+            "Narra pressione e tensione, ma nessuna conseguenza irreversibile. threat_increase=1."
+        )
+    elif fail_tier == "hard":
+        lines.append(
+            "FAIL-FORWARD HARD: conseguenza concreta e immediata. "
+            "Un NPC può cambiare stato (si chiude, fugge, viene catturato), "
+            "una prova può essere a rischio, o la posizione del gruppo viene esposta. threat_increase=1."
+        )
+    else:
+        lines.append(
+            "SOFT ESCALATION: threat_increase=0 se i giocatori hanno trovato un indizio o chiuso un thread in questo turno. "
+            "threat_increase=1 solo su fallimento netto o 3+ turni senza progressi. "
+            "MAI threat_increase=2 salvo clock completato."
+        )
+
+    # Urgency warnings
+    if urgency_warnings:
+        top = urgency_warnings[0]
+        lines.append(
+            f"URGENZA CLOCK {top['urgency']} [{top['clock_label']}] ({int(top['pct']*100)}%): "
+            f"{top['message']} — "
+            f"{'CAMBIA OBIETTIVO: ' + top['switch_mode'].upper() if top.get('switch_mode') else 'aumenta la pressione narrativa senza bloccare la storia'}."
+        )
+
+    # Vincoli di visibilità NPC state lock
+    lines.append(
+        "NPC STATE LOCK: non narrare NPC morti, catturati, scomparsi o risolti come presenti o disponibili. "
+        "Solo NPC con stato 'introduced', 'active', 'exposed', 'allied', 'hostile' possono agire in scena."
+    )
+
     if current_scene_id:
         if scene_clues:
             clue_list = "; ".join(f"{c['label']} [{c['id']}]" for c in scene_clues[:8])
@@ -177,6 +325,14 @@ def director_prompt_context(decision: dict) -> str:
             "REGOLA VISIBILITÀ: non narrare indizi o NPC assenti da questa lista come fisicamente presenti. "
             "Elementi non in lista possono essere menzionati solo come lontani, voci o ricordi."
         )
+
+    if witness_updates:
+        for wu in witness_updates:
+            lines.append(
+                f"TESTIMONE IN CRISI [{wu['npc_name']}]: stato → {wu['witness_state'].upper()}. "
+                f"{wu['note']} — Il tuo intervento per calmare/proteggere questo NPC è narrativamente prioritario."
+            )
+
     if clue_id:
         found_update = required.get("clues_found") or []
         clue_type = "OTTENIMENTO DEFINITIVO" if found_update else "AVANZAMENTO PARZIALE"
@@ -192,6 +348,13 @@ def director_prompt_context(decision: dict) -> str:
         )
     if ready:
         lines.append(f"PISTE PRONTE: {', '.join(ready)}. Non aprire nuovi filoni prima di offrire deduzione.")
+    if next_best_actions and phase in ("extraction", "escape", "delivery"):
+        clean = [a.replace("proteggere_testimone:", "proteggere_testimone ") for a in next_best_actions[:5]]
+        lines.append(
+            f"AZIONI SUGGERITE DAL MOTORE (fase {phase_label}): "
+            + ", ".join(clean)
+            + ". Usa queste come opzioni concrete da proporre o da narrare come conseguenza naturale."
+        )
     lines.append(f"Note stato: {notes}")
     lines.append(f"State updates decisi dal motore: {required}")
     lines.append(f"Motivo limite escalation: {decision.get('reason','')}")

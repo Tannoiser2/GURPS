@@ -338,11 +338,18 @@ def check_raw_compilation_quality(defn) -> dict:
         if _OCR_STAT_RE.search(label) or _OCR_GARBAGE_RE.search(label):
             garbage_clues.append(_clue_id(c) or "?")
     if garbage_clues:
-        critical.append(
+        valid_count = len(clues) - len(garbage_clues)
+        _ocr_msg = (
             f"Indizi con contenuto OCR non valido (stat block o caratteri corrotti): "
             f"{', '.join(garbage_clues[:5])}. "
             "Il testo del PDF non è stato estratto correttamente."
         )
+        if len(garbage_clues) <= 2 and valid_count >= 4:
+            # Only a handful of bad clues and plenty of valid ones — downgrade to warning
+            # so the game can still be played; the stat-block clues are simply skipped.
+            warnings_.append(_ocr_msg)
+        else:
+            critical.append(_ocr_msg)
 
     # ── 3. Conteggio attori ─────────────────────────────────────────────────
     n_actors = len(actors)

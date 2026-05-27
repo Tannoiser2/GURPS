@@ -1,0 +1,2627 @@
+{
+  "adventure_definition": {
+    "id": "ai_lultima_lettera_damore",
+    "title": "L'Ultima Lettera d'Amore",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "romance_drama",
+      "secondary_archetypes": [],
+      "confidence": 0.65,
+      "reason": "Matched runtime signals for romance_drama",
+      "definition": {
+        "id": "romance_drama",
+        "description": "Relazioni, desideri, segreti personali.",
+        "required_modules": [
+          "actors",
+          "relationships"
+        ],
+        "optional_modules": [
+          "letters"
+        ],
+        "runtime_focus": [
+          "emotion",
+          "choice"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "testimony",
+          "document",
+          "behavior"
+        ],
+        "common_failure_modes": [
+          "misunderstanding"
+        ],
+        "ending_patterns": [
+          "emotional_choice"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "romance",
+    "runtime_profiles": [
+      "guided_sandbox"
+    ],
+    "tone": "Romance gotico con tensione psicologica, atmosfera da camera chiusa con emozioni represse che esplodono",
+    "premise": "I personaggi si svegliano in una lussuosa villa sul lago, invitati da uno sconosciuto benefattore per un weekend romantico. All'alba del secondo giorno, trovano il corpo senza vita di Madame Celestine, celebre scrittrice di romanzi d'amore, nel suo studio privato. Accanto a lei, una lettera incompiuta indirizzata a 'colui che ha spezzato il mio cuore'. Le porte della villa sono sigillate dall'esterno. Qualcuno tra gli invitati sa perché.",
+    "initial_hook": "L'Ultima Lettera d'Amore I personaggi si svegliano in una lussuosa villa sul lago, invitati da uno sconosciuto benefattore per un weekend romantico. All'alba del secondo giorno, trovano il corpo senza vita di Madame Celestine, celebre scrittrice di romanzi d'amore, nel suo studio privato. Accanto a ",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Celestine non è stata uccisa: si è tolta la vita dopo aver scoperto che suo figlio Alexandre (che credeva morto 20 anni fa) era vivo e la odiava per averlo abbandonato. Ha orchestrato questo weekend per riunire tutti coloro che conoscevano la verità, sperando in una riconciliazione che non è mai avvenuta.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "I PG vincono se: 1) Scoprono che Celestine si è suicidata, 2) Identificano Jacques come Alexandre, 3) Facilitano almeno un momento di riconciliazione genuina tra Alexandre e uno dei PNG, 4) Decidono consapevolmente come gestire la verità (pubblicarla o proteggerla)",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "I PG vincono se: 1) Scoprono che Celestine si è suicidata, 2) Identificano Jacques come Alexandre, 3) Facilitano almeno un momento di riconciliazione genuina tra Alexandre e uno dei PNG, 4) Decidono consapevolmente come gestire la verità (pubblicarla o proteggerla)"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Alexandre è il figlio segreto di Celestine e Lucien, abbandonato da neonato. Ora è il giardiniere Jacques e Celestine si è uccisa per il dolore di non essere stata perdonata",
+        "required_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di interrogare Lucien sulla verità e scoprire della clinica svizzera / Rivela che il giardiniere è il figlio perduto e che Celestine lo aveva riconosciuto",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Celestine si è suicidata con un'overdose dei suoi stessi farmaci cardiaci, orchestrando la scena per sembrare un omicidio e costringere tutti a confrontarsi",
+        "required_clues": [
+          "clue_3",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Falsa pista: il farmaco era per il cuore di Celestine. L'autopsia rivelerà dosaggio terapeutico, non letale",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Il prete ricevette la confessione di Celestine tre giorni fa, dove lei rivelò il piano di suicidio e la speranza di riconciliazione. Il sigillo confessionale gli impedì di intervenire",
+        "required_clues": [
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Sblocca un confronto emotivo dove il prete può rivelare (rompendo il voto) che era un suicidio pianificato",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Certificato di nascita nascosto",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "loc_2",
+        "reveals": "Celestine aveva un figlio con Lucien, il dottore",
+        "payoff": "Permette di interrogare Lucien sulla verità e scoprire della clinica svizzera",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un certificato di nascita del 1998 nascosto nel doppiofondo di un cassetto dello studio. Nome: Alexandre Moreau-Celestine. Padre: Lucien Moreau.",
+        "hidden_implication": "Celestine aveva un figlio con Lucien, il dottore",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Lettere d'amore bruciate",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "loc_2",
+        "reveals": "Celestine sapeva che Jacques è suo figlio Alexandre",
+        "payoff": "Rivela che il giardiniere è il figlio perduto e che Celestine lo aveva riconosciuto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nel camino dello studio, resti carbonizzati di lettere. Una è parzialmente leggibile: 'Alexandre, mio bambino perduto, ti prego perdonami. So che sei qui. So che mi odi. Jacques... è un nome così comune.'",
+        "hidden_implication": "Celestine sapeva che Jacques è suo figlio Alexandre",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Flacone di digitalina",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "loc_1",
+        "reveals": "Sophie aveva accesso a un veleno, ma Moreau lo ha prescritto",
+        "payoff": "Falsa pista: il farmaco era per il cuore di Celestine. L'autopsia rivelerà dosaggio terapeutico, non letale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nella borsa vintage di Sophie, un flacone vuoto di digitalina (farmaco cardiaco letale in dosi alte). L'etichetta indica la farmacia del dottor Moreau.",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "loc_1"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Diario di Père Rousseau",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "loc_3",
+        "reveals": "Il prete sapeva qualcosa e non poteva dirlo per via della confessione",
+        "payoff": "Sblocca un confronto emotivo dove il prete può rivelare (rompendo il voto) che era un suicidio pianificato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Il diario personale del prete, con un'annotazione di tre giorni fa: 'Celestine mi ha chiesto l'impossibile. Come posso assistere e tacere? Il sigillo della confessione mi lega, ma Dio, che peso portare.'",
+        "hidden_implication": "Il prete sapeva qualcosa e non poteva dirlo per via della confessione",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Dettaglio verificabile in loc_2",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "loc_2",
+        "reveals": "Celestine stava elaborando il suo trauma attraverso la scrittura",
+        "payoff": "Rivela il suo stato mentale e conferma che Alexandre era al centro dei suoi pensieri",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Dettaglio verificabile in loc_2",
+        "hidden_implication": "Celestine stava elaborando il suo trauma attraverso la scrittura",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Testimonianza di Margaux",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "loc_1",
+        "reveals": "Margaux sa dell'abbandono e porta quel peso da vent'anni",
+        "payoff": "Fornisce il contesto emotivo dell'abbandono e rivela che fu forzato dalle circostanze",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Testimonianza di Margaux",
+        "hidden_implication": "Margaux sa dell'abbandono e porta quel peso da vent'anni",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Dottor Lucien Moreau",
+        "role": "Medico personale di Celestine ed ex-amante",
+        "location_id": "loc_1",
+        "status": "unintroduced",
+        "goal": "Proteggere la reputazione di Celestine e il suo ultimo manoscritto inedito",
+        "secret": "È il padre biologico di Alexandre. Ha pagato per anni una clinica svizzera per nascondere il ragazzo, credendo fosse malato di mente come la madre di Celestine",
+        "agenda_pressure": 0,
+        "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere la reputazione di Celestine e il suo ultimo manoscritto inedito"
+        ],
+        "avoids": [
+          "che Certificato di nascita nascosto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": false
+      },
+      {
+        "id": "npc_2",
+        "name": "Sophie Delacroix",
+        "role": "Giovane editrice e protetta di Celestine",
+        "location_id": "loc_2",
+        "status": "unintroduced",
+        "goal": "Pubblicare il manoscritto perduto di Celestine per salvare la casa editrice dalla bancarotta",
+        "secret": "È la sorellastra segreta di Alexandre. Sa che lui è vivo e l'ha aiutato a infiltrarsi nella vita di Celestine come giardiniere",
+        "agenda_pressure": 0,
+        "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Pubblicare il manoscritto perduto di Celestine per salvare la casa editrice dalla bancarotta"
+        ],
+        "avoids": [
+          "che Certificato di nascita nascosto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": false
+      },
+      {
+        "id": "npc_3",
+        "name": "Père Antoine Rousseau",
+        "role": "Sacerdote e confessore di Celestine",
+        "location_id": "loc_3",
+        "status": "unintroduced",
+        "goal": "Salvare l'anima di qualcuno nella villa prima che commetta un peccato imperdonabile",
+        "secret": "Ha ricevuto la confessione di Celestine tre giorni fa: lei pianificava il suicidio e voleva che lui assistesse alla rivelazione della verità come testimone di Dio",
+        "agenda_pressure": 0,
+        "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+        "current_plan": "Osservare segretamente le interazioni tra gli ospiti per identificare chi è sull'orlo del 'peccato imperdonabile' che Celestine menzionò. Organizzare confessioni individuali per sondare le coscienze. Attendere il momento giusto per intervenire come testimone di Dio.",
+        "fallback_plan": "Se non riesce a identificare il potenziale peccatore, rivelare pubblicamente durante una messa improvvisata che Celestine è morta martire per salvare un'anima. Provocare una reazione emotiva che smascherà il colpevole, poi offrire assoluzione immediata per impedire l'atto dannato.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Salvare l'anima di qualcuno nella villa prima che commetta un peccato imperdonabile"
+        ],
+        "avoids": [
+          "che Certificato di nascita nascosto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Recita preghiere silenziose e offre conforto spirituale, osservando attentamente chi mostra segni di colpa o rimorso. Cita passi delle Scritture sull'espiazione e il perdono.",
+          "medium": "Inizia a interrogare gli ospiti in forma di confessione privata, cercando di identificare chi tra loro stava per commettere 'il peccato' che Celestine voleva impedire. Diventa più insistente nel parlare di redenzione.",
+          "high": "Rivela parzialmente di aver confessato Celestine, ammettendo che lei temeva per l'anima di qualcuno presente. Minaccia che Dio vede tutto e che il tempo per pentirsi sta scadendo. Brandisce il rosario come protezione.",
+          "extreme": "Confessa l'intera verità: Celestine si è suicidata per fermare un peccato mortale che avrebbe dannato un'anima. Urla i nomi di chi sospetta, cercando disperatamente di provocare una confessione pubblica prima che sia troppo tardi."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rifugia nella fede, citando Salmo 23. Stringendo la croce pettorale, dichiara di essere solo un umile servo e che ferirlo significherebbe sfidare Dio stesso. Offre di pregare per l'aggressore.",
+          "se_corrotto": "Respinge fermamente qualsiasi lusinga materiale. 'Le ricchezze terrene non significano nulla quando un'anima immortale è in pericolo.' Tuttavia, può essere persuaso se gli si promette che qualcuno si pentirà sinceramente.",
+          "se_i_pg_hanno_prove": "Crolla in ginocchio piangendo, ammettendo di aver fallito Celestine non impedendo il suo gesto. Rivela tutto ciò che sa dalla confessione, violando il sigillo sacramentale perché crede che sia l'unica via per salvare l'anima designata.",
+          "se_alleato": "Condivide frammenti della confessione senza infrangere completamente il sigillo: 'Celestine parlava di un tradimento d'amore che avrebbe portato alla dannazione.' Guida i PG verso chi mostra più tormento spirituale."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Margaux Fontaine",
+        "role": "Attrice decaduta e migliore amica di Celestine",
+        "location_id": "loc_1",
+        "status": "unintroduced",
+        "goal": "Vendicarsi di chi ha rovinato la carriera di Celestine trent'anni fa, anche se deve distruggere reputazioni",
+        "secret": "È stata l'amante del marito di Celestine e ha visto la scrittrice abbandonare il neonato Alexandre in un orfanotrofio. Non ha mai detto nulla per senso di colpa",
+        "agenda_pressure": 0,
+        "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vendicarsi di chi ha rovinato la carriera di Celestine trent'anni fa, anche se deve distruggere reputazioni"
+        ],
+        "avoids": [
+          "che Certificato di nascita nascosto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": false
+      },
+      {
+        "id": "npc_5",
+        "name": "Jacques 'il Giardiniere'",
+        "role": "Giovane giardiniere della villa, assunto sei mesi fa",
+        "location_id": "loc_4",
+        "status": "unintroduced",
+        "goal": "Ottenere riconoscimento da sua madre Celestine prima della sua morte",
+        "secret": "È Alexandre, il figlio perduto. Ha pianificato questo weekend per confrontarsi con tutti coloro che lo hanno abbandonato, ma non ha ucciso nessuno",
+        "agenda_pressure": 0,
+        "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+        "current_plan": "Resistere all'interrogatorio abbastanza da capire chi ha davvero ucciso sua madre. Proteggere l'identità di Alexandre finché non è assolutamente necessario rivelarla. Osservare le reazioni degli altri ospiti - uno di loro è l'assassino.",
+        "fallback_plan": "Se scoperto come Alexandre, confessare pubblicamente la sua identità e accusare gli altri ospiti di complicità nell'abbandono. Usare l'emozione e il dramma per deviare i sospetti. Come ultima risorsa, fuggire con la barca a remi verso il villaggio sostenendo di cercare la polizia, ma in realtà per scomparire.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Ottenere riconoscimento da sua madre Celestine prima della sua morte"
+        ],
+        "avoids": [
+          "che Certificato di nascita nascosto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Continua a potare le rose con gesti nervosi, evita lo sguardo. 'Madame era esigente ma giusta. Mi aveva dato una possibilità quando nessuno lo faceva.' Stringe le cesoie troppo forte.",
+          "medium": "Le mani tremano visibilmente. 'Non capite... Io volevo solo parlarle! Dirle chi sono veramente!' Si blocca, realizzando di aver detto troppo. Arretra verso la serra.",
+          "high": "Crolla in ginocchio tra le aiuole. 'Ero suo FIGLIO! Alexandre! Mi abbandonò trent'anni fa e non mi ha mai riconosciuto, nemmeno quando lavoravo sotto i suoi occhi ogni giorno!' Singhiozza. 'Ma io non l'ho uccisa... doveva ascoltarmi prima!'",
+          "extreme": "Urla disperato brandendo le cesoie. 'Questo weekend doveva essere la NOSTRA resa dei conti! Tutti voi che mi avete tradito, riuniti qui! Ma qualcuno me l'ha portata via prima che potessi guardarla negli occhi e dirle: Mamma, sono io!' Getta a terra i guanti da giardiniere rivelando un anello identico a quello di Celestine."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rifugia nella serra dove ha nascosto le lettere d'amore che sua madre scrisse a suo padre. 'Queste provano chi sono! E provano che lei sapeva... sapeva e faceva finta di niente!'",
+          "se_corrotto": "Se promesso che la sua storia verrà raccontata con rispetto: 'Gli inviti... li ho spediti io. Volevo che tutti i complici del suo abbandono fossero presenti. Ma c'è qualcuno qui che aveva più motivi di me per ucciderla.'",
+          "se_i_pg_hanno_prove": "Ammette tutto tranne l'omicidio. Mostra la corrispondenza con il benefattore anonimo (se stesso), il registro delle adozioni, le foto di lui bambino. 'Controllate l'ora della morte. Ero nella rimessa degli attrezzi, il lucchetto si chiude dall'esterno.'",
+          "se_alleato": "Confida sottovoce: 'Ho visto qualcuno uscire dalla sua camera alle 4:37. Portava qualcosa di piccolo e brillante. Non ho visto il volto ma... zoppicava leggermente. E quel profumo... vaniglia e tabacco da pipa.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_1",
+        "name": "Il Salone Principale",
+        "description": "Ampia sala con soffitti affrescati, camino monumentale, e grandi finestre sul lago. Divani di velluto rosso e un pianoforte a coda coperto da un telo. L'atmosfera è opprimente nonostante la bellezza",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {
+          "enabled": false,
+          "role": "",
+          "layout": "",
+          "features": [],
+          "hazards": [],
+          "trigger": ""
+        },
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Il Salone Principale: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 1.0
+      },
+      {
+        "id": "loc_2",
+        "name": "Studio di Celestine",
+        "description": "Stanza circolare nella torre, librerie fino al soffitto, scrivania antica con la lettera incompiuta. Il corpo è stato rimosso ma l'atmosfera è ancora pesante. Profumo di rose appassite e inchiostro",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {
+          "enabled": true,
+          "role": "finale",
+          "layout": "room",
+          "name": "Studio di Celestine",
+          "cols": 10,
+          "rows": 7,
+          "features": [
+            "muretti merlati",
+            "scale di pietra",
+            "portoni ferrati",
+            "alcove difensive"
+          ],
+          "hazards": [
+            "feritoie sorvegliate",
+            "pietre sconnesse"
+          ],
+          "entry_zones": [
+            "lato ovest / ingresso del gruppo"
+          ],
+          "enemy_zones": [
+            "lato est / punto difeso"
+          ],
+          "trigger": "quando il gruppo affronta antagonista, guardiani o minaccia finale",
+          "victory_condition": "neutralizzare, mettere in fuga o superare gli avversari presenti"
+        },
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Studio di Celestine: muretti merlati, scale di pietra, portoni ferrati",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "muretti merlati",
+          "scale di pietra",
+          "portoni ferrati",
+          "alcove difensive"
+        ],
+        "hazards": [
+          "feritoie sorvegliate",
+          "pietre sconnesse"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "muretti merlati",
+          "scale di pietra",
+          "portoni ferrati"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 1.0
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "La villa rimane sigillata per 48 ore (volontà testamentaria). Ogni 6-8 ore, la tensione emotiva cresce: i PNG iniziano ad accusarsi, vecchi rancori esplodono, e Alexandre diventa sempre più instabile. Se non si raggiunge la verità in tempo, qualcuno potrebbe compiere gesti irreparabili per proteggere i propri segreti.",
+        "value": 0,
+        "max_value": 8,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "piano completato se nessuno interviene",
+        "steps": [
+          {
+            "step": 1,
+            "event": "allarme interno attivato",
+            "world_state_change": "allarme interno attivato",
+            "scene_prompt": "Mostra in scena: allarme interno attivato.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 2,
+            "event": "accessi ordinari sospesi",
+            "world_state_change": "accessi ordinari sospesi",
+            "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 3,
+            "event": "prova secondaria rimossa dalla scena",
+            "world_state_change": "prova secondaria rimossa dalla scena",
+            "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 4,
+            "event": "un testimone viene cercato dagli uomini di la minaccia",
+            "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+            "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 5,
+            "event": "percorso laterale minacciato o sigillato",
+            "world_state_change": "percorso laterale minacciato o sigillato",
+            "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 6,
+            "event": "la minaccia raggiunge la zona finale",
+            "world_state_change": "la minaccia raggiunge la zona finale",
+            "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 7,
+            "event": "prove trasferite o rese instabili",
+            "world_state_change": "prove trasferite o rese instabili",
+            "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 8,
+            "event": "piano completato se nessuno interviene",
+            "world_state_change": "piano completato se nessuno interviene",
+            "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "",
+        "ticks_per_failure": 1,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: L'Ultima Lettera d'Amore personaggi svegliano lussuosa",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [],
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Il Salone Principale",
+          "to": "Studio di Celestine"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Il Salone Principale",
+          "to": "Studio di Celestine"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Studio di Celestine",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "guided_sandbox",
+      "tone": "genre-consistent adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_af1a35e866",
+      "title": "L'Ultima Lettera d'Amore",
+      "genre": "romance",
+      "detected_genre": "romance",
+      "premise": "I personaggi si svegliano in una lussuosa villa sul lago, invitati da uno sconosciuto benefattore per un weekend romantico. All'alba del secondo giorno, trovano il corpo senza vita di Madame Celestine, celebre scrittrice di romanzi d'amore, nel suo studio privato. Accanto a lei, una lettera incompiuta indirizzata a 'colui che ha spezzato il mio cuore'. Le porte della villa sono sigillate dall'esterno. Qualcuno tra gli invitati sa perché.",
+      "hidden_truth": "Celestine non è stata uccisa: si è tolta la vita dopo aver scoperto che suo figlio Alexandre (che credeva morto 20 anni fa) era vivo e la odiava per averlo abbandonato. Ha orchestrato questo weekend per riunire tutti coloro che conoscevano la verità, sperando in una riconciliazione che non è mai avvenuta.",
+      "win_condition": "I PG vincono se: 1) Scoprono che Celestine si è suicidata, 2) Identificano Jacques come Alexandre, 3) Facilitano almeno un momento di riconciliazione genuina tra Alexandre e uno dei PNG, 4) Decidono consapevolmente come gestire la verità (pubblicarla o proteggerla)",
+      "threat_description": "La villa rimane sigillata per 48 ore (volontà testamentaria). Ogni 6-8 ore, la tensione emotiva cresce: i PNG iniziano ad accusarsi, vecchi rancori esplodono, e Alexandre diventa sempre più instabile. Se non si raggiunge la verità in tempo, qualcuno potrebbe compiere gesti irreparabili per proteggere i propri segreti.",
+      "threat_max_turns": 8,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "romance_drama",
+        "secondary_archetypes": [],
+        "confidence": 0.65,
+        "reason": "Matched runtime signals for romance_drama",
+        "definition": {
+          "id": "romance_drama",
+          "description": "Relazioni, desideri, segreti personali.",
+          "required_modules": [
+            "actors",
+            "relationships"
+          ],
+          "optional_modules": [
+            "letters"
+          ],
+          "runtime_focus": [
+            "emotion",
+            "choice"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "testimony",
+            "document",
+            "behavior"
+          ],
+          "common_failure_modes": [
+            "misunderstanding"
+          ],
+          "ending_patterns": [
+            "emotional_choice"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_af1a35e866",
+      "adventure_canon": {
+        "core_truth": "Celestine non è stata uccisa: si è tolta la vita dopo aver scoperto che suo figlio Alexandre (che credeva morto 20 anni fa) era vivo e la odiava per averlo abbandonato. Ha orchestrato questo weekend per riunire tutti coloro che conoscevano la verità, sperando in una riconciliazione che non è mai avvenuta.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Il Salone Principale",
+          "Studio di Celestine"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: L'Ultima Lettera d'Amore personaggi svegliano lussuosa"
+        ],
+        "genre_profile": {
+          "id": "guided_sandbox",
+          "tone": "genre-consistent adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Certificato di nascita nascosto",
+          "question": "Dove conduce Certificato di nascita nascosto?",
+          "true_answer": "Alexandre è il figlio segreto di Celestine e Lucien, abbandonato da neonato. Ora è il giardiniere Jacques e Celestine si è uccisa per il dolore di non essere stata perdonata",
+          "required_clues": [
+            "clue_1",
+            "clue_2"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Permette di interrogare Lucien sulla verità e scoprire della clinica svizzera / Rivela che il giardiniere è il figlio perduto e che Celestine lo aveva riconosciuto",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Flacone di digitalina",
+          "question": "Dove conduce Flacone di digitalina?",
+          "true_answer": "Celestine si è suicidata con un'overdose dei suoi stessi farmaci cardiaci, orchestrando la scena per sembrare un omicidio e costringere tutti a confrontarsi",
+          "required_clues": [
+            "clue_3",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Falsa pista: il farmaco era per il cuore di Celestine. L'autopsia rivelerà dosaggio terapeutico, non letale",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Dove conduce Diario di Père Rousseau",
+          "question": "Dove conduce Diario di Père Rousseau?",
+          "true_answer": "Il prete ricevette la confessione di Celestine tre giorni fa, dove lei rivelò il piano di suicidio e la speranza di riconciliazione. Il sigillo confessionale gli impedì di intervenire",
+          "required_clues": [
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Sblocca un confronto emotivo dove il prete può rivelare (rompendo il voto) che era un suicidio pianificato",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Certificato di nascita nascosto",
+          "text": "Certificato di nascita nascosto",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Celestine aveva un figlio con Lucien, il dottore",
+          "payoff": "Permette di interrogare Lucien sulla verità e scoprire della clinica svizzera",
+          "location": "loc_2",
+          "immediate_information": "Un certificato di nascita del 1998 nascosto nel doppiofondo di un cassetto dello studio. Nome: Alexandre Moreau-Celestine. Padre: Lucien Moreau.",
+          "hidden_implication": "Celestine aveva un figlio con Lucien, il dottore",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Lettere d'amore bruciate",
+          "text": "Lettere d'amore bruciate",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Celestine sapeva che Jacques è suo figlio Alexandre",
+          "payoff": "Rivela che il giardiniere è il figlio perduto e che Celestine lo aveva riconosciuto",
+          "location": "loc_2",
+          "immediate_information": "Nel camino dello studio, resti carbonizzati di lettere. Una è parzialmente leggibile: 'Alexandre, mio bambino perduto, ti prego perdonami. So che sei qui. So che mi odi. Jacques... è un nome così comune.'",
+          "hidden_implication": "Celestine sapeva che Jacques è suo figlio Alexandre",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Flacone di digitalina",
+          "text": "Flacone di digitalina",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Sophie aveva accesso a un veleno, ma Moreau lo ha prescritto",
+          "payoff": "Falsa pista: il farmaco era per il cuore di Celestine. L'autopsia rivelerà dosaggio terapeutico, non letale",
+          "location": "loc_1",
+          "immediate_information": "Nella borsa vintage di Sophie, un flacone vuoto di digitalina (farmaco cardiaco letale in dosi alte). L'etichetta indica la farmacia del dottor Moreau.",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "loc_1"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Diario di Père Rousseau",
+          "text": "Diario di Père Rousseau",
+          "type": "document",
+          "thread_id": "T3",
+          "reveals": "Il prete sapeva qualcosa e non poteva dirlo per via della confessione",
+          "payoff": "Sblocca un confronto emotivo dove il prete può rivelare (rompendo il voto) che era un suicidio pianificato",
+          "location": "loc_3",
+          "immediate_information": "Il diario personale del prete, con un'annotazione di tre giorni fa: 'Celestine mi ha chiesto l'impossibile. Come posso assistere e tacere? Il sigillo della confessione mi lega, ma Dio, che peso portare.'",
+          "hidden_implication": "Il prete sapeva qualcosa e non poteva dirlo per via della confessione",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Dettaglio verificabile in loc_2",
+          "text": "Dettaglio verificabile in loc_2",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Celestine stava elaborando il suo trauma attraverso la scrittura",
+          "payoff": "Rivela il suo stato mentale e conferma che Alexandre era al centro dei suoi pensieri",
+          "location": "loc_2",
+          "immediate_information": "Dettaglio verificabile in loc_2",
+          "hidden_implication": "Celestine stava elaborando il suo trauma attraverso la scrittura",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Testimonianza di Margaux",
+          "text": "Testimonianza di Margaux",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Margaux sa dell'abbandono e porta quel peso da vent'anni",
+          "payoff": "Fornisce il contesto emotivo dell'abbandono e rivela che fu forzato dalle circostanze",
+          "location": "loc_1",
+          "immediate_information": "Testimonianza di Margaux",
+          "hidden_implication": "Margaux sa dell'abbandono e porta quel peso da vent'anni",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Dottor Lucien Moreau",
+          "role": "Medico personale di Celestine ed ex-amante",
+          "description": "Proteggere la reputazione di Celestine e il suo ultimo manoscritto inedito",
+          "location": "loc_1",
+          "secret": "È il padre biologico di Alexandre. Ha pagato per anni una clinica svizzera per nascondere il ragazzo, credendo fosse malato di mente come la madre di Celestine",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere la reputazione di Celestine e il suo ultimo manoscritto inedito",
+            "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+            "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere la reputazione di Celestine e il suo ultimo manoscritto inedito"
+            ],
+            "avoids": [
+              "che Certificato di nascita nascosto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È il padre biologico di Alexandre. Ha pagato per anni una clinica svizzera per nascondere il ragazzo, credendo fosse malato di mente come la madre di Celestine",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Sophie Delacroix",
+          "role": "Giovane editrice e protetta di Celestine",
+          "description": "Pubblicare il manoscritto perduto di Celestine per salvare la casa editrice dalla bancarotta",
+          "location": "loc_2",
+          "secret": "È la sorellastra segreta di Alexandre. Sa che lui è vivo e l'ha aiutato a infiltrarsi nella vita di Celestine come giardiniere",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Pubblicare il manoscritto perduto di Celestine per salvare la casa editrice dalla bancarotta",
+            "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+            "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Pubblicare il manoscritto perduto di Celestine per salvare la casa editrice dalla bancarotta"
+            ],
+            "avoids": [
+              "che Certificato di nascita nascosto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È la sorellastra segreta di Alexandre. Sa che lui è vivo e l'ha aiutato a infiltrarsi nella vita di Celestine come giardiniere",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Père Antoine Rousseau",
+          "role": "Sacerdote e confessore di Celestine",
+          "description": "Salvare l'anima di qualcuno nella villa prima che commetta un peccato imperdonabile",
+          "location": "loc_3",
+          "secret": "Ha ricevuto la confessione di Celestine tre giorni fa: lei pianificava il suicidio e voleva che lui assistesse alla rivelazione della verità come testimone di Dio",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Salvare l'anima di qualcuno nella villa prima che commetta un peccato imperdonabile",
+            "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+            "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Salvare l'anima di qualcuno nella villa prima che commetta un peccato imperdonabile"
+            ],
+            "avoids": [
+              "che Certificato di nascita nascosto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha ricevuto la confessione di Celestine tre giorni fa: lei pianificava il suicidio e voleva che lui assistesse alla rivelazione della verità come testimone di Dio",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Margaux Fontaine",
+          "role": "Attrice decaduta e migliore amica di Celestine",
+          "description": "Vendicarsi di chi ha rovinato la carriera di Celestine trent'anni fa, anche se deve distruggere reputazioni",
+          "location": "loc_1",
+          "secret": "È stata l'amante del marito di Celestine e ha visto la scrittrice abbandonare il neonato Alexandre in un orfanotrofio. Non ha mai detto nulla per senso di colpa",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vendicarsi di chi ha rovinato la carriera di Celestine trent'anni fa, anche se deve distruggere reputazioni",
+            "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+            "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vendicarsi di chi ha rovinato la carriera di Celestine trent'anni fa, anche se deve distruggere reputazioni"
+            ],
+            "avoids": [
+              "che Certificato di nascita nascosto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È stata l'amante del marito di Celestine e ha visto la scrittrice abbandonare il neonato Alexandre in un orfanotrofio. Non ha mai detto nulla per senso di colpa",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_5",
+          "name": "Jacques 'il Giardiniere'",
+          "role": "Giovane giardiniere della villa, assunto sei mesi fa",
+          "description": "Ottenere riconoscimento da sua madre Celestine prima della sua morte",
+          "location": "loc_4",
+          "secret": "È Alexandre, il figlio perduto. Ha pianificato questo weekend per confrontarsi con tutti coloro che lo hanno abbandonato, ma non ha ucciso nessuno",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Ottenere riconoscimento da sua madre Celestine prima della sua morte",
+            "fear": "che Certificato di nascita nascosto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+            "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Ottenere riconoscimento da sua madre Celestine prima della sua morte"
+            ],
+            "avoids": [
+              "che Certificato di nascita nascosto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È Alexandre, il figlio perduto. Ha pianificato questo weekend per confrontarsi con tutti coloro che lo hanno abbandonato, ma non ha ucciso nessuno",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_1",
+          "name": "Il Salone Principale",
+          "description": "Ampia sala con soffitti affrescati, camino monumentale, e grandi finestre sul lago. Divani di velluto rosso e un pianoforte a coda coperto da un telo. L'atmosfera è opprimente nonostante la bellezza",
+          "type": "location",
+          "visual_identity": "Il Salone Principale: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {
+            "enabled": false,
+            "role": "",
+            "layout": "",
+            "features": [],
+            "hazards": [],
+            "trigger": ""
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 1.0
+        },
+        {
+          "id": "loc_2",
+          "name": "Studio di Celestine",
+          "description": "Stanza circolare nella torre, librerie fino al soffitto, scrivania antica con la lettera incompiuta. Il corpo è stato rimosso ma l'atmosfera è ancora pesante. Profumo di rose appassite e inchiostro",
+          "type": "location",
+          "visual_identity": "Studio di Celestine: muretti merlati, scale di pietra, portoni ferrati",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "muretti merlati",
+            "scale di pietra",
+            "portoni ferrati",
+            "alcove difensive"
+          ],
+          "hazards": [
+            "feritoie sorvegliate",
+            "pietre sconnesse"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "muretti merlati",
+            "scale di pietra",
+            "portoni ferrati"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "role": "finale",
+            "layout": "room",
+            "name": "Studio di Celestine",
+            "cols": 10,
+            "rows": 7,
+            "features": [
+              "muretti merlati",
+              "scale di pietra",
+              "portoni ferrati",
+              "alcove difensive"
+            ],
+            "hazards": [
+              "feritoie sorvegliate",
+              "pietre sconnesse"
+            ],
+            "entry_zones": [
+              "lato ovest / ingresso del gruppo"
+            ],
+            "enemy_zones": [
+              "lato est / punto difeso"
+            ],
+            "trigger": "quando il gruppo affronta antagonista, guardiani o minaccia finale",
+            "victory_condition": "neutralizzare, mettere in fuga o superare gli avversari presenti"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 1.0
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "La villa rimane sigillata per 48 ore (volontà testamentaria). Ogni 6-8 ore, la tensione emotiva cresce: i PNG iniziano ad accusarsi, vecchi rancori esplodono, e Alexandre diventa sempre più instabile. Se non si raggiunge la verità in tempo, qualcuno potrebbe compiere gesti irreparabili per proteggere i propri segreti.",
+          "value": 0,
+          "max": 8,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_af1a35e866",
+    "current_scene_id": "loc_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [
+      "clue_6"
+    ],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "loc_1",
+        "agenda_pressure": 0,
+        "goal": "Proteggere la reputazione di Celestine e il suo ultimo manoscritto inedito",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "attitude": "suspicious"
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "loc_2",
+        "agenda_pressure": 0,
+        "goal": "Pubblicare il manoscritto perduto di Celestine per salvare la casa editrice dalla bancarotta",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "loc_3",
+        "agenda_pressure": 0,
+        "goal": "Salvare l'anima di qualcuno nella villa prima che commetta un peccato imperdonabile",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "loc_1",
+        "agenda_pressure": 0,
+        "goal": "Vendicarsi di chi ha rovinato la carriera di Celestine trent'anni fa, anche se deve distruggere reputazioni",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "attitude": "hostile"
+      },
+      "npc_5": {
+        "status": "unintroduced",
+        "location_id": "loc_4",
+        "agenda_pressure": 0,
+        "goal": "Ottenere riconoscimento da sua madre Celestine prima della sua morte",
+        "current_plan": "bloccare l'accesso a Studio di Celestine e spostare le prove",
+        "fallback_plan": "ritirarsi verso Studio di Celestine usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "margaux": {
+        "status": "agitated",
+        "location_id": "corridoio_superiore"
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_1": {
+        "status": "visited",
+        "access_state": "open"
+      },
+      "loc_2": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 4,
+        "max": 8,
+        "active": true,
+        "discovered": true
+      },
+      "main_threat": {
+        "value": 5
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T3"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T1"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {
+      "beatrice_attacked": true,
+      "npcs_on_guard": true
+    },
+    "history": [
+      "Beatrice afferra il manico d'argento del coltello da frutta sul tavolino e scatta in avanti, la lama luccicante puntata verso Margaux che le sbarra il passaggio. Ma il velluto rosso del divano tradisce il suo appoggio: il piede scivola, {{ROLL}} il coltello le sfugge dalla presa e tintinna sul pavim",
+      "Beatrice fruga nella sua borsa da sera con mani tremanti, cercando qualcosa che la faccia sentire al sicuro in questa atmosfera opprimente. Le sue dita trovano solo un ventaglio d'avorio e un portacipria. {{ROLL}} Alza lo sguardo, confusa e frustrata — non c'è nessuna pistola, non ci sono nemici. So",
+      "Beatrice fruga nella sua borsa da sera con mani tremanti, cercando qualcosa — qualsiasi cosa — che la faccia sentire al sicuro. Le sue dita trovano solo il ventaglio d'avorio, il portacipria, un fazzoletto ricamato. Nessuna arma. Nessun nemico in vista. Solo il grande salone vuoto, il camino spento,",
+      "Beatrice si solleva dal divano con un sussulto, il cuore che le martella nel petto. Quei rumori — passi frettolosi, una porta che cigola — provengono dal piano superiore. Afferra l'orlo della gonna e si lancia verso la scalinata di marmo, i tacchi che risuonano nella villa silenziosa. La luce dell'a"
+    ],
+    "destroyed_clue_ids": [],
+    "injected_clues": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 96,
+    "errors": [],
+    "warnings": [
+      "Actor npc_3 ha location non riconosciuta: loc_3.",
+      "Actor npc_5 ha location non riconosciuta: loc_4."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 2,
+      "actors": 5,
+      "clues": 6,
+      "revelations": 3
+    }
+  },
+  "live_game_state": {
+    "clues_found": [],
+    "clue_progress": {
+      "clue_6": {
+        "ticks": 2,
+        "note": "Beatrice ha sentito rumori sospetti che potrebbero collegarsi alla testimonianza di Margaux, ma è stata distratta — qualcun altro si muove nella villa e non vuole essere scoperto"
+      }
+    },
+    "discovered_clues": [],
+    "discovered_facts": [],
+    "resolved_threads": [],
+    "npc_statuses": {
+      "npc_4": {
+        "npc_id": "npc_4",
+        "note": "Margaux è profondamente spaventata da Beatrice e molto meno disposta a collaborare. La sua fiducia è stata compromessa.",
+        "attitude": "hostile",
+        "id": "npc_4"
+      },
+      "npc_1": {
+        "npc_id": "npc_1",
+        "note": "Il Dottor Moreau è diventato diffidente e protettivo. Vede Beatrice come una minaccia potenziale.",
+        "attitude": "suspicious",
+        "id": "npc_1"
+      },
+      "margaux": {
+        "npc_id": "margaux",
+        "status": "agitated",
+        "location": "corridoio_superiore",
+        "id": "margaux",
+        "note": "Ha scoperto che qualcuno sta cercando di forzare le serrature dall'interno"
+      }
+    },
+    "threat_level": 2,
+    "open_threads": [],
+    "turn": 7,
+    "in_combat": false,
+    "world_npcs": [
+      {
+        "id": "npc_1",
+        "name": "Dottor Lucien Moreau",
+        "role": "Medico personale di Celestine ed ex-amante",
+        "current_node_id": "loc_1",
+        "status": "alive",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "Proteggere la reputazione di Celestine e il suo ultimo manoscritto inedito",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr",
+        "actions": [
+          {
+            "name": "Pistola 9mm",
+            "stat": "DE",
+            "skill": "pistola",
+            "difficulty": 0,
+            "effect_type": "combattere",
+            "action_role": "core",
+            "requires_item": null,
+            "source": "role",
+            "description": "",
+            "attack_kind": "ranged",
+            "damage": "2d+2",
+            "damage_type": "pi",
+            "acc": 2,
+            "range_half": 150,
+            "range_max": 1800,
+            "bulk": -2,
+            "ammo": 17,
+            "ammo_current": 17,
+            "rcl": 2,
+            "reload": 1,
+            "weapon_id": "pistola_9mm",
+            "weapon_notes": "Caricatore 17 colpi; semi-auto."
+          }
+        ],
+        "equipment": [
+          {
+            "id": "pistola_9mm_da68e",
+            "name": "Pistola 9mm",
+            "category": "weapon",
+            "weapon_id": "pistola_9mm",
+            "quantity": 1,
+            "ammo_per_pack": 0,
+            "ammo_type": "",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 1.5,
+            "cost": 600,
+            "notes": "Caricatore 17 colpi; semi-auto.",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          },
+          {
+            "id": "ammo_pistola_9mm_e87ce",
+            "name": "Caricatore (17 colpi)",
+            "category": "ammo",
+            "weapon_id": "pistola_9mm",
+            "quantity": 2,
+            "ammo_per_pack": 17,
+            "ammo_type": "pistola_9mm",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 0,
+            "cost": 0,
+            "notes": "",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          }
+        ]
+      },
+      {
+        "id": "npc_2",
+        "name": "Sophie Delacroix",
+        "role": "Giovane editrice e protetta di Celestine",
+        "current_node_id": "loc_2",
+        "status": "alive",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "Pubblicare il manoscritto perduto di Celestine per salvare la casa editrice dalla bancarotta",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr",
+        "actions": [
+          {
+            "name": "Pistola 9mm",
+            "stat": "DE",
+            "skill": "pistola",
+            "difficulty": 0,
+            "effect_type": "combattere",
+            "action_role": "core",
+            "requires_item": null,
+            "source": "role",
+            "description": "",
+            "attack_kind": "ranged",
+            "damage": "2d+2",
+            "damage_type": "pi",
+            "acc": 2,
+            "range_half": 150,
+            "range_max": 1800,
+            "bulk": -2,
+            "ammo": 17,
+            "ammo_current": 17,
+            "rcl": 2,
+            "reload": 1,
+            "weapon_id": "pistola_9mm",
+            "weapon_notes": "Caricatore 17 colpi; semi-auto."
+          }
+        ],
+        "equipment": [
+          {
+            "id": "pistola_9mm_9a61b",
+            "name": "Pistola 9mm",
+            "category": "weapon",
+            "weapon_id": "pistola_9mm",
+            "quantity": 1,
+            "ammo_per_pack": 0,
+            "ammo_type": "",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 1.5,
+            "cost": 600,
+            "notes": "Caricatore 17 colpi; semi-auto.",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          },
+          {
+            "id": "ammo_pistola_9mm_db1d3",
+            "name": "Caricatore (17 colpi)",
+            "category": "ammo",
+            "weapon_id": "pistola_9mm",
+            "quantity": 2,
+            "ammo_per_pack": 17,
+            "ammo_type": "pistola_9mm",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 0,
+            "cost": 0,
+            "notes": "",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          }
+        ]
+      },
+      {
+        "id": "npc_3",
+        "name": "Père Antoine Rousseau",
+        "role": "Sacerdote e confessore di Celestine",
+        "current_node_id": "loc_2",
+        "status": "alive",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "Salvare l'anima di qualcuno nella villa prima che commetta un peccato imperdonabile",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr",
+        "actions": [
+          {
+            "name": "Pistola 9mm",
+            "stat": "DE",
+            "skill": "pistola",
+            "difficulty": 0,
+            "effect_type": "combattere",
+            "action_role": "core",
+            "requires_item": null,
+            "source": "role",
+            "description": "",
+            "attack_kind": "ranged",
+            "damage": "2d+2",
+            "damage_type": "pi",
+            "acc": 2,
+            "range_half": 150,
+            "range_max": 1800,
+            "bulk": -2,
+            "ammo": 17,
+            "ammo_current": 17,
+            "rcl": 2,
+            "reload": 1,
+            "weapon_id": "pistola_9mm",
+            "weapon_notes": "Caricatore 17 colpi; semi-auto."
+          }
+        ],
+        "equipment": [
+          {
+            "id": "pistola_9mm_d9b94",
+            "name": "Pistola 9mm",
+            "category": "weapon",
+            "weapon_id": "pistola_9mm",
+            "quantity": 1,
+            "ammo_per_pack": 0,
+            "ammo_type": "",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 1.5,
+            "cost": 600,
+            "notes": "Caricatore 17 colpi; semi-auto.",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          },
+          {
+            "id": "ammo_pistola_9mm_27de1",
+            "name": "Caricatore (17 colpi)",
+            "category": "ammo",
+            "weapon_id": "pistola_9mm",
+            "quantity": 2,
+            "ammo_per_pack": 17,
+            "ammo_type": "pistola_9mm",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 0,
+            "cost": 0,
+            "notes": "",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          }
+        ]
+      },
+      {
+        "id": "npc_4",
+        "name": "Margaux Fontaine",
+        "role": "Attrice decaduta e migliore amica di Celestine",
+        "current_node_id": "loc_1",
+        "status": "alive",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "Vendicarsi di chi ha rovinato la carriera di Celestine trent'anni fa, anche se deve distruggere reputazioni",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr",
+        "actions": [
+          {
+            "name": "Pistola 9mm",
+            "stat": "DE",
+            "skill": "pistola",
+            "difficulty": 0,
+            "effect_type": "combattere",
+            "action_role": "core",
+            "requires_item": null,
+            "source": "role",
+            "description": "",
+            "attack_kind": "ranged",
+            "damage": "2d+2",
+            "damage_type": "pi",
+            "acc": 2,
+            "range_half": 150,
+            "range_max": 1800,
+            "bulk": -2,
+            "ammo": 17,
+            "ammo_current": 17,
+            "rcl": 2,
+            "reload": 1,
+            "weapon_id": "pistola_9mm",
+            "weapon_notes": "Caricatore 17 colpi; semi-auto."
+          }
+        ],
+        "equipment": [
+          {
+            "id": "pistola_9mm_3e444",
+            "name": "Pistola 9mm",
+            "category": "weapon",
+            "weapon_id": "pistola_9mm",
+            "quantity": 1,
+            "ammo_per_pack": 0,
+            "ammo_type": "",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 1.5,
+            "cost": 600,
+            "notes": "Caricatore 17 colpi; semi-auto.",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          },
+          {
+            "id": "ammo_pistola_9mm_1e4ad",
+            "name": "Caricatore (17 colpi)",
+            "category": "ammo",
+            "weapon_id": "pistola_9mm",
+            "quantity": 2,
+            "ammo_per_pack": 17,
+            "ammo_type": "pistola_9mm",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 0,
+            "cost": 0,
+            "notes": "",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          }
+        ]
+      },
+      {
+        "id": "npc_5",
+        "name": "Jacques 'il Giardiniere'",
+        "role": "Giovane giardiniere della villa, assunto sei mesi fa",
+        "current_node_id": "loc_2",
+        "status": "alive",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "Ottenere riconoscimento da sua madre Celestine prima della sua morte",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr",
+        "actions": [
+          {
+            "name": "Pistola 9mm",
+            "stat": "DE",
+            "skill": "pistola",
+            "difficulty": 0,
+            "effect_type": "combattere",
+            "action_role": "core",
+            "requires_item": null,
+            "source": "role",
+            "description": "",
+            "attack_kind": "ranged",
+            "damage": "2d+2",
+            "damage_type": "pi",
+            "acc": 2,
+            "range_half": 150,
+            "range_max": 1800,
+            "bulk": -2,
+            "ammo": 17,
+            "ammo_current": 17,
+            "rcl": 2,
+            "reload": 1,
+            "weapon_id": "pistola_9mm",
+            "weapon_notes": "Caricatore 17 colpi; semi-auto."
+          }
+        ],
+        "equipment": [
+          {
+            "id": "pistola_9mm_2293a",
+            "name": "Pistola 9mm",
+            "category": "weapon",
+            "weapon_id": "pistola_9mm",
+            "quantity": 1,
+            "ammo_per_pack": 0,
+            "ammo_type": "",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 1.5,
+            "cost": 600,
+            "notes": "Caricatore 17 colpi; semi-auto.",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          },
+          {
+            "id": "ammo_pistola_9mm_58079",
+            "name": "Caricatore (17 colpi)",
+            "category": "ammo",
+            "weapon_id": "pistola_9mm",
+            "quantity": 2,
+            "ammo_per_pack": 17,
+            "ammo_type": "pistola_9mm",
+            "armor_dr": 0,
+            "armor_location": "",
+            "equipped": true,
+            "weight": 0,
+            "cost": 0,
+            "notes": "",
+            "skill_bonuses": {},
+            "conditional_bonuses": [],
+            "source_npc_id": "",
+            "source_location": "",
+            "found_at_turn": 0
+          }
+        ]
+      }
+    ],
+    "allowed_escalation_tier": 3,
+    "allowed_escalation_types": [
+      "atmosphere",
+      "minor_complication",
+      "cost_or_delay",
+      "pressure_increase",
+      "partial_clue",
+      "npc_suspicion",
+      "enemy_alerted",
+      "danger_scene",
+      "witness disappears",
+      "suspect lies",
+      "new contradiction",
+      "pressure clock advances",
+      "partial clue",
+      "false lead",
+      "social fallout",
+      "enemy alerted"
+    ],
+    "forbidden_escalation_types": [
+      "apocalypse",
+      "world ending",
+      "world_destroyed",
+      "black sun",
+      "cosmic doom",
+      "city destroyed",
+      "region permanently doomed",
+      "untriggered game over",
+      "party_death",
+      "boss_release",
+      "finale without conditions",
+      "genre_shift",
+      "mystery solved before threshold",
+      "villain revealed without clue threshold",
+      "case ends from one failed roll",
+      "untriggered massacre"
+    ],
+    "blocked_major_events": [],
+    "downgraded_events": [],
+    "director_reason": "Roll=FALLIMENTO; intent=combat_ranged; profile=investigation_graph; archetype=romance_drama; clock_triggers=0; phase=investigation; fail_tier=pressure",
+    "map_state": {
+      "map_type": "romance",
+      "theme": "Romance gotico con tensione psicologica, atmosfera da camera chiusa con emozioni represse che esplodono",
+      "nodes": {
+        "loc_1": {
+          "id": "loc_1",
+          "name": "Il Salone Principale",
+          "kind": "location",
+          "description": "Ampia sala con soffitti affrescati, camino monumentale, e grandi finestre sul lago. Divani di velluto rosso e un pianoforte a coda coperto da un telo. L'atmosfera è opprimente nonostante la bellezza",
+          "phase_gate": 1,
+          "connections": [
+            "loc_2"
+          ],
+          "visited": true,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "start",
+            "png"
+          ],
+          "contains_clue": false,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 0,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "loc_2": {
+          "id": "loc_2",
+          "name": "Studio di Celestine",
+          "kind": "location",
+          "description": "Stanza circolare nella torre, librerie fino al soffitto, scrivania antica con la lettera incompiuta. Il corpo è stato rimosso ma l'atmosfera è ancora pesante. Profumo di rose appassite e inchiostro",
+          "phase_gate": 1,
+          "connections": [
+            "loc_1"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": true,
+          "is_final": true,
+          "tags": [
+            "png",
+            "zona_calda",
+            "finale"
+          ],
+          "contains_clue": false,
+          "contains_enemy": true,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 2,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {
+            "enabled": true,
+            "role": "finale",
+            "layout": "room",
+            "name": "Studio di Celestine",
+            "cols": 10,
+            "rows": 7,
+            "features": [
+              "muretti merlati",
+              "scale di pietra",
+              "portoni ferrati",
+              "alcove difensive"
+            ],
+            "hazards": [
+              "feritoie sorvegliate",
+              "pietre sconnesse"
+            ],
+            "entry_zones": [
+              "lato ovest / ingresso del gruppo"
+            ],
+            "enemy_zones": [
+              "lato est / punto difeso"
+            ],
+            "trigger": "quando il gruppo affronta antagonista, guardiani o minaccia finale",
+            "victory_condition": "neutralizzare, mettere in fuga o superare gli avversari presenti"
+          }
+        }
+      },
+      "connections_meta": {
+        "loc_1|loc_2": {
+          "from_id": "loc_1",
+          "to_id": "loc_2",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        }
+      },
+      "current_node_id": "loc_1",
+      "start_node_id": "loc_1",
+      "objective_node_id": "loc_2",
+      "extraction_node_id": "loc_2"
+    },
+    "turns_played": 2
+  }
+}

@@ -6,6 +6,8 @@ from .models import (
     GameState,
     Player,
     Action,
+    EquipmentItem,
+    LootEntry,
     SceneEntity,
     SceneChallenge,
     SceneState,
@@ -58,6 +60,17 @@ from .data_advantages import (
 )
 from .runtime_models import AdventureDefinition, AdventureRuntimeState
 from .data_genres import GENRE_PACKS
+from .data_weapons import (
+    item_to_weapon_id, build_action_from_weapon, get_weapon,
+    default_weapon_for_archetype, _ammo_name_for_weapon,
+)
+from .data_items import (
+    ITEM_CATALOG,
+    build_equipment_item_from_catalog,
+    narrative_text_to_item_ids,
+    item_skill_bonuses,
+    item_conditional_bonuses,
+)
 from .claude_service import (
     generate_scene_package,
     generate_mission_ending,
@@ -244,9 +257,96 @@ def hp_to_status(hp: int, max_hp: int) -> str:
     return "ok"
 
 
+def _equip_player_from_items(player: "Player", genre: str = "") -> None:
+    """
+    Popola player.actions e player.equipment a partire da player.items (stringhe legacy).
+
+    - Se un item è un'arma riconosciuta → aggiunge Action + EquipmentItem weapon
+    - Se il nome suggerisce munizioni (frecce, cartucce…) → EquipmentItem ammo
+    - Altrimenti → EquipmentItem misc
+    - Se alla fine non ha NESSUNA arma → auto-equip dall'archetipo/genere
+    """
+    from .models import EquipmentItem, Action
+    import uuid
+
+    existing_weapon_ids = {a.weapon_id for a in player.actions if a.weapon_id}
+    existing_eq_ids = {it.id for it in player.equipment}
+
+    _AMMO_KEYWORDS = ("frecce", "cartucce", "proiettili", "ricarich", "caricator",
+                      "celle", "serbatoio", "colpi", "munizioni", "pietre")
+
+    for item in player.items:
+        wid = item_to_weapon_id(item)
+        if wid and wid not in existing_weapon_ids:
+            # Arma
+            wd = get_weapon(wid)
+            if wd:
+                action_dict = build_action_from_weapon(wid)
+                if action_dict:
+                    player.actions.append(Action(**action_dict))
+                existing_weapon_ids.add(wid)
+                eid = f"{wid}_{uuid.uuid4().hex[:5]}"
+                player.equipment.append(EquipmentItem(
+                    id=eid, name=wd["name"], category="weapon",
+                    weapon_id=wid, quantity=1,
+                    weight=float(wd.get("weight", 0)),
+                    cost=int(wd.get("cost", 0)),
+                    notes=wd.get("notes", ""), equipped=True,
+                ))
+                # Aggiungi 1 ricarica se ranged con ammo
+                if wd.get("ammo", 0) > 0:
+                    ammo_name = _ammo_name_for_weapon(wd)
+                    player.equipment.append(EquipmentItem(
+                        id=f"ammo_{wid}_{uuid.uuid4().hex[:5]}",
+                        name=ammo_name, category="ammo",
+                        weapon_id=wid, ammo_type=wid,
+                        quantity=2, ammo_per_pack=wd.get("ammo", 0),
+                    ))
+        elif any(k in item.lower() for k in _AMMO_KEYWORDS):
+            # Munizioni generiche
+            eid = f"ammo_misc_{uuid.uuid4().hex[:5]}"
+            if eid not in existing_eq_ids:
+                player.equipment.append(EquipmentItem(
+                    id=eid, name=item, category="ammo", quantity=2,
+                ))
+                existing_eq_ids.add(eid)
+        else:
+            # Oggetto generico
+            eid = f"misc_{uuid.uuid4().hex[:5]}"
+            player.equipment.append(EquipmentItem(
+                id=eid, name=item, category="misc", quantity=1,
+            ))
+
+    # Se non ha ancora alcuna arma, auto-equip dall'archetipo
+    if not any(a.attack_kind for a in player.actions):
+        wid, packs = default_weapon_for_archetype(player.archetype, genre)
+        if wid:
+            wd = get_weapon(wid)
+            action_dict = build_action_from_weapon(wid)
+            if wd and action_dict:
+                player.actions.append(Action(**action_dict))
+                player.equipment.append(EquipmentItem(
+                    id=f"{wid}_{uuid.uuid4().hex[:5]}",
+                    name=wd["name"], category="weapon",
+                    weapon_id=wid, quantity=1,
+                    weight=float(wd.get("weight", 0)),
+                    cost=int(wd.get("cost", 0)),
+                    notes=wd.get("notes", ""), equipped=True,
+                ))
+                if packs > 0 and wd.get("ammo", 0) > 0:
+                    ammo_name = _ammo_name_for_weapon(wd)
+                    player.equipment.append(EquipmentItem(
+                        id=f"ammo_{wid}_{uuid.uuid4().hex[:5]}",
+                        name=ammo_name, category="ammo",
+                        weapon_id=wid, ammo_type=wid,
+                        quantity=packs, ammo_per_pack=wd.get("ammo", 0),
+                    ))
+
+
 def build_players_from_dicts(
     player_dicts: list[dict],
     previous_players: list[Player] | None = None,
+    genre: str = "",
 ) -> list[Player]:
     """Costruisce i Player applicando le derivate GURPS Lite.
 
@@ -318,10 +418,11 @@ def build_players_from_dicts(
                 items=p.get("items", []),
                 backstory=p.get("backstory", ""),
                 motivation=p.get("motivation", ""),
+                # ── Actions: preserva TUTTI i campi, compresi quelli arma ──────
                 actions=[
                     Action(
                         name=a["name"],
-                        stat=a["stat"],
+                        stat=a.get("stat", "DE"),
                         skill=a.get("skill", ""),
                         difficulty=a.get("difficulty", 0),
                         effect_type=a.get("effect_type", "generic"),
@@ -329,11 +430,35 @@ def build_players_from_dicts(
                         requires_item=a.get("requires_item"),
                         source=a.get("source", "role"),
                         description=a.get("description", ""),
+                        # Campi combattimento
+                        attack_kind=a.get("attack_kind"),
+                        damage=a.get("damage"),
+                        damage_type=a.get("damage_type"),
+                        acc=int(a.get("acc", 0)),
+                        range_half=int(a.get("range_half", 0)),
+                        range_max=int(a.get("range_max", 0)),
+                        bulk=int(a.get("bulk", 0)),
+                        ammo=int(a.get("ammo", 0)),
+                        ammo_current=int(a.get("ammo_current", 0) or a.get("ammo", 0)),
+                        rcl=int(a.get("rcl", 1)),
+                        reload=int(a.get("reload", 0)),
+                        weapon_id=a.get("weapon_id", ""),
+                        weapon_notes=a.get("weapon_notes", ""),
                     )
                     for a in p.get("actions", [])
                 ],
+                # ── Equipment: carica dict esistenti se presenti ──────────────
+                equipment=[
+                    EquipmentItem(**eq) if isinstance(eq, dict) else eq
+                    for eq in p.get("equipment", [])
+                ],
             )
         )
+
+    # ── Auto-equip: converte items in equipment/actions per i player senza armi ─
+    for pl in players:
+        if not pl.equipment:
+            _equip_player_from_items(pl, genre)
 
     return players
 
@@ -379,7 +504,7 @@ def prepare_team_setup(genre: str, provider: str = "claude") -> GameState:
             active_slots=0,
             setup_complete=False,
             selected_player_ids=[],
-            candidate_pool=build_players_from_dicts(candidates),
+            candidate_pool=build_players_from_dicts(candidates, genre=genre),
             provider=provider,
         ),
         mission=None,
@@ -647,15 +772,245 @@ def _compiled_location_for_actor(actor_location: str, map_state: MapState, fallb
     return (non_start or fallback_ids or [map_state.start_node_id])[idx % max(1, len(non_start or fallback_ids or [map_state.start_node_id]))]
 
 
+def _entity_loot_to_pool(state: "GameState", entity: "SceneEntity") -> None:
+    """
+    Quando un'entità nemica viene abbattuta (hp ≤ 0), sposta il suo equipment
+    nel loot_pool della scena corrente.
+    Il WorldNPC corrispondente (se esiste) perde quell'equipment.
+    """
+    import uuid
+    # Cerca il WorldNPC corrispondente per nome
+    npc = next((n for n in state.world_npcs if n.name.lower() == entity.name.lower()), None)
+    # Raccogli equipment dall'NPC (se trovato) o genera loot sintetico dall'entità
+    items_to_loot: list[EquipmentItem] = []
+    if npc and npc.equipment:
+        items_to_loot = list(npc.equipment)
+        npc.equipment = []   # l'NPC non ha più gli oggetti
+        if npc.actions:
+            npc.actions = []  # disarmo
+    elif npc and npc.actions:
+        # Genera EquipmentItem dalle actions se equipment non strutturato
+        for a in npc.actions:
+            if a.weapon_id:
+                from .data_weapons import get_weapon
+                wd = get_weapon(a.weapon_id)
+                if wd:
+                    items_to_loot.append(EquipmentItem(
+                        id=f"{a.weapon_id}_{uuid.uuid4().hex[:5]}",
+                        name=wd["name"], category="weapon",
+                        weapon_id=a.weapon_id, quantity=1,
+                        weight=float(wd.get("weight", 0)),
+                        cost=int(wd.get("cost", 0)),
+                        notes=wd.get("notes", ""),
+                        source_npc_id=entity.id,
+                        source_location=state.map_state.current_node_id if state.map_state else "",
+                        found_at_turn=state.turn,
+                    ))
+        npc.actions = []
+    # Se nessun equipment strutturato ma l'entità ha danno, aggiungi arma generica
+    if not items_to_loot and entity.damage_dice:
+        items_to_loot.append(EquipmentItem(
+            id=f"drop_{entity.id}_{uuid.uuid4().hex[:5]}",
+            name=f"Arma di {entity.name}",
+            category="weapon", quantity=1,
+            notes=f"Danno: {entity.damage_dice} {entity.damage_type}",
+            source_npc_id=entity.id,
+            source_location=state.map_state.current_node_id if state.map_state else "",
+            found_at_turn=state.turn,
+        ))
+    # Aggiungi al loot_pool (evita duplicati per entity)
+    already = {e.source_id for e in state.loot_pool}
+    if entity.id not in already:
+        for it in items_to_loot:
+            it.source_npc_id = entity.id
+            it.found_at_turn = state.turn
+            state.loot_pool.append(LootEntry(
+                item=it,
+                source_type="npc_defeat",
+                source_id=entity.id,
+                source_name=entity.name,
+            ))
+
+
+def _add_item_to_loot_pool(
+    state: "GameState",
+    item: "EquipmentItem",
+    source_type: str = "scene",
+    source_id: str = "",
+    source_name: str = "",
+    visible: bool = True,
+) -> None:
+    """Aggiunge un oggetto al loot_pool della scena corrente."""
+    import uuid
+    if not item.id:
+        item.id = f"loot_{uuid.uuid4().hex[:6]}"
+    item.source_location = state.map_state.current_node_id if state.map_state else ""
+    item.found_at_turn = state.turn
+    state.loot_pool.append(LootEntry(
+        item=item,
+        source_type=source_type,
+        source_id=source_id,
+        source_name=source_name,
+        visible=visible,
+    ))
+
+
+def collect_loot(
+    state: "GameState",
+    player_id: int,
+    item_id: str,
+) -> dict:
+    """
+    Un PG raccoglie un oggetto dal loot_pool.
+    L'oggetto viene rimosso dal pool e aggiunto all'inventario del PG.
+    """
+    player = next((p for p in state.players if p.id == player_id), None)
+    if not player:
+        return {"error": f"Personaggio {player_id} non trovato."}
+    entry = next((e for e in state.loot_pool if e.item.id == item_id and e.collected_by == 0), None)
+    if not entry:
+        return {"error": "Oggetto non disponibile (già raccolto o non trovato)."}
+    entry.collected_by = player_id
+    item = entry.item
+    # Merge: se è ammo dello stesso tipo, aumenta quantity
+    if item.category == "ammo" and item.ammo_type:
+        existing = next((it for it in player.equipment
+                         if it.category == "ammo" and it.ammo_type == item.ammo_type), None)
+        if existing:
+            existing.quantity += item.quantity
+            log = f"{player.name} raccoglie {item.name} (ora {existing.quantity} unità)."
+            state.log = log
+            return {"log": log, "players": state.players, "loot_pool": state.loot_pool}
+    # Merge: se è un oggetto misc identico, aumenta quantity
+    if item.category in ("misc", "consumable") and not item.weapon_id:
+        existing = next((it for it in player.equipment if it.name == item.name), None)
+        if existing:
+            existing.quantity += item.quantity
+            log = f"{player.name} raccoglie {item.name} (ora {existing.quantity})."
+            state.log = log
+            return {"log": log, "players": state.players, "loot_pool": state.loot_pool}
+    # Aggiunge come nuovo EquipmentItem
+    player.equipment.append(item)
+    # Se è un'arma con weapon_id, aggiunge anche l'Action corrispondente (se non ce l'ha già)
+    if item.category == "weapon" and item.weapon_id:
+        has_action = any(a.weapon_id == item.weapon_id for a in player.actions)
+        if not has_action:
+            from .data_weapons import build_action_from_weapon
+            action_dict = build_action_from_weapon(item.weapon_id)
+            if action_dict:
+                player.actions.append(Action(**action_dict))
+    log = f"{player.name} raccoglie {item.name}."
+    if item.category == "weapon":
+        log += f" (aggiunta alle azioni di combattimento)"
+    state.log = log
+    return {"log": log, "players": state.players, "loot_pool": state.loot_pool}
+
+
+def give_item_to_player(
+    state: "GameState",
+    player_id: int,
+    item_name: str,
+    category: str = "misc",
+    weapon_id: str = "",
+    quantity: int = 1,
+    notes: str = "",
+    source_name: str = "master",
+) -> dict:
+    """
+    Il Master assegna direttamente un oggetto a un PG (fuori dal loot_pool).
+    Aggiunge la Action corrispondente se è un'arma riconosciuta.
+    """
+    import uuid
+    from .data_weapons import item_to_weapon_id, get_weapon, build_action_from_weapon
+    player = next((p for p in state.players if p.id == player_id), None)
+    if not player:
+        return {"error": f"Personaggio {player_id} non trovato."}
+
+    # Auto-rileva weapon_id dal nome se non fornito
+    if not weapon_id:
+        weapon_id = item_to_weapon_id(item_name) or ""
+    if weapon_id and not category or category == "misc":
+        category = "weapon"
+
+    wd = get_weapon(weapon_id) if weapon_id else None
+    item = EquipmentItem(
+        id=f"given_{uuid.uuid4().hex[:6]}",
+        name=wd["name"] if wd else item_name,
+        category=category,
+        weapon_id=weapon_id,
+        quantity=quantity,
+        notes=notes or (wd.get("notes", "") if wd else ""),
+        weight=float(wd.get("weight", 0)) if wd else 0.0,
+        cost=int(wd.get("cost", 0)) if wd else 0,
+        source_npc_id="master",
+        source_location=state.map_state.current_node_id if state.map_state else "",
+        found_at_turn=state.turn,
+        equipped=True,
+    )
+    player.equipment.append(item)
+    # Aggiungi Action se arma riconosciuta
+    if weapon_id and not any(a.weapon_id == weapon_id for a in player.actions):
+        action_dict = build_action_from_weapon(weapon_id)
+        if action_dict:
+            player.actions.append(Action(**action_dict))
+    log = f"Il Master ha assegnato '{item.name}' a {player.name}."
+    state.log = log
+    return {"log": log, "players": state.players}
+
+
+def _assign_npc_weapons(npc: "WorldNPC", genre: str = "") -> None:
+    """
+    Assegna armi e munizioni a un WorldNPC in base al suo ruolo e al genere.
+    Popola npc.actions e npc.equipment se vuoti.
+    Gli NPC innocui (threat 0) non ricevono armi da combattimento.
+    """
+    from .models import EquipmentItem, Action
+    import uuid
+
+    if npc.actions:   # già equipaggiato
+        return
+    if npc.threat_to_player == 0:
+        return   # testimoni/alleati senza armi
+
+    # Cerca una arma appropriata per il ruolo/genere
+    archetype_hint = npc.role.lower()   # "antagonista", "guard", "boss", ecc.
+    wid, packs = default_weapon_for_archetype(archetype_hint, genre)
+    if not wid:
+        return
+
+    wd = get_weapon(wid)
+    action_dict = build_action_from_weapon(wid)
+    if not wd or not action_dict:
+        return
+
+    npc.actions.append(Action(**action_dict))
+    npc.equipment.append(EquipmentItem(
+        id=f"{wid}_{uuid.uuid4().hex[:5]}",
+        name=wd["name"], category="weapon",
+        weapon_id=wid, quantity=1,
+        weight=float(wd.get("weight", 0)),
+        cost=int(wd.get("cost", 0)),
+        notes=wd.get("notes", ""), equipped=True,
+    ))
+    if packs > 0 and wd.get("ammo", 0) > 0:
+        npc.equipment.append(EquipmentItem(
+            id=f"ammo_{wid}_{uuid.uuid4().hex[:5]}",
+            name=_ammo_name_for_weapon(wd), category="ammo",
+            weapon_id=wid, ammo_type=wid,
+            quantity=packs, ammo_per_pack=wd.get("ammo", 0),
+        ))
+
+
 def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapState) -> list[WorldNPC]:
     node_ids = list(map_state.nodes.keys())
+    genre = getattr(definition, "genre", "") or ""
     npcs: list[WorldNPC] = []
     for i, actor in enumerate(definition.actors[:12]):
         role = str(actor.role or "neutral")
         low = role.lower()
         threat = 3 if "antagon" in low or "boss" in low else 2 if "red" in low or "guard" in low else 1 if role != "ally" else 0
         node_id = _compiled_location_for_actor(actor.location_id, map_state, node_ids, i)
-        npcs.append(WorldNPC(
+        npc = WorldNPC(
             id=actor.id,
             name=actor.name,
             role=role,
@@ -665,7 +1020,9 @@ def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapS
             holds_clue_for="",
             description=actor.goal or actor.secret or role,
             secret=actor.secret,
-        ))
+        )
+        _assign_npc_weapons(npc, genre)
+        npcs.append(npc)
     return npcs
 
 
@@ -773,9 +1130,10 @@ def start_compiled_game_from_selection(
             "hp": p.hp,
             "max_hp": p.max_hp,
             "items": p.items,
+            "equipment": [it.model_dump() for it in (p.equipment or [])],
             "backstory": getattr(p, "backstory", ""),
             "motivation": getattr(p, "motivation", ""),
-            "actions": [],
+            "actions": [a.model_dump() for a in (p.actions or [])],
         }
         for p in current_state.team_setup.candidate_pool
     ]
@@ -839,7 +1197,7 @@ def start_compiled_game_from_selection(
         story=story,
         map_state=map_state,
         world_npcs=world_npcs,
-        players=build_players_from_dicts(selected_candidates),
+        players=build_players_from_dicts(selected_candidates, genre=definition.genre),
         mission_memory=[],
         selected_actions={},
         adventure_definition_id=definition.id,
@@ -1471,6 +1829,20 @@ def get_accessible_connections(state: GameState) -> list[str]:
             continue
         allowed.append(nid)
     return allowed
+
+
+def clear_loot_pool_on_scene_transition(state: GameState) -> list[str]:
+    """
+    Al cambio scena: gli oggetti non raccolti vengono persi (con nota nel log).
+    Ritorna lista di messaggi per il log narrativo.
+    """
+    uncollected = [e for e in state.loot_pool if e.collected_by == 0]
+    msgs = []
+    for entry in uncollected:
+        msgs.append(f"Oggetto abbandonato: {entry.item.name} (da {entry.source_name or 'scena precedente'}).")
+    state.loot_pool = [e for e in state.loot_pool if e.collected_by != 0]  # mantieni solo i raccolti (per storico)
+    state.loot_pool = []  # reset completo — gli oggetti già raccolti sono già in player.equipment
+    return msgs
 
 
 def move_to_best_next_node(state: GameState, scene_transition: str) -> None:
@@ -2959,7 +3331,13 @@ def _resolve_action_roll(
         base_skill_level = default_level
         skill_known = False
 
+    # ── Item bonus: bonus fisso da requires_item + bonus reali dall'equipaggiamento ─
     item_bonus = 1 if action.requires_item else 0
+    equip_bonus, equip_breakdown = _compute_equipment_bonus(
+        player, skill_name, scene_tags=list(state.scene.scene_tags or [])
+    )
+    item_bonus += equip_bonus
+
     status_malus = status_penalty(player.status)
     threat_malus = threat_penalty(state.scene.threat_level)
     difficulty = action.difficulty
@@ -3039,6 +3417,8 @@ def _resolve_action_roll(
         "threat_malus": threat_malus,
         "difficulty": difficulty,
         "item_bonus": item_bonus,
+        "equip_bonus": equip_bonus,
+        "equip_breakdown": equip_breakdown,
         "adv_bonus": adv_bonus,
         "adv_breakdown": adv_detail,
         "environmental_trait_modifiers": environmental_trait_detail,
@@ -3170,7 +3550,8 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
     adv_detail = advantage_breakdown(all_traits, chosen_skill, effect_type)
     adv_bonus = sum(t["delta"] for t in adv_detail)
 
-    # ── Item bonus: +1 se l'azione menziona un oggetto dell'inventario ───────
+    # ── Item bonus: +1 generico se l'azione menziona un oggetto dell'inventario,
+    #    + bonus strutturati dall'equipaggiamento (EquipmentItem.skill_bonuses) ──
     item_bonus = 0
     action_lower = action_text.lower()
     for it in items:
@@ -3178,6 +3559,22 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
         if any(w in action_lower for w in it_words if len(w) > 3):
             item_bonus = 1
             break
+    # Bonus da equipaggiamento strutturato (se il player_dict include equipment)
+    equip_bonus = 0
+    equip_breakdown: list[dict] = []
+    raw_equipment = player_dict.get("equipment") or []
+    if raw_equipment:
+        dummy_player = Player(
+            id=0, name="", role="", archetype="",
+            stats=stats,
+            skills=skills,
+            advantages=advantages,
+            disadvantages=disadvantages,
+            items=items,
+            equipment=[EquipmentItem(**e) if isinstance(e, dict) else e for e in raw_equipment],
+        )
+        equip_bonus, equip_breakdown = _compute_equipment_bonus(dummy_player, chosen_skill, scene_tags)
+        item_bonus += equip_bonus
 
     # ── Difficoltà situazionale da tag scena ─────────────────────────────────
     # Tag come "buio", "pericolo", "affollato", "tempo_limitato" aggiungono malus
@@ -3262,6 +3659,8 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
         "item_bonus": item_bonus,
         "adv_bonus": adv_bonus,
         "adv_breakdown": adv_detail,
+        "equip_bonus": equip_bonus,
+        "equip_breakdown": equip_breakdown,
         "environmental_trait_modifiers": environmental_trait_detail,
         "luck": luck_detail,
         "coord_bonus": 0,
@@ -3274,7 +3673,287 @@ def roll_for_player_action(player_dict: dict, action_text: str, threat_level: in
     }
 
 
+# ─── Bonus Equipaggiamento ────────────────────────────────────────────────────
+
+def _compute_equipment_bonus(
+    player: "Player",
+    skill_name: str,
+    scene_tags: list[str] | None = None,
+) -> tuple[int, list[dict]]:
+    """
+    Calcola il bonus/malus totale dato dall'equipaggiamento del giocatore
+    per una specifica skill.
+
+    Considera:
+    - EquipmentItem.skill_bonuses[skill_name] (bonus fisso)
+    - EquipmentItem.conditional_bonuses con tag scena che matchano
+
+    Ritorna (totale_bonus, breakdown_list) dove breakdown_list è una lista
+    di {"name": str, "delta": int, "reason": str} per il log.
+    """
+    if scene_tags is None:
+        scene_tags = []
+    total = 0
+    breakdown: list[dict] = []
+    for item in player.equipment:
+        if not item.equipped:
+            continue
+        # Bonus fisso
+        fixed = item.skill_bonuses.get(skill_name, 0)
+        if fixed:
+            total += fixed
+            breakdown.append({
+                "name": item.name,
+                "delta": fixed,
+                "reason": f"{'bonus' if fixed > 0 else 'malus'} fisso",
+            })
+        # Bonus condizionali: somma quelli attivi
+        for cb in item.conditional_bonuses:
+            if cb.get("skill") == skill_name:
+                required_tags = cb.get("tags", [])
+                if any(t in scene_tags for t in required_tags):
+                    bonus = cb["bonus"]
+                    total += bonus
+                    matched_tag = next((t for t in required_tags if t in scene_tags), "")
+                    breakdown.append({
+                        "name": item.name,
+                        "delta": bonus,
+                        "reason": f"condizionale ({matched_tag})",
+                    })
+        # Bonus dal catalogo items (per oggetti che non hanno skill_bonuses
+        # compilati esplicitamente ma il loro item_id è noto)
+        if item.id and "_" in item.id:
+            catalog_id = "_".join(item.id.split("_")[:-1])  # rimuove suffix uuid
+            cat_fixed = item_skill_bonuses(catalog_id).get(skill_name, 0)
+            if cat_fixed and not fixed:  # evita doppio conteggio
+                cat_cond = item_conditional_bonuses(catalog_id, scene_tags).get(skill_name, 0)
+                tot_cat = cat_fixed + cat_cond
+                if tot_cat:
+                    total += tot_cat
+                    breakdown.append({
+                        "name": item.name,
+                        "delta": tot_cat,
+                        "reason": "catalogo oggetti",
+                    })
+    return total, breakdown
+
+
+def _extract_found_items_from_narrative(
+    narrative_text: str,
+    state: "GameState",
+    scene_location: str = "",
+) -> list["LootEntry"]:
+    """
+    Analizza il testo narrativo generato dall'AI GM e identifica oggetti trovati.
+    Ritorna una lista di LootEntry da aggiungere al loot_pool.
+
+    La funzione:
+    1. Usa narrative_text_to_item_ids() per trovare item_id noti nel testo
+    2. Evita duplicati con scene_items_given
+    3. Costruisce LootEntry con source_type="scene" e source_name=location
+    """
+    import uuid
+    if not narrative_text:
+        return []
+    found_ids = narrative_text_to_item_ids(narrative_text)
+    if not found_ids:
+        return []
+    new_entries: list[LootEntry] = []
+    already_given = set(state.scene_items_given or [])
+    for item_id in found_ids:
+        # Evita duplicati per questa sessione
+        if item_id in already_given:
+            continue
+        item = build_equipment_item_from_catalog(item_id, source_location=scene_location, turn=state.turn)
+        if not item:
+            continue
+        entry = LootEntry(
+            item=item,
+            source_type="scene",
+            source_id="narrative",
+            source_name=scene_location or "narrativa",
+            collected_by=0,
+            visible=True,
+        )
+        new_entries.append(entry)
+        already_given.add(item_id)
+    state.scene_items_given = list(already_given)
+    return new_entries
+
+
+# ─── Gestione Equipaggiamento PG/NPC ──────────────────────────────────────────
+
+def add_weapon_to_player(
+    state: GameState,
+    player_id: int,
+    weapon_id: str,
+    ammo_packs: int = 0,
+) -> dict:
+    """
+    Aggiunge un'arma (+ eventuale scorta di munizioni) all'inventario di un PG.
+
+    - Crea/aggiorna l'Action corrispondente in player.actions
+    - Aggiunge un EquipmentItem category=="weapon" in player.equipment
+    - Se ammo_packs > 0 e l'arma usa munizioni, aggiunge i pacchi ammo
+
+    Ritorna {"players": [...], "log": str, "error": str|None}
+    """
+    from .data_weapons import build_action_from_weapon, get_weapon
+    from .models import EquipmentItem, Action
+
+    player = next((p for p in state.players if p.id == player_id), None)
+    if not player:
+        return {"error": f"Personaggio {player_id} non trovato."}
+
+    w = get_weapon(weapon_id)
+    if not w:
+        return {"error": f"Arma '{weapon_id}' non trovata nella tabella armi."}
+
+    # Aggiungi/aggiorna Action
+    existing_action = next((a for a in player.actions if a.weapon_id == weapon_id), None)
+    if not existing_action:
+        action_dict = build_action_from_weapon(weapon_id)
+        if action_dict:
+            player.actions.append(Action(**action_dict))
+
+    # Aggiungi EquipmentItem (arma fisica)
+    existing_eq = next((it for it in player.equipment if it.weapon_id == weapon_id and it.category == "weapon"), None)
+    if not existing_eq:
+        import uuid
+        player.equipment.append(EquipmentItem(
+            id=f"{weapon_id}_{uuid.uuid4().hex[:6]}",
+            name=w["name"],
+            category="weapon",
+            weapon_id=weapon_id,
+            quantity=1,
+            weight=float(w.get("weight", 0)),
+            cost=int(w.get("cost", 0)),
+            notes=w.get("notes", ""),
+            equipped=True,
+        ))
+
+    # Aggiungi pacchi munizioni
+    log_parts = [f"Aggiunta {w['name']} a {player.name}."]
+    if ammo_packs > 0 and w.get("ammo", 0) > 0:
+        import uuid
+        ammo_name = _ammo_name_for_weapon(w)
+        player.equipment.append(EquipmentItem(
+            id=f"ammo_{weapon_id}_{uuid.uuid4().hex[:6]}",
+            name=ammo_name,
+            category="ammo",
+            weapon_id=weapon_id,
+            ammo_type=weapon_id,
+            quantity=ammo_packs,
+            ammo_per_pack=w.get("ammo", 0),
+            notes=f"Munizioni per {w['name']}",
+        ))
+        log_parts.append(f"+{ammo_packs} ricariche ({ammo_name}).")
+
+    log = " ".join(log_parts)
+    state.log = log
+    return {"players": state.players, "log": log}
+
+
+def remove_weapon_from_player(
+    state: GameState,
+    player_id: int,
+    weapon_id: str,
+) -> dict:
+    """Rimuove arma e relative munizioni dall'inventario di un PG."""
+    player = next((p for p in state.players if p.id == player_id), None)
+    if not player:
+        return {"error": f"Personaggio {player_id} non trovato."}
+
+    before_actions = len(player.actions)
+    player.actions = [a for a in player.actions if a.weapon_id != weapon_id]
+    player.equipment = [it for it in player.equipment
+                        if not (it.weapon_id == weapon_id or it.ammo_type == weapon_id)]
+
+    removed = before_actions - len(player.actions)
+    log = f"Rimossa arma '{weapon_id}' dall'inventario di {player.name}." if removed else f"Arma '{weapon_id}' non trovata."
+    state.log = log
+    return {"players": state.players, "log": log}
+
+
+def remove_equipment_item(
+    state: GameState,
+    player_id: int,
+    item_id: str,
+) -> dict:
+    """Rimuove un singolo EquipmentItem per id dall'inventario."""
+    player = next((p for p in state.players if p.id == player_id), None)
+    if not player:
+        return {"error": f"Personaggio {player_id} non trovato."}
+    player.equipment = [it for it in player.equipment if it.id != item_id]
+    return {"players": state.players, "log": f"Oggetto rimosso dall'inventario di {player.name}."}
+
+
 # ─── PR2: Combattimento meccanico ─────────────────────────────────────────────
+
+def reload_weapon(
+    state: GameState,
+    player_id: int,
+    action_name: str,
+) -> dict:
+    """
+    Ricarica un'arma da fuoco/arco usando le munizioni in inventario.
+
+    Regole GURPS Lite:
+    - Il giocatore deve avere l'arma come Action con ammo_current < ammo
+    - Deve avere in equipment almeno un EquipmentItem di category=="ammo"
+      il cui ammo_type coincide con il weapon_id dell'arma (o è vuoto/generico)
+    - Spende un'azione intera (action_type rimane "normal" dopo il reload)
+    - Ripristina ammo_current = ammo (caricatore pieno)
+    - Decrementa quantity dell'ammo pack; se quantity == 0 rimuove l'item
+
+    Ritorna: {"log": str, "players": [...], "error": str | None}
+    """
+    player = next((p for p in state.players if p.id == player_id), None)
+    if not player:
+        return {"error": f"Personaggio {player_id} non trovato."}
+
+    action = next((a for a in player.actions if a.name == action_name), None)
+    if not action:
+        return {"error": f"Azione '{action_name}' non trovata nel personaggio."}
+
+    if action.attack_kind != "ranged":
+        return {"error": f"'{action_name}' non è un'arma a distanza."}
+
+    if action.ammo <= 0:
+        return {"error": f"'{action_name}' non usa munizioni."}
+
+    if action.ammo_current >= action.ammo:
+        return {"log": f"{player.name}: il caricatore di {action.name} è già pieno ({action.ammo}/{action.ammo}).", "players": state.players}
+
+    # Cerca ammo compatibile nell'equipment
+    compatible = [
+        it for it in player.equipment
+        if it.category == "ammo"
+        and (not it.ammo_type or it.ammo_type == action.weapon_id)
+        and it.quantity > 0
+    ]
+    if not compatible:
+        return {"error": f"Nessuna munizione compatibile con {action.name} nell'inventario."}
+
+    ammo_item = compatible[0]
+    old_ammo = action.ammo_current
+    action.ammo_current = action.ammo   # caricatore pieno
+
+    # Consuma 1 unità di ammo (es. 1 caricatore, 1 fascio di frecce)
+    ammo_item.quantity -= 1
+    if ammo_item.quantity <= 0:
+        player.equipment = [it for it in player.equipment if it.id != ammo_item.id]
+
+    reload_turns = getattr(action, "reload", 1) or 1
+    log = (
+        f"{player.name} ricarica {action.name}: "
+        f"{old_ammo}→{action.ammo}/{action.ammo} proiettili. "
+        f"Rimangono {ammo_item.quantity} unità di {ammo_item.name}. "
+        f"(Azione spesa; ricarica: {reload_turns} turno/i)"
+    )
+    state.log = log
+    return {"log": log, "players": state.players}
+
 
 def initiate_combat_action(
     state: GameState,
@@ -3282,7 +3961,8 @@ def initiate_combat_action(
     action: Action,
     target_entity_id: str | None = None,
     target_player_id: int | None = None,
-    action_type: str = "normal",   # "normal" | "all_out_attack"
+    action_type: str = "normal",   # "normal" | "all_out_attack" | "aim"
+    distance: int = 0,             # distanza in esagoni/yard (dalla mappa tattica)
 ) -> GameState:
     """
     Prima metà dello scambio di combattimento: tira il dado dell'attaccante
@@ -3292,10 +3972,40 @@ def initiate_combat_action(
     con la difesa dell'entità (non interattiva).
     Se il bersaglio è un Player, sospende e attende declare_defense().
     action_type: "all_out_attack" → +4 attacco, nessuna difesa attiva questo turno.
+               "aim"             → accumula turni di mira; NON spara questo turno.
+    distance: distanza in esagoni dal bersaglio (per penalità ranged).
     """
     attacker = next((p for p in state.players if p.id == attacker_id), None)
     if not attacker:
         state.log = f"Attaccante {attacker_id} non trovato."
+        return state
+
+    # ── Azione AIM: il giocatore mira senza sparare ──────────────────────────
+    if action_type == "aim":
+        acc = getattr(action, "acc", 0)
+        attacker.aimed = True
+        attacker.aimed_turns = min((attacker.aimed_turns or 0) + 1, max(1, acc))
+        attacker.action_type = "aim"
+        state.log = (
+            f"{attacker.name} mira con {action.name}. "
+            f"Bonus Acc accumulato: +{attacker.aimed_turns} (su {acc} max). "
+            f"Spara il prossimo turno per applicarlo."
+        )
+        state.last_attack_result = {
+            "attacker": attacker.name, "target": "", "skill": action.skill or "",
+            "skill_level": 0, "attack_roll": 0, "damage_formula": "", "damage_type": "",
+            "result": {"hit": False, "narrative_hint": "azione_mira",
+                       "defended": False, "raw_damage": 0, "dr_absorbed": 0, "net_damage": 0,
+                       "attacker_margin": 0, "defense_margin": 0, "attacker_critical": False,
+                       "defense_critical_fail": False, "wound_threshold": "",
+                       "shock_applied": 0, "major_wound": False, "major_wound_check_passed": False,
+                       "knockdown": False, "knockdown_check_passed": False,
+                       "death_check": False, "death_check_passed": False,
+                       "fp_cost": 0, "target_stunned": False, "target_prone": False},
+            "advantages_active": [], "target_dr": 0,
+            "action_type": "aim",
+            "aim_turns": attacker.aimed_turns, "aim_bonus": attacker.aimed_turns,
+        }
         return state
 
     # Applica action_type al Player così combat.py lo legge
@@ -3304,6 +4014,11 @@ def initiate_combat_action(
     attack_skill_name = action.skill or "combattere"
     damage_formula = action.damage or "1d6"
     damage_type = action.damage_type or "cr"
+    attack_kind = getattr(action, "attack_kind", None) or "melee"
+    acc          = getattr(action, "acc", 0)
+    range_half   = getattr(action, "range_half", 0)
+    range_max    = getattr(action, "range_max", 0)
+    ammo_current = getattr(action, "ammo_current", -1)
     roll = sum(random.randint(1, 6) for _ in range(3))
 
     # Stordito: non può agire, prova recupero automatico
@@ -3348,12 +4063,30 @@ def initiate_combat_action(
             damage_formula=damage_formula,
             damage_type=damage_type,
             target_entity=entity,
+            attack_kind=attack_kind,
+            acc=acc,
+            distance=distance,
+            range_half=range_half,
+            range_max=range_max,
+            ammo_current=ammo_current,
         )
+        # Scala munizioni se ranged e ha sparato
+        if attack_kind == "ranged" and ammo_current > 0 and result.narrative_hint != "munizioni_esaurite":
+            action.ammo_current = max(0, ammo_current - 1)
         reset_action_type(attacker)
-        attack_level = attacker.skills.get(attack_skill_name, 0)
+        from .combat import _attack_level as _al
+        attack_level = _al(
+            attacker, attack_skill_name, attack_kind=attack_kind, acc=acc,
+            distance=distance, range_half=range_half, range_max=range_max,
+        )
         all_adv = attacker.advantages + attacker.disadvantages
         active_adv = [a for a in all_adv if any(k in a.lower() for k in ("riflessi","forza","sensi","duro","ambid"))]
         state.log = _combat_result_to_log(attacker.name, entity.name, result, roll)
+        range_note = ""
+        if attack_kind == "ranged" and distance > 0:
+            from .combat import _range_penalty
+            rp = _range_penalty(distance, range_half, range_max)
+            range_note = f" (distanza {distance}yd, penalità {rp})" if rp else f" (distanza {distance}yd, in gittata)"
         state.last_attack_result = {
             "attacker": attacker.name,
             "target": entity.name,
@@ -3362,11 +4095,17 @@ def initiate_combat_action(
             "attack_roll": roll,
             "damage_formula": damage_formula,
             "damage_type": damage_type,
+            "attack_kind": attack_kind,
+            "distance": distance,
+            "range_note": range_note,
             "result": result.model_dump(),
             "advantages_active": active_adv,
             "target_dr": entity.dr,
             "action_type": action_type,
         }
+        # Se il nemico è abbattuto → trasferisci il suo equipment nel loot_pool
+        if entity.hp <= 0 and entity.type == "enemy":
+            _entity_loot_to_pool(state, entity)
         return state
 
     # Bersaglio giocatore → sospendi in attesa di declare_defense
@@ -3377,13 +4116,24 @@ def initiate_combat_action(
             "attack_skill_name": attack_skill_name,
             "damage_formula": damage_formula,
             "damage_type": damage_type,
+            "attack_kind": attack_kind,
+            "acc": acc,
+            "distance": distance,
+            "range_half": range_half,
+            "range_max": range_max,
+            "ammo_current": ammo_current,
             "roll": roll,
             "action_type": action_type,
         }
-        attack_level = attacker.skills.get(attack_skill_name, 0)
+        from .combat import _attack_level as _al
+        attack_level = _al(
+            attacker, attack_skill_name, attack_kind=attack_kind, acc=acc,
+            distance=distance, range_half=range_half, range_max=range_max,
+        )
         aoa_tag = " [ATTACCO TOTALE +4]" if action_type == "all_out_attack" else ""
+        kind_tag = " [RANGED]" if attack_kind == "ranged" else ""
         state.log = (
-            f"{attacker.name}{aoa_tag} attacca! (3d6={roll} vs abilità {attack_level}). "
+            f"{attacker.name}{aoa_tag}{kind_tag} attacca! (3d6={roll} vs abilità {attack_level}). "
             f"Il bersaglio deve dichiarare la difesa attiva."
         )
         return state
@@ -3421,6 +4171,7 @@ def declare_defense(
     # Applica action_type al difensore (combat.py lo legge per +2 difesa)
     target.action_type = defense_action_type
 
+    attack_kind  = pa.get("attack_kind", "melee")
     result = resolve_attack(
         attacker=attacker,
         attack_skill_name=pa["attack_skill_name"],
@@ -3430,6 +4181,12 @@ def declare_defense(
         defense_request=defense_request,
         cover_bonus=cover_bonus,
         rear_attack=rear_attack,
+        attack_kind=attack_kind,
+        acc=pa.get("acc", 0),
+        distance=pa.get("distance", 0),
+        range_half=pa.get("range_half", 0),
+        range_max=pa.get("range_max", 0),
+        ammo_current=pa.get("ammo_current", -1),
     )
     state.pending_attack = None
     reset_action_type(attacker)
@@ -3626,12 +4383,21 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
         attack_range = _npc_attack_range(enemy)
         distance = _tactical_hex_distance(enemy_pos, target_pos) if positions else 1
 
+        # Muovi l'NPC verso il giocatore fino a max speed esagoni, o finché non è in portata
         if positions and distance > attack_range:
-            step = _npc_move_toward(enemy_key, target_key, positions, terrain, cols=cols, rows=rows)
-            if step:
-                old_pos = positions[enemy_key]
-                positions[enemy_key] = {**old_pos, **step}
+            npc_speed = int(getattr(enemy, "speed", 5) or 5)
+            move_start = dict(positions[enemy_key])  # posizione iniziale per il log
+            steps_taken = 0
+            for _ in range(npc_speed):
+                if distance <= attack_range:
+                    break
+                step = _npc_move_toward(enemy_key, target_key, positions, terrain, cols=cols, rows=rows)
+                if not step:
+                    break
+                positions[enemy_key] = {**positions[enemy_key], **step}
                 distance = _tactical_hex_distance(positions[enemy_key], target_pos)
+                steps_taken += 1
+            if steps_taken > 0:
                 combat_log = {
                     "attacker": enemy.name,
                     "target": target.name,
@@ -3643,10 +4409,11 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
                     "is_npc_turn": True,
                     "tactical_move": {
                         "entity_id": enemy.id,
-                        "from": old_pos,
-                        "to": positions[enemy_key],
+                        "from": move_start,
+                        "to": dict(positions[enemy_key]),
                         "target_player_id": target.id,
                         "distance_after": distance,
+                        "steps": steps_taken,
                     },
                     "result": {
                         "hit": False, "defended": False, "raw_damage": 0, "dr_absorbed": 0,
@@ -3660,8 +4427,8 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
                     },
                 }
                 npc_logs.append(combat_log)
-                if distance > attack_range:
-                    continue
+            if distance > attack_range:
+                continue  # ancora fuori portata dopo il movimento — salta l'attacco
 
         roll = sum(random.randint(1, 6) for _ in range(3))
         atk_skill = enemy.attack_skill or 10
@@ -4856,6 +5623,20 @@ def resolve_actions(
         if new_scene_resolution:
             state.scene.scene_resolution = new_scene_resolution
     refresh_scene_state(state, claude_scene_actions=claude_scene_actions)
+
+    # ── Auto-rilevamento oggetti dalla narrativa ──────────────────────────────
+    # Se il testo della nuova scena menziona oggetti trovati, li aggiunge
+    # automaticamente al loot_pool senza bisogno di riscrivere le avventure.
+    if state.scene and state.scene.scene_text:
+        current_location = ""
+        if state.map_state and state.map_state.current_node_id:
+            node = state.map_state.nodes.get(state.map_state.current_node_id)
+            current_location = node.name if node else ""
+        found_entries = _extract_found_items_from_narrative(
+            state.scene.scene_text, state, scene_location=current_location
+        )
+        if found_entries:
+            state.loot_pool.extend(found_entries)
 
     state.selected_actions = {}
     return state

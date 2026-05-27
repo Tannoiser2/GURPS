@@ -70,7 +70,24 @@ function DiceFormulaRow({ r }) {
   // Costruisce la formula leggibile da un entry di roll_details
   const parts = [];
   parts.push({ label: r.skill_known ? `${r.skill} (conosciuta)` : `${r.skill} (default)`, val: r.base_skill, color: "var(--text-h)", kind: "skill" });
-  if (r.item_bonus)   parts.push({ label: "oggetto",    val: `+${r.item_bonus}`,   color: "#60a5fa", kind: "bonus" });
+  // Bonus oggetto generico (requires_item) — solo se non già coperto dai bonus equipaggiamento
+  const genericItemBonus = (r.item_bonus || 0) - (r.equip_bonus || 0);
+  if (genericItemBonus > 0) parts.push({ label: "oggetto", val: `+${genericItemBonus}`, color: "#60a5fa", kind: "bonus" });
+  // Bonus/malus equipaggiamento strutturato — espanso per nome se disponibile
+  if (r.equip_breakdown?.length > 0) {
+    for (const eq of r.equip_breakdown) {
+      const positive = eq.delta > 0;
+      parts.push({
+        label: eq.name + (eq.reason ? ` (${eq.reason})` : ""),
+        val: positive ? `+${eq.delta}` : `${eq.delta}`,
+        color: positive ? "#38bdf8" : "#fb923c",
+        kind: "equip",
+      });
+    }
+  } else if (r.equip_bonus) {
+    const positive = r.equip_bonus > 0;
+    parts.push({ label: "equipaggiamento", val: positive ? `+${r.equip_bonus}` : `${r.equip_bonus}`, color: positive ? "#38bdf8" : "#fb923c", kind: "equip" });
+  }
   // vantaggi/svantaggi espansi per nome se disponibili, altrimenti aggregati
   if (r.adv_bonus && r.adv_breakdown?.length > 0) {
     for (const t of r.adv_breakdown) {
@@ -728,25 +745,367 @@ function EditableName({ name, onRename, style = {}, inputStyle = {} }) {
   );
 }
 
-function PlayerChip({ player, active, onClick, avatar, onRename }) {
+// ─── Scheda personaggio espandibile ──────────────────────────────────────────
+
+const STAT_COLOR = { forza: "#f87171", agilita: "#4ade80", intelligenza: "#60a5fa", empatia: "#c084fc" };
+const STAT_SHORT = { forza: "FO", agilita: "DE", intelligenza: "IN", empatia: "SA" };
+const STAT_SKILL_MAP = { forza: "forza", agilita: "agilita", intelligenza: "intelligenza", empatia: "empatia" };
+
+// ─── EquipmentPanel — inventario strutturato PG ────────────────────────────
+const EQ_CAT_ICON = { weapon: "⚔️", armor: "🛡️", ammo: "🔫", consumable: "💊", misc: "🎒" };
+const EQ_CAT_LABEL = { weapon: "Arma", armor: "Armatura", ammo: "Munizioni", consumable: "Consumabile", misc: "Oggetto" };
+
+function EquipmentPanel({ player, onPlayersUpdate }) {
+  const [showAddWeapon, setShowAddWeapon] = React.useState(false);
+  const [weaponList, setWeaponList] = React.useState([]);
+  const [selectedWeaponId, setSelectedWeaponId] = React.useState("");
+  const [ammoPacks, setAmmoPacks] = React.useState(1);
+  const [loading, setLoading] = React.useState(false);
+  const [msg, setMsg] = React.useState("");
+
+  const equipment = player.equipment || [];
+  const actions = player.actions || [];
+  const items = player.items || [];
+
+  // Carica lista armi quando si apre il picker
+  async function loadWeapons() {
+    if (weaponList.length > 0) return;
+    try {
+      const res = await fetch(`${API_URL}/game/combat/weapons`).then(r => r.json());
+      setWeaponList([...(res.melee || []), ...(res.ranged || [])]);
+      if (res.melee?.length > 0) setSelectedWeaponId(res.melee[0].id);
+    } catch (_) {}
+  }
+
+  async function handleAddWeapon() {
+    if (!selectedWeaponId) return;
+    setLoading(true); setMsg("");
+    try {
+      const res = await fetch(`${API_URL}/game/player/${player.id}/add-weapon`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ weapon_id: selectedWeaponId, ammo_packs: ammoPacks }),
+      }).then(r => r.json());
+      if (res.error) { setMsg(`Errore: ${res.error}`); }
+      else { setMsg(res.log || "Aggiunto."); onPlayersUpdate && onPlayersUpdate(res.players); setShowAddWeapon(false); }
+    } catch (_) { setMsg("Errore di rete."); }
+    setLoading(false);
+  }
+
+  async function handleRemoveWeapon(weaponId) {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/game/player/${player.id}/remove-weapon/${weaponId}`, { method: "DELETE" }).then(r => r.json());
+      if (!res.error) onPlayersUpdate && onPlayersUpdate(res.players);
+    } catch (_) {}
+    setLoading(false);
+  }
+
+  async function handleRemoveItem(itemId) {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/game/player/${player.id}/equipment/${itemId}`, { method: "DELETE" }).then(r => r.json());
+      if (!res.error) onPlayersUpdate && onPlayersUpdate(res.players);
+    } catch (_) {}
+    setLoading(false);
+  }
+
+  const weaponActions = actions.filter(a => a.attack_kind);
+  const hasRanged = weaponActions.some(a => a.attack_kind === "ranged");
+  const selectedW = weaponList.find(w => w.id === selectedWeaponId);
+
+  return (
+    <div style={{ marginTop: 10, borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 10 }}>
+      <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 7, display: "flex", alignItems: "center", gap: 8 }}>
+        🎒 Equipaggiamento
+        <button onClick={() => { setShowAddWeapon(v => !v); if (!showAddWeapon) loadWeapons(); }}
+          style={{ fontSize: 10, padding: "1px 8px", borderRadius: 5, border: "1px solid rgba(99,102,241,0.4)", background: "rgba(99,102,241,0.12)", color: "#a5b4fc", cursor: "pointer", fontWeight: 700 }}>
+          {showAddWeapon ? "✕ Chiudi" : "+ Aggiungi arma"}
+        </button>
+      </div>
+
+      {/* Picker aggiungi arma */}
+      {showAddWeapon && (
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", padding: "7px 10px", borderRadius: 8, background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.2)", marginBottom: 8 }}>
+          <select value={selectedWeaponId} onChange={e => setSelectedWeaponId(e.target.value)}
+            style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(99,102,241,0.35)", background: "rgba(20,20,50,0.9)", color: "#c4b5fd", fontSize: 12 }}>
+            {weaponList.length === 0 && <option>Caricamento…</option>}
+            {weaponList.map(w => <option key={w.id} value={w.id}>{w.attack_kind === "ranged" ? "🎯" : "⚔️"} {w.name}</option>)}
+          </select>
+          {selectedW?.ammo > 0 && (
+            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", gap: 4 }}>
+              Ricariche:
+              <input type="number" min={0} max={20} value={ammoPacks} onChange={e => setAmmoPacks(Math.max(0, parseInt(e.target.value) || 0))}
+                style={{ width: 40, padding: "2px 6px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(0,0,0,0.3)", color: "#fff", fontSize: 12, textAlign: "center" }} />
+            </label>
+          )}
+          <button onClick={handleAddWeapon} disabled={loading || !selectedWeaponId}
+            style={{ padding: "3px 12px", borderRadius: 6, border: "none", background: "#6366f1", color: "#fff", fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+            {loading ? "…" : "Aggiungi"}
+          </button>
+          {msg && <span style={{ fontSize: 11, color: msg.startsWith("Errore") ? "#f87171" : "#4ade80" }}>{msg}</span>}
+        </div>
+      )}
+
+      {/* Armi attive (da actions) */}
+      {weaponActions.length > 0 && (
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
+          {weaponActions.map((a, i) => {
+            const isRanged = a.attack_kind === "ranged";
+            const ammoColor = (a.ammo_current ?? a.ammo) <= 1 ? "#f87171" : "#86efac";
+            return (
+              <div key={i} style={{
+                display: "flex", alignItems: "center", gap: 5, padding: "4px 9px", borderRadius: 7,
+                background: isRanged ? "rgba(251,191,36,0.08)" : "rgba(239,68,68,0.08)",
+                border: `1px solid ${isRanged ? "rgba(251,191,36,0.25)" : "rgba(239,68,68,0.2)"}`,
+              }}>
+                <span style={{ fontSize: 11, fontWeight: 700, color: isRanged ? "#fde68a" : "#fca5a5" }}>
+                  {isRanged ? "🎯" : "⚔️"} {a.name}
+                </span>
+                <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)" }}>{a.damage} {a.damage_type}</span>
+                {isRanged && a.ammo > 0 && (
+                  <span style={{ fontSize: 10, fontWeight: 700, color: ammoColor, background: "rgba(0,0,0,0.25)", padding: "1px 5px", borderRadius: 4 }}>
+                    {a.ammo_current ?? a.ammo}/{a.ammo}
+                  </span>
+                )}
+                {a.weapon_id && (
+                  <button onClick={() => handleRemoveWeapon(a.weapon_id)} title="Rimuovi arma dall'inventario"
+                    style={{ background: "none", border: "none", color: "rgba(255,255,255,0.2)", cursor: "pointer", fontSize: 11, padding: "0 2px", lineHeight: 1 }}>✕</button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Equipment items (armor, ammo packs, misc) */}
+      {equipment.length > 0 && (
+        <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 5 }}>
+          {equipment.map((it, i) => (
+            <div key={it.id || i} style={{
+              display: "flex", alignItems: "center", gap: 4, padding: "3px 8px", borderRadius: 6,
+              background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
+            }}>
+              <span style={{ fontSize: 10 }}>{EQ_CAT_ICON[it.category] || "📦"}</span>
+              <span style={{ fontSize: 11, color: "var(--text-h)" }}>{it.name}</span>
+              {it.quantity > 1 && <span style={{ fontSize: 10, color: "#86efac", fontWeight: 700 }}>×{it.quantity}</span>}
+              {it.armor_dr > 0 && <span style={{ fontSize: 10, color: "#67e8f9" }}>DR {it.armor_dr}</span>}
+              {it.category !== "weapon" && (
+                <button onClick={() => handleRemoveItem(it.id)} title="Rimuovi dall'inventario"
+                  style={{ background: "none", border: "none", color: "rgba(255,255,255,0.2)", cursor: "pointer", fontSize: 10, padding: "0 2px", lineHeight: 1 }}>✕</button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Items legacy (stringhe) */}
+      {items.length > 0 && (
+        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+          {items.map((it, i) => (
+            <span key={i} style={{ fontSize: 11, padding: "2px 7px", borderRadius: 5, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "var(--text)" }}>
+              {it}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {weaponActions.length === 0 && equipment.length === 0 && items.length === 0 && (
+        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>Nessun oggetto nell'inventario.</span>
+      )}
+    </div>
+  );
+}
+
+
+function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
+  const stats = player.stats || {};
+  const skills = player.skills || {};
+  const advantages = player.advantages || [];
+  const disadvantages = player.disadvantages || [];
+
+  // Skill con livello > 0, ordinate per livello decrescente — max 10
+  const topSkills = Object.entries(skills)
+    .filter(([, v]) => v > 0)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 10);
+
+  const hpPct = Math.max(0, Math.min(100, ((player.hp ?? player.max_hp) / Math.max(player.max_hp, 1)) * 100));
+  const hpColor = hpPct > 60 ? "#4ade80" : hpPct > 30 ? "#f59e0b" : "#ef4444";
+
+  return (
+    <div style={{
+      borderBottom: "1px solid var(--border)",
+      background: "var(--code-bg)",
+      padding: "12px 20px 14px",
+      animation: "expandDown 0.18s ease",
+    }}>
+      <style>{`@keyframes expandDown { from { opacity: 0; transform: translateY(-8px) } to { opacity: 1; transform: translateY(0) } }`}</style>
+
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        {/* Riga top: avatar + nome + HP + chiudi */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+          <AvatarCircle src={avatar} size={44} fallback="🧑" />
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+              <span style={{ fontWeight: 800, fontSize: 15, color: "var(--text-h)" }}>{player.name}</span>
+              <span style={{ fontSize: 12, color: "var(--text)", opacity: 0.6 }}>{player.role}</span>
+              {player.motivation && (
+                <span style={{ fontSize: 11, color: "#a78bfa", fontStyle: "italic", marginLeft: 4 }}>"{player.motivation}"</span>
+              )}
+            </div>
+            {/* HP bar */}
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 5 }}>
+              <span style={{ fontSize: 11, color: hpColor, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
+                ❤️ {player.hp ?? player.max_hp}/{player.max_hp}
+              </span>
+              <div style={{ flex: 1, maxWidth: 120, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
+                <div style={{ height: "100%", borderRadius: 2, width: `${hpPct}%`, background: hpColor, transition: "width 0.3s" }} />
+              </div>
+            </div>
+          </div>
+          <button onClick={onClose} style={{
+            background: "none", border: "none", color: "var(--text)", opacity: 0.5,
+            cursor: "pointer", fontSize: 18, padding: "0 4px", lineHeight: 1,
+          }}>✕</button>
+        </div>
+
+        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+          {/* Stats */}
+          <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+            {Object.entries(stats).map(([k, v]) => (
+              <div key={k} style={{
+                display: "flex", flexDirection: "column", alignItems: "center",
+                padding: "6px 10px", borderRadius: 8,
+                background: "rgba(255,255,255,0.04)", border: `1px solid ${STAT_COLOR[k] || "var(--border)"}22`,
+                minWidth: 44,
+              }}>
+                <span style={{ fontSize: 10, color: STAT_COLOR[k] || "var(--text)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                  {STAT_SHORT[k] || k}
+                </span>
+                <span style={{ fontSize: 20, fontWeight: 800, color: STAT_COLOR[k] || "var(--text-h)", lineHeight: 1.2 }}>{v}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Skills top */}
+          {topSkills.length > 0 && (
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
+                Skill principali
+              </div>
+              <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                {topSkills.map(([key, level]) => {
+                  const skillDef = SKILL_LIST.find(s => s.key === key);
+                  const statKey = skillDef?.stat;
+                  const color = STAT_COLOR[statKey] || "var(--text)";
+                  return (
+                    <span key={key} style={{
+                      fontSize: 11, padding: "2px 8px", borderRadius: 5,
+                      background: `${color}18`, border: `1px solid ${color}44`,
+                      color: "var(--text-h)",
+                    }}>
+                      <span style={{ color, fontWeight: 700 }}>{level}</span>
+                      {" "}{skillDef?.label || key}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Vantaggi */}
+          {advantages.length > 0 && (
+            <div style={{ minWidth: 140 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
+                Vantaggi
+              </div>
+              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                {advantages.map((adv, i) => (
+                  <span key={i} style={{
+                    fontSize: 11, padding: "2px 7px", borderRadius: 5,
+                    background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.25)",
+                    color: "#4ade80",
+                  }} title={ADVANTAGE_LIST.find(a => a.key === adv)?.desc || ""}>
+                    {adv}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Svantaggi */}
+          {disadvantages.length > 0 && (
+            <div style={{ minWidth: 140 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
+                Svantaggi
+              </div>
+              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                {disadvantages.map((dis, i) => (
+                  <span key={i} style={{
+                    fontSize: 11, padding: "2px 7px", borderRadius: 5,
+                    background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.25)",
+                    color: "#f87171",
+                  }} title={DISADV_LIST.find(d => d.key === dis)?.desc || ""}>
+                    {dis}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Inventario / Equipaggiamento */}
+        <EquipmentPanel player={player} onPlayersUpdate={onPlayersUpdate} />
+      </div>
+    </div>
+  );
+}
+
+// Mini scheda sempre visibile — cliccabile per aprire la scheda completa
+function PlayerChip({ player, active, onClick, avatar, onRename, expanded }) {
+  const hpPct = Math.max(0, Math.min(100, ((player.hp ?? player.max_hp) / Math.max(player.max_hp, 1)) * 100));
+  const hpColor = hpPct > 60 ? "#4ade80" : hpPct > 30 ? "#f59e0b" : "#ef4444";
+  const stats = player.stats || {};
   return (
     <button onClick={onClick} style={{
-      display: "flex", alignItems: "center", gap: 9,
-      padding: "5px 13px 5px 5px", borderRadius: 24,
-      border: active ? "2px solid var(--accent)" : "1px solid var(--border)",
-      background: active ? "var(--accent-bg)" : "var(--bg)",
-      cursor: "pointer", fontSize: 13, color: "var(--text-h)",
-      transition: "all 0.15s",
+      display: "flex", alignItems: "center", gap: 8,
+      padding: "5px 10px 5px 5px", borderRadius: 12,
+      border: active
+        ? `2px solid ${expanded ? "#a78bfa" : "var(--accent)"}`
+        : "1px solid var(--border)",
+      background: active
+        ? (expanded ? "rgba(167,139,250,0.12)" : "var(--accent-bg)")
+        : "var(--code-bg)",
+      cursor: "pointer", color: "var(--text-h)",
+      transition: "all 0.15s", minWidth: 0,
     }}>
-      <AvatarCircle src={avatar} size={40} fallback="🧑" />
-      {onRename
-        ? <EditableName name={player.name} onRename={onRename} style={{ fontSize: 13, fontWeight: 600 }} />
-        : <span>{player.name}</span>
-      }
-      <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.7 }}>{player.role}</span>
-      <span style={{ fontSize: 11, background: "var(--code-bg)", borderRadius: 4, padding: "1px 5px" }}>
-        ❤️ {player.hp}/{player.max_hp}
-      </span>
+      <AvatarCircle src={avatar} size={36} fallback="🧑" />
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 3, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          {onRename
+            ? <EditableName name={player.name} onRename={onRename} style={{ fontSize: 12, fontWeight: 700, lineHeight: 1 }} />
+            : <span style={{ fontSize: 12, fontWeight: 700, lineHeight: 1 }}>{player.name}</span>
+          }
+          <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.6, lineHeight: 1 }}>{player.role}</span>
+        </div>
+        {/* HP bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <div style={{ width: 52, height: 3, borderRadius: 2, background: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
+            <div style={{ height: "100%", borderRadius: 2, width: `${hpPct}%`, background: hpColor, transition: "width 0.4s" }} />
+          </div>
+          <span style={{ fontSize: 10, color: hpColor, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
+            {player.hp ?? player.max_hp}/{player.max_hp}
+          </span>
+          {/* FO/DE/IN/SA mini */}
+          {(stats.forza || stats.agilita || stats.intelligenza || stats.empatia) && (
+            <span style={{ fontSize: 9, color: "var(--text)", opacity: 0.55, letterSpacing: 0.2 }}>
+              {[["FO", stats.forza], ["DE", stats.agilita], ["IN", stats.intelligenza], ["SA", stats.empatia]]
+                .filter(([, v]) => v != null).map(([l, v]) => `${l}${v}`).join(" ")}
+            </span>
+          )}
+        </div>
+      </div>
+      {expanded && <span style={{ fontSize: 10, color: "#a78bfa", marginLeft: 2 }}>▲</span>}
     </button>
   );
 }
@@ -1440,15 +1799,36 @@ function SetupScreen({ onStart }) {
       setPreloadedAdventure(adventure);
       setGenre(detectedGenre);
 
-      // Doctor audit (non bloccante)
+      // Doctor: audit rapido subito, poi fix in background mentre si scelgono i personaggi
       setDoctorReport(null);
       try {
-        const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+        const drAudit = await fetch(`${API_URL}/game/adventure/doctor`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ adventure_definition: definition, enrich: false }),
         }).then(r => r.json());
-        if (!dr.error) setDoctorReport({ ...dr, source: "json" });
+        if (!drAudit.error) setDoctorReport({ ...drAudit, source: "json" });
+
+        // Se ci sono problemi, avvia il fix in background (non aspettiamo)
+        const needsFix = (drAudit.findings || []).some(f => f.severity !== "info");
+        if (needsFix) {
+          setDoctorEnriching(true);
+          fetch(`${API_URL}/game/adventure/doctor`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ adventure_definition: definition, enrich: true }),
+          }).then(r => r.json()).then(drFix => {
+            if (!drFix.error && drFix.enriched_definition) {
+              const enrichedDef = drFix.enriched_definition;
+              setPreloadedAdventure(prev => ({
+                ...prev,
+                ...enrichedDef,
+                adventure_definition: enrichedDef,
+              }));
+              setDoctorReport({ ...drFix, source: "enriched", enriched_definition: undefined });
+            }
+          }).catch(() => {}).finally(() => setDoctorEnriching(false));
+        }
       } catch (_) {}
 
       setLoading(true);
@@ -1550,9 +1930,11 @@ function SetupScreen({ onStart }) {
       };
       setPreloadedAdventure(adventure); setGenre(detectedGenre);
 
-      // Doctor report già calcolato dal backend durante la compilazione PDF
-      if (data.doctor) setDoctorReport({ ...data.doctor, source: "pdf" });
-      else setDoctorReport(null);
+      // Doctor report già calcolato e fix applicato dal backend durante la compilazione PDF
+      if (data.doctor) {
+        const src = data.doctor.auto_fixed ? "enriched" : "pdf";
+        setDoctorReport({ ...data.doctor, source: src });
+      } else setDoctorReport(null);
 
       setLoading(true);
       await fetch(`${API_URL}/game/setup`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }) });
@@ -1587,6 +1969,11 @@ function SetupScreen({ onStart }) {
       created.genre = detectedGenre;
       created.detected_genre = detectedGenre;
       setPreloadedAdventure(created);
+      // Doctor report già calcolato e fix applicato dal backend
+      if (created.doctor) {
+        const src = created.doctor.auto_fixed ? "enriched" : "ai";
+        setDoctorReport({ ...created.doctor, source: src });
+      }
       await fetch(`${API_URL}/game/setup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1651,6 +2038,10 @@ function SetupScreen({ onStart }) {
         if (created.error) throw new Error(created.error);
         adventureForStart = created;
         setPreloadedAdventure(created);
+        if (created.doctor) {
+          const src = created.doctor.auto_fixed ? "enriched" : "ai";
+          setDoctorReport({ ...created.doctor, source: src });
+        }
         try {
           const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
             method: "POST",
@@ -1843,7 +2234,8 @@ function SetupScreen({ onStart }) {
           <label style={{ cursor: "pointer", flexShrink: 0 }}>
             <img
               src={caricaJsonImg}
-              alt="Carica JSON"
+              alt="Carica JSON avventura"
+              title="Carica un JSON avventura e avvia la partita"
               style={{ height: 32, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"}
@@ -1853,6 +2245,50 @@ function SetupScreen({ onStart }) {
               onChange={e => e.target.files[0] && handleJsonLoad(e.target.files[0])}
             />
           </label>
+
+          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
+
+          {/* JSON Doctor standalone — analizza senza avviare la partita */}
+          <label style={{ cursor: "pointer", flexShrink: 0 }} title="Analizza un JSON con il Doctor senza avviare la partita">
+            <img
+              src={jsonDoctorImg}
+              alt="JSON Doctor — Analizza qualità"
+              style={{ height: 32, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+            />
+            <input
+              type="file" accept=".json" style={{ display: "none" }}
+              onChange={async e => {
+                const file = e.target.files[0];
+                if (!file) return;
+                e.target.value = "";
+                setDoctorReport(null);
+                setDoctorEnriching(false);
+                setJsonError("");
+                try {
+                  const text = await file.text();
+                  const parsed = JSON.parse(text);
+                  const compiled = parsed.compiled_adventure || parsed;
+                  const definition = compiled.adventure_definition || parsed.adventure_definition || parsed;
+                  // Salva l'avventura per abilitare il bottone "Migliora"
+                  setPreloadedAdventure(adv => adv || { adventure_definition: definition, from_json_load: true });
+                  if (!preloadedAdventure) {
+                    setPreloadedAdventure({ adventure_definition: definition, from_json_load: true });
+                  }
+                  const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ adventure_definition: definition, enrich: false }),
+                  }).then(r => r.json());
+                  if (!dr.error) setDoctorReport({ ...dr, source: "json_standalone" });
+                  else setJsonError("Doctor: " + (dr.error || "analisi fallita"));
+                } catch (err) {
+                  setJsonError("Errore Doctor: " + (err.message || "file non valido"));
+                }
+              }}
+            />
+          </label>
         </div>
         {(pdfError || jsonError) && (
           <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
@@ -1860,47 +2296,103 @@ function SetupScreen({ onStart }) {
           </div>
         )}
 
+        {/* ── Bottone test rapido combattimento ── */}
+        <div style={{ textAlign: "center", padding: "4px 0 4px", background: "#0a0a0a", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <button onClick={async () => {
+            const res = await fetch(`${API_URL}/game/debug/start-combat`, { method: "POST" })
+              .then(r => r.json()).catch(() => ({}));
+            if (res.ok) {
+              const minAdv = {
+                id: "test_combat", title: "Test Combattimento", genre: "action",
+                adventure_definition: { id: "test_combat", title: "Test Combattimento", genre: "action",
+                  clues: [], actors: [], story_threads: [], locations: [], event_clocks: [] }
+              };
+              onStart("action", res.players || [], {}, provider, minAdv, imageProvider);
+            }
+          }} style={{
+            padding: "5px 18px", borderRadius: 8, border: "1px solid rgba(239,68,68,0.4)",
+            background: "rgba(239,68,68,0.12)", color: "#f87171",
+            fontSize: 12, fontWeight: 700, cursor: "pointer", letterSpacing: 0.3,
+          }}>⚔ Test rapido combattimento</button>
+        </div>
+
         {/* Doctor report badge */}
         {doctorReport && !doctorEnriching && (
           <div style={{
-            display: "flex", alignItems: "center", gap: 10,
-            justifyContent: "center", flexWrap: "wrap",
-            padding: "5px 16px", background: "#0d0d0d",
+            display: "flex", flexDirection: "column", gap: 6,
+            padding: "6px 16px 8px", background: "#0d0d0d",
             borderTop: "1px solid rgba(255,255,255,0.07)", flexShrink: 0,
           }}>
             {(() => {
               const sc = doctorReport.score ?? 0;
               const color = sc >= 9 ? "#4ade80" : sc >= 6 ? "#facc15" : "#f87171";
               const label = sc >= 9 ? "Ottima qualità" : sc >= 6 ? "Qualità discreta" : "Qualità bassa";
-              const criticals = (doctorReport.findings || []).filter(f => f.severity === "critical").length;
-              const warnings = (doctorReport.findings || []).filter(f => f.severity === "warning").length;
+              const findings = doctorReport.findings || [];
+              const criticals = findings.filter(f => f.severity === "critical");
+              const warnings  = findings.filter(f => f.severity === "warning");
+              const infos     = findings.filter(f => f.severity === "info");
+              // Raggruppa per categoria per mostrare chip
+              const catIcons = {
+                structure: "🏗️", npc: "🎭", clock: "⏱️", clue: "🔍",
+                thread: "🧵", location: "📍", resource: "⚖️", equipment: "⚔️",
+              };
+              const byCat = {};
+              findings.forEach(f => { byCat[f.category] = (byCat[f.category] || 0) + 1; });
               return (
                 <>
-                  <span style={{ color, fontWeight: 700, fontSize: 13 }}>
-                    ✦ Qualità avventura: {sc}/10 — {label}
-                  </span>
-                  {(criticals > 0 || warnings > 0) && (
-                    <span style={{ color: "#94a3b8", fontSize: 12 }}>
-                      ({criticals > 0 ? `${criticals} critico${criticals > 1 ? "i" : ""}` : ""}
-                      {criticals > 0 && warnings > 0 ? ", " : ""}
-                      {warnings > 0 ? `${warnings} warning` : ""})
+                  {/* riga score + bottone */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                    <span style={{ color, fontWeight: 700, fontSize: 13 }}>
+                      ✦ Qualità: {sc}/10 — {label}
                     </span>
+                    <span style={{ color: "#94a3b8", fontSize: 11 }}>
+                      {criticals.length > 0 && <span style={{ color: "#f87171" }}>🔴 {criticals.length} critico{criticals.length > 1 ? "i" : ""} </span>}
+                      {warnings.length > 0  && <span style={{ color: "#facc15" }}>🟡 {warnings.length} warning{warnings.length > 1 ? "s" : ""} </span>}
+                      {infos.length > 0     && <span style={{ color: "#60a5fa" }}>🔵 {infos.length} info</span>}
+                    </span>
+                    {sc < 9.5 && (
+                      <img
+                        src={jsonDoctorImg}
+                        alt="JSON Doctor — Migliora con AI"
+                        onClick={handleDoctorEnrich}
+                        title="Migliora con AI: aggiunge campi mancanti, arricchisce NPC, clock e indizi"
+                        style={{ height: 28, cursor: "pointer", borderRadius: 6, marginLeft: "auto", transition: "opacity 0.15s" }}
+                        onMouseEnter={e => e.currentTarget.style.opacity = "0.75"}
+                        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+                      />
+                    )}
+                    {doctorReport.source === "enriched" && (
+                      <span style={{ color: "#4ade80", fontSize: 11 }}>
+                        ✓ Auto-corretta
+                        {doctorReport.score_after != null && doctorReport.score_after !== doctorReport.score
+                          ? ` (${doctorReport.score} → ${doctorReport.score_after}/10)`
+                          : ""}
+                      </span>
+                    )}
+                  </div>
+                  {/* chip per categoria */}
+                  {Object.keys(byCat).length > 0 && (
+                    <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                      {Object.entries(byCat).map(([cat, n]) => (
+                        <span key={cat} style={{
+                          padding: "1px 7px", borderRadius: 10, fontSize: 10, fontWeight: 600,
+                          background: "rgba(255,255,255,0.07)", color: "rgba(255,255,255,0.55)",
+                        }}>
+                          {catIcons[cat] || "•"} {cat} ×{n}
+                        </span>
+                      ))}
+                    </div>
                   )}
-                  {sc < 9.5 && (
-                    <img
-                      src={jsonDoctorImg}
-                      alt="JSON Doctor — Migliora con AI"
-                      onClick={handleDoctorEnrich}
-                      style={{
-                        height: 32, cursor: "pointer", borderRadius: 7,
-                        transition: "opacity 0.15s",
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.opacity = "0.8"}
-                      onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-                    />
-                  )}
-                  {doctorReport.source === "enriched" && (
-                    <span style={{ color: "#4ade80", fontSize: 12 }}>✓ Migliorata</span>
+                  {/* dettaglio critici visibile direttamente */}
+                  {criticals.length > 0 && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                      {criticals.map((f, i) => (
+                        <div key={i} style={{ fontSize: 10, color: "#fca5a5" }}>
+                          🔴 {f.message}
+                          {f.fix_hint && <span style={{ color: "rgba(255,255,255,0.3)", marginLeft: 4 }}>→ {f.fix_hint}</span>}
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </>
               );
@@ -1911,9 +2403,11 @@ function SetupScreen({ onStart }) {
           <div style={{
             textAlign: "center", padding: "5px 16px", background: "#0d0d0d",
             borderTop: "1px solid rgba(255,255,255,0.07)", flexShrink: 0,
-            color: "#a5b4fc", fontSize: 12,
+            color: "#a5b4fc", fontSize: 12, display: "flex", alignItems: "center",
+            justifyContent: "center", gap: 8,
           }}>
-            ✦ Miglioramento in corso con AI...
+            <span style={{ display: "inline-block", animation: "spin 1s linear infinite" }}>⚙️</span>
+            Doctor: correzione automatica in corso...
           </div>
         )}
 
@@ -3241,11 +3735,19 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClo
   );
 }
 
-function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose }) {
-  const [tab, setTab] = useState("clues");
-  const [audience, setAudience] = useState("players");
+// mode: "players" = pannello giocatori (sinistra), "gm" = pannello GM (destra)
+function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose, defaultTab, mode }) {
+  const isGmMode = mode === "gm";
+  const [tab, setTab] = useState(defaultTab || (isGmMode ? "gm_overview" : "clues"));
+  // Se arriva un nuovo defaultTab (es. click su quick-access), aggiorna la tab
+  const prevDefaultTab = useRef(defaultTab);
+  useEffect(() => {
+    if (defaultTab && defaultTab !== prevDefaultTab.current) {
+      prevDefaultTab.current = defaultTab;
+      setTab(defaultTab);
+    }
+  }, [defaultTab]);
   const [expandedNpc, setExpandedNpc] = useState(null);
-  const [expandedPlayer, setExpandedPlayer] = useState(null);
   const _def = adventure?.adventure_definition || adventure || {};
   const clues = _def.clues || [];
   const clueProgress = gameState?.clue_progress || {};
@@ -3305,10 +3807,9 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
   });
 
   const threatColor = threatPct < 40 ? "#4ade80" : threatPct < 70 ? "#facc15" : "#f87171";
-  const switchAudience = (next) => {
-    setAudience(next);
-    setTab(next === "gm" ? "gm_overview" : "clues");
-  };
+  const [liveDoctor, setLiveDoctor] = useState(null);   // {score, findings, ...}
+  const [liveDoctorLoading, setLiveDoctorLoading] = useState(false);
+
   const handleDownloadCurrentAdventureJson = () => {
     const payload = buildAdventureExport({
       adventure,
@@ -3320,84 +3821,125 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
     downloadJsonFile(payload, `${safeFilePart(payload.title)}-live.json`);
   };
 
+  const handleLiveDoctor = async () => {
+    const def = adventure?.adventure_definition || adventure;
+    if (!def || liveDoctorLoading) return;
+    setLiveDoctorLoading(true);
+    setLiveDoctor(null);
+    try {
+      const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adventure_definition: def, enrich: false }),
+      }).then(r => r.json());
+      if (!dr.error) setLiveDoctor(dr);
+    } catch (_) {}
+    setLiveDoctorLoading(false);
+  };
+
   return (
     <div style={{
-      width: 340, flexShrink: 0, borderLeft: "1px solid var(--border)",
+      width: "100%", height: "100%",
+      borderLeft: isGmMode ? "1px solid var(--border)" : "none",
+      borderRight: isGmMode ? "none" : "1px solid var(--border)",
       display: "flex", flexDirection: "column", background: "var(--bg)",
+      overflow: "hidden",
     }}>
-      <div style={{ padding: "12px 14px 8px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 6 }}>
-        <div style={{ fontSize: 13, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.4 }}>
-          {adventure?.title || "Avventura"}
+      <div style={{ padding: "10px 14px 8px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, flexShrink: 0 }}>
+        <div style={{ fontSize: 12, fontWeight: 800, color: isGmMode ? "#fbbf24" : "#93c5fd", letterSpacing: 0.4 }}>
+          {isGmMode ? "📖 Bibbia GM" : "📓 Diario del gruppo"}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
-          {audience === "gm" && (
-            <button onClick={handleDownloadCurrentAdventureJson} style={{
-              padding: "4px 8px", borderRadius: 6, border: "1px solid rgba(74,222,128,0.42)",
-              background: "rgba(74,222,128,0.10)", color: "#bbf7d0",
-              cursor: "pointer", fontSize: 11, fontWeight: 800,
-            }}>JSON</button>
+          {isGmMode && (
+            <>
+              <button onClick={handleDownloadCurrentAdventureJson} title="Scarica JSON avventura corrente"
+                style={{ padding: "3px 7px", borderRadius: 6, border: "1px solid rgba(74,222,128,0.42)", background: "rgba(74,222,128,0.10)", color: "#bbf7d0", cursor: "pointer", fontSize: 10, fontWeight: 800 }}>
+                JSON
+              </button>
+              <button
+                onClick={handleLiveDoctor}
+                disabled={liveDoctorLoading}
+                title="Analizza qualità JSON con il Doctor"
+                style={{ padding: "3px 7px", borderRadius: 6, border: "1px solid rgba(245,158,11,0.42)", background: "rgba(245,158,11,0.10)", color: liveDoctorLoading ? "#78716c" : "#fbbf24", cursor: liveDoctorLoading ? "default" : "pointer", fontSize: 10, fontWeight: 800 }}>
+                {liveDoctorLoading ? "⏳" : "🩺"}
+              </button>
+            </>
           )}
-          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontSize: 18, flexShrink: 0, lineHeight: 1, marginTop: 1 }}>×</button>
+          <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text)", fontSize: 18, flexShrink: 0, lineHeight: 1 }}>×</button>
         </div>
       </div>
 
-      <div style={{ padding: "0 14px 10px", borderBottom: "1px solid var(--border)" }}>
-        <div style={{
-          padding: "9px 10px", borderRadius: 8,
-          background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.38)",
-        }}>
-          <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 4 }}>
-            Obiettivo per vincere
+      {/* Doctor report inline nel pannello GM */}
+      {isGmMode && liveDoctor && (() => {
+        const sc = liveDoctor.score ?? 0;
+        const color = sc >= 9 ? "#4ade80" : sc >= 6 ? "#facc15" : "#f87171";
+        const criticals = (liveDoctor.findings || []).filter(f => f.severity === "critical");
+        const warnings = (liveDoctor.findings || []).filter(f => f.severity === "warning");
+        return (
+          <div style={{ padding: "8px 14px", borderBottom: "1px solid var(--border)", background: "rgba(0,0,0,0.2)", flexShrink: 0 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: criticals.length + warnings.length > 0 ? 6 : 0 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color }}>
+                🩺 Qualità: {sc}/10
+              </span>
+              <button onClick={() => setLiveDoctor(null)} style={{ background: "none", border: "none", color: "var(--text)", opacity: 0.4, cursor: "pointer", fontSize: 14, lineHeight: 1 }}>×</button>
+            </div>
+            {criticals.length > 0 && (
+              <div style={{ marginBottom: 4 }}>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#f87171", textTransform: "uppercase", marginBottom: 3 }}>Critici ({criticals.length})</div>
+                {criticals.slice(0, 3).map((f, i) => (
+                  <div key={i} style={{ fontSize: 11, color: "#fca5a5", lineHeight: 1.4, marginBottom: 2 }}>• {f.message || f.field}</div>
+                ))}
+              </div>
+            )}
+            {warnings.length > 0 && (
+              <div>
+                <div style={{ fontSize: 10, fontWeight: 700, color: "#facc15", textTransform: "uppercase", marginBottom: 3 }}>Warning ({warnings.length})</div>
+                {warnings.slice(0, 3).map((f, i) => (
+                  <div key={i} style={{ fontSize: 11, color: "#fde68a", lineHeight: 1.4, marginBottom: 2 }}>• {f.message || f.field}</div>
+                ))}
+                {warnings.length > 3 && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>…e altri {warnings.length - 3}</div>}
+              </div>
+            )}
+            {criticals.length === 0 && warnings.length === 0 && (
+              <div style={{ fontSize: 11, color: "#4ade80" }}>✓ Nessun problema trovato</div>
+            )}
           </div>
-          <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.45 }}>{primaryObjective}</div>
-        </div>
-      </div>
+        );
+      })()}
 
-      {/* minaccia */}
-      <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--border)" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", fontSize: 11, marginBottom: 4, gap: 6 }}>
-          <span style={{ color: "var(--text)", fontWeight: 600, lineHeight: 1.4 }}>⚠ {adventure?.threat_description || "Minaccia"}</span>
-          <span style={{ color: threatColor, fontWeight: 700, flexShrink: 0 }}>{threatPct}%</span>
-        </div>
-        <div style={{ height: 5, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
-          <div style={{ height: "100%", width: `${threatPct}%`, background: threatColor, transition: "width 0.5s, background 0.5s" }} />
-        </div>
-        {/* Director tier hidden — internal system data, not useful for players or GM */}
-      </div>
+      {/* Obiettivo + Minaccia — solo panel giocatori */}
+      {!isGmMode && (
+        <>
+          <div style={{ padding: "0 14px 8px", borderBottom: "1px solid var(--border)", flexShrink: 0 }}>
+            <div style={{ padding: "7px 10px", borderRadius: 7, background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.38)" }}>
+              <div style={{ fontSize: 9, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 3 }}>Obiettivo</div>
+              <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.4 }}>{primaryObjective}</div>
+            </div>
+          </div>
+          <div style={{ padding: "7px 14px", borderBottom: "1px solid var(--border)", flexShrink: 0 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 11, marginBottom: 3 }}>
+              <span style={{ color: "var(--text)", opacity: 0.7 }}>⚠ {adventure?.threat_description || "Minaccia"}</span>
+              <span style={{ color: threatColor, fontWeight: 700 }}>{threatPct}%</span>
+            </div>
+            <div style={{ height: 4, borderRadius: 2, background: "var(--border)", overflow: "hidden" }}>
+              <div style={{ height: "100%", width: `${threatPct}%`, background: threatColor, transition: "width 0.5s, background 0.5s" }} />
+            </div>
+          </div>
+        </>
+      )}
 
-      <div style={{ display: "flex", gap: 6, padding: "9px 14px", borderBottom: "1px solid var(--border)" }}>
-        <button onClick={() => switchAudience("players")} style={{
-          flex: 1, padding: "7px 8px", borderRadius: 8, cursor: "pointer",
-          border: `1px solid ${audience === "players" ? "rgba(96,165,250,0.55)" : "var(--border)"}`,
-          background: audience === "players" ? "rgba(96,165,250,0.14)" : "rgba(255,255,255,0.03)",
-          color: audience === "players" ? "#93c5fd" : "var(--text)",
-          fontSize: 12, fontWeight: 800,
-        }}>
-          Giocatori
-        </button>
-        <button onClick={() => switchAudience("gm")} style={{
-          flex: 1, padding: "7px 8px", borderRadius: 8, cursor: "pointer",
-          border: `1px solid ${audience === "gm" ? "rgba(245,158,11,0.55)" : "var(--border)"}`,
-          background: audience === "gm" ? "rgba(245,158,11,0.14)" : "rgba(255,255,255,0.03)",
-          color: audience === "gm" ? "#fbbf24" : "var(--text)",
-          fontSize: 12, fontWeight: 800,
-        }}>
-          GM
-        </button>
-      </div>
-
-      {/* tabs */}
-      <div style={{ display: "flex", borderBottom: "1px solid var(--border)" }}>
-        {audience === "players" ? (
+      {/* Tab bar */}
+      <div style={{ display: "flex", borderBottom: "1px solid var(--border)", flexShrink: 0, overflowX: "auto" }}>
+        {!isGmMode ? (
           <>
-            <button style={tabStyle("clues")} onClick={() => setTab("clues")}>Indizi</button>
-            <button style={tabStyle("npcs")} onClick={() => setTab("npcs")}>PNG</button>
-            <button style={tabStyle("map")} onClick={() => setTab("map")}>Mappa</button>
-            <button style={tabStyle("players")} onClick={() => setTab("players")}>Gruppo</button>
-            <button style={tabStyle("threads")} onClick={() => setTab("threads")}>Piste{readyThreads.length ? ` ${readyThreads.length}` : ""}</button>
+            <button style={tabStyle("clues")} onClick={() => setTab("clues")}>🔍 Indizi</button>
+            <button style={tabStyle("threads")} onClick={() => setTab("threads")}>🧵 Piste{readyThreads.length ? ` (${readyThreads.length})` : ""}</button>
+            <button style={tabStyle("npcs")} onClick={() => setTab("npcs")}>👥 PNG</button>
+            <button style={tabStyle("map")} onClick={() => setTab("map")}>🗺 Mappa</button>
+            {/* Clock solo se discovered=true: il Master ha scelto di renderlo visibile ai giocatori */}
             {(clocksData || []).some(c => c.discovered) && (
-              <button style={tabStyle("clocks")} onClick={() => setTab("clocks")}>
-                ⏱ Clock{(clocksData || []).filter(c => c.discovered && c.active !== false).length > 0 ? ` ${(clocksData || []).filter(c => c.discovered && c.active !== false).length}` : ""}
+              <button style={tabStyle("clocks")} title="Timer che i giocatori conoscono esplicitamente" onClick={() => setTab("clocks")}>
+                ⏱{(clocksData || []).filter(c => c.discovered && c.active !== false).length > 0 ? ` ${(clocksData || []).filter(c => c.discovered && c.active !== false).length}` : ""}
               </button>
             )}
           </>
@@ -3409,18 +3951,18 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
             <button style={tabStyle("gm_npcs")} onClick={() => setTab("gm_npcs")}>PNG</button>
             <button style={tabStyle("gm_map")} onClick={() => setTab("gm_map")}>Mappa</button>
             <button style={tabStyle("gm_clocks")} onClick={() => setTab("gm_clocks")}>
-              ⏱ Clock{(clocksData || []).length > 0 ? ` ${(clocksData || []).length}` : ""}
+              ⏱{(clocksData || []).length > 0 ? ` ${(clocksData || []).length}` : ""}
             </button>
             <button style={tabStyle("gm_maps")} onClick={() => setTab("gm_maps")}>Tattiche{tacticalNodes.length ? ` ${tacticalNodes.length}` : ""}</button>
             <button style={tabStyle("gm_events")} onClick={() => setTab("gm_events")}>
-              ⚡ Log{gmEventLog?.length > 0 ? ` ${gmEventLog.length}` : ""}
+              ⚡{gmEventLog?.length > 0 ? ` ${gmEventLog.length}` : ""}
             </button>
           </>
         )}
       </div>
 
-      <div style={{ flex: 1, overflowY: "auto", padding: "10px 14px" }}>
-        {audience === "gm" && tab === "gm_overview" && (
+      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "10px 14px" }}>
+        {isGmMode && tab === "gm_overview" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {(sourceMode || archetypeProfile?.primary_archetype) && (
               <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.32)" }}>
@@ -3501,32 +4043,45 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
           </div>
         )}
 
-        {audience === "gm" && tab === "gm_threads" && (
-          <div>
-            {storyThreads.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessuna pista canonica.</div>}
-            {storyThreads.map((t, i) => (
-              <div key={t.id || i} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: "1px solid rgba(245,158,11,0.28)", borderLeft: "3px solid #f59e0b" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-                  <div style={{ fontSize: 12, fontWeight: 850, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question}</div>
-                  <span style={{ fontSize: 9, color: "#fbbf24", textTransform: "uppercase", flexShrink: 0 }}>{t.status}</span>
-                </div>
-                {t.true_answer && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.45, marginBottom: 5 }}><b>Risposta:</b> {t.true_answer}</div>}
-                {t.payoff && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.45, marginBottom: 5 }}><b>Serve a:</b> {t.payoff}</div>}
-                {t.required_details?.length > 0 && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                    {t.required_details.map(({ id, clue, found, progress }) => (
-                      <div key={id} style={{ fontSize: 10, color: found ? "#4ade80" : progress?.ticks ? "#93c5fd" : "var(--text)", opacity: found || progress?.ticks ? 1 : 0.65, padding: "4px 6px", borderRadius: 5, background: "rgba(255,255,255,0.035)" }}>
-                        {found ? "✓" : progress?.ticks ? "◔" : "□"} {clueTitle(clue)}{clue?.location ? ` · ${clue.location}` : ""}
+        {isGmMode && tab === "gm_threads" && (() => {
+          // GM vede TUTTE le piste, incluse quelle non ancora scoperte dai giocatori
+          const gmThreads = storyThreads.length > 0 ? storyThreads : (adventure?.story_threads || []);
+          const statusLabel = s => ({ resolved: "✓ risolta", ready_to_deduce: "⚡ pronta", active: "◔ in corso", hidden: "☁ non ancora", unintroduced: "☁ non ancora" }[s] || s || "☁ non ancora");
+          const statusColor = s => ({ resolved: "#4ade80", ready_to_deduce: "#60a5fa", active: "#fbbf24", hidden: "var(--text)", unintroduced: "var(--text)" }[s] || "var(--text)");
+          return (
+            <div>
+              {gmThreads.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessuna pista canonica.</div>}
+              {gmThreads.map((t, i) => {
+                const sc = statusColor(t.status);
+                return (
+                  <div key={t.id || i} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: `1px solid ${sc}33`, borderLeft: `3px solid ${sc}` }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
+                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question}</div>
+                      <span style={{ fontSize: 9, color: sc, textTransform: "uppercase", flexShrink: 0, fontWeight: 700 }}>{statusLabel(t.status)}</span>
+                    </div>
+                    {t.true_answer && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.45, marginBottom: 4 }}><b>Risposta:</b> {t.true_answer}</div>}
+                    {t.payoff && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.45, marginBottom: 4 }}><b>Serve a:</b> {t.payoff}</div>}
+                    {(t.required_details || []).length > 0 && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                        {t.required_details.map(({ id, clue, found, progress }) => (
+                          <div key={id} style={{ fontSize: 10, color: found ? "#4ade80" : (progress?.ticks || 0) > 0 ? "#93c5fd" : "var(--text)", opacity: found || (progress?.ticks || 0) > 0 ? 1 : 0.6, padding: "3px 6px", borderRadius: 5, background: "rgba(255,255,255,0.03)" }}>
+                            {found ? "✓" : (progress?.ticks || 0) > 0 ? "◔" : "□"} {clueTitle(clue)}{clue?.location ? ` · ${clue.location}` : ""}
+                          </div>
+                        ))}
+                        {/* thread senza required_details → mostra i required_clues grezzi */}
+                        {t.required_details.length === 0 && (t.required_clues || []).map(id => (
+                          <div key={id} style={{ fontSize: 10, color: "var(--text)", opacity: 0.55, padding: "3px 6px" }}>□ {id}</div>
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+                );
+              })}
+            </div>
+          );
+        })()}
 
-        {audience === "gm" && tab === "gm_clues" && (
+        {isGmMode && tab === "gm_clues" && (
           <div>
             {clues.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessun indizio canonico.</div>}
             {clues.map(c => {
@@ -3551,35 +4106,98 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
           </div>
         )}
 
-        {audience === "gm" && tab === "gm_npcs" && (
+        {isGmMode && tab === "gm_npcs" && (
           <div>
             {npcs.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessun PNG canonico.</div>}
             {npcs.map(npc => {
               const agenda = npc.npc_agenda || {};
+              const threatLevel = npc.threat_to_player ?? 0;
+              const threatBorderColor = threatLevel >= 3 ? "rgba(239,68,68,0.5)" : threatLevel >= 2 ? "rgba(249,115,22,0.5)" : threatLevel >= 1 ? "rgba(250,204,21,0.4)" : "rgba(245,158,11,0.28)";
+              const hasGurps = npc.gurps_fo != null || npc.gurps_de != null;
+              const hasCombat = npc.combat_hp != null || npc.combat_attack_skill != null;
               return (
-                <div key={npc.id || npc.name} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: "1px solid rgba(245,158,11,0.28)" }}>
+                <div key={npc.id || npc.name} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: `1px solid ${threatBorderColor}` }}>
+                  {/* Header */}
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 5 }}>
                     <AvatarCircle src={(npcAvatars || {})[npc.name]} size={38} fallback="👤" />
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: 12, fontWeight: 850, color: "var(--text-h)" }}>{npc.name}</div>
-                      <div style={{ fontSize: 10, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.4 }}>{agenda.role || npc.role || "PNG"} · {agenda.arc_status || npc.status || "stato ignoto"}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)" }}>{npc.name}</div>
+                      <div style={{ fontSize: 10, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.4 }}>{agenda.role || npc.role || "PNG"} · {agenda.arc_status || npc.status || "ignoto"}</div>
                     </div>
+                    {threatLevel > 0 && (
+                      <span style={{ fontSize: 10, padding: "2px 6px", borderRadius: 4, fontWeight: 700, flexShrink: 0,
+                        background: threatLevel >= 3 ? "rgba(239,68,68,0.15)" : threatLevel >= 2 ? "rgba(249,115,22,0.15)" : "rgba(250,204,21,0.1)",
+                        color: threatLevel >= 3 ? "#f87171" : threatLevel >= 2 ? "#fb923c" : "#fbbf24",
+                        border: `1px solid ${threatLevel >= 3 ? "#ef444455" : threatLevel >= 2 ? "#f9731655" : "#facc1555"}`,
+                      }}>
+                        ⚔ T{threatLevel}
+                      </span>
+                    )}
                   </div>
-                  {agenda.goal && <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}><b>Obiettivo nascosto:</b> {agenda.goal}</div>}
-                  {agenda.secret && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4 }}><b>Segreto:</b> {agenda.secret}</div>}
-                  {(agenda.methods || npc.methods)?.length > 0 && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.4 }}><b>Metodi:</b> {(agenda.methods || npc.methods).join(" · ")}</div>}
-                  {(npc.location || npc.location_id) && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.6, marginTop: 3 }}>Dove: {npc.location || npc.location_id}</div>}
+
+                  {/* Stat GURPS */}
+                  {hasGurps && (
+                    <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 6 }}>
+                      {[["FO", npc.gurps_fo, "#f87171"], ["DE", npc.gurps_de, "#4ade80"], ["IN", npc.gurps_in, "#60a5fa"], ["SA", npc.gurps_sa, "#c084fc"]].map(([l, v, c]) =>
+                        v != null ? (
+                          <span key={l} style={{ fontSize: 11, padding: "2px 7px", borderRadius: 5, background: `${c}18`, border: `1px solid ${c}44`, color: "var(--text-h)" }}>
+                            <b style={{ color: c }}>{l}</b> {v}
+                          </span>
+                        ) : null
+                      )}
+                      {npc.combat_hp != null && (
+                        <span style={{ fontSize: 11, padding: "2px 7px", borderRadius: 5, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", color: "#fca5a5" }}>
+                          ❤️ {npc.combat_hp}
+                        </span>
+                      )}
+                      {npc.combat_dr > 0 && (
+                        <span style={{ fontSize: 11, padding: "2px 7px", borderRadius: 5, background: "rgba(96,165,250,0.1)", border: "1px solid rgba(96,165,250,0.3)", color: "#93c5fd" }}>
+                          🛡 DR{npc.combat_dr}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Skill di combattimento */}
+                  {(hasCombat || Object.keys(npc.gurps_skills || {}).length > 0) && (
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 5 }}>
+                      {npc.combat_attack_skill != null && (
+                        <span style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(239,68,68,0.1)", color: "#f87171" }}>
+                          Attacco {npc.combat_attack_skill} · {npc.combat_damage_dice || "1d6"} {npc.combat_damage_type || "cr"}
+                        </span>
+                      )}
+                      {npc.combat_active_defense != null && (
+                        <span style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(96,165,250,0.1)", color: "#93c5fd" }}>
+                          Difesa {npc.combat_active_defense}
+                        </span>
+                      )}
+                      {Object.entries(npc.gurps_skills || {}).slice(0, 4).map(([sk, lv]) => (
+                        <span key={sk} style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(167,139,250,0.1)", color: "#a78bfa" }}>
+                          {sk} {lv}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Agenda / segreti */}
+                  {agenda.goal && <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4, marginBottom: 2 }}><b>Obiettivo:</b> {agenda.goal}</div>}
+                  {(npc.goal && !agenda.goal) && <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4, marginBottom: 2 }}><b>Obiettivo:</b> {npc.goal}</div>}
+                  {agenda.secret && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4, marginBottom: 2 }}><b>Segreto:</b> {agenda.secret}</div>}
+                  {(npc.secret && !agenda.secret) && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4, marginBottom: 2 }}><b>Segreto:</b> {npc.secret}</div>}
+                  {(agenda.methods || npc.methods)?.length > 0 && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.4, marginBottom: 2 }}><b>Metodi:</b> {(agenda.methods || npc.methods).join(" · ")}</div>}
+                  {(npc.location || npc.location_id) && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55, marginTop: 3 }}>📍 {npc.location || npc.location_id}</div>}
+                  {npc.description && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.6, lineHeight: 1.35, marginTop: 3, fontStyle: "italic" }}>{npc.description}</div>}
                 </div>
               );
             })}
           </div>
         )}
 
-        {audience === "gm" && tab === "gm_map" && (
+        {isGmMode && tab === "gm_map" && (
           <LocationGraph mapState={mapState} isGM={true} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
         )}
 
-        {audience === "gm" && tab === "gm_clocks" && (
+        {isGmMode && tab === "gm_clocks" && (
           <div style={{ padding: "4px 0" }}>
             <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 10 }}>
               Vista GM — tutti i clock (nascosti e scoperti)
@@ -3593,7 +4211,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
           </div>
         )}
 
-        {audience === "gm" && tab === "gm_events" && (
+        {isGmMode && tab === "gm_events" && (
           <div style={{ padding: "4px 0" }}>
             <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 10 }}>
               Log eventi GM
@@ -3622,7 +4240,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
           </div>
         )}
 
-        {audience === "gm" && tab === "gm_maps" && (
+        {isGmMode && tab === "gm_maps" && (
           <div>
             {tacticalNodes.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.55, textAlign: "center", marginTop: 20 }}>Nessuna zona calda preparata.</div>}
             {tacticalNodes.map(node => {
@@ -3660,7 +4278,9 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
         )}
 
         {tab === "map" && (
-          <LocationGraph mapState={mapState} isGM={false} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
+          <div style={{ margin: "-10px -14px", height: "100%" }}>
+            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
+          </div>
         )}
 
         {tab === "clocks" && (
@@ -3819,205 +4439,44 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
 
         {tab === "npcs" && (
           <div>
-            {knownNpcs.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessun PNG noto</div>}
+            {knownNpcs.length === 0 && <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessun PNG incontrato</div>}
+            {/* ── NOTA GIOCATORE: solo ciò che i pg hanno osservato ── */}
             {knownNpcs.map(npc => {
               const st = npcStatuses[npc.id] || {};
-              const agenda = npc.npc_agenda || {};
               const status = st.status || npc.status || "alive";
               const attitude = st.attitude || npc.attitude || "neutral";
-              const arcStatus = st.arc_status || agenda.arc_status || "unintroduced";
-              const hasGurps = npc.gurps_fo != null;
-              const hasAgenda = !!(agenda.role || agenda.goal || agenda.secret);
-              const isExpanded = expandedNpc === (npc.id || npc.name);
-              const threatColor = npc.threat_to_player >= 3 ? "#ef4444" : npc.threat_to_player >= 2 ? "#f97316" : npc.threat_to_player >= 1 ? "#facc15" : "#4ade80";
+              // Ruolo pubblico: mostra solo se NON è una categoria GM riservata
+              const GM_ROLES = new Set(["antagonista", "villain", "antagonist", "antagonist_main", "main_villain", "antagonist_secondary"]);
+              const publicRole = !GM_ROLES.has((npc.role || "").toLowerCase()) ? npc.role : null;
+              // Descrizione pubblica: usa appearance o profession; MAI goal/plan/description GM
+              const publicDesc = npc.appearance || npc.profession || npc.public_role || null;
+              // Ultima location osservata (solo da npc_statuses — non da npc.location che può essere GM)
+              const lastSeen = st.location || st.last_seen_at || null;
+              // Note di interazione accumulate dal sistema (non segreti)
+              const interactionNote = st.last_reaction_level
+                ? `Ultima reazione: ${st.last_reaction_level}`
+                : st.consulted ? "Interrogato dal gruppo" : null;
               return (
                 <div key={npc.id || npc.name} style={{
-                  borderRadius: 8, marginBottom: 6, background: "var(--code-bg)",
-                  border: `1px solid ${hasGurps ? threatColor + "55" : "var(--border)"}`,
-                  overflow: "hidden",
+                  padding: "9px 11px", borderRadius: 8, marginBottom: 6,
+                  background: "var(--code-bg)", border: "1px solid var(--border)",
                 }}>
-                  <div
-                    onClick={() => (hasGurps || hasAgenda) && setExpandedNpc(isExpanded ? null : (npc.id || npc.name))}
-                    style={{ padding: "8px 10px", cursor: (hasGurps || hasAgenda) ? "pointer" : "default" }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                      <AvatarCircle src={(npcAvatars || {})[npc.name]} size={44} fallback="👤" />
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>
-                            {npc.name}
-                            {hasGurps && <span style={{ fontSize: 10, color: threatColor, marginLeft: 5, fontWeight: 400 }}>★</span>}
-                          </span>
-                          <div style={{ display: "flex", gap: 4 }}>
-                            <NpcStatusBadge status={status} size="sm" />
-                            <NpcAttitudeBadge attitude={attitude} size="sm" />
-                          </div>
-                        </div>
-                        <div style={{ fontSize: 11, color: "var(--text)" }}>{npc.role}</div>
-                        {agenda.role && (
-                          <div style={{ fontSize: 10, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.4 }}>
-                            {agenda.role} · arco {arcStatus}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    {npc.description && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.7, marginTop: 2, lineHeight: 1.4 }}>{npc.description}</div>}
-                    {st.location && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6, marginTop: 2 }}>📍 {st.location}</div>}
-                  </div>
-                  {(hasGurps || hasAgenda) && isExpanded && (
-                    <div style={{ padding: "8px 10px", borderTop: `1px solid ${threatColor}33`, background: "rgba(0,0,0,0.15)" }}>
-                      {hasAgenda && (
-                        <div style={{ marginBottom: 8 }}>
-                          {agenda.goal && <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.4 }}><b>Vuole:</b> {agenda.goal}</div>}
-                          {agenda.secret && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4 }}><b>Segreto:</b> {agenda.secret}</div>}
-                          {agenda.recurrence_priority && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.6, marginTop: 3 }}>Priorità scena: {agenda.recurrence_priority}</div>}
-                        </div>
-                      )}
-                      {hasGurps && (
-                        <>
-                      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
-                        {[["FO", npc.gurps_fo], ["DE", npc.gurps_de], ["IN", npc.gurps_in], ["SA", npc.gurps_sa]].map(([label, val]) => (
-                          <span key={label} style={{ fontSize: 11, background: "var(--bg)", padding: "2px 7px", borderRadius: 5, border: "1px solid var(--border)" }}>
-                            <b style={{ color: "var(--text-h)" }}>{label}</b> {val}
-                          </span>
-                        ))}
-                        {npc.combat_hp != null && (
-                          <span style={{ fontSize: 11, background: "var(--bg)", padding: "2px 7px", borderRadius: 5, border: "1px solid #ef444455" }}>
-                            <b style={{ color: "#f87171" }}>PF</b> {npc.combat_hp}
-                          </span>
-                        )}
-                        {npc.combat_dr > 0 && (
-                          <span style={{ fontSize: 11, background: "var(--bg)", padding: "2px 7px", borderRadius: 5, border: "1px solid #60a5fa55" }}>
-                            <b style={{ color: "#60a5fa" }}>DR</b> {npc.combat_dr}
-                          </span>
-                        )}
-                      </div>
-                      {npc.gurps_skills && Object.keys(npc.gurps_skills).length > 0 && (
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 6 }}>
-                          {Object.entries(npc.gurps_skills).map(([sk, lv]) => (
-                            <span key={sk} style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(99,102,241,0.18)", color: "#a78bfa" }}>
-                              {SKILL_META[sk]?.label || sk} {lv}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      {(npc.gurps_advantages?.length > 0 || npc.gurps_disadvantages?.length > 0) && (
-                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                          {(npc.gurps_advantages || []).map(a => (
-                            <span key={a} style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(74,222,128,0.15)", color: "#4ade80" }}>{a}</span>
-                          ))}
-                          {(npc.gurps_disadvantages || []).map(d => (
-                            <span key={d} style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(239,68,68,0.15)", color: "#f87171" }}>{d}</span>
-                          ))}
-                        </div>
-                      )}
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {tab === "players" && (
-          <div>
-            {(!players || players.length === 0) && (
-              <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 20 }}>Nessun personaggio</div>
-            )}
-            {(players || []).map(p => {
-              const liveP = gameState?.players?.find(x => x.id === p.id) || p;
-              const isExpanded = expandedPlayer === p.id;
-              const hpPct = Math.max(0, Math.round((liveP.hp / liveP.max_hp) * 100));
-              const hpColor = hpPct > 60 ? "#4ade80" : hpPct > 30 ? "#facc15" : "#ef4444";
-              const acquiredSkills = Object.entries(liveP.skills || {}).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
-              return (
-                <div key={p.id} style={{
-                  borderRadius: 8, marginBottom: 8, background: "var(--code-bg)",
-                  border: "1px solid var(--accent)44", overflow: "hidden",
-                }}>
-                  <div onClick={() => setExpandedPlayer(isExpanded ? null : p.id)}
-                    style={{ padding: "8px 10px", cursor: "pointer" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                      <AvatarCircle src={(avatars || {})[p.id]} size={48} fallback="🧑" />
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)" }}>{liveP.name}</span>
-                          <span style={{ fontSize: 11, color: "var(--accent)", opacity: 0.8 }}>{liveP.role}</span>
-                        </div>
-                        {/* HP bar */}
-                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 4 }}>
-                          <div style={{ flex: 1, height: 5, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
-                            <div style={{ height: "100%", width: `${hpPct}%`, background: hpColor, transition: "width 0.4s" }} />
-                          </div>
-                          <span style={{ fontSize: 11, color: hpColor, fontWeight: 700, minWidth: 36, textAlign: "right" }}>
-                            ❤️ {liveP.hp}/{liveP.max_hp}
-                          </span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+                    <AvatarCircle src={(npcAvatars || {})[npc.name]} size={42} fallback="👤" />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 6 }}>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: "var(--text-h)", lineHeight: 1.2 }}>{npc.name}</span>
+                        <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
+                          <NpcStatusBadge status={status} size="sm" />
+                          <NpcAttitudeBadge attitude={attitude} size="sm" />
                         </div>
                       </div>
+                      {publicRole && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.7, marginTop: 1 }}>{publicRole}</div>}
+                      {publicDesc && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.65, marginTop: 1, fontStyle: "italic" }}>{publicDesc}</div>}
+                      {lastSeen && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5, marginTop: 3 }}>📍 Visto a: {lastSeen}</div>}
+                      {interactionNote && <div style={{ fontSize: 10, color: "#93c5fd", opacity: 0.8, marginTop: 2 }}>↳ {interactionNote}</div>}
                     </div>
                   </div>
-                  {isExpanded && (
-                    <div style={{ padding: "8px 10px", borderTop: "1px solid var(--accent)22", background: "rgba(0,0,0,0.15)" }}>
-                      {/* attributi */}
-                      <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 8 }}>
-                        {[["FO", liveP.stats?.forza], ["DE", liveP.stats?.agilita], ["IN", liveP.stats?.intelligenza], ["SA", liveP.stats?.empatia]].map(([label, val]) => (
-                          <span key={label} style={{ fontSize: 11, background: "var(--bg)", padding: "2px 8px", borderRadius: 5, border: "1px solid var(--border)" }}>
-                            <b style={{ color: "var(--text-h)" }}>{label}</b> {val ?? "—"}
-                          </span>
-                        ))}
-                        <span style={{ fontSize: 11, background: "var(--bg)", padding: "2px 8px", borderRadius: 5, border: "1px solid #ef444455" }}>
-                          <b style={{ color: "#f87171" }}>PF</b> {liveP.max_hp}
-                        </span>
-                        {liveP.dr > 0 && (
-                          <span style={{ fontSize: 11, background: "var(--bg)", padding: "2px 8px", borderRadius: 5, border: "1px solid #60a5fa55" }}>
-                            <b style={{ color: "#60a5fa" }}>DR</b> {liveP.dr}
-                          </span>
-                        )}
-                      </div>
-                      {/* skill acquisite */}
-                      {acquiredSkills.length > 0 && (
-                        <div style={{ marginBottom: 7 }}>
-                          <div style={{ fontSize: 10, fontWeight: 600, color: "var(--text)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>Skill</div>
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
-                            {acquiredSkills.map(([sk, lv]) => (
-                              <span key={sk} style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(99,102,241,0.18)", color: "#a78bfa" }}>
-                                {SKILL_META[sk]?.label || sk} {lv}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {/* vantaggi / svantaggi */}
-                      {((liveP.advantages?.length > 0) || (liveP.disadvantages?.length > 0)) && (
-                        <div style={{ marginBottom: 7 }}>
-                          <div style={{ fontSize: 10, fontWeight: 600, color: "var(--text)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>Tratti</div>
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: 3 }}>
-                            {(liveP.advantages || []).map(a => (
-                              <span key={a} style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(74,222,128,0.15)", color: "#4ade80" }}>★ {a}</span>
-                            ))}
-                            {(liveP.disadvantages || []).map(d => (
-                              <span key={d} style={{ fontSize: 10, padding: "1px 6px", borderRadius: 4, background: "rgba(239,68,68,0.15)", color: "#f87171" }}>✖ {d}</span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                      {/* backstory / motivazione */}
-                      {liveP.backstory && (
-                        <div style={{ marginBottom: 6 }}>
-                          <div style={{ fontSize: 10, fontWeight: 600, color: "var(--text)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 3 }}>Storia</div>
-                          <div style={{ fontSize: 11, color: "var(--text)", lineHeight: 1.45, fontStyle: "italic", opacity: 0.85 }}>{liveP.backstory}</div>
-                        </div>
-                      )}
-                      {liveP.motivation && (
-                        <div>
-                          <div style={{ fontSize: 10, fontWeight: 600, color: "var(--text)", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 3 }}>Obiettivo</div>
-                          <div style={{ fontSize: 11, color: "#a78bfa", lineHeight: 1.45 }}>{liveP.motivation}</div>
-                        </div>
-                      )}
-                    </div>
-                  )}
                 </div>
               );
             })}
@@ -4537,7 +4996,7 @@ function buildInitialPositions(players, enemies, cols = 15, rows = 10) {
   return positions;
 }
 
-function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, onRetreat, avatars, npcAvatars, bgImage, lastCombatLog, onClose, genre, environmentType, sceneText, locationName, tacticalMap }) {
+function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAttack, onDefend, onStandUp, onNextPlayer, onFinishTurn, onRetreat, avatars, npcAvatars, bgImage, lastCombatLog, onClose, genre, environmentType, sceneText, locationName, tacticalMap, lootPool: lootPoolProp }) {
   const entities = sceneEntities || [];
   const enemies = entities.filter(e => e.type === "enemy");
   // La mappa non cambia dimensione durante il combattimento — dipendenze stabili
@@ -4552,8 +5011,23 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   }), [genre, environmentType, sceneText, locationName]);
   const mapCols = mapSpec.cols;
   const mapRows = mapSpec.rows;
-  const terrainColors = mapSpec.theme?.terrainColors || DEFAULT_TERRAIN_COLORS;
-  const terrainStroke = mapSpec.theme?.terrainStroke || DEFAULT_TERRAIN_STROKE;
+  // Colori hex adattivi: quando c'è un'immagine di sfondo, riduciamo l'opacità dei fill
+  // così l'immagine domina visivamente e il disallineamento spaziale si nota meno.
+  // I muri (tipo 3) restano semi-trasparenti ma non coprono l'immagine al 88%.
+  const _baseColors = mapSpec.theme?.terrainColors || DEFAULT_TERRAIN_COLORS;
+  const _baseStroke = mapSpec.theme?.terrainStroke || DEFAULT_TERRAIN_STROKE;
+  const terrainColors = bgImage ? {
+    0: "rgba(0,0,0,0)",           // aperto → completamente trasparente (immagine mostra tutto)
+    1: "rgba(200,160,80,0.18)",   // copertura → tinta dorata leggera
+    2: "rgba(160,80,60,0.20)",    // difficile → tinta rossa leggera
+    3: "rgba(0,0,0,0.52)",        // muro → grigio scuro al 52% (era 88% — ora si vede l'immagine sotto)
+  } : _baseColors;
+  const terrainStroke = bgImage ? {
+    0: "rgba(255,255,255,0.12)",  // bordo hex appena visibile sull'immagine
+    1: "rgba(251,191,36,0.55)",   // copertura → bordo dorato visibile
+    2: "rgba(239,100,80,0.50)",   // difficile → bordo rosso-arancio
+    3: "rgba(80,80,100,0.70)",    // muro → bordo grigio-blu visibile
+  } : _baseStroke;
 
   const [terrain, setTerrain] = useState(() => mapSpec.terrain);
   const [positions, setPositions] = useState(() => buildInitialPositions(players, enemies, mapCols, mapRows));
@@ -4561,11 +5035,22 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   const [mode, setMode] = useState("select");           // select|move|attack
   const [attackActionType, setAttackActionType] = useState("normal"); // "normal"|"all_out_attack"
   const [reachable, setReachable] = useState(new Set());
-  const [combatLog, setCombatLog] = useState([]);
+  const [combatLog, setCombatLog] = useState(["─── Round 1 — Turno giocatori ───"]);
   const [actedThisRound, setActedThisRound] = useState(new Set()); // player id già agiti
   // geometria ultimo attacco — mandati al backend con la difesa
   const [lastAttackCoverBonus, setLastAttackCoverBonus] = useState(0);
   const [lastAttackIsRear, setLastAttackIsRear] = useState(false);
+  // arma a distanza selezionata e mira accumulata
+  const [selectedWeaponId, setSelectedWeaponId] = useState(""); // weapon_id dell'azione selezionata
+  const [aimedTurns, setAimedTurns] = useState(0);             // turni di mira accumulati (locale, UI)
+  // Bottino disponibile nella scena corrente
+  const [lootPool, setLootPool] = useState([]);                 // LootEntry[] (locale, aggiornato da prop)
+  const effectiveLootPool = (lootPoolProp && lootPoolProp.length > 0) ? lootPoolProp : lootPool;
+  // ── Manovre GURPS ────────────────────────────────────────────────────────────
+  const [selectedManeuver, setSelectedManeuver] = useState(null); // manovra corrente in attesa
+  const [showPostureMenu, setShowPostureMenu] = useState(false);
+  const [roundCounter, setRoundCounter] = useState(1);
+  const [moveAttackMode, setMoveAttackMode] = useState(false);    // true = mossa già usata per Move+Attack
   // animazioni token
   const [animating, setAnimating] = useState({});       // key → "move"|"hit"
   const [dragPos, setDragPos] = useState({ x: 40, y: 80 });
@@ -4579,6 +5064,11 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   useEffect(() => {
     setTerrain(mapSpec.terrain);
   }, [mapSpec]);
+
+  // Sincronizza loot pool dal parent quando cambia
+  useEffect(() => {
+    if (lootPoolProp && lootPoolProp.length > 0) setLootPool(lootPoolProp);
+  }, [lootPoolProp]);
 
   // Dimensioni mappa congelate al mount — non cambiano durante il combattimento
   const frozenCols = React.useRef(mapCols);
@@ -4638,15 +5128,46 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   }, [players, sceneEntities]);
 
   useEffect(() => {
+    if (!lastCombatLog) return;
+
+    // ── Movimento NPC (tattica) ───────────────────────────────────────────────
     const move = lastCombatLog?.tactical_move;
-    if (!move?.entity_id || !move.to) return;
-    const enemyKey = `e_${move.entity_id}`;
-    setAnimating(a => ({ ...a, [enemyKey]: "move" }));
-    setTimeout(() => setAnimating(a => { const n = { ...a }; delete n[enemyKey]; return n; }), 260);
-    setPositions(prev => ({
-      ...prev,
-      [enemyKey]: { ...(prev[enemyKey] || {}), ...move.to },
-    }));
+    if (move?.entity_id && move.to) {
+      const enemyKey = `e_${move.entity_id}`;
+      setAnimating(a => ({ ...a, [enemyKey]: "move" }));
+      setTimeout(() => setAnimating(a => { const n = { ...a }; delete n[enemyKey]; return n; }), 260);
+      setPositions(prev => ({ ...prev, [enemyKey]: { ...(prev[enemyKey] || {}), ...move.to } }));
+    }
+
+    // ── Mostra risultato dell'attacco nel log (solo turno giocatore, non NPC) ──
+    const r = lastCombatLog?.result;
+    if (r && lastCombatLog.attacker && !lastCombatLog.is_npc_turn) {
+      const roll     = lastCombatLog.attack_roll ?? "?";
+      const skill    = lastCombatLog.skill_level ?? "?";
+      const dmgForm  = lastCombatLog.damage_formula || "";
+      const hitIcon  = r.hit  ? "✅" : "❌";
+      const hitTxt   = r.hit  ? "COLPO" : "MANCATO";
+      const defTxt   = r.defended ? " → parato/schivato" : "";
+      let dmgTxt = "";
+      if (r.hit && !r.defended && r.raw_damage !== undefined) {
+        dmgTxt = ` | ${dmgForm}=${r.raw_damage}`;
+        if (r.dr_absorbed > 0) dmgTxt += `−${r.dr_absorbed}DR`;
+        dmgTxt += `=${r.net_damage}PF`;
+      }
+      const woundMap = { ferita_lieve:"Lieve", ferita_seria:"Seria", ferita_grave:"Grave!", ferita_critica:"CRITICA!!" };
+      const woundTxt = r.wound_threshold && r.net_damage > 0 ? ` [${woundMap[r.wound_threshold] || r.wound_threshold}]` : "";
+      const shockTxt = r.shock_applied > 0 ? ` Shock−${r.shock_applied}` : "";
+      const stunTxt  = r.target_stunned ? " 💫STORDITO" : "";
+      const proneTxt = r.knockdown ? " ⬇ABBATTUTO" : "";
+      const critTxt  = r.attacker_critical ? " ✨CRITICO" : "";
+      const logLine  = `${hitIcon} 3d6=${roll} vs ${skill} → ${hitTxt}${critTxt}${defTxt}${dmgTxt}${woundTxt}${shockTxt}${stunTxt}${proneTxt}`;
+      setCombatLog(prev => [...prev, logLine]);
+    }
+
+    // ── Narrazione ricevuta da NPC turn o risultato ───────────────────────────
+    if (lastCombatLog?.narration) {
+      setCombatLog(prev => [...prev, `💬 ${lastCombatLog.narration}`]);
+    }
   }, [lastCombatLog]);
 
   // basic move di chi è selezionato
@@ -4696,9 +5217,56 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
 
   function applyNpcTurnResult(res) {
     if (!res) return;
+
+    // ── Aggiorna posizioni NPC sulla mappa ────────────────────────────────────
     if (res.positions && Object.keys(res.positions).length > 0) {
       setPositions(prev => ({ ...prev, ...res.positions }));
     }
+
+    // ── Mostra azioni NPC nel log combattimento ───────────────────────────────
+    const npcLogs = res.npc_logs || [];
+    if (npcLogs.length === 0) {
+      // Nessuna azione NPC (tutti morti o fuori combattimento)
+      return;
+    }
+    for (const log of npcLogs) {
+      if (log.tactical_move) {
+        const m = log.tactical_move;
+        const stepsTxt = m.steps > 1 ? ` ×${m.steps} hex` : "";
+        const distTxt = m.distance_after !== undefined ? ` → dist. ${m.distance_after}` : "";
+        const stillFar = m.distance_after > 1 ? " (fuori portata)" : " (in portata!)";
+        // Anima il token NPC sulla mappa
+        const enemyKey = `e_${m.entity_id}`;
+        setAnimating(a => ({ ...a, [enemyKey]: "move" }));
+        setTimeout(() => setAnimating(a => { const n = { ...a }; delete n[enemyKey]; return n; }), 280);
+        if (m.to) setPositions(prev => ({ ...prev, [enemyKey]: { ...(prev[enemyKey] || {}), ...m.to } }));
+        setCombatLog(prev => [...prev, `👣 ${log.attacker} si avvicina${stepsTxt}${distTxt}${stillFar}`]);
+      } else if (log.attacker && log.result) {
+        const r = log.result;
+        // Se è un attacco NPC al giocatore (pending_attack verrà gestito separatamente)
+        const hint = r.narrative_hint || "";
+        if (hint === "npc_si_avvicina") continue;
+        const roll = log.attack_roll ?? "?";
+        const skill = log.skill_level ?? "?";
+        const hitIcon = r.hit ? "⚠️" : "🛡";
+        const hitTxt  = r.hit ? "COLPO!" : "mancato";
+        const defTxt  = r.defended ? " (parato/schivato)" : "";
+        let dmgTxt = "";
+        if (r.hit && !r.defended && r.net_damage > 0) {
+          dmgTxt = ` → ${r.raw_damage}−${r.dr_absorbed}DR=${r.net_damage}PF`;
+        }
+        const woundMap = { ferita_lieve:"Lieve", ferita_seria:"Seria", ferita_grave:"GRAVE!", ferita_critica:"CRITICA!!" };
+        const woundTxt = r.wound_threshold && r.net_damage > 0 ? ` [${woundMap[r.wound_threshold]||r.wound_threshold}]` : "";
+        const shockTxt = r.shock_applied > 0 ? ` Shock−${r.shock_applied}` : "";
+        const stunTxt  = r.target_stunned ? " 💫STORDITO" : "";
+        setCombatLog(prev => [...prev,
+          `${hitIcon} ${log.attacker}→${log.target}: 3d6=${roll} vs ${skill} → ${hitTxt}${defTxt}${dmgTxt}${woundTxt}${shockTxt}${stunTxt}`
+        ]);
+      }
+    }
+
+    // ── Annuncia inizio turno giocatori ──────────────────────────────────────
+    setCombatLog(prev => [...prev, "─── Turno giocatori ───"]);
   }
 
   function startMove() {
@@ -4721,10 +5289,18 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     const roundEnded = remaining.length === 0;
     if (remaining.length === 0) {
       setActedThisRound(new Set());
+      setRoundCounter(r => r + 1);
       if (onNextPlayer) onNextPlayer(alivePlayers[0]?.id);
+      // Separatore fine round
+      setCombatLog(prev => [...prev, `━━━ Fine Round ${roundCounter} — Turno NPC... ━━━`]);
     } else {
       setActedThisRound(newActed);
       if (onNextPlayer) onNextPlayer(remaining[0].id);
+      // Indica il prossimo giocatore
+      const nextName = remaining[0]?.name || "?";
+      if (remaining.length < alivePlayers.length) {
+        setCombatLog(prev => [...prev, `▶ Turno di ${nextName}`]);
+      }
     }
     setSelected(null);
     setMode("select");
@@ -4748,26 +5324,94 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
         setPositions(nextPositions);
         setAnimating(prev => { const n = {...prev}; delete n[selected]; return n; });
       }, 180);
-      setCombatLog(prev => [...prev, `${selected} si sposta in (${col},${row})`]);
-      // movimento consuma il turno — avanza al prossimo giocatore
+      const movedName = selected.startsWith("p_")
+        ? players.find(x => x.id === parseInt(selected.replace("p_","")))?.name || selected
+        : selected;
+      if (moveAttackMode) {
+        // Muovi+Attacca: dopo il movimento → passa direttamente alla fase attacco (−4 al tiro)
+        setPositions(nextPositions);
+        setMoveAttackMode(false);
+        setAttackActionType("move_attack");
+        setMode("attack");
+        setReachable(new Set());
+        setCombatLog(prev => [...prev, `🏃 ${movedName} si sposta (${col},${row}) — ora attacca! (−4 al tiro)`]);
+        return;
+      }
+      setCombatLog(prev => [...prev, `👣 ${movedName} si sposta (${col},${row})`]);
+      // movimento normale: fine turno
       const movedPid = selected.startsWith("p_") ? parseInt(selected.replace("p_", "")) : null;
       advanceTurn(movedPid, true, nextPositions);
       return;
     }
 
+    if (mode === "evaluate" && canControlToken()) {
+      // Click su un nemico → valuta quel bersaglio
+      if (tokenOnHex && tokenOnHex[0].startsWith("e_")) {
+        const targetId = tokenOnHex[0].replace("e_", "");
+        const targetName = entities.find(e => e.id === targetId)?.name || targetId;
+        const pid = selected?.startsWith("p_") ? parseInt(selected.replace("p_","")) : null;
+        const selPlayer = pid ? players.find(p => p.id === pid) : null;
+        if (selPlayer) {
+          const res = await fetch(`${API_URL}/game/combat/maneuver`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ player_id: selPlayer.id, maneuver: "evaluate", evaluate_target: targetId }),
+          }).then(r => r.json());
+          if (res.error) { setCombatLog(prev => [...prev, `Errore valuta: ${res.error}`]); }
+          else {
+            const evalBonus2 = players.find(p => p.id === selPlayer.id)?.evaluate_bonus || 0;
+            setCombatLog(prev => [...prev, res.log || `🔍 ${selPlayer.name} valuta ${targetName} (+${evalBonus2 + 1}/3)`]);
+            advanceTurn(pid, true);
+          }
+        }
+      } else {
+        setCombatLog(prev => [...prev, "🔍 Clicca su un nemico per valutarlo."]);
+      }
+      setMode("select");
+      setSelectedManeuver(null);
+      return;
+    }
+
     if (mode === "attack" && canControlToken()) {
-      if (tokenOnHex && tokenOnHex[0] !== selected) {
+      if (tokenOnHex && tokenOnHex[0] !== selected && tokenOnHex[0].startsWith("e_")) {
         const targetKey = tokenOnHex[0];
         const selPos = positions[selected];
         const tgtPos = positions[targetKey];
+        if (!selPos || !tgtPos) { setMode("select"); return; }
         const dist = hexDist(selPos.col, selPos.row, tgtPos.col, tgtPos.row);
-        const isMelee = dist <= 1;
-        const isRanged = dist > 1 && dist <= 10;
-        if (isMelee || isRanged) {
-          const rangePenalty = isRanged ? -(dist - 1) : 0;
 
-          // Attacco da retro: calcola angolo relativo rispetto al facing del bersaglio
-          // Se l'attaccante è negli hex 3-4-5 del bersaglio (dietro) → ignora difesa attiva
+        // Identifica arma selezionata e tipo
+        const pid = parseInt(selected.replace("p_", ""));
+        const p = players.find(x => x.id === pid);
+        if (!p) { setMode("select"); return; }
+        const acts = p.actions || [];
+        const weaponAction = selectedWeaponId
+          ? acts.find(a => a.weapon_id === selectedWeaponId)
+          : acts[0];
+        const isRangedWeapon = weaponAction?.attack_kind === "ranged";
+        const ammoCur = weaponAction?.ammo_current ?? weaponAction?.ammo ?? 0;
+        const ammoMax = weaponAction?.ammo ?? 0;
+        const noAmmo = isRangedWeapon && ammoMax > 0 && ammoCur <= 0;
+
+        // Portata: mischia max 1 hex, distanza max range_half (default 10)
+        const maxRange = isRangedWeapon ? (weaponAction?.range_half || 10) : 1;
+        const isMelee = dist <= 1;
+        const inRange = dist <= maxRange;
+
+        if (noAmmo) {
+          setCombatLog(prev => [...prev, `⚠ ${weaponAction?.name || "Arma"} scarica — ricarica prima di sparare!`]);
+        } else if (!inRange) {
+          setCombatLog(prev => [...prev,
+            isRangedWeapon
+              ? `🎯 Fuori portata! (dist ${dist}, max ${maxRange} hex per ${weaponAction?.name})`
+              : `⚔ Troppo lontano per la mischia! (dist ${dist}, max 1 hex)`
+          ]);
+        } else {
+          // ── Calcoli contestuali ───────────────────────────────────────────
+          const isRangedAttack = isRangedWeapon && dist > 1;
+          const rangePenalty = isRangedAttack ? -(dist - 1) : 0;
+
+          // Attacco da retro: solo in mischia, controlla se l'attaccante è dietro il facing del bersaglio
           const tgtFacing = tgtPos.facing || 0;
           const dx = selPos.col - tgtPos.col;
           const dy = selPos.row - tgtPos.row;
@@ -4779,31 +5423,31 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
           const tgtTerrain = terrain[`${tgtPos.col},${tgtPos.row}`] || 0;
           const coverBonus = tgtTerrain === 1 ? 2 : 0;
 
-          const logParts = [`dist ${dist}`];
-          if (rangePenalty) logParts.push(`pen distanza ${rangePenalty}`);
-          if (isRearAttack) logParts.push("ATTACCO DA RETRO — difesa ignorata!");
-          if (coverBonus) logParts.push(`copertura +${coverBonus} difesa`);
+          // Salva geometria per la fase di difesa
+          setLastAttackCoverBonus(coverBonus);
+          setLastAttackIsRear(isRearAttack);
 
-          if (selected.startsWith("p_")) {
-            const pid = parseInt(selected.replace("p_", ""));
-            const p = players.find(x => x.id === pid);
-            if (p) {
-              // Salva geometria per mandarla con la difesa
-              setLastAttackCoverBonus(coverBonus);
-              setLastAttackIsRear(isRearAttack);
-              // Animazione attacco sul token attaccante
-              setAnimating(prev => ({ ...prev, [selected]: "attack" }));
-              setTimeout(() => setAnimating(prev => { const n = {...prev}; delete n[selected]; return n; }), 400);
-              // Usa sempre "combattere" — il backend ha il fallback sintetico
-              const npcTurnResult = await onAttack(p, "combattere", targetKey.replace("e_", ""), attackActionType, tacticalSnapshot());
-              applyNpcTurnResult(npcTurnResult);
-              setAttackActionType("normal");
-              setCombatLog(prev => [...prev, `${p.name} attacca${attackActionType === "all_out_attack" ? " [TOTALE]" : ""} (${logParts.join(", ")})`]);
-              advanceTurn(pid, true);
-            }
-          }
-        } else {
-          setCombatLog(prev => [...prev, `Troppo lontano! (dist ${dist}, max 10 yd)`]);
+          // Animazione
+          setAnimating(prev => ({ ...prev, [selected]: "attack" }));
+          setTimeout(() => setAnimating(prev => { const n = {...prev}; delete n[selected]; return n; }), 400);
+
+          const actionName = weaponAction?.name || "combattere";
+          const weaponLabel = weaponAction?.name || "combattere";
+          const atkTypeTag = attackActionType === "all_out_attack" ? " ⚔⚔" : attackActionType === "move_attack" ? " 🏃(−4)" : "";
+          const atkKindTag = isRangedAttack ? "🎯" : "⚔";
+          const targetEntity = enemies.find(en => en.id === targetKey.replace("e_",""));
+          const penTxt = rangePenalty ? ` pen.${rangePenalty}` : "";
+          const rearTxt = isRearAttack ? " 🗡RETRO" : "";
+          const coverTxt = coverBonus ? ` 🛡cop.+${coverBonus}` : "";
+
+          // Header nel log prima di aspettare la risposta
+          setCombatLog(prev => [...prev,
+            `${atkKindTag}${atkTypeTag} ${p.name}→${targetEntity?.name||"?"}  [${weaponLabel}]  dist:${dist}${penTxt}${rearTxt}${coverTxt}`
+          ]);
+          await onAttack(p, actionName, targetKey.replace("e_", ""), attackActionType, tacticalSnapshot(), dist);
+          setAttackActionType("normal");
+          setAimedTurns(0);
+          advanceTurn(pid, true);
         }
       }
       setMode("select");
@@ -4814,6 +5458,90 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
     if (tokenOnHex) {
       selectToken(tokenOnHex[0]);
     }
+  }
+
+  async function handleAim(player, weaponName) {
+    try {
+      const res = await fetch(`${API_URL}/game/combat/aim`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ attacker_id: player.id, action_name: weaponName }),
+      }).then(r => r.json());
+      if (res.error) {
+        setCombatLog(prev => [...prev, `Errore mira: ${res.error}`]);
+        return;
+      }
+      const newAimed = (aimedTurns + 1);
+      setAimedTurns(newAimed);
+      setCombatLog(prev => [...prev, res.log || `${player.name} mira... (bonus +${newAimed})`]);
+      advanceTurn(player.id, true);
+    } catch (_) {}
+  }
+
+  // ── Gestione manovre GURPS ───────────────────────────────────────────────
+  async function handleManeuver(maneuver, extraData = {}) {
+    const pid = selected?.startsWith("p_") ? parseInt(selected.replace("p_","")) : null;
+    const selPlayer = pid ? players.find(p => p.id === pid) : null;
+    if (!selPlayer || !canControlToken()) return;
+
+    setShowPostureMenu(false);
+
+    // Manovre che entrano in modalità (richiedono click su bersaglio/hex)
+    if (maneuver === "attack") {
+      setAttackActionType("normal"); setSelectedManeuver("attack");
+      setMoveAttackMode(false); startAttack(); return;
+    }
+    if (maneuver === "all_out_attack") {
+      setAttackActionType("all_out_attack"); setSelectedManeuver("all_out_attack");
+      setMoveAttackMode(false); startAttack(); return;
+    }
+    if (maneuver === "move_attack") {
+      setAttackActionType("normal"); setSelectedManeuver("move_attack");
+      setMoveAttackMode(true); startMove(); return; // prima muovi, poi attacca
+    }
+    if (maneuver === "move") {
+      setSelectedManeuver("move"); setMoveAttackMode(false); startMove(); return;
+    }
+    if (maneuver === "evaluate") {
+      // Entra in modalità "scegli bersaglio" — l'utente clicca su un nemico
+      setSelectedManeuver("evaluate");
+      setMode("evaluate");
+      return;
+    }
+    if (maneuver === "aim") {
+      const actions = selPlayer.actions || [];
+      const rangedActions = actions.filter(a => a.attack_kind === "ranged");
+      const weaponName = selectedWeaponId
+        ? (actions.find(a => a.weapon_id === selectedWeaponId)?.name || rangedActions[0]?.name || "")
+        : (rangedActions[0]?.name || "");
+      if (!weaponName) { setCombatLog(prev => [...prev, "Nessuna arma a distanza pronta."]); return; }
+      await handleAim(selPlayer, weaponName);
+      setSelectedManeuver(null); return;
+    }
+    if (maneuver === "retreat") {
+      if (onRetreat) onRetreat(tacticalSnapshot());
+      setSelectedManeuver(null); return;
+    }
+    if (maneuver === "standup") {
+      if (onStandUp) onStandUp(selPlayer.id);
+      setSelectedManeuver(null);
+      setCombatLog(prev => [...prev, `🧍 ${selPlayer.name} si alza da terra.`]);
+      advanceTurn(pid, true); return;
+    }
+
+    // Manovre istantanee → chiama backend
+    const res = await fetch(`${API_URL}/game/combat/maneuver`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ player_id: selPlayer.id, maneuver, ...extraData }),
+    }).then(r => r.json());
+
+    if (res.error) { setCombatLog(prev => [...prev, `Errore: ${res.error}`]); return; }
+    if (res.log) setCombatLog(prev => [...prev, res.log]);
+    setSelectedManeuver(null);
+
+    // all_out_defense: il giocatore non può attaccare MA il turno avanza e gli NPC agiscono
+    advanceTurn(pid, true);
   }
 
   function rotateFacing(key, dir) {
@@ -4968,11 +5696,16 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
 
         <div className="hex-map-content" style={{ overflowX: "auto", overflowY: "auto", maxHeight: "72vh" }}>
           {/* legenda terreni */}
-          <div style={{ display: "flex", gap: 12, padding: "6px 14px", fontSize: 10, color: "rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <div style={{ display: "flex", gap: 12, padding: "6px 14px", fontSize: 10, color: "rgba(255,255,255,0.4)", borderBottom: "1px solid rgba(255,255,255,0.06)", flexWrap: "wrap" }}>
             <span>⬡ Normale</span>
-            <span style={{ color: "#4ade80" }}>⬡ Copertura (+2 difesa)</span>
-            <span style={{ color: "#b4823c" }}>⬡ Difficile (×2 mov)</span>
-            <span style={{ color: "#888" }}>⬡ Muro</span>
+            <span style={{ color: "#fbbf24" }}>⬡ Copertura (+2 difesa)</span>
+            <span style={{ color: "#f87171" }}>⬡ Difficile (×2 mov)</span>
+            <span style={{ color: "#94a3b8" }}>⬡ Muro</span>
+            {bgImage && (
+              <span style={{ color: "rgba(255,255,255,0.25)", marginLeft: "auto", fontStyle: "italic" }}>
+                🎨 immagine = atmosfera · griglia = meccanica
+              </span>
+            )}
           </div>
 
           {/* contenitore relativo per sovrapporre img + svg */}
@@ -4985,13 +5718,13 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                   alt=""
                   style={{
                     position: "absolute", inset: 0, width: "100%", height: "100%",
-                    objectFit: "cover", opacity: 0.5, pointerEvents: "none",
+                    objectFit: "cover", opacity: 0.65, pointerEvents: "none",
                   }}
                   onError={e => { e.currentTarget.src = `data:image/png;base64,${bgImage}`; }}
                 />
                 <div style={{
                   position: "absolute", inset: 0,
-                  background: "rgba(8,8,16,0.4)", pointerEvents: "none",
+                  background: "rgba(8,8,16,0.22)", pointerEvents: "none",
                 }} />
               </>
             ) : (
@@ -5077,20 +5810,31 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
               const clipId = `clip-${key}`;
               const r = HEX_SIZE * 0.55;
 
+              const isAOD = entity.all_out_defense_active;
+              const evalBonus = entity.evaluate_bonus || 0;
+              const posture = entity.posture || (entity.prone ? "prone" : "standing");
+              const ringColor = isDead ? "#555" : isPlayer ? "#a855f7" : (entity.type === "ally" ? "#22c55e" : "#ef4444");
+
               return (
-                <g key={key} style={{ cursor: "pointer", ...animStyle }} onClick={e => { e.stopPropagation(); selectToken(key); }}>
+                <g key={key} style={{ cursor: "pointer", ...animStyle }} onClick={e => { e.stopPropagation(); clickHex(pos.col, pos.row); }}>
                   <defs>
                     <clipPath id={clipId}>
                       <circle cx={x} cy={y} r={r} />
                     </clipPath>
                   </defs>
-                  {/* cerchio base */}
-                  <circle cx={x} cy={y} r={r}
-                    fill={tokenImg ? "none" : color} fillOpacity={isDead ? 0.3 : 0.85}
-                    stroke={isSelected ? "#fff" : anim === "attack" ? "#facc15" : color}
-                    strokeWidth={isSelected ? 3 : anim === "attack" ? 3 : 2}
+                  {/* anello colorato di ruolo (sempre visibile anche con avatar) */}
+                  <circle cx={x} cy={y} r={r + 2}
+                    fill="none"
+                    stroke={isSelected ? "#fff" : anim === "attack" ? "#facc15" : ringColor}
+                    strokeWidth={isSelected ? 3.5 : 2.5}
+                    opacity={isDead ? 0.3 : 1}
                   />
-                  {/* foto circolare se disponibile */}
+                  {/* cerchio sfondo token */}
+                  <circle cx={x} cy={y} r={r}
+                    fill={tokenImg ? "rgba(0,0,0,0.6)" : ringColor}
+                    fillOpacity={isDead ? 0.3 : (tokenImg ? 0.7 : 0.85)}
+                  />
+                  {/* avatar circolare */}
                   {tokenImg ? (
                     <image
                       href={`data:image/png;base64,${tokenImg}`}
@@ -5101,38 +5845,87 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                     />
                   ) : (
                     <text x={x} y={y + 1} textAnchor="middle" dominantBaseline="middle"
-                      fontSize={13} fontWeight="bold" fill="#fff" style={{ pointerEvents: "none" }}>
-                      {label}
+                      fontSize={14} fontWeight="bold" fill="#fff" style={{ pointerEvents: "none" }}>
+                      {isDead ? "💀" : label}
                     </text>
                   )}
-                  {/* facing */}
+                  {/* facing triangle */}
                   <path d={facingTriangle(x, y, pos.facing || 0, r, "#fff")}
-                    fill="rgba(255,255,255,0.8)" style={{ pointerEvents: "none" }} />
-                  {/* copertura badge */}
-                  {inCover && (
-                    <text x={x + HEX_SIZE * 0.4} y={y - HEX_SIZE * 0.4} fontSize={10} fill="#4ade80">🛡</text>
+                    fill="rgba(255,255,255,0.75)" style={{ pointerEvents: "none" }} />
+
+                  {/* ── Badge status (angoli del token) ── */}
+                  {/* Alto-sinistra: stordito / a terra / in ginocchio */}
+                  {entity.stunned
+                    ? <text x={x - r + 2} y={y - r + 10} fontSize={11} fill="#facc15" title="Stordito 💫">💫</text>
+                    : posture === "prone"
+                      ? <text x={x - r + 2} y={y - r + 10} fontSize={11} fill="#f97316" title="A terra">⬇</text>
+                      : posture === "kneeling"
+                        ? <text x={x - r + 2} y={y - r + 10} fontSize={10} fill="#fbbf24" title="In ginocchio">🧎</text>
+                        : null
+                  }
+                  {/* Alto-destra: copertura / difesa totale */}
+                  {isAOD
+                    ? <text x={x + r - 12} y={y - r + 10} fontSize={10} fill="#34d399" title="Difesa Totale (+2)">🛡</text>
+                    : inCover
+                      ? <text x={x + r - 12} y={y - r + 10} fontSize={10} fill="#4ade80" title="In copertura">🛡</text>
+                      : null
+                  }
+                  {/* Alto-centro: Valuta bonus */}
+                  {evalBonus > 0 && (
+                    <text x={x} y={y - r - 2} fontSize={9} fontWeight="bold" textAnchor="middle"
+                      fill="#c4b5fd" title={`Bonus Valuta +${evalBonus}/3`}>🔍+{evalBonus}</text>
                   )}
-                  {/* stordito / prone */}
-                  {entity.stunned && (
-                    <text x={x - HEX_SIZE * 0.45} y={y - HEX_SIZE * 0.4} fontSize={11} fill="#facc15" title="Stordito">💫</text>
-                  )}
-                  {entity.prone && !entity.stunned && (
-                    <text x={x - HEX_SIZE * 0.45} y={y - HEX_SIZE * 0.4} fontSize={11} fill="#f97316" title="A terra">⬇</text>
-                  )}
-                  {/* shock badge */}
+                  {/* Basso-destra: shock */}
                   {entity.shock_penalty > 0 && (
-                    <text x={x + HEX_SIZE * 0.4} y={y + HEX_SIZE * 0.4} fontSize={9} fill="#f59e0b" title={`Shock −${entity.shock_penalty}`}>⚡</text>
+                    <text x={x + r - 8} y={y + r - 2} fontSize={9} fill="#f59e0b"
+                      title={`Shock −${entity.shock_penalty} al prossimo tiro`}>⚡−{entity.shock_penalty}</text>
                   )}
-                  {/* hp bar sotto */}
-                  {entity.max_hp > 0 && (
-                    <>
-                      <rect x={x - 14} y={y + HEX_SIZE * 0.6} width={28} height={3} rx={1.5}
-                        fill="rgba(0,0,0,0.5)" />
-                      <rect x={x - 14} y={y + HEX_SIZE * 0.6}
-                        width={28 * Math.max(0, entity.hp / entity.max_hp)} height={3} rx={1.5}
-                        fill={entity.hp / entity.max_hp > 0.5 ? "#4ade80" : entity.hp / entity.max_hp > 0.25 ? "#facc15" : "#ef4444"} />
-                    </>
+                  {/* Mirate */}
+                  {entity.aimed && entity.aimed_turns > 0 && (
+                    <text x={x - r + 2} y={y + r - 2} fontSize={9} fill="#fbbf24"
+                      title={`Mira: +${entity.aimed_turns} acc.`}>🎯+{entity.aimed_turns}</text>
                   )}
+
+                  {/* ── Indicatore attacco da retro ── */}
+                  {/* Visibile in modalità attacco quando il player selezionato è dietro questo nemico */}
+                  {!isPlayer && mode === "attack" && (() => {
+                    const selPos2 = selected ? positions[selected] : null;
+                    if (!selPos2 || !pos) return null;
+                    const dist2 = hexDist(selPos2.col, selPos2.row, pos.col, pos.row);
+                    if (dist2 > 1) return null; // solo mischia
+                    const tgtFacing2 = pos.facing || 0;
+                    const dx2 = selPos2.col - pos.col;
+                    const dy2 = selPos2.row - pos.row;
+                    const attackAngle2 = Math.round(Math.atan2(dy2, dx2) / (Math.PI / 3) + 6) % 6;
+                    const rearHexes2 = [(tgtFacing2 + 3) % 6, (tgtFacing2 + 4) % 6, (tgtFacing2 + 2) % 6];
+                    const isRear2 = rearHexes2.includes(attackAngle2);
+                    if (!isRear2) return null;
+                    return (
+                      <text x={x} y={y + r + 14} fontSize={8} fontWeight="bold" textAnchor="middle"
+                        fill="#facc15" title="Attacco da retro: la difesa attiva del nemico è ignorata!">🗡RETRO</text>
+                    );
+                  })()}
+
+                  {/* ── Barre HP + FP ── */}
+                  {entity.max_hp > 0 && (() => {
+                    const hpPct = Math.max(0, entity.hp / entity.max_hp);
+                    const fpPct = entity.max_fp > 0 ? Math.max(0, (entity.fp ?? entity.max_fp) / entity.max_fp) : -1;
+                    const barY = y + r + 3;
+                    return <>
+                      {/* HP bar */}
+                      <rect x={x - 15} y={barY} width={30} height={3.5} rx={1.5} fill="rgba(0,0,0,0.5)" />
+                      <rect x={x - 15} y={barY} width={30 * hpPct} height={3.5} rx={1.5}
+                        fill={hpPct > 0.5 ? "#4ade80" : hpPct > 0.25 ? "#facc15" : "#ef4444"} />
+                      {/* FP bar (solo se tracciato) */}
+                      {fpPct >= 0 && (
+                        <>
+                          <rect x={x - 15} y={barY + 5} width={30} height={2.5} rx={1} fill="rgba(0,0,0,0.4)" />
+                          <rect x={x - 15} y={barY + 5} width={30 * fpPct} height={2.5} rx={1}
+                            fill={fpPct > 0.5 ? "#60a5fa" : fpPct > 0.25 ? "#a78bfa" : "#f472b6"} />
+                        </>
+                      )}
+                    </>;
+                  })()}
                 </g>
               );
             })}
@@ -5140,173 +5933,436 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
           </div>{/* fine div relativo sfondo+svg */}
         </div>{/* fine hex-map-content */}
 
-        {/* barra azioni */}
-        <div style={{ padding: "8px 12px", borderTop: "1px solid rgba(255,255,255,0.07)", display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-          {canRetreat && (
-            <button
-              onClick={() => onRetreat && onRetreat(tacticalSnapshot())}
-              title="Ritirata: chiude lo scontro con un costo di minaccia e torna alla scena narrativa"
-              style={{
-                padding: "5px 12px", borderRadius: 7, border: "1px solid rgba(250,204,21,0.45)",
-                background: "rgba(250,204,21,0.12)", color: "#fde68a", fontWeight: 800,
-                cursor: "pointer", fontSize: 12,
-              }}
-            >↩ Ritirata</button>
-          )}
-          {selected && selPos && selectedIsActivePlayer && (
-            <>
-              <button onClick={startMove} style={{
-                padding: "5px 12px", borderRadius: 7, border: "none", fontSize: 12, fontWeight: 700, cursor: "pointer",
-                background: mode === "move" ? "#6366f1" : "rgba(99,102,241,0.2)", color: mode === "move" ? "#fff" : "#818cf8",
-              }}>👣 Muovi ({getBasicMove(selected)} yd)</button>
-              {(() => {
-                const pid = selected?.startsWith("p_") ? parseInt(selected.replace("p_","")) : null;
-                const selPlayer = pid ? players.find(p => p.id === pid) : null;
-                return <>
-                  {/* Attacca normale */}
-                  <button onClick={() => { setAttackActionType("normal"); startAttack(); }} style={{
-                    padding: "5px 12px", borderRadius: 7, border: "none", fontSize: 12, fontWeight: 700, cursor: "pointer",
-                    background: mode === "attack" && attackActionType === "normal" ? "#ef4444" : "rgba(239,68,68,0.2)",
-                    color: mode === "attack" && attackActionType === "normal" ? "#fff" : "#f87171",
-                  }}>⚔ Attacca</button>
-                  {/* Attacco Totale: +4 attacco, no difesa */}
-                  {selPlayer && (
-                    <button onClick={() => { setAttackActionType("all_out_attack"); startAttack(); }}
-                      title="Attacco Totale: +4 al tiro, ma non puoi difenderti questo turno"
-                      style={{
-                        padding: "5px 12px", borderRadius: 7, border: "1px solid #dc2626", fontSize: 12, fontWeight: 700, cursor: "pointer",
-                        background: mode === "attack" && attackActionType === "all_out_attack" ? "#dc2626" : "rgba(220,38,38,0.15)",
-                        color: mode === "attack" && attackActionType === "all_out_attack" ? "#fff" : "#fca5a5",
-                      }}>⚔⚔ Totale</button>
-                  )}
-                  {/* Alzati se prone */}
-                  {selPlayer?.prone && (
-                    <button onClick={() => onStandUp && onStandUp(selPlayer.id)}
-                      title="Usa l'azione per alzarsi da terra"
-                      style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #f97316", background: "rgba(249,115,22,0.15)", color: "#fb923c", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
-                      ⬆ Alzati
-                    </button>
-                  )}
-                  {/* Stordito: no attacco */}
-                  {selPlayer?.stunned && (
-                    <span style={{ fontSize: 11, color: "#facc15", fontWeight: 700 }}>💫 Stordito — tiro SA per recuperare</span>
-                  )}
-                  {/* Azioni extra GURPS */}
-                  <button onClick={() => {
-                    setCombatLog(prev => [...prev, `${selPlayer?.name || "?"} si mette in copertura (+2 difesa fino al prossimo turno).`]);
-                    advanceTurn(pid, true);
-                  }} title="Concentra tutte le energie sulla difesa (+2 a tutte le difese, nessun attacco)"
-                    style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #0891b2", background: "rgba(8,145,178,0.15)", color: "#67e8f9", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
-                    🛡 Copertura
-                  </button>
-                  {selPlayer && (selPlayer.items || []).some(it => /medkit|kit|benda|pronto soccorso|medikit/i.test(it)) && (
-                    <button onClick={async () => {
-                      const injured = players.filter(p => p.hp < p.max_hp && p.hp > 0);
-                      const target = injured.find(p => p.id !== selPlayer.id) || injured[0];
-                      if (!target) { setCombatLog(prev => [...prev, "Nessun alleato ferito nelle vicinanze."]); return; }
-                      const result = await onAttack(selPlayer, "curare", null, "normal");
-                      if (result) setCombatLog(prev => [...prev, `${selPlayer.name} cura ${target.name}.`]);
-                      advanceTurn(pid, true);
-                    }} title="Usa medkit per curare un alleato ferito (richiede medkit negli oggetti)"
-                      style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #16a34a", background: "rgba(22,163,74,0.15)", color: "#4ade80", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
-                      💊 Cura
-                    </button>
-                  )}
-                  <button onClick={() => {
-                    const ally = players.find(p => p.id !== selPlayer?.id && p.hp > 0);
-                    const msg = ally ? `${selPlayer?.name} supporta ${ally.name} (+1 al prossimo tiro).` : `${selPlayer?.name} si prepara.`;
-                    setCombatLog(prev => [...prev, msg]);
-                    advanceTurn(pid, true);
-                  }} title="Aiuta un alleato vicino (+1 al suo prossimo tiro) o si prepara"
-                    style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #7c3aed", background: "rgba(124,58,237,0.15)", color: "#c4b5fd", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
-                    🤝 Aiuta
-                  </button>
-                </>;
-              })()}
-              <button onClick={() => rotateFacing(selected, -1)} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12 }}>↺</button>
-              <button onClick={() => rotateFacing(selected, 1)} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12 }}>↻</button>
-              <button onClick={() => { setSelected(null); setMode("select"); setReachable(new Set()); }} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: 12 }}>✕</button>
-            </>
-          )}
-          {selected && selPos && selectedIsEnemy && !pendingAttack && (
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 12, color: "#fca5a5", fontWeight: 700 }}>
-                Bersaglio selezionato: {selName}
-              </span>
-              <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
-                Seleziona il token di {players.find(p => p.id === activePlayerId)?.name || "chi agisce"} per muovere o attaccare.
-              </span>
-              <button onClick={() => { setSelected(null); setMode("select"); setReachable(new Set()); }} style={{ padding: "5px 9px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: 12 }}>✕</button>
-            </div>
-          )}
-          {selected && selPos && selectedIsOtherPlayer && !pendingAttack && (
-            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", fontWeight: 700 }}>
-                {selName} non è il personaggio attivo.
-              </span>
-              <button onClick={() => setSelected(`p_${activePlayerId}`)} style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid rgba(99,102,241,0.45)", background: "rgba(99,102,241,0.16)", color: "#a5b4fc", fontWeight: 700, cursor: "pointer", fontSize: 12 }}>
-                Seleziona personaggio attivo
-              </button>
-            </div>
-          )}
-          {!selected && !pendingAttack && (() => {
-            const alivePlayers = players.filter(p => p.hp > 0 && p.status !== "sconfitto" && p.status !== "morto");
-            const activeName = players.find(p => p.id === activePlayerId)?.name || "?";
-            const remaining = alivePlayers.filter(p => !actedThisRound.has(p.id));
-            return (
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 12, color: "var(--accent,#a855f7)", fontWeight: 700 }}>
-                  ▶ {activeName} — seleziona il tuo token
-                </span>
-                {alivePlayers.length > 1 && (
-                  <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)" }}>
-                    ({remaining.length}/{alivePlayers.length} da agire)
-                  </span>
-                )}
+        {/* ── Pannello manovre GURPS ──────────────────────────────────────── */}
+        {(() => {
+          const pid2 = selected?.startsWith("p_") ? parseInt(selected.replace("p_","")) : null;
+          const selPlayer = pid2 ? players.find(p => p.id === pid2) : null;
+          const isStunned = !!selPlayer?.stunned;
+          const isProne = !!(selPlayer?.prone || selPlayer?.posture === "prone");
+          const hasRanged = (selPlayer?.actions || []).some(a => a.attack_kind === "ranged");
+          const evalBonus = selPlayer?.evaluate_bonus || 0;
+          const selAcc = (() => {
+            if (!selPlayer) return 0;
+            const acts = selPlayer.actions || [];
+            const selAct = acts.find(a => a.weapon_id === selectedWeaponId) || acts.find(a => a.attack_kind === "ranged");
+            return selAct?.acc || 0;
+          })();
+          const activeName = players.find(p => p.id === activePlayerId)?.name || "?";
+          const alivePlayers2 = players.filter(p => p.hp > 0 && p.status !== "sconfitto" && p.status !== "morto");
+          const remaining2 = alivePlayers2.filter(p => !actedThisRound.has(p.id));
+
+          const MANEUVERS = [
+            { id: "attack",          icon: "⚔",    label: "Attacca",    desc: "1 attacco + muovi ½ Move",           color: "#ef4444", disabled: isStunned },
+            { id: "all_out_attack",  icon: "⚔⚔",   label: "Att.Totale", desc: "+4 att. o 2 att. — NESSUNA difesa",  color: "#dc2626", disabled: isStunned },
+            { id: "move_attack",     icon: "🏃",    label: "Muovi+Att.", desc: "Muovi tutto + attacco a −4 (min 9)", color: "#f97316", disabled: isStunned || isProne },
+            { id: "move",            icon: "👣",    label: "Muovi",      desc: "Muovi fino a Basic Move (no att.)",  color: "#6366f1", disabled: false },
+            { id: "all_out_defense", icon: "🛡🛡",  label: "Dif.Totale", desc: "+2 a tutte le difese, no attacco",   color: "#0891b2", disabled: isStunned },
+            { id: "evaluate",        icon: "🔍",    label: `Valuta${evalBonus > 0 ? ` +${evalBonus}` : ""}`, desc: `Accumula +1 att. vs stesso bersaglio (max +3). Ora: +${evalBonus}/3`, color: "#7c3aed", disabled: isStunned },
+            { id: "aim",             icon: "🎯",    label: `Mira${aimedTurns > 0 ? ` +${aimedTurns}` : ""}`, desc: `Accumula bonus Acc armi distanza (+${aimedTurns}/${selAcc})`,   color: "#b45309", disabled: isStunned || !hasRanged },
+            { id: "concentrate",     icon: "🧠",    label: "Concentra",  desc: "Azione mentale o magica",            color: "#6d28d9", disabled: isStunned },
+            { id: isProne ? "standup" : "change_posture", icon: isProne ? "🧍" : "🧎", label: isProne ? "Alzati" : "Postura", desc: isProne ? "Alzati da terra — usa tutta l'azione" : "Cambia postura: piedi / ginocchio / terra", color: "#92400e", disabled: false },
+            { id: "ready",           icon: "🔄",    label: "Prepara",    desc: "Ricarica o prepara arma/oggetto",    color: "#065f46", disabled: false },
+            { id: "do_nothing",      icon: "✋",    label: "Aspetta",    desc: "Non fare nulla questo turno",        color: "#374151", disabled: false },
+            { id: "retreat",         icon: "↩",     label: "Ritirata",   desc: "Ripiega — minaccia +1, torna alla scena", color: "#78350f", disabled: !canRetreat },
+          ];
+
+          const btnSt = (m) => ({
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+            gap: 2, padding: "6px 4px", borderRadius: 8,
+            border: `1px solid ${m.disabled ? "rgba(255,255,255,0.05)" : `${m.color}55`}`,
+            background: selectedManeuver === m.id
+              ? `${m.color}45`
+              : m.disabled ? "rgba(255,255,255,0.02)" : `${m.color}18`,
+            color: m.disabled ? "rgba(255,255,255,0.2)" : (selectedManeuver === m.id ? "#fff" : m.color),
+            cursor: m.disabled ? "not-allowed" : "pointer",
+            fontWeight: 700, flex: "1 1 0",
+            outline: selectedManeuver === m.id ? `2px solid ${m.color}` : "none",
+            transition: "background 0.1s",
+          });
+
+          return (
+            <div style={{ background: "rgba(8,9,18,0.97)", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+
+              {/* ── Striscia round + combattenti ──────────────────────────── */}
+              <div style={{ padding: "4px 10px", display: "flex", gap: 5, alignItems: "center", flexWrap: "wrap", borderBottom: "1px solid rgba(255,255,255,0.06)", background: "rgba(0,0,0,0.35)" }}>
+                <span style={{ fontSize: 10, fontWeight: 800, color: "#6366f1", letterSpacing: 0.5, minWidth: 52 }}>Round {roundCounter}</span>
+                <span style={{ fontSize: 10, color: "#a855f7", fontWeight: 700 }}>▶ {activeName}</span>
+                <span style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginRight: 4 }}>({remaining2.length}/{alivePlayers2.length})</span>
+                {alivePlayers2.map(p => {
+                  const hpPct = p.max_hp > 0 ? p.hp / p.max_hp : 1;
+                  const isActive = p.id === activePlayerId;
+                  const hasActed = actedThisRound.has(p.id);
+                  return (
+                    <div key={p.id}
+                      title={`${p.name} — HP: ${p.hp}/${p.max_hp}  FP: ${p.fp ?? p.max_fp}/${p.max_fp}${p.stunned ? " 💫" : p.prone ? " ⬇" : ""}`}
+                      style={{ display: "flex", alignItems: "center", gap: 3, padding: "2px 7px", borderRadius: 5,
+                        background: isActive ? "rgba(168,85,247,0.2)" : hasActed ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.07)",
+                        border: `1px solid ${isActive ? "rgba(168,85,247,0.5)" : "rgba(255,255,255,0.08)"}`,
+                        opacity: hasActed ? 0.45 : 1 }}>
+                      <span style={{ fontSize: 9, color: isActive ? "#c4b5fd" : "rgba(255,255,255,0.55)", fontWeight: isActive ? 700 : 400 }}>{p.name.split(" ")[0]}</span>
+                      <span style={{ fontSize: 9, fontWeight: 700, color: hpPct > 0.5 ? "#4ade80" : hpPct > 0.25 ? "#facc15" : "#ef4444" }}>{p.hp}/{p.max_hp}</span>
+                      {p.fp !== undefined && p.fp < p.max_fp && <span style={{ fontSize: 8, color: "#60a5fa" }}>FP{p.fp}</span>}
+                      {p.stunned && <span>💫</span>}
+                      {p.prone && !p.stunned && <span>⬇</span>}
+                      {p.all_out_defense_active && <span title="Difesa Totale">🛡</span>}
+                    </div>
+                  );
+                })}
+                {enemies.filter(e => e.hp > 0).map(e => (
+                  <div key={e.id} title={`${e.name} — HP: ${e.hp}/${e.max_hp} | Difesa: ${e.active_defense} | DR: ${e.dr}`}
+                    style={{ display: "flex", alignItems: "center", gap: 3, padding: "2px 7px", borderRadius: 5,
+                      background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)" }}>
+                    <span style={{ fontSize: 9, color: "#f87171" }}>{e.name.split(" ")[0]}</span>
+                    <span style={{ fontSize: 9, fontWeight: 700, color: e.hp/e.max_hp > 0.5 ? "#4ade80" : e.hp/e.max_hp > 0.25 ? "#facc15" : "#ef4444" }}>{e.hp}/{e.max_hp}</span>
+                    {e.stunned && <span>💫</span>}
+                  </div>
+                ))}
               </div>
-            );
-          })()}
 
-          {/* Fine turno — appare dopo aver selezionato un token del giocatore attivo */}
-          {selected?.startsWith("p_") && parseInt(selected.replace("p_","")) === activePlayerId && !pendingAttack && (
-            <button
-              onClick={() => advanceTurn(activePlayerId)}
-              style={{
-                marginLeft: "auto", padding: "5px 14px", borderRadius: 7,
-                border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.08)",
-                color: "rgba(255,255,255,0.6)", fontWeight: 700, cursor: "pointer", fontSize: 12,
-              }}
-            >Fine turno →</button>
-          )}
+              {/* ── FASE DIFESA (attacco pendente) ────────────────────────── */}
+              {pendingAttack ? (
+                <div style={{ padding: "8px 12px", display: "flex", flexDirection: "column", gap: 6 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 14, fontWeight: 900, color: "#facc15", letterSpacing: 0.5 }}>⚠ DIFENDI!</span>
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.55)" }}>
+                      {defPlayer?.name} — Schivata {defVal}{lastAttackCoverBonus > 0 ? ` +${lastAttackCoverBonus}` : ""}
+                    </span>
+                    {lastAttackIsRear && <span style={{ fontWeight: 800, color: "#ef4444", fontSize: 11 }}>⚠ Attacco da RETRO — difesa impossibile!</span>}
+                  </div>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    {[
+                      { dt: "dodge", label: "🤸 Schiva",  desc: `Schivata ${defVal}${lastAttackCoverBonus > 0 ? `+${lastAttackCoverBonus} cop.` : ""} — usa Velocità/2+3`, bg: "#7c3aed" },
+                      { dt: "parry", label: "🗡 Para",    desc: "Parata con arma — skill/2+3 (solo mischia)",  bg: "#2563eb" },
+                      { dt: "block", label: "🛡 Blocca",  desc: "Blocco con scudo — skill/2+3",                bg: "#0f766e" },
+                    ].map(({ dt, label, desc, bg }) => (
+                      <button key={dt} title={desc}
+                        onClick={() => Promise.resolve(onDefend(dt, "normal", "", lastAttackCoverBonus, lastAttackIsRear, tacticalSnapshot())).then(applyNpcTurnResult)}
+                        style={{ padding: "7px 16px", borderRadius: 8, border: "none", background: bg, color: "#fff", fontWeight: 800, cursor: "pointer", fontSize: 12 }}>
+                        {label}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => Promise.resolve(onDefend("dodge", "all_out_defense", "", lastAttackCoverBonus, lastAttackIsRear, tacticalSnapshot())).then(applyNpcTurnResult)}
+                      title="Difesa Totale: +2 a tutte le difese. Non puoi attaccare questo turno."
+                      style={{ padding: "7px 16px", borderRadius: 8, border: "2px solid #34d399", background: "rgba(52,211,153,0.15)", color: "#34d399", fontWeight: 800, cursor: "pointer", fontSize: 12 }}>
+                      🛡🛡 Dif.Totale +2
+                    </button>
+                  </div>
+                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>
+                    Schiva={defVal} | Para=skill/2+3 (solo mischia) | Blocca=scudo/2+3 | Dif.Tot.=+2 a tutto, no attacco questo turno
+                  </div>
+                </div>
 
-          {/* difesa */}
-          {pendingAttack && (
-            <div style={{ marginLeft: "auto", display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: "#facc15" }}>
-                🛡 Difendi! ({defVal}{lastAttackCoverBonus > 0 ? ` +${lastAttackCoverBonus} cop.` : ""}{lastAttackIsRear ? " [RETRO!]" : ""})
-              </span>
-              {lastAttackIsRear && (
-                <span style={{ fontSize: 11, color: "#ef4444", fontWeight: 700 }}>⚠ Attacco da retro — difesa annullata!</span>
+              /* ── MANOVRE (giocatore attivo selezionato) ──────────────── */
+              ) : selectedIsActivePlayer && selPlayer ? (
+                <div style={{ padding: "7px 10px" }}>
+                  {isStunned ? (
+                    <div style={{ padding: "8px", textAlign: "center", color: "#facc15", fontSize: 12, fontWeight: 700 }}>
+                      💫 {selPlayer.name} è STORDITO — tiro SA per recuperare. Fine turno automatico.
+                    </div>
+                  ) : (
+                    <>
+                      {/* Griglia 4×3 manovre GURPS */}
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 4 }}>
+                        {MANEUVERS.map(m => (
+                          <button key={m.id} disabled={m.disabled} title={m.desc}
+                            onClick={() => {
+                              if (m.disabled) return;
+                              if (m.id === "change_posture") { setShowPostureMenu(p => !p); return; }
+                              handleManeuver(m.id);
+                            }}
+                            style={btnSt(m)}>
+                            <span style={{ fontSize: 15 }}>{m.icon}</span>
+                            <span style={{ fontSize: 9, textAlign: "center", lineHeight: 1.2 }}>{m.label}</span>
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Sottomenu postura */}
+                      {showPostureMenu && !isProne && (
+                        <div style={{ marginTop: 5, display: "flex", gap: 4, justifyContent: "center", flexWrap: "wrap" }}>
+                          {[
+                            { p: "standing", icon: "🧍", label: "In piedi",    desc: "Postura normale — no penalità" },
+                            { p: "kneeling", icon: "🧎", label: "In ginocchio",desc: "−2 att., −2 dif. mischia, +2 dif. ranged" },
+                            { p: "prone",    icon: "⬇",  label: "A terra",     desc: "−3 att., −3 dif. mischia, +1 dif. ranged. Alzarsi costa 1 turno." },
+                          ].map(({ p, icon, label, desc }) => {
+                            const curPosture = selPlayer.posture || (selPlayer.prone ? "prone" : "standing");
+                            return (
+                              <button key={p} title={desc}
+                                onClick={() => { setShowPostureMenu(false); handleManeuver("change_posture", { posture: p }); }}
+                                style={{ padding: "5px 10px", borderRadius: 7,
+                                  border: `1px solid ${curPosture === p ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.12)"}`,
+                                  background: curPosture === p ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.04)",
+                                  color: "#fff", cursor: "pointer", fontSize: 11, fontWeight: curPosture === p ? 800 : 400 }}>
+                                {icon} {label}
+                              </button>
+                            );
+                          })}
+                          <button onClick={() => setShowPostureMenu(false)}
+                            style={{ padding: "5px 8px", borderRadius: 7, border: "none", background: "none", color: "rgba(255,255,255,0.35)", cursor: "pointer" }}>✕</button>
+                        </div>
+                      )}
+
+                      {/* Selezione arma — sempre visibile */}
+                      {(() => {
+                        const acts = selPlayer.actions || [];
+                        const selAct2 = acts.find(a => a.weapon_id === selectedWeaponId) || acts[0];
+                        const ammoCur = selAct2?.ammo_current ?? selAct2?.ammo ?? 0;
+                        const ammoMax = selAct2?.ammo ?? 0;
+                        const isRangedWeapon = selAct2?.attack_kind === "ranged";
+                        const noAmmo = isRangedWeapon && ammoMax > 0 && ammoCur <= 0;
+                        const hasAmmo2 = (selPlayer.equipment || []).some(
+                          it => it.category === "ammo" && (it.ammo_type === selAct2?.weapon_id || !it.ammo_type) && it.quantity > 0
+                        );
+                        const accentColor = isRangedWeapon ? "#60a5fa" : "#fbbf24";
+                        return (
+                          <div style={{ marginTop: 5 }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              {/* Badge tipo arma */}
+                              <span style={{ fontSize: 10, fontWeight: 800, color: accentColor, background: `${accentColor}22`, padding: "1px 6px", borderRadius: 4, letterSpacing: 0.3 }}>
+                                {isRangedWeapon ? "🎯 DIST" : "⚔ MISCHIA"}
+                              </span>
+                              {acts.length > 1 ? (
+                                <select value={selectedWeaponId} onChange={e => setSelectedWeaponId(e.target.value)}
+                                  style={{ fontSize: 11, padding: "2px 6px", borderRadius: 5, background: "rgba(20,21,36,0.9)", color: "#fff", border: `1px solid ${accentColor}44`, cursor: "pointer" }}>
+                                  {acts.map(a => (
+                                    <option key={a.weapon_id || a.name} value={a.weapon_id || a.name}>
+                                      {a.attack_kind === "ranged" ? "🎯" : "⚔"} {a.name}
+                                      {a.attack_kind === "ranged" && a.ammo ? ` [${a.ammo_current ?? a.ammo}/${a.ammo}]` : ""}
+                                    </option>
+                                  ))}
+                                </select>
+                              ) : (
+                                <span style={{ fontSize: 11, color: "#fff", fontWeight: 700 }}>{selAct2?.name || "—"}</span>
+                              )}
+                              {/* Munizioni */}
+                              {isRangedWeapon && ammoMax > 0 && (
+                                <span style={{ fontSize: 10, fontWeight: 800,
+                                  color: noAmmo ? "#f87171" : ammoCur <= 2 ? "#facc15" : "#86efac",
+                                  background: noAmmo ? "rgba(239,68,68,0.15)" : "rgba(0,0,0,0.25)",
+                                  padding: "1px 6px", borderRadius: 4 }}>
+                                  {noAmmo ? "⚠ SCARICA" : `🔫 ${ammoCur}/${ammoMax}`}
+                                </span>
+                              )}
+                              {/* Ricarica */}
+                              {isRangedWeapon && ammoMax > 0 && ammoCur < ammoMax && hasAmmo2 && (
+                                <button onClick={async () => {
+                                  const res = await fetch(`${API_URL}/game/combat/reload`, {
+                                    method: "POST", headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ player_id: selPlayer.id, action_name: selAct2.name }),
+                                  }).then(r => r.json());
+                                  if (res.error) setCombatLog(prev => [...prev, `Errore ricarica: ${res.error}`]);
+                                  else { setCombatLog(prev => [...prev, `🔄 ${selPlayer.name} ricarica ${selAct2.name}`]); advanceTurn(selPlayer.id, true); }
+                                }} style={{ padding: "2px 7px", borderRadius: 6, border: "1px solid rgba(134,239,172,0.4)", background: "rgba(134,239,172,0.1)", color: "#86efac", fontWeight: 700, cursor: "pointer", fontSize: 10 }}>
+                                  ↺ Ricarica
+                                </button>
+                              )}
+                            </div>
+                            {/* Avviso arma scarica */}
+                            {noAmmo && (
+                              <div style={{ marginTop: 3, fontSize: 10, color: "#f87171", fontWeight: 700 }}>
+                                ⚠ Nessuna munizione — usa Prepara per ricaricare oppure cambia arma
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
+
+                      {/* Hint modalità */}
+                      {mode === "move" && (
+                        <div style={{ marginTop: 3, fontSize: 10, color: "#818cf8", fontWeight: 700, textAlign: "center" }}>
+                          {moveAttackMode
+                            ? "🏃 Muovi+Att.: clicca un hex → poi clicca il nemico (−4 tiro)"
+                            : "👣 Clicca un hex raggiungibile (in viola) per spostarti"}
+                        </div>
+                      )}
+                      {mode === "attack" && (() => {
+                        // Calcola se l'arma selezionata è a distanza e quante munizioni ha
+                        const acts3 = selPlayer?.actions || [];
+                        const selAct3 = acts3.find(a => a.weapon_id === selectedWeaponId) || acts3[0];
+                        const isRng3 = selAct3?.attack_kind === "ranged";
+                        const ammo3 = selAct3?.ammo_current ?? selAct3?.ammo ?? 0;
+                        const noAmmo3 = isRng3 && (selAct3?.ammo ?? 0) > 0 && ammo3 <= 0;
+                        // Distanza dal nemico più vicino (per dare feedback)
+                        const selPos3 = selected ? positions[selected] : null;
+                        const nearestEnemy = enemies.filter(e => e.hp > 0).reduce((best, e) => {
+                          const ep = positions[`e_${e.id}`];
+                          if (!ep || !selPos3) return best;
+                          const d = hexDist(selPos3.col, selPos3.row, ep.col, ep.row);
+                          return !best || d < best.d ? { e, d } : best;
+                        }, null);
+                        const nd = nearestEnemy?.d ?? 999;
+                        let hintText, hintColor;
+                        if (noAmmo3) {
+                          hintText = "⚠ Arma SCARICA — cambia arma o usa Prepara per ricaricare";
+                          hintColor = "#f87171";
+                        } else if (attackActionType === "all_out_attack") {
+                          hintText = "⚔⚔ Att.Totale: clicca il nemico (+4 al tiro, NO difesa questo turno)";
+                          hintColor = "#f87171";
+                        } else if (attackActionType === "move_attack") {
+                          hintText = "🏃⚔ Muovi+Att.: clicca il nemico (tiro a −4, min 9)";
+                          hintColor = "#f97316";
+                        } else if (isRng3) {
+                          const pen = nd > 1 ? ` (pen. dist. −${nd - 1})` : "";
+                          const tooClose = nd <= 1 ? " ⚠ Mischia! (−4 al tiro)" : "";
+                          hintText = `🎯 Clicca il nemico — distanza ${nd} hex${pen}${tooClose}`;
+                          hintColor = "#60a5fa";
+                        } else {
+                          const inMelee = nd <= 1;
+                          hintText = inMelee
+                            ? "⚔ Clicca il nemico (mischia, distanza 1)"
+                            : `⚔ Clicca il nemico — dist. ${nd} hex (mischia: max 1)`;
+                          hintColor = inMelee ? "#4ade80" : "#facc15";
+                        }
+                        return (
+                          <div style={{ marginTop: 3, fontSize: 10, color: hintColor, fontWeight: 700, textAlign: "center" }}>
+                            {hintText}
+                          </div>
+                        );
+                      })()}
+                      {mode === "evaluate" && (
+                        <div style={{ marginTop: 3, fontSize: 10, color: "#a78bfa", fontWeight: 700, textAlign: "center" }}>
+                          🔍 Clicca un nemico per valutarlo (+1 al prossimo attacco vs stesso, max +3)
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 5 }}>
+                    <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
+                      {/* Ruota facing — rilevante per attacchi da retro (chi è dietro ignora difesa attiva) */}
+                      <span style={{ fontSize: 9, color: "rgba(255,255,255,0.25)", whiteSpace: "nowrap" }}>Fronte:</span>
+                      <button onClick={() => rotateFacing(selected, -1)} title="Ruota a sinistra (il triangolo sul token indica dove guarda)"
+                        style={{ padding: "3px 7px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontSize: 12 }}>↺</button>
+                      <button onClick={() => rotateFacing(selected, 1)} title="Ruota a destra"
+                        style={{ padding: "3px 7px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontSize: 12 }}>↻</button>
+                      <button onClick={() => { setSelected(null); setMode("select"); setReachable(new Set()); }}
+                        style={{ padding: "3px 7px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.1)", background: "none", color: "rgba(255,255,255,0.35)", cursor: "pointer", fontSize: 11 }}>✕</button>
+                    </div>
+                    <button onClick={() => advanceTurn(activePlayerId)}
+                      style={{ padding: "4px 13px", borderRadius: 7, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.5)", fontWeight: 700, cursor: "pointer", fontSize: 11 }}>
+                      Fine turno →
+                    </button>
+                  </div>
+                </div>
+
+              /* ── Nemico selezionato ──────────────────────────────────── */
+              ) : selectedIsEnemy && !pendingAttack ? (
+                <div style={{ padding: "6px 12px", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: 12, color: "#f87171", fontWeight: 700 }}>🎯 {selName}</span>
+                  {(() => {
+                    const e = enemies.find(en => `e_${en.id}` === selected);
+                    if (!e) return null;
+                    return <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>HP {e.hp}/{e.max_hp} | Dif.{e.active_defense} | DR {e.dr}</span>;
+                  })()}
+                  <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)" }}>— Seleziona il token di {activeName} per agire</span>
+                  <button onClick={() => { setSelected(null); setMode("select"); }} style={{ marginLeft: "auto", padding: "3px 8px", borderRadius: 5, border: "none", background: "none", color: "rgba(255,255,255,0.3)", cursor: "pointer" }}>✕</button>
+                </div>
+
+              /* ── Altro PG selezionato ────────────────────────────────── */
+              ) : selectedIsOtherPlayer ? (
+                <div style={{ padding: "6px 12px", display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: 12, color: "rgba(255,255,255,0.55)", fontWeight: 700 }}>{selName} — non è il suo turno</span>
+                  <button onClick={() => setSelected(`p_${activePlayerId}`)}
+                    style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid rgba(168,85,247,0.4)", background: "rgba(168,85,247,0.12)", color: "#a5b4fc", fontWeight: 700, cursor: "pointer", fontSize: 11 }}>
+                    → Seleziona {activeName}
+                  </button>
+                </div>
+
+              /* ── Nessuna selezione ───────────────────────────────────── */
+              ) : (
+                <div style={{ padding: "6px 12px" }}>
+                  <span style={{ fontSize: 12, color: "#a855f7", fontWeight: 700 }}>▶ {activeName} — seleziona il tuo token sulla mappa</span>
+                </div>
               )}
-              {[["dodge","Schiva","#7c3aed"],["parry","Para","#2563eb"],["block","Blocca","#0f766e"]].map(([dt, label, bg]) => (
-                <button key={dt}
-                  onClick={() => Promise.resolve(onDefend(dt, "normal", "", lastAttackCoverBonus, lastAttackIsRear, tacticalSnapshot())).then(applyNpcTurnResult)}
-                  style={{ padding: "5px 11px", borderRadius: 7, border: "none", background: bg, color: "#fff", fontWeight: 700, cursor: "pointer", fontSize: 12 }}
-                >{label}</button>
-              ))}
-              <button
-                onClick={() => Promise.resolve(onDefend("dodge", "all_out_defense", "", lastAttackCoverBonus, lastAttackIsRear, tacticalSnapshot())).then(applyNpcTurnResult)}
-                title="Difesa Totale: +2 difesa ma non puoi attaccare questo turno"
-                style={{ padding: "5px 11px", borderRadius: 7, border: "1px solid #4ade80", background: "rgba(74,222,128,0.15)", color: "#4ade80", fontWeight: 700, cursor: "pointer", fontSize: 12 }}
-              >🛡🛡 Difesa Totale</button>
             </div>
-          )}
-        </div>
+          );
+        })()}
 
-        {/* log ultimo movimento */}
+        {/* ── Log combattimento ──────────────────────────────────────────── */}
         {combatLog.length > 0 && (
-          <div style={{ padding: "4px 14px 8px", fontSize: 10, color: "rgba(255,255,255,0.3)", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-            {combatLog[combatLog.length - 1]}
+          <div style={{ padding: "4px 14px 6px", borderTop: "1px solid rgba(255,255,255,0.07)", background: "rgba(0,0,0,0.25)" }}>
+            {combatLog.slice(-6).map((line, i, arr) => {
+              const isLast = i === arr.length - 1;
+              const isResult = line.startsWith("✅") || line.startsWith("❌");
+              const isNarration = line.startsWith("💬");
+              const color = isNarration ? "rgba(167,139,250,0.85)"
+                          : isResult && line.includes("✅") ? "#86efac"
+                          : isResult ? "#fca5a5"
+                          : "rgba(255,255,255,0.35)";
+              return (
+                <div key={i} style={{
+                  fontSize: isLast ? 11 : 9,
+                  color: isLast ? color : "rgba(255,255,255,0.2)",
+                  fontWeight: isLast ? 700 : 400,
+                  lineHeight: 1.4,
+                  padding: "1px 0",
+                  borderLeft: isResult && isLast ? `2px solid ${color}` : "none",
+                  paddingLeft: isResult && isLast ? 6 : 0,
+                }}>
+                  {line}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ── Pannello bottino ────────────────────────────────────────────── */}
+        {effectiveLootPool.length > 0 && (
+          <div style={{
+            padding: "8px 14px 10px", borderTop: "1px solid rgba(251,191,36,0.3)",
+            background: "rgba(251,191,36,0.05)",
+          }}>
+            <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "#fbbf24", marginBottom: 6 }}>
+              💰 Bottino disponibile
+            </div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {effectiveLootPool.map(entry => {
+                const item = entry.item;
+                const activePlayer = players.find(p => p.id === activePlayerId);
+                return (
+                  <div key={item.id} style={{
+                    display: "flex", alignItems: "center", gap: 6,
+                    padding: "4px 10px", borderRadius: 7,
+                    background: "rgba(251,191,36,0.1)", border: "1px solid rgba(251,191,36,0.3)",
+                  }}>
+                    <span style={{ fontSize: 11 }}>
+                      {item.category === "weapon" ? "⚔️" : item.category === "ammo" ? "🔫" : item.category === "quest_item" ? "🔑" : "📦"}
+                    </span>
+                    <div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: "#fde68a" }}>{item.name}</div>
+                      {entry.source_name && (
+                        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.4)" }}>da {entry.source_name}</div>
+                      )}
+                    </div>
+                    {item.quantity > 1 && (
+                      <span style={{ fontSize: 10, color: "#86efac", fontWeight: 700 }}>×{item.quantity}</span>
+                    )}
+                    {activePlayer && (
+                      <button
+                        onClick={async () => {
+                          const res = await fetch(`${API_URL}/game/loot/collect`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ player_id: activePlayer.id, item_id: item.id }),
+                          }).then(r => r.json());
+                          if (res.error) {
+                            setCombatLog(prev => [...prev, `Errore: ${res.error}`]);
+                          } else {
+                            setLootPool(res.loot_pool || []);
+                            setCombatLog(prev => [...prev, res.log || `${activePlayer.name} raccoglie ${item.name}.`]);
+                          }
+                        }}
+                        style={{
+                          padding: "2px 8px", borderRadius: 5, border: "none", fontSize: 11,
+                          fontWeight: 700, cursor: "pointer", background: "#fbbf24", color: "#1a1a1a",
+                        }}
+                      >Raccogli</button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>
@@ -5325,6 +6381,23 @@ function HpBar({ hp, maxHp }) {
 }
 
 // ─── Game screen ───────────────────────────────────────────────────────────
+
+function _mergeTokenStats(prev, t) {
+  const newImgCount = prev.image_count + (t.image_count || 0);
+  const newImgCost  = prev.image_cost_usd + (t.image_cost_usd || 0);
+  const newTextCost = prev.cost_usd + (t.cost_usd || 0);
+  return {
+    input_tokens:   prev.input_tokens  + (t.input  || 0),
+    output_tokens:  prev.output_tokens + (t.output || 0),
+    total_tokens:   prev.total_tokens  + (t.input  || 0) + (t.output || 0),
+    cost_usd:       newTextCost,
+    calls:          prev.calls         + (t.calls  || 0),
+    errors:         prev.errors        + (t.errors || 0),
+    image_count:    newImgCount,
+    image_cost_usd: newImgCost,
+    total_cost_usd: newTextCost + newImgCost,
+  };
+}
 
 function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = null, provider = "claude", imageProvider = "auto", onRestart }) {
   const [players, setPlayers] = useState(initialPlayers);
@@ -5376,19 +6449,41 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [clockToasts, setClockToasts] = useState([]);
   const [npcEventToasts, setNpcEventToasts] = useState([]);
   const [gmEventLog, setGmEventLog] = useState([]); // persistent GM event history
-  const [tokenStats, setTokenStats] = useState({ input_tokens: 0, output_tokens: 0, total_tokens: 0, cost_usd: 0, calls: 0, errors: 0 });
+  const [tokenStats, setTokenStats] = useState({ input_tokens: 0, output_tokens: 0, total_tokens: 0, cost_usd: 0, calls: 0, errors: 0, image_count: 0, image_cost_usd: 0, total_cost_usd: 0 });
   const [pendingAttack, setPendingAttack] = useState(null);
+  const [lootPool, setLootPool] = useState([]);             // bottino disponibile scena corrente
   const [combatAttacker, setCombatAttacker] = useState(null);
   const [combatTarget, setCombatTarget] = useState(null);
   const [npcAvatars, setNpcAvatars] = useState({});  // entity_id → base64
+  const [devMode, setDevMode] = useState(() => new URLSearchParams(window.location.search).has("dev"));
+  const [showMenu, setShowMenu] = useState(false);
+  const [expandedPlayerId, setExpandedPlayerId] = useState(null);
+  const [panelOpenTab, setPanelOpenTab] = useState(null);
+  const [showPlayerPanel, setShowPlayerPanel] = useState(false);
+
+  function openPlayerTab(tab) {
+    setPanelOpenTab(tab);
+    setShowPlayerPanel(true);
+  }
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
   const messagesRef = useRef([]);
+  const menuRef = useRef(null);
 
   function hasLivingCombatEnemies(scene) {
     return Array.isArray(scene?.entities)
       && scene.entities.some(e => e.type === "enemy" && (e.hp ?? e.max_hp ?? 1) > 0);
   }
+
+  // Chiudi hamburger menu al click fuori
+  useEffect(() => {
+    if (!showMenu) return;
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) setShowMenu(false);
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showMenu]);
 
   // keep ref in sync
   const _setMessages = (updater) => {
@@ -5408,8 +6503,9 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   function buildTacticalMapPayloadForNode(node, enemyNames = []) {
     if (!node) return null;
     const tacticalMap = node.tactical_map || {};
+    const layout = tacticalMap?.layout || "room";
     const tacticalDesc = tacticalMap?.enabled
-      ? `Scheda tattica canonica: ${tacticalMap.role || "hot_zone"}; layout ${tacticalMap.layout || "room"}; elementi ${(tacticalMap.features || []).join(", ")}; pericoli ${(tacticalMap.hazards || []).join(", ")}; trigger ${tacticalMap.trigger || ""}.`
+      ? `Scheda tattica canonica: ${tacticalMap.role || "hot_zone"}; layout ${layout}; elementi ${(tacticalMap.features || []).join(", ")}; pericoli ${(tacticalMap.hazards || []).join(", ")}; trigger ${tacticalMap.trigger || ""}.`
       : "";
     return {
       location_name: node.name || "Zona tattica",
@@ -5419,6 +6515,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       scene_narrative: tacticalDesc || node.description || "",
       mission_environment: adventure?.environment_type || adventure?.genre || genre,
       enemy_names: enemyNames,
+      layout,   // ← informa il backend del layout per scegliere l'aspect ratio corretto
     };
   }
 
@@ -5436,6 +6533,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       body: JSON.stringify(payload),
     }).then(r => r.json()).then(r => {
       if (r.image_b64) setPreparedTacticalMaps(prev => ({ ...prev, [node.id]: r.image_b64 }));
+      if (r.call_tokens) setTokenStats(prev => _mergeTokenStats(prev, r.call_tokens));
     }).catch(() => {}).finally(() => {
       preparingTacticalMapsRef.current.delete(node.id);
       setPreparingTacticalMaps(prev => {
@@ -5586,7 +6684,10 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         body: JSON.stringify({ combat_log, genre, adventure: adventure || {} }),
       }).then(r => r.json());
       if (res.narrative) {
+        // Aggiunge in chat
         _setMessages(prev => [...prev, { role: "master", name: "Master", text: res.narrative, isCombatNarration: true }]);
+        // Aggiunge anche nella mappa tattica (via lastCombatLog.narration)
+        setLastCombatLog(prev => prev ? { ...prev, narration: res.narrative } : { narration: res.narrative });
       }
     } catch (_) {}
   }
@@ -5613,11 +6714,16 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         setSceneState(res.scene);
         _syncCombatEntitiesFromScene(res.scene);
       }
-      for (const log of (res.npc_logs || [])) {
+      const npcLogs = res.npc_logs || [];
+      for (const log of npcLogs) {
         _setMessages(prev => [...prev, { role: "combat", combat_log: log }]);
         setLastCombatLog(log);
         // Narrativa per ogni azione NPC (colpo, mancato, parata)
         _fetchCombatNarration(log);
+      }
+      // Salva ultimo round NPC in gameStateData per il contesto narrativo
+      if (npcLogs.length > 0) {
+        setGameStateData(prev => ({ ...prev, last_combat_round: npcLogs[npcLogs.length - 1] }));
       }
       // Avvia attacco NPC su giocatore (pending_attack) — prossimo NPC che non ha già agito
       if (res.pending_attack) setPendingAttack(res.pending_attack);
@@ -5626,7 +6732,15 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     return null;
   }
 
-  async function handleAttack(player, actionName, targetEntityId, actionType = "normal", tacticalContext = null) {
+  async function handleAttack(player, actionName, targetEntityId, actionType = "normal", tacticalContext = null, distance = 0) {
+    // Caso speciale: "__reload__" — il reload è già avvenuto, sincronizza players
+    if (actionName === "__reload__") {
+      try {
+        const st = await fetch(`${API_URL}/game/state`).then(r => r.json());
+        if (st.players) setPlayers(st.players);
+      } catch (_) {}
+      return null;
+    }
     try {
       const res = await fetch(`${API_URL}/game/combat/attack`, {
         method: "POST",
@@ -5636,6 +6750,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           action_name: actionName,
           target_entity_id: targetEntityId,
           action_type: actionType,
+          distance: distance || 0,
         }),
       }).then(r => r.json());
       if (res.error) {
@@ -5648,9 +6763,12 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       if (res.players) setPlayers(res.players);
       setCombatAttacker(null);
       setCombatTarget(null);
+      if (res.loot_pool !== undefined) setLootPool(res.loot_pool);
       if (res.combat_log) {
         setLastCombatLog(res.combat_log);
         _setMessages(prev => [...prev, { role: "combat", combat_log: res.combat_log }]);
+        // Salva ultimo round in gameStateData per il contesto narrativo
+        setGameStateData(prev => ({ ...prev, last_combat_round: res.combat_log }));
         const r = res.combat_log?.result;
         if (r?.net_damage > 0 && !res.pending_attack && !syncedEntities) {
           _applyCombatDamage(targetEntityId, r.net_damage);
@@ -5781,6 +6899,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         if (res.image_b64) {
           setLocationImages(prev => ({ ...prev, [node.id]: res.image_b64 }));
         }
+        if (res.call_tokens) setTokenStats(prev => _mergeTokenStats(prev, res.call_tokens));
       } catch (_) {}
     });
   }, [mapState?.current_node_id, JSON.stringify(Object.keys(mapState?.nodes || {}))]);
@@ -5803,6 +6922,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       if (res.image_base64) {
         _setMessages(prev => prev.map((m, i) => i === msgIndex ? { ...m, image: res.image_base64 } : m));
       }
+      if (res.call_tokens) setTokenStats(prev => _mergeTokenStats(prev, res.call_tokens));
     } catch (_) {}
   }
 
@@ -5969,7 +7089,18 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       body: JSON.stringify({
         genre, players: playerDicts, history: newHistory,
         player_action: actionText, active_player_id: pid,
-        adventure, game_state_data: { ...gameStateData, map_state: mapState },
+        adventure, game_state_data: {
+          ...gameStateData,
+          map_state: mapState,
+          // Passa entità combat live al backend per contesto narrativo e HP tracking
+          live_combat_entities: gameStateData.in_combat
+            ? combatEntities.filter(e => e.type === "enemy").map(e => ({
+                id: e.id, name: e.name, type: e.type,
+                hp: e.hp ?? e.max_hp, max_hp: e.max_hp,
+                status: (e.hp ?? e.max_hp) <= 0 ? "eliminato" : "vivo",
+              }))
+            : undefined,
+        },
       }),
     }).then(r => r.json());
     if (res.detail) throw new Error(res.detail);
@@ -5982,7 +7113,23 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     setHistory([...newHistory, { role: "master", name: "Master", text: res.narrative }]);
     setOptions(res.options || []);
 
-    if (res.map_state) setMapState(res.map_state);
+    if (res.map_state) {
+      setMapState(res.map_state);
+    } else if (res.state_updates?.new_location_id) {
+      // Fallback: aggiorna current_node_id localmente se il backend non ha restituito map_state
+      const newLocId = res.state_updates.new_location_id;
+      setMapState(prev => {
+        if (!prev || !prev.nodes || !prev.nodes[newLocId]) return prev;
+        return {
+          ...prev,
+          current_node_id: newLocId,
+          nodes: {
+            ...prev.nodes,
+            [newLocId]: { ...prev.nodes[newLocId], visited: true },
+          },
+        };
+      });
+    }
     if (res.clocks_data) setClocksData(res.clocks_data);
     if (res.clock_events?.length > 0) {
       const mapped = res.clock_events.map(ev => ({
@@ -6004,17 +7151,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       setNpcEventToasts(prev => [...prev, ...mapped]);
       setGmEventLog(prev => [...prev, ...mapped.map(e => ({ ...e, _type: "npc", _ts: Date.now() }))]);
     }
-    if (res.call_tokens) setTokenStats(prev => {
-      const t = res.call_tokens;
-      return {
-        input_tokens:  prev.input_tokens  + (t.input  || 0),
-        output_tokens: prev.output_tokens + (t.output || 0),
-        total_tokens:  prev.total_tokens  + (t.input  || 0) + (t.output || 0),
-        cost_usd:      prev.cost_usd      + (t.cost_usd || 0),
-        calls:         prev.calls         + (t.calls   || 0),
-        errors:        prev.errors        + (t.errors  || 0),
-      };
-    });
+    if (res.call_tokens) setTokenStats(prev => _mergeTokenStats(prev, res.call_tokens));
     const updates = res.state_updates;
     console.log("[GURPS] state_updates:", JSON.stringify(updates));
     if (updates) {
@@ -6027,9 +7164,18 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         if (updates.personal_victories) setPersonalVictories(updates.personal_victories);
       }
       // popola sceneState immediatamente dalla combat_scene nel payload
+      // IMPORTANTE: inizializza solo al PRIMO ingresso (activate_combat=true o non ancora in combattimento).
+      // Se già in combattimento usa merge (_syncCombatEntitiesFromScene) per non resettare HP.
+      const alreadyInCombat = gameStateData.in_combat;
       if ((updates.activate_combat || responseHasCombatScene) && updates.combat_scene?.entities) {
-        console.log("[GURPS] attivazione combattimento:", updates.combat_scene);
-        setCombatEntities(updates.combat_scene.entities);
+        if (!alreadyInCombat) {
+          // Primo ingresso: inizializza entità a HP pieno
+          console.log("[GURPS] attivazione combattimento:", updates.combat_scene);
+          setCombatEntities(updates.combat_scene.entities);
+        } else {
+          // Già in combattimento: merge senza resettare HP
+          _syncCombatEntitiesFromScene(updates.combat_scene);
+        }
         // Genera avatar per entità di combattimento non ancora note
         if (imageProvider !== "none") {
           const newEntities = updates.combat_scene.entities.filter(e => e.name);
@@ -6129,72 +7275,286 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     />
   );
 
+  // ── Dati per HUD strip ──────────────────────────────────────────────────────
+  const _def = adventure?.adventure_definition || adventure || {};
+  const currentNodeName = mapState?.nodes?.[mapState?.current_node_id]?.name || null;
+  const threatLevel = gameStateData.threat_level ?? 0;
+  const threatMax = _def.threat_max_turns ?? adventure?.threat_max_turns ?? 8;
+  const threatPct = Math.min(100, Math.round((threatLevel / Math.max(threatMax, 1)) * 100));
+  const threatColor = threatPct >= 80 ? "#ef4444" : threatPct >= 50 ? "#f59e0b" : threatPct >= 25 ? "#facc15" : "#4ade80";
+  const activeObjective = (_def.objectives || []).find(o => o.status === "active" || o.status === "available")
+    || (_def.objectives || [])[0];
+  const winLabel = activeObjective?.label || adventure?.win_condition || null;
+
+  // ── Dati per barra Diario giocatori ─────────────────────────────────────────
+  const _cluesFound = gameStateData.clues_found?.length || 0;
+  const _totalClues = (_def.clues || []).length;
+  const _storyThreads = adventure
+    ? deriveStoryThreads(adventure, gameStateData.clues_found || [], gameStateData.clue_progress || {}, gameStateData.resolved_threads || [])
+    : [];
+  const _readyThreadsCount = _storyThreads.filter(t => t.status === "ready_to_deduce").length;
+  const _resolvedThreadsCount = _storyThreads.filter(t => t.status === "resolved").length;
+  const _knownNpcs = Object.entries(gameStateData.npc_statuses || {}).filter(([, s]) => s && s !== "unknown").length;
+  const _totalNpcs = (_def.actors || _def.npcs || []).length;
+
   return (
-    <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-      {/* Main column */}
-      <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
-      {/* Token stats bar */}
-      {(
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden", position: "relative" }}>
+
+      {/* ── Dev stats bar (nascosta per default) ───────────────────────────── */}
+      {devMode && (
         <div style={{
-          padding: "4px 20px", borderBottom: "1px solid var(--border)",
-          display: "flex", alignItems: "center", gap: 16, flexShrink: 0,
-          background: "rgba(0,0,0,0.2)", fontSize: 11, color: "var(--text-muted, #888)",
+          padding: "3px 16px", borderBottom: "1px solid var(--border)",
+          display: "flex", alignItems: "center", gap: 14, flexShrink: 0,
+          background: "rgba(0,0,0,0.35)", fontSize: 10, color: "#666",
           fontFamily: "monospace",
         }}>
-          <span title="Token inviati al modello">↑ {tokenStats.input_tokens.toLocaleString()}</span>
-          <span title="Token ricevuti dal modello">↓ {tokenStats.output_tokens.toLocaleString()}</span>
-          <span title="Token totali">= {tokenStats.total_tokens.toLocaleString()}</span>
-          <span style={{ color: tokenStats.cost_usd > 0.5 ? "#f87171" : tokenStats.cost_usd > 0.1 ? "#fb923c" : "#4ade80" }}
-                title="Costo stimato dall'inizio dell'avventura">
-            $ {tokenStats.cost_usd.toFixed(4)}
-          </span>
-          <span title="Chiamate al modello">{tokenStats.calls} call{tokenStats.calls !== 1 ? "s" : ""}</span>
-          {tokenStats.errors > 0 && (
-            <span style={{ color: "#f87171" }} title="Errori API">⚠ {tokenStats.errors} err</span>
+          <span style={{ color: "#444", fontWeight: 700 }}>DEV</span>
+          <span title="Token input inviati">↑ {tokenStats.input_tokens.toLocaleString()}</span>
+          <span title="Token output ricevuti">↓ {tokenStats.output_tokens.toLocaleString()}</span>
+          <span title="Costo testo (Claude/GPT)" style={{ color: "#9ca3af" }}>📝 ${tokenStats.cost_usd.toFixed(4)}</span>
+          {tokenStats.image_count > 0 && (
+            <span title={`${tokenStats.image_count} immagini generate`} style={{ color: "#c084fc" }}>
+              🖼 {tokenStats.image_count} ${tokenStats.image_cost_usd.toFixed(4)}
+            </span>
           )}
+          <span style={{ color: tokenStats.total_cost_usd > 0.5 ? "#f87171" : tokenStats.total_cost_usd > 0.1 ? "#fb923c" : "#4ade80" }}
+                title="Costo totale sessione">Σ ${tokenStats.total_cost_usd.toFixed(4)}</span>
+          <span title="Chiamate LLM">{tokenStats.calls} call</span>
+          {tokenStats.errors > 0 && <span style={{ color: "#f87171" }}>⚠ {tokenStats.errors} err</span>}
+          <button onClick={() => setDevMode(false)} style={{ marginLeft: "auto", background: "none", border: "none", color: "#555", cursor: "pointer", fontSize: 10 }}>✕ chiudi</button>
         </div>
       )}
 
-      {/* Header */}
+      {/* ── Header compatto ─────────────────────────────────────────────────── */}
       <div style={{
-        padding: "12px 20px", borderBottom: "1px solid var(--border)",
-        display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0,
+        padding: "8px 16px", borderBottom: "1px solid var(--border)",
+        display: "flex", alignItems: "center", gap: 8, flexShrink: 0,
+        background: "var(--bg)",
       }}>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", flex: 1, minWidth: 0 }}>
+        {/* Player chips — clicca per attivare, clicca ancora per espandere la scheda */}
+        <div style={{ display: "flex", gap: 6, flex: 1, minWidth: 0, flexWrap: "wrap" }}>
           {players.map(p => (
-            <PlayerChip key={p.id} player={p} active={p.id === activePlayerId} onClick={() => setActivePlayerId(p.id)} avatar={avatars[p.id]} onRename={newName => handleRename(p.id, newName)} />
+            <div key={p.id}
+              title={p.id === expandedPlayerId ? `Chiudi scheda ${p.name}` : `Mostra scheda ${p.name}`}
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                setActivePlayerId(p.id);
+                setExpandedPlayerId(prev => prev === p.id ? null : p.id);
+              }}
+            >
+              <PlayerChip
+                player={p}
+                active={p.id === activePlayerId}
+                onClick={() => {}}
+                avatar={avatars[p.id]}
+                onRename={newName => handleRename(p.id, newName)}
+                expanded={p.id === expandedPlayerId}
+              />
+            </div>
           ))}
         </div>
-        <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-          {adventure && (
-            <button onClick={() => setShowPanel(v => !v)} style={{
-              fontSize: 12, color: showPanel ? "var(--accent)" : "var(--text)",
-              background: showPanel ? "var(--accent-bg)" : "none",
-              border: `1px solid ${showPanel ? "var(--accent-border)" : "var(--border)"}`,
-              borderRadius: 6, padding: "4px 10px", cursor: "pointer",
-            }}>📖 Bibbia</button>
+
+        {/* Hamburger menu ─────────────────────────────────────── */}
+        <div ref={menuRef} style={{ position: "relative", flexShrink: 0 }}>
+          <button
+            onClick={() => setShowMenu(v => !v)}
+            title="Menu"
+            style={{
+              padding: "6px 10px", borderRadius: 8, border: "1px solid var(--border)",
+              background: showMenu ? "var(--code-bg)" : "none",
+              color: "var(--text)", cursor: "pointer", fontSize: 16, lineHeight: 1,
+            }}
+          >☰</button>
+
+          {showMenu && (
+            <div style={{
+              position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 200,
+              background: "var(--bg)", border: "1px solid var(--border)",
+              borderRadius: 10, boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
+              minWidth: 180, overflow: "hidden",
+            }}>
+              {[
+                adventure && mapState && { icon: "🗺", label: "Mappa", action: () => { setShowMapPanel(v => !v); setShowMenu(false); }, active: showMapPanel },
+                { icon: "↩", label: "Nuova partita", action: () => { setShowMenu(false); onRestart(); }, danger: true },
+                !devMode && { icon: "🛠", label: "Dev mode", action: () => { setDevMode(true); setShowMenu(false); } },
+                { icon: "⚔", label: "Test combattimento", action: async () => {
+                  setShowMenu(false);
+                  const res = await fetch(`${API_URL}/game/debug/start-combat`, { method: "POST" }).then(r => r.json());
+                  if (res.ok) {
+                    setCombatEntities(res.combat_scene.entities);
+                    setGameStateData(prev => ({ ...prev, in_combat: true }));
+                    setShowCombatMap(true);
+                  }
+                }},
+              ].filter(Boolean).map((item, i) => (
+                <button key={i} onClick={item.action} style={{
+                  display: "flex", alignItems: "center", gap: 10,
+                  width: "100%", padding: "10px 16px", border: "none",
+                  background: item.active ? "var(--accent-bg)" : "none",
+                  color: item.danger ? "#f87171" : item.active ? "var(--accent)" : "var(--text-h)",
+                  fontSize: 13, cursor: "pointer", textAlign: "left",
+                  borderBottom: "1px solid var(--border)",
+                }}>
+                  <span style={{ fontSize: 15 }}>{item.icon}</span>
+                  <span style={{ fontWeight: 600 }}>{item.label}</span>
+                  {item.active && <span style={{ marginLeft: "auto", fontSize: 10, color: "var(--accent)" }}>●</span>}
+                </button>
+              ))}
+            </div>
           )}
-          {adventure && mapState && (
-            <button onClick={() => setShowMapPanel(v => !v)} style={{
-              fontSize: 12, color: showMapPanel ? "#a78bfa" : "var(--text)",
-              background: showMapPanel ? "rgba(124,58,237,0.15)" : "none",
-              border: `1px solid ${showMapPanel ? "rgba(124,58,237,0.5)" : "var(--border)"}`,
-              borderRadius: 6, padding: "4px 10px", cursor: "pointer",
-            }}>🗺 Mappa</button>
-          )}
-          {adventure && (
-            <button onClick={() => setShowSecrets(true)} style={{
-              fontSize: 12, color: "#f59e0b", background: "rgba(245,158,11,0.1)",
-              border: "1px solid rgba(245,158,11,0.4)",
-              borderRadius: 6, padding: "4px 10px", cursor: "pointer",
-            }}>🔓 Segreti</button>
-          )}
-          <button onClick={onRestart} style={{
-            fontSize: 12, color: "var(--text)", background: "none", border: "1px solid var(--border)",
-            borderRadius: 6, padding: "4px 10px", cursor: "pointer",
-          }}>↩ Ricomincia</button>
         </div>
       </div>
+
+      {/* ── PlayerCardPanel — espandibile cliccando sul chip ────────────────── */}
+      {expandedPlayerId && (() => {
+        const liveP = players.find(pl => pl.id === expandedPlayerId);
+        return liveP
+          ? <PlayerCardPanel
+              player={liveP}
+              avatar={avatars[liveP.id]}
+              onClose={() => setExpandedPlayerId(null)}
+              onPlayersUpdate={updatedPlayers => updatedPlayers && setPlayers(updatedPlayers)}
+            />
+          : null;
+      })()}
+
+      {/* ── HUD strip — sempre visibile ─────────────────────────────────────── */}
+      {!storyOver && (
+        <div style={{
+          display: "flex", alignItems: "center", gap: 0,
+          borderBottom: "1px solid var(--border)", flexShrink: 0,
+          background: "rgba(0,0,0,0.15)", fontSize: 11, overflow: "hidden",
+        }}>
+          {/* Location */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "5px 14px", borderRight: "1px solid var(--border)",
+            minWidth: 0, flexShrink: 1, overflow: "hidden",
+          }}>
+            <span style={{ opacity: 0.6, flexShrink: 0 }}>📍</span>
+            <span style={{
+              color: "var(--text)", whiteSpace: "nowrap", overflow: "hidden",
+              textOverflow: "ellipsis", maxWidth: 160,
+            }}>{currentNodeName || "–"}</span>
+          </div>
+
+          {/* Threat bar */}
+          <div style={{
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "5px 14px", borderRight: "1px solid var(--border)", flexShrink: 0,
+          }}>
+            <span style={{ opacity: 0.6 }}>⚠</span>
+            <div style={{
+              width: 64, height: 5, borderRadius: 3,
+              background: "rgba(255,255,255,0.1)", overflow: "hidden",
+            }}>
+              <div style={{
+                height: "100%", borderRadius: 3,
+                width: `${threatPct}%`,
+                background: threatColor,
+                transition: "width 0.4s ease, background 0.4s ease",
+              }} />
+            </div>
+            <span style={{ color: threatColor, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
+              {threatLevel}/{threatMax}
+            </span>
+          </div>
+
+          {/* Obiettivo corrente */}
+          {winLabel && (
+            <div style={{
+              flex: 1, padding: "5px 14px", display: "flex", alignItems: "center", gap: 6,
+              minWidth: 0, borderRight: "1px solid var(--border)",
+            }}>
+              <span style={{ opacity: 0.6, flexShrink: 0 }}>🎯</span>
+              <span style={{
+                color: "var(--text)", opacity: 0.8,
+                whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+              }}>{winLabel}</span>
+            </div>
+          )}
+
+          {/* Turno */}
+          <div style={{ padding: "5px 14px", flexShrink: 0, color: "var(--text)", opacity: 0.6 }}>
+            T{gameStateData.turn ?? 1}
+          </div>
+        </div>
+      )}
+
+      {/* ── Barra Diario giocatori — accesso rapido a indizi/piste/png/mappa ── */}
+      {!storyOver && adventure && (
+        <div style={{
+          display: "flex", gap: 0, borderBottom: "1px solid var(--border)",
+          background: "rgba(0,0,0,0.2)", flexShrink: 0, flexWrap: "wrap",
+        }}>
+          {[
+            {
+              icon: "🔍",
+              label: "Indizi",
+              badge: _cluesFound > 0 ? `${_cluesFound}${_totalClues ? `/${_totalClues}` : ""}` : null,
+              tab: "clues",
+              color: "#60a5fa",
+            },
+            {
+              icon: "🧵",
+              label: "Piste",
+              badge: _readyThreadsCount > 0 ? `${_readyThreadsCount} pronte` : _resolvedThreadsCount > 0 ? `${_resolvedThreadsCount} chiuse` : null,
+              badgeAlert: _readyThreadsCount > 0,
+              tab: "threads",
+              color: "#a78bfa",
+            },
+            {
+              icon: "👥",
+              label: "PNG",
+              badge: _knownNpcs > 0 ? `${_knownNpcs}${_totalNpcs ? `/${_totalNpcs}` : ""}` : null,
+              tab: "npcs",
+              color: "#4ade80",
+            },
+            mapState && {
+              icon: "🗺",
+              label: "Mappa",
+              tab: "map",
+              color: "#fbbf24",
+            },
+          ].filter(Boolean).map((item, i) => (
+            <button key={i} onClick={() => openPlayerTab(item.tab)} style={{
+              display: "flex", alignItems: "center", gap: 5,
+              padding: "5px 14px", border: "none", borderRight: "1px solid var(--border)",
+              background: "none", cursor: "pointer", fontSize: 12,
+              color: "var(--text)", transition: "background 0.15s",
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.06)"}
+            onMouseLeave={e => e.currentTarget.style.background = "none"}
+            >
+              <span style={{ fontSize: 13 }}>{item.icon}</span>
+              <span style={{ color: "var(--text)", opacity: 0.75, fontWeight: 500 }}>{item.label}</span>
+              {item.badge && (
+                <span style={{
+                  fontSize: 10, padding: "1px 6px", borderRadius: 10,
+                  background: item.badgeAlert ? `${item.color}30` : "rgba(255,255,255,0.08)",
+                  color: item.badgeAlert ? item.color : "var(--text)",
+                  border: `1px solid ${item.badgeAlert ? item.color + "55" : "transparent"}`,
+                  fontWeight: item.badgeAlert ? 700 : 400,
+                  animation: item.badgeAlert ? "pulse 2s infinite" : "none",
+                }}>
+                  {item.badge}
+                </span>
+              )}
+            </button>
+          ))}
+          {/* Bibbia GM — pannello destra */}
+          <button onClick={() => setShowPanel(v => !v)} style={{
+            display: "flex", alignItems: "center", gap: 5,
+            padding: "5px 14px", border: "none",
+            borderLeft: "1px solid var(--border)", marginLeft: "auto",
+            background: "none", cursor: "pointer", fontSize: 12,
+            color: "var(--text)", opacity: 0.45,
+          }}>
+            <span style={{ fontSize: 11 }}>📖</span>
+            <span style={{ fontWeight: 500 }}>GM</span>
+          </button>
+        </div>
+      )}
 
       {/* CombatMap — si apre automaticamente all'inizio del combattimento, togglabile */}
       {gameStateData.in_combat && showCombatMap && (
@@ -6218,6 +7578,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           locationName={combatLocationNode?.name || adventure?.locations?.[0]?.name}
           sceneText={combatSceneText}
           tacticalMap={combatLocationNode?.tactical_map}
+          lootPool={lootPool}
           onClose={() => setShowCombatMap(false)}
         />
       )}
@@ -6267,9 +7628,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         <div ref={bottomRef} />
       </div>
 
-      {/* Options + input */}
+      {/* Options + input — sticky bottom */}
       {!loading && !storyOver && (
-        <div style={{ padding: "12px 20px 20px", borderTop: "1px solid var(--border)", flexShrink: 0, maxWidth: 1100, width: "100%", margin: "0 auto", boxSizing: "border-box", alignSelf: "stretch" }}>
+        <div style={{
+          padding: "10px 20px 16px", borderTop: "2px solid var(--border)", flexShrink: 0,
+          maxWidth: 1100, width: "100%", margin: "0 auto", boxSizing: "border-box", alignSelf: "stretch",
+          background: "var(--bg)", position: "relative",
+          boxShadow: "0 -4px 24px rgba(0,0,0,0.25)",
+        }}>
 
           {/* Blocco chat durante combattimento */}
           {gameStateData.in_combat ? (
@@ -6298,8 +7664,21 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
             <>
           {options.length > 0 && !pendingOption && (
             <>
-              <div style={{ fontSize: 12, color: "var(--text)", marginBottom: 8, fontWeight: 600 }}>
-                Turno di <span style={{ color: "var(--accent)" }}>{activePlayer?.name}</span> — cosa fai?
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8, marginBottom: 10,
+              }}>
+                <span style={{
+                  fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.8,
+                  color: "var(--text-secondary)", opacity: 0.7,
+                }}>Scegli l'azione di</span>
+                <span style={{
+                  fontSize: 12, fontWeight: 800, color: "var(--accent)",
+                  padding: "2px 8px", borderRadius: 5,
+                  background: "var(--accent-bg)", border: "1px solid var(--accent-border)",
+                }}>{activePlayer?.name}</span>
+                <span style={{ fontSize: 11, color: "var(--text-secondary)", opacity: 0.5, marginLeft: "auto" }}>
+                  o scrivi sotto ↓
+                </span>
               </div>
               <OptionsBar options={options} players={players} onChoose={handleOptionClick} />
             </>
@@ -6415,25 +7794,87 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           </div>
         </div>
       )}
-      </div>{/* end main column */}
+
+      {/* ── SidePanel come drawer overlay (non comprime la chat) ───────────── */}
       {showPanel && adventure && (
-        <SidePanel
-          adventure={adventure}
-          gameState={gameStateData}
-          mapState={mapState}
-          clocksData={clocksData}
-          gmEventLog={gmEventLog}
-          locationImages={locationImages}
-          onMove={handleMoveToLocation}
-          preparedTacticalMaps={preparedTacticalMaps}
-          preparingTacticalMaps={preparingTacticalMaps}
-          onPrepareTacticalMap={prepareTacticalMapForNode}
-          players={players}
-          avatars={avatars}
-          npcAvatars={npcAvatars}
-          onClose={() => setShowPanel(false)}
-        />
+        <>
+          {/* Backdrop semitrasparente */}
+          <div
+            onClick={() => setShowPanel(false)}
+            style={{
+              position: "fixed", inset: 0, zIndex: 300,
+              background: "rgba(0,0,0,0.45)",
+              backdropFilter: "blur(2px)",
+            }}
+          />
+          {/* Drawer */}
+          <div style={{
+            position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 301,
+            width: "min(480px, 92vw)",
+            boxShadow: "-4px 0 32px rgba(0,0,0,0.6)",
+            display: "flex", flexDirection: "column",
+            animation: "slideInRight 0.22s ease",
+          }}>
+            <style>{`@keyframes slideInRight { from { transform: translateX(100%) } to { transform: translateX(0) } } @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.55} }`}</style>
+            <SidePanel
+              adventure={adventure}
+              gameState={gameStateData}
+              mapState={mapState}
+              clocksData={clocksData}
+              gmEventLog={gmEventLog}
+              locationImages={locationImages}
+              onMove={(id) => { handleMoveToLocation(id); setShowPanel(false); }}
+              preparedTacticalMaps={preparedTacticalMaps}
+              preparingTacticalMaps={preparingTacticalMaps}
+              onPrepareTacticalMap={prepareTacticalMapForNode}
+              players={players}
+              avatars={avatars}
+              npcAvatars={npcAvatars}
+              onClose={() => setShowPanel(false)}
+              defaultTab={undefined}
+              mode="gm"
+            />
+          </div>
+        </>
       )}
+
+      {/* ── PlayerPanel — drawer SINISTRO (Diario del gruppo) ─────────────────── */}
+      {showPlayerPanel && adventure && (
+        <>
+          <div
+            onClick={() => setShowPlayerPanel(false)}
+            style={{ position: "fixed", inset: 0, zIndex: 300, background: "rgba(0,0,0,0.45)", backdropFilter: "blur(2px)" }}
+          />
+          <div style={{
+            position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 301,
+            width: "min(520px, 92vw)",
+            boxShadow: "4px 0 32px rgba(0,0,0,0.6)",
+            display: "flex", flexDirection: "column",
+            animation: "slideInLeft 0.22s ease",
+          }}>
+            <style>{`@keyframes slideInLeft { from { transform: translateX(-100%) } to { transform: translateX(0) } }`}</style>
+            <SidePanel
+              adventure={adventure}
+              gameState={gameStateData}
+              mapState={mapState}
+              clocksData={clocksData}
+              gmEventLog={gmEventLog}
+              locationImages={locationImages}
+              onMove={(id) => { handleMoveToLocation(id); setShowPlayerPanel(false); }}
+              preparedTacticalMaps={preparedTacticalMaps}
+              preparingTacticalMaps={preparingTacticalMaps}
+              onPrepareTacticalMap={prepareTacticalMapForNode}
+              players={players}
+              avatars={avatars}
+              npcAvatars={npcAvatars}
+              onClose={() => setShowPlayerPanel(false)}
+              defaultTab={panelOpenTab}
+              mode="players"
+            />
+          </div>
+        </>
+      )}
+
       {showSecrets && adventure && (
         <SecretsPanel adventure={adventure} gameState={gameStateData} onClose={() => setShowSecrets(false)} />
       )}
@@ -6469,6 +7910,33 @@ export default function App() {
   const [adventure, setAdventure] = useState(null);
   const [provider, setProvider] = useState("claude");
   const [imageProvider, setImageProvider] = useState("auto");
+
+  // ── Auto-resume: se il backend ha già una partita in corso, riprendi ──────
+  useEffect(() => {
+    async function tryResume() {
+      try {
+        const gs = await fetch(`${API_URL}/game/state`).then(r => r.json());
+        if (!gs.players?.length) return; // nessuna partita attiva
+        const advId = gs.adventure_definition_id;
+        if (!advId) return;
+        // Carica la definizione avventura
+        const advRes = await fetch(`${API_URL}/game/adventure/runtime`).then(r => r.json());
+        const allItems = advRes.items || [];
+        const found = allItems.find(a => a.id === advId);
+        if (!found) return;
+        // Carica la definizione completa
+        const defRes = await fetch(`${API_URL}/game/adventure/runtime/${advId}`).catch(() => null);
+        const defJson = defRes ? await defRes.json() : found;
+        const advDef = defJson.adventure_definition || defJson;
+        const detectedGenre = advDef.genre || found.genre || "action";
+        setGenre(detectedGenre);
+        setPlayers(gs.players);
+        setAdventure(advDef);
+        setScreen("game");
+      } catch (_) {}
+    }
+    tryResume();
+  }, []);
 
   function handleSetupComplete(g, p, av = {}, prov = "claude", preloaded = null, imgProv = "auto") {
     setGenre(g);

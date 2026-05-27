@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_biblioteca_sogni_rubati",
+    "title": "La Biblioteca dei Sogni Rubati",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "dark fantasy onirico e bibliotecario",
+    "premise": "La Grande Biblioteca di Caldenmere custodisce manoscritti proibiti e, si dice, anche sogni sottratti ai loro proprietari durante il sonno. Tre studiosi sono stati trovati in stato catatonico nel quartiere dei sapienti: svuotati, come se qualcosa avesse divorato la loro immaginazione.",
+    "initial_hook": "I PG vengono contattati dall'Archivista Principale che teme un ladro di sogni all'opera tra le sale proibite — e che non vuole la guardia cittadina nei paraggi.",
+    "player_facing_objective": "Scoprire chi ruba i sogni, recuperare quelli sottratti e chiudere il varco onirico.",
+    "hidden_truth": "Un librario in pensione ha legato la propria anima a un demone del Vuoto in cambio di immortalità. Il prezzo: consegnare ogni anno i sogni di cinque intellettuali. Le vittime catatoniche sono quelle che hanno resistito.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Un librario in pensione ha legato la propria anima a un demone del Vuoto in cambio di immortalità. Il prezzo: consegnare ogni anno i sogni di cinque intellettuali. Le vittime catatoniche sono quelle che hanno resistito.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire chi ruba i sogni, recuperare quelli sottratti e chiudere il varco onirico.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Un librario in pensione ha legato la propria anima a un demone del Vuoto in cambio di immortalità. Il prezzo: consegnare ogni anno i sogni di cinque intellettuali. Le vittime catatoniche sono quelle che hanno resistito.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Entrare nel Registro dei Sogni usando la chiave onirica nascosta nella sezione 'Incunaboli Proibiti', liberare le menti imprigionate recitando i loro ultimi sogni ad alta voce, poi sigillare il portale con il libro-âncora che il demone usa come dimora.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Inchiostro di sogno sulle dita delle vittime",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "L'inchiostro è una sostanza prodotta solo dai sogni lucidi — qualcuno ha estratto sogni vivi.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "L'inchiostro è una sostanza prodotta solo dai sogni lucidi — qualcuno ha estratto sogni vivi.",
+        "hidden_implication": "Il demone ha già altri tre librari in lista d'attesa per patti simili.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Sembrano tracce di alchimia oscura, non di magia onirica.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza di uno studente che ha visto un'ombra senza corpo nella sezione proibita",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "L'ombra senza corpo è la forma astrale di Vrass che si muove tra i dormitori di notte.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "L'ombra senza corpo è la forma astrale di Vrass che si muove tra i dormitori di notte.",
+        "hidden_implication": "Vrass non sapeva che le vittime avrebbero perso la coscienza — credeva fosse indolore.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Potrebbe essere un rivale accademico che usa sortilegi mentali sperimentali.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Il diario cifrato di Elund Vrass con date e nomi delle vittime future",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Il diario rivela il patto col demone, le vittime scelte e la data dell'ultimo sacrificio.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il diario rivela il patto col demone, le vittime scelte e la data dell'ultimo sacrificio.",
+        "hidden_implication": "Nelle ultime pagine del diario, Vrass chiede perdono e cerca un modo per annullare il patto.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il diario sembra un romanzo: troppo dettagliato per essere reale.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Una chiave di pergamena nascosta tra gli Incunaboli Proibiti con istruzioni oniriche",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "La chiave consente l'accesso fisico al piano onirico — senza di essa si sogna, non si entra.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La chiave consente l'accesso fisico al piano onirico — senza di essa si sogna, non si entra.",
+        "hidden_implication": "La chiave onirica è stata nascosta da un predecessore che aveva scoperto il patto decenni fa.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La chiave potrebbe essere un semplice talismano protettivo senza poteri speciali.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Il libro-âncora del demone: un tomo rilegato in pelle che respira",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Il libro-âncora è la prigione fisica del demone: distruggerlo o sigillarlo spezza il patto.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il libro-âncora è la prigione fisica del demone: distruggerlo o sigillarlo spezza il patto.",
+        "hidden_implication": "Il libro-âncora contiene anche i ricordi di Vrass: sigillarlo lo condanna all'oblio totale.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il libro che respira potrebbe essere un artefatto di rilevamento, non di prigionia.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Movimenti notturni anomali registrati dal guardiano della biblioteca",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "I movimenti notturni corrispondono esattamente alle date dei collassi delle vittime.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "I movimenti notturni corrispondono esattamente alle date dei collassi delle vittime.",
+        "hidden_implication": "Il guardiano è in realtà una creazione onirica che Vrass usa per sorvegliare la biblioteca.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "I movimenti potrebbero appartenere a un ladro ordinario che cerca manoscritti rari.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Archivista Mirela Coss",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Donna austera sulla sessantina, mantello grigio-blu, sempre con un elenco di libri perduti.",
+        "goal": "Proteggere la biblioteca e le sue vittime",
+        "motivation": "Proteggere la biblioteca e le sue vittime",
+        "secret": "Sa che la sezione proibita è stata violata mesi fa ma non ha agito per paura dello scandalo.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Collabora con i PG ma nasconde informazioni scomode finché non è costretta.",
+        "fallback_plan": "Se la situazione peggiora, rivela la violazione precedente e incolpa un defunto bibliotecario.",
+        "pressure_response": {
+          "low": "Archivista Mirela Coss osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Archivista Mirela Coss accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Archivista Mirela Coss sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Archivista Mirela Coss tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Studente Pren Halwick",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Giovane mago di 22 anni, pallido e agitato, era presente la notte del secondo collasso.",
+        "goal": "Fare luce su ciò che ha visto senza essere creduto pazzo",
+        "motivation": "Fare luce su ciò che ha visto senza essere creduto pazzo",
+        "secret": "Lui stesso ha sognato la biblioteca speculare quella notte e ne ha portato via un frammento di memoria.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Descrive l'ombra con dettagli che solo chi ha visitato il piano onirico potrebbe conoscere.",
+        "fallback_plan": "Se minacciato, rivela il frammento onirico che ha ancora nella mente — una mappa del Registro dei Sogni.",
+        "pressure_response": {
+          "low": "Studente Pren Halwick osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Studente Pren Halwick accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Studente Pren Halwick sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Studente Pren Halwick tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Mercante di Rarità Dov Nassim",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Commerciante di libri proibiti, elegante, sempre sorridente, ufficio nel retro di una bottega di spezie.",
+        "goal": "Vendere la chiave onirica al miglior offerente senza esporsi",
+        "motivation": "Vendere la chiave onirica al miglior offerente senza esporsi",
+        "secret": "Ha già venduto una copia della chiave a Vrass anni fa — è responsabile indiretto del patto.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Propone ai PG di comprare la chiave senza rivelare che ne ha già venduta una copia.",
+        "fallback_plan": "Se scoperto, offre informazioni sul demone e sulla struttura del patto in cambio di immunità.",
+        "pressure_response": {
+          "low": "Mercante di Rarità Dov Nassim osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Mercante di Rarità Dov Nassim accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Mercante di Rarità Dov Nassim sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Mercante di Rarità Dov Nassim tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Elund Vrass / Il Demone del Vuoto",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Ex librario settantenne, fisicamente assente dalla biblioteca da anni; la sua forma astrale è alta, silenziosa e senza volto.",
+        "goal": "Completare l'ultimo sacrificio annuale prima che il patto scada — altrimenti muore.",
+        "motivation": "Completare l'ultimo sacrificio annuale prima che il patto scada — altrimenti muore.",
+        "secret": "È terrorizzato dal demone quanto le vittime: il patto si è rivelato molto più costoso del previsto.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Usa la forma astrale per preparare l'ultimo sogno da rubare mentre i PG indagano.",
+        "fallback_plan": "Se fermato prima del sacrificio, supplica i PG di trovare un modo per liberarlo — anche a costo della sua immortalità.",
+        "pressure_response": {
+          "low": "Elund Vrass / Il Demone del Vuoto osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Elund Vrass / Il Demone del Vuoto accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Elund Vrass / Il Demone del Vuoto sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Elund Vrass / Il Demone del Vuoto tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Sala Pubblica della Biblioteca",
+        "description": "Scaffali alti fino al soffitto, luce di lanterne magiche, studenti chini su tomi antichi. Odore di cera e pergamena vecchia.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Scaffali alti fino al soffitto, luce di lanterne magiche, studenti chini su tomi antichi. Odore di cera e pergamena vecchia.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Portali onirici improvvisi che trascinano i PG nel Registro — serve volontà forte per uscire."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Quartiere dei Sapienti — Camera delle Vittime",
+        "description": "Tre letti dove giacciono gli studiosi svuotati, occhi aperti e vuoti. Pareti coperte di note incomprensibili che hanno scritto prima del collasso.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Tre letti dove giacciono gli studiosi svuotati, occhi aperti e vuoti. Pareti coperte di note incomprensibili che hanno scritto prima del collasso.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Libri che mordono nella sezione proibita se aperti senza i guanti appositi."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Archivio Segreto — Sezione Vietata",
+        "description": "Corridoi stretti, libri incatenati, sigilli magici sulle porte. Qui sono custoditi i tomi che non devono essere letti.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Corridoi stretti, libri incatenati, sigilli magici sulle porte. Qui sono custoditi i tomi che non devono essere letti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "La forma astrale di Vrass può indurre sonno profondo toccando la nuca."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Appartamento del Librario Elund Vrass",
+        "description": "Un appartamento vuoto ma ossessivamente ordinato. Libri di sogni classificati per data, un diario cifrato, e un letto che non è mai stato usato.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Un appartamento vuoto ma ossessivamente ordinato. Libri di sogni classificati per data, un diario cifrato, e un letto che non è mai stato usato.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Scale mobili nel piano onirico che cambiano destinazione ad ogni passo."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Il Registro dei Sogni — Piano Onirico",
+        "description": "Una biblioteca speculare esistente solo nei sogni: scaffali infiniti, silenziosi, ogni libro un sogno rubato che pulsa di luce fioca.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Una biblioteca speculare esistente solo nei sogni: scaffali infiniti, silenziosi, ogni libro un sogno rubato che pulsa di luce fioca.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il demone del Vuoto può cancellare un ricordo per round se i PG non hanno protezione onirica."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Rapimento onirico del quarto studente",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il quarto studente cade in stato catatonico: il patto è quasi completato e il demone ottiene abbastanza potere per manifestarsi fisicamente.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Il quarto studente cade in stato catatonico: il patto è quasi completato e il demone ottiene abbastanza potere per manifestarsi fisicamente."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Sigillare il libro-âncora prima che Vrass completi l'ultimo rituale notturno.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Sigillare il demone, liberare le menti e rivelare la verità alla città — Vrass perde l'immortalità ma sopravvive.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Entrare nel Registro dei Sogni usando la chiave onirica nascosta nella sezione 'Incunaboli Proibiti', liberare le menti imprigionate recitando i loro ultimi sogni ad alta voce, poi sigillare il portale con il libro-âncora che il demone usa come dimora.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Distruggere il libro-âncora — il demone è eliminato ma Vrass muore e alcune menti rimangono danneggiate.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "La Biblioteca dei Sogni Rubati",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

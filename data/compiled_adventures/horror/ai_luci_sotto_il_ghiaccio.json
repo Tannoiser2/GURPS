@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_luci_sotto_il_ghiaccio",
+    "title": "Luci sotto il Ghiaccio",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "horror",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "isolamento artico e paranoia",
+    "premise": "Una base scientifica artica vede luci muoversi sotto il ghiaccio e ogni notte qualcuno dimentica una persona dalla lista dell'equipaggio.",
+    "initial_hook": "I PG arrivano con l'ultimo elicottero prima della tempesta di dieci giorni.",
+    "player_facing_objective": "Stabilire cosa vive sotto il ghiaccio, mantenere la base operativa e impedire la cancellazione dell'equipaggio.",
+    "hidden_truth": "Le luci sono colonie bioluminescenti intelligenti che cancellano memoria sociale per isolare prede senza violenza visibile.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Le luci sono colonie bioluminescenti intelligenti che cancellano memoria sociale per isolare prede senza violenza visibile.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Stabilire cosa vive sotto il ghiaccio, mantenere la base operativa e impedire la cancellazione dell'equipaggio.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Le luci sono colonie bioluminescenti intelligenti che cancellano memoria sociale per isolare prede senza violenza visibile.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Ripristinare il registro analogico, tagliare il sonar che le attira e evacuare prima che la tempesta chiuda il campo.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Posto vuoto in mensa",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Qualcuno manca ma gli altri non lo ricordano.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Qualcuno manca ma gli altri non lo ricordano.",
+        "hidden_implication": "Il nemico cancella contesto, non corpi.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Scherzo crudele"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Nomi scritti sulla pelle",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "La memoria scritta resiste più della memoria viva.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La memoria scritta resiste più della memoria viva.",
+        "hidden_implication": "Imani ha metodo di difesa.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Autolesionismo"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Log sonar sovralimentato",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Il sonar attira e amplifica le luci.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il sonar attira e amplifica le luci.",
+        "hidden_implication": "Holm è causa involontaria.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Errore tecnico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Foto con volto raschiato",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "La cancellazione colpisce le relazioni.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La cancellazione colpisce le relazioni.",
+        "hidden_implication": "Le immagini vengono alterate dopo i ricordi.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Sabotaggio umano"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Campione di ghiaccio luminoso",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "La luce è biologica e reattiva.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La luce è biologica e reattiva.",
+        "hidden_implication": "Il campione è una colonia.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Alga comune"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Radio che cita nomi cancellati",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "I nomi esistono ancora fuori dalla base.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "I nomi esistono ancora fuori dalla base.",
+        "hidden_implication": "Una fonte esterna può ancorare identità.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Interferenza meteo"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Dott.ssa Imani",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Glaciologa razionale.",
+        "goal": "Salvare dati e persone.",
+        "motivation": "Salvare dati e persone.",
+        "secret": "Ha già scritto nomi dimenticati sul braccio.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Tiene registro analogico nascosto.",
+        "fallback_plan": "Si sacrifica per portarlo ai PG.",
+        "pressure_response": {
+          "low": "Dott.ssa Imani osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Dott.ssa Imani accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Dott.ssa Imani sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Dott.ssa Imani tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Tecnico Holm",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Operatore sonar insonne.",
+        "goal": "Dimostrare che il sonar comunica.",
+        "motivation": "Dimostrare che il sonar comunica.",
+        "secret": "Ha aumentato lui la potenza del segnale.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Riaccende il sonar di nascosto.",
+        "fallback_plan": "Spegne tutto se vede una cancellazione completa.",
+        "pressure_response": {
+          "low": "Tecnico Holm osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Tecnico Holm accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Tecnico Holm sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Tecnico Holm tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Caposquadra Vale",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Responsabile sicurezza.",
+        "goal": "Evitare panico nella base.",
+        "motivation": "Evitare panico nella base.",
+        "secret": "Ha rinchiuso un membro ormai dimenticato.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Confisca armi e radio.",
+        "fallback_plan": "Libera il prigioniero quando ricorda il nome.",
+        "pressure_response": {
+          "low": "Caposquadra Vale osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Caposquadra Vale accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Caposquadra Vale sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Caposquadra Vale tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "La Luce Corale",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Presenza sotto il ghiaccio.",
+        "goal": "Isolare e assimilare memoria sociale.",
+        "motivation": "Isolare e assimilare memoria sociale.",
+        "secret": "Non comprende l'identità individuale.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Cancella relazioni prima dei corpi.",
+        "fallback_plan": "Offre ricordi perduti in cambio di apertura.",
+        "pressure_response": {
+          "low": "La Luce Corale osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "La Luce Corale accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "La Luce Corale sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "La Luce Corale tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Pista Ghiacciata",
+        "description": "Vento bianco e fari quasi invisibili.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Vento bianco e fari quasi invisibili.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "whiteout"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Modulo Mensa",
+        "description": "Sedie apparecchiate per persone che nessuno ricorda.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sedie apparecchiate per persone che nessuno ricorda.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "blackout memoria"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Laboratorio Sonar",
+        "description": "Schermi con forme luminose sotto il pack.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Schermi con forme luminose sotto il pack.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "freddo"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Tunnel di Carotaggio",
+        "description": "Pareti di ghiaccio con luci vive.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Pareti di ghiaccio con luci vive.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "crepe nel ghiaccio"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Cupola Subglaciale",
+        "description": "Caverna azzurra sotto la base.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Caverna azzurra sotto la base.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "mente collettiva aliena"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Tempesta e Dimenticanza",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "La base dimentica gli ultimi nomi e apre volontariamente le paratie al ghiaccio.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "La base dimentica gli ultimi nomi e apre volontariamente le paratie al ghiaccio."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Fermare sonar, proteggere registro analogico e preparare evacuazione.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Evacuazione con registro salvo",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Ripristinare il registro analogico, tagliare il sonar che le attira e evacuare prima che la tempesta chiuda il campo.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Base sigillata ma luce ancora attiva",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Luci sotto il Ghiaccio",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

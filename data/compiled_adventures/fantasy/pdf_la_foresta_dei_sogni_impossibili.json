@@ -1,0 +1,3436 @@
+{
+  "adventure_definition": {
+    "id": "pdf_la_foresta_dei_sogni_impossibili",
+    "title": "La Foresta dei Sogni Impossibili",
+    "source_type": "pdf_text",
+    "source_mode": "pdf_import",
+    "source_structure": {
+      "detected_structure": {
+        "has_room_keys": false,
+        "has_timeline": false,
+        "has_random_tables": false,
+        "has_factions": false,
+        "has_investigation": false,
+        "has_wilderness": true,
+        "has_dungeon": false,
+        "has_heist": false,
+        "has_military": true,
+        "has_sandbox": false
+      },
+      "sections": [
+        {
+          "id": "p1_section_1",
+          "title": "GURPSfi Fantasy",
+          "source_ref": {
+            "page": 1,
+            "section": "GURPSfi Fantasy",
+            "paragraph": 1,
+            "snippet_hash": "354c9b988479",
+            "quote": "GURPSfi Fantasy"
+          }
+        },
+        {
+          "id": "p2_section_1",
+          "title": "GETTI DI GHIACCIO",
+          "source_ref": {
+            "page": 2,
+            "section": "GETTI DI GHIACCIO",
+            "paragraph": 1,
+            "snippet_hash": "6a5f8d40db16",
+            "quote": "GETTI DI GHIACCIO"
+          }
+        },
+        {
+          "id": "p2_section_3",
+          "title": "L ONNO N",
+          "source_ref": {
+            "page": 2,
+            "section": "L ONNO N",
+            "paragraph": 3,
+            "snippet_hash": "bc961e571d68",
+            "quote": "L ONNO N"
+          }
+        },
+        {
+          "id": "p2_section_5",
+          "title": "SONNO INGANNATORE",
+          "source_ref": {
+            "page": 2,
+            "section": "SONNO INGANNATORE",
+            "paragraph": 5,
+            "snippet_hash": "003fabe5915a",
+            "quote": "SONNO INGANNATORE"
+          }
+        }
+      ],
+      "rooms": [],
+      "npcs": [
+        {
+          "id": "principessa",
+          "name": "La Principessa",
+          "role": "witness",
+          "description": "Una principessa araba che ha perso il suo amato. Protagonista della fiaba narrata ne 'Le mille e una notte', si reca nella foresta per rivedere il suo uomo almeno in sogno.",
+          "goal": "Rivedere il suo amato morto almeno in sogno nella Foresta dei Sogni Impossibili",
+          "current_plan": "Si è addormentata nella foresta afflitto dallo spirito per sognare il suo amato defunto",
+          "fallback_plan": "Se svegliata, cerca di addormentarsi nuovamente o impedisce ad altri di disturbare i sognatori",
+          "pressure_response": {
+            "low": "Ignora i PG continuando a dormire, eventualmente mormora nel sonno",
+            "medium": "Si sveglia confusa e supplica di essere lasciata dormire, offre informazioni sulla foresta in cambio",
+            "high": "Piange disperata e tenta di fuggire più in profondità nella foresta per riaddormentarsi",
+            "critical": "Attacca i PG in preda alla follia del risveglio brusco (INT ridotta), urlando contro chi le nega il suo amato"
+          },
+          "knows": [
+            "La foresta si trova ad est dei boschi neri secondo le leggende orali",
+            "Chi è afflitto nello spirito si addormenta nella foresta e sogna di risolvere i suoi problemi",
+            "Il Sonno Ingannatore rende i sogni piacevoli ma perenni"
+          ],
+          "resources": [],
+          "secret": "Sa che la foresta si trova nella parte est dei boschi neri, non dove dice la fiaba ufficiale",
+          "location": "Menzionata nella fiaba, potenzialmente nella Foresta dei Sogni Impossibili",
+          "attitude": "neutral",
+          "llm_extracted": true,
+          "fear": "Non riuscire più a sognare l'amato e perdere anche il suo ricordo",
+          "wants": [
+            "Rimanere addormentata per sognare il suo amato",
+            "Proteggere la quiete della foresta e dei suoi sognatori",
+            "Evitare di essere svegliata bruscamente"
+          ],
+          "avoids": [
+            "Essere svegliata e perdere INT",
+            "Che la foresta venga disturbata o profanata",
+            "Confrontarsi con la realtà della morte dell'amato"
+          ],
+          "relationships": [
+            {
+              "name": "L'amato defunto",
+              "type": "lover",
+              "note": "Morto, lo cerca nei sogni della foresta"
+            }
+          ],
+          "llm_enriched": true
+        },
+        {
+          "id": "uomo_gorilla",
+          "name": "Uomo Gorilla",
+          "role": "antagonist",
+          "description": "Un essere umanoide gigantesco con caratteristiche da gorilla, dotato di armatura di cuoio rinforzato. Guardiano della gabbia contenente il passerotto magico, siede addormentato con la schiena appoggiata alla gabbia.",
+          "goal": "Impedire a chiunque di rubare il passerotto magico dalla gabbia che custodisce",
+          "current_plan": "Dorme appoggiato alla gabbia del passerotto, fa la guardia anche dormendo per il contatto fisico",
+          "fallback_plan": "Se svegliato attacca immediatamente chiunque si avvicini alla gabbia o tenti di catturare l'uccellino",
+          "pressure_response": {
+            "low": "Continua a dormire ma si agita, grugnisce nel sonno se percepisce movimenti vicino alla gabbia",
+            "medium": "Si sveglia e ruggisce minacciosamente, si alza in piedi brandendo le armi pronto ad attaccare",
+            "high": "Attacca con morsi (2d+1 danno da taglio) chiunque si avvicini alla gabbia o tenti di aprirla",
+            "critical": "Entra in furia berserker, attacca senza sosta fino alla morte, tenta di afferrare chi entra nella gabbia"
+          },
+          "knows": [
+            "Il passerotto magico è nella gabbia dietro di lui",
+            "La porta della gabbia è abbastanza grande per farci passare un uomo",
+            "Le sbarre sono strette per impedire la fuga dell'uccellino"
+          ],
+          "resources": [],
+          "secret": "",
+          "location": "Seduto alla gabbia del passerotto nella Foresta dei Sogni Impossibili",
+          "attitude": "hostile",
+          "llm_extracted": true,
+          "fear": "Fallire nel suo dovere di guardiano e perdere il passerotto",
+          "wants": [
+            "Proteggere il passerotto magico da qualsiasi intruso",
+            "Rimanere in posizione di guardia alla gabbia",
+            "Eliminare chiunque tenti di rubare l'uccellino"
+          ],
+          "avoids": [
+            "Allontanarsi dalla gabbia",
+            "Essere ingannato o distratto dal suo dovere",
+            "Che qualcuno entri nella gabbia"
+          ],
+          "relationships": [
+            {
+              "name": "Passerotto magico",
+              "type": "patron",
+              "note": "Custodisce la gabbia contenente l'uccellino"
+            }
+          ],
+          "llm_enriched": true
+        }
+      ],
+      "factions": [],
+      "clues": [
+        {
+          "id": "llm_clue_1",
+          "label": "Fiaba nelle 'Mille e una notte' (Rivista)",
+          "text": "La foresta è menzionata in una versione modificata delle 'Mille e una notte'. Racconta di una principessa che cerca la foresta per sognare il suo amato morto.",
+          "type": "document",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "La foresta ha il potere di far sognare soluzioni ai problemi di chi vi si addormenta afflitto",
+          "hidden_implication": "La versione della fiaba è stata 'rivista', suggerendo manipolazione della fonte originale",
+          "payoff": "I PG sanno che addormentarsi nella foresta mentre afflitti può portare a sogni rivelatori",
+          "possible_actions": [
+            "Cercare la versione originale delle 'Mille e una notte' per confrontare le differenze",
+            "Interrogare anziani arabi sulle leggende orali sulla foresta",
+            "Studiare la fiaba per identificare la posizione esatta della foresta"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_2",
+          "label": "Ubicazione geografica della foresta",
+          "text": "La foresta si trova ad est del fiume rumoroso, sotto la collina dei diamanti. Leggende orali arabe dicono che sia la parte est dei boschi neri.",
+          "type": "testimony",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "La foresta è identificabile tramite riferimenti geografici specifici e coincide con i boschi neri",
+          "hidden_implication": "La contraddizione tra 'fiaba' e 'leggende orali' suggerisce che la foresta sia reale",
+          "payoff": "I PG possono triangolare la posizione esatta usando i riferimenti geografici forniti",
+          "possible_actions": [
+            "Cercare il fiume rumoroso e la collina dei diamanti su una mappa",
+            "Intervistare persone arabe anziane che conoscono le leggende orali",
+            "Esplorare la parte orientale dei boschi neri"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_3",
+          "label": "Piante della Follia riconoscibili",
+          "text": "Piante che emettono spore causanti follia entro 3m. Dopo il primo incontro, chi ha abilità NATURALISTICA può riconoscerle con un tiro a -2 prima di avvicinarsi.",
+          "type": "scene_observation",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "Esistono piante magiche difensive nella foresta che attaccano chi si avvicina",
+          "hidden_implication": "La presenza di guardiani magici suggerisce che qualcosa di prezioso è protetto nella foresta",
+          "payoff": "I PG con NATURALISTICA possono evitare le piante dopo averle incontrate una volta",
+          "possible_actions": [
+            "Raccogliere campioni delle piante per studiarle o venderle",
+            "Mappare la posizione delle piante per creare un percorso sicuro",
+            "Usare oggetti a distanza per attivare le spore senza rischio"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_4",
+          "label": "Pattern dei Getti di Ghiaccio",
+          "text": "Geyser di ghiaccio che spuntano dal terreno ogni 3 ore (1 su 6). Dopo il primo incontro, i PG ottengono +1 ai tiri per non essere sorpresi.",
+          "type": "physical_evidence",
+          "source_location": "GETTI DI GHIACCIO",
+          "reveals": "I getti di ghiaccio sono trappole naturali o magiche con una frequenza prevedibile",
+          "hidden_implication": "La regolarità suggerisce un'origine magica deliberata, non un fenomeno casuale",
+          "payoff": "I PG possono temporizzare i loro spostamenti per evitare i getti più pericolosi",
+          "possible_actions": [
+            "Cronometrare gli intervalli dei getti per predire le eruzioni",
+            "Marcare sul terreno le zone dove i getti sono già apparsi",
+            "Attendere l'eruzione di un getto prima di attraversare un'area"
+          ],
+          "source_ref": {
+            "section": "GETTI DI GHIACCIO"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_5",
+          "label": "Effetto del Sonno Ingannatore",
+          "text": "Chi cerca qualcosa di specifico deve tirare INT-1 ogni giorno o cade in un sonno perenne con sogni piacevoli. Svegliarsi bruscamente causa perdita di 1 punto INT.",
+          "type": "forensic",
+          "source_location": "SONNO INGANNATORE",
+          "reveals": "La foresta induce magicamente il sonno in chi ha desideri specifici, proteggendosi dagli intrusi",
+          "hidden_implication": "Il sonno è una difesa attiva che punisce chi disturba, non solo un effetto collaterale",
+          "payoff": "I PG devono pianificare turni di guardia e preparare l'incantesimo RISVEGLIARE",
+          "possible_actions": [
+            "Lanciare RISVEGLIARE su compagni addormentati per evitare perdita di INT",
+            "Stabilire turni di guardia dove alcuni non cercano attivamente nulla",
+            "Procurarsi pozioni o incantesimi di resistenza al sonno prima di entrare"
+          ],
+          "source_ref": {
+            "section": "SONNO INGANNATORE"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_6",
+          "label": "Percorsi circolari nella foresta",
+          "text": "Ogni ora i PG devono tirare INT o si perdono, ritrovandosi al punto di partenza in un percorso circolare. DIREZIONE ASSOLUTA annulla questo effetto.",
+          "type": "scene_observation",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "La foresta ha una magia di disorientamento che causa loop spaziali",
+          "hidden_implication": "Il fenomeno è intenzionale per scoraggiare gli intrusi e proteggere il cuore della foresta",
+          "payoff": "I PG devono trovare metodi alternativi di navigazione o portare qualcuno con DIREZIONE ASSOLUTA",
+          "possible_actions": [
+            "Segnare gli alberi per verificare se si sta tornando indietro",
+            "Reclutare un PNG con l'abilità DIREZIONE ASSOLUTA come guida",
+            "Usare incantesimi di navigazione o magia di rilevamento"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_7",
+          "label": "Cinguettio anomalo nella foresta",
+          "text": "Dopo alcuni giorni di ricerca, i PG udono un cinguettio, cosa strana per quella parte della foresta silenziosa.",
+          "type": "scene_observation",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "Un suono insolito indica la presenza del passerotto magico cercato dai PG",
+          "hidden_implication": "Il cinguettio potrebbe essere un'esca o un segnale che il guardiano sta permettendo di avvicinarsi",
+          "payoff": "I PG sanno di seguire il suono per localizzare l'obiettivo della loro missione",
+          "possible_actions": [
+            "Seguire cautamente il cinguettio fino alla sua fonte",
+            "Verificare se il suono si ripete o si muove",
+            "Preparare equipaggiamento per catturare un uccello prima di avvicinarsi"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_8",
+          "label": "Gabbia enorme con passerotto",
+          "text": "Una gabbia con porta grande abbastanza per un uomo ma sbarre strette per trattenere un piccolo passerotto che vola all'interno.",
+          "type": "physical_evidence",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "Il passerotto magico è intrappolato in una gabbia progettata per contenitori di dimensioni molto diverse",
+          "hidden_implication": "La gabbia è stata costruita per permettere l'accesso umano, suggerendo che catturare l'uccello è una sfida prevista",
+          "payoff": "I PG devono entrare fisicamente nella gabbia per catturare il passerotto con un retino",
+          "possible_actions": [
+            "Procurarsi un retino prima di entrare nella gabbia",
+            "Esaminare la porta per trappole o meccanismi di chiusura automatica",
+            "Studiare i movimenti del passerotto per pianificare la cattura"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_9",
+          "label": "Uomo Gorilla guardiano dormiente",
+          "text": "Un essere umanoide gigantesco (FOR 20, 95kg, cuoio rinforzato RD3) siede addormentato con la schiena alla gabbia del passerotto.",
+          "type": "scene_observation",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "Il passerotto è custodito da un guardiano formidabile che però è addormentato",
+          "hidden_implication": "Il guardiano è caduto vittima della magia del SONNO INGANNATORE, rivelando una debolezza del sistema di difesa",
+          "payoff": "I PG possono scegliere se eliminare silenziosamente il guardiano o tentare di agire senza svegliarlo",
+          "possible_actions": [
+            "Attaccare il guardiano addormentato per un vantaggio tattico",
+            "Tentare di rubare il passerotto senza svegliare il guardiano",
+            "Esaminare il guardiano per capire perché dorme e quanto durerà il sonno"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        },
+        {
+          "id": "llm_clue_10",
+          "label": "Assenza di mostri normali",
+          "text": "Il modulo specifica esplicitamente che i mostri non sono presenti in questa parte della foresta, solo guardiani magici specifici.",
+          "type": "scene_observation",
+          "source_location": "La Foresta dei Sogni Impossibili",
+          "reveals": "La foresta è protetta solo da difese magiche specifiche, non da fauna pericolosa casuale",
+          "hidden_implication": "La foresta è stata magicamente purificata o isolata, suggerendo un controllo artificiale dell'area",
+          "payoff": "I PG possono concentrarsi sulle minacce magiche note senza temere incontri casuali",
+          "possible_actions": [
+            "Interrogarsi su chi ha creato questo ambiente controllato",
+            "Cercare segni di chi mantiene questo equilibrio magico",
+            "Esplorare con maggiore confidenza sapendo che le minacce sono limitate"
+          ],
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75,
+          "llm_extracted": true
+        }
+      ],
+      "encounters": [],
+      "events": [],
+      "tables": [],
+      "maps": [],
+      "boxed_text": [],
+      "gm_notes": [],
+      "page_chunks": [
+        {
+          "page": 1,
+          "chars": 258,
+          "counts": {
+            "rooms": 0,
+            "npcs": 0,
+            "factions": 0,
+            "clues": 0,
+            "encounters": 0,
+            "events": 0,
+            "tables": 0,
+            "maps": 0,
+            "source_cards": 1
+          },
+          "detected_structure": {
+            "has_room_keys": false,
+            "has_timeline": false,
+            "has_random_tables": false,
+            "has_factions": false,
+            "has_investigation": false,
+            "has_wilderness": true,
+            "has_dungeon": false,
+            "has_heist": false,
+            "has_military": false,
+            "has_sandbox": false
+          }
+        },
+        {
+          "page": 2,
+          "chars": 2986,
+          "counts": {
+            "rooms": 0,
+            "npcs": 1,
+            "factions": 0,
+            "clues": 0,
+            "encounters": 0,
+            "events": 0,
+            "tables": 0,
+            "maps": 0,
+            "source_cards": 4
+          },
+          "detected_structure": {
+            "has_room_keys": false,
+            "has_timeline": false,
+            "has_random_tables": false,
+            "has_factions": false,
+            "has_investigation": false,
+            "has_wilderness": true,
+            "has_dungeon": false,
+            "has_heist": false,
+            "has_military": true,
+            "has_sandbox": false
+          }
+        },
+        {
+          "page": 3,
+          "chars": 814,
+          "counts": {
+            "rooms": 0,
+            "npcs": 0,
+            "factions": 0,
+            "clues": 0,
+            "encounters": 0,
+            "events": 0,
+            "tables": 0,
+            "maps": 0,
+            "source_cards": 0
+          },
+          "detected_structure": {
+            "has_room_keys": false,
+            "has_timeline": false,
+            "has_random_tables": false,
+            "has_factions": false,
+            "has_investigation": false,
+            "has_wilderness": true,
+            "has_dungeon": false,
+            "has_heist": false,
+            "has_military": false,
+            "has_sandbox": false
+          }
+        }
+      ],
+      "counts": {
+        "rooms": 0,
+        "npcs": 1,
+        "factions": 0,
+        "clues": 10,
+        "encounters": 0,
+        "events": 0,
+        "tables": 0,
+        "maps": 0,
+        "pages": 3,
+        "source_cards": 5
+      },
+      "source_cards": [
+        {
+          "id": "card_section_1",
+          "type": "section",
+          "label": "GURPSfi Fantasy",
+          "text": "GURPSfi Fantasy",
+          "source_ref": {
+            "page": 1,
+            "section": "GURPSfi Fantasy",
+            "paragraph": 1,
+            "snippet_hash": "354c9b988479",
+            "quote": "GURPSfi Fantasy"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p1_section_1"
+        },
+        {
+          "id": "card_section_2",
+          "type": "section",
+          "label": "GETTI DI GHIACCIO",
+          "text": "GETTI DI GHIACCIO",
+          "source_ref": {
+            "page": 2,
+            "section": "GETTI DI GHIACCIO",
+            "paragraph": 1,
+            "snippet_hash": "6a5f8d40db16",
+            "quote": "GETTI DI GHIACCIO"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_section_1"
+        },
+        {
+          "id": "card_section_3",
+          "type": "section",
+          "label": "L ONNO N",
+          "text": "L ONNO N",
+          "source_ref": {
+            "page": 2,
+            "section": "L ONNO N",
+            "paragraph": 3,
+            "snippet_hash": "bc961e571d68",
+            "quote": "L ONNO N"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_section_3"
+        },
+        {
+          "id": "card_section_4",
+          "type": "section",
+          "label": "SONNO INGANNATORE",
+          "text": "SONNO INGANNATORE",
+          "source_ref": {
+            "page": 2,
+            "section": "SONNO INGANNATORE",
+            "paragraph": 5,
+            "snippet_hash": "003fabe5915a",
+            "quote": "SONNO INGANNATORE"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_section_5"
+        },
+        {
+          "id": "card_actor_5",
+          "type": "actor",
+          "label": "GETTI DI GHIACCIO",
+          "text": "effetto dell(cid:146)incantesimo sta rispetto alla vera opera). La favola in cui se ne (cid:147)FOLLIA(cid:148) (M35). Dopo la prima volta che Ł stata parla racconta la vicenda di una principessa che, incontrata i PG che possiedono l(cid:146)abilit(cid:224) avuta la notizia della morte del suo amato, si NATURALISTICA potranno tentare un lancio a -2 mette alla ricerca di questa foresta, per rivedere per riconoscere la pianta prima di entrare nelil suo uomo almeno in sogno. l(cid:146)area dei 3 m. La favola infatti narra che chi si trattenga nella foresta perchØ Ł afflitto nello spirito o perchØ",
+          "source_ref": {
+            "page": 2,
+            "section": "",
+            "paragraph": 1,
+            "snippet_hash": "fc076b7143f7",
+            "quote": "GETTI DI GHIACCIO"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_npc_1"
+        }
+      ],
+      "revelations": [
+        {
+          "id": "llm_rev_1",
+          "thread_id": "T_natura_foresta",
+          "statement": "La foresta è un costrutto magico onirico che trasforma desideri disperati in trappole permanenti",
+          "required_clues": [
+            "llm_clue_1",
+            "llm_clue_5",
+            "llm_clue_10"
+          ],
+          "required_evidence_kinds": [
+            "forensic",
+            "document",
+            "scene_observation"
+          ],
+          "minimum_independent_kinds": 2,
+          "red_herring_clues": [
+            "llm_clue_2"
+          ],
+          "payoff": "I PG capiscono che resistere al sonno è cruciale: dormire significa rimanere intrappolati per sempre",
+          "status": "hidden",
+          "llm_generated": true
+        },
+        {
+          "id": "llm_rev_2",
+          "thread_id": "T_guardiani",
+          "statement": "I guardiani magici (Piante, Getti, Sonno) formano un sistema difensivo progettato per intrappolare, non uccidere",
+          "required_clues": [
+            "llm_clue_3",
+            "llm_clue_4",
+            "llm_clue_5"
+          ],
+          "required_evidence_kinds": [
+            "forensic",
+            "physical_evidence",
+            "scene_observation"
+          ],
+          "minimum_independent_kinds": 3,
+          "red_herring_clues": [],
+          "payoff": "Strategia difensiva: evitare combattimenti diretti, focalizzarsi su protezione mentale e consapevolezza",
+          "status": "hidden",
+          "llm_generated": true
+        },
+        {
+          "id": "llm_rev_3",
+          "thread_id": "T_identita_uccello",
+          "statement": "Il passerotto nella gabbia è la principessa della fiaba, trasformata dal suo stesso desiderio disperato",
+          "required_clues": [
+            "llm_clue_1",
+            "llm_clue_7",
+            "llm_clue_8"
+          ],
+          "required_evidence_kinds": [
+            "document",
+            "physical_evidence",
+            "scene_observation"
+          ],
+          "minimum_independent_kinds": 2,
+          "red_herring_clues": [
+            "llm_clue_9"
+          ],
+          "payoff": "Liberare l'uccello potrebbe spezzare l'incantesimo o condannare la principessa: scelta morale cruciale",
+          "status": "hidden",
+          "llm_generated": true
+        },
+        {
+          "id": "llm_rev_4",
+          "thread_id": "T_navigazione",
+          "statement": "I percorsi circolari sono causati dalla combinazione di disorientamento mentale e geografia magica alterata",
+          "required_clues": [
+            "llm_clue_5",
+            "llm_clue_6",
+            "llm_clue_3"
+          ],
+          "required_evidence_kinds": [
+            "forensic",
+            "scene_observation"
+          ],
+          "minimum_independent_kinds": 2,
+          "red_herring_clues": [
+            "llm_clue_2"
+          ],
+          "payoff": "Necessario usare magia di navigazione O restare svegli e lucidi per navigare efficacemente la foresta",
+          "status": "hidden",
+          "llm_generated": true
+        },
+        {
+          "id": "llm_rev_5",
+          "thread_id": "T_guardiano_dormiente",
+          "statement": "L'Uomo Gorilla dorme perché anch'esso è vittima del Sonno Ingannatore, non per scelta tattica",
+          "required_clues": [
+            "llm_clue_9",
+            "llm_clue_5",
+            "llm_clue_8"
+          ],
+          "required_evidence_kinds": [
+            "forensic",
+            "physical_evidence",
+            "scene_observation"
+          ],
+          "minimum_independent_kinds": 2,
+          "red_herring_clues": [],
+          "payoff": "Possibile attraversare senza combattere; svegliarlo con Risvegliare potrebbe renderlo alleato temporaneo",
+          "status": "hidden",
+          "llm_generated": true
+        },
+        {
+          "id": "llm_rev_6",
+          "thread_id": "T_mappa_fiabesca",
+          "statement": "La fiaba delle Mille e Una Notte è una mappa codificata: l'ubicazione geografica reale corrisponde ai riferimenti simbolici",
+          "required_clues": [
+            "llm_clue_1",
+            "llm_clue_2",
+            "llm_clue_10"
+          ],
+          "required_evidence_kinds": [
+            "document",
+            "testimony",
+            "scene_observation"
+          ],
+          "minimum_independent_kinds": 2,
+          "red_herring_clues": [],
+          "payoff": "I PG possono usare altre fiabe arabe per trovare luoghi magici simili o vie d'uscita alternative",
+          "status": "hidden",
+          "llm_generated": true
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_sonno_ingannatore",
+          "label": "Caduta nel Sonno Eterno",
+          "clock_type": "terminal_defeat",
+          "max_value": 7,
+          "consequence": "Tutti i PG cadono in un sonno perenne da cui non si risvegliano. La missione fallisce.",
+          "on_complete": "Tutti i PG cadono in un sonno perenne da cui non si risvegliano. La missione fallisce.",
+          "resolution_clues": [
+            "llm_clue_8",
+            "llm_clue_9"
+          ],
+          "resolution_condition": "I giocatori trovano la gabbia, sconfiggono l'Uomo Gorilla guardiano e catturano il passerotto magico",
+          "discovery_clue_id": "llm_clue_5",
+          "discovery_hint": "Una stanchezza innaturale pervade l'aria della foresta, come se il mondo stesso invitasse al riposo",
+          "steps": [
+            {
+              "step": 2,
+              "world_state_change": "Il primo PG cade addormentato durante la ricerca",
+              "scene_prompt": "Uno dei compagni crolla improvvisamente a terra, un sorriso beato sul volto"
+            },
+            {
+              "step": 4,
+              "world_state_change": "Metà del gruppo è addormentata, svegliare qualcuno causa perdita di INT",
+              "scene_prompt": "I sogni iniziano a sembrare più reali della foresta stessa"
+            },
+            {
+              "step": 6,
+              "world_state_change": "Solo un PG rimane sveglio, gli altri sognano profondamente",
+              "scene_prompt": "Il silenzio della foresta è rotto solo dal respiro profondo dei compagni addormentati"
+            }
+          ],
+          "auto_balance": true,
+          "source_status": "llm_extracted",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.75
+        },
+        {
+          "id": "clock_perdita_orientamento",
+          "label": "Intrappolati nei Percorsi Circolari",
+          "clock_type": "escalation",
+          "max_value": 6,
+          "consequence": "I PG sono completamente disorientati e continuano a girare in cerchio. La ricerca del passerotto diventa impossibile senza aiuto magico.",
+          "on_complete": "I PG sono completamente disorientati e continuano a girare in cerchio. La ricerca del passerotto diventa impossibile senza aiuto magico.",
+          "resolution_clues": [
+            "llm_clue_6",
+            "llm_clue_7"
+          ],
+          "resolution_condition": "I giocatori identificano il pattern circolare e seguono il cinguettio anomalo per trovare la gabbia",
+          "discovery_clue_id": "llm_clue_6",
+          "discovery_hint": "Alcuni alberi sembrano stranamente familiari, come se fossero già stati visti prima",
+          "steps": [
+            {
+              "step": 3,
+              "world_state_change": "I PG si rendono conto di essere tornati al punto di partenza per la seconda volta",
+              "scene_prompt": "Un albero con uno strano nodo vi sembra inquietantemente familiare"
+            },
+            {
+              "step": 5,
+              "world_state_change": "La frustrazione aumenta, i lanci su INT per non perdersi subiscono -2 aggiuntivo",
+              "scene_prompt": "Ogni direzione sembra identica, la foresta gioca con i vostri sensi"
+            }
+          ],
+          "auto_balance": true,
+          "source_status": "llm_extracted",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.75
+        }
+      ]
+    },
+    "archetype_profile": {
+      "primary_archetype": "journey_quest",
+      "secondary_archetypes": [
+        "wilderness_sandbox",
+        "horror_survival"
+      ],
+      "confidence": 0.85,
+      "reason": "Avventura fantasy basata su una ricerca (trovare la foresta dei sogni) con esplorazione di ambiente ostile dotato di trappole magiche e guardiani, elementi di sopravvivenza e pericoli ambientali casuali tipici di wilderness sandbox",
+      "definition": {
+        "id": "journey_quest",
+        "description": "Viaggio a tappe con prove e destinazione.",
+        "required_modules": [
+          "routes",
+          "locations"
+        ],
+        "optional_modules": [
+          "companions"
+        ],
+        "runtime_focus": [
+          "travel",
+          "milestone"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "delay",
+          "route_cost"
+        ],
+        "ending_patterns": [
+          "arrival"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      },
+      "source": "llm",
+      "llm_metadata": {
+        "genre": "fantasy",
+        "primary_archetype": "journey_quest",
+        "secondary_archetypes": [
+          "wilderness_sandbox",
+          "horror_survival"
+        ],
+        "tone": "fiabesco oscuro",
+        "confidence": 0.85,
+        "reason": "Avventura fantasy basata su una ricerca (trovare la foresta dei sogni) con esplorazione di ambiente ostile dotato di trappole magiche e guardiani, elementi di sopravvivenza e pericoli ambientali casuali tipici di wilderness sandbox",
+        "source": "llm"
+      },
+      "heuristic_primary": "military_operation",
+      "structure_authority": "label_only_do_not_compress"
+    },
+    "preservation_policy": {
+      "preserve_rooms": false,
+      "preserve_all_clues": false,
+      "preserve_factions": false,
+      "preserve_timeline": false,
+      "preserve_encounters": true,
+      "preserve_random_tables": false,
+      "preserve_maps": true,
+      "allow_inferred_missing_elements": true,
+      "forbid_structural_compression": true,
+      "preserve_original_structure": true,
+      "source_mode": "pdf_import",
+      "reason": "PDF = preserve before shaping"
+    },
+    "original_structure_map": {
+      "room_ids": [],
+      "clue_ids": [
+        "llm_clue_1",
+        "llm_clue_2",
+        "llm_clue_3",
+        "llm_clue_4",
+        "llm_clue_5",
+        "llm_clue_6",
+        "llm_clue_7",
+        "llm_clue_8",
+        "llm_clue_9",
+        "llm_clue_10"
+      ],
+      "actor_ids": [
+        "principessa",
+        "uomo_gorilla"
+      ],
+      "encounter_count": 0,
+      "table_count": 0,
+      "source_card_count": 5
+    },
+    "source_cards": [
+      {
+        "id": "card_section_1",
+        "type": "section",
+        "label": "GURPSfi Fantasy",
+        "text": "GURPSfi Fantasy",
+        "source_ref": {
+          "page": 1,
+          "section": "GURPSfi Fantasy",
+          "paragraph": 1,
+          "snippet_hash": "354c9b988479",
+          "quote": "GURPSfi Fantasy"
+        },
+        "source_status": "explicit",
+        "confidence": 0.9,
+        "raw_id": "p1_section_1"
+      },
+      {
+        "id": "card_section_2",
+        "type": "section",
+        "label": "GETTI DI GHIACCIO",
+        "text": "GETTI DI GHIACCIO",
+        "source_ref": {
+          "page": 2,
+          "section": "GETTI DI GHIACCIO",
+          "paragraph": 1,
+          "snippet_hash": "6a5f8d40db16",
+          "quote": "GETTI DI GHIACCIO"
+        },
+        "source_status": "explicit",
+        "confidence": 0.9,
+        "raw_id": "p2_section_1"
+      },
+      {
+        "id": "card_section_3",
+        "type": "section",
+        "label": "L ONNO N",
+        "text": "L ONNO N",
+        "source_ref": {
+          "page": 2,
+          "section": "L ONNO N",
+          "paragraph": 3,
+          "snippet_hash": "bc961e571d68",
+          "quote": "L ONNO N"
+        },
+        "source_status": "explicit",
+        "confidence": 0.9,
+        "raw_id": "p2_section_3"
+      },
+      {
+        "id": "card_section_4",
+        "type": "section",
+        "label": "SONNO INGANNATORE",
+        "text": "SONNO INGANNATORE",
+        "source_ref": {
+          "page": 2,
+          "section": "SONNO INGANNATORE",
+          "paragraph": 5,
+          "snippet_hash": "003fabe5915a",
+          "quote": "SONNO INGANNATORE"
+        },
+        "source_status": "explicit",
+        "confidence": 0.9,
+        "raw_id": "p2_section_5"
+      },
+      {
+        "id": "card_actor_5",
+        "type": "actor",
+        "label": "GETTI DI GHIACCIO",
+        "text": "effetto dell(cid:146)incantesimo sta rispetto alla vera opera). La favola in cui se ne (cid:147)FOLLIA(cid:148) (M35). Dopo la prima volta che Ł stata parla racconta la vicenda di una principessa che, incontrata i PG che possiedono l(cid:146)abilit(cid:224) avuta la notizia della morte del suo amato, si NATURALISTICA potranno tentare un lancio a -2 mette alla ricerca di questa foresta, per rivedere per riconoscere la pianta prima di entrare nelil suo uomo almeno in sogno. l(cid:146)area dei 3 m. La favola infatti narra che chi si trattenga nella foresta perchØ Ł afflitto nello spirito o perchØ",
+        "source_ref": {
+          "page": 2,
+          "section": "",
+          "paragraph": 1,
+          "snippet_hash": "fc076b7143f7",
+          "quote": "GETTI DI GHIACCIO"
+        },
+        "source_status": "explicit",
+        "confidence": 0.9,
+        "raw_id": "p2_npc_1"
+      }
+    ],
+    "inferred_elements": [
+      {
+        "type": "revelation",
+        "id": "llm_rev_1",
+        "source_status": "inferred",
+        "confidence": 0.78
+      },
+      {
+        "type": "revelation",
+        "id": "llm_rev_2",
+        "source_status": "inferred",
+        "confidence": 0.78
+      },
+      {
+        "type": "revelation",
+        "id": "llm_rev_3",
+        "source_status": "inferred",
+        "confidence": 0.78
+      },
+      {
+        "type": "revelation",
+        "id": "llm_rev_4",
+        "source_status": "inferred",
+        "confidence": 0.78
+      },
+      {
+        "type": "revelation",
+        "id": "llm_rev_5",
+        "source_status": "inferred",
+        "confidence": 0.78
+      },
+      {
+        "type": "revelation",
+        "id": "llm_rev_6",
+        "source_status": "inferred",
+        "confidence": 0.78
+      }
+    ],
+    "preserved_elements": [
+      {
+        "type": "clue",
+        "id": "llm_clue_1",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_2",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_3",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_4",
+        "source_ref": {
+          "section": "GETTI DI GHIACCIO"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_5",
+        "source_ref": {
+          "section": "SONNO INGANNATORE"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_6",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_7",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_8",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_9",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "clue",
+        "id": "llm_clue_10",
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        }
+      },
+      {
+        "type": "actor",
+        "id": "principessa",
+        "source_ref": {}
+      },
+      {
+        "type": "actor",
+        "id": "uomo_gorilla",
+        "source_ref": {}
+      }
+    ],
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation_graph",
+      "guided_sandbox"
+    ],
+    "tone": "fiabesco oscuro",
+    "premise": "I PG sentono parlare di una leggenda araba sulla Foresta dei Sogni Impossibili, nascosta a est del fiume rumoroso, dove chi è afflitto si addormenta e sogna di risolvere i suoi problemi. La foresta sarebbe la parte est dei boschi neri, protetta da guardiani magici.",
+    "initial_hook": "Un mercante racconta la fiaba delle Mille e una notte sulla principessa che cercò la foresta per sognare il suo amato morto. Anziani arabi sussurrano che la foresta esiste davvero, nei boschi neri.",
+    "core_truths": [
+      {
+        "id": "truth_pdf",
+        "statement": "La foresta è difesa da tre guardiani incantati: il Sonno Ingannatore che intrappola in sogni perenni, le Piante della Follia che inducono pazzia, e i Getti di Ghiaccio che emergono dal terreno come trappole letali.",
+        "reveal_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "reveal_rule": "quando gli elementi canonici collegati sono emersi",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_pdf",
+        "label": "Superare i guardiani magici della foresta, localizzare l'enorme gabbia seguendo il cinguettio anomalo, sconfiggere l'Uomo Gorilla dormiente che la custodisce, e catturare il passerotto magico impagliato all'interno.",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "seguire le condizioni del modulo o del GM"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "llm_rev_1",
+        "thread_id": "T_natura_foresta",
+        "statement": "La foresta è un costrutto magico onirico che trasforma desideri disperati in trappole permanenti",
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_5",
+          "llm_clue_10"
+        ],
+        "required_evidence_kinds": [
+          "forensic",
+          "document",
+          "scene_observation"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "llm_clue_2"
+        ],
+        "status": "hidden",
+        "payoff": "I PG capiscono che resistere al sonno è cruciale: dormire significa rimanere intrappolati per sempre",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "llm_rev_2",
+        "thread_id": "T_guardiani",
+        "statement": "I guardiani magici (Piante, Getti, Sonno) formano un sistema difensivo progettato per intrappolare, non uccidere",
+        "required_clues": [
+          "llm_clue_3",
+          "llm_clue_4",
+          "llm_clue_5"
+        ],
+        "required_evidence_kinds": [
+          "forensic",
+          "physical_evidence",
+          "scene_observation"
+        ],
+        "minimum_independent_kinds": 3,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Strategia difensiva: evitare combattimenti diretti, focalizzarsi su protezione mentale e consapevolezza",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "llm_rev_3",
+        "thread_id": "T_identita_uccello",
+        "statement": "Il passerotto nella gabbia è la principessa della fiaba, trasformata dal suo stesso desiderio disperato",
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_7",
+          "llm_clue_8"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "physical_evidence",
+          "scene_observation"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "llm_clue_9"
+        ],
+        "status": "hidden",
+        "payoff": "Liberare l'uccello potrebbe spezzare l'incantesimo o condannare la principessa: scelta morale cruciale",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "llm_rev_4",
+        "thread_id": "T_navigazione",
+        "statement": "I percorsi circolari sono causati dalla combinazione di disorientamento mentale e geografia magica alterata",
+        "required_clues": [
+          "llm_clue_5",
+          "llm_clue_6",
+          "llm_clue_3"
+        ],
+        "required_evidence_kinds": [
+          "forensic",
+          "scene_observation"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [
+          "llm_clue_2"
+        ],
+        "status": "hidden",
+        "payoff": "Necessario usare magia di navigazione O restare svegli e lucidi per navigare efficacemente la foresta",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "llm_rev_5",
+        "thread_id": "T_guardiano_dormiente",
+        "statement": "L'Uomo Gorilla dorme perché anch'esso è vittima del Sonno Ingannatore, non per scelta tattica",
+        "required_clues": [
+          "llm_clue_9",
+          "llm_clue_5",
+          "llm_clue_8"
+        ],
+        "required_evidence_kinds": [
+          "forensic",
+          "physical_evidence",
+          "scene_observation"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Possibile attraversare senza combattere; svegliarlo con Risvegliare potrebbe renderlo alleato temporaneo",
+        "conditions": [],
+        "llm_generated": true
+      },
+      {
+        "id": "llm_rev_6",
+        "thread_id": "T_mappa_fiabesca",
+        "statement": "La fiaba delle Mille e Una Notte è una mappa codificata: l'ubicazione geografica reale corrisponde ai riferimenti simbolici",
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2",
+          "llm_clue_10"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "testimony",
+          "scene_observation"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG possono usare altre fiabe arabe per trovare luoghi magici simili o vie d'uscita alternative",
+        "conditions": [],
+        "llm_generated": true
+      }
+    ],
+    "clues": [
+      {
+        "id": "llm_clue_1",
+        "label": "Fiaba nelle 'Mille e una notte' (Rivista)",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "La foresta ha il potere di far sognare soluzioni ai problemi di chi vi si addormenta afflitto",
+        "payoff": "I PG sanno che addormentarsi nella foresta mentre afflitti può portare a sogni rivelatori",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "La foresta è menzionata in una versione modificata delle 'Mille e una notte'. Racconta di una principessa che cerca la foresta per sognare il suo amato morto.",
+        "hidden_implication": "La versione della fiaba è stata 'rivista', suggerendo manipolazione della fonte originale",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "Cercare la versione originale delle 'Mille e una notte' per confrontare le differenze",
+          "Interrogare anziani arabi sulle leggende orali sulla foresta",
+          "Studiare la fiaba per identificare la posizione esatta della foresta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_2",
+        "label": "Ubicazione geografica della foresta",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "La foresta è identificabile tramite riferimenti geografici specifici e coincide con i boschi neri",
+        "payoff": "I PG possono triangolare la posizione esatta usando i riferimenti geografici forniti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "La foresta si trova ad est del fiume rumoroso, sotto la collina dei diamanti. Leggende orali arabe dicono che sia la parte est dei boschi neri.",
+        "hidden_implication": "La contraddizione tra 'fiaba' e 'leggende orali' suggerisce che la foresta sia reale",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "Cercare il fiume rumoroso e la collina dei diamanti su una mappa",
+          "Intervistare persone arabe anziane che conoscono le leggende orali",
+          "Esplorare la parte orientale dei boschi neri"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_3",
+        "label": "Piante della Follia riconoscibili",
+        "type": "scene_observation",
+        "thread_id": "T3",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "Esistono piante magiche difensive nella foresta che attaccano chi si avvicina",
+        "payoff": "I PG con NATURALISTICA possono evitare le piante dopo averle incontrate una volta",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Piante che emettono spore causanti follia entro 3m. Dopo il primo incontro, chi ha abilità NATURALISTICA può riconoscerle con un tiro a -2 prima di avvicinarsi.",
+        "hidden_implication": "La presenza di guardiani magici suggerisce che qualcosa di prezioso è protetto nella foresta",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "Raccogliere campioni delle piante per studiarle o venderle",
+          "Mappare la posizione delle piante per creare un percorso sicuro",
+          "Usare oggetti a distanza per attivare le spore senza rischio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_4",
+        "label": "Pattern dei Getti di Ghiaccio",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "GETTI DI GHIACCIO",
+        "reveals": "I getti di ghiaccio sono trappole naturali o magiche con una frequenza prevedibile",
+        "payoff": "I PG possono temporizzare i loro spostamenti per evitare i getti più pericolosi",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Geyser di ghiaccio che spuntano dal terreno ogni 3 ore (1 su 6). Dopo il primo incontro, i PG ottengono +1 ai tiri per non essere sorpresi.",
+        "hidden_implication": "La regolarità suggerisce un'origine magica deliberata, non un fenomeno casuale",
+        "unlocks": [
+          "T4"
+        ],
+        "possible_actions": [
+          "Cronometrare gli intervalli dei getti per predire le eruzioni",
+          "Marcare sul terreno le zone dove i getti sono già apparsi",
+          "Attendere l'eruzione di un getto prima di attraversare un'area"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "GETTI DI GHIACCIO"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_5",
+        "label": "Effetto del Sonno Ingannatore",
+        "type": "forensic",
+        "thread_id": "T5",
+        "source_location": "SONNO INGANNATORE",
+        "reveals": "La foresta induce magicamente il sonno in chi ha desideri specifici, proteggendosi dagli intrusi",
+        "payoff": "I PG devono pianificare turni di guardia e preparare l'incantesimo RISVEGLIARE",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Chi cerca qualcosa di specifico deve tirare INT-1 ogni giorno o cade in un sonno perenne con sogni piacevoli. Svegliarsi bruscamente causa perdita di 1 punto INT.",
+        "hidden_implication": "Il sonno è una difesa attiva che punisce chi disturba, non solo un effetto collaterale",
+        "unlocks": [
+          "T5"
+        ],
+        "possible_actions": [
+          "Lanciare RISVEGLIARE su compagni addormentati per evitare perdita di INT",
+          "Stabilire turni di guardia dove alcuni non cercano attivamente nulla",
+          "Procurarsi pozioni o incantesimi di resistenza al sonno prima di entrare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "SONNO INGANNATORE"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_6",
+        "label": "Percorsi circolari nella foresta",
+        "type": "scene_observation",
+        "thread_id": "T6",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "La foresta ha una magia di disorientamento che causa loop spaziali",
+        "payoff": "I PG devono trovare metodi alternativi di navigazione o portare qualcuno con DIREZIONE ASSOLUTA",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Ogni ora i PG devono tirare INT o si perdono, ritrovandosi al punto di partenza in un percorso circolare. DIREZIONE ASSOLUTA annulla questo effetto.",
+        "hidden_implication": "Il fenomeno è intenzionale per scoraggiare gli intrusi e proteggere il cuore della foresta",
+        "unlocks": [
+          "T6"
+        ],
+        "possible_actions": [
+          "Segnare gli alberi per verificare se si sta tornando indietro",
+          "Reclutare un PNG con l'abilità DIREZIONE ASSOLUTA come guida",
+          "Usare incantesimi di navigazione o magia di rilevamento"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_7",
+        "label": "Cinguettio anomalo nella foresta",
+        "type": "scene_observation",
+        "thread_id": "T7",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "Un suono insolito indica la presenza del passerotto magico cercato dai PG",
+        "payoff": "I PG sanno di seguire il suono per localizzare l'obiettivo della loro missione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Dopo alcuni giorni di ricerca, i PG udono un cinguettio, cosa strana per quella parte della foresta silenziosa.",
+        "hidden_implication": "Il cinguettio potrebbe essere un'esca o un segnale che il guardiano sta permettendo di avvicinarsi",
+        "unlocks": [
+          "T7"
+        ],
+        "possible_actions": [
+          "Seguire cautamente il cinguettio fino alla sua fonte",
+          "Verificare se il suono si ripete o si muove",
+          "Preparare equipaggiamento per catturare un uccello prima di avvicinarsi"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_8",
+        "label": "Gabbia enorme con passerotto",
+        "type": "physical_evidence",
+        "thread_id": "T8",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "Il passerotto magico è intrappolato in una gabbia progettata per contenitori di dimensioni molto diverse",
+        "payoff": "I PG devono entrare fisicamente nella gabbia per catturare il passerotto con un retino",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Una gabbia con porta grande abbastanza per un uomo ma sbarre strette per trattenere un piccolo passerotto che vola all'interno.",
+        "hidden_implication": "La gabbia è stata costruita per permettere l'accesso umano, suggerendo che catturare l'uccello è una sfida prevista",
+        "unlocks": [
+          "T8"
+        ],
+        "possible_actions": [
+          "Procurarsi un retino prima di entrare nella gabbia",
+          "Esaminare la porta per trappole o meccanismi di chiusura automatica",
+          "Studiare i movimenti del passerotto per pianificare la cattura"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_9",
+        "label": "Uomo Gorilla guardiano dormiente",
+        "type": "scene_observation",
+        "thread_id": "T9",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "Il passerotto è custodito da un guardiano formidabile che però è addormentato",
+        "payoff": "I PG possono scegliere se eliminare silenziosamente il guardiano o tentare di agire senza svegliarlo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Un essere umanoide gigantesco (FOR 20, 95kg, cuoio rinforzato RD3) siede addormentato con la schiena alla gabbia del passerotto.",
+        "hidden_implication": "Il guardiano è caduto vittima della magia del SONNO INGANNATORE, rivelando una debolezza del sistema di difesa",
+        "unlocks": [
+          "T9"
+        ],
+        "possible_actions": [
+          "Attaccare il guardiano addormentato per un vantaggio tattico",
+          "Tentare di rubare il passerotto senza svegliare il guardiano",
+          "Esaminare il guardiano per capire perché dorme e quanto durerà il sonno"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      },
+      {
+        "id": "llm_clue_10",
+        "label": "Assenza di mostri normali",
+        "type": "scene_observation",
+        "thread_id": "T10",
+        "source_location": "La Foresta dei Sogni Impossibili",
+        "reveals": "La foresta è protetta solo da difese magiche specifiche, non da fauna pericolosa casuale",
+        "payoff": "I PG possono concentrarsi sulle minacce magiche note senza temere incontri casuali",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "llm_rev_1"
+        ],
+        "immediate_information": "Il modulo specifica esplicitamente che i mostri non sono presenti in questa parte della foresta, solo guardiani magici specifici.",
+        "hidden_implication": "La foresta è stata magicamente purificata o isolata, suggerendo un controllo artificiale dell'area",
+        "unlocks": [
+          "T10"
+        ],
+        "possible_actions": [
+          "Interrogarsi su chi ha creato questo ambiente controllato",
+          "Cercare segni di chi mantiene questo equilibrio magico",
+          "Esplorare con maggiore confidenza sapendo che le minacce sono limitate"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per dettaglio d'atmosfera"
+        ],
+        "source_ref": {
+          "section": "La Foresta dei Sogni Impossibili"
+        },
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 0.75,
+        "llm_extracted": true
+      }
+    ],
+    "actors": [
+      {
+        "id": "principessa",
+        "name": "La Principessa",
+        "role": "witness",
+        "location_id": "section_1",
+        "status": "unintroduced",
+        "goal": "Rivedere il suo amato morto almeno in sogno nella Foresta dei Sogni Impossibili",
+        "secret": "Sa che la foresta si trova nella parte est dei boschi neri, non dove dice la fiaba ufficiale",
+        "agenda_pressure": 0,
+        "fear": "Non riuscire più a sognare l'amato e perdere anche il suo ricordo",
+        "current_plan": "Raccogliere provviste e assumere guide discrete per un viaggio segreto nei boschi neri orientali entro la prossima luna nuova, quando il dolore per l'anniversario della morte dell'amato sarà insopportabile",
+        "fallback_plan": "Se non può raggiungere la Foresta o scopre che non esiste, cercare negromanti o artefatti magici proibiti per comunicare con lo spirito dell'amato, anche a costo del trono e dell'onore",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "La foresta si trova ad est dei boschi neri secondo le leggende orali",
+          "Chi è afflitto nello spirito si addormenta nella foresta e sogna di risolvere i suoi problemi",
+          "Il Sonno Ingannatore rende i sogni piacevoli ma perenni"
+        ],
+        "wants": [
+          "Rimanere addormentata per sognare il suo amato",
+          "Proteggere la quiete della foresta e dei suoi sognatori",
+          "Evitare di essere svegliata bruscamente"
+        ],
+        "avoids": [
+          "Essere svegliata e perdere INT",
+          "Che la foresta venga disturbata o profanata",
+          "Confrontarsi con la realtà della morte dell'amato"
+        ],
+        "pressure_response": {
+          "low": "Parla della leggenda romantica della Foresta con tono malinconico, accenna vagamente di volerci andare per motivi personali ma senza rivelare l'ubicazione reale",
+          "medium": "Ammette di voler sognare il suo amato defunto, ma resta vaga sulla posizione esatta, menziona solo che i boschi neri potrebbero nascondere segreti non scritti nelle fiabe",
+          "high": "Rivela che suo amato è morto in battaglia sei mesi fa e che ha interrogato vecchi eremiti che le hanno detto che la vera foresta è a est dei boschi neri, non oltre il fiume rumoroso",
+          "extreme": "Confessa disperata la posizione esatta nella parte orientale dei boschi neri e supplica i PG di accompagnarla, offrendo titoli nobiliari o tesori del regno pur di rivedere l'amato almeno una volta in sogno"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude in un silenzio regale e dignitoso, minaccia rappresaglie della corona, ma se la minaccia è mortale crolla emotivamente e offre la verità in cambio della vita",
+          "se_corrotto": "Offre gioielli e favori reali se i PG la scortano nella vera Foresta, promette di mantenerli segreti sulla posizione reale per evitare che venga profanata da cercatori casuali",
+          "se_i_pg_hanno_prove": "Se i PG mostrano mappe o conoscenze sui boschi neri, li prende come segno del destino e chiede apertamente di unirsi a loro nel viaggio, rivelando tutto ciò che sa",
+          "se_alleato": "Condivide mappe dettagliate della zona est dei boschi neri, racconta della fonte (un vecchio cartografo morente) e propone di viaggiare insieme dividendo i rischi del percorso"
+        },
+        "pressure_events": [],
+        "relationships": [
+          {
+            "name": "L'amato defunto",
+            "type": "lover",
+            "note": "Morto, lo cerca nei sogni della foresta"
+          }
+        ],
+        "source_ref": {},
+        "source_status": "inferred",
+        "is_preserved_from_pdf": true,
+        "inferred_agenda": false,
+        "confidence": 0.92,
+        "llm_enriched": true
+      },
+      {
+        "id": "uomo_gorilla",
+        "name": "Uomo Gorilla",
+        "role": "antagonist",
+        "location_id": "section_2",
+        "status": "unintroduced",
+        "goal": "Impedire a chiunque di rubare il passerotto magico dalla gabbia che custodisce",
+        "secret": "",
+        "agenda_pressure": 0,
+        "fear": "Fallire nel suo dovere di guardiano e perdere il passerotto",
+        "current_plan": "Pattugliare costantemente l'area attorno all'Albero delle Gabbie Dorate, nutrire il passerotto con bacche di sogno all'alba e al tramonto, dormire in posizione fetale abbracciando la gabbia per assorbirne i canti che gli mostrano il figlio nei sogni.",
+        "fallback_plan": "Se la gabbia venisse davvero minacciata, fuggire attraverso il Ponte di Nebbia verso il Cuore Dormiente della Foresta dove nessun essere sveglio può entrare, e lì fondersi definitivamente col passerotto in un sonno eterno condiviso.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "Il passerotto magico è nella gabbia dietro di lui",
+          "La porta della gabbia è abbastanza grande per farci passare un uomo",
+          "Le sbarre sono strette per impedire la fuga dell'uccellino"
+        ],
+        "wants": [
+          "Proteggere il passerotto magico da qualsiasi intruso",
+          "Rimanere in posizione di guardia alla gabbia",
+          "Eliminare chiunque tenti di rubare l'uccellino"
+        ],
+        "avoids": [
+          "Allontanarsi dalla gabbia",
+          "Essere ingannato o distratto dal suo dovere",
+          "Che qualcuno entri nella gabbia"
+        ],
+        "pressure_response": {
+          "low": "Grugnisce e batte i pugni sul petto, posizionandosi deliberatamente tra i PG e la gabbia dorata. Scruta con occhi intelligenti, valutando se rappresentano una minaccia reale.",
+          "medium": "Rovescia mobili e oggetti per creare barricate attorno alla gabbia. Emette ululati profondi che risuonano nella foresta, forse richiamando creature oniriche a suo aiuto. Si agita nervosamente guardando il passerotto.",
+          "high": "Afferra la gabbia e si arrampica sugli alberi più alti, saltando di ramo in ramo. Lancia frutti marci e rami spezzati contro i PG. Il suo pelo si drizza, mostrando cicatrici antiche che brillano di luce lunare.",
+          "extreme": "Apre deliberatamente la gabbia e ingoia il passerotto magico pur di impedire ai PG di prenderlo. Il suo corpo comincia a trasformarsi mentre sogni e incubi fuoriescono dalla sua bocca come nebbia colorata, manifestando le peggiori paure dei presenti."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si lancia in un attacco brutale ma calcolato, mirando a rendere i PG incoscienti piuttosto che ucciderli - così dormiranno e dimenticheranno nei sogni della foresta. Protegge la gabbia con il proprio corpo.",
+          "se_corrotto": "Inclina la testa confuso. Annusa l'offerta. Se è cibo dei sogni (frutta mai vista, miele di ricordi) o un sonno eterno promesso, potrebbe indicare dove si trova la vera chiave della gabbia, nascosta nel tronco dell'Albero che Piange.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano di conoscere il suo vero nome umano (prima della maledizione) o portano il profumo di chi lo mandò in esilio, crolla in ginocchio piangendo. Rivela che il passerotto è l'unico collegamento con suo figlio intrappolato in un sogno eterno.",
+          "se_alleato": "Diventa un guardiano feroce dei PG nella foresta. Usa la sua conoscenza dei sentieri onirici per guidarli. Permette che accarezzino il passerotto, i cui canti possono rivelare verità nascoste nei sogni impossibili."
+        },
+        "pressure_events": [],
+        "relationships": [
+          {
+            "name": "Passerotto magico",
+            "type": "patron",
+            "note": "Custodisce la gabbia contenente l'uccellino"
+          }
+        ],
+        "source_ref": {},
+        "source_status": "inferred",
+        "is_preserved_from_pdf": true,
+        "inferred_agenda": false,
+        "confidence": 0.92,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_foresta_sogni_impossibili",
+        "name": "La Foresta dei Sogni Impossibili",
+        "description": "Una foresta magica menzionata nelle Mille e una Notte, dove chi è afflitto nello spirito si addormenta e sogna di risolvere i propri problemi. È protetta da guardiani magici e pericoli naturali incantati.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1",
+          "llm_clue_2",
+          "llm_clue_3",
+          "llm_clue_6",
+          "llm_clue_7",
+          "llm_clue_8",
+          "llm_clue_9",
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "wilderness",
+        "access_state": "open",
+        "visual_identity": "Una foresta magica menzionata nelle Mille e una Notte, dove chi è afflitto nello spirito si addormenta e sogna di risolv",
+        "gameplay_function": "Esplorazione, sopravvivenza, combattimento contro guardiani magici, resistenza agli effetti magici ambientali",
+        "concrete_features": [
+          "Piante della Follia che emettono spore velenose",
+          "Getti di Ghiaccio che emergono dal terreno",
+          "Effetto Sonno Ingannatore che colpisce chi cerca qualcosa",
+          "Rischio di perdersi e tornare al punto di partenza",
+          "Cinguettio anomalo che guida verso la gabbia"
+        ],
+        "hazards": [
+          "rovi che rallentano",
+          "nebbia tra gli alberi"
+        ],
+        "exits": [
+          "La Gabbia Enorme",
+          "corridoio principale"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "llm_clue_1",
+          "llm_clue_2",
+          "llm_clue_3",
+          "llm_clue_6"
+        ],
+        "tactical_features": [
+          "Piante della Follia che emettono spore velenose",
+          "Getti di Ghiaccio che emergono dal terreno",
+          "Effetto Sonno Ingannatore che colpisce chi cerca qualcosa"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 1.0
+      },
+      {
+        "id": "loc_gabbia_enorme",
+        "name": "La Gabbia Enorme",
+        "description": "Una gigantesca gabbia con sbarre strette che contiene un passerotto magico impagliato. La porta è abbastanza grande da far passare un uomo, ma le sbarre impediscono la fuga dell'uccellino.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "outdoor",
+        "access_state": "open",
+        "visual_identity": "Una gigantesca gabbia con sbarre strette che contiene un passerotto magico impagliato. La porta è abbastanza grande da f",
+        "gameplay_function": "Obiettivo finale della missione, combattimento contro il guardiano, cattura dell'uccellino magico",
+        "concrete_features": [
+          "Passerotto magico impagliato che vola all'interno",
+          "Uomo Gorilla addormentato con la schiena appoggiata alla gabbia",
+          "Porta grande ma sbarre strette",
+          "Necessità di un retino per catturare l'uccellino"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "La Foresta dei Sogni Impossibili",
+          "corridoio principale"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "Passerotto magico impagliato che vola all'interno",
+          "Uomo Gorilla addormentato con la schiena appoggiata alla gabbia",
+          "Porta grande ma sbarre strette"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 1.0
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_sonno_ingannatore",
+        "label": "Caduta nel Sonno Eterno",
+        "value": 0,
+        "max_value": 7,
+        "consequence": "Tutti i PG cadono in un sonno perenne da cui non si risvegliano. La missione fallisce.",
+        "active": true,
+        "on_complete": "Tutti i PG cadono in un sonno perenne da cui non si risvegliano. La missione fallisce.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Sussurri di Sonno",
+            "effect": "Una stanchezza dolce pervade il gruppo. I PG sbadigliano frequentemente e devono resistere all'impulso di riposare."
+          },
+          {
+            "value": 2,
+            "label": "Primo Caduto",
+            "effect": "Il primo PG crolla addormentato durante la ricerca. Un sorriso beato sul volto mentre sogna la soluzione ai suoi problemi."
+          },
+          {
+            "value": 3,
+            "label": "Contaminazione Onirica",
+            "effect": "Chi è ancora sveglio inizia a vedere visioni oniriche sovrapposte alla realtà. -1 a tutti i tiri di percezione."
+          },
+          {
+            "value": 4,
+            "label": "Metà Perduta",
+            "effect": "Metà del gruppo dorme profondamente. Svegliare qualcuno richiede un tiro di FOR e causa 1d4 danni INT al risvegliato."
+          },
+          {
+            "value": 5,
+            "label": "Realtà Sfumata",
+            "effect": "I sogni sembrano più vividi della foresta. Chi è sveglio deve superare un tiro INT ogni turno o addormentarsi."
+          },
+          {
+            "value": 6,
+            "label": "L'Ultimo Custode",
+            "effect": "Solo un PG rimane sveglio. Il silenzio è rotto solo dal respiro profondo dei compagni. Deve agire rapidamente."
+          },
+          {
+            "value": 7,
+            "label": "Sonno Eterno",
+            "effect": "Tutti dormono. I loro corpi giacciono sereni tra le radici, sognando soluzioni che non arriveranno mai."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "llm_clue_8",
+          "llm_clue_9"
+        ],
+        "resolution_condition": "I giocatori trovano la gabbia dorata, sconfiggono l'Uomo Gorilla guardiano e liberano il passerotto magico, il cui canto vero dissolve l'incantesimo di sonno sulla foresta",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "llm_clue_5",
+        "discovery_hint": "L'aria profuma di lavanda e miele. Ogni respiro sembra più dolce del precedente, invitando a chiudere gli occhi solo per un momento",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.75
+      },
+      {
+        "id": "clock_perdita_orientamento",
+        "label": "Intrappolati nei Percorsi Circolari",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "I PG sono completamente disorientati e continuano a girare in cerchio. La ricerca del passerotto diventa impossibile senza aiuto magico.",
+        "active": true,
+        "on_complete": "I PG sono completamente disorientati e continuano a girare in cerchio. La ricerca del passerotto diventa impossibile senza aiuto magico.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Déjà Vu Sottile",
+            "effect": "Alcuni alberi sembrano vagamente familiari, ma è difficile dirlo con certezza. Un disagio impercettibile cresce."
+          },
+          {
+            "value": 2,
+            "label": "Sentieri Ripetuti",
+            "effect": "Un albero con uno strano nodo appare di nuovo. È la seconda volta che passate di qui, ne siete certi."
+          },
+          {
+            "value": 3,
+            "label": "Circolo Evidente",
+            "effect": "I PG si rendono conto di essere tornati al punto di partenza. Le tracce nel terreno sono le loro. -1 ai tiri di navigazione."
+          },
+          {
+            "value": 4,
+            "label": "Labirinto Vivente",
+            "effect": "Ogni direzione sembra identica. La foresta sembra riorganizzarsi mentre camminate. -2 ai tiri INT per orientarsi."
+          },
+          {
+            "value": 5,
+            "label": "Frustrazione Crescente",
+            "effect": "La frustrazione monta. -2 aggiuntivo ai lanci per orientarsi. Alcuni PG iniziano a litigare sulla direzione corretta."
+          },
+          {
+            "value": 6,
+            "label": "Prigione Perfetta",
+            "effect": "Siete completamente intrappolati nel loop. Solo magia o un aiuto esterno può liberarvi dal circolo infinito."
+          }
+        ],
+        "clock_type": "escalation",
+        "resolution_clues": [
+          "llm_clue_6",
+          "llm_clue_7"
+        ],
+        "resolution_condition": "I giocatori identificano il pattern circolare della foresta, ignorano i sentieri evidenti e seguono invece il cinguettio anomalo o altri segnali sottili (impronte dell'Uomo Gorilla, piume dorate) per rompere l'illusione e trovare la gabbia",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "llm_clue_6",
+        "discovery_hint": "Gli alberi proiettano ombre che non seguono il movimento del sole. Certi rami sembrano indicare direzioni che si contraddicono a vicenda",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 1,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.75
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_addormentare_l_uomo_gorilla",
+        "label": "Addormentare l'Uomo Gorilla e catturare il passerotto con un retino",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "method": "Tiro su DES per movimento silenzioso, poi cattura con retino dentro la gabbia",
+        "concrete_choice": "Mantenere il guardiano addormentato evitando rumori, entrare nella gabbia mentre dorme appoggiato ad essa, e catturare il passerotto magico impagliato usando un retino o trappola simile"
+      },
+      {
+        "id": "finale_svegliare_e_combattere_l_uom",
+        "label": "Svegliare e combattere l'Uomo Gorilla, poi catturare il passerotto",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "method": "Combattimento standard contro Uomo Gorilla (FOR 20, DP 3, RD 3), poi cattura nella gabbia",
+        "concrete_choice": "Attaccare direttamente l'Uomo Gorilla addormentato contro la gabbia, sconfiggerlo in combattimento, quindi entrare nella gabbia e catturare il passerotto impagliato"
+      },
+      {
+        "id": "finale_usare_incantesimo_risvegliar",
+        "label": "Usare incantesimo Risvegliare su compagno addormentato prima della cattura",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "method": "Lancio incantesimo RISVEGLIARE (M52) su alleato, poi azione di cattura",
+        "concrete_choice": "Se un PG si addormenta avvicinandosi, lanciare l'incantesimo RISVEGLIARE (M52) per evitare la perdita di INT, poi procedere con la cattura del passerotto nella gabbia"
+      },
+      {
+        "id": "finale_distrarre_l_uomo_gorilla_e_r",
+        "label": "Distrarre l'Uomo Gorilla e rubare il passerotto dalla gabbia aperta",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "method": "Tiro su INT per strategia, DES per velocità di cattura con retino",
+        "concrete_choice": "Creare una distrazione per allontanare l'Uomo Gorilla dalla gabbia, aprire rapidamente la porta grande e catturare il passerotto impagliato prima che fugga tra le sbarre strette"
+      }
+    ],
+    "story_threads": [],
+    "genre_runtime": {
+      "pdf_structure_counts": {
+        "rooms": 0,
+        "npcs": 1,
+        "factions": 0,
+        "clues": 10,
+        "encounters": 0,
+        "events": 0,
+        "tables": 0,
+        "maps": 0,
+        "pages": 3,
+        "source_cards": 5
+      },
+      "encounters": [],
+      "random_tables": [],
+      "maps": [],
+      "boxed_text": [],
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "La Foresta dei Sogni Impossibili",
+          "to": "La Gabbia Enorme"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "La Foresta dei Sogni Impossibili",
+          "to": "La Gabbia Enorme"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "La Gabbia Enorme",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "fantasy",
+      "tone": "fantasy adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "witness disappears",
+        "suspect lies",
+        "new contradiction",
+        "pressure clock advances",
+        "partial clue",
+        "false lead",
+        "social fallout",
+        "enemy alerted",
+        "ambush",
+        "chase",
+        "guardian attack",
+        "curse intensifies"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "mystery solved before threshold",
+        "villain revealed without clue threshold",
+        "case ends from one failed roll",
+        "untriggered massacre",
+        "sci-fi genre shift",
+        "cosmic apocalypse without trigger"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_5cc9a5474e",
+      "title": "La Foresta dei Sogni Impossibili",
+      "genre": "fantasy",
+      "detected_genre": "fantasy",
+      "premise": "I PG sentono parlare di una leggenda araba sulla Foresta dei Sogni Impossibili, nascosta a est del fiume rumoroso, dove chi è afflitto si addormenta e sogna di risolvere i suoi problemi. La foresta sarebbe la parte est dei boschi neri, protetta da guardiani magici.",
+      "hidden_truth": "La foresta è difesa da tre guardiani incantati: il Sonno Ingannatore che intrappola in sogni perenni, le Piante della Follia che inducono pazzia, e i Getti di Ghiaccio che emergono dal terreno come trappole letali.",
+      "win_condition": "Superare i guardiani magici della foresta, localizzare l'enorme gabbia seguendo il cinguettio anomalo, sconfiggere l'Uomo Gorilla dormiente che la custodisce, e catturare il passerotto magico impagliato all'interno.",
+      "threat_description": "Caduta nel Sonno Eterno",
+      "threat_max_turns": 7,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "pdf_import",
+      "archetype_profile": {
+        "primary_archetype": "journey_quest",
+        "secondary_archetypes": [
+          "wilderness_sandbox",
+          "horror_survival"
+        ],
+        "confidence": 0.85,
+        "reason": "Avventura fantasy basata su una ricerca (trovare la foresta dei sogni) con esplorazione di ambiente ostile dotato di trappole magiche e guardiani, elementi di sopravvivenza e pericoli ambientali casuali tipici di wilderness sandbox",
+        "definition": {
+          "id": "journey_quest",
+          "description": "Viaggio a tappe con prove e destinazione.",
+          "required_modules": [
+            "routes",
+            "locations"
+          ],
+          "optional_modules": [
+            "companions"
+          ],
+          "runtime_focus": [
+            "travel",
+            "milestone"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "delay",
+            "route_cost"
+          ],
+          "ending_patterns": [
+            "arrival"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        },
+        "source": "llm",
+        "llm_metadata": {
+          "genre": "fantasy",
+          "primary_archetype": "journey_quest",
+          "secondary_archetypes": [
+            "wilderness_sandbox",
+            "horror_survival"
+          ],
+          "tone": "fiabesco oscuro",
+          "confidence": 0.85,
+          "reason": "Avventura fantasy basata su una ricerca (trovare la foresta dei sogni) con esplorazione di ambiente ostile dotato di trappole magiche e guardiani, elementi di sopravvivenza e pericoli ambientali casuali tipici di wilderness sandbox",
+          "source": "llm"
+        },
+        "heuristic_primary": "military_operation",
+        "structure_authority": "label_only_do_not_compress"
+      },
+      "preservation_policy": {
+        "preserve_rooms": false,
+        "preserve_all_clues": false,
+        "preserve_factions": false,
+        "preserve_timeline": false,
+        "preserve_encounters": true,
+        "preserve_random_tables": false,
+        "preserve_maps": true,
+        "allow_inferred_missing_elements": true,
+        "forbid_structural_compression": true,
+        "preserve_original_structure": true,
+        "source_mode": "pdf_import",
+        "reason": "PDF = preserve before shaping"
+      },
+      "source_cards": [
+        {
+          "id": "card_section_1",
+          "type": "section",
+          "label": "GURPSfi Fantasy",
+          "text": "GURPSfi Fantasy",
+          "source_ref": {
+            "page": 1,
+            "section": "GURPSfi Fantasy",
+            "paragraph": 1,
+            "snippet_hash": "354c9b988479",
+            "quote": "GURPSfi Fantasy"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p1_section_1"
+        },
+        {
+          "id": "card_section_2",
+          "type": "section",
+          "label": "GETTI DI GHIACCIO",
+          "text": "GETTI DI GHIACCIO",
+          "source_ref": {
+            "page": 2,
+            "section": "GETTI DI GHIACCIO",
+            "paragraph": 1,
+            "snippet_hash": "6a5f8d40db16",
+            "quote": "GETTI DI GHIACCIO"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_section_1"
+        },
+        {
+          "id": "card_section_3",
+          "type": "section",
+          "label": "L ONNO N",
+          "text": "L ONNO N",
+          "source_ref": {
+            "page": 2,
+            "section": "L ONNO N",
+            "paragraph": 3,
+            "snippet_hash": "bc961e571d68",
+            "quote": "L ONNO N"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_section_3"
+        },
+        {
+          "id": "card_section_4",
+          "type": "section",
+          "label": "SONNO INGANNATORE",
+          "text": "SONNO INGANNATORE",
+          "source_ref": {
+            "page": 2,
+            "section": "SONNO INGANNATORE",
+            "paragraph": 5,
+            "snippet_hash": "003fabe5915a",
+            "quote": "SONNO INGANNATORE"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_section_5"
+        },
+        {
+          "id": "card_actor_5",
+          "type": "actor",
+          "label": "GETTI DI GHIACCIO",
+          "text": "effetto dell(cid:146)incantesimo sta rispetto alla vera opera). La favola in cui se ne (cid:147)FOLLIA(cid:148) (M35). Dopo la prima volta che Ł stata parla racconta la vicenda di una principessa che, incontrata i PG che possiedono l(cid:146)abilit(cid:224) avuta la notizia della morte del suo amato, si NATURALISTICA potranno tentare un lancio a -2 mette alla ricerca di questa foresta, per rivedere per riconoscere la pianta prima di entrare nelil suo uomo almeno in sogno. l(cid:146)area dei 3 m. La favola infatti narra che chi si trattenga nella foresta perchØ Ł afflitto nello spirito o perchØ",
+          "source_ref": {
+            "page": 2,
+            "section": "",
+            "paragraph": 1,
+            "snippet_hash": "fc076b7143f7",
+            "quote": "GETTI DI GHIACCIO"
+          },
+          "source_status": "explicit",
+          "confidence": 0.9,
+          "raw_id": "p2_npc_1"
+        }
+      ],
+      "preserved_elements": [
+        {
+          "type": "clue",
+          "id": "llm_clue_1",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_2",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_3",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_4",
+          "source_ref": {
+            "section": "GETTI DI GHIACCIO"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_5",
+          "source_ref": {
+            "section": "SONNO INGANNATORE"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_6",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_7",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_8",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_9",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "clue",
+          "id": "llm_clue_10",
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          }
+        },
+        {
+          "type": "actor",
+          "id": "principessa",
+          "source_ref": {}
+        },
+        {
+          "type": "actor",
+          "id": "uomo_gorilla",
+          "source_ref": {}
+        }
+      ],
+      "inferred_elements": [
+        {
+          "type": "revelation",
+          "id": "llm_rev_1",
+          "source_status": "inferred",
+          "confidence": 0.78
+        },
+        {
+          "type": "revelation",
+          "id": "llm_rev_2",
+          "source_status": "inferred",
+          "confidence": 0.78
+        },
+        {
+          "type": "revelation",
+          "id": "llm_rev_3",
+          "source_status": "inferred",
+          "confidence": 0.78
+        },
+        {
+          "type": "revelation",
+          "id": "llm_rev_4",
+          "source_status": "inferred",
+          "confidence": 0.78
+        },
+        {
+          "type": "revelation",
+          "id": "llm_rev_5",
+          "source_status": "inferred",
+          "confidence": 0.78
+        },
+        {
+          "type": "revelation",
+          "id": "llm_rev_6",
+          "source_status": "inferred",
+          "confidence": 0.78
+        }
+      ],
+      "adventure_definition_id": "adv_5cc9a5474e",
+      "adventure_canon": {
+        "core_truth": "La foresta è difesa da tre guardiani incantati: il Sonno Ingannatore che intrappola in sogni perenni, le Piante della Follia che inducono pazzia, e i Getti di Ghiaccio che emergono dal terreno come trappole letali.",
+        "main_antagonist": "Uomo Gorilla",
+        "key_locations": [
+          "La Foresta dei Sogni Impossibili",
+          "La Gabbia Enorme"
+        ],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2",
+          "llm_clue_3",
+          "llm_clue_4",
+          "llm_clue_5",
+          "llm_clue_6",
+          "llm_clue_7",
+          "llm_clue_8",
+          "llm_clue_9",
+          "llm_clue_10"
+        ],
+        "finale_conditions": [
+          "Addormentare l'Uomo Gorilla e catturare il passerotto con un retino",
+          "Svegliare e combattere l'Uomo Gorilla, poi catturare il passerotto",
+          "Usare incantesimo Risvegliare su compagno addormentato prima della cattura",
+          "Distrarre l'Uomo Gorilla e rubare il passerotto dalla gabbia aperta"
+        ],
+        "genre_profile": {
+          "id": "fantasy",
+          "tone": "fantasy adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "witness disappears",
+            "suspect lies",
+            "new contradiction",
+            "pressure clock advances",
+            "partial clue",
+            "false lead",
+            "social fallout",
+            "enemy alerted",
+            "ambush",
+            "chase",
+            "guardian attack",
+            "curse intensifies"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "mystery solved before threshold",
+            "villain revealed without clue threshold",
+            "case ends from one failed roll",
+            "untriggered massacre",
+            "sci-fi genre shift",
+            "cosmic apocalypse without trigger"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T_natura_foresta",
+          "title": "Dove conduce Fiaba nelle 'Mille e una notte' (Rivista)",
+          "question": "Dove conduce Fiaba nelle 'Mille e una notte' (Rivista)?",
+          "true_answer": "La foresta è un costrutto magico onirico che trasforma desideri disperati in trappole permanenti",
+          "required_clues": [
+            "llm_clue_1",
+            "llm_clue_5",
+            "llm_clue_10"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "I PG capiscono che resistere al sonno è cruciale: dormire significa rimanere intrappolati per sempre",
+          "status": "hidden"
+        },
+        {
+          "id": "T_guardiani",
+          "title": "Che cosa dimostrano Piante della Follia riconoscibili e Pattern dei Getti di Ghiaccio",
+          "question": "Che cosa dimostrano Piante della Follia riconoscibili e Pattern dei Getti di Ghiaccio?",
+          "true_answer": "I guardiani magici (Piante, Getti, Sonno) formano un sistema difensivo progettato per intrappolare, non uccidere",
+          "required_clues": [
+            "llm_clue_3",
+            "llm_clue_4",
+            "llm_clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Strategia difensiva: evitare combattimenti diretti, focalizzarsi su protezione mentale e consapevolezza",
+          "status": "hidden"
+        },
+        {
+          "id": "T_identita_uccello",
+          "title": "Dove conduce Fiaba nelle 'Mille e una notte' (Rivista)",
+          "question": "Dove conduce Fiaba nelle 'Mille e una notte' (Rivista)?",
+          "true_answer": "Il passerotto nella gabbia è la principessa della fiaba, trasformata dal suo stesso desiderio disperato",
+          "required_clues": [
+            "llm_clue_1",
+            "llm_clue_7",
+            "llm_clue_8"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Liberare l'uccello potrebbe spezzare l'incantesimo o condannare la principessa: scelta morale cruciale",
+          "status": "hidden"
+        },
+        {
+          "id": "T_navigazione",
+          "title": "Dove conduce Piante della Follia riconoscibili",
+          "question": "Dove conduce Piante della Follia riconoscibili?",
+          "true_answer": "I percorsi circolari sono causati dalla combinazione di disorientamento mentale e geografia magica alterata",
+          "required_clues": [
+            "llm_clue_5",
+            "llm_clue_6",
+            "llm_clue_3"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Necessario usare magia di navigazione O restare svegli e lucidi per navigare efficacemente la foresta",
+          "status": "hidden"
+        },
+        {
+          "id": "T_guardiano_dormiente",
+          "title": "Dove conduce Effetto del Sonno Ingannatore",
+          "question": "Dove conduce Effetto del Sonno Ingannatore?",
+          "true_answer": "L'Uomo Gorilla dorme perché anch'esso è vittima del Sonno Ingannatore, non per scelta tattica",
+          "required_clues": [
+            "llm_clue_9",
+            "llm_clue_5",
+            "llm_clue_8"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Possibile attraversare senza combattere; svegliarlo con Risvegliare potrebbe renderlo alleato temporaneo",
+          "status": "hidden"
+        },
+        {
+          "id": "T_mappa_fiabesca",
+          "title": "Dove conduce Fiaba nelle 'Mille e una notte' (Rivista)",
+          "question": "Dove conduce Fiaba nelle 'Mille e una notte' (Rivista)?",
+          "true_answer": "La fiaba delle Mille e Una Notte è una mappa codificata: l'ubicazione geografica reale corrisponde ai riferimenti simbolici",
+          "required_clues": [
+            "llm_clue_1",
+            "llm_clue_2",
+            "llm_clue_10"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "I PG possono usare altre fiabe arabe per trovare luoghi magici simili o vie d'uscita alternative",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "llm_clue_1",
+          "label": "Fiaba nelle 'Mille e una notte' (Rivista)",
+          "text": "Fiaba nelle 'Mille e una notte' (Rivista)",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "La foresta ha il potere di far sognare soluzioni ai problemi di chi vi si addormenta afflitto",
+          "payoff": "I PG sanno che addormentarsi nella foresta mentre afflitti può portare a sogni rivelatori",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "La foresta è menzionata in una versione modificata delle 'Mille e una notte'. Racconta di una principessa che cerca la foresta per sognare il suo amato morto.",
+          "hidden_implication": "La versione della fiaba è stata 'rivista', suggerendo manipolazione della fonte originale",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "Cercare la versione originale delle 'Mille e una notte' per confrontare le differenze",
+            "Interrogare anziani arabi sulle leggende orali sulla foresta",
+            "Studiare la fiaba per identificare la posizione esatta della foresta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_2",
+          "label": "Ubicazione geografica della foresta",
+          "text": "Ubicazione geografica della foresta",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "La foresta è identificabile tramite riferimenti geografici specifici e coincide con i boschi neri",
+          "payoff": "I PG possono triangolare la posizione esatta usando i riferimenti geografici forniti",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "La foresta si trova ad est del fiume rumoroso, sotto la collina dei diamanti. Leggende orali arabe dicono che sia la parte est dei boschi neri.",
+          "hidden_implication": "La contraddizione tra 'fiaba' e 'leggende orali' suggerisce che la foresta sia reale",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "Cercare il fiume rumoroso e la collina dei diamanti su una mappa",
+            "Intervistare persone arabe anziane che conoscono le leggende orali",
+            "Esplorare la parte orientale dei boschi neri"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_3",
+          "label": "Piante della Follia riconoscibili",
+          "text": "Piante della Follia riconoscibili",
+          "type": "scene_observation",
+          "thread_id": "T3",
+          "reveals": "Esistono piante magiche difensive nella foresta che attaccano chi si avvicina",
+          "payoff": "I PG con NATURALISTICA possono evitare le piante dopo averle incontrate una volta",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "Piante che emettono spore causanti follia entro 3m. Dopo il primo incontro, chi ha abilità NATURALISTICA può riconoscerle con un tiro a -2 prima di avvicinarsi.",
+          "hidden_implication": "La presenza di guardiani magici suggerisce che qualcosa di prezioso è protetto nella foresta",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "Raccogliere campioni delle piante per studiarle o venderle",
+            "Mappare la posizione delle piante per creare un percorso sicuro",
+            "Usare oggetti a distanza per attivare le spore senza rischio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_4",
+          "label": "Pattern dei Getti di Ghiaccio",
+          "text": "Pattern dei Getti di Ghiaccio",
+          "type": "physical_evidence",
+          "thread_id": "T4",
+          "reveals": "I getti di ghiaccio sono trappole naturali o magiche con una frequenza prevedibile",
+          "payoff": "I PG possono temporizzare i loro spostamenti per evitare i getti più pericolosi",
+          "location": "GETTI DI GHIACCIO",
+          "immediate_information": "Geyser di ghiaccio che spuntano dal terreno ogni 3 ore (1 su 6). Dopo il primo incontro, i PG ottengono +1 ai tiri per non essere sorpresi.",
+          "hidden_implication": "La regolarità suggerisce un'origine magica deliberata, non un fenomeno casuale",
+          "unlocks": [
+            "T4"
+          ],
+          "possible_actions": [
+            "Cronometrare gli intervalli dei getti per predire le eruzioni",
+            "Marcare sul terreno le zone dove i getti sono già apparsi",
+            "Attendere l'eruzione di un getto prima di attraversare un'area"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "GETTI DI GHIACCIO"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_5",
+          "label": "Effetto del Sonno Ingannatore",
+          "text": "Effetto del Sonno Ingannatore",
+          "type": "forensic",
+          "thread_id": "T5",
+          "reveals": "La foresta induce magicamente il sonno in chi ha desideri specifici, proteggendosi dagli intrusi",
+          "payoff": "I PG devono pianificare turni di guardia e preparare l'incantesimo RISVEGLIARE",
+          "location": "SONNO INGANNATORE",
+          "immediate_information": "Chi cerca qualcosa di specifico deve tirare INT-1 ogni giorno o cade in un sonno perenne con sogni piacevoli. Svegliarsi bruscamente causa perdita di 1 punto INT.",
+          "hidden_implication": "Il sonno è una difesa attiva che punisce chi disturba, non solo un effetto collaterale",
+          "unlocks": [
+            "T5"
+          ],
+          "possible_actions": [
+            "Lanciare RISVEGLIARE su compagni addormentati per evitare perdita di INT",
+            "Stabilire turni di guardia dove alcuni non cercano attivamente nulla",
+            "Procurarsi pozioni o incantesimi di resistenza al sonno prima di entrare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "SONNO INGANNATORE"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_6",
+          "label": "Percorsi circolari nella foresta",
+          "text": "Percorsi circolari nella foresta",
+          "type": "scene_observation",
+          "thread_id": "T6",
+          "reveals": "La foresta ha una magia di disorientamento che causa loop spaziali",
+          "payoff": "I PG devono trovare metodi alternativi di navigazione o portare qualcuno con DIREZIONE ASSOLUTA",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "Ogni ora i PG devono tirare INT o si perdono, ritrovandosi al punto di partenza in un percorso circolare. DIREZIONE ASSOLUTA annulla questo effetto.",
+          "hidden_implication": "Il fenomeno è intenzionale per scoraggiare gli intrusi e proteggere il cuore della foresta",
+          "unlocks": [
+            "T6"
+          ],
+          "possible_actions": [
+            "Segnare gli alberi per verificare se si sta tornando indietro",
+            "Reclutare un PNG con l'abilità DIREZIONE ASSOLUTA come guida",
+            "Usare incantesimi di navigazione o magia di rilevamento"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_7",
+          "label": "Cinguettio anomalo nella foresta",
+          "text": "Cinguettio anomalo nella foresta",
+          "type": "scene_observation",
+          "thread_id": "T7",
+          "reveals": "Un suono insolito indica la presenza del passerotto magico cercato dai PG",
+          "payoff": "I PG sanno di seguire il suono per localizzare l'obiettivo della loro missione",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "Dopo alcuni giorni di ricerca, i PG udono un cinguettio, cosa strana per quella parte della foresta silenziosa.",
+          "hidden_implication": "Il cinguettio potrebbe essere un'esca o un segnale che il guardiano sta permettendo di avvicinarsi",
+          "unlocks": [
+            "T7"
+          ],
+          "possible_actions": [
+            "Seguire cautamente il cinguettio fino alla sua fonte",
+            "Verificare se il suono si ripete o si muove",
+            "Preparare equipaggiamento per catturare un uccello prima di avvicinarsi"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_8",
+          "label": "Gabbia enorme con passerotto",
+          "text": "Gabbia enorme con passerotto",
+          "type": "physical_evidence",
+          "thread_id": "T8",
+          "reveals": "Il passerotto magico è intrappolato in una gabbia progettata per contenitori di dimensioni molto diverse",
+          "payoff": "I PG devono entrare fisicamente nella gabbia per catturare il passerotto con un retino",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "Una gabbia con porta grande abbastanza per un uomo ma sbarre strette per trattenere un piccolo passerotto che vola all'interno.",
+          "hidden_implication": "La gabbia è stata costruita per permettere l'accesso umano, suggerendo che catturare l'uccello è una sfida prevista",
+          "unlocks": [
+            "T8"
+          ],
+          "possible_actions": [
+            "Procurarsi un retino prima di entrare nella gabbia",
+            "Esaminare la porta per trappole o meccanismi di chiusura automatica",
+            "Studiare i movimenti del passerotto per pianificare la cattura"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_9",
+          "label": "Uomo Gorilla guardiano dormiente",
+          "text": "Uomo Gorilla guardiano dormiente",
+          "type": "scene_observation",
+          "thread_id": "T9",
+          "reveals": "Il passerotto è custodito da un guardiano formidabile che però è addormentato",
+          "payoff": "I PG possono scegliere se eliminare silenziosamente il guardiano o tentare di agire senza svegliarlo",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "Un essere umanoide gigantesco (FOR 20, 95kg, cuoio rinforzato RD3) siede addormentato con la schiena alla gabbia del passerotto.",
+          "hidden_implication": "Il guardiano è caduto vittima della magia del SONNO INGANNATORE, rivelando una debolezza del sistema di difesa",
+          "unlocks": [
+            "T9"
+          ],
+          "possible_actions": [
+            "Attaccare il guardiano addormentato per un vantaggio tattico",
+            "Tentare di rubare il passerotto senza svegliare il guardiano",
+            "Esaminare il guardiano per capire perché dorme e quanto durerà il sonno"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        },
+        {
+          "id": "llm_clue_10",
+          "label": "Assenza di mostri normali",
+          "text": "Assenza di mostri normali",
+          "type": "scene_observation",
+          "thread_id": "T10",
+          "reveals": "La foresta è protetta solo da difese magiche specifiche, non da fauna pericolosa casuale",
+          "payoff": "I PG possono concentrarsi sulle minacce magiche note senza temere incontri casuali",
+          "location": "La Foresta dei Sogni Impossibili",
+          "immediate_information": "Il modulo specifica esplicitamente che i mostri non sono presenti in questa parte della foresta, solo guardiani magici specifici.",
+          "hidden_implication": "La foresta è stata magicamente purificata o isolata, suggerendo un controllo artificiale dell'area",
+          "unlocks": [
+            "T10"
+          ],
+          "possible_actions": [
+            "Interrogarsi su chi ha creato questo ambiente controllato",
+            "Cercare segni di chi mantiene questo equilibrio magico",
+            "Esplorare con maggiore confidenza sapendo che le minacce sono limitate"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per dettaglio d'atmosfera"
+          ],
+          "found": false,
+          "source_ref": {
+            "section": "La Foresta dei Sogni Impossibili"
+          },
+          "source_status": "inferred",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.75
+        }
+      ],
+      "npcs": [
+        {
+          "id": "principessa",
+          "name": "La Principessa",
+          "role": "witness",
+          "description": "Rivedere il suo amato morto almeno in sogno nella Foresta dei Sogni Impossibili",
+          "location": "section_1",
+          "secret": "Sa che la foresta si trova nella parte est dei boschi neri, non dove dice la fiaba ufficiale",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "witness",
+            "goal": "Rivedere il suo amato morto almeno in sogno nella Foresta dei Sogni Impossibili",
+            "fear": "Non riuscire più a sognare l'amato e perdere anche il suo ricordo",
+            "current_plan": "Si è addormentata nella foresta afflitto dallo spirito per sognare il suo amato defunto",
+            "fallback_plan": "Se svegliata, cerca di addormentarsi nuovamente o impedisce ad altri di disturbare i sognatori",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "La foresta si trova ad est dei boschi neri secondo le leggende orali",
+              "Chi è afflitto nello spirito si addormenta nella foresta e sogna di risolvere i suoi problemi",
+              "Il Sonno Ingannatore rende i sogni piacevoli ma perenni"
+            ],
+            "wants": [
+              "Rimanere addormentata per sognare il suo amato",
+              "Proteggere la quiete della foresta e dei suoi sognatori",
+              "Evitare di essere svegliata bruscamente"
+            ],
+            "avoids": [
+              "Essere svegliata e perdere INT",
+              "Che la foresta venga disturbata o profanata",
+              "Confrontarsi con la realtà della morte dell'amato"
+            ],
+            "pressure_response": {
+              "low": "Ignora i PG continuando a dormire, eventualmente mormora nel sonno",
+              "medium": "Si sveglia confusa e supplica di essere lasciata dormire, offre informazioni sulla foresta in cambio",
+              "high": "Piange disperata e tenta di fuggire più in profondità nella foresta per riaddormentarsi",
+              "critical": "Attacca i PG in preda alla follia del risveglio brusco (INT ridotta), urlando contro chi le nega il suo amato"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Sa che la foresta si trova nella parte est dei boschi neri, non dove dice la fiaba ufficiale",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "inferred",
+          "is_preserved_from_pdf": true,
+          "confidence": 0.92
+        },
+        {
+          "id": "uomo_gorilla",
+          "name": "Uomo Gorilla",
+          "role": "antagonist",
+          "description": "Impedire a chiunque di rubare il passerotto magico dalla gabbia che custodisce",
+          "location": "section_2",
+          "secret": "",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "antagonist",
+            "goal": "Impedire a chiunque di rubare il passerotto magico dalla gabbia che custodisce",
+            "fear": "Fallire nel suo dovere di guardiano e perdere il passerotto",
+            "current_plan": "Dorme appoggiato alla gabbia del passerotto, fa la guardia anche dormendo per il contatto fisico",
+            "fallback_plan": "Se svegliato attacca immediatamente chiunque si avvicini alla gabbia o tenti di catturare l'uccellino",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "Il passerotto magico è nella gabbia dietro di lui",
+              "La porta della gabbia è abbastanza grande per farci passare un uomo",
+              "Le sbarre sono strette per impedire la fuga dell'uccellino"
+            ],
+            "wants": [
+              "Proteggere il passerotto magico da qualsiasi intruso",
+              "Rimanere in posizione di guardia alla gabbia",
+              "Eliminare chiunque tenti di rubare l'uccellino"
+            ],
+            "avoids": [
+              "Allontanarsi dalla gabbia",
+              "Essere ingannato o distratto dal suo dovere",
+              "Che qualcuno entri nella gabbia"
+            ],
+            "pressure_response": {
+              "low": "Continua a dormire ma si agita, grugnisce nel sonno se percepisce movimenti vicino alla gabbia",
+              "medium": "Si sveglia e ruggisce minacciosamente, si alza in piedi brandendo le armi pronto ad attaccare",
+              "high": "Attacca con morsi (2d+1 danno da taglio) chiunque si avvicini alla gabbia o tenti di aprirla",
+              "critical": "Entra in furia berserker, attacca senza sosta fino alla morte, tenta di afferrare chi entra nella gabbia"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "high"
+          },
+          "source_ref": {},
+          "source_status": "inferred",
+          "is_preserved_from_pdf": true,
+          "confidence": 0.92
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_foresta_sogni_impossibili",
+          "name": "La Foresta dei Sogni Impossibili",
+          "description": "Una foresta magica menzionata nelle Mille e una Notte, dove chi è afflitto nello spirito si addormenta e sogna di risolvere i propri problemi. È protetta da guardiani magici e pericoli naturali incantati.",
+          "type": "wilderness",
+          "visual_identity": "Una foresta magica menzionata nelle Mille e una Notte, dove chi è afflitto nello spirito si addormenta e sogna di risolv",
+          "gameplay_function": "Esplorazione, sopravvivenza, combattimento contro guardiani magici, resistenza agli effetti magici ambientali",
+          "concrete_features": [
+            "Piante della Follia che emettono spore velenose",
+            "Getti di Ghiaccio che emergono dal terreno",
+            "Effetto Sonno Ingannatore che colpisce chi cerca qualcosa",
+            "Rischio di perdersi e tornare al punto di partenza",
+            "Cinguettio anomalo che guida verso la gabbia"
+          ],
+          "hazards": [
+            "rovi che rallentano",
+            "nebbia tra gli alberi"
+          ],
+          "exits": [
+            "La Gabbia Enorme",
+            "corridoio principale"
+          ],
+          "locked_paths": [],
+          "clue_slots": [
+            "llm_clue_1",
+            "llm_clue_2",
+            "llm_clue_3",
+            "llm_clue_6"
+          ],
+          "tactical_features": [
+            "Piante della Follia che emettono spore velenose",
+            "Getti di Ghiaccio che emergono dal terreno",
+            "Effetto Sonno Ingannatore che colpisce chi cerca qualcosa"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 1.0
+        },
+        {
+          "id": "loc_gabbia_enorme",
+          "name": "La Gabbia Enorme",
+          "description": "Una gigantesca gabbia con sbarre strette che contiene un passerotto magico impagliato. La porta è abbastanza grande da far passare un uomo, ma le sbarre impediscono la fuga dell'uccellino.",
+          "type": "outdoor",
+          "visual_identity": "Una gigantesca gabbia con sbarre strette che contiene un passerotto magico impagliato. La porta è abbastanza grande da f",
+          "gameplay_function": "Obiettivo finale della missione, combattimento contro il guardiano, cattura dell'uccellino magico",
+          "concrete_features": [
+            "Passerotto magico impagliato che vola all'interno",
+            "Uomo Gorilla addormentato con la schiena appoggiata alla gabbia",
+            "Porta grande ma sbarre strette",
+            "Necessità di un retino per catturare l'uccellino"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "La Foresta dei Sogni Impossibili",
+            "corridoio principale"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "Passerotto magico impagliato che vola all'interno",
+            "Uomo Gorilla addormentato con la schiena appoggiata alla gabbia",
+            "Porta grande ma sbarre strette"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 1.0
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_sonno_ingannatore",
+          "label": "Caduta nel Sonno Eterno",
+          "value": 0,
+          "max": 7,
+          "consequence": "Tutti i PG cadono in un sonno perenne da cui non si risvegliano. La missione fallisce.",
+          "on_complete": "Tutti i PG cadono in un sonno perenne da cui non si risvegliano. La missione fallisce.",
+          "steps": [
+            {
+              "step": 2,
+              "world_state_change": "Il primo PG cade addormentato durante la ricerca",
+              "scene_prompt": "Uno dei compagni crolla improvvisamente a terra, un sorriso beato sul volto"
+            },
+            {
+              "step": 4,
+              "world_state_change": "Metà del gruppo è addormentata, svegliare qualcuno causa perdita di INT",
+              "scene_prompt": "I sogni iniziano a sembrare più reali della foresta stessa"
+            },
+            {
+              "step": 6,
+              "world_state_change": "Solo un PG rimane sveglio, gli altri sognano profondamente",
+              "scene_prompt": "Il silenzio della foresta è rotto solo dal respiro profondo dei compagni addormentati"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.75
+        },
+        {
+          "id": "clock_perdita_orientamento",
+          "label": "Intrappolati nei Percorsi Circolari",
+          "value": 0,
+          "max": 6,
+          "consequence": "I PG sono completamente disorientati e continuano a girare in cerchio. La ricerca del passerotto diventa impossibile senza aiuto magico.",
+          "on_complete": "I PG sono completamente disorientati e continuano a girare in cerchio. La ricerca del passerotto diventa impossibile senza aiuto magico.",
+          "steps": [
+            {
+              "step": 3,
+              "world_state_change": "I PG si rendono conto di essere tornati al punto di partenza per la seconda volta",
+              "scene_prompt": "Un albero con uno strano nodo vi sembra inquietantemente familiare"
+            },
+            {
+              "step": 5,
+              "world_state_change": "La frustrazione aumenta, i lanci su INT per non perdersi subiscono -2 aggiuntivo",
+              "scene_prompt": "Ogni direzione sembra identica, la foresta gioca con i vostri sensi"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.75
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_sonno_ingannatore_step_2",
+          "clock_id": "clock_sonno_ingannatore",
+          "label": "Il primo PG cade addormentato durante la ricerca",
+          "scene_prompt": "Uno dei compagni crolla improvvisamente a terra, un sorriso beato sul volto",
+          "possible_player_response": "",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_sonno_ingannatore_step_4",
+          "clock_id": "clock_sonno_ingannatore",
+          "label": "Metà del gruppo è addormentata, svegliare qualcuno causa perdita di INT",
+          "scene_prompt": "I sogni iniziano a sembrare più reali della foresta stessa",
+          "possible_player_response": "",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_sonno_ingannatore_step_6",
+          "clock_id": "clock_sonno_ingannatore",
+          "label": "Solo un PG rimane sveglio, gli altri sognano profondamente",
+          "scene_prompt": "Il silenzio della foresta è rotto solo dal respiro profondo dei compagni addormentati",
+          "possible_player_response": "",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_perdita_orientamento_step_3",
+          "clock_id": "clock_perdita_orientamento",
+          "label": "I PG si rendono conto di essere tornati al punto di partenza per la seconda volta",
+          "scene_prompt": "Un albero con uno strano nodo vi sembra inquietantemente familiare",
+          "possible_player_response": "",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_perdita_orientamento_step_5",
+          "clock_id": "clock_perdita_orientamento",
+          "label": "La frustrazione aumenta, i lanci su INT per non perdersi subiscono -2 aggiuntivo",
+          "scene_prompt": "Ogni direzione sembra identica, la foresta gioca con i vostri sensi",
+          "possible_player_response": "",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_5cc9a5474e",
+    "current_scene_id": "loc_foresta_sogni_impossibili",
+    "active_objective_ids": [
+      "obj_pdf"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "llm_rev_1",
+      "llm_rev_2",
+      "llm_rev_3",
+      "llm_rev_4",
+      "llm_rev_5",
+      "llm_rev_6"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "principessa": {
+        "status": "unintroduced",
+        "location_id": "section_1",
+        "agenda_pressure": 0,
+        "goal": "Rivedere il suo amato morto almeno in sogno nella Foresta dei Sogni Impossibili",
+        "current_plan": "Si è addormentata nella foresta afflitto dallo spirito per sognare il suo amato defunto",
+        "fallback_plan": "Se svegliata, cerca di addormentarsi nuovamente o impedisce ad altri di disturbare i sognatori",
+        "pressure_response": {
+          "low": "Ignora i PG continuando a dormire, eventualmente mormora nel sonno",
+          "medium": "Si sveglia confusa e supplica di essere lasciata dormire, offre informazioni sulla foresta in cambio",
+          "high": "Piange disperata e tenta di fuggire più in profondità nella foresta per riaddormentarsi",
+          "critical": "Attacca i PG in preda alla follia del risveglio brusco (INT ridotta), urlando contro chi le nega il suo amato"
+        }
+      },
+      "uomo_gorilla": {
+        "status": "unintroduced",
+        "location_id": "section_2",
+        "agenda_pressure": 0,
+        "goal": "Impedire a chiunque di rubare il passerotto magico dalla gabbia che custodisce",
+        "current_plan": "Dorme appoggiato alla gabbia del passerotto, fa la guardia anche dormendo per il contatto fisico",
+        "fallback_plan": "Se svegliato attacca immediatamente chiunque si avvicini alla gabbia o tenti di catturare l'uccellino",
+        "pressure_response": {
+          "low": "Continua a dormire ma si agita, grugnisce nel sonno se percepisce movimenti vicino alla gabbia",
+          "medium": "Si sveglia e ruggisce minacciosamente, si alza in piedi brandendo le armi pronto ad attaccare",
+          "high": "Attacca con morsi (2d+1 danno da taglio) chiunque si avvicini alla gabbia o tenti di aprirla",
+          "critical": "Entra in furia berserker, attacca senza sosta fino alla morte, tenta di afferrare chi entra nella gabbia"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_foresta_sogni_impossibili": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_gabbia_enorme": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_sonno_ingannatore": {
+        "value": 0,
+        "max": 7,
+        "active": true
+      },
+      "clock_perdita_orientamento": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_addormentare_l_uomo_gorilla": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ]
+      },
+      "finale_svegliare_e_combattere_l_uom": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ]
+      },
+      "finale_usare_incantesimo_risvegliar": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ]
+      },
+      "finale_distrarre_l_uomo_gorilla_e_r": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "depends_on": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_pdf": {
+        "revealed": false,
+        "reveal_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "reveal_rule": "quando gli elementi canonici collegati sono emersi"
+      }
+    },
+    "clue_to_revelation_ids": {
+      "llm_clue_1": [
+        "llm_rev_1"
+      ],
+      "llm_clue_2": [
+        "llm_rev_1"
+      ],
+      "llm_clue_3": [
+        "llm_rev_1"
+      ],
+      "llm_clue_4": [
+        "llm_rev_1"
+      ],
+      "llm_clue_5": [
+        "llm_rev_1"
+      ],
+      "llm_clue_6": [
+        "llm_rev_1"
+      ],
+      "llm_clue_7": [
+        "llm_rev_1"
+      ],
+      "llm_clue_8": [
+        "llm_rev_1"
+      ],
+      "llm_clue_9": [
+        "llm_rev_1"
+      ],
+      "llm_clue_10": [
+        "llm_rev_1"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T_natura_foresta": [
+        "llm_rev_1"
+      ],
+      "T_guardiani": [
+        "llm_rev_2"
+      ],
+      "T_identita_uccello": [
+        "llm_rev_3"
+      ],
+      "T_navigazione": [
+        "llm_rev_4"
+      ],
+      "T_guardiano_dormiente": [
+        "llm_rev_5"
+      ],
+      "T_mappa_fiabesca": [
+        "llm_rev_6"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "llm_rev_1": "T_natura_foresta",
+      "llm_rev_2": "T_guardiani",
+      "llm_rev_3": "T_identita_uccello",
+      "llm_rev_4": "T_navigazione",
+      "llm_rev_5": "T_guardiano_dormiente",
+      "llm_rev_6": "T_mappa_fiabesca"
+    },
+    "flags": {},
+    "history": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 79,
+    "errors": [],
+    "warnings": [
+      "Actor principessa ha location non riconosciuta: section_1.",
+      "Actor uomo_gorilla ha location non riconosciuta: section_2.",
+      "EventClock clock_sonno_ingannatore senza almeno 4 step concreti.",
+      "EventClock clock_perdita_orientamento senza almeno 4 step concreti."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 87
+    },
+    "fidelity": {
+      "score": 90,
+      "target": 85,
+      "passes_target": true,
+      "source_card_counts": {
+        "section": 4,
+        "actor": 1
+      },
+      "coverage": {
+        "locations": 50,
+        "actors": 100,
+        "clues": 100,
+        "clue_links": 100,
+        "finale": 100
+      }
+    },
+    "counts": {
+      "objectives": 1,
+      "locations": 2,
+      "actors": 2,
+      "clues": 10,
+      "revelations": 6
+    },
+    "quality_gate": {
+      "passed": true,
+      "blocking": false,
+      "score": 100,
+      "critical": [],
+      "warnings": []
+    }
+  },
+  "live_game_state": null
+}

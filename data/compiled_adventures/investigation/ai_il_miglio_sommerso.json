@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_il_miglio_sommerso",
+    "title": "Il Miglio Sommerso",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "investigation",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "mistero costiero e corruzione",
+    "premise": "Una strada costiera riemerge dal mare solo durante la bassa marea, portando con sé auto scomparse in decenni diversi.",
+    "initial_hook": "I PG arrivano quando una vettura appena riemersa contiene un cadavere ancora caldo.",
+    "player_facing_objective": "Collegare le sparizioni, identificare chi controlla la marea artificiale e salvare la prossima vittima.",
+    "hidden_truth": "Un consorzio locale usa paratie illegali e vecchie gallerie per simulare incidenti e nascondere omicidi assicurativi.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Un consorzio locale usa paratie illegali e vecchie gallerie per simulare incidenti e nascondere omicidi assicurativi.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Collegare le sparizioni, identificare chi controlla la marea artificiale e salvare la prossima vittima.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Un consorzio locale usa paratie illegali e vecchie gallerie per simulare incidenti e nascondere omicidi assicurativi.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Dimostrare il controllo umano della marea, entrare nella galleria e consegnare prove a un'autorità esterna.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Cadavere ancora caldo",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "La morte non risale all'anno dell'auto.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La morte non risale all'anno dell'auto.",
+        "hidden_implication": "Il caso è attuale.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Fenomeno paranormale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Alghe su gomme nuove",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Le auto vengono spostate dopo la sparizione.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Le auto vengono spostate dopo la sparizione.",
+        "hidden_implication": "Il mare è copertura, non causa.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Auto fantasma"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Pratiche assicurative gemelle",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Gli incidenti seguono lo stesso schema.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Gli incidenti seguono lo stesso schema.",
+        "hidden_implication": "Il movente è economico.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Coincidenza burocratica"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Luci viste da Nino",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "La galleria è ancora usata.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La galleria è ancora usata.",
+        "hidden_implication": "Nino è affidabile.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Contrabbando"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Centralina salmastra",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Qualcuno controlla paratie elettriche.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Qualcuno controlla paratie elettriche.",
+        "hidden_implication": "La villa è nodo tecnico.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Pompa agricola"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Tabella maree falsata",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "La marea pubblica è manipolata.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "La marea pubblica è manipolata.",
+        "hidden_implication": "Il clock è prevedibile.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Errore meteorologico"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Ispettrice Dalia",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Poliziotta fuori giurisdizione.",
+        "goal": "Trovare una prova pulita.",
+        "motivation": "Trovare una prova pulita.",
+        "secret": "Sa che il comando locale è compromesso.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Tiene i PG lontani dai media.",
+        "fallback_plan": "Consegna contatto esterno se ottiene un registro.",
+        "pressure_response": {
+          "low": "Ispettrice Dalia osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Ispettrice Dalia accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Ispettrice Dalia sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Ispettrice Dalia tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Nino il Bagnino",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Testimone di troppe basse maree.",
+        "goal": "Proteggere sua figlia.",
+        "motivation": "Proteggere sua figlia.",
+        "secret": "Ha visto luci nella galleria.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Finge ignoranza davanti ai locali.",
+        "fallback_plan": "Guida i PG con la marea giusta.",
+        "pressure_response": {
+          "low": "Nino il Bagnino osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Nino il Bagnino accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Nino il Bagnino sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Nino il Bagnino tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Avvocato Serra",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Legale del consorzio.",
+        "goal": "Insabbiare responsabilità.",
+        "motivation": "Insabbiare responsabilità.",
+        "secret": "Gestisce pagamenti assicurativi.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Compra testimoni e ritarda permessi.",
+        "fallback_plan": "Fa sparire archivi se pressato.",
+        "pressure_response": {
+          "low": "Avvocato Serra osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Avvocato Serra accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Avvocato Serra sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Avvocato Serra tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Consorzio Maree",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Rete di notabili e tecnici.",
+        "goal": "Continuare omicidi mascherati da mare.",
+        "motivation": "Continuare omicidi mascherati da mare.",
+        "secret": "Controlla paratie e polizia locale.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Prepara la prossima vittima.",
+        "fallback_plan": "Allaga la galleria con i PG dentro.",
+        "pressure_response": {
+          "low": "Consorzio Maree osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Consorzio Maree accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Consorzio Maree sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Consorzio Maree tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Belvedere della Statale 9",
+        "description": "Guardrail arrugginito e turisti curiosi.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Guardrail arrugginito e turisti curiosi.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "marea"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Strada Riemersa",
+        "description": "Asfalto coperto di alghe e fari spenti.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Asfalto coperto di alghe e fari spenti.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "sabbie mobili"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Archivio Assicurazioni",
+        "description": "Pratiche di incidenti troppo simili.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Pratiche di incidenti troppo simili.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "polizia corrotta"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Galleria di Servizio",
+        "description": "Condotte e paratie sotto la scogliera.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Condotte e paratie sotto la scogliera.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "galleria instabile"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Casa del Consorzio Maree",
+        "description": "Villa elegante con centralina nascosta.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Villa elegante con centralina nascosta.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "annegamento"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Prossima Bassa Marea",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "La strada si richiude sul testimone designato e le prove vengono sommerse.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "La strada si richiude sul testimone designato e le prove vengono sommerse."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Bloccare le paratie e mettere al sicuro testimone e registri prima della marea.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Paratie bloccate e consorzio esposto",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Dimostrare il controllo umano della marea, entrare nella galleria e consegnare prove a un'autorità esterna.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Testimone salvo ma prove parziali",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Il Miglio Sommerso",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

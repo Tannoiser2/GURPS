@@ -1,0 +1,538 @@
+{
+  "adventure_definition": {
+    "id": "ai_il_mercato_dei_ricordi",
+    "title": "Il Mercato dei Ricordi",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "investigation",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "urban fantasy malinconico",
+    "premise": "In un mercato notturno nascosto, ricordi imbottigliati vengono venduti come profumi; al mattino un quartiere intero non ricorda più un bambino scomparso.",
+    "initial_hook": "I PG trovano una fiala col proprio nome sul banco di un venditore che giura di non averla mai vista.",
+    "player_facing_objective": "Rintracciare il bambino, capire chi compra ricordi e impedire che il mercato apra di nuovo a mezzanotte.",
+    "hidden_truth": "Il bambino non è stato rapito: ha venduto volontariamente il ricordo di sé per cancellare un patto familiare, ma il broker dei ricordi lo sta usando come chiave per svuotare il quartiere.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Il bambino non è stato rapito: ha venduto volontariamente il ricordo di sé per cancellare un patto familiare, ma il broker dei ricordi lo sta usando come chiave per svuotare il quartiere.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Rintracciare il bambino, capire chi compra ricordi e impedire che il mercato apra di nuovo a mezzanotte.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Il bambino non è stato rapito: ha venduto volontariamente il ricordo di sé per cancellare un patto familiare, ma il broker dei ricordi lo sta usando come chiave per svuotare il quartiere.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Restituire almeno tre ricordi ancoranti, spezzare il contratto della famiglia e chiudere il banco del broker prima della campana di mezzanotte.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Fotografia con spazio bianco",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Qualcuno è stato cancellato dalle immagini.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Qualcuno è stato cancellato dalle immagini.",
+        "hidden_implication": "La vittima esiste ancora ma senza legami.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Foto rovinata"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Fiala col nome del PG",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "Il mercato conosce anche i PG.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il mercato conosce anche i PG.",
+        "hidden_implication": "I PG possono diventare bersagli.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Minaccia casuale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Ninna nanna ricordata da Nora",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Un ricordo emotivo resiste alla cancellazione.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Un ricordo emotivo resiste alla cancellazione.",
+        "hidden_implication": "Nora è ancora ancorata al fratello.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Canzone infantile"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Contratto profumato",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "La famiglia ha firmato un patto precedente.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La famiglia ha firmato un patto precedente.",
+        "hidden_implication": "La madre non è solo vittima.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Contratto commerciale"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Archivio dei pegni vivi",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "I ricordi sono ancora recuperabili.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "I ricordi sono ancora recuperabili.",
+        "hidden_implication": "Il recupero richiede scelta, non furto.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Collezione innocua"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Campana che pesa i nomi",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Mezzanotte è la scadenza del trasferimento.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Mezzanotte è la scadenza del trasferimento.",
+        "hidden_implication": "Il clock è contrattuale.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": [
+          "Tradizione del mercato"
+        ],
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Nora Orsini",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Sorella maggiore che sente un'assenza.",
+        "goal": "Ricordare chi manca senza impazzire.",
+        "motivation": "Ricordare chi manca senza impazzire.",
+        "secret": "Ha conservato una ninna nanna che prova l'esistenza del fratello.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Segue melodie e vecchie foto.",
+        "fallback_plan": "Canta la ninna nanna davanti al broker se i PG la proteggono.",
+        "pressure_response": {
+          "low": "Nora Orsini osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Nora Orsini accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Nora Orsini sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Nora Orsini tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Berto delle Fiale",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Venditore tremante e profumato.",
+        "goal": "Non essere punito dal broker.",
+        "motivation": "Non essere punito dal broker.",
+        "secret": "Ha venduto la prima fiala al bambino.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Nega tutto ma lascia indizi aromatici.",
+        "fallback_plan": "Rivela l'Archivio se gli viene restituito un ricordo suo.",
+        "pressure_response": {
+          "low": "Berto delle Fiale osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Berto delle Fiale accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Berto delle Fiale sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Berto delle Fiale tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Madre Orsini",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Donna rispettabile e svuotata.",
+        "goal": "Tenere nascosto un patto di famiglia.",
+        "motivation": "Tenere nascosto un patto di famiglia.",
+        "secret": "Firmò un contratto per prosperità anni fa.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Distrugge fotografie compromettenti.",
+        "fallback_plan": "Confessa se Nora rischia di sparire.",
+        "pressure_response": {
+          "low": "Madre Orsini osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Madre Orsini accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Madre Orsini sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Madre Orsini tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Il Broker dei Ricordi",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Mercante elegante senza volto stabile.",
+        "goal": "Trasformare il quartiere in inventario.",
+        "motivation": "Trasformare il quartiere in inventario.",
+        "secret": "Il bambino è la chiave contrattuale.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Compra e rivende legami affettivi.",
+        "fallback_plan": "Fugge attraverso la campana se perde tre ricordi ancoranti.",
+        "pressure_response": {
+          "low": "Il Broker dei Ricordi osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Il Broker dei Ricordi accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Il Broker dei Ricordi sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Il Broker dei Ricordi tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Piazza del Mattino Vuoto",
+        "description": "Negozi aperti e fotografie con spazi bianchi.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Negozi aperti e fotografie con spazi bianchi.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "amnesia selettiva"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Banco delle Fiale",
+        "description": "Profumi etichettati con nomi impossibili.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Profumi etichettati con nomi impossibili.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "contratti magici"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Casa della Famiglia Orsini",
+        "description": "Stanze ordinate attorno a un letto che nessuno riconosce.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Stanze ordinate attorno a un letto che nessuno riconosce.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "venditori bugiardi"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Archivio dei Pegni",
+        "description": "Scaffali di bottiglie con risate, volti e promesse.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Scaffali di bottiglie con risate, volti e promesse.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "debiti familiari"
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Campana di Mezzanotte",
+        "description": "Arco del mercato dove ogni memoria viene pesata.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Arco del mercato dove ogni memoria viene pesata.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "cancellazione identita"
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Riapertura del Mercato",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il mercato riapre e vende in massa i ricordi del quartiere, cancellando prove, legami e identità.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Il mercato riapre e vende in massa i ricordi del quartiere, cancellando prove, legami e identità."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Trovare il contratto, recuperare i ricordi ancoranti e chiudere il banco del broker.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Ricordi restituiti e mercato chiuso",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Restituire almeno tre ricordi ancoranti, spezzare il contratto della famiglia e chiudere il banco del broker prima della campana di mezzanotte.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Bambino salvato ma broker in fuga",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Il Mercato dei Ricordi",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

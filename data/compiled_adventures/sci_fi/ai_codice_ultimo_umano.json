@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_codice_ultimo_umano",
+    "title": "Il Codice dell'Ultimo Umano",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "sci_fi",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "sci-fi distopico biotecnologico, identità e umanità",
+    "premise": "Nel 2187, la modificazione genetica di base è standard — il 94% della popolazione ha almeno un'alterazione genica. In questo contesto, un laboratorio clandestino ha annunciato di possedere il genoma completo di un essere umano non modificato, detto 'Codice Adamo'. Il valore è inestimabile — sia per chi vuole preservarlo, che per chi vuole usarlo come arma biologica.",
+    "initial_hook": "L'Istituto per la Preservazione Genetica contatta i PG: il laboratorio clandestino è stato attaccato, il suo fondatore è disperso e il Codice Adamo è sparito. Tre organizzazioni diverse sono già in campo.",
+    "player_facing_objective": "Trovare il Codice Adamo prima delle altre organizzazioni e deciderne il destino etico.",
+    "hidden_truth": "Il Codice Adamo non è un genoma trovato: è il genoma del fondatore stesso, Marcus Reyn, un uomo di settantadue anni mai modificato per scelta filosofica. È ancora vivo, nascosto in una rete di rifugiati non-modificati chiamata 'La Radice'. Non vuole essere trovato — il Codice è lui. L'attacco al laboratorio è stato orchestrato da una multinazionale biotech che vuole il genoma per brevettarlo e venderlo come 'cura della purezza'.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Il Codice Adamo non è un genoma trovato: è il genoma del fondatore stesso, Marcus Reyn, un uomo di settantadue anni mai modificato per scelta filosofica. È ancora vivo, nascosto in una rete di rifugiati non-modificati chiamata 'La Radice'. Non vuole essere trovato — il Codice è lui. L'attacco al laboratorio è stato orchestrato da una multinazionale biotech che vuole il genoma per brevettarlo e venderlo come 'cura della purezza'.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Trovare il Codice Adamo prima delle altre organizzazioni e deciderne il destino etico.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Il Codice Adamo non è un genoma trovato: è il genoma del fondatore stesso, Marcus Reyn, un uomo di settantadue anni mai modificato per scelta filosofica. È ancora vivo, nascosto in una rete di rifugiati non-modificati chiamata 'La Radice'. Non vuole essere trovato — il Codice è lui. L'attacco al laboratorio è stato orchestrato da una multinazionale biotech che vuole il genoma per brevettarlo e venderlo come 'cura della purezza'.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Trovare il rifugio di Marcus Reyn attraverso la rete de 'La Radice', convincerlo che i PG non intendono sfruttarlo, poi aiutarlo a distribuire il Codice pubblicamente prima che la multinazionale brevetti il genoma — rendendolo di dominio pubblico e inutilizzabile come prodotto.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Archivi di backup sopravvissuti all'incendio con il nome 'Marcus Reyn' e la nota 'soggetto = fonte'",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "Il Codice non è una cosa trovata — è una persona. Marcus Reyn è il genoma.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "Il Codice non è una cosa trovata — è una persona. Marcus Reyn è il genoma.",
+        "hidden_implication": "Reyn sa che Helixar lo cerca — ha già pianificato la distribuzione pubblica ma gli manca accesso all'Ufficio Brevetti.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il 'soggetto = fonte' potrebbe indicare che Reyn ha prelevato il DNA da qualcun altro.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza di una ragazza del quartiere non-modificati che ha visto 'il vecchio filosofo' nascondersi",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "La ragazza ha visto Reyn tre giorni fa — è ancora nella zona, nel rifugio de La Radice.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La ragazza ha visto Reyn tre giorni fa — è ancora nella zona, nel rifugio de La Radice.",
+        "hidden_implication": "Una delle tre organizzazioni rivali è in realtà un'altra rete di non-modificati che cerca di proteggere Reyn.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La ragazza potrebbe confondere Reyn con qualsiasi anziano che frequenta il quartiere.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Corrispondenza interna di Helixar che descrive l'operazione di furto con nomi e date",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Helixar ha orchestrato l'attacco con mercenari — la prova è nel database aziendale.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Helixar ha orchestrato l'attacco con mercenari — la prova è nel database aziendale.",
+        "hidden_implication": "Il Codice distribuito pubblicamente crea problemi etici enormi: Helixar lo userà politicamente anche senza brevetto.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La corrispondenza di Helixar potrebbe essere comunicazione commerciale fraintesa da analisti eccessivamente zelanti.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Un documento criptato de 'La Radice' con coordinate del rifugio — trovato nella borsa di un corriere",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Le coordinate portano a 3 km dal quartiere — edificio abbandonato nel settore industriale ovest.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Le coordinate portano a 3 km dal quartiere — edificio abbandonato nel settore industriale ovest.",
+        "hidden_implication": "La ragazza del quartiere è figlia di Reyn — non lo sa ancora.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Le coordinate potrebbero essere obsolete — Reyn si sposta frequentemente.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Marcus Reyn in persona — disponibile a parlare solo con chi dimostra di non lavorare per Helixar",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Reyn è disposto a collaborare se i PG lo convincono — ha già preparato la distribuzione pubblica.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Reyn è disposto a collaborare se i PG lo convincono — ha già preparato la distribuzione pubblica.",
+        "hidden_implication": "L'Istituto che ha ingaggiato i PG ha anche lui l'interesse a controllare il Codice, non solo preservarlo.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Reyn potrebbe essere reticente non perché sia la fonte ma perché è un ricercatore che sa chi è la fonte.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Il dossier di Helixar sul brevetto del Codice con la data di deposito: 18 ore da adesso",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "Helixar deposita il brevetto tra 18 ore — se il Codice è di dominio pubblico prima, il brevetto è nullo.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Helixar deposita il brevetto tra 18 ore — se il Codice è di dominio pubblico prima, il brevetto è nullo.",
+        "hidden_implication": "Reyn ha un secondo genoma con mutazioni leggere che ha preparato come falso — può usarlo come esca.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il brevetto di Helixar potrebbe essere già stato depositato — la finestra di 18 ore potrebbe essere falsa.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Direttrice Istituto Dr. Amara Singh",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Donna sui 60 anni, outfit austero, occhi bionici discreti. Ha ingaggiato i PG ma con agenda non dichiarata.",
+        "goal": "Acquisire il Codice per l'Istituto — non necessariamente renderlo pubblico.",
+        "motivation": "Acquisire il Codice per l'Istituto — non necessariamente renderlo pubblico.",
+        "secret": "L'Istituto vuole il Codice come risorsa esclusiva, non come bene comune — la sua missione 'preservare' ha secondi fini commerciali.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Supporta i PG attivamente ma spinge verso la consegna del Codice all'Istituto, non verso la distribuzione pubblica.",
+        "fallback_plan": "Se i PG la sfidano con le prove degli interessi commerciali, offre un accordo: distribuzione parziale con royalties.",
+        "pressure_response": {
+          "low": "Direttrice Istituto Dr. Amara Singh osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Direttrice Istituto Dr. Amara Singh accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Direttrice Istituto Dr. Amara Singh sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Direttrice Istituto Dr. Amara Singh tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Corriere Juno-7",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Persona di 28 anni con modifiche neuronali minori, corriere della rete La Radice. Non sa cosa trasportava.",
+        "goal": "Capire perché è stato inseguito e proteggere la rete.",
+        "motivation": "Capire perché è stato inseguito e proteggere la rete.",
+        "secret": "Il documento criptato che portava contiene le coordinate del rifugio — lo ha nascosto nel quartiere non-modificati.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Si fida dei PG solo se dimostrano di non avere modifiche bioniche visibili o di rispettare chi non le ha.",
+        "fallback_plan": "Se i PG guadagnano la sua fiducia, li porta direttamente al rifugio.",
+        "pressure_response": {
+          "low": "Corriere Juno-7 osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Corriere Juno-7 accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Corriere Juno-7 sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Corriere Juno-7 tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Avvocato Helixar Kade Reeves",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Uomo sui 45 anni, sempre al telefono, arrogante, non vede i PG come una minaccia reale.",
+        "goal": "Depositare il brevetto entro la scadenza interna.",
+        "motivation": "Depositare il brevetto entro la scadenza interna.",
+        "secret": "Non sa dei dettagli dell'attacco — è stato tenuto fuori dal loop per plausible deniability.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Se minacciato con le prove della corrispondenza interna, offre di ritirare il brevetto in cambio di immunità.",
+        "fallback_plan": "Se convinto che il brevetto verrà bloccato comunque, contatta il CEO per rinegoziare — dà ai PG due ore in più.",
+        "pressure_response": {
+          "low": "Avvocato Helixar Kade Reeves osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Avvocato Helixar Kade Reeves accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Avvocato Helixar Kade Reeves sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Avvocato Helixar Kade Reeves tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Marcus Reyn",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Uomo di 72 anni, fisicamente integro, capelli bianchi lunghi, sguardo tranquillo. Parla lentamente e con precisione.",
+        "goal": "Che il Codice diventi di dominio pubblico — non controllato da nessuno.",
+        "motivation": "Che il Codice diventi di dominio pubblico — non controllato da nessuno.",
+        "secret": "Ha già il file di distribuzione pronto su un dispositivo criptato. Manca solo l'accesso sicuro all'Ufficio Brevetti.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Non si fida di nessuno inizialmente: fa ai PG domande filosofiche sull'identità umana prima di rivelarsi.",
+        "fallback_plan": "Se i PG convincono Reyn della propria buona fede, li guida all'Ufficio Brevetti e deposita il Codice in diretta.",
+        "pressure_response": {
+          "low": "Marcus Reyn osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Marcus Reyn accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Marcus Reyn sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Marcus Reyn tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Laboratorio Clandestino — Distretto Industriale",
+        "description": "Laboratorio bruciato, attrezzature distrutte. Qualcosa è sopravvissuto al fuoco — gli archivi di backup nei muri.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Laboratorio bruciato, attrezzature distrutte. Qualcosa è sopravvissuto al fuoco — gli archivi di backup nei muri.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Mercenari di Helixar sorvegliano il quartiere non-modificati: approccio frontale è pericoloso."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Quartiere Non-Modificati",
+        "description": "Enclave di persone senza modifiche genetiche — poveri, emarginati, diffidentissimi degli estranei con occhi tecnologici o arti bionici.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Enclave di persone senza modifiche genetiche — poveri, emarginati, diffidentissimi degli estranei con occhi tecnologici o arti bionici.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il quartiere non-modificati è ostile a chi mostra modifiche bioniche evidenti."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Ufficio Legale della Multinazionale Helixar",
+        "description": "Edificio corporativo di vetro e metallo. Documenti sul brevetto in preparazione, corrispondenza con i responsabili dell'attacco.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Edificio corporativo di vetro e metallo. Documenti sul brevetto in preparazione, corrispondenza con i responsabili dell'attacco.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il rifugio de La Radice ha 70 rifugiati vulnerabili: un'azione violenta avrebbe conseguenze civili."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Rifugio de 'La Radice' — Edificio Abbandonato",
+        "description": "Rete clandestina di non-modificati. Marcus Reyn si nasconde qui tra settanta rifugiati che dipendono da lui.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Rete clandestina di non-modificati. Marcus Reyn si nasconde qui tra settanta rifugiati che dipendono da lui.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il dispositivo criptato di Reyn si distrugge se manomesso senza il codice corretto."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Ufficio Brevetti Federale",
+        "description": "Se la multinazionale deposita il brevetto, diventa legalmente irrevocabile in 6 ore. Impedirlo richiede depositare prima il Codice come pubblico dominio.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Se la multinazionale deposita il brevetto, diventa legalmente irrevocabile in 6 ore. Impedirlo richiede depositare prima il Codice come pubblico dominio.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il deposito all'Ufficio Brevetti richiede autenticazione biometrica — Reyn deve essere fisicamente presente."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Deposito del brevetto Helixar",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Se Helixar deposita il brevetto, il Codice diventa proprietà privata: ogni uso non autorizzato è illegale e Reyn diventa un bene da sequestrare.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Se Helixar deposita il brevetto, il Codice diventa proprietà privata: ogni uso non autorizzato è illegale e Reyn diventa un bene da sequestrare."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Depositare il Codice come dominio pubblico all'Ufficio Brevetti prima che Helixar completi il deposito.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Depositare il Codice come dominio pubblico con Reyn presente — Helixar perde, i non-modificati vincono visibilità.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Trovare il rifugio di Marcus Reyn attraverso la rete de 'La Radice', convincerlo che i PG non intendono sfruttarlo, poi aiutarlo a distribuire il Codice pubblicamente prima che la multinazionale brevetti il genoma — rendendolo di dominio pubblico e inutilizzabile come prodotto.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Consegnare il Codice all'Istituto Singh: Helixar viene bloccata ma il Codice non è libero — questione irrisolta.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Il Codice dell'Ultimo Umano",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

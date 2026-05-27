@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_il_principe_delle_sabbie",
+    "title": "Il Principe delle Sabbie",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "fantasy arabesque di intrighi, sete e sopravvivenza",
+    "premise": "Il sultanato di Khara-Shen è costruito attorno all'Oasi di Selmira — l'unica fonte d'acqua in cento leghe di deserto. Da tre settimane l'oasi avvelena chiunque la beva, con febbri che uccidono in ventiquattr'ore. Le scorte di acqua pulita della città durano dieci giorni.",
+    "initial_hook": "Il Sultano incarica i PG — stranieri non coinvolti nella politica locale — di investigare senza allarmare la popolazione. La corte è paralizzata dal sospetto reciproco.",
+    "player_facing_objective": "Scoprire la fonte dell'avvelenamento, neutralizzarla e garantire l'accesso all'acqua prima che la città muoia di sete.",
+    "hidden_truth": "Un principe esiliato ha stretto un patto con una tribù nomade per contaminare l'oasi usando semi alchimici di una pianta del deserto profondo. Il suo piano: aspettare la resa del sultano, poi offrire l'antidoto in cambio del trono. Non sa che i semi si stanno riproducendo più in fretta del previsto: tra sette giorni l'oasi sarà permanentemente compromessa.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Un principe esiliato ha stretto un patto con una tribù nomade per contaminare l'oasi usando semi alchimici di una pianta del deserto profondo. Il suo piano: aspettare la resa del sultano, poi offrire l'antidoto in cambio del trono. Non sa che i semi si stanno riproducendo più in fretta del previsto: tra sette giorni l'oasi sarà permanentemente compromessa.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire la fonte dell'avvelenamento, neutralizzarla e garantire l'accesso all'acqua prima che la città muoia di sete.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Un principe esiliato ha stretto un patto con una tribù nomade per contaminare l'oasi usando semi alchimici di una pianta del deserto profondo. Il suo piano: aspettare la resa del sultano, poi offrire l'antidoto in cambio del trono. Non sa che i semi si stanno riproducendo più in fretta del previsto: tra sette giorni l'oasi sarà permanentemente compromessa.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Localizzare il campo nomade nel deserto usando le tracce di carovana, trovare il saggio botanico al servizio del principe che conosce l'antidoto, raccogliere la radice purificante di Khessa nella zona proibita del deserto, poi purificare l'oasi al tramonto con il rituale idrico del Primo Imam.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Campione di acqua dell'oasi che mostra cristalli di origine vegetale, non minerale",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "I cristalli sono semi di Pianta del Vuoto — crescono solo in acque stagnanti salate e producono tossine.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "I cristalli sono semi di Pianta del Vuoto — crescono solo in acque stagnanti salate e producono tossine.",
+        "hidden_implication": "Il principe non vuole uccidere nessuno: la contaminazione doveva essere reversibile e controllata.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "I cristalli potrebbero essere minerali naturali del sottosuolo emersi per un'attività sismica.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza di un mercante nomade che ha visto una carovana insolita avvicinarsi all'oasi di notte",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "La carovana notturna portava sacchi di sabbia fine e una figura incappucciata — il botanico, ora prigioniero.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La carovana notturna portava sacchi di sabbia fine e una figura incappucciata — il botanico, ora prigioniero.",
+        "hidden_implication": "I semi si stanno riproducendo per un errore del botanico — la situazione è fuori controllo anche per il principe.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il mercante nomade potrebbe confondere la carovana con una spedizione legittima di rifornimenti.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Corrispondenza cifrata del principe esiliato trovata nell'archivio reale",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "La corrispondenza rivela il piano completo: contaminare, aspettare, trattare.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "La corrispondenza rivela il piano completo: contaminare, aspettare, trattare.",
+        "hidden_implication": "Il sultano sa dell'esilio ma non sa che il principe è tornato — la sua reazione al tradimento sarà imprevedibile.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La corrispondenza cifrata potrebbe essere commerciale — il principe esiliato aveva attività mercantili.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Tracce di carovana nel deserto che portano al campo nomade",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Le tracce portano a due giorni di cammino a sud-est — il campo è nascosto in una formazione rocciosa.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Le tracce portano a due giorni di cammino a sud-est — il campo è nascosto in una formazione rocciosa.",
+        "hidden_implication": "La tribù nomade ha già capito che il piano è diventato pericoloso e vuole uscirne.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Le tracce potrebbero essere di una carovana di commercianti che passa regolarmente.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Il botanico Shan — prigioniero nel campo, disponibile a collaborare se liberato",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Shan conosce l'antidoto e la radice di Khessa — ma vuole garanzie scritte di amnistia per cooperare.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Shan conosce l'antidoto e la radice di Khessa — ma vuole garanzie scritte di amnistia per cooperare.",
+        "hidden_implication": "La radice di Khessa cresce solo nella zona proibita per via di creature del deserto che la proteggono.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Shan potrebbe essere complice volontario, non prigioniero — la sua cooperazione potrebbe essere un'esca.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Movimenti di denaro insoliti dall'esilio del principe verso tribù nomadi specifiche",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "I pagamenti rivelano la tribù specifica e il nome del capo — con cui si può negoziare per liberare Shan.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "I pagamenti rivelano la tribù specifica e il nome del capo — con cui si può negoziare per liberare Shan.",
+        "hidden_implication": "Il rituale idrico del Primo Imam è noto solo a un vecchio imam ancora vivo nel quartiere povero.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "I pagamenti potrebbero essere per protezione di rotte commerciali, non sabotaggio.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Consigliera Fatima al-Selmira",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Donna sulla cinquantina, discendente del fondatore dell'oasi, abile politica e sospettosa degli stranieri.",
+        "goal": "Proteggere la città e la propria famiglia dall'instabilità.",
+        "motivation": "Proteggere la città e la propria famiglia dall'instabilità.",
+        "secret": "Sa dell'esistenza del principe esiliato e del suo rancore — non l'ha riferito al sultano per paura di essere accusata di complicità.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Aiuta i PG con accesso agli archivi ma ritarda le informazioni più sensibili.",
+        "fallback_plan": "Se i PG scoprono la corrispondenza, rivela quello che sa sul principe in cambio di protezione per la sua famiglia.",
+        "pressure_response": {
+          "low": "Consigliera Fatima al-Selmira osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Consigliera Fatima al-Selmira accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Consigliera Fatima al-Selmira sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Consigliera Fatima al-Selmira tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Mercante Nomade Kassar",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Uomo sui 40 anni, sguardo sfuggente, sempre in movimento nel mercato. Sa molto di più di quanto dica.",
+        "goal": "Guadagnare il più possibile dalla situazione senza esporsi.",
+        "motivation": "Guadagnare il più possibile dalla situazione senza esporsi.",
+        "secret": "Era parte della carovana che ha trasportato i semi — non sapeva cosa trasportava.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Offre informazioni a piccole dosi in cambio di denaro e protezione.",
+        "fallback_plan": "Se i PG lo minacciano o lo pagano generosamente, rivela le coordinate esatte del campo nomade.",
+        "pressure_response": {
+          "low": "Mercante Nomade Kassar osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Mercante Nomade Kassar accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Mercante Nomade Kassar sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Mercante Nomade Kassar tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Botanico Shan",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Studioso di mezza età con occhiali spessi, mani macchiate di pigmenti vegetali, detenuto nel campo.",
+        "goal": "Tornare vivo e salvare la propria reputazione scientifica.",
+        "motivation": "Tornare vivo e salvare la propria reputazione scientifica.",
+        "secret": "Ha capito che i semi si stanno riproducendo troppo velocemente — il piano è diventato un disastro.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Coopera immediatamente se i PG lo liberano, ma chiede garanzie scritte di amnistia prima di rivelare l'antidoto completo.",
+        "fallback_plan": "Se liberato e in sicurezza, guida i PG alla radice di Khessa e spiega il rituale di purificazione.",
+        "pressure_response": {
+          "low": "Botanico Shan osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Botanico Shan accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Botanico Shan sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Botanico Shan tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Principe Esiliato Karim al-Rashid",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Uomo sui 35 anni, elegante anche nel deserto, sguardo intelligente e tormentato. Non è il villain che sembra.",
+        "goal": "Ottenere il riconoscimento che considera suo diritto — il trono è stato promesso a lui dal padre.",
+        "motivation": "Ottenere il riconoscimento che considera suo diritto — il trono è stato promesso a lui dal padre.",
+        "secret": "È terrorizzato dalla piega che ha preso la situazione: non voleva uccidere, solo negoziare.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Manda emissari al sultano per una trattativa diretta mentre i PG investigano.",
+        "fallback_plan": "Se i PG arrivano al campo con la prova che il sultano è disposto a negoziare, consegna Shan volontariamente.",
+        "pressure_response": {
+          "low": "Principe Esiliato Karim al-Rashid osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Principe Esiliato Karim al-Rashid accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Principe Esiliato Karim al-Rashid sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Principe Esiliato Karim al-Rashid tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Khara-Shen — Quartiere dei Pozzi",
+        "description": "Il cuore della città, intorno ai pozzi ora transennati. File di persone con otri vuoti. Militari che razionano l'acqua rimasta.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Il cuore della città, intorno ai pozzi ora transennati. File di persone con otri vuoti. Militari che razionano l'acqua rimasta.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il caldo del deserto causa esaurimento da calore senza adeguata idratazione (risorsa critica)."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Palazzo del Sultano — Sala dei Consiglieri",
+        "description": "Corte opulenta ora sotto tensione. Consiglieri che si accusano a vicenda, archivi reali accessibili con permesso.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Corte opulenta ora sotto tensione. Consiglieri che si accusano a vicenda, archivi reali accessibili con permesso.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Le creature del deserto (scorpioni giganti, serpenti di sabbia) proteggono la zona della radice di Khessa."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Mercato delle Spezie — Contatti Nomadi",
+        "description": "Mercanti nomadi fermati in città per la crisi. Uno di loro sa qualcosa del campo del principe esiliato.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Mercanti nomadi fermati in città per la crisi. Uno di loro sa qualcosa del campo del principe esiliato.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il campo nomade ha sentinelle: un approccio frontale senza accordo con Kassar è pericoloso."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Deserto Profondo — Campo Nomade",
+        "description": "Tre giorni di marcia nel deserto. Il campo è sorvegliato, il principe esiliato lo usa come base. Il botanico è qui.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Tre giorni di marcia nel deserto. Il campo è sorvegliato, il principe esiliato lo usa come base. Il botanico è qui.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Bere l'acqua dell'oasi anche una volta causa febbre — non mortale subito, ma debolezza."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Oasi di Selmira — Sorgente Principale",
+        "description": "Acque verdognole e malsane, circondate da vegetazione morente. I semi alchimici sono visibili sul fondo come cristalli neri.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Acque verdognole e malsane, circondate da vegetazione morente. I semi alchimici sono visibili sul fondo come cristalli neri.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il principe ha un'opzione nucleare: se pensa di perdere, può accelerare la semina con un secondo sacchetto."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "La propagazione dei semi nell'oasi",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Entro sette giorni dall'inizio dell'avvelenamento, i semi si sono riprodotti così tanto che nessun rituale può più purificare l'oasi.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Entro sette giorni dall'inizio dell'avvelenamento, i semi si sono riprodotti così tanto che nessun rituale può più purificare l'oasi."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Purificare l'oasi con il rituale dell'imam prima che i semi raggiungano la propagazione irreversibile.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Purificare l'oasi con il rituale, salvare la città e mediare un accordo tra sultano e principe — soluzione politica e idrica.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Localizzare il campo nomade nel deserto usando le tracce di carovana, trovare il saggio botanico al servizio del principe che conosce l'antidoto, raccogliere la radice purificante di Khessa nella zona proibita del deserto, poi purificare l'oasi al tramonto con il rituale idrico del Primo Imam.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Purificare l'oasi ma arrestare il principe — soluzione più rapida ma con rischio di guerra civile.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "Il Principe delle Sabbie",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

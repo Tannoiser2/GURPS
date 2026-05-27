@@ -1,0 +1,2346 @@
+{
+  "adventure_definition": {
+    "id": "ai_il_ballo_delle_anime_perdute",
+    "title": "Il Ballo delle Anime Perdute",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "ritual_countdown",
+      "secondary_archetypes": [
+        "romance_drama"
+      ],
+      "confidence": 0.65,
+      "reason": "Matched runtime signals for ritual_countdown",
+      "definition": {
+        "id": "ritual_countdown",
+        "description": "Rituale con condizioni, oggetti e clock.",
+        "required_modules": [
+          "clock",
+          "ritual_conditions"
+        ],
+        "optional_modules": [
+          "special_items"
+        ],
+        "runtime_focus": [
+          "clock",
+          "ritual"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "document",
+          "physical_evidence"
+        ],
+        "common_failure_modes": [
+          "ritual_tick"
+        ],
+        "ending_patterns": [
+          "ritual_stopped"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "romance",
+    "runtime_profiles": [
+      "ritual_dungeon",
+      "guided_sandbox"
+    ],
+    "tone": "Romance gotico con tensione crescente, eleganza decadente e passioni oscure che si svelano tra valzer e segreti sussurrati",
+    "premise": "È la notte del Gran Ballo di Primavera nella Villa Rosenvale. I personaggi sono ospiti quando Lady Celestine Rosenvale crolla a terra durante il valzer d'apertura, mormorando 'non lasciatelo finire il rito'. Il suo corpo giace immobile mentre le candele tremolano. Suo marito Lord Adrian urla che è stata avvelenata. Fuori, una tempesta isola la villa. Il ballo deve continuare fino all'alba per una tradizione secolare, ma qualcuno tra gli ospiti sta completando un antico rituale d'amore che richiede tre morti prima del sorgere del sole.",
+    "initial_hook": "Il Ballo delle Anime Perdute È la notte del Gran Ballo di Primavera nella Villa Rosenvale. I personaggi sono ospiti quando Lady Celestine Rosenvale crolla a terra durante il valzer d'apertura, mormorando 'non lasciatelo finire il rito'. Il suo corpo giace immobile mentre le candele tremolano. Suo ma",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Lady Celestine non è stata avvelenata: ha finto il collasso per fermare il rituale che lei stessa ha iniziato anni prima per riportare in vita il suo primo amore, Lord Matthias. Ora pentita, cerca di impedire che Adrian, suo attuale marito e vero esecutore del rito, completi i sacrifici necessari che richiedono la morte di tre persone che hanno tradito un amore sincero.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire le condizioni di Ballo Anime Perdute notte Gran Ballo e interromperlo prima del compimento.",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire le condizioni di Ballo Anime Perdute notte Gran Ballo e interromperlo prima del compimento."
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Un antico rito d'amore oscuro che richiede tre sacrifici di persone che hanno tradito l'amore sincero, durante un ballo ininterrotto fino all'alba, per riportare in vita un'anima morta prematuramente",
+        "required_clues": [
+          "clue_1",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di identificare chi sono le potenziali vittime e capire che il ballo non può fermarsi / Permette di proteggere specificamente queste persone e scoprire cosa hanno in comune",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Celestine ha finto il collasso perché ha scoperto che Adrian sta completando il rituale che lei stessa iniziò vent'anni fa ma abbandonò per rimorso. Sta cercando di fermarlo senza rivelare la sua colpa originale",
+        "required_clues": [
+          "clue_2",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di comunicare con lei attraverso un codice (battiti per sì/no) e scoprire che sta cercando di fermare qualcosa / Collega Celestine al grimorio e rivela che Adrian potrebbe essere l'esecutore attuale",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Lord Adrian Rosenvale, segretamente innamorato del defunto Lord Matthias, sta completando il rituale. Ha sposato Celestine solo per accedere al grimorio di famiglia. Vuole riportare Matthias in vita sacrificando coloro che lo tradirono in a",
+        "required_clues": [
+          "clue_3",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela la vera motivazione di Adrian e il collegamento di Lucien al rituale / Spiega perché proprio queste tre persone sono i sacrifici e il legame con il passato",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Il Grimorio di San Valentino",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Biblioteca, scaffale delle poesie romantiche, dietro 'Sonetti d'Amore' di Petrarca",
+        "reveals": "L'esistenza del rituale e i suoi requisiti: tre morti, un ballo continuo, prima dell'alba",
+        "payoff": "Permette di identificare chi sono le potenziali vittime e capire che il ballo non può fermarsi",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un antico libro rilegato in velluto rosso nascosto dietro i volumi di poesia nella biblioteca. Descrive il Rituale delle Tre Tradizioni: tre sacrifici di 'traditori dell'amore' prima dell'alba durante un ballo",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Le mani di Celestine",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Biblioteca, osservando Celestine da vicino",
+        "reveals": "Celestine sta fingendo e è pienamente cosciente",
+        "payoff": "Permette di comunicare con lei attraverso un codice (battiti per sì/no) e scoprire che sta cercando di fermare qualcosa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Osservando attentamente Lady Celestine 'incosciente'",
+        "hidden_implication": "Celestine sta fingendo e è pienamente cosciente",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Il medaglione di Matthias",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Sulla persona di Lord Adrian, ottenibile con furto o confronto diretto",
+        "reveals": "Adrian è ossessionato da Matthias e Lucien potrebbe essere suo figlio",
+        "payoff": "Rivela la vera motivazione di Adrian e il collegamento di Lucien al rituale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Un medaglione d'argento con il ritratto di un giovane uomo affascinante",
+        "hidden_implication": "Adrian è ossessionato da Matthias e Lucien potrebbe essere suo figlio",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "I marchi rituali",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Visibile solo se si osservano attentamente gli ospiti o se qualcuno si toglie sciarpe/colletti",
+        "reveals": "Identifica le tre vittime designate del rituale",
+        "payoff": "Permette di proteggere specificamente queste persone e scoprire cosa hanno in comune",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Tre ospiti portano un piccolo marchio rosso a forma di cuore spezzato sulla nuca: Contessa Vivienne",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Lettera d'amore carbonizzata",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Camino della biblioteca, tra le ceneri ancora tiepide",
+        "reveals": "Celestine voleva fermare qualcosa legato a Matthias e al rituale, e Adrian è coinvolto",
+        "payoff": "Collega Celestine al grimorio e rivela che Adrian potrebbe essere l'esecutore attuale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nel camino della biblioteca",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Il registro degli ospiti",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "Hall d'ingresso, sul tavolo degli ospiti",
+        "reveals": "La connessione tra gli ospiti, Matthias e i loro 'tradimenti dell'amore'",
+        "payoff": "Spiega perché proprio queste tre persone sono i sacrifici e il legame con il passato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Un registro nella hall mostra che tutti gli ospiti di questa sera furono presenti anche al ballo di vent'anni fa",
+        "hidden_implication": "La connessione tra gli ospiti, Matthias e i loro 'tradimenti dell'amore'",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ai_1",
+        "name": "Officiante del rito",
+        "role": "witness",
+        "location_id": "loc_ai_1",
+        "status": "unintroduced",
+        "goal": "completare il rito",
+        "secret": "conosce il momento esatto del compimento",
+        "agenda_pressure": 0,
+        "fear": "che Il Grimorio di San Valentino riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "completare il rito"
+        ],
+        "avoids": [
+          "che Il Grimorio di San Valentino riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 0.7,
+        "llm_enriched": false
+      },
+      {
+        "id": "actor_ai_2",
+        "name": "Testimone del primo segno",
+        "role": "ally",
+        "location_id": "loc_ai_2",
+        "status": "unintroduced",
+        "goal": "sopravvivere raccontando cio che ha visto",
+        "secret": "ha visto chi ha preparato il cerchio",
+        "agenda_pressure": 0,
+        "fear": "che Il Grimorio di San Valentino riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "sopravvivere raccontando cio che ha visto"
+        ],
+        "avoids": [
+          "che Il Grimorio di San Valentino riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 0.7,
+        "llm_enriched": false
+      },
+      {
+        "id": "actor_ai_3",
+        "name": "Custode del componente",
+        "role": "antagonist",
+        "location_id": "loc_ai_3",
+        "status": "unintroduced",
+        "goal": "proteggere il componente mancante",
+        "secret": "sa quale oggetto puo interrompere il rito",
+        "agenda_pressure": 0,
+        "fear": "che Il Grimorio di San Valentino riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "proteggere il componente mancante"
+        ],
+        "avoids": [
+          "che Il Grimorio di San Valentino riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "depista e osserva",
+          "medium": "manda oppositori o chiude un accesso",
+          "high": "distrugge una prova o sposta un ostaggio/testimone",
+          "critical": "fugge verso la zona finale forzando il confronto"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 0.7,
+        "llm_enriched": false
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Soglia del rito",
+        "description": "Soglia del rito: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Soglia del rito: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Archivio dei segni",
+        "description": "Archivio dei segni: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Archivio dei segni: scaffali alti come copertura, tavoli di lettura, scale mobili",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scaffali alti come copertura",
+          "tavoli di lettura",
+          "scale mobili",
+          "vetrine con manoscritti"
+        ],
+        "hazards": [
+          "scaffali instabili",
+          "pergamene infiammabili"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scaffali alti come copertura",
+          "tavoli di lettura",
+          "scale mobili"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Camera degli officianti",
+        "description": "Camera degli officianti: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Camera degli officianti: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Altare incompleto",
+        "description": "Altare incompleto: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Altare incompleto: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo",
+        "description": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Compimento di Ballo Anime Perdute notte Gran Ballo",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "Custode del componente raggiunge la zona finale",
+        "active": true,
+        "on_complete": "Ballo Anime Perdute notte Gran Ballo si compie e il finale diventa molto piu costoso.",
+        "steps": [
+          {
+            "step": 1,
+            "event": "allarme interno attivato",
+            "world_state_change": "allarme interno attivato",
+            "scene_prompt": "Mostra in scena: allarme interno attivato.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 2,
+            "event": "accessi ordinari sospesi",
+            "world_state_change": "accessi ordinari sospesi",
+            "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 3,
+            "event": "prova secondaria rimossa dalla scena",
+            "world_state_change": "prova secondaria rimossa dalla scena",
+            "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 4,
+            "event": "un testimone viene cercato dagli uomini di Custode del componente",
+            "world_state_change": "un testimone viene cercato dagli uomini di Custode del componente",
+            "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Custode del componente.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 5,
+            "event": "percorso laterale minacciato o sigillato",
+            "world_state_change": "percorso laterale minacciato o sigillato",
+            "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "step": 6,
+            "event": "Custode del componente raggiunge la zona finale",
+            "world_state_change": "Custode del componente raggiunge la zona finale",
+            "scene_prompt": "Mostra in scena: Custode del componente raggiunge la zona finale.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "",
+        "ticks_per_failure": 1,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Ballo Anime Perdute notte Gran Ballo",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare il componente corretto, il momento giusto e la prova sull'officiante",
+        "concrete_choice": "interrompere il rito, deviarne il costo o affrontare l'officiante nella zona finale"
+      }
+    ],
+    "story_threads": [],
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Soglia del rito",
+          "to": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Soglia del rito",
+          "to": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "ritual_dungeon",
+      "tone": "dark fantasy dungeon",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "trap activation",
+        "guardian attack",
+        "ritual clock advances",
+        "boss signs awaken",
+        "room changes state",
+        "curse intensifies",
+        "danger scene"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "boss fully awakens without trigger",
+        "ritual completes without clock",
+        "party death cutscene"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_d5e9b84610",
+      "title": "Il Ballo delle Anime Perdute",
+      "genre": "romance",
+      "detected_genre": "romance",
+      "premise": "È la notte del Gran Ballo di Primavera nella Villa Rosenvale. I personaggi sono ospiti quando Lady Celestine Rosenvale crolla a terra durante il valzer d'apertura, mormorando 'non lasciatelo finire il rito'. Il suo corpo giace immobile mentre le candele tremolano. Suo marito Lord Adrian urla che è stata avvelenata. Fuori, una tempesta isola la villa. Il ballo deve continuare fino all'alba per una tradizione secolare, ma qualcuno tra gli ospiti sta completando un antico rituale d'amore che richiede tre morti prima del sorgere del sole.",
+      "hidden_truth": "Lady Celestine non è stata avvelenata: ha finto il collasso per fermare il rituale che lei stessa ha iniziato anni prima per riportare in vita il suo primo amore, Lord Matthias. Ora pentita, cerca di impedire che Adrian, suo attuale marito e vero esecutore del rito, completi i sacrifici necessari che richiedono la morte di tre persone che hanno tradito un amore sincero.",
+      "win_condition": "Scoprire le condizioni di Ballo Anime Perdute notte Gran Ballo e interromperlo prima del compimento.",
+      "threat_description": "Compimento di Ballo Anime Perdute notte Gran Ballo",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "ritual_countdown",
+        "secondary_archetypes": [
+          "romance_drama"
+        ],
+        "confidence": 0.65,
+        "reason": "Matched runtime signals for ritual_countdown",
+        "definition": {
+          "id": "ritual_countdown",
+          "description": "Rituale con condizioni, oggetti e clock.",
+          "required_modules": [
+            "clock",
+            "ritual_conditions"
+          ],
+          "optional_modules": [
+            "special_items"
+          ],
+          "runtime_focus": [
+            "clock",
+            "ritual"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "document",
+            "physical_evidence"
+          ],
+          "common_failure_modes": [
+            "ritual_tick"
+          ],
+          "ending_patterns": [
+            "ritual_stopped"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_d5e9b84610",
+      "adventure_canon": {
+        "core_truth": "Lady Celestine non è stata avvelenata: ha finto il collasso per fermare il rituale che lei stessa ha iniziato anni prima per riportare in vita il suo primo amore, Lord Matthias. Ora pentita, cerca di impedire che Adrian, suo attuale marito e vero esecutore del rito, completi i sacrifici necessari che richiedono la morte di tre persone che hanno tradito un amore sincero.",
+        "main_antagonist": "Custode del componente",
+        "key_locations": [
+          "Soglia del rito",
+          "Archivio dei segni",
+          "Camera degli officianti",
+          "Altare incompleto",
+          "Cuore del rito: Ballo Anime Perdute notte Gran Ballo"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Ballo Anime Perdute notte Gran Ballo"
+        ],
+        "genre_profile": {
+          "id": "ritual_dungeon",
+          "tone": "dark fantasy dungeon",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "trap activation",
+            "guardian attack",
+            "ritual clock advances",
+            "boss signs awaken",
+            "room changes state",
+            "curse intensifies",
+            "danger scene"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "boss fully awakens without trigger",
+            "ritual completes without clock",
+            "party death cutscene"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Il Grimorio di San Valentino",
+          "question": "Dove conduce Il Grimorio di San Valentino?",
+          "true_answer": "Un antico rito d'amore oscuro che richiede tre sacrifici di persone che hanno tradito l'amore sincero, durante un ballo ininterrotto fino all'alba, per riportare in vita un'anima morta prematuramente",
+          "required_clues": [
+            "clue_1",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Permette di identificare chi sono le potenziali vittime e capire che il ballo non può fermarsi / Permette di proteggere specificamente queste persone e scoprire cosa hanno in comune",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Le mani di Celestine",
+          "question": "Dove conduce Le mani di Celestine?",
+          "true_answer": "Celestine ha finto il collasso perché ha scoperto che Adrian sta completando il rituale che lei stessa iniziò vent'anni fa ma abbandonò per rimorso. Sta cercando di fermarlo senza rivelare la sua colpa originale",
+          "required_clues": [
+            "clue_2",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Permette di comunicare con lei attraverso un codice (battiti per sì/no) e scoprire che sta cercando di fermare qualcosa / Collega Celestine al grimorio e rivela che Adrian potrebbe essere l'esecutore attuale",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Come si usa o si neutralizza Il medaglione di Matthias senza favorire la minaccia",
+          "question": "Come si usa o si neutralizza Il medaglione di Matthias senza favorire la minaccia?",
+          "true_answer": "Lord Adrian Rosenvale, segretamente innamorato del defunto Lord Matthias, sta completando il rituale. Ha sposato Celestine solo per accedere al grimorio di famiglia. Vuole riportare Matthias in vita sacrificando coloro che lo tradirono in a",
+          "required_clues": [
+            "clue_3",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela la vera motivazione di Adrian e il collegamento di Lucien al rituale / Spiega perché proprio queste tre persone sono i sacrifici e il legame con il passato",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Il Grimorio di San Valentino",
+          "text": "Il Grimorio di San Valentino",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "L'esistenza del rituale e i suoi requisiti: tre morti, un ballo continuo, prima dell'alba",
+          "payoff": "Permette di identificare chi sono le potenziali vittime e capire che il ballo non può fermarsi",
+          "location": "Biblioteca, scaffale delle poesie romantiche, dietro 'Sonetti d'Amore' di Petrarca",
+          "immediate_information": "Un antico libro rilegato in velluto rosso nascosto dietro i volumi di poesia nella biblioteca. Descrive il Rituale delle Tre Tradizioni: tre sacrifici di 'traditori dell'amore' prima dell'alba durante un ballo",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Le mani di Celestine",
+          "text": "Le mani di Celestine",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Celestine sta fingendo e è pienamente cosciente",
+          "payoff": "Permette di comunicare con lei attraverso un codice (battiti per sì/no) e scoprire che sta cercando di fermare qualcosa",
+          "location": "Biblioteca, osservando Celestine da vicino",
+          "immediate_information": "Osservando attentamente Lady Celestine 'incosciente'",
+          "hidden_implication": "Celestine sta fingendo e è pienamente cosciente",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Il medaglione di Matthias",
+          "text": "Il medaglione di Matthias",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Adrian è ossessionato da Matthias e Lucien potrebbe essere suo figlio",
+          "payoff": "Rivela la vera motivazione di Adrian e il collegamento di Lucien al rituale",
+          "location": "Sulla persona di Lord Adrian, ottenibile con furto o confronto diretto",
+          "immediate_information": "Un medaglione d'argento con il ritratto di un giovane uomo affascinante",
+          "hidden_implication": "Adrian è ossessionato da Matthias e Lucien potrebbe essere suo figlio",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "I marchi rituali",
+          "text": "I marchi rituali",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Identifica le tre vittime designate del rituale",
+          "payoff": "Permette di proteggere specificamente queste persone e scoprire cosa hanno in comune",
+          "location": "Visibile solo se si osservano attentamente gli ospiti o se qualcuno si toglie sciarpe/colletti",
+          "immediate_information": "Tre ospiti portano un piccolo marchio rosso a forma di cuore spezzato sulla nuca: Contessa Vivienne",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Lettera d'amore carbonizzata",
+          "text": "Lettera d'amore carbonizzata",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Celestine voleva fermare qualcosa legato a Matthias e al rituale, e Adrian è coinvolto",
+          "payoff": "Collega Celestine al grimorio e rivela che Adrian potrebbe essere l'esecutore attuale",
+          "location": "Camino della biblioteca, tra le ceneri ancora tiepide",
+          "immediate_information": "Nel camino della biblioteca",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Il registro degli ospiti",
+          "text": "Il registro degli ospiti",
+          "type": "document",
+          "thread_id": "T3",
+          "reveals": "La connessione tra gli ospiti, Matthias e i loro 'tradimenti dell'amore'",
+          "payoff": "Spiega perché proprio queste tre persone sono i sacrifici e il legame con il passato",
+          "location": "Hall d'ingresso, sul tavolo degli ospiti",
+          "immediate_information": "Un registro nella hall mostra che tutti gli ospiti di questa sera furono presenti anche al ballo di vent'anni fa",
+          "hidden_implication": "La connessione tra gli ospiti, Matthias e i loro 'tradimenti dell'amore'",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "actor_ai_1",
+          "name": "Officiante del rito",
+          "role": "witness",
+          "description": "completare il rito",
+          "location": "loc_ai_1",
+          "secret": "conosce il momento esatto del compimento",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "witness",
+            "goal": "completare il rito",
+            "fear": "che Il Grimorio di San Valentino riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "completare il rito"
+            ],
+            "avoids": [
+              "che Il Grimorio di San Valentino riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "esita",
+              "medium": "si nasconde",
+              "high": "cerca protezione dalla squadra",
+              "critical": "scompare lasciando una traccia incompleta"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "conosce il momento esatto del compimento",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.7
+        },
+        {
+          "id": "actor_ai_2",
+          "name": "Testimone del primo segno",
+          "role": "ally",
+          "description": "sopravvivere raccontando cio che ha visto",
+          "location": "loc_ai_2",
+          "secret": "ha visto chi ha preparato il cerchio",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "ally",
+            "goal": "sopravvivere raccontando cio che ha visto",
+            "fear": "che Il Grimorio di San Valentino riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "sopravvivere raccontando cio che ha visto"
+            ],
+            "avoids": [
+              "che Il Grimorio di San Valentino riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "ha visto chi ha preparato il cerchio",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.7
+        },
+        {
+          "id": "actor_ai_3",
+          "name": "Custode del componente",
+          "role": "antagonist",
+          "description": "proteggere il componente mancante",
+          "location": "loc_ai_3",
+          "secret": "sa quale oggetto puo interrompere il rito",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "antagonist",
+            "goal": "proteggere il componente mancante",
+            "fear": "che Il Grimorio di San Valentino riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "proteggere il componente mancante"
+            ],
+            "avoids": [
+              "che Il Grimorio di San Valentino riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "depista e osserva",
+              "medium": "manda oppositori o chiude un accesso",
+              "high": "distrugge una prova o sposta un ostaggio/testimone",
+              "critical": "fugge verso la zona finale forzando il confronto"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "sa quale oggetto puo interrompere il rito",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "high"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.7
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Soglia del rito",
+          "description": "Soglia del rito: nodo giocabile della struttura ritual_countdown.",
+          "type": "entry",
+          "visual_identity": "Soglia del rito: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Archivio dei segni",
+          "description": "Archivio dei segni: nodo giocabile della struttura ritual_countdown.",
+          "type": "site",
+          "visual_identity": "Archivio dei segni: scaffali alti come copertura, tavoli di lettura, scale mobili",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scaffali alti come copertura",
+            "tavoli di lettura",
+            "scale mobili",
+            "vetrine con manoscritti"
+          ],
+          "hazards": [
+            "scaffali instabili",
+            "pergamene infiammabili"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scaffali alti come copertura",
+            "tavoli di lettura",
+            "scale mobili"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Camera degli officianti",
+          "description": "Camera degli officianti: nodo giocabile della struttura ritual_countdown.",
+          "type": "site",
+          "visual_identity": "Camera degli officianti: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Altare incompleto",
+          "description": "Altare incompleto: nodo giocabile della struttura ritual_countdown.",
+          "type": "site",
+          "visual_identity": "Altare incompleto: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo",
+          "description": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo: nodo giocabile della struttura ritual_countdown.",
+          "type": "finale",
+          "visual_identity": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Compimento di Ballo Anime Perdute notte Gran Ballo",
+          "value": 0,
+          "max": 6,
+          "consequence": "Custode del componente raggiunge la zona finale",
+          "on_complete": "Ballo Anime Perdute notte Gran Ballo si compie e il finale diventa molto piu costoso.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di Custode del componente",
+              "world_state_change": "un testimone viene cercato dagli uomini di Custode del componente",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Custode del componente.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "Custode del componente raggiunge la zona finale",
+              "world_state_change": "Custode del componente raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: Custode del componente raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di Custode del componente",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Custode del componente.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "Custode del componente raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: Custode del componente raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_d5e9b84610",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [
+      "clue_1",
+      "clue_2",
+      "clue_3"
+    ],
+    "partial_clue_ids": [
+      "clue_4"
+    ],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "actor_ai_1": {
+        "status": "introduced",
+        "location_id": "loc_ai_1",
+        "agenda_pressure": 0,
+        "goal": "completare il rito",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        },
+        "pressure": 1,
+        "attitude": "hostile"
+      },
+      "actor_ai_2": {
+        "status": "unintroduced",
+        "location_id": "loc_ai_2",
+        "agenda_pressure": 0,
+        "goal": "sopravvivere raccontando cio che ha visto",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "pressure": 1
+      },
+      "actor_ai_3": {
+        "status": "unintroduced",
+        "location_id": "loc_ai_1",
+        "agenda_pressure": 0,
+        "goal": "proteggere il componente mancante",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Ballo Anime Perdute notte Gran Ballo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Ballo Anime Perdute notte Gran Ballo usando un percorso secondario",
+        "pressure_response": {
+          "low": "depista e osserva",
+          "medium": "manda oppositori o chiude un accesso",
+          "high": "distrugge una prova o sposta un ostaggio/testimone",
+          "critical": "fugge verso la zona finale forzando il confronto"
+        },
+        "pressure": 1,
+        "attitude": "hostile"
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "visited",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 6,
+        "max": 6,
+        "active": true,
+        "discovered": true,
+        "resolved": false,
+        "completed": true
+      },
+      "main_threat": {
+        "value": 10
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T3"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T3"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {
+      "party_detected": true,
+      "adrian_alerted": true,
+      "grimorio_location_revealed": true,
+      "ritual_marks_spotted": true,
+      "grimorio_discovered": true,
+      "adriano_spotted_with_medallion": true,
+      "officiante_revealed_powers": true,
+      "library_exit_blocked": true
+    },
+    "history": [
+      "Matteo si avvicina con passo incerto alla figura che aveva intravisto nell'ombra del corridoio, cercando di mantenere un tono cordiale nonostante il cuore che gli martella nel petto. «Scusate, cerco di capire cosa stia succedendo... questo rituale di cui parlava Lady Celestine...» Ma mentre allunga ",
+      "Matteo si allontana dalla figura nell'ombra con un cenno di scusa, fingendo di cercare un fazzoletto, ma i suoi occhi acuti si concentrano sui due ospiti che aveva notato prima. La donna con la sciarpa di seta color cremisi si è spostata vicino alla finestra, e quando un lampo illumina il suo profil",
+      "Matteo si allontana con discrezione dalla figura nell'ombra e si dirige verso la biblioteca, cercando di sembrare un ospite in cerca di un momento di quiete. Le porte di noce della biblioteca si aprono con un cigolio sommesso, rivelando scaffali che si ergono come sentinelle silenziose. Il suo sguar",
+      "Matteo si volta verso la figura nell'ombra con un sorriso cordiale, tenendo il grimorio contro il petto. «Stavo solo cercando informazioni sulla tradizione del ballo, capite... dopo quello che è successo a Lady Celestine, vorrei comprendere meglio—» Ma {{ROLL}} il suo piede urta nuovamente il tavoli",
+      "Matteo stringe il grimorio contro il petto e osserva attentamente i volti di Lord Adrian e dell'officiante nell'ombra, cercando di cogliere nelle loro espressioni qualche verità nascosta. Ma {{ROLL}} la sua concentrazione vacilla quando nota che altri ospiti si stanno avvicinando alla biblioteca, at",
+      "Matteo stringe il grimorio contro il petto e si muove verso l'uscita della biblioteca, cercando di mantenere una distanza sicura mentre Lord Adrian attraversa il corridoio con passo deciso. Ma {{ROLL}} nella penombra del corridoio, Matteo confonde un riflesso di specchio con l'ombra di Adrian e si r",
+      "Matteo si sporge leggermente, cercando di sbirciare attraverso la finestra che si affaccia sulla sala da ballo. L'immagine tremolante delle candele riempie la scena di un'atmosfera eterea, mentre il corpo di Lady Celestine giace immobile a terra. Lord Adrian è curvo su di lei, le mani tremanti mentr",
+      "Matteo, ancora in piedi accanto alla finestra, fa segno a Lady Celestine, cercando di catturare la sua attenzione con discreti movimenti della mano. Le sue dita tracciano gesti che vogliono indicare comprensione e un desiderio di comunicazione. Con il fiato sospeso, nota un impercettibile movimento ",
+      "Matteo si avvicina alla sala da ballo con passo misurato, fingendo di cercare un bicchiere d'acqua per riprendersi dall'emozione. Lord Adrian è ancora chino su Lady Celestine, ma quando Matteo entra nella sala illuminata dalle candele tremolanti, nota qualcosa di strano: il medaglione d'argento che ",
+      "Matteo si muove attraverso la sala da ballo, fingendo di inciampare per avvicinarsi a Lord Adrian. Il suo piano è semplice: urtarlo abbastanza forte da far cadere il medaglione e recuperarlo nella confusione. Ma {{ROLL}} nel tentativo di sembrare naturale, calcola male la distanza e si scontra invec",
+      "Le note del valzer risuonano malinconiche nella sala scintillante mentre figure eteree volteggiano, i loro volti celati da maschere di dolore eterno. Il cuore di Isabella si ferma quando vede Damian, incatenato da lacci d'ombra, gli occhi una prigione di disperazione al centro della pista. Un lampo "
+    ],
+    "destroyed_clue_ids": [],
+    "injected_clues": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 98,
+    "errors": [],
+    "warnings": [
+      "ritual_dungeon richiede ritual_conditions o special_items."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 3,
+      "clues": 6,
+      "revelations": 3
+    }
+  },
+  "live_game_state": {
+    "clues_found": [
+      "clue_2",
+      "clue_1",
+      "clue_3"
+    ],
+    "clue_progress": {
+      "clue_4": {
+        "ticks": 2,
+        "note": "Matteo ha intravisto un marchio rituale rosso sul collo dell'Officiante del rito",
+        "notes": [
+          "Avanzamento verso: I marchi rituali",
+          "Matteo ha intravisto un marchio rituale rosso sul collo dell'Officiante del rito"
+        ]
+      }
+    },
+    "discovered_clues": [
+      {
+        "id": "clue_1",
+        "label": "Il Grimorio di San Valentino",
+        "thread_id": "T1",
+        "type": "physical_evidence",
+        "source_location": "Biblioteca, scaffale delle poesie romantiche, dietro 'Sonetti d'Amore' di Petrarca",
+        "reveals": "L'esistenza del rituale e i suoi requisiti: tre morti, un ballo continuo, prima dell'alba",
+        "payoff": "Permette di identificare chi sono le potenziali vittime e capire che il ballo non può fermarsi"
+      },
+      {
+        "id": "clue_2",
+        "label": "Le mani di Celestine",
+        "thread_id": "T2",
+        "type": "behavior",
+        "source_location": "Biblioteca, osservando Celestine da vicino",
+        "reveals": "Celestine sta fingendo e è pienamente cosciente",
+        "payoff": "Permette di comunicare con lei attraverso un codice (battiti per sì/no) e scoprire che sta cercando di fermare qualcosa"
+      },
+      {
+        "id": "clue_3",
+        "label": "Il medaglione di Matthias",
+        "thread_id": "T3",
+        "type": "physical_evidence",
+        "source_location": "Sulla persona di Lord Adrian, ottenibile con furto o confronto diretto",
+        "reveals": "Adrian è ossessionato da Matthias e Lucien potrebbe essere suo figlio",
+        "payoff": "Rivela la vera motivazione di Adrian e il collegamento di Lucien al rituale"
+      }
+    ],
+    "discovered_facts": [],
+    "resolved_threads": [],
+    "npc_statuses": {
+      "actor_ai_1": {
+        "npc_id": "actor_ai_1",
+        "id": "actor_ai_1",
+        "attitude": "hostile",
+        "note": "L'Officiante del rito è stato fisicamente incontrato da Matteo. Ha mostrato un marchio rituale e ora osserva il protagonista con sospetto, proteggendo attivamente il proprio segreto.",
+        "status": "introduced",
+        "arc_status": "introduced",
+        "location": "loc_ai_1"
+      },
+      "actor_ai_3": {
+        "npc_id": "actor_ai_3",
+        "id": "actor_ai_3",
+        "location": "loc_ai_1",
+        "attitude": "hostile",
+        "note": "Lord Adrian è apparso in biblioteca, visibilmente turbato dal furto del grimorio"
+      }
+    },
+    "threat_level": 6,
+    "open_threads": [],
+    "turn": 14,
+    "in_combat": false,
+    "world_npcs": [
+      {
+        "id": "actor_ai_1",
+        "name": "Officiante del rito",
+        "role": "witness",
+        "current_node_id": "loc_ai_1",
+        "status": "alive",
+        "threat_to_player": 1,
+        "holds_clue_for": "",
+        "description": "completare il rito",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr"
+      },
+      {
+        "id": "actor_ai_2",
+        "name": "Testimone del primo segno",
+        "role": "ally",
+        "current_node_id": "loc_ai_2",
+        "status": "alive",
+        "threat_to_player": 0,
+        "holds_clue_for": "",
+        "description": "sopravvivere raccontando cio che ha visto",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr"
+      },
+      {
+        "id": "actor_ai_3",
+        "name": "Custode del componente",
+        "role": "antagonist",
+        "current_node_id": "loc_ai_3",
+        "status": "alive",
+        "threat_to_player": 3,
+        "holds_clue_for": "",
+        "description": "proteggere il componente mancante",
+        "consulted": false,
+        "reaction_modifier": 0,
+        "last_reaction_level": "",
+        "last_reaction_roll": 0,
+        "gurps_fo": null,
+        "gurps_de": null,
+        "gurps_in": null,
+        "gurps_sa": null,
+        "gurps_skills": {},
+        "gurps_advantages": [],
+        "gurps_disadvantages": [],
+        "combat_hp": null,
+        "combat_max_hp": null,
+        "combat_dr": 0,
+        "combat_attack_skill": null,
+        "combat_active_defense": null,
+        "combat_damage_dice": "",
+        "combat_damage_type": "cr"
+      }
+    ],
+    "allowed_escalation_tier": 3,
+    "allowed_escalation_types": [
+      "atmosphere",
+      "minor_complication",
+      "cost_or_delay",
+      "pressure_increase",
+      "partial_clue",
+      "npc_suspicion",
+      "enemy_alerted",
+      "danger_scene",
+      "trap activation",
+      "guardian attack",
+      "ritual clock advances",
+      "boss signs awaken",
+      "room changes state",
+      "curse intensifies",
+      "danger scene"
+    ],
+    "forbidden_escalation_types": [
+      "apocalypse",
+      "world ending",
+      "world_destroyed",
+      "black sun",
+      "cosmic doom",
+      "city destroyed",
+      "region permanently doomed",
+      "untriggered game over",
+      "party_death",
+      "boss_release",
+      "finale without conditions",
+      "genre_shift",
+      "boss fully awakens without trigger",
+      "ritual completes without clock",
+      "party death cutscene"
+    ],
+    "blocked_major_events": [],
+    "downgraded_events": [],
+    "director_reason": "Roll=FALLIMENTO; intent=investigate; profile=ritual_dungeon; archetype=ritual_countdown; clock_triggers=0",
+    "map_state": {
+      "map_type": "romance",
+      "theme": "Romance gotico con tensione crescente, eleganza decadente e passioni oscure che si svelano tra valzer e segreti sussurrati",
+      "nodes": {
+        "loc_ai_1": {
+          "id": "loc_ai_1",
+          "name": "Soglia del rito",
+          "kind": "entry",
+          "description": "Soglia del rito: nodo giocabile della struttura ritual_countdown.",
+          "phase_gate": 1,
+          "connections": [
+            "loc_ai_2"
+          ],
+          "visited": true,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "start",
+            "png"
+          ],
+          "contains_clue": false,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 0,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "loc_ai_2": {
+          "id": "loc_ai_2",
+          "name": "Archivio dei segni",
+          "kind": "site",
+          "description": "Archivio dei segni: nodo giocabile della struttura ritual_countdown.",
+          "phase_gate": 1,
+          "connections": [
+            "loc_ai_1",
+            "loc_ai_3"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "png"
+          ],
+          "contains_clue": false,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 2,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "loc_ai_3": {
+          "id": "loc_ai_3",
+          "name": "Camera degli officianti",
+          "kind": "site",
+          "description": "Camera degli officianti: nodo giocabile della struttura ritual_countdown.",
+          "phase_gate": 1,
+          "connections": [
+            "loc_ai_2",
+            "loc_ai_4"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [
+            "png"
+          ],
+          "contains_clue": false,
+          "contains_enemy": true,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 4,
+          "grid_y": 0,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "loc_ai_4": {
+          "id": "loc_ai_4",
+          "name": "Altare incompleto",
+          "kind": "site",
+          "description": "Altare incompleto: nodo giocabile della struttura ritual_countdown.",
+          "phase_gate": 1,
+          "connections": [
+            "loc_ai_3",
+            "loc_ai_5"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": false,
+          "is_final": false,
+          "tags": [],
+          "contains_clue": false,
+          "contains_enemy": false,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 4,
+          "grid_y": 2,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {}
+        },
+        "loc_ai_5": {
+          "id": "loc_ai_5",
+          "name": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo",
+          "kind": "finale",
+          "description": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo: nodo giocabile della struttura ritual_countdown.",
+          "phase_gate": 1,
+          "connections": [
+            "loc_ai_4"
+          ],
+          "visited": false,
+          "blocked": false,
+          "destroyed": false,
+          "is_objective": true,
+          "is_final": true,
+          "tags": [
+            "zona_calda",
+            "finale"
+          ],
+          "contains_clue": false,
+          "contains_enemy": true,
+          "contains_loot": false,
+          "special_event": null,
+          "grid_x": 2,
+          "grid_y": 2,
+          "outcome": "",
+          "outcome_summary": "",
+          "clue_yield": 0,
+          "time_bonus_for_next": 0,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          }
+        }
+      },
+      "connections_meta": {
+        "loc_ai_1|loc_ai_2": {
+          "from_id": "loc_ai_1",
+          "to_id": "loc_ai_2",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "loc_ai_2|loc_ai_3": {
+          "from_id": "loc_ai_2",
+          "to_id": "loc_ai_3",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "loc_ai_3|loc_ai_4": {
+          "from_id": "loc_ai_3",
+          "to_id": "loc_ai_4",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        },
+        "loc_ai_4|loc_ai_5": {
+          "from_id": "loc_ai_4",
+          "to_id": "loc_ai_5",
+          "status": "open",
+          "label": "",
+          "discovered": true,
+          "note": ""
+        }
+      },
+      "current_node_id": "loc_ai_1",
+      "start_node_id": "loc_ai_1",
+      "objective_node_id": "loc_ai_5",
+      "extraction_node_id": "loc_ai_5"
+    },
+    "turns_played": 1
+  }
+}

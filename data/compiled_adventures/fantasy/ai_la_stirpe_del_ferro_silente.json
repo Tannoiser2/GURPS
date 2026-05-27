@@ -1,0 +1,526 @@
+{
+  "adventure_definition": {
+    "id": "ai_la_stirpe_del_ferro_silente",
+    "title": "La Stirpe del Ferro Silente",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "investigation",
+      "location_graph",
+      "pressure_clock"
+    ],
+    "tone": "dark fantasy claustrofobico e industriale",
+    "premise": "Le miniere di Kharundel producevano il metallo più puro del continente — finché tre mesi fa il clan Stonemarrow ha cessato ogni spedizione senza spiegazioni. Nella città di superficie, il costo dell'acciaio è triplicato e corrono voci di un'arma antica risvegliata nelle profondità.",
+    "initial_hook": "Un mercante di armi ingaggia i PG per scoprire cosa blocca le spedizioni. Alla discesa nelle miniere, trovano i cancelli sigillati dall'interno.",
+    "player_facing_objective": "Penetrare nelle miniere, scoprire cosa è successo al clan e decidere il destino dell'arma antica.",
+    "hidden_truth": "Un nobile di superficie ha sabotato le miniere per costringere il clan a cedergli i diritti di estrazione. Nel tentativo di resistere, i nani hanno risvegliato un Guardiano di Ferro — un golem bellico preistorico — che ora controlla autonomamente le miniere e non lascia passare nessuno.",
+    "core_truths": [
+      {
+        "id": "truth_main",
+        "statement": "Un nobile di superficie ha sabotato le miniere per costringere il clan a cedergli i diritti di estrazione. Nel tentativo di resistere, i nani hanno risvegliato un Guardiano di Ferro — un golem bellico preistorico — che ora controlla autonomamente le miniere e non lascia passare nessuno.",
+        "reveal_clues": [
+          "clue_entry",
+          "clue_witness",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Penetrare nelle miniere, scoprire cosa è successo al clan e decidere il destino dell'arma antica.",
+        "success_conditions": [
+          "Raccogliere almeno tre indizi chiave",
+          "Risolvere o interrompere il clock principale"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_truth",
+        "label": "Verita centrale",
+        "statement": "Un nobile di superficie ha sabotato le miniere per costringere il clan a cedergli i diritti di estrazione. Nel tentativo di resistere, i nani hanno risvegliato un Guardiano di Ferro — un golem bellico preistorico — che ora controlla autonomamente le miniere e non lascia passare nessuno.",
+        "required_clues": [
+          "clue_entry",
+          "clue_witness"
+        ]
+      },
+      {
+        "id": "rev_solution",
+        "label": "Soluzione praticabile",
+        "statement": "Trovare il Sigillo di Spegnimento del Guardiano inciso sulla Sala del Fondatore, raccogliere il sangue di un discendente Stonemarrow e utilizzare il Maglio Antico per inattivare il Guardiano senza distruggerlo — l'arma è anche la difesa del clan.",
+        "required_clues": [
+          "clue_trace",
+          "clue_final_key"
+        ]
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_entry",
+        "label": "Lettera parzialmente bruciata indirizzata al nobile Hadren con richieste di cessione dei diritti",
+        "type": "physical_evidence",
+        "thread_id": "truth",
+        "source_location": "loc_start",
+        "reveals": "La lettera prova il tentativo di acquisizione forzata — il clan ha risposto sigillando tutto.",
+        "payoff": "Apre la pista principale e impedisce ai PG di restare fermi al primo nodo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "La lettera prova il tentativo di acquisizione forzata — il clan ha risposto sigillando tutto.",
+        "hidden_implication": "Il nobile ha un complice dentro il clan — un giovane nano che credeva di negoziare un accordo migliore.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "La lettera potrebbe essere un falso piazzato dai nani stessi per giustificare la chiusura.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_witness",
+        "label": "Testimonianza di un nano rifugiatosi in superficie che descrive 'passi di ferro rosso incandescente'",
+        "type": "testimony",
+        "thread_id": "truth",
+        "source_location": "loc_node2",
+        "reveals": "I passi di ferro rosso corrispondono al Guardiano risvegliato, non a una creatura naturale.",
+        "payoff": "Collega un NPC alla minaccia e offre una seconda fonte indipendente.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_truth",
+          "rev_solution"
+        ],
+        "immediate_information": "I passi di ferro rosso corrispondono al Guardiano risvegliato, non a una creatura naturale.",
+        "hidden_implication": "Il Guardiano non è malvagio: obbedisce all'ultimo ordine ricevuto, che era 'proteggi il clan da tutti'.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "I 'passi di ferro' potrebbero essere una macchina da miniera impazzita, non un golem.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_ledger",
+        "label": "Il giornale di bordo del capoclan con le ultime voci prima del silenzio",
+        "type": "document",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node3",
+        "reveals": "Il giornale descrive il rituale accidentale che ha riattivato il Guardiano durante la resistenza.",
+        "payoff": "Trasforma sospetti in prove utilizzabili nel finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il giornale descrive il rituale accidentale che ha riattivato il Guardiano durante la resistenza.",
+        "hidden_implication": "Il capoclan è ancora vivo, imprigionato nella Forgia Primordiale dove il Guardiano lo 'protegge'.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il giornale potrebbe essere alterato — chi lo ha scritto aveva motivi per mentire.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_trace",
+        "label": "Un frammento di sigillo inciso su un mattone nella Sala del Consiglio",
+        "type": "location_detail",
+        "thread_id": "conspiracy",
+        "source_location": "loc_node4",
+        "reveals": "Il frammento è parte del sigillo di spegnimento — servono tre frammenti per completarlo.",
+        "payoff": "Svela accesso, debolezza o timing del nodo finale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_conspiracy",
+          "rev_solution"
+        ],
+        "immediate_information": "Il frammento è parte del sigillo di spegnimento — servono tre frammenti per completarlo.",
+        "hidden_implication": "Il sigillo ha un secondo uso: può essere usato per potenziare il Guardiano come arma offensiva.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il frammento potrebbe essere decorativo, senza funzione magica reale.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_final_key",
+        "label": "Il Maglio Antico — un martello cerimoniale Stonemarrow che risuona in presenza del Guardiano",
+        "type": "contradiction",
+        "thread_id": "solution",
+        "source_location": "loc_finale",
+        "reveals": "Il Maglio vibra vicino al Guardiano: è la chiave di attivazione del sigillo.",
+        "payoff": "Permette una soluzione diversa dal combattimento cieco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "Il Maglio vibra vicino al Guardiano: è la chiave di attivazione del sigillo.",
+        "hidden_implication": "Il sangue Stonemarrow necessario è quello del capoclan prigioniero — un paradosso.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "Il Maglio vibra perché è semplicemente una bacchetta da rabdomante mal classificata.",
+        "source_status": "generated",
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_pressure",
+        "label": "Movimenti regolari di carri del nobile verso le miniere nelle settimane precedenti",
+        "type": "behavior",
+        "thread_id": "solution",
+        "source_location": "loc_node2",
+        "reveals": "I carri portavano sostanze sabotanti, non rifornimenti — prova della malafede del nobile.",
+        "payoff": "Rende visibile il clock e consente ai PG di anticiparlo.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_solution",
+          "rev_solution"
+        ],
+        "immediate_information": "I carri portavano sostanze sabotanti, non rifornimenti — prova della malafede del nobile.",
+        "hidden_implication": "Il nobile ha già un acquirente per il metallo estratto: una potenza straniera che prepara una guerra.",
+        "unlocks": [],
+        "possible_actions": [
+          "Esaminare la scena",
+          "Interrogare un NPC collegato",
+          "Incrociare con un altro indizio"
+        ],
+        "wrong_interpretations": "I carri potrebbero trasportare medicinali o cibo per i minatori bloccati.",
+        "source_status": "generated",
+        "confidence": 0.9
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ally",
+        "name": "Talia Ironwhisper",
+        "role": "ally",
+        "location_id": "loc_start",
+        "description": "Nana trentenne, l'unica Stonemarrow fuggita in superficie, ferita al braccio sinistro, diffidente con gli estranei.",
+        "goal": "Salvare il suo clan senza consegnarlo a mercanti o nobili.",
+        "motivation": "Salvare il suo clan senza consegnarlo a mercanti o nobili.",
+        "secret": "È lei la discendente che può aprire la Sala del Fondatore — ma non lo sa ancora.",
+        "attitude": "friendly",
+        "agenda_pressure": 4,
+        "current_plan": "Guida i PG nei tunnel che conosce ma si ferma al livello due, terrorizzata dal Guardiano.",
+        "fallback_plan": "Se i PG dimostrano di voler liberare il clan (non sfruttarlo), rivela la propria discendenza.",
+        "pressure_response": {
+          "low": "Talia Ironwhisper osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Talia Ironwhisper accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Talia Ironwhisper sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Talia Ironwhisper tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_witness",
+        "name": "Vecchio minatore Brekk",
+        "role": "witness",
+        "location_id": "loc_node2",
+        "description": "Umano settantenne che ha lavorato nelle miniere per quarant'anni, ora vive nei tunnel di scarto.",
+        "goal": "Sopravvivere e forse finalmente andarsene con qualche soldo.",
+        "motivation": "Sopravvivere e forse finalmente andarsene con qualche soldo.",
+        "secret": "Ha visto il nobile Hadren consegnare di persona il sabotante al capoclan un mese prima della chiusura.",
+        "attitude": "suspicious",
+        "agenda_pressure": 5,
+        "current_plan": "Baratta informazioni in cambio di cibo e una via d'uscita sicura.",
+        "fallback_plan": "Se si fida dei PG, li guida fino alla Forgia Primordiale attraverso un tunnel secondario.",
+        "pressure_response": {
+          "low": "Vecchio minatore Brekk osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Vecchio minatore Brekk accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Vecchio minatore Brekk sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Vecchio minatore Brekk tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_rival",
+        "name": "Ingegnere Cassia Reln",
+        "role": "neutral",
+        "location_id": "loc_node3",
+        "description": "Donna di superficie, 40 anni, inviata dal mercante per 'valutare l'investimento', porta strumenti da misurazione.",
+        "goal": "Raccogliere dati sulla miniera per conto del nobile Hadren — è una spia.",
+        "motivation": "Raccogliere dati sulla miniera per conto del nobile Hadren — è una spia.",
+        "secret": "Lavora per Hadren ma sta valutando di tradirlo se i PG sembrano avere il sopravvento.",
+        "attitude": "suspicious",
+        "agenda_pressure": 6,
+        "current_plan": "Finge di aiutare i PG mentre riferisce le loro scoperte a Hadren tramite un amuleto di comunicazione.",
+        "fallback_plan": "Se smascherata, offre il piano completo di Hadren in cambio di immunità.",
+        "pressure_response": {
+          "low": "Ingegnere Cassia Reln osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Ingegnere Cassia Reln accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Ingegnere Cassia Reln sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Ingegnere Cassia Reln tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      },
+      {
+        "id": "actor_villain",
+        "name": "Il Guardiano di Ferro",
+        "role": "antagonist",
+        "location_id": "loc_finale",
+        "description": "Un colosso di dieci piedi in metallo rosso incandescente con occhi di carbone vivo. Non parla — comunica con vibrazioni del suolo.",
+        "goal": "Obbedire all'ultimo ordine del clan: proteggere le miniere da tutti gli intrusi.",
+        "motivation": "Obbedire all'ultimo ordine del clan: proteggere le miniere da tutti gli intrusi.",
+        "secret": "Il Guardiano soffre: il suo ordine lo costringe a imprigionare chi ama proteggere.",
+        "attitude": "hostile",
+        "agenda_pressure": 8,
+        "current_plan": "Blocca qualsiasi accesso alla Forgia, usa il calore come difesa, non attacca finché non è provocato.",
+        "fallback_plan": "Se i PG comunicano con lui in runico antico (o usano il Maglio), si ferma e aspetta il sigillo di spegnimento.",
+        "pressure_response": {
+          "low": "Il Guardiano di Ferro osserva e testa i PG senza esporsi, lasciando trapelare solo informazioni controllate.",
+          "medium": "Il Guardiano di Ferro accelera il proprio piano e usa contatti, minacce o favori per spostare la scena a suo vantaggio.",
+          "high": "Il Guardiano di Ferro sacrifica risorse secondarie, elimina prove fragili e forza i PG a scegliere tra sicurezza e verita.",
+          "extreme": "Il Guardiano di Ferro tenta la mossa finale: fuga, tradimento aperto o attivazione del pericolo principale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude, concede una mezza verita utile ma cerca una via di fuga o un testimone.",
+          "se_corrotto_o_pagato": "Accetta solo se il pagamento risolve un bisogno immediato; chiede garanzie concrete.",
+          "se_i_pg_hanno_prove": "Cambia tono, prova a reinterpretare le prove e rivela un tassello verificabile.",
+          "se_alleato": "Condivide una risorsa pratica e avverte dei rischi che non può affrontare da solo."
+        }
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_start",
+        "name": "Ingresso delle Miniere di Kharundel",
+        "description": "Cancelli di ferro massicci sbarrati dall'interno, incisioni runiche arancione-fuoco, silenzio innaturale dove prima si sentivano i martelli.",
+        "exits": [
+          "loc_node2"
+        ],
+        "is_starting_location": true,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Cancelli di ferro massicci sbarrati dall'interno, incisioni runiche arancione-fuoco, silenzio innaturale dove prima si sentivano i martelli.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Gas da miniera nei tunnel abbandonati: rilevabile con fiamma ma letale se inalato."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node2",
+        "name": "Tunnel dei Lavoratori — Livello Uno",
+        "description": "Gallerie larghe, carri abbandonati, attrezzi lasciati a metà lavoro. Tracce di lotta e poi nulla — come se tutti fossero evaporati.",
+        "exits": [
+          "loc_start",
+          "loc_node3"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Gallerie larghe, carri abbandonati, attrezzi lasciati a metà lavoro. Tracce di lotta e poi nulla — come se tutti fossero evaporati.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il calore della Forgia Primordiale causa danni per esposizione prolungata senza protezione."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node3",
+        "name": "Sala del Consiglio del Clan",
+        "description": "Camera circolare con trono di pietra al centro, pareti coperte di genealogie incise. Qui si trovano i resti di una riunione interrotta.",
+        "exits": [
+          "loc_node2",
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Camera circolare con trono di pietra al centro, pareti coperte di genealogie incise. Qui si trovano i resti di una riunione interrotta.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "Il Guardiano emette un campo di vibrazione che disorienta chi porta metallo non-Stonemarrow."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_node4",
+        "name": "Forgia Primordiale — Livello Tre",
+        "description": "Calore insostenibile, metallo liquido nei canali, i martelli si muovono da soli. Il Guardiano di Ferro presidia questo luogo come un generale il suo quartier generale.",
+        "exits": [
+          "loc_node3",
+          "loc_finale"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Calore insostenibile, metallo liquido nei canali, i martelli si muovono da soli. Il Guardiano di Ferro presidia questo luogo come un generale il suo quartier generale.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "I tunnel al livello tre hanno strutture instabili: troppo rumore può causare crolli."
+        ],
+        "clue_slots": []
+      },
+      {
+        "id": "loc_finale",
+        "name": "Sala del Fondatore",
+        "description": "Camera segreta dietro la forgia, accessibile solo con sangue Stonemarrow. Contiene il sigillo di controllo e la storia vera del Guardiano.",
+        "exits": [
+          "loc_node4"
+        ],
+        "is_starting_location": false,
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Camera segreta dietro la forgia, accessibile solo con sangue Stonemarrow. Contiene il sigillo di controllo e la storia vera del Guardiano.",
+        "gameplay_function": "Indagare, negoziare, muoversi verso il prossimo nodo e scoprire indizi.",
+        "hazards": [
+          "L'amuleto di Cassia può attirare rinforzi del nobile se non viene disattivato in tempo."
+        ],
+        "clue_slots": []
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Spedizione armata del nobile Hadren verso le miniere",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Hadren arriva con mercenari e esplosivi — vuole aprire le miniere con la forza, rischiando di distruggere il Guardiano e il clan intero.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Primi segnali visibili: allarmi, voci, presagi o movimenti nemici."
+          },
+          {
+            "tick": 4,
+            "event": "Una risorsa sicura diventa instabile e un NPC cambia posizione."
+          },
+          {
+            "tick": 6,
+            "event": "Il pericolo colpisce un innocente o distrugge una prova secondaria."
+          },
+          {
+            "tick": 8,
+            "event": "Il fronte avversario forza una scelta immediata con costi concreti."
+          },
+          {
+            "tick": 10,
+            "event": "Hadren arriva con mercenari e esplosivi — vuole aprire le miniere con la forza, rischiando di distruggere il Guardiano e il clan intero."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_pressure"
+        ],
+        "resolution_condition": "Attivare il sigillo di spegnimento prima che Hadren arrivi, liberare il capoclan e riprendere il controllo del cancello principale.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_pressure",
+        "discovery_hint": "I segnali del clock sono percepibili prima che diventi irreversibile.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_time",
+        "label": "Tempo utile",
+        "value": 6,
+        "max_value": 6,
+        "description": "Scende quando i PG perdono tempo o falliscono prove critiche."
+      },
+      {
+        "id": "res_trust",
+        "label": "Fiducia locale",
+        "value": 3,
+        "max_value": 5,
+        "description": "Misura quanto gli NPC rischiano per aiutare i PG."
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_clean",
+        "label": "Spegnere il Guardiano con il sigillo, liberare il capoclan, esporre Hadren — il clan riprende le miniere con la protezione legale dei PG.",
+        "required_clues": [
+          "clue_final_key",
+          "clue_trace"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_solution"
+        ],
+        "method": "Trovare il Sigillo di Spegnimento del Guardiano inciso sulla Sala del Fondatore, raccogliere il sangue di un discendente Stonemarrow e utilizzare il Maglio Antico per inattivare il Guardiano senza distruggerlo — l'arma è anche la difesa del clan.",
+        "victory": true
+      },
+      {
+        "id": "finale_costly",
+        "label": "Usare il Guardiano come arma contro Hadren — vittoria militare ma il clan resta intrappolato finché non si trova un altro sigillo.",
+        "required_clues": [
+          "clue_entry"
+        ],
+        "status": "available",
+        "method": "Affrontare il finale senza tutte le prove: possibile, ma con perdite o conseguenze future.",
+        "victory": false
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "thread_main",
+        "label": "La Stirpe del Ferro Silente",
+        "status": "active",
+        "clue_ids": [
+          "clue_entry",
+          "clue_witness",
+          "clue_ledger",
+          "clue_trace",
+          "clue_final_key",
+          "clue_pressure"
+        ]
+      }
+    ],
+    "suggestions": []
+  }
+}

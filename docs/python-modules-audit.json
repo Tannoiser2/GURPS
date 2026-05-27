@@ -1,0 +1,566 @@
+{
+  "id": "gurps-python-modules-audit",
+  "title": "Audit moduli Python GURPS",
+  "version": "1.0.0",
+  "root": "/Users/stefan0/Desktop/GURPS",
+  "generated_for": "Descrivere tutti i moduli .py, la loro funzione, e indicare moduli inutili, morti o accorpabili.",
+  "verification": {
+    "commands": [
+      {
+        "command": "rg --files -g '*.py'",
+        "result": "46 file Python trovati tra backend/App e backend/tests."
+      },
+      {
+        "command": "PYTHONPATH=backend pytest -q backend/tests",
+        "result": "67 passed, 70 subtests passed in 1.43s"
+      }
+    ],
+    "notes": [
+      "Un primo pytest lanciato da backend senza PYTHONPATH falliva con ModuleNotFoundError: App. Con PYTHONPATH=backend i test passano.",
+      "Le valutazioni dead_code_candidate e merge_candidate sono basate su import statici, test, responsabilita e dimensione dei file. Non ho cancellato nulla."
+    ]
+  },
+  "status_legend": {
+    "core_active": "Modulo centrale del runtime o dell'API.",
+    "active_support": "Modulo usato e testato, ma non punto d'ingresso principale.",
+    "data_active": "Modulo dati/costanti usato da engine o generazione.",
+    "schema_active": "Modulo di modelli e contratti dati.",
+    "test_active": "Modulo di test.",
+    "dead_code_candidate": "Non risultano import/riferimenti statici utili; verificare prima di eliminare.",
+    "merge_candidate": "Funziona, ma potrebbe essere accorpato per ridurre frammentazione.",
+    "split_candidate": "Troppo grande o con troppe responsabilita; meglio separare."
+  },
+  "application_modules": [
+    {
+      "path": "backend/App/main.py",
+      "lines": 1321,
+      "status": ["core_active", "split_candidate"],
+      "function": "Entry point FastAPI. Espone gli endpoint /game/*, mantiene il GameState globale, orchestra engine, AI service, combat, runtime store e generazione immagini.",
+      "main_responsibilities": ["routing HTTP", "payload Pydantic locali", "sincronizzazione GameState", "gestione combat_scene", "cache immagini"],
+      "used_by": ["server FastAPI", "frontend React", "tests importano indirettamente il package App"],
+      "risk": "Concentra troppa logica applicativa e molte classi payload: difficile da testare e modificare.",
+      "recommendation": "Spezzare in router: adventure_router.py, master_router.py, combat_router.py, character_router.py, image_router.py, state_router.py."
+    },
+    {
+      "path": "backend/App/engine.py",
+      "lines": 5479,
+      "status": ["core_active", "split_candidate"],
+      "function": "Motore di gioco principale. Costruisce GameState, risolve azioni, mappa, avanzamento storia, aggiornamenti narrativi e ponte verso il combattimento.",
+      "main_responsibilities": ["setup squadra", "mappa e nodi", "roll_for_player_action", "apply_story_updates", "NPC/world movement", "combat orchestration"],
+      "used_by": ["main.py", "character_creation.py", "tests"],
+      "risk": "File molto grande con domini mescolati: regole GURPS, stato storia, mappa, world NPC, combat glue.",
+      "recommendation": "Separare in engine/actions.py, engine/map.py, engine/story_updates.py, engine/world_npcs.py, engine/combat_bridge.py."
+    },
+    {
+      "path": "backend/App/claude_service.py",
+      "lines": 5454,
+      "status": ["core_active", "split_candidate"],
+      "function": "Servizio AI monolitico: provider testo/immagini, generazione avventura, canovaccio, scene, master turn, normalizzazioni e fallback.",
+      "main_responsibilities": ["provider Claude/OpenAI/Gemini", "prompt", "create_adventure", "master_turn_with_bible", "compile_adventure_to_runtime", "image generation"],
+      "used_by": ["main.py", "engine.py", "tests"],
+      "risk": "Monolite critico: modifica di prompt, provider e runtime nello stesso file.",
+      "recommendation": "Separare provider_clients.py, prompts/, adventure_generation.py, master_turn.py, image_generation.py, canon_normalizer.py."
+    },
+    {
+      "path": "backend/App/models.py",
+      "lines": 439,
+      "status": ["schema_active"],
+      "function": "Contratti Pydantic del gioco live: Player, Action, SceneState, MapState, StoryState, GameState, risultati combattimento.",
+      "main_responsibilities": ["schema runtime live", "contratto backend/frontend", "stato missione e combattimento"],
+      "used_by": ["main.py", "engine.py", "combat.py", "character_creation.py", "claude_service.py", "tests"],
+      "recommendation": "Tenere. Eventualmente separare combat_models.py e story_models.py solo quando il refactor dei router e dell'engine sara fatto."
+    },
+    {
+      "path": "backend/App/runtime_models.py",
+      "lines": 292,
+      "status": ["schema_active"],
+      "function": "Contratti Pydantic del runtime avventura compilato: AdventureDefinition, AdventureRuntime, indizi, rivelazioni, attori, luoghi, clock e finale.",
+      "main_responsibilities": ["schema runtime dichiarativo", "schema compilatore", "schema persistenza runtime"],
+      "used_by": ["adventure_compiler.py", "adventure_runtime.py", "adventure_runtime_store.py", "adventure_validator.py", "engine.py", "main.py", "world_simulator.py"],
+      "recommendation": "Tenere separato da models.py: rappresenta la definizione/compilazione, non il GameState live."
+    },
+    {
+      "path": "backend/App/combat.py",
+      "lines": 463,
+      "status": ["core_active"],
+      "function": "Risoluzione combattimento GURPS Lite: attacco, difesa attiva, danno, DR, shock, ferite, knockdown, death check, postura e fatica.",
+      "main_responsibilities": ["resolve_attack", "roll_damage", "wound_threshold", "attempt_stun_recovery", "stand_up"],
+      "used_by": ["main.py", "engine.py", "claude_service.py"],
+      "recommendation": "Tenere. E un buon confine di dominio rispetto all'engine."
+    },
+    {
+      "path": "backend/App/action_intent.py",
+      "lines": 347,
+      "status": ["active_support"],
+      "function": "Interpreta azioni in linguaggio naturale e seleziona l'abilita GURPS piu coerente col contesto.",
+      "main_responsibilities": ["extract_action_intent", "generate_skill_candidates", "score_skill_candidates", "select_best_skill"],
+      "used_by": ["engine.py", "test_action_skill_resolution.py"],
+      "recommendation": "Tenere separato: e un modulo di regole semantiche molto utile."
+    },
+    {
+      "path": "backend/App/character_creation.py",
+      "lines": 237,
+      "status": ["active_support"],
+      "function": "Creazione e validazione personaggi GURPS Lite: costi attributi/skill/vantaggi, point_total, build_custom_player.",
+      "main_responsibilities": ["validate_draft", "build_custom_player", "skill_cost", "advantage_cost"],
+      "used_by": ["main.py", "tests"],
+      "recommendation": "Tenere. Possibile in futuro spostare cost calculation in rules/character_points.py."
+    },
+    {
+      "path": "backend/App/data_skills.py",
+      "lines": 620,
+      "status": ["data_active"],
+      "function": "Catalogo e utility delle abilita GURPS: normalizzazione, default, stat collegate, mapping effect_type.",
+      "main_responsibilities": ["SKILL_INFO", "VALID_SKILLS", "skill_default_level", "default_skill_for", "reconcile_effect_type"],
+      "used_by": ["engine.py", "combat.py", "character_creation.py", "claude_service.py", "tests"],
+      "recommendation": "Tenere. Potrebbe diventare JSON/YAML dati + modulo loader, ma non e urgente."
+    },
+    {
+      "path": "backend/App/data_advantages.py",
+      "lines": 1263,
+      "status": ["data_active", "split_candidate"],
+      "function": "Catalogo vantaggi/svantaggi e funzioni meccaniche: bonus skill, difesa, reazioni, volonta, percezione, shock, costi e note narrative.",
+      "main_responsibilities": ["ADVANTAGES", "DISADVANTAGES", "trait_cost", "advantage_* helpers", "trait_story_notes"],
+      "used_by": ["engine.py", "combat.py", "character_creation.py", "claude_service.py", "tests"],
+      "risk": "Molto grande e misto tra dati e logica.",
+      "recommendation": "Separare dati grezzi da helper: data_advantages_catalog.py e rules/advantages.py."
+    },
+    {
+      "path": "backend/App/data_genres.py",
+      "lines": 522,
+      "status": ["data_active"],
+      "function": "Catalogo generi e pacchetti tematici usati da generazione, engine e API.",
+      "main_responsibilities": ["GENRE_PACKS", "configurazione genre/theme"],
+      "used_by": ["main.py", "engine.py", "claude_service.py", "adventure_compiler.py"],
+      "recommendation": "Tenere. Valutare formato dati esterno solo se deve essere editabile senza codice."
+    },
+    {
+      "path": "backend/App/data_roles.py",
+      "lines": 297,
+      "status": ["data_active"],
+      "function": "Libreria ruoli/personaggi e override per tema usati nella generazione della squadra.",
+      "main_responsibilities": ["ROLE_LIBRARY", "THEME_FAMILY_ROLE_OVERRIDE"],
+      "used_by": ["claude_service.py"],
+      "recommendation": "Tenere, o accorpare con data_genres.py se i ruoli restano solo dati statici per generazione."
+    },
+    {
+      "path": "backend/App/data_equipment.py",
+      "lines": 88,
+      "status": ["data_active", "merge_candidate"],
+      "function": "Bonus equipaggiamento per missione e ambiente.",
+      "main_responsibilities": ["MISSION_EQUIPMENT_BONUS", "ENVIRONMENT_EQUIPMENT_BONUS"],
+      "used_by": ["claude_service.py"],
+      "recommendation": "Accorpabile in data_roles.py o in un pacchetto data_generation.py se si vuole ridurre il numero di file dati piccoli."
+    },
+    {
+      "path": "backend/App/adventure_compiler.py",
+      "lines": 818,
+      "status": ["core_active", "split_candidate"],
+      "function": "Compila strutture AI/PDF/testo in AdventureDefinition e runtime iniziale; ripara canon, piste, attori e placeholder.",
+      "main_responsibilities": ["compile_from_raw_structure", "compile_pdf_to_runtime", "compile_ai_generated_to_runtime", "initialize_runtime_state"],
+      "used_by": ["main.py", "claude_service.py", "tests"],
+      "risk": "Contiene compilazione, repair euristici, conversioni legacy e inizializzazione runtime.",
+      "recommendation": "Separare compiler_core.py, compiler_repairs.py, compiler_legacy.py, compiler_initial_state.py."
+    },
+    {
+      "path": "backend/App/adventure_runtime.py",
+      "lines": 204,
+      "status": ["active_support"],
+      "function": "Converte la bibbia esistente in AdventureRuntime e costruisce contesto prompt state-driven.",
+      "main_responsibilities": ["build_adventure_runtime", "runtime_prompt_context"],
+      "used_by": ["main.py", "engine.py", "claude_service.py", "tests"],
+      "recommendation": "Tenere. Potrebbe essere rinominato runtime_context.py se build_adventure_runtime migra nel compiler."
+    },
+    {
+      "path": "backend/App/adventure_runtime_store.py",
+      "lines": 78,
+      "status": ["active_support"],
+      "function": "Persistenza file-based dei runtime compilati in data/compiled_adventures.",
+      "main_responsibilities": ["save_runtime", "load_runtime", "list_runtimes", "update_runtime"],
+      "used_by": ["main.py"],
+      "recommendation": "Tenere separato: e un confine chiaro di persistenza."
+    },
+    {
+      "path": "backend/App/adventure_validator.py",
+      "lines": 222,
+      "status": ["active_support"],
+      "function": "Valida qualita e completezza di AdventureDefinition per AI e PDF.",
+      "main_responsibilities": ["runtime_quality_report", "validate_ai_generated_definition", "validate_pdf_import_definition", "validate_adventure_definition"],
+      "used_by": ["adventure_compiler.py", "tests"],
+      "recommendation": "Tenere separato. Buon candidato per diventare gate obbligatorio in API."
+    },
+    {
+      "path": "backend/App/pdf_structure_extractor.py",
+      "lines": 185,
+      "status": ["active_support"],
+      "function": "Estrae struttura da testo PDF: sezioni, stanze, NPC, fazioni, indizi, incontri, eventi, tabelle, mappe e segreti GM.",
+      "main_responsibilities": ["extract_pdf_structure", "detect_module_structure", "extract_* helpers"],
+      "used_by": ["adventure_compiler.py", "claude_service.py", "tests"],
+      "recommendation": "Tenere. Se cresce, separare extractors/rooms.py, extractors/clues.py, extractors/npcs.py."
+    },
+    {
+      "path": "backend/App/runtime_shape_builder.py",
+      "lines": 546,
+      "status": ["active_support", "split_candidate"],
+      "function": "Costruisce shape runtime per import PDF e avventure AI, derivando luoghi, indizi, attori, rivelazioni, clock e finale.",
+      "main_responsibilities": ["build_shape_for_pdf_import", "build_shape_for_ai_generated"],
+      "used_by": ["adventure_compiler.py", "tests"],
+      "recommendation": "Separare shape_pdf.py e shape_ai.py: sono due modalita con regole diverse."
+    },
+    {
+      "path": "backend/App/semantic_concretizer.py",
+      "lines": 449,
+      "status": ["active_support"],
+      "function": "Rende concreti indizi, luoghi, obiettivi, clock e finale quando la struttura AI e troppo astratta.",
+      "main_responsibilities": ["concretize_clue", "dedupe_clues", "concretize_location_features", "concretize_adventure_raw"],
+      "used_by": ["adventure_compiler.py", "tests"],
+      "recommendation": "Tenere. Lavora bene come stadio separato del compiler."
+    },
+    {
+      "path": "backend/App/preservation_policy.py",
+      "lines": 47,
+      "status": ["active_support", "merge_candidate"],
+      "function": "Decide cosa preservare durante import PDF in base alla struttura estratta.",
+      "main_responsibilities": ["build_preservation_policy", "should_preserve_collection"],
+      "used_by": ["adventure_compiler.py", "adventure_validator.py", "tests"],
+      "recommendation": "Puo restare separato per chiarezza. Accorpabile in adventure_compiler.py solo se si preferisce ridurre file piccoli."
+    },
+    {
+      "path": "backend/App/archetype_detector.py",
+      "lines": 105,
+      "status": ["active_support"],
+      "function": "Rileva archetipi narrativi da prompt AI o struttura PDF.",
+      "main_responsibilities": ["rank_archetype_candidates", "merge_archetypes", "detect_archetypes_from_pdf_structure", "detect_archetypes_from_ai_prompt"],
+      "used_by": ["adventure_compiler.py", "tests"],
+      "recommendation": "Tenere insieme a narrative_archetypes.py."
+    },
+    {
+      "path": "backend/App/narrative_archetypes.py",
+      "lines": 57,
+      "status": ["active_support", "merge_candidate"],
+      "function": "Catalogo degli archetipi narrativi e relativi pesi/bias.",
+      "main_responsibilities": ["ARCHETYPE_LIBRARY", "get_archetype"],
+      "used_by": ["archetype_detector.py"],
+      "recommendation": "Accorpabile in archetype_detector.py se il catalogo resta piccolo; tenerlo separato se diventera configurazione ampia."
+    },
+    {
+      "path": "backend/App/genre_constraints.py",
+      "lines": 196,
+      "status": ["active_support"],
+      "function": "Profili di genere e vincoli sulle escalation consentite.",
+      "main_responsibilities": ["get_genre_profile", "get_forbidden_escalations", "is_escalation_allowed"],
+      "used_by": ["adventure_compiler.py", "adventure_runtime.py", "escalation_limiter.py", "narrative_director.py", "state_validator.py", "tests"],
+      "recommendation": "Tenere. E il punto giusto per regole di tono/genere."
+    },
+    {
+      "path": "backend/App/escalation_limiter.py",
+      "lines": 141,
+      "status": ["active_support"],
+      "function": "Classifica e limita escalation narrative in base a genere, runtime e stato.",
+      "main_responsibilities": ["compute_allowed_escalation_tier", "classify_event_tier", "downgrade_event_to_allowed_tier"],
+      "used_by": ["narrative_director.py", "state_validator.py", "tests"],
+      "recommendation": "Tenere. Potrebbe diventare rules/escalation.py."
+    },
+    {
+      "path": "backend/App/narrative_director.py",
+      "lines": 166,
+      "status": ["active_support"],
+      "function": "Decide bias narrativi e produce contesto per il Master AI, rispettando runtime e limiti di escalation.",
+      "main_responsibilities": ["make_director_decision", "director_prompt_context"],
+      "used_by": ["claude_service.py", "tests"],
+      "recommendation": "Tenere. Buon confine tra prompt AI e regole di direzione."
+    },
+    {
+      "path": "backend/App/state_validator.py",
+      "lines": 107,
+      "status": ["active_support"],
+      "function": "Valida e fonde aggiornamenti AI con aggiornamenti engine, controllando integrita runtime e escalation.",
+      "main_responsibilities": ["merge_engine_and_ai_updates", "validate_ai_state_updates", "validate_runtime_integrity"],
+      "used_by": ["claude_service.py", "tests"],
+      "recommendation": "Tenere. Potrebbe ricevere piu responsabilita da main.py durante refactor."
+    },
+    {
+      "path": "backend/App/world_simulator.py",
+      "lines": 268,
+      "status": ["active_support"],
+      "function": "Simula avanzamento mondo runtime: clock, indizi, introduzione NPC e reazioni.",
+      "main_responsibilities": ["simulate_world_state", "_compute_clock_tick", "_select_clue", "_check_clock_triggers"],
+      "used_by": ["claude_service.py", "tests"],
+      "recommendation": "Tenere. Potrebbe assorbire world_reaction_engine.py se quella logica resta piccola."
+    },
+    {
+      "path": "backend/App/world_reaction_engine.py",
+      "lines": 63,
+      "status": ["active_support", "merge_candidate"],
+      "function": "Genera reazioni del mondo a partire da runtime e tick/azioni.",
+      "main_responsibilities": ["generate_world_reactions"],
+      "used_by": ["world_simulator.py"],
+      "recommendation": "Accorpabile in world_simulator.py: oggi ha un solo consumer e una sola funzione pubblica."
+    },
+    {
+      "path": "backend/App/source_mapper.py",
+      "lines": 36,
+      "status": ["active_support", "merge_candidate"],
+      "function": "Crea e attacca riferimenti sorgente/hash agli elementi estratti da PDF.",
+      "main_responsibilities": ["create_source_ref", "attach_source_to_element", "get_source_context_for_runtime_element"],
+      "used_by": ["pdf_structure_extractor.py"],
+      "recommendation": "Accorpabile in pdf_structure_extractor.py o in pdf_source_refs.py; ha un solo consumer diretto."
+    },
+    {
+      "path": "backend/App/revelation_controller.py",
+      "lines": 23,
+      "status": ["dead_code_candidate", "merge_candidate"],
+      "function": "Helper per payload payoff indizi e soglia ready_to_deduce.",
+      "main_responsibilities": ["clue_payoff_payload", "ready_to_deduce"],
+      "used_by": [],
+      "evidence": "Nessun import statico trovato in backend/App o backend/tests. La logica ready_to_deduce sembra duplicata in engine.py e claude_service.py.",
+      "recommendation": "O importarlo davvero nei punti che calcolano rivelazioni, oppure eliminarlo/accorparlo in adventure_runtime.py dopo verifica manuale."
+    },
+    {
+      "path": "backend/App/archetype_modules/__init__.py",
+      "lines": 1,
+      "status": ["dead_code_candidate"],
+      "function": "Package marker vuoto per archetype_modules.",
+      "used_by": [],
+      "recommendation": "Innocuo. Eliminabile solo se si elimina tutta la cartella archetype_modules."
+    },
+    {
+      "path": "backend/App/archetype_modules/base.py",
+      "lines": 22,
+      "status": ["dead_code_candidate", "merge_candidate"],
+      "function": "Interfaccia/fallback per moduli archetipali: enrich_definition, build_runtime_support, director_bias, validate_shape, suggest_missing_elements.",
+      "used_by": ["archetype_modules/*.py"],
+      "evidence": "Usato solo dai moduli archetype_modules, che non risultano importati dal flusso attivo.",
+      "recommendation": "Se l'architettura plugin archetipi non serve, rimuovere tutta la cartella. Se serve, creare un registry e test."
+    },
+    {
+      "path": "backend/App/archetype_modules/dungeon_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo dungeon.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/faction_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo faction.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/heist_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo heist.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/horror_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo horror.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/investigation_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo investigation.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/military_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo military.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/romance_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo romance.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/sandbox_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo sandbox.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    },
+    {
+      "path": "backend/App/archetype_modules/survival_module.py",
+      "lines": 11,
+      "status": ["dead_code_candidate"],
+      "function": "Bias minimale per archetipo survival.",
+      "used_by": [],
+      "recommendation": "Accorpare in narrative_archetypes.py oppure collegare a un registry dinamico."
+    }
+  ],
+  "test_modules": [
+    {
+      "path": "backend/tests/test_action_skill_resolution.py",
+      "function": "Copre selezione abilita e risoluzione azioni.",
+      "covers": ["action_intent.py", "engine.py"]
+    },
+    {
+      "path": "backend/tests/test_advantage_story_impact.py",
+      "function": "Copre impatto narrativo/meccanico di vantaggi e svantaggi.",
+      "covers": ["data_advantages.py", "character_creation.py", "engine.py", "claude_service.py"]
+    },
+    {
+      "path": "backend/tests/test_archetype_detector.py",
+      "function": "Copre rilevamento archetipi da prompt e PDF.",
+      "covers": ["archetype_detector.py", "pdf_structure_extractor.py"]
+    },
+    {
+      "path": "backend/tests/test_gurps_skill_rules.py",
+      "function": "Copre regole skill e costi GURPS.",
+      "covers": ["data_skills.py", "character_creation.py"]
+    },
+    {
+      "path": "backend/tests/test_narrative_canon.py",
+      "function": "Copre canone narrativo, runtime, direzione narrativa, state validator, simulator e alcuni flussi engine.",
+      "covers": ["claude_service.py", "adventure_runtime.py", "narrative_director.py", "state_validator.py", "world_simulator.py", "adventure_compiler.py", "adventure_validator.py", "engine.py", "escalation_limiter.py", "genre_constraints.py"]
+    },
+    {
+      "path": "backend/tests/test_pdf_structure_preservation.py",
+      "function": "Copre preservazione struttura PDF nel runtime.",
+      "covers": ["adventure_compiler.py"]
+    },
+    {
+      "path": "backend/tests/test_pdf_vs_ai_generated_modes.py",
+      "function": "Copre differenze tra import PDF e avventure generate AI.",
+      "covers": ["adventure_compiler.py", "claude_service.py"]
+    },
+    {
+      "path": "backend/tests/test_preservation_policy.py",
+      "function": "Copre policy di preservazione PDF.",
+      "covers": ["pdf_structure_extractor.py", "preservation_policy.py"]
+    },
+    {
+      "path": "backend/tests/test_runtime_quality.py",
+      "function": "Copre qualita runtime e validazione AdventureDefinition.",
+      "covers": ["adventure_compiler.py", "adventure_validator.py"]
+    },
+    {
+      "path": "backend/tests/test_runtime_shape_builder.py",
+      "function": "Copre costruzione shape runtime da PDF.",
+      "covers": ["runtime_shape_builder.py", "archetype_detector.py", "pdf_structure_extractor.py", "preservation_policy.py"]
+    },
+    {
+      "path": "backend/tests/test_semantic_concretizer.py",
+      "function": "Copre concretizzazione semantica di indizi, luoghi, clock e finale.",
+      "covers": ["semantic_concretizer.py"]
+    }
+  ],
+  "dead_or_suspicious_modules": [
+    {
+      "path": "backend/App/revelation_controller.py",
+      "confidence": "high",
+      "reason": "Nessun import statico trovato; funzioni apparentemente duplicate altrove.",
+      "safe_next_step": "Cercare uso runtime/dinamico; se assente, rimuovere o integrare in adventure_runtime.py/engine.py con test."
+    },
+    {
+      "path": "backend/App/archetype_modules/*.py",
+      "confidence": "high",
+      "reason": "I moduli specifici contengono solo director_bias minimale e non risultano importati da detector, compiler o director.",
+      "safe_next_step": "Scegliere: eliminare e mantenere narrative_archetypes.py come catalogo unico, oppure creare registry esplicito con test."
+    }
+  ],
+  "merge_candidates": [
+    {
+      "paths": ["backend/App/world_reaction_engine.py", "backend/App/world_simulator.py"],
+      "reason": "world_reaction_engine.py ha un solo consumer e una sola funzione pubblica.",
+      "priority": "medium"
+    },
+    {
+      "paths": ["backend/App/source_mapper.py", "backend/App/pdf_structure_extractor.py"],
+      "reason": "source_mapper.py e piccolo e usato solo dall'estrattore PDF.",
+      "priority": "low"
+    },
+    {
+      "paths": ["backend/App/narrative_archetypes.py", "backend/App/archetype_detector.py"],
+      "reason": "Il catalogo archetipi e piccolo e ha un solo consumer.",
+      "priority": "low"
+    },
+    {
+      "paths": ["backend/App/data_equipment.py", "backend/App/data_roles.py"],
+      "reason": "Entrambi sono dati statici usati dalla generazione personaggi/missione.",
+      "priority": "low"
+    },
+    {
+      "paths": ["backend/App/revelation_controller.py", "backend/App/adventure_runtime.py"],
+      "reason": "Se si vuole conservare la logica, ha piu senso vicino al runtime delle rivelazioni.",
+      "priority": "medium"
+    }
+  ],
+  "split_candidates": [
+    {
+      "path": "backend/App/claude_service.py",
+      "priority": "high",
+      "reason": "5454 righe; mescola provider, prompt, generazione avventure, master turn, immagini, normalizzazione e fallback."
+    },
+    {
+      "path": "backend/App/engine.py",
+      "priority": "high",
+      "reason": "5479 righe; mescola regole azione, storia, mappa, world NPC e ponte combattimento."
+    },
+    {
+      "path": "backend/App/main.py",
+      "priority": "high",
+      "reason": "1321 righe; tutti gli endpoint e payload sono nello stesso file."
+    },
+    {
+      "path": "backend/App/adventure_compiler.py",
+      "priority": "medium",
+      "reason": "818 righe; contiene compiler, repair, legacy conversion e inizializzazione runtime."
+    },
+    {
+      "path": "backend/App/data_advantages.py",
+      "priority": "medium",
+      "reason": "1263 righe; dati catalogo e funzioni meccaniche sono nello stesso modulo."
+    },
+    {
+      "path": "backend/App/runtime_shape_builder.py",
+      "priority": "medium",
+      "reason": "PDF import e AI generated shape hanno logiche distinte nello stesso file."
+    }
+  ],
+  "suggested_cleanup_order": [
+    {
+      "step": 1,
+      "action": "Decidere destino di backend/App/archetype_modules e revelation_controller.py.",
+      "why": "Sono i candidati morti piu chiari e a basso impatto."
+    },
+    {
+      "step": 2,
+      "action": "Accorpare source_mapper.py in pdf_structure_extractor.py e world_reaction_engine.py in world_simulator.py se non si prevede crescita.",
+      "why": "Riduce frammentazione senza cambiare architettura."
+    },
+    {
+      "step": 3,
+      "action": "Spezzare main.py in router FastAPI.",
+      "why": "Migliora leggibilita e testabilita senza toccare le regole."
+    },
+    {
+      "step": 4,
+      "action": "Spezzare claude_service.py per provider, prompt, immagini e master turn.",
+      "why": "E il monolite piu rischioso."
+    },
+    {
+      "step": 5,
+      "action": "Spezzare engine.py per azioni, mappa, story updates e combat bridge.",
+      "why": "Riduce il rischio di regressioni nel motore."
+    }
+  ]
+}

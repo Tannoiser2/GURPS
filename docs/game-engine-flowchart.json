@@ -1,0 +1,914 @@
+{
+  "id": "gurps-game-engine-flowchart",
+  "title": "Flowchart JSON del motore di gioco GURPS",
+  "version": "1.0.0",
+  "root": "/Users/stefan0/Desktop/GURPS",
+  "description": "Mappa del flusso reale dell'app: frontend React, API FastAPI, compilazione avventure, runtime narrativo, regole GURPS e combattimento tattico.",
+  "entrypoints": [
+    {
+      "id": "frontend_app",
+      "label": "Frontend React",
+      "file": "frontend/src/App.jsx"
+    },
+    {
+      "id": "api_main",
+      "label": "Backend FastAPI",
+      "file": "backend/App/main.py"
+    }
+  ],
+  "layers": [
+    {
+      "id": "ui",
+      "label": "Interfaccia utente"
+    },
+    {
+      "id": "api",
+      "label": "Endpoint HTTP"
+    },
+    {
+      "id": "adventure_pipeline",
+      "label": "Compilazione e runtime avventura"
+    },
+    {
+      "id": "game_engine",
+      "label": "Motore regole e stato"
+    },
+    {
+      "id": "ai_services",
+      "label": "Servizi AI e generazione contenuti"
+    },
+    {
+      "id": "combat",
+      "label": "Combattimento tattico"
+    },
+    {
+      "id": "state_data",
+      "label": "Stato e dati"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "player",
+      "label": "Giocatore / Facilitatore",
+      "type": "actor",
+      "layer": "ui",
+      "responsibilities": [
+        "Sceglie genere, provider, personaggi e azioni",
+        "Interagisce con chat Master, mappa, diario e combattimento"
+      ]
+    },
+    {
+      "id": "react_app",
+      "label": "App React",
+      "type": "frontend",
+      "layer": "ui",
+      "file": "frontend/src/App.jsx",
+      "responsibilities": [
+        "Mostra setup, avventura, chat, mappe, diario, schede PG e combat map",
+        "Invia fetch HTTP agli endpoint backend",
+        "Applica le risposte JSON allo stato UI"
+      ]
+    },
+    {
+      "id": "tile_catalog",
+      "label": "Catalogo tile mappe",
+      "type": "frontend_data",
+      "layer": "ui",
+      "file": "frontend/src/mapTiles/tileCatalog.js",
+      "responsibilities": [
+        "Associa tema, stanza e descrizione a tile statiche",
+        "Supporta la resa della mappa tattica"
+      ]
+    },
+    {
+      "id": "fastapi_app",
+      "label": "FastAPI app",
+      "type": "api",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "responsibilities": [
+        "Espone gli endpoint /game/*",
+        "Mantiene il GameState globale in memoria",
+        "Coordina engine.py, claude_service.py, combat.py e runtime store"
+      ]
+    },
+    {
+      "id": "adventure_create_endpoint",
+      "label": "Crea avventura",
+      "type": "endpoint",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "POST /game/adventure/create",
+        "POST /game/adventure/from-pdf"
+      ],
+      "responsibilities": [
+        "Avvia generazione AI o import PDF",
+        "Produce una bibbia/definizione di avventura giocabile"
+      ]
+    },
+    {
+      "id": "adventure_compile_endpoint",
+      "label": "Compila runtime avventura",
+      "type": "endpoint",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "POST /game/adventure/compile",
+        "POST /game/adventure/runtime/{runtime_id}/start",
+        "POST /game/adventure/runtime/{runtime_id}/update"
+      ],
+      "responsibilities": [
+        "Compila una struttura grezza in AdventureDefinition",
+        "Salva e aggiorna runtime persistenti"
+      ]
+    },
+    {
+      "id": "master_start_endpoint",
+      "label": "Start Master con bibbia",
+      "type": "endpoint",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "POST /game/master/start-bible"
+      ],
+      "responsibilities": [
+        "Sincronizza i PG nel GameState",
+        "Chiede la prima scena al Master AI",
+        "Inizializza scena, opzioni e stato visibile"
+      ]
+    },
+    {
+      "id": "master_turn_endpoint",
+      "label": "Turno Master con bibbia",
+      "type": "endpoint",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "POST /game/master/turn-bible"
+      ],
+      "responsibilities": [
+        "Riceve l'azione del giocatore",
+        "Esegue prima il tiro GURPS meccanico",
+        "Passa risultato e contesto al Master AI",
+        "Applica state_updates, combat_scene e finale"
+      ]
+    },
+    {
+      "id": "legacy_setup_endpoint",
+      "label": "Setup legacy squadra",
+      "type": "endpoint",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "POST /game/setup",
+        "POST /game/select-team"
+      ],
+      "responsibilities": [
+        "Genera pool personaggi",
+        "Avvia il flusso storico tramite selezione team"
+      ]
+    },
+    {
+      "id": "state_endpoint",
+      "label": "Snapshot stato",
+      "type": "endpoint",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "GET /game/state",
+        "POST /game/new",
+        "GET /game/debug-world"
+      ],
+      "responsibilities": [
+        "Restituisce lo stato corrente al frontend",
+        "Resetta o espone debug del mondo"
+      ]
+    },
+    {
+      "id": "image_endpoints",
+      "label": "Endpoint immagini",
+      "type": "endpoint_group",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "POST /game/generate-avatar",
+        "POST /game/generate-npc-avatars",
+        "POST /game/generate-scene-image",
+        "POST /game/generate-strategic-map-image",
+        "POST /game/generate-tile-image",
+        "POST /game/generate-tactical-map-image"
+      ],
+      "responsibilities": [
+        "Genera avatar, immagini scena, mappe strategiche e tile tattiche",
+        "Usa cache locali quando disponibili"
+      ]
+    },
+    {
+      "id": "adventure_compiler",
+      "label": "Adventure compiler",
+      "type": "service",
+      "layer": "adventure_pipeline",
+      "file": "backend/App/adventure_compiler.py",
+      "responsibilities": [
+        "Normalizza genere e profili runtime",
+        "Converte prompt o PDF in struttura runtime",
+        "Valida e ripara avventure prima del gioco"
+      ]
+    },
+    {
+      "id": "pdf_structure_extractor",
+      "label": "Estrattore struttura PDF",
+      "type": "service",
+      "layer": "adventure_pipeline",
+      "file": "backend/App/pdf_structure_extractor.py",
+      "responsibilities": [
+        "Estrae sezioni, stanze, indizi, PNG, incontri, mappe e note GM",
+        "Fornisce riferimenti sorgente per preservare il modulo importato"
+      ]
+    },
+    {
+      "id": "runtime_shape_builder",
+      "label": "Runtime shape builder",
+      "type": "service",
+      "layer": "adventure_pipeline",
+      "file": "backend/App/runtime_shape_builder.py",
+      "responsibilities": [
+        "Crea shape per import PDF o avventure AI",
+        "Mappa stanze, indizi, attori, rivelazioni, clock e obiettivi"
+      ]
+    },
+    {
+      "id": "adventure_runtime",
+      "label": "Adventure runtime",
+      "type": "service",
+      "layer": "adventure_pipeline",
+      "file": "backend/App/adventure_runtime.py",
+      "responsibilities": [
+        "Converte la bibbia in runtime dichiarativo",
+        "Traccia verita nascoste, indizi, rivelazioni, attori, luoghi e clock",
+        "Costruisce contesto prompt vincolato allo stato"
+      ]
+    },
+    {
+      "id": "runtime_store",
+      "label": "Runtime store",
+      "type": "persistence",
+      "layer": "state_data",
+      "file": "backend/App/adventure_runtime_store.py",
+      "responsibilities": [
+        "Lista, carica, salva e aggiorna runtime compilati",
+        "Persiste dati in data/compiled_adventures"
+      ]
+    },
+    {
+      "id": "engine",
+      "label": "Motore di gioco",
+      "type": "core_engine",
+      "layer": "game_engine",
+      "file": "backend/App/engine.py",
+      "responsibilities": [
+        "Costruisce e aggiorna GameState",
+        "Gestisce setup squadra, mappa, avanzamento nodi e aggiornamenti storia",
+        "Esegue tiri abilita GURPS con 3d6",
+        "Coordina ingresso/uscita dal combattimento"
+      ],
+      "key_functions": [
+        "empty_game_state",
+        "prepare_team_setup",
+        "start_game_from_selection",
+        "roll_for_player_action",
+        "apply_story_updates",
+        "advance_to_node",
+        "preview_action_outcomes",
+        "initiate_combat_action",
+        "declare_defense",
+        "npc_combat_turn"
+      ]
+    },
+    {
+      "id": "action_intent",
+      "label": "Selezione abilita per azioni",
+      "type": "rules_helper",
+      "layer": "game_engine",
+      "file": "backend/App/action_intent.py",
+      "responsibilities": [
+        "Interpreta l'intento testuale dell'azione",
+        "Seleziona l'abilita GURPS piu adatta"
+      ]
+    },
+    {
+      "id": "data_rules",
+      "label": "Tabelle regole e contenuti",
+      "type": "data_module_group",
+      "layer": "state_data",
+      "files": [
+        "backend/App/data_skills.py",
+        "backend/App/data_advantages.py",
+        "backend/App/data_equipment.py",
+        "backend/App/data_roles.py",
+        "backend/App/data_genres.py"
+      ],
+      "responsibilities": [
+        "Definisce abilita, vantaggi, equipaggiamento, ruoli e generi",
+        "Fornisce bonus, default, modificatori e vincoli al motore"
+      ]
+    },
+    {
+      "id": "models",
+      "label": "Modelli stato gioco",
+      "type": "schema",
+      "layer": "state_data",
+      "file": "backend/App/models.py",
+      "responsibilities": [
+        "Definisce GameState, Player, SceneState, MapState, StoryState e risultati combattimento",
+        "Stabilizza il contratto dati tra API, engine e frontend"
+      ]
+    },
+    {
+      "id": "runtime_models",
+      "label": "Modelli runtime avventura",
+      "type": "schema",
+      "layer": "state_data",
+      "file": "backend/App/runtime_models.py",
+      "responsibilities": [
+        "Definisce AdventureDefinition, AdventureRuntimeState e strutture runtime",
+        "Rappresenta indizi, rivelazioni, attori, luoghi, clock e condizioni finale"
+      ]
+    },
+    {
+      "id": "claude_service",
+      "label": "Servizi AI narrativi e immagini",
+      "type": "ai_service",
+      "layer": "ai_services",
+      "file": "backend/App/claude_service.py",
+      "responsibilities": [
+        "Genera avventure, canovacci, scene, prologhi e transizioni",
+        "Esegue turni Master con bibbia e tiro gia deciso",
+        "Genera immagini e mappe tramite provider disponibili"
+      ],
+      "key_functions": [
+        "create_adventure",
+        "compile_adventure_to_runtime",
+        "master_turn_with_bible",
+        "generate_story_canon",
+        "generate_scene_package",
+        "generate_prologue",
+        "generate_scene_image",
+        "generate_tactical_map_image"
+      ]
+    },
+    {
+      "id": "narrative_director",
+      "label": "Direzione narrativa",
+      "type": "service",
+      "layer": "ai_services",
+      "file": "backend/App/narrative_director.py",
+      "responsibilities": [
+        "Supporta coerenza, pressione e progressione della scena",
+        "Aiuta a evitare deriva narrativa rispetto al canovaccio"
+      ]
+    },
+    {
+      "id": "world_systems",
+      "label": "Sistemi mondo",
+      "type": "service_group",
+      "layer": "game_engine",
+      "files": [
+        "backend/App/world_simulator.py",
+        "backend/App/world_reaction_engine.py",
+        "backend/App/revelation_controller.py",
+        "backend/App/escalation_limiter.py"
+      ],
+      "responsibilities": [
+        "Gestisce reazioni del mondo, rivelazioni e limiti di escalation",
+        "Mantiene il gioco entro vincoli di genere e stato"
+      ]
+    },
+    {
+      "id": "combat_endpoints",
+      "label": "Endpoint combattimento",
+      "type": "endpoint_group",
+      "layer": "api",
+      "file": "backend/App/main.py",
+      "routes": [
+        "POST /game/combat/attack",
+        "POST /game/combat/defend",
+        "POST /game/combat/npc-turn",
+        "POST /game/combat/narrate",
+        "POST /game/combat/standup",
+        "POST /game/combat/will-check",
+        "POST /game/combat/retreat"
+      ],
+      "responsibilities": [
+        "Espone attacco, difesa, turno NPC, recuperi, narrazione e ritirata",
+        "Sincronizza combat_scene con GameState"
+      ]
+    },
+    {
+      "id": "combat_rules",
+      "label": "Regole combattimento GURPS Lite",
+      "type": "rules_engine",
+      "layer": "combat",
+      "file": "backend/App/combat.py",
+      "responsibilities": [
+        "Risolve attacco 3d6 <= abilita",
+        "Gestisce difesa attiva, danno, DR, shock, ferita grave, knockdown e death check",
+        "Applica postura, stordimento, copertura, All-Out Attack/Defense e fatica"
+      ],
+      "key_functions": [
+        "resolve_attack",
+        "roll_damage",
+        "wound_threshold",
+        "compute_shock",
+        "attempt_stun_recovery",
+        "stand_up"
+      ]
+    },
+    {
+      "id": "character_creation",
+      "label": "Creazione personaggi",
+      "type": "service",
+      "layer": "game_engine",
+      "file": "backend/App/character_creation.py",
+      "responsibilities": [
+        "Valida draft personaggi",
+        "Costruisce PG custom con attributi, abilita, vantaggi e svantaggi"
+      ]
+    },
+    {
+      "id": "game_state",
+      "label": "GameState globale",
+      "type": "state",
+      "layer": "state_data",
+      "file": "backend/App/models.py",
+      "responsibilities": [
+        "Contiene giocatori, scena, mappa, storia, NPC, minaccia, combattimento e ultimi tiri",
+        "E' la sorgente in memoria per le risposte del backend"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "from": "player",
+      "to": "react_app",
+      "label": "usa UI",
+      "kind": "interaction"
+    },
+    {
+      "from": "react_app",
+      "to": "fastapi_app",
+      "label": "fetch HTTP /game/*",
+      "kind": "http"
+    },
+    {
+      "from": "react_app",
+      "to": "tile_catalog",
+      "label": "risolve asset mappe tattiche",
+      "kind": "read"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "adventure_create_endpoint",
+      "label": "routing creazione avventura",
+      "kind": "dispatch"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "adventure_compile_endpoint",
+      "label": "routing runtime",
+      "kind": "dispatch"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "master_start_endpoint",
+      "label": "routing prima scena",
+      "kind": "dispatch"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "master_turn_endpoint",
+      "label": "routing turno narrativo",
+      "kind": "dispatch"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "legacy_setup_endpoint",
+      "label": "routing setup legacy",
+      "kind": "dispatch"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "combat_endpoints",
+      "label": "routing combattimento",
+      "kind": "dispatch"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "state_endpoint",
+      "label": "routing stato/debug",
+      "kind": "dispatch"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "image_endpoints",
+      "label": "routing immagini",
+      "kind": "dispatch"
+    },
+    {
+      "from": "adventure_create_endpoint",
+      "to": "claude_service",
+      "label": "create_adventure / generazione canovaccio",
+      "kind": "call"
+    },
+    {
+      "from": "adventure_create_endpoint",
+      "to": "adventure_compiler",
+      "label": "compile_from_raw_structure",
+      "kind": "call"
+    },
+    {
+      "from": "adventure_create_endpoint",
+      "to": "pdf_structure_extractor",
+      "label": "extract_pdf_structure per import PDF",
+      "kind": "call"
+    },
+    {
+      "from": "adventure_compiler",
+      "to": "runtime_shape_builder",
+      "label": "build_shape_for_ai_generated / build_shape_for_pdf_import",
+      "kind": "call"
+    },
+    {
+      "from": "adventure_compiler",
+      "to": "runtime_models",
+      "label": "produce AdventureDefinition",
+      "kind": "write_contract"
+    },
+    {
+      "from": "adventure_compile_endpoint",
+      "to": "runtime_store",
+      "label": "save_runtime / update_runtime",
+      "kind": "persist"
+    },
+    {
+      "from": "adventure_compile_endpoint",
+      "to": "adventure_runtime",
+      "label": "build_adventure_runtime",
+      "kind": "call"
+    },
+    {
+      "from": "adventure_runtime",
+      "to": "runtime_models",
+      "label": "usa AdventureRuntime",
+      "kind": "read_contract"
+    },
+    {
+      "from": "master_start_endpoint",
+      "to": "engine",
+      "label": "build_players_from_dicts / sync PG",
+      "kind": "call"
+    },
+    {
+      "from": "master_start_endpoint",
+      "to": "claude_service",
+      "label": "master_turn_with_bible per scena iniziale",
+      "kind": "call"
+    },
+    {
+      "from": "master_start_endpoint",
+      "to": "game_state",
+      "label": "inizializza scena e PG",
+      "kind": "write_state"
+    },
+    {
+      "from": "master_turn_endpoint",
+      "to": "engine",
+      "label": "roll_for_player_action",
+      "kind": "call"
+    },
+    {
+      "from": "engine",
+      "to": "action_intent",
+      "label": "select_best_skill",
+      "kind": "call"
+    },
+    {
+      "from": "engine",
+      "to": "data_rules",
+      "label": "abilita, default, bonus, vantaggi",
+      "kind": "read"
+    },
+    {
+      "from": "engine",
+      "to": "game_state",
+      "label": "salva last_roll_details",
+      "kind": "write_state"
+    },
+    {
+      "from": "master_turn_endpoint",
+      "to": "claude_service",
+      "label": "master_turn_with_bible con tiro fissato",
+      "kind": "call"
+    },
+    {
+      "from": "claude_service",
+      "to": "adventure_runtime",
+      "label": "runtime_prompt_context quando disponibile",
+      "kind": "read"
+    },
+    {
+      "from": "claude_service",
+      "to": "narrative_director",
+      "label": "vincoli narrativi e scena",
+      "kind": "assist"
+    },
+    {
+      "from": "master_turn_endpoint",
+      "to": "engine",
+      "label": "apply_story_updates",
+      "kind": "call"
+    },
+    {
+      "from": "engine",
+      "to": "world_systems",
+      "label": "rivelazioni, reazioni, escalation",
+      "kind": "call"
+    },
+    {
+      "from": "engine",
+      "to": "models",
+      "label": "legge/scrive strutture Pydantic",
+      "kind": "read_write_contract"
+    },
+    {
+      "from": "master_turn_endpoint",
+      "to": "game_state",
+      "label": "aggiorna scena, threat, indizi, combat_scene, finale",
+      "kind": "write_state"
+    },
+    {
+      "from": "legacy_setup_endpoint",
+      "to": "engine",
+      "label": "prepare_team_setup / start_game_from_selection",
+      "kind": "call"
+    },
+    {
+      "from": "legacy_setup_endpoint",
+      "to": "game_state",
+      "label": "scrive missione legacy, mappa e team",
+      "kind": "write_state"
+    },
+    {
+      "from": "combat_endpoints",
+      "to": "engine",
+      "label": "initiate_combat_action / declare_defense / npc_combat_turn",
+      "kind": "call"
+    },
+    {
+      "from": "engine",
+      "to": "combat_rules",
+      "label": "resolve_attack",
+      "kind": "call"
+    },
+    {
+      "from": "combat_rules",
+      "to": "models",
+      "label": "AttackResult, Player, SceneEntity",
+      "kind": "read_write_contract"
+    },
+    {
+      "from": "combat_rules",
+      "to": "data_rules",
+      "label": "bonus vantaggi e penalita",
+      "kind": "read"
+    },
+    {
+      "from": "combat_endpoints",
+      "to": "claude_service",
+      "label": "narrate_combat_result",
+      "kind": "call"
+    },
+    {
+      "from": "combat_endpoints",
+      "to": "game_state",
+      "label": "aggiorna HP, status, pending_attack e scene entities",
+      "kind": "write_state"
+    },
+    {
+      "from": "image_endpoints",
+      "to": "claude_service",
+      "label": "generate_*_image",
+      "kind": "call"
+    },
+    {
+      "from": "state_endpoint",
+      "to": "game_state",
+      "label": "legge snapshot",
+      "kind": "read_state"
+    },
+    {
+      "from": "fastapi_app",
+      "to": "react_app",
+      "label": "JSON risposta",
+      "kind": "http_response"
+    },
+    {
+      "from": "react_app",
+      "to": "player",
+      "label": "render UI aggiornata",
+      "kind": "render"
+    }
+  ],
+  "primary_flows": [
+    {
+      "id": "new_ai_adventure",
+      "label": "Nuova avventura AI",
+      "steps": [
+        "player",
+        "react_app",
+        "adventure_create_endpoint",
+        "claude_service",
+        "adventure_compiler",
+        "runtime_shape_builder",
+        "runtime_models",
+        "react_app"
+      ]
+    },
+    {
+      "id": "pdf_import_adventure",
+      "label": "Import avventura da PDF",
+      "steps": [
+        "player",
+        "react_app",
+        "adventure_create_endpoint",
+        "pdf_structure_extractor",
+        "adventure_compiler",
+        "runtime_shape_builder",
+        "runtime_models",
+        "runtime_store",
+        "react_app"
+      ]
+    },
+    {
+      "id": "master_turn",
+      "label": "Turno narrativo principale",
+      "steps": [
+        "player",
+        "react_app",
+        "master_turn_endpoint",
+        "engine",
+        "action_intent",
+        "data_rules",
+        "game_state",
+        "claude_service",
+        "adventure_runtime",
+        "engine",
+        "world_systems",
+        "game_state",
+        "react_app",
+        "player"
+      ]
+    },
+    {
+      "id": "combat_exchange",
+      "label": "Scambio di combattimento",
+      "steps": [
+        "player",
+        "react_app",
+        "combat_endpoints",
+        "engine",
+        "combat_rules",
+        "data_rules",
+        "models",
+        "game_state",
+        "claude_service",
+        "react_app",
+        "player"
+      ]
+    },
+    {
+      "id": "state_refresh",
+      "label": "Refresh stato UI",
+      "steps": [
+        "react_app",
+        "state_endpoint",
+        "game_state",
+        "react_app"
+      ]
+    }
+  ],
+  "decision_points": [
+    {
+      "id": "source_mode_decision",
+      "label": "Sorgente avventura",
+      "question": "Avventura generata da prompt AI o importata da PDF?",
+      "branches": [
+        {
+          "condition": "prompt/testo libero",
+          "next": "claude_service"
+        },
+        {
+          "condition": "PDF",
+          "next": "pdf_structure_extractor"
+        }
+      ]
+    },
+    {
+      "id": "turn_resolution_decision",
+      "label": "Esito azione",
+      "question": "Il tiro GURPS produce successo, fallimento o critico?",
+      "branches": [
+        {
+          "condition": "successo o critico",
+          "next": "claude_service"
+        },
+        {
+          "condition": "fallimento",
+          "next": "claude_service"
+        }
+      ],
+      "note": "La narrativa riceve il risultato gia deciso dal motore; non decide autonomamente l'esito meccanico."
+    },
+    {
+      "id": "combat_activation_decision",
+      "label": "Attivazione combattimento",
+      "question": "state_updates contiene activate_combat o combat_scene?",
+      "branches": [
+        {
+          "condition": "si",
+          "next": "combat_endpoints"
+        },
+        {
+          "condition": "no",
+          "next": "react_app"
+        }
+      ]
+    },
+    {
+      "id": "attack_defense_decision",
+      "label": "Difesa attiva",
+      "question": "L'attacco colpisce e permette difesa?",
+      "branches": [
+        {
+          "condition": "si",
+          "next": "POST /game/combat/defend"
+        },
+        {
+          "condition": "no",
+          "next": "applica danno o miss"
+        }
+      ]
+    },
+    {
+      "id": "finale_decision",
+      "label": "Finale storia",
+      "question": "state_updates o runtime indicano storia conclusa?",
+      "branches": [
+        {
+          "condition": "si",
+          "next": "valutazione finale e vittorie personali"
+        },
+        {
+          "condition": "no",
+          "next": "prossimo turno"
+        }
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "id": "frontend_backend_contract",
+      "label": "Contratto React/FastAPI",
+      "format": "JSON HTTP",
+      "important_payloads": [
+        "adventure bible",
+        "master response",
+        "state_updates",
+        "combat_scene",
+        "GameState snapshot"
+      ]
+    },
+    {
+      "id": "roll_before_ai_contract",
+      "label": "Tiro prima della narrativa",
+      "rule": "Il motore esegue roll_for_player_action prima di chiamare master_turn_with_bible; la AI deve raccontare l'esito ricevuto."
+    },
+    {
+      "id": "shared_game_state_contract",
+      "label": "Stato condiviso",
+      "rule": "Narrativa, mappa, PG e combattimento aggiornano lo stesso GameState globale in backend/App/main.py."
+    },
+    {
+      "id": "runtime_preservation_contract",
+      "label": "Preservazione runtime",
+      "rule": "Le avventure importate o compilate mantengono riferimenti a luoghi, indizi, attori e clock tramite AdventureDefinition/AdventureRuntimeState."
+    }
+  ],
+  "related_docs": [
+    "docs/gurps-code-flowchart.md",
+    "docs/scene-resolution-flowchart.md",
+    "docs/tactical-combat-flowchart.md",
+    "docs/adventure-compiler-flowchart.md"
+  ]
+}

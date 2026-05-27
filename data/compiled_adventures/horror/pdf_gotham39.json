@@ -1,0 +1,543 @@
+{
+  "adventure_definition": {
+    "id": "pdf_gotham39",
+    "title": "Gotham '39: The Mirror Eternal",
+    "genre": "mystery_horror",
+    "premise": "Gotham City, 1939. I PG sono investigatori privati, giornalisti o detective coinvolti in una serie di omicidi brutali nel sottobosco criminale. Le famiglie mafiose sussurrano di un demone convocato da uno specchio. I corpi si moltiplicano e un nuovo villain emerge dall'ombra.",
+    "player_facing_objective": "Indagare sugli omicidi nel milieu criminale di Gotham e scoprire chi o cosa si cela dietro i rituali del culto dello specchio prima che un'altra vittima cada.",
+    "hidden_truth": "Il 'demone Ishk'harhul' non esiste: è una messinscena elaborata di Victor Crane, un ex assistente di scena del mago Karl Vayne che ha ricostruito l'illusione originale per ricattare e controllare le famiglie mafiose. I veri omicidi sono eseguiti dai suoi sicari.",
+    "actors": [
+      {
+        "id": "actor_crane",
+        "name": "Victor Crane",
+        "role": "antagonist",
+        "location_id": "loc_teatro_abbandonato",
+        "description": "Ex assistente di scena, ossessionato dall'eredità di Vayne. Usa l'illusione del demone per estorcere le famiglie.",
+        "motivation": "Potere assoluto su Gotham attraverso il terrore e il ricatto.",
+        "secret": "Ha ucciso personalmente il capo della famiglia Moran che si rifiutava di pagare.",
+        "attitude": "deceptive",
+        "pressure_response": {
+          "low": "Victor mantiene la facciata del commercialista rispettabile. Continua a frequentare il Vesuvio per cena, saluta cordialmente i boss, presenta fatture impeccabili. Nelle conversazioni sussurra con tono preoccupato del 'clima oscuro' che avvolge Gotham, citando la luna piena e antichi presagi. Porta sempre con sé il suo diario contabile rilegato in pelle, dove annota cifre che sembrano innocenti ma sono coordinate e date del rituale.",
+          "medium": "Inizia a mostrare nervosismo studiato. Si presenta spontaneamente alla polizia per 'offrire assistenza sui conti di Moran', depositando così le prove false negli archivi ufficiali. Aumenta la frequenza degli incontri con Silas, mascherati da 'consulenze fiscali per la chiesa'. Fa trapelare ai PG (tramite informatori) che 'Don Maroni aveva debiti occulti con Moran' e che 'il rituale al cimitero è l'unico modo per placare lo spirito vendicativo'. Inizia a portare un revolver calibro .38 nella fondina sotto la giacca.",
+          "high": "Victor accelera drasticamente il piano. Anticipa l'incontro al Vesuvio al giorno 5, facendo circolare una lettera falsificata dove Maroni insulta pesantemente Falcone. Ordina a Silas di condurre il rituale farsa QUELLA NOTTE al Calvary, invitando 'testimoni anonimi' (complici pagati) che giureranno di aver visto apparizioni demoniache. Brucia i documenti originali nel suo ufficio, lasciando solo le copie false. Se interrogato, accusa direttamente i PG di essere 'agenti del caos che vogliono scatenare una guerra fra famiglie'.",
+          "extreme": "Victor abbandona ogni pretesa. Prende in ostaggio un membro minore della famiglia Falcone, minacciando di ucciderlo se non inizia immediatamente la guerra con Maroni. Se braccato, si barrica nel suo ufficio con esplosivi rudimentali (dinamite rubata dai cantieri del porto) collegati ai registri contabili reali nascosti nella cassaforte - 'Se cado, porto con me tutti i segreti delle famiglie'. In alternativa, inscena il suo stesso omicidio rituale, lasciando prove che incolpano sia Maroni che 'forze demoniache', garantendo che la guerra esploda e lui possa fuggire con l'identità fasulla di 'Thomas Weller' già preparata."
+        },
+        "reaction_table": {
+          "se_minacciato": "Victor alza le mani in segno di resa, ma il suo sorriso è glaciale. 'Minacciarmi? Io conosco ogni debito, ogni tangente, ogni scheletro nell'armadio di questa città. Se muoio, ventitré buste sigillate verranno aperte da avvocati con ordini precisi. Don Maroni saprà che Falcone ha deviato 50.000$ dalle casse comuni. Falcone scoprirà del figlio illegittimo di Maroni con la moglie del giudice Harkness. E voi... voi scoprirete quanto è profondo il baratro che state aprendo.' Se la minaccia è fisica, tenta di negoziare offrendo una parte dei 200.000$ che ha sottratto nel corso degli anni, nascosti in una cassetta di sicurezza alla Gotham Trust Bank.",
+          "se_corrotto_o_pagato": "Victor finge di accettare, contando meticolosamente le banconote con le dita macchiate d'inchiostro. 'Saggia decisione. Il denaro parla più forte del sangue.' Prende tempo, offre ai PG 'informazioni parziali' - conferma che Silas è coinvolto, ma lo dipinge come il vero mandante. Fornisce documenti che incolpano un contabile rivale (già morto convenientemente in un 'incidente'). In realtà usa il tempo guadagnato per completare il piano: avvisa Silas di accelerare, trasferisce fondi offshore, e pianta prove che collegano i PG alla corruzione, pronto a denunciarli al Commissario Grogan se necessario.",
+          "se_i_pg_hanno_prove": "Il volto di Victor si svuota di colore. Si siede lentamente, le mani tremanti. 'Prove? Quali... quali prove?' Dopo un lungo silenzio, crolla parzialmente. Ammette di aver falsificato alcuni documenti 'per proteggere le famiglie da audit federali', ma nega categoricamente l'omicidio. 'Moran? Io ero al Vesuvio quella sera, trenta testimoni!' (falso - ha corrotto il cameriere). Offre un capro espiatorio: 'È stato Silas! Quel fanatico voleva davvero sangue per i suoi rituali blasfemi. Io... io ho solo coperto le tracce per non coinvolgere Don Falcone.' Propone di testimoniare contro Silas in cambio di immunità. Se rifiutato, tenta la fuga verso il porto dove ha una barca pronta al Molo 17.",
+          "se_alleato": "Victor non si fida mai completamente, ma usa l'alleanza. 'Finalmente qualcuno che capisce. Questa città è marcia, le famiglie sono dinosauri. Io sto costruendo un nuovo ordine.' Rivela parte del piano: vuole che la guerra fra Maroni e Falcone li indebolisca abbastanza perché 'forze più moderne' (una nuova organizzazione che sta assemblando con i fondi rubati) possano prendere il controllo. Offre ai PG posizioni di potere nel nuovo regime. Condivide informazioni reali sui movimenti delle famiglie, ma omette sempre il suo ruolo nell'omicidio di Moran. Usa gli alleati come pedine sacrificabili: 'Andate voi al cimitero stanotte, osservate il rituale. Se Silas è davvero pericoloso, eliminatelo. Io manterrò le famiglie calme.' In realtà li sta posizionando come testimoni del rituale farsa O come capri espiatori."
+        },
+        "current_plan": "GIORNO 4 (oggi): Ore 14:00 - Victor incontra Silas nella cripta della famiglia Arkham al Calvary Cemetery per l'ultimo sopralluogo. Portano cinque galletti neri rubati da una fattoria fuori città (sangue per il rituale farsa). Ore 18:00 - Cena con Don Falcone al Vesuvio, tavolo 7. Victor 'casualmente' lascia intravedere una pagina del registro falsificato dove Maroni appare aver sviato 15.000$ destinati a 'operazioni comuni'. Ore 23:00 - Silas conduce il rituale farsa. Victor osserva da distanza sicura (tomba della famiglia Cobblepot, 50 metri a nord) con binocolo. Tre 'testimoni' pagati (vagabondi del porto: Mickey Rats, Old Tom, e la donna chiamata Scarlet Annie) assisteranno e diffonderanno la storia di 'evocazioni demoniache'. GIORNO 5-6: Victor compila report 'preoccupati' da inviare anonimamente al Gotham Gazette: 'Strani riti al cimitero - le famiglie stanno perdendo il controllo?' Conferma prenotazione Vesuvio per giorno 7, invia biglietto a Maroni con grafia contraffatta di Falcone: 'Dobbiamo parlare della tua indiscrezione. Vieni solo.' GIORNO 7: Quando entrambi i boss arriveranno al Vesuvio (in tavoli separati, credendo di incontrare l'altro), Victor sarà 'casualmente' presente per testimoniare lo scontro inevitabile.",
+        "fallback_plan": "SE IL PIANO PRINCIPALE VIENE SCOPERTO: Victor attiva 'Operazione Caino'. Ha già preparato una confessione registrata su disco fonografico nascosto nella sua abitazione (312 Park Row, Apt. 4B, dietro il ritratto del padre). Nella registrazione, una voce distorta (lui stesso) accusa Don Falcone di aver orchestrato tutto: l'omicidio di Moran, i falsi rituali, la guerra imminente. 'Victor Crane era solo un burattino, minacciato di morte se non obbediva.' Il disco verrà 'trovato' da un giornalista corrotto (Harold Bixby del Gotham Times) e pubblicato. Questo devia attenzione su Falcone mentre Victor fugge. Ha identità fasulla completa (Thomas Weller, commercialista da Baltimore), 180.000$ in contanti in cassetta sicurezza 247 alla Gotham Trust Bank (chiave nascosta nel tallone della scarpa sinistra), e biglietto di sola andata per il piroscafo 'SS Caronia' diretto a Londra, partenza dal Molo 9 alle 06:00 del giorno 8. SE BRACCATO FISICAMENTE: Victor ha sei granate fumogene rubate dall'armeria della polizia (contatto: Sergente Murphy, corrotto) nascoste in ufficio. Crea confusione, fugge attraverso i tunnel di manutenzione sotto Dixon Avenue che collegano agli edifici vicini, emerge al Silver Dollar Saloon tre isolati a est, dove ha un auto (Ford Deluxe nera, targa GC-4421) sempre pronta con serbatoio pieno. Destinazione: rifugio segreto nel Narrows (magazzino abbandonato Textile District, 89 Riverside). Lì può resistere 72 ore con provviste e munizioni (.38 revolver con 50 colpi, fucile da caccia Winchester con 30 cartucce).",
+        "llm_enriched": true,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_contratto_crane",
+            "replacement_clue": {
+              "id": "clue_ceneri_contratto",
+              "label": "Ceneri di documenti nell'ufficio di Crane",
+              "reveals": "Analisi forense rivela frammenti bruciati di un contratto tra Crane e le famiglie Falcone/Maroni. Tracce di inchiostro mostrano cifre significative e la parola 'mediazione'. Un angolo carbonizzato porta il sigillo dello studio legale Crane & Associates."
+            },
+            "narration": "Il fumo acre si alza dall'edificio di Crane. Quando arrivate, trovate il suo ufficio devastato: documenti bruciano nel cestino metallico, mentre Crane osserva con sguardo febbrile. 'Solo pulizie di primavera, detective', sibila."
+          },
+          {
+            "at_pressure": 7,
+            "action": "create_clue",
+            "clue": {
+              "id": "clue_lettera_falsificata",
+              "label": "Lettera anonima intercettata",
+              "reveals": "Una lettera presumibilmente di Sal Maroni diretta a Falcone, piena di insulti pesanti e minacce. La calligrafia è imitata abilmente, ma l'analisi forense rivela carta da lettera dello studio legale di Crane e tracce di inchiostro moderno incompatibile con quello usato da Maroni.",
+              "type": "physical"
+            },
+            "narration": "Un informatore della famiglia Falcone vi contatta urgentemente: 'Una lettera di Maroni sta circolando. Insulti che nessun uomo d'onore potrebbe ignorare. Qualcuno vuole il sangue per le strade di Gotham.'"
+          },
+          {
+            "at_pressure": 8,
+            "action": "scare_npc",
+            "target_id": "npc_silas_moran",
+            "new_attitude": "hostile",
+            "narration": "Silas Moran vi riceve con un fucile a canne mozze. 'Crane mi ha avvertito di voi. Dice che siete voi i veri demoni, quelli che vogliono distruggere l'ordine di Gotham. Fuori dal mio locale. ORA.'"
+          }
+        ]
+      },
+      {
+        "id": "actor_moran",
+        "name": "Tommy Moran",
+        "role": "neutral",
+        "location_id": "loc_quartier_generale_moran",
+        "description": "Boss della famiglia Moran, nervoso e paranoico. Sta pagando Crane in silenzio.",
+        "motivation": "Proteggere il suo territorio e la sua famiglia.",
+        "secret": "Ha visto il 'demone' e ci crede davvero — non sa che è finzione.",
+        "attitude": "hostile",
+        "pressure_response": {
+          "low": "Continua il suo lavoro da informatore con nervosismo crescente. Controlla ossessivamente le spalle, evita vicoli bui. Beve più del solito al Murphy's. Racconta a chi compra informazioni vaghe allusioni al 'demone' per giustificare i prezzi più alti, ma ride nervoso quando gli chiedono dettagli.",
+          "medium": "Accelera i tempi della fuga. Anticipa gli incontri programmati, accetta pagamenti ridotti pur di chiudere in fretta. Dorme vestito con la rivoltella sotto il cuscino. Inizia a lasciare piccoli oggetti personali nei cassonetti invece di aspettare sabato. Cerca di convincere Rebecca Hayes a dargli 40$ subito invece di 25$ venerdì.",
+          "high": "Abbandona gli ultimi incontri programmati. Brucia i quaderni immediatamente, anche in pieno giorno. Si barrica nella pensione Dixon Street o si nasconde nei sotterranei della stazione ferroviaria. Se costretto a uscire, porta sempre la rivoltella in mano dentro la tasca del cappotto. Farfuglia preghiere cattoliche dimenticate dall'infanzia. Compra il biglietto per Chicago anche senza avere tutti i soldi.",
+          "extreme": "Crollo totale. Si presenta al distretto GCPD gridando di voler confessare tutto quello che sa sulle famiglie, in cambio di protezione dal 'demone'. Alternativa: tenta il suicidio nella sua stanza, convinto che il demone lo abbia già condannato. Se i PG lo trovano, è catatonico o delirante, ripete 'gli specchi... era negli specchi... mi guardava da dentro' mentre si dondola con la rivoltella puntata alla porta."
+        },
+        "reaction_table": {
+          "se_minacciato": "Crolla rapidamente. Le mani tremano, suda freddo. 'Non sono io quello che cercate! Ho solo venduto informazioni, nient'altro!' Se la minaccia sembra soprannaturale (ombre, specchi, simboli strani) sviene o vomita. Offre tutto: nomi, luoghi, date. Supplica di essere portato in prigione dove 'almeno ci sono muri solidi e niente specchi'.",
+          "se_corrotto_o_pagato": "Diffidente ma disperato per i soldi. Chiede 'Perché me? Ci sono mille informatori a Gotham.' Accetta pagamenti maggiorati (+50%) se gli garantiscono che non c'entrano con 'quella faccenda del demone'. Rivela informazioni affidabili ma si guarda sempre intorno. Insiste per incontri in luoghi pubblici, mai dopo il tramonto. Se pagato abbastanza (100$+) ammette di aver visto 'qualcosa di impossibile' martedì scorso vicino al molo 7.",
+          "se_i_pg_hanno_prove": "Se le prove riguardano i suoi traffici: tenta di contrattare, offre testimonianza contro Maroni o Falcone in cambio di lasciapassare. Se le prove riguardano il 'demone': gli occhi si illuminano di speranza disperata. 'L'avete visto anche voi? Allora non sono pazzo!' Diventa collaborativo, quasi patetico. Mostra un crocifisso d'argento rubato che tiene in tasca. Chiede ai PG di proteggerlo, offre tutto quello che sa gratuitamente.",
+          "se_alleato": "Lealtà fragile ma genuina. Fornisce dettagli precisi: 'Il demone aveva la faccia di Carmine Falcone, ma gli occhi... gli occhi erano specchi liquidi.' Descrive l'avvistamento: creatura umanoide emersa da uno specchio rotto nel magazzino abbandonato, molo 7, martedì 23:15. Ammette di aver scattato una foto sfocata (nascosta in una Bibbia cava nella pensione). Avverte i PG: 'Non guardate gli specchi troppo a lungo. Vi vede attraverso quelli.'"
+        },
+        "current_plan": "Eseguire metodicamente i quattro incontri programmati per raccogliere 180$ totali entro sabato sera. Bruciare ogni traccia della sua rete di contatti sabato notte per tagliare i ponti con Gotham. Comprare biglietto Union Station domenica mattina (treno 6:47 per Chicago, carrozza economica). Passare la notte domenica in stazione, armato, evitando ogni superficie riflettente. Fuggire definitivamente da Gotham prima che il 'demone' lo trovi.",
+        "fallback_plan": "Se gli incontri saltano o la situazione degenera prima di sabato: rubare i 45$ necessari per il biglietto (rapina al drugstore sulla 3rd, quello senza guardia notturna). Se troppo pericoloso restare a Gotham: saltare su un treno merci diretto ovest quella notte stessa, anche senza soldi. Piano estremo: rifugiarsi nella chiesa di St. Swithin (Burnley), confessarsi a Padre McDonnell e chiedere asilo. 'I demoni non possono entrare in terra consacrata, vero Padre?'",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_detective_hayes",
+        "name": "Detective Loretta Hayes",
+        "role": "ally",
+        "location_id": "loc_commissariato",
+        "description": "Detective corrotta che vuole ripulirsi. Fornisce informazioni ai PG in cambio di protezione.",
+        "motivation": "Uscire dall'influenza di Crane che la ricatta.",
+        "secret": "Ha coperto un omicidio di Crane due anni fa.",
+        "attitude": "friendly",
+        "pressure_response": {
+          "low": "Professionale e cordiale. Condivide informazioni filtrate sul caso, invita i PG a 'consultazioni notturne' negli archivi del distretto (per avere alibi durante le sostituzioni dei documenti). Suggerisce sottilmente che Crane è 'sempre stato instabile' e che 'certi casi del '37 mostravano già segni'. Fuma Chesterfield, mantiene contatto visivo, ride delle battute.",
+          "medium": "Più protettiva e materna. Insiste per accompagnare i PG nelle indagini 'per la loro sicurezza'. Accelera il piano: sostituisce le pagine durante il turno diurno rischiando di essere vista. Inizia a piantare dubbi su altri colleghi ('Il sergente Morris ha accesso agli archivi, sapete?'). Beve bourbon dalla fiaschetta in servizio. Evita domande dirette sul caso 847-37 cambiando argomento.",
+          "high": "Paranoica e controllante. Propone di 'mettere sotto sorveglianza' Crane insieme ai PG, in realtà per monitorare cosa scoprono. Se i PG indagano negli archivi senza di lei, rientra in distretto con scuse (documenti dimenticati, doppio turno). Controlla ossessivamente la posizione della scatola-prova nel sotterraneo. Telefonate notturne frequenti da cabine pubbliche. Occhiaie profonde, mani tremanti.",
+          "extreme": "Crollo controllato. Anticipa la 'scoperta' delle prove contro Crane al 15 novembre invece che al 17. Se i PG hanno trovato collegamenti al caso del '37, Hayes organizza un'irruzione notturna nell'appartamento di Crane 'su soffiata anonima', pianificando di ucciderlo in 'legittima difesa' davanti ai PG. In alternativa: sparisce per 48 ore, riappare con una confessione parziale ('Ho coperto Crane perché mi ricattava con foto compromettenti'), sacrificando la carriera per evitare l'accusa di omicidio."
+        },
+        "reaction_table": {
+          "se_minacciato": "Se qualcuno la accusa direttamente, Hayes rimane calma. 'Lavoro in questo distretto da 11 anni. Ho visto tre commissari andare e venire.' Attiva contatti: il capitano Donnelly (deve favori a suo padre), il coroner Epstein (coperto in un caso di morfina sparita). Se minaccia fisica: estrae la .38 Special, mira al ginocchio, chiama rinforzi. Se i PG hanno prove concrete, propone un patto: 'Crane è un mostro vero. Io ho sbagliato una volta. Lui ha ucciso sette persone. Chi serve davvero alla giustizia?'",
+          "se_corrotto_o_pagato": "Offesa profondamente. 'Non sono come Morris o quei porci della narcotici.' Rifiuta denaro con disgusto. Se l'approccio è più sottile (favore per favore, informazioni scambiate), considera solo se riguarda chiudere il caso Crane più velocemente. Prezzo: i PG devono testimoniare in tribunale sulla 'pericolosità psicologica' di Crane, firmando deposizioni pre-scritte dall'accusa.",
+          "se_i_pg_hanno_prove": "Fase 1 (prove circostanziali sul '37): 'Quel caso fu archiviato. Il DA non volle procedere. Io eseguii ordini.' Fase 2 (prova che Hayes alterò la scena): inizia a costruire narrativa alternativa - Crane la ricattava con informazioni su suo fratello Edmund (morto in carcere a Blackgate '38). Fase 3 (prova diretta di omicidio): tentativo di suicidio in bagno del distretto con pillole di cianuro tenute nella polvere compatta. Lettera di confessione che incolpa Crane di averla 'corrotta moralmente attraverso rituali psicologici'.",
+          "se_alleato": "Hayes diventa quasi ossessiva nella lealtà. Invita i PG a cena nel suo appartamento (317 Park Row), mostra foto della famiglia, della sorella malata a Gotham General. Condivide informazioni riservate: movimenti delle famiglie Falcone e Maroni, voci su corruzione nel DA office. Offre di 'perdere' prove che potrebbero complicare i casi dei PG. Il 16 novembre, confessa a metà: 'Ho fatto cose di cui non vado fiera. Ma Crane è il male vero. Aiutatemi a fermarlo e chiuderemo entrambi i nostri demoni.'"
+        },
+        "current_plan": "Notti 14-16 novembre (23:15-02:40): accedere all'archivio criminale. Sostituire pagine 4-7 del fascicolo 847-37 con versioni alterate che omettono la presenza di Hayes sulla scena e inseriscono un 'testimone anonimo' che descrive qualcuno somigliante a Crane. 17 novembre ore 14:00: condurre i PG in ispezione di routine nel sotterraneo del distretto 'seguendo una soffiata' su armi rubate. 'Scoprire' casualmente la scatola di latta verde sotto i tubi della caldaia, contenente: dente d'oro di Marcus Bellamy (vittima '37), diario rilegato in pelle con annotazioni in latino e simboli che Hayes ha copiato da libri della Gotham University Library, ciocca di capelli di Crane (prelevata dalla sua scrivania). Esclamare: 'Cristo santo... Crane. È sempre stato Crane.' Arrestare Crane entro il 18 novembre. Testimoniare al processo con 'prove' schiaccianti. Pensione anticipata entro giugno 1940.",
+        "fallback_plan": "Se i PG scoprono incongruenze nelle prove prima dell'arresto di Crane: Hayes accusa il sergente Morris di aver piantato le prove per coprire i suoi traffici con la famiglia Maroni. Produce un taccuino (falsificato quella stessa notte) che documenta 'sospetti su Morris' datati marzo '39. Se questo fallisce e i PG si avvicinano alla verità sul suo coinvolgimento: Hayes organizza una scena al Gotham Docks il 19 novembre. Lascia una traccia di sangue (suo, taglio al braccio), una scarpa, e un biglietto con simboli occulti che implica un 'rapimento rituale'. Scompare su un treno merci diretto a Metropolis con identità falsa (Sarah Kellerman, infermiera). Ha 850$ risparmiati e un contatto a Suicide Slum. Lascia una lettera al capitano Donnelly che incolpa Crane di averla 'posseduta' e 'costretta a uccidere'. Se anche questo è impossibile: confessione completa, richiesta di patteggiamento, 15-20 anni invece della sedia elettrica.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_widow_vayne",
+        "name": "Edna Vayne",
+        "role": "witness",
+        "location_id": "loc_casa_vayne",
+        "description": "Vedova ottantenne del mago Karl Vayne. Conosce i segreti del trucco dello specchio.",
+        "motivation": "Proteggere la memoria del marito.",
+        "secret": "Sa dove sono conservati i diari originali di Vayne con le istruzioni del trucco.",
+        "attitude": "suspicious",
+        "pressure_response": {
+          "low": "Edna osserva da lontano, seguendo i PG discretamente. Lascia indizi criptici: un ritaglio di giornale del 1923 su 'Il Grande Vayne' infilato sotto la porta, una corona di rosario appesa alla maniglia. Valuta se possono essere strumenti contro ciò che si nasconde nello specchio.",
+          "medium": "Contatta i PG tramite intermediario (il sacrestano di St. Cecilia). Chiede incontro in luogo pubblico (caffetteria Gotham Arms, ore 14:00). Porta una fotografia sbiadita del marito davanti allo specchio maledetto, rivela che Mickey Donovan era suo apprendista nel '23. Mente sull'ubicazione dei diari: 'Bruciati anni fa'. Osserva se riconoscono la menzogna.",
+          "high": "Irrompe mentre i PG investigano lo specchio, agitata. 'State ripetendo gli errori di Jonathan! Lo specchio non riflette... assorbe!' Traccia freneticamente simboli protettivi col gesso. Rivela che i diari sono nel deposito costumi del Majestic, scaffale 'Illusionismo 1920-25', dentro la custodia del cilindro dell'ultimo spettacolo. Pretende di accompagnarli, armata di acquasanta e specchio scheggiato benedetto.",
+          "extreme": "Completamente terrorizzata dopo aver visto il riflesso di suo marito nello specchio che la chiama per nome. Confessa tutto in lacrime: 'Jonathan evocò qualcosa attraverso gli specchi nel '24. Non è morto... è intrappolato. Mickey scoprì il rituale, pensava di poterlo controllare'. Supplica i PG di distruggere lo specchio primario nel sotterraneo del teatro prima della mezzanotte, quando 'l'allineamento si completa'. Offre le chiavi della cripta famiglia Vayne: 'Lì troverete il vero grimorio'."
+        },
+        "reaction_table": {
+          "se_minacciato": "Mano sulla croce al collo, sussurra preghiere in latino. 'Uccidermi non vi salverà. Solo i vivi possono sigillare lo specchio'. Se minaccia fisica grave, spacca uno specchietto sul pavimento gridando 'Vedi anche loro, Jonathan!' - invoca deliberatamente l'attenzione dell'entità per seminare caos. Fugge nella confusione mentre i riflessi si distorcono.",
+          "se_corrotto_o_pagato": "Rifiuta denaro con disgusto. 'I soldi di sangue hanno comprato quel maledetto specchio'. Considera favori religiosi: una messa per l'anima di Jonathan, protezione da Father O'Malley. Se offrono distruzione garantita dello specchio, rivela ubicazione precisa dei diari più oggetto rituale: un coltello d'argento con manico d'avorio, nascosto nella Bibbia svuotata nel suo appartamento (Gotham Heights, 42B).",
+          "se_i_pg_hanno_prove": "Se mostrano foto degli omicidi con riflessi anomali o conoscono il nome 'Specchio Vorago', si irrigidisce. 'Sapete troppo per essere casuali'. Valuta se sono contaminati: controlla i loro riflessi con specchietto compatto. Se riflessi normali, collabora: 'L'entità marca le sue vittime. I loro riflessi anticipano la morte di 24 ore'. Disegna mappa dei punti di potere del teatro dove lo specchio 'vede' meglio.",
+          "se_alleato": "Diventa mentore ossessiva. Insegna rituali di protezione: specchi coperti con stoffa nera, mai girare le spalle a superfici riflettenti dopo il tramonto, portare sempre sale consacrato. Rivela debolezza dell'entità: 'Non può manifestarsi completamente senza sangue Vayne. Ecco perché Jonathan... ecco perché ora vuole me'. Propone sé stessa come esca nel rituale di sigillatura finale, sa di essere la chiave vivente."
+        },
+        "current_plan": "Alle 23:00 entra nel Majestic Theater dalla porta del palco (ha ancora le chiavi di scena). Controlla prima il camerino 3 dove Mickey tiene il thermos - se è pieno e freddo, è assente da ore. Poi ispeziona la sala specchi dietro il palcoscenico chiamando sottovoce 'Mickey? Sono la signora Vayne'. Se trova segni di lotta o sangue, versa una linea di sale consacrato attraverso tutte le porte e fugge a chiamare Father O'Malley. Se trova intrusi (i PG), si nasconde nella cabina del suggeritore osservando con un piccolo specchio compatto: se li vede danneggiare il teatro, chiama polizia; se li vede investigare lo specchio o leggere documenti occulti, rivela la sua presenza offrendo 'le risposte che cercate, ma prima giurate su questa Bibbia'.",
+        "fallback_plan": "Se il teatro è sorvegliato o compromesso, attende fino alle 3:00 AM (ora delle 'ombre lunghe' secondo i diari di Jonathan). Entra attraverso il condotto di ventilazione del sotterraneo che dà sul vicolo est. Raggiunge direttamente la cripta sotto il palco dove Jonathan condusse il primo rituale. Recupera il diario master nascosto nel finto mattone (terza fila, settima pietra da sinistra). Se i PG l'hanno preceduta, lascia messaggio scritto col sangue della sua mano: coordinate (40.7580°N, 73.9855°W) - ubicazione della tomba famiglia Vayne, Gotham Cemetery. Lì aspetterà all'alba con Father O'Malley e due accoliti armati, pronta a negoziare o combattere.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_sicario_stone",
+        "name": "Big Joe Stone",
+        "role": "neutral",
+        "location_id": "loc_porto",
+        "description": "Esecutore di Crane. Rozzo ma letale. Potrebbe collaborare se i PG lo proteggono.",
+        "motivation": "Soldi. Non ha lealtà reale verso Crane.",
+        "secret": "Ha nascosto una lista dei bersagli di Crane nei suoi alloggi al porto.",
+        "attitude": "hostile",
+        "pressure_response": {
+          "low": "Big Joe mantiene la sua routine al porto, saluta cordialmente i PG se si presentano come investigatori legittimi. Offre vaghe informazioni sulle spedizioni recenti, ma devia ogni domanda su Crane dicendo che 'tanti nomi passano di qui'. Continua i suoi giri di ispezione al container 247-B tre volte al giorno, fingendo controlli casuali.",
+          "medium": "Joe diventa nervoso e sudato. Inizia a fumare compulsivamente sigarette Chesterfield e controlla ripetutamente l'orologio da tasca. Manda il suo ragazzo Tommy a verificare che il container sia ancora sigillato. Offre ai PG una mancia per andarsene: 'Gotham è pericolosa per chi ficca il naso, ragazzi. Cinquanta dollari se dimenticate questa conversazione'. Contatta il marinaio corrotto sulla SS Harbinger per anticipare la partenza.",
+          "high": "Joe crolla parzialmente. Ammette di aver visto Crane al molo la notte del 3 novembre con 'un tipo magro con gli occhiali', ma giura di non sapere altro. Offre fino a duecento dollari. Se i PG menzionano la lista o il container 247-B, diventa pallido come un cadavere e balbetta che 'certa gente non perdona i tradimenti'. Tenta di spostare la lista quella notte stessa nel magazzino della Fish Company sul Pier 9.",
+          "extreme": "Big Joe cede completamente. Piangendo, confessa dove ha nascosto la lista e supplica protezione: 'Crane ha lavorato per gente che fa sparire intere famiglie! Il demone... Cristo santo, ho visto cosa ha fatto a Lenny the Fingers!'. Rivela che la lista contiene nomi di giudici, poliziotti e un consigliere comunale. Se i PG non lo proteggono, tenta la fuga verso Atlantic City quella notte stessa con documenti falsi, o si barrica nel container armato di Thompson aspettando la morte."
+        },
+        "reaction_table": {
+          "se_minacciato": "Big Joe non è un duro. Se minacciato fisicamente, alza le mani tremanti e cerca di negoziare. Se la minaccia è credibile (armi, violenza), crolla entro 1d6 minuti rivelando la posizione della lista. Se minacciato dalle famiglie mafiose, entra in panico totale e offre tutto ciò che sa in cambio di un biglietto fuori da Gotham. Tenta di comprare tempo dicendo che la lista è 'assicurata' e morirà con lui.",
+          "se_corrotto_o_pagato": "Joe è venale ma non stupido. Per meno di cento dollari offre solo voci di corridoio ('Crane era nervoso', 'parlava di un rituale'). Tra 100-300 dollari rivela che Crane ha lasciato 'qualcosa di importante' ma non specifica cosa. Oltre 500 dollari e garanzie di protezione, porta i PG al container 247-B e consegna la lista, a patto che il suo nome resti fuori. Vuole un passaggio sulla nave per Philadelphia e documenti puliti.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano documenti che lo collegano a Crane o foto di lui vicino al container 247-B, Big Joe suda freddo e ammette tutto entro dieci minuti. Cerca disperatamente un accordo: consegna la lista in cambio di immunità o almeno che il suo coinvolgimento non arrivi alle famiglie. Se i PG hanno prove del suo tradimento verso Crane, Joe diventa collaborativo al 100%, sapendo che è uomo morto comunque. Offre dettagli su Crane, sui suoi movimenti e sul 'tipo magro' che lo accompagnava.",
+          "se_alleato": "Come alleato genuino (i PG lo hanno salvato o protetto), Big Joe diventa leale. Consegna immediatamente la lista e rivela tutto: Crane gli ha dato 500 dollari per custodirla, parlava ossessivamente di 'aprire un varco' e 'il demone specchio'. Joe ha visto Crane disegnare strani simboli su una mappa di Gotham che includeva il Gotham Opera House, il vecchio Wayne Cemetery e l'Arkham Warehouse District. Offre rifugio nel porto e informazioni su movimenti sospetti. Telefona i PG se vede 'il tipo magro con gli occhiali' tornare al molo."
+        },
+        "current_plan": "Big Joe controlla il container 247-B ogni mattina alle 6:00, a mezzogiorno e alle 18:30, fingendo ispezioni doganali di routine. Ha corrotto il guardiano notturno Mickey Flanagan con 50 dollari a settimana per pattugliare il Pier 7 dopo le 22:00. La lista è nascosta dentro una cassetta degli attrezzi saldata sotto il pavimento del container, avvolta in tela cerata. Joe ha istruito il marinaio Eddie Kowalski sulla SS Harbinger a recuperare 'il pacco' il 15 novembre a Philadelphia e conservarlo al deposito della Polish Seamen's Union fino a Natale. Nel frattempo Joe monitora i giornali per notizie sugli omicidi e tiene una Thompson carica nell'ufficio portuale, caso mai gli uomini di Crane o delle famiglie vengano a fare domande scomode.",
+        "fallback_plan": "Se la situazione degenera prima del 15 novembre, Big Joe ha un piano di emergenza: recupera personalmente la lista dal container usando le chiavi duplicate che custodisce nel portafoglio. La consegna a Padre O'Malley della St. Mary's Church sul Lower East Side, con istruzioni di darla alla polizia solo se Joe scompare o muore. Come ultima risorsa, Joe ha un biglietto ferroviario per Chicago nascosto in casa (appartamento 4C, 247 Dock Street) insieme a 800 dollari in contanti e documenti falsi intestati a 'Joseph Malone'. Se braccato, si rifugia nel magazzino abbandonato della Gotham Fish Company sul Pier 9, dove tiene armi e provviste per resistere 48 ore prima di tentare la fuga notturna via terra verso Blüdhaven.",
+        "llm_enriched": true
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc_commissariato",
+        "name": "Commissariato di Gotham",
+        "description": "Uffici rumorosi e fumosi. Hayes ha un ufficio privato al secondo piano.",
+        "exits": [
+          "loc_quartier_generale_moran",
+          "loc_casa_vayne"
+        ],
+        "is_starting_location": true
+      },
+      {
+        "id": "loc_quartier_generale_moran",
+        "name": "Club Notturno dei Moran",
+        "description": "Jazz e fumo. Il back-office è dove si trattano gli affari veri.",
+        "exits": [
+          "loc_commissariato",
+          "loc_porto"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_casa_vayne",
+        "name": "Casa Vayne",
+        "description": "Villa decadente piena di memorie del mago. Specchi ovunque.",
+        "exits": [
+          "loc_commissariato",
+          "loc_teatro_abbandonato"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_teatro_abbandonato",
+        "name": "Teatro Abbandonato di Vayne",
+        "description": "Il vecchio palco di Vayne, ora usato da Crane per i suoi rituali-illusione.",
+        "exits": [
+          "loc_casa_vayne",
+          "loc_covo_crane"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_porto",
+        "name": "Porto di Gotham",
+        "description": "Magazzini oscuri. Dove Stone e i sicari aspettano gli ordini.",
+        "exits": [
+          "loc_quartier_generale_moran",
+          "loc_teatro_abbandonato"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_covo_crane",
+        "name": "Covo Segreto di Crane",
+        "description": "Un appartamento sopra un negozio di costumi. Pieno di materiale di scena e documentazione.",
+        "exits": [
+          "loc_teatro_abbandonato"
+        ],
+        "is_starting_location": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_specchio_rotto",
+        "label": "Frammento di specchio sulla scena del crimine",
+        "type": "physical_evidence",
+        "description": "Sul corpo della vittima c'è un frammento di specchio con un simbolo inciso — non è decorativo, è parte di un meccanismo.",
+        "reveals": "Il 'demone' usa tecnologia fisica, non magia.",
+        "location_id": "loc_commissariato",
+        "thread_ids": [
+          "T_illusione"
+        ],
+        "payoff": "Prima prova che il rituale è una messinscena meccanica.",
+        "hidden_implication": "Il simbolo corrisponde al marchio di fabbrica del vecchio mago di scena Karl Vayne, morto dieci anni fa — qualcuno sta usando i suoi segreti.",
+        "wrong_interpretations": [
+          "Il frammento è parte di un vero rituale occulto che richiede specchi consacrati",
+          "Lo specchio è stato lasciato intenzionalmente come firma dal demone per marcare le sue vittime"
+        ]
+      },
+      {
+        "id": "clue_diari_vayne",
+        "label": "Diari di Karl Vayne",
+        "type": "document",
+        "description": "I diari del mago descrivono nei dettagli il trucco dello specchio, i meccanismi nascosti e i suoi assistenti, incluso 'Victor C., un giovane brillante ma instabile'.",
+        "reveals": "Il trucco è riproducibile — e qualcuno che lo conosce è ancora in vita.",
+        "location_id": "loc_casa_vayne",
+        "thread_ids": [
+          "T_illusione",
+          "T_crane"
+        ],
+        "payoff": "Identifica Crane come possibile erede del trucco.",
+        "hidden_implication": "Vayne scrisse che Victor era 'ossessionato dal potere che l'illusione dava sul pubblico' — la vera motivazione di Crane non è il denaro, ma il controllo psicologico attraverso la paura.",
+        "wrong_interpretations": [
+          "Victor Crane era solo un assistente minore, il vero erede è qualcun altro ancora da scoprire",
+          "I diari contengono veri incantesimi che Vayne mascherava come trucchi scenici"
+        ]
+      },
+      {
+        "id": "clue_pagamenti_moran",
+        "label": "Registro dei pagamenti del club Moran",
+        "type": "document",
+        "description": "Un registro nascosto mostra pagamenti mensili a un'entità senza nome, raddoppiati dopo ogni 'apparizione del demone'.",
+        "reveals": "Le famiglie mafiose sono ricattate, non credono davvero al demone.",
+        "location_id": "loc_quartier_generale_moran",
+        "thread_ids": [
+          "T_ricatto"
+        ],
+        "payoff": "Conferma che il culto è uno schema estorsivo.",
+        "hidden_implication": "I pagamenti iniziarono esattamente una settimana dopo la morte 'accidentale' del precedente capo della famiglia Moran — Crane ha orchestrato un omicidio per dare credibilità al demone.",
+        "wrong_interpretations": [
+          "I Moran stanno pagando per protezione soprannaturale autentica da un vero cultista",
+          "I pagamenti sono per servizi di assassinio, non per estorsione — stanno assoldando il demone"
+        ]
+      },
+      {
+        "id": "clue_lista_bersagli",
+        "label": "Lista bersagli di Stone",
+        "type": "physical_evidence",
+        "description": "Una lista cifrata trovata negli alloggi di Stone: nomi, date e importi. Tre nomi sono già morti.",
+        "reveals": "Gli omicidi sono pianificati e eseguiti da sicari umani, non demoni.",
+        "location_id": "loc_porto",
+        "thread_ids": [
+          "T_omicidi",
+          "T_crane"
+        ],
+        "payoff": "Prova diretta che lega Crane agli omicidi.",
+        "hidden_implication": "Gli importi accanto ai nomi non sono pagamenti per gli omicidi, ma quanto ogni vittima aveva rifiutato di pagare a Crane — sta eliminando chi resiste al suo sistema di ricatto.",
+        "wrong_interpretations": [
+          "Stone è il vero mandante e Crane è solo un complice minore",
+          "La lista è di potenziali testimoni di un crimine diverso, non collegato al demone"
+        ]
+      },
+      {
+        "id": "clue_testimonianza_hayes",
+        "label": "Confessione di Detective Hayes",
+        "type": "testimony",
+        "description": "Hayes rivela di aver coperto un omicidio due anni fa su ordine di Crane, e descrive il sistema di ricatto.",
+        "reveals": "Crane ha infiltrato la polizia e usa i segreti altrui come arma.",
+        "location_id": "loc_commissariato",
+        "thread_ids": [
+          "T_crane",
+          "T_ricatto"
+        ],
+        "payoff": "Svela la struttura di potere di Crane.",
+        "hidden_implication": "Hayes menziona che Crane registra ogni conversazione compromettente con un dispositivo nascosto — da qualche parte esiste un archivio con prove su decine di corrotti, inclusi funzionari di alto livello.",
+        "wrong_interpretations": [
+          "Hayes sta mentendo per proteggere se stesso, incolpando falsamente Crane",
+          "Hayes è posseduto o manipolato mentalmente dal vero demone che controlla Crane"
+        ]
+      },
+      {
+        "id": "clue_costume_demone",
+        "label": "Costume del 'demone' nel teatro",
+        "type": "physical_evidence",
+        "description": "Nascosto sotto il palcoscenico: il costume completo da demone, con meccanismi pneumatici per effetti speciali.",
+        "reveals": "Il demone è interamente un'illusione teatrale — Crane è l'autore.",
+        "location_id": "loc_teatro_abbandonato",
+        "thread_ids": [
+          "T_illusione",
+          "T_crane"
+        ],
+        "payoff": "Prova definitiva: smonta l'intera mitologia del culto.",
+        "hidden_implication": "Il costume ha tracce di sangue reale all'interno — Crane stesso indossa il costume durante alcuni omicidi, provando un piacere personale nel terrorizzare le vittime prima di ucciderle.",
+        "wrong_interpretations": [
+          "Il costume è solo per le apparizioni pubbliche, il vero demone è ancora in libertà",
+          "Qualcuno ha preparato il costume come falsa pista per incastrare Crane"
+        ]
+      },
+      {
+        "id": "clue_contratto_crane",
+        "label": "Contratto di Crane con le famiglie",
+        "type": "document",
+        "description": "Nel covo di Crane: contratti di protezione firmati da tre famiglie mafiose sotto minaccia.",
+        "reveals": "Crane controlla l'intera rete criminale di Gotham attraverso il ricatto sistematico.",
+        "location_id": "loc_covo_crane",
+        "thread_ids": [
+          "T_crane",
+          "T_ricatto"
+        ],
+        "payoff": "Prova legale contro Crane.",
+        "hidden_implication": "Uno dei contratti è firmato dal Commissioner Gordon stesso, datato sei mesi fa — la corruzione arriva al vertice della polizia e spiega perché le indagini sono state ostacolate.",
+        "wrong_interpretations": [
+          "I contratti sono falsi, creati da Crane per vantarsi ma senza valore legale",
+          "Le famiglie hanno firmato volontariamente, non sotto minaccia — sono complici pienamente consenzienti"
+        ]
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T_illusione",
+        "label": "Il demone è reale?",
+        "description": "Indagare sulla natura del culto e capire se la minaccia soprannaturale è autentica.",
+        "clue_ids": [
+          "clue_specchio_rotto",
+          "clue_diari_vayne",
+          "clue_costume_demone"
+        ],
+        "resolution": "Il demone è un'illusione meccanica — un trucco di scena replicato da Crane."
+      },
+      {
+        "id": "T_crane",
+        "label": "Chi è il vero burattinaio?",
+        "description": "Risalire all'identità e ai piani di chi controlla il culto.",
+        "clue_ids": [
+          "clue_diari_vayne",
+          "clue_lista_bersagli",
+          "clue_testimonianza_hayes",
+          "clue_contratto_crane"
+        ],
+        "resolution": "Victor Crane, ex assistente di Vayne, ha costruito un impero del ricatto."
+      },
+      {
+        "id": "T_omicidi",
+        "label": "Chi ha commesso i delitti?",
+        "description": "Collegare gli omicidi ai mandanti.",
+        "clue_ids": [
+          "clue_lista_bersagli",
+          "clue_testimonianza_hayes"
+        ],
+        "resolution": "Stone e i sicari di Crane hanno eseguito gli omicidi su sua ordinazione."
+      },
+      {
+        "id": "T_ricatto",
+        "label": "Come funziona lo schema estorsivo?",
+        "description": "Capire come Crane controlla le famiglie mafiose.",
+        "clue_ids": [
+          "clue_pagamenti_moran",
+          "clue_testimonianza_hayes",
+          "clue_contratto_crane"
+        ],
+        "resolution": "Crane ricatta le famiglie con i loro segreti, protetto dall'illusione del demone."
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_illusione",
+        "label": "Il demone è un trucco di scena",
+        "trigger_clue_ids": [
+          "clue_specchio_rotto",
+          "clue_costume_demone"
+        ],
+        "description": "L'apparizione del demone è un'illusione meccanica costruita da Crane.",
+        "thread_id": "T_illusione"
+      },
+      {
+        "id": "rev_crane_colpevole",
+        "label": "Crane è il mandante degli omicidi",
+        "trigger_clue_ids": [
+          "clue_diari_vayne",
+          "clue_lista_bersagli"
+        ],
+        "description": "Victor Crane ha ricostruito il trucco di Vayne per costruire un impero criminale.",
+        "thread_id": "T_crane"
+      },
+      {
+        "id": "rev_rete_ricatto",
+        "label": "L'intera rete criminale è ricattata",
+        "trigger_clue_ids": [
+          "clue_pagamenti_moran",
+          "clue_contratto_crane"
+        ],
+        "description": "Crane controlla Gotham attraverso segreti e minacce sistematiche.",
+        "thread_id": "T_ricatto"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_arresta_crane",
+        "label": "Smascherare e arrestare Victor Crane",
+        "required_clue_ids": [
+          "clue_costume_demone",
+          "clue_contratto_crane"
+        ],
+        "description": "Portare le prove a un'autorità non corrotta e far arrestare Crane.",
+        "victory": true
+      },
+      {
+        "id": "finale_distruggi_rete",
+        "label": "Distruggere la rete di ricatto",
+        "required_clue_ids": [
+          "clue_lista_bersagli",
+          "clue_contratto_crane"
+        ],
+        "description": "Recuperare e distruggere tutti i documenti di ricatto, liberando le famiglie dal controllo di Crane.",
+        "victory": true
+      }
+    ],
+    "resources": [
+      {
+        "id": "res_tempo_prima_fuga",
+        "label": "Finestra Prima della Fuga di Crane",
+        "description": "Il tempo prima che Crane si accorga dell'indagine e attivi il piano di fuga da Gotham con il denaro estorto",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni fallimento nell'investigazione, ogni volta che i PG vengono visti nei luoghi controllati da Crane, ogni vittima aggiuntiva che attrae attenzione pubblica",
+        "depletion_consequence": "A 6: Stone riceve l'ordine di seguire i PG. A 3: Crane prepara la fuga e inizia a bruciare le prove. A 0: Crane sparisce da Gotham — sconfitta",
+        "recovery_method": "Impossibile recuperare. Ogni prova raccolta senza essere scoperti rallenta il clock di 1"
+      },
+      {
+        "id": "res_copertura_identita",
+        "label": "Copertura dei PG",
+        "description": "L'anonimato dei PG nell'ambiente criminale di Gotham — se Crane scopre chi indaga, Stone viene inviato a fermarli",
+        "current_value": 5,
+        "max_value": 5,
+        "min_value": 0,
+        "depletion_trigger": "Ogni contatto diretto con Moran o Stone, ogni domanda pubblica sul culto, ogni visita al teatro o al porto senza discrezione",
+        "depletion_consequence": "A 3: Stone li conosce e li sorveglia. A 0: Stone ha l'ordine di ucciderli — incontro notturno forzato",
+        "recovery_method": "Cambiare approccio o usare Hayes come intermediaria recupera 1 punto"
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_gotham_vittime",
+        "label": "Escalation degli omicidi",
+        "clock_type": "terminal_defeat",
+        "value": 0,
+        "max_value": 10,
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "auto_balance": false,
+        "resolution_clues": [
+          "clue_costume_demone",
+          "clue_contratto_crane"
+        ],
+        "resolution_condition": "Identificare Jonathan Crane come mandante e fermare Stone prima che completi la lista delle vittime, o smascherare pubblicamente il culto come truffa estorsiva costringendo Crane alla fuga.",
+        "consequence": "Crane fugge con il denaro e il culto si radicalizza — Gotham cade nel caos criminale.",
+        "on_complete": "Crane fugge con il denaro e il culto si radicalizza — Gotham cade nel caos criminale.",
+        "discovery_hint": "Nei vicoli del Lower East Side, i criminali parlano sottovoce di pagamenti mancati e debiti saldati col sangue. Qualcuno sta riordinando i conti di Gotham.",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Seconda vittima scoperta al molo",
+            "effect": "Il Gotham Gazette pubblica l'articolo 'Il Demone di Gotham' — il panico si diffonde nel sottobosco criminale. I cultisti iniziano a ricevere più 'donazioni' per protezione."
+          },
+          {
+            "value": 4,
+            "label": "Riunione d'emergenza delle famiglie",
+            "effect": "Don Falcone convoca un incontro al Club Moran — le famiglie mafiose accusano reciprocamente. Stone osserva dall'ombra, annotando nuovi nomi. La tensione tra gang esplode in piccole faide."
+          },
+          {
+            "value": 6,
+            "label": "I PG diventano bersagli",
+            "effect": "Crane ordina a Stone di eliminare gli investigatori. Un tentativo di omicidio fallito lascia indizi sul killer mascherato. Un informatore dei PG viene trovato morto con segni rituali."
+          },
+          {
+            "value": 8,
+            "label": "Quarta vittima — escalation pubblica",
+            "effect": "Un boss minore viene ucciso in pieno giorno a Little Italy. La polizia impone il coprifuoco. Crane accelera i piani di fuga, svuotando i conti del culto. Resta solo un nome sulla lista di Stone."
+          },
+          {
+            "value": 10,
+            "label": "Fuga di Crane — Gotham in fiamme",
+            "effect": "Crane scompare con 50.000 dollari. Stone completa la lista ed elimina gli ultimi testimoni. Le gang si dichiarano guerra aperta. Il culto, decapitato ma radicalizzato, continua i rituali sotto nuova leadership fanatica."
+          }
+        ],
+        "discovered": true
+      }
+    ],
+    "initial_hook": "```json\n\"È una notte di pioggia battente a Gotham quando ricevete tutti una telefonata urgente: il cadavere di Tommy Moran, un piccolo informatore che lavorava per voi, è stato trovato in un vicolo di Hell's Kitchen con il volto congelato in un'espressione di puro terrore. La Detective Loretta Hayes vi convoca sulla scena del crimine all'alba—il quarto omicidio in due settimane, tutti collegati alle famiglie mafiose, tutti con lo stesso sguardo di orrore sovrannaturale. Accanto al corpo, tracciato nel sangue, c'è il disegno di uno specchio ornato e una frase in latino: 'Speculum aeternum vocat'.\"\n```"
+  },
+  "runtime_state": {
+    "definition_id": "pdf_gotham39",
+    "clock_runtime": {},
+    "found_clues": [],
+    "active_threads": []
+  },
+  "validation_report": {
+    "quality_gate": {
+      "passed": true,
+      "score": 100,
+      "critical": [],
+      "warnings": []
+    }
+  }
+}

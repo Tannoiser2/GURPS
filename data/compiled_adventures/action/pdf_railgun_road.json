@@ -1,0 +1,1088 @@
+{
+  "adventure_definition": {
+    "id": "pdf_railgun_road",
+    "title": "Railgun Road",
+    "source_type": "pdf_text",
+    "source_mode": "pdf_import",
+    "genre": "action",
+    "runtime_profiles": [
+      "pursuit_thriller"
+    ],
+    "tone": "post-apocalittico, action, western cyberpunk",
+    "premise": "Anno 2157. Il corridoio autostradale Interstate-99, noto come 'Railgun Road', è l'unica via di terra tra le due enclavi di New Sacramento e Salt Fortress. Un convoglio di medicinali essenziali è stato fermato e saccheggiato dai Dust Riders. I PG devono recuperare i medicinali, liberare gli ostaggi e scoprire chi ha tradito il percorso del convoglio.",
+    "initial_hook": "Siete stati ingaggiati dal Consiglio di New Sacramento: il convoglio Medcross è sparito sulla I-99. Centinaia di persone moriranno senza quei medicinali entro 72 ore. Trovate il convoglio, recuperate il carico, tornate vivi.",
+    "core_truths": [
+      {
+        "id": "truth_traitor",
+        "statement": "Il percorso del convoglio è stato venduto ai Dust Riders da Marcus Chen, il coordinatore logistico del Consiglio, in cambio di una via d'uscita sicura per lui e la sua famiglia.",
+        "reveal_clues": [
+          "clue_chen_comm",
+          "clue_rider_ledger"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_riders_boss",
+        "statement": "I Dust Riders sono guidati da una ex-militare chiamata 'Railgun' Vera Torba, che ha trasformato il saccheggio in una vera industria estrattiva.",
+        "reveal_clues": [
+          "clue_rider_camp",
+          "clue_hostage_info"
+        ],
+        "reveal_rule": "Entrambi scoperti",
+        "revealed": false
+      },
+      {
+        "id": "truth_location",
+        "statement": "Il convoglio è nascosto nel bunker-deposito abbandonato al km 412 della I-99, convertito in base dei Dust Riders.",
+        "reveal_clues": [
+          "clue_tire_tracks",
+          "clue_radio_signal"
+        ],
+        "reveal_rule": "Uno dei due scoperti",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_find_convoy",
+        "label": "Localizzare il convoglio Medcross",
+        "status": "active",
+        "unlocks": [
+          "obj_infiltrate",
+          "obj_identify_traitor"
+        ],
+        "success_conditions": [
+          "clue_tire_tracks O clue_radio_signal scoperti"
+        ]
+      },
+      {
+        "id": "obj_identify_traitor",
+        "label": "Scoprire chi ha tradito il percorso",
+        "status": "inactive",
+        "unlocks": [
+          "obj_confront_chen"
+        ],
+        "success_conditions": [
+          "rev_traitor rivelato"
+        ]
+      },
+      {
+        "id": "obj_infiltrate",
+        "label": "Infiltrare o assaltare la base dei Dust Riders",
+        "status": "inactive",
+        "unlocks": [
+          "obj_recover_cargo",
+          "obj_free_hostages"
+        ],
+        "success_conditions": [
+          "Accesso al bunker_depot"
+        ]
+      },
+      {
+        "id": "obj_recover_cargo",
+        "label": "Recuperare i medicinali",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "clue_medcross_cargo recuperato"
+        ]
+      },
+      {
+        "id": "obj_free_hostages",
+        "label": "Liberare i sopravvissuti del convoglio",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "actor_hostages liberati"
+        ]
+      },
+      {
+        "id": "obj_confront_chen",
+        "label": "Affrontare Marcus Chen",
+        "status": "inactive",
+        "unlocks": [],
+        "success_conditions": [
+          "Confronto con actor_chen"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_location_found",
+        "thread_id": "thread_convoy",
+        "statement": "Il convoglio è nel bunker km 412 — il vecchio deposito militare convertito in base dei Dust Riders.",
+        "required_clues": [
+          "clue_tire_tracks"
+        ],
+        "required_evidence_kinds": [
+          "physical"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [
+          "clue_red_herring_wreck"
+        ],
+        "status": "hidden",
+        "payoff": "I PG hanno la destinazione. Possono pianificare l'assalto.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_traitor",
+        "thread_id": "thread_betrayal",
+        "statement": "Marcus Chen ha venduto il percorso del convoglio. Le comunicazioni cifrate lo provano.",
+        "required_clues": [
+          "clue_chen_comm",
+          "clue_rider_ledger"
+        ],
+        "required_evidence_kinds": [
+          "document",
+          "document"
+        ],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG sanno chi affrontare al ritorno. Possono usarlo come leva.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_vera_identity",
+        "thread_id": "thread_riders",
+        "statement": "Railgun Vera era un tenente colonnello dell'esercito pre-collasso. La sua tattica militare rende i Dust Riders molto più pericolosi di quanto sembrino.",
+        "required_clues": [
+          "clue_rider_camp",
+          "clue_hostage_info"
+        ],
+        "required_evidence_kinds": [
+          "physical",
+          "testimony"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG capiscono il livello di pericolo e possono adattare la strategia.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "rev_chen_family",
+        "thread_id": "thread_betrayal",
+        "statement": "Chen ha una figlia malata. Ha tradito per comprare medicinali specifici dai Riders. Una delle scatole nel carico è per lei.",
+        "required_clues": [
+          "clue_chen_family",
+          "clue_rider_ledger"
+        ],
+        "required_evidence_kinds": [
+          "testimony",
+          "document"
+        ],
+        "minimum_independent_kinds": 2,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Aggiunge ambiguità morale — Chen è un traditore ma anche un padre disperato.",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_tire_tracks",
+        "label": "Tracce di pneumatici sul km 389",
+        "type": "physical_evidence",
+        "thread_id": "thread_convoy",
+        "source_location": "highway_389",
+        "reveals": "Pesanti tracce di veicoli che escono dalla I-99 al km 389 e girano verso est. Portano verso un'area desertica con strutture ex-militari.",
+        "payoff": "rev_location_found",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_location_found"
+        ],
+        "immediate_information": "Il convoglio ha svoltato qui. Direzione est.",
+        "hidden_implication": "Il bunker km 412 è la destinazione.",
+        "unlocks": [
+          "clue_radio_signal"
+        ],
+        "possible_actions": [
+          "Esaminare la strada",
+          "Tracciare la rotta"
+        ],
+        "wrong_interpretations": [
+          "Le tracce sono vecchie e irrilevanti"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_radio_signal",
+        "label": "Segnale radio criptato dal km 412",
+        "type": "physical_evidence",
+        "thread_id": "thread_convoy",
+        "source_location": "highway_389",
+        "reveals": "Uno scanner radio capta trasmissioni criptate dal km 412. Con le giuste attrezzature, il segnale può essere decriptato — è traffico interno dei Dust Riders.",
+        "payoff": "rev_location_found",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [
+          "rev_location_found"
+        ],
+        "immediate_information": "Attività radio dal km 412.",
+        "hidden_implication": "Se decriptato, rivela la struttura della base.",
+        "unlocks": [
+          "clue_rider_camp"
+        ],
+        "possible_actions": [
+          "Usare scanner radio avanzato",
+          "Decriptare il segnale"
+        ],
+        "wrong_interpretations": [
+          "Il segnale è interferenza naturale"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      },
+      {
+        "id": "clue_chen_comm",
+        "label": "Comunicazioni cifrate di Chen",
+        "type": "document",
+        "thread_id": "thread_betrayal",
+        "source_location": "council_office",
+        "reveals": "Nel terminale di Chen al Consiglio: messaggi cifrati con coordinate del percorso del convoglio inviati 48 ore prima della partenza. Il destinatario usa il callsign 'RAILGUN'.",
+        "payoff": "rev_traitor",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_traitor"
+        ],
+        "immediate_information": "Chen ha contattato qualcuno usando 'RAILGUN'. Ha condiviso il percorso.",
+        "hidden_implication": "'RAILGUN' è il nome di battaglia di Vera Torba.",
+        "unlocks": [
+          "clue_chen_family"
+        ],
+        "possible_actions": [
+          "Hackare il terminale di Chen",
+          "Accedere al consiglio"
+        ],
+        "wrong_interpretations": [
+          "Chen stava solo facendo un backup di sicurezza"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_rider_ledger",
+        "label": "Registro dei pagamenti dei Dust Riders",
+        "type": "document",
+        "thread_id": "thread_betrayal",
+        "source_location": "bunker_depot",
+        "reveals": "Un registro fisico nella base dei Riders: entrate e uscite, incluso un pagamento a 'MC — informazioni convoglio — 3 dosi Nexalin-B'. Nexalin-B è un farmaco raro per bambini.",
+        "payoff": "rev_traitor",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_traitor",
+          "rev_chen_family"
+        ],
+        "immediate_information": "Un informatore con iniziali MC ha ricevuto Nexalin-B in cambio delle info.",
+        "hidden_implication": "MC = Marcus Chen. Nexalin-B = per sua figlia.",
+        "unlocks": [],
+        "possible_actions": [
+          "Recuperare il registro dalla base",
+          "Esaminare i documenti dei Riders"
+        ],
+        "wrong_interpretations": [
+          "MC potrebbe essere qualcun altro"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_rider_camp",
+        "label": "Struttura difensiva del bunker",
+        "type": "physical_evidence",
+        "thread_id": "thread_riders",
+        "source_location": "bunker_exterior",
+        "reveals": "La disposizione difensiva è da manuale militare — torrette di copertura con angoli interlacciati, rotazioni di guardia precise, fallback position. Chi ha progettato questo sa il fatto suo.",
+        "payoff": "rev_vera_identity",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_vera_identity"
+        ],
+        "immediate_information": "Difese da manuale militare professionale.",
+        "hidden_implication": "Il leader ha training militare ufficiale.",
+        "unlocks": [
+          "clue_hostage_info"
+        ],
+        "possible_actions": [
+          "Osservare la base dall'esterno",
+          "Analizzare le difese"
+        ],
+        "wrong_interpretations": [
+          "I Riders hanno solo fortuna"
+        ],
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "confidence": 0.8
+      },
+      {
+        "id": "clue_hostage_info",
+        "label": "Informazioni degli ostaggi sul leader",
+        "type": "testimony",
+        "thread_id": "thread_riders",
+        "source_location": "bunker_cells",
+        "reveals": "I sopravvissuti del convoglio descrivono il leader: donna sulla cinquantina, cicatrice alla guancia, si fa chiamare 'Railgun'. Un autista la riconosce: 'Era il tenente colonnello Torba. Era quella che ci addestrava prima del collasso.'",
+        "payoff": "rev_vera_identity",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "rev_vera_identity"
+        ],
+        "immediate_information": "Il leader è Vera Torba, ex-militare.",
+        "hidden_implication": "Vera può essere convinta se si trova l'approccio giusto.",
+        "unlocks": [],
+        "possible_actions": [
+          "Liberare gli ostaggi",
+          "Parlare con loro"
+        ],
+        "wrong_interpretations": [
+          "Vera Torba è una bandita che ha rubato l'identità di un'ex-militare",
+          "Il riconoscimento è un errore — Vera è solo qualcuno che le assomiglia"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "clue_chen_family",
+        "label": "Cartella medica della figlia di Chen",
+        "type": "document",
+        "thread_id": "thread_betrayal",
+        "source_location": "council_office",
+        "reveals": "Trovata nell'ufficio di Chen: cartella medica di Lina Chen, 8 anni, diagnosi di sindrome rara. Richiede Nexalin-B — esaurito nelle strutture del Consiglio da 6 mesi.",
+        "payoff": "Chen non ha tradito per denaro o potere — ha tradito per salvare sua figlia. Il movente rende il tradimento comprensibile ma non giustificabile",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [
+          "rev_chen_family"
+        ],
+        "immediate_information": "La figlia di Chen è gravemente malata. Ha bisogno di Nexalin-B.",
+        "hidden_implication": "Chen non è un traditore freddo — è un padre disperato.",
+        "unlocks": [],
+        "possible_actions": [
+          "Perquisire l'ufficio di Chen",
+          "Hackare i dati medici"
+        ],
+        "wrong_interpretations": [
+          "Chen ha inventato la malattia della figlia come copertura per il suo tradimento",
+          "La cartella è stata piantata da qualcun altro per incastrare Chen"
+        ],
+        "source_status": "inferred",
+        "is_preserved_from_pdf": false,
+        "confidence": 0.8
+      },
+      {
+        "id": "clue_medcross_cargo",
+        "label": "Carico Medcross nel bunker",
+        "type": "physical_evidence",
+        "thread_id": "thread_convoy",
+        "source_location": "bunker_depot",
+        "reveals": "Casse di medicinali intatte in un magazzino sorvegliato. Tra queste, tre dosi di Nexalin-B marcate con un'etichetta diversa — erano il pagamento per Chen.",
+        "payoff": "Conferma materiale del tradimento di Chen e dell'accordo con i Railgun Riders. Il carico può essere recuperato, ma le dosi di Nexalin-B pongono un dilemma morale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "Il carico è qui e intatto. Tre dosi di Nexalin-B separate.",
+        "hidden_implication": "Le dosi separate erano destinate a Chen — fisicamente conferma il tradimento.",
+        "unlocks": [],
+        "possible_actions": [
+          "Infiltrare il bunker",
+          "Assaltare il deposito"
+        ],
+        "wrong_interpretations": [
+          "Le tre dosi separate sono destinate a qualcun altro nel bunker dei Riders",
+          "Le dosi marcate sono contraffatte o difettose — un trucco dei Riders"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.95
+      },
+      {
+        "id": "clue_red_herring_wreck",
+        "label": "Relitto di veicolo pesante al km 350",
+        "type": "physical_evidence",
+        "thread_id": "thread_convoy",
+        "source_location": "highway_350",
+        "reveals": "Un mezzo pesante bruciato sul ciglio della strada. Sembra un convoglio, ma i numeri di targa non corrispondono al Medcross.",
+        "payoff": "Falsa pista che può far perdere tempo prezioso ai PG. Se investigato approfonditamente, rivela che è un vecchio relitto non collegato al caso",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": false,
+        "revelation_ids": [],
+        "immediate_information": "Un convoglio bruciato — ma non quello giusto.",
+        "hidden_implication": "Red herring — distrae dall'investigazione reale.",
+        "unlocks": [],
+        "possible_actions": [
+          "Investigare il relitto"
+        ],
+        "wrong_interpretations": [
+          "Questo è il convoglio Medcross distrutto",
+          "I Riders hanno bruciato questo convoglio per nascondere le prove del carico rubato"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.8
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_vera",
+        "name": "Vera 'Railgun' Torba",
+        "role": "antagonist",
+        "location_id": "bunker_depot",
+        "status": "unintroduced",
+        "goal": "Mantenere la supremazia sulla I-99 e far prosperare i suoi Riders",
+        "secret": "Considera i Riders come la sua ultima famiglia. Non vuole violenza se può evitarla — il saccheggio è pragmatico, non crudele.",
+        "agenda_pressure": 8,
+        "fear": "Che i Riders vengano sterminati come un branco di animali",
+        "current_plan": "Vendere i medicinali al miglior offerente e poi sparire",
+        "fallback_plan": "Combattere fino alla fine se i PG attaccano prima di parlare",
+        "resources": [
+          "50 Dust Riders armati",
+          "Bunker difensivo",
+          "Informazioni di intelligence"
+        ],
+        "knows": [
+          "truth_location",
+          "truth_riders_boss"
+        ],
+        "wants": [
+          "Sopravvivenza dei suoi",
+          "Autonomia dalla politica"
+        ],
+        "avoids": [
+          "Killing gratuito"
+        ],
+        "pressure_response": {
+          "pressure_low": "Vera non si mostra — i PG la conoscono solo come 'Railgun', voce via radio o presenza attraverso le sue difese. La sua assenza è strategica: sa sempre dove sono i PG prima che lei appaia in scena.",
+          "pressure_mid": "Vera fa un approccio indiretto: invia un Rider come intermediario con un messaggio. 'Railgun vuole sapere cosa volete davvero. Avete venuto qui a combattere o a parlare?' Valuta se i PG sono abbastanza intelligenti da capire che la diplomazia conviene a entrambi.",
+          "pressure_high": "Se i PG hanno dimostrato competenza (superato le difese senza massacri), Vera compare in persona nella sala operativa — disarmata ma con quattro Riders alle spalle. 'Siete migliori di quanto pensassi. Parliamo.' Può cedere il carico in cambio di qualcosa di valore.",
+          "pressure_max": "Se attaccata o messa all'angolo, Vera attiva il protocollo di battaglia: difesa stratificata, ostaggi come leva, uscita di sicurezza. 'Avrete il carico quando sarò fuori dal raggio di fuoco. Garantitemi la fuga o qui non esce nessuno.'"
+        },
+        "reaction_table": {
+          "friendly_approach": "Vera risponde positivamente a chi tratta con lei da pari a pari — riconosce la competenza militare e tattica. Tiro Tattica o Comando PG a +2 per la prima impressione. Il rispetto professionale è la valuta giusta.",
+          "intimidation": "Vera ride. 'Anni di guerra prima del collasso. Tu pensi di intimidirmi?' L'intimidazione è controproducente — la mette in modalità combattimento. L'unica pressione efficace è tattica: mostrarle che i PG hanno già vinto senza sparare.",
+          "bribery": "Vera risponde alle risorse utili ai suoi Riders — carburante, munizioni, mappe di zone sicure. Denaro ha valore relativo nel post-apocalittico. Offrire qualcosa che lei non può trovare da sola funziona.",
+          "caught_lying": "Vera riconosce le bugie di un soldato dalla postura. 'Fermati. Riprova.' Non si arrabbia — riformula le condizioni dell'accordo includendo una garanzia verificabile. La fiducia può essere ricostruita.",
+          "authority_figure": "Vera non riconosce nessuna autorità del Consiglio o governativa. 'Il governo non esiste più, amico.' Riconosce solo l'autorità militare — e solo quella di chi ha dimostrato di meritarla sul campo."
+        },
+        "relationships": [
+          {
+            "target": "actor_chen",
+            "type": "transazione",
+            "note": "Lo ha usato ma rispetta il coraggio di un padre"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_radio_signal",
+            "replacement_clue": {
+              "id": "clue_burned_relay",
+              "label": "Stazione relay bruciata al km 412",
+              "reveals": "La stazione relay è stata sabotata con cariche incendiarie. Tra i detriti, frammenti di hardware mostrano frequenze di trasmissione verso il bunker dei Dust Riders"
+            },
+            "narration": "Vera ordina ai suoi di bruciare la stazione relay. 'Non possiamo permetterci intercettazioni', dice via radio mentre le fiamme divorano l'antenna."
+          },
+          {
+            "at_pressure": 7,
+            "action": "scare_npc",
+            "target_id": "npc_chen",
+            "new_attitude": "uncooperative",
+            "narration": "Vera invia a Chen un pacco: la foto della figlia con un mirino laser disegnato sopra. Il messaggio è chiaro. Chen smette di rispondere alle chiamate."
+          },
+          {
+            "at_pressure": 9,
+            "action": "create_clue",
+            "clue": {
+              "id": "clue_evacuation_plan",
+              "label": "Piano di evacuazione abbandonato",
+              "reveals": "Mappe tattiche mostrano una rotta di fuga verso il territorio dei Nomadi del Sale, con coordinate di un punto d'incontro segreto per il km 502. Vera sta pianificando di sparire con il carico",
+              "type": "document"
+            },
+            "narration": "L'intelligence rivela movimenti sospetti: Vera sta spostando il grosso del carico verso est. Sta preparando una via di fuga. Il tempo stringe."
+          }
+        ]
+      },
+      {
+        "id": "actor_chen",
+        "name": "Marcus Chen",
+        "role": "traitor",
+        "location_id": "council_office",
+        "status": "introduced",
+        "goal": "Salvare sua figlia Lina",
+        "secret": "Ha venduto il percorso del convoglio ai Riders per tre dosi di Nexalin-B",
+        "agenda_pressure": 8,
+        "fear": "Che sua figlia muoia O che venga scoperto",
+        "current_plan": "Far finta di collaborare alle indagini mentre aspetta che i Riders consegnino le dosi",
+        "fallback_plan": "Fuggire con Lina se viene smascherato",
+        "resources": [
+          "Accesso ai database del Consiglio",
+          "Fiducia dei colleghi"
+        ],
+        "knows": [
+          "truth_traitor",
+          "clue_chen_comm"
+        ],
+        "wants": [
+          "Nexalin-B per sua figlia",
+          "Che i PG non trovino le prove"
+        ],
+        "avoids": [
+          "Confronto diretto"
+        ],
+        "pressure_response": {
+          "pressure_low": "Chen è il coordinatore logistico che finge professionalità — risponde alle domande con dati accurati, mostra mappe, offre accesso agli archivi. L'unica anomalia è che non fa domande sul convoglio, come se già sapesse.",
+          "pressure_mid": "Chen diventa nervoso sotto domande specifiche sul timing della partenza o sulle comunicazioni pre-missione. Tiro Intuizione PG a +2 per notare microsudorazione e frasi troppo preparate.",
+          "pressure_high": "Se mostrato in contraddizione, Chen crolla parzialmente — può ammettere di aver 'passato alcune informazioni di routine' minimizzando. Il vero crack arriva se i PG menzionano Lina: 'Non capite cosa vuol dire guardare morire tua figlia.'",
+          "pressure_max": "Chen fugge se sente che i PG hanno le prove. Ha un piano di fuga: un veicolo carico nel garage del Consiglio, pronto per portare Lina fuori da New Sacramento. Se i PG lo fermano prima della fuga, confessa tutto in lacrime."
+        },
+        "reaction_table": {
+          "friendly_approach": "Chen risponde con professionalità sovracalibrata — è troppo utile, risponde prima della domanda finisce. Tiro Intuizione PG a +1 per notare che si comporta come chi sa già cosa stanno cercando.",
+          "intimidation": "Chen cede rapidamente all'intimidazione — non è un duro. Ma sotto pressione può cedere dettagli sbagliati per comprare tempo. I PG devono sapere cosa cercare per riconoscere le verità tra le bugie.",
+          "bribery": "Chen non può essere corrotto con denaro — vuole Nexalin-B per sua figlia, e solo i Riders ce l'hanno. Ma se i PG ottengono il Nexalin-B durante la missione e glielo offrono, Chen collabora completamente.",
+          "caught_lying": "Chen cede immediatamente alle prove fisiche — non ha il temperamento di un bugiardo esperto. Se i PG mostrano le comunicazioni cifrate, ammette il tradimento e implora clemenza per Lina.",
+          "authority_figure": "Chen rispetta il Consiglio ma lo teme — è il corpo che lo ha condannato all'impossibilità di curare sua figlia per mancanza di risorse. In presenza di figure del Consiglio, cerca di sviare verso dati tecnici."
+        },
+        "relationships": [
+          {
+            "target": "actor_vera",
+            "type": "transazione",
+            "note": "Ha fatto un patto con lei"
+          }
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "actor_hostages",
+        "name": "Sopravvissuti del Convoglio Medcross",
+        "role": "victim",
+        "location_id": "bunker_cells",
+        "status": "unintroduced",
+        "goal": "Sopravvivere e tornare a New Sacramento",
+        "secret": "Un autista riconosce Vera dalla sua carriera militare",
+        "agenda_pressure": 4,
+        "fear": "Essere venduti o uccisi",
+        "current_plan": "Aspettare il soccorso",
+        "fallback_plan": "Tentare una fuga disperata",
+        "resources": [
+          "Testimonianza oculare"
+        ],
+        "knows": [
+          "clue_hostage_info"
+        ],
+        "wants": [
+          "Libertà"
+        ],
+        "avoids": [
+          "Provocare i Riders"
+        ],
+        "pressure_response": {
+          "pressure_low": "Gli ostaggi sono traumatizzati e spaventati — rispondono a domande dei PG solo se si sentono al sicuro. L'autista che conosce Vera non vuole creare problemi e tace finché non viene interrogato privatamente.",
+          "pressure_mid": "Se i PG sembrano competenti e non improvvisati, gli ostaggi diventano collaborativi: danno la mappa interna del bunker che hanno memorizzato, i turni di guardia, le abitudini dei Riders. L'autista rivela il nome di Vera spontaneamente.",
+          "pressure_high": "Con i PG in zona, la tensione degli ostaggi aumenta — sanno che un assalto potrebbe ucciderli se va male. Alcuni potrebbero supplicare i PG di negoziare invece di combattere.",
+          "pressure_max": "Se i PG non arrivano entro il tick 8 del clock, un ostaggio particolarmente coraggioso tenta una fuga disperata — che può creare distrazione utile o causare una crisi che accelera il clock."
+        },
+        "reaction_table": {
+          "friendly_approach": "Gli ostaggi rispondono con gratitudine immediata a chi viene per salvarli. Tiro Diplomazia non necessario — il sollievo è viscerale. Qualsiasi approccio benevolo sblocca tutta la loro testimonianza.",
+          "intimidation": "Gli ostaggi sono già terrorizzati — l'intimidazione da parte dei 'salvatori' può causare panico e comportamenti imprevedibili. Controproducente in ogni forma.",
+          "bribery": "Non è necessaria — vogliono solo andarsene. Ma promesse specifiche ('vi portiamo fuori dalla stessa uscita sicura che usiamo noi') aumentano la loro cooperazione e calma.",
+          "caught_lying": "Gli ostaggi non mentono — hanno paura. Se sembrano contraddittori, è perché il trauma ha confuso la percezione del tempo e delle posizioni.",
+          "authority_figure": "Il nome 'Consiglio di New Sacramento' è rassicurante ma non abbastanza — vogliono vedere i PG agire, non solo parlare."
+        },
+        "relationships": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.85
+      }
+    ],
+    "factions": [
+      {
+        "id": "faction_riders",
+        "name": "Dust Riders",
+        "agenda": "Controllare la I-99 e trarre profitto dal commercio forzato",
+        "pressure": 5,
+        "status": "active",
+        "source_status": "explicit",
+        "confidence": 0.9
+      },
+      {
+        "id": "faction_council",
+        "name": "Consiglio di New Sacramento",
+        "agenda": "Recuperare i medicinali e ripristinare la rotta",
+        "pressure": 7,
+        "status": "active",
+        "source_status": "explicit",
+        "confidence": 0.9
+      }
+    ],
+    "locations": [
+      {
+        "id": "highway_389",
+        "name": "Interstate-99, Km 389",
+        "description": "Asfalto crepato nel deserto. Vento. Il sole batte forte. Poi le tracce di pneumatici che svoltano verso est.",
+        "status": "known",
+        "contains_clues": [
+          "clue_tire_tracks",
+          "clue_radio_signal",
+          "clue_red_herring_wreck"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Autostrada abbandonata, calore ondeggiante, tracce nella polvere",
+        "gameplay_function": "Punto di svolta investigativo, tracce portano al bunker",
+        "concrete_features": [
+          "Asfalto crepato",
+          "Tracce di pneumatici pesanti",
+          "Relitto km 350"
+        ],
+        "hazards": [
+          "Calore estremo",
+          "Pattuglie occasionali dei Riders"
+        ],
+        "exits": [
+          "bunker_exterior",
+          "council_office"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_tire_tracks",
+          "clue_radio_signal"
+        ],
+        "tactical_features": [
+          "Copertura scarsa — terreno aperto"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "council_office",
+        "name": "Uffici del Consiglio — New Sacramento",
+        "description": "Edificio bunker prefabbricato. Marcus Chen ha una scrivania ordinata e uno sguardo leggermente troppo calmo.",
+        "status": "known",
+        "contains_clues": [
+          "clue_chen_comm",
+          "clue_chen_family"
+        ],
+        "contains_actors": [
+          "actor_chen"
+        ],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "open",
+        "visual_identity": "Uffici prefabbricati, luci fluorescenti, schermi terminale",
+        "gameplay_function": "Punto di partenza investigativo, confronto con il traditore",
+        "concrete_features": [
+          "Terminale di Chen",
+          "Archivi del Consiglio",
+          "Sala riunioni"
+        ],
+        "hazards": [],
+        "exits": [
+          "highway_389"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_chen_comm",
+          "clue_chen_family"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "bunker_exterior",
+        "name": "Esterno Bunker Km 412",
+        "description": "Vecchio deposito militare con pareti di cemento. Recinzione con filo spinato elettrificato. Guardie nelle torrette. Tutto ben organizzato.",
+        "status": "unknown",
+        "contains_clues": [
+          "clue_rider_camp"
+        ],
+        "contains_actors": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "location",
+        "access_state": "restricted",
+        "visual_identity": "Bunker militare, recinzione elettrica, torrette di sorveglianza",
+        "gameplay_function": "Valutazione difese, pianificazione infiltrazione",
+        "concrete_features": [
+          "Torrette angolate militarmente",
+          "Rotazioni di guardia precise",
+          "Ingresso principale e ingresso secondario"
+        ],
+        "hazards": [
+          "Guardie armate",
+          "Filo spinato elettrico",
+          "Sensori di movimento"
+        ],
+        "exits": [
+          "highway_389",
+          "bunker_depot"
+        ],
+        "locked_paths": [
+          "bunker_depot"
+        ],
+        "clue_slots": [
+          "clue_rider_camp"
+        ],
+        "tactical_features": [
+          "L'ingresso secondario è meno sorvegliato",
+          "Le torrette hanno punti ciechi"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "bunker_depot",
+        "name": "Interno Bunker — Deposito e QG",
+        "description": "Corridoi di cemento. Magazzini con merci saccheggiate. Una sala operativa dove Vera coordina le operazioni.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_rider_ledger",
+          "clue_medcross_cargo"
+        ],
+        "contains_actors": [
+          "actor_vera"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Superare le difese esterne"
+        ],
+        "type": "location",
+        "access_state": "locked",
+        "visual_identity": "Corridoi militari, luci a risparmio energetico, magazzini pieni",
+        "gameplay_function": "Cuore della base, confronto con Vera, recupero del carico",
+        "concrete_features": [
+          "Magazzino medicinali",
+          "Sala operativa di Vera",
+          "Registro dei pagamenti"
+        ],
+        "hazards": [
+          "Vera e guardie d'elite",
+          "Trappole nei corridoi"
+        ],
+        "exits": [
+          "bunker_exterior",
+          "bunker_cells"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_rider_ledger",
+          "clue_medcross_cargo"
+        ],
+        "tactical_features": [
+          "Collo di bottiglia all'ingresso",
+          "La sala operativa ha copertura tattica"
+        ],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      },
+      {
+        "id": "bunker_cells",
+        "name": "Celle degli Ostaggi",
+        "description": "Stanze di contenimento con porte rinforzate. I sopravvissuti del convoglio sono qui, vivi ma spaventati.",
+        "status": "hidden",
+        "contains_clues": [
+          "clue_hostage_info"
+        ],
+        "contains_actors": [
+          "actor_hostages"
+        ],
+        "tactical_map": {},
+        "access_requirements": [
+          "Accesso al bunker"
+        ],
+        "type": "location",
+        "access_state": "locked",
+        "visual_identity": "Stanze di contenimento militare, brandine di metallo, luce fioca",
+        "gameplay_function": "Liberazione ostaggi, informazioni su Vera",
+        "concrete_features": [
+          "Porte rinforzate con serratura a codice",
+          "Brandine",
+          "Autista che riconosce Vera"
+        ],
+        "hazards": [
+          "Guardie di pattuglia"
+        ],
+        "exits": [
+          "bunker_depot"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_hostage_info"
+        ],
+        "tactical_features": [],
+        "source_status": "explicit",
+        "is_preserved_from_pdf": true,
+        "confidence": 0.9
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_medicine",
+        "label": "Conta alla Rovescia dei Medicinali",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Le riserve di New Sacramento si esauriscono. Decine di persone muoiono. La missione fallisce.",
+        "active": true,
+        "on_complete": "terminal_defeat",
+        "steps": [
+          {
+            "tick": 2,
+            "event": "Il Consiglio inizia a razionare le ultime riserve — pressione politica aumenta"
+          },
+          {
+            "tick": 4,
+            "event": "Le prime morti avvengono nelle strutture mediche. Il panico inizia"
+          },
+          {
+            "tick": 6,
+            "event": "Vera decide di vendere il carico a Salt Fortress invece — finestra temporale si chiude"
+          },
+          {
+            "tick": 8,
+            "event": "Il carico viene trasferito — recuperarlo diventa quasi impossibile"
+          },
+          {
+            "tick": 10,
+            "event": "New Sacramento perde la battaglia contro la malattia. Missione fallita."
+          }
+        ],
+        "clock_type": "terminal_defeat",
+        "resolution_clues": [
+          "clue_medcross_cargo"
+        ],
+        "resolution_condition": "Recuperare il carico Medcross e tornare a New Sacramento",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": true,
+        "discovery_clue_id": "",
+        "discovery_hint": "Il Consiglio vi ha già detto: 72 ore. Il clock parte dal momento dell'ingaggio.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_status": "explicit",
+        "is_explicit_from_source": true,
+        "is_inferred": false,
+        "confidence": 0.95
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo_consegna",
+        "label": "Ore Rimanenti alla Crisi Medica",
+        "description": "Il countdown visibile della missione — il Consiglio chiama ogni sessione con aggiornamenti sulle morti nelle strutture mediche di New Sacramento",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni fallimento tattico, ogni scontro prolungato, ogni ora persa in indagini non necessarie",
+        "depletion_consequence": "A 6: il Consiglio annuncia le prime morti — pressione politica aumenta. A 4: Vera inizia a negoziare la vendita a Salt Fortress. A 0: il carico parte per Salt Fortress, missione fallita",
+        "recovery_method": "Non recuperabile. Ogni successo investigativo silenzioso preserva il clock"
+      },
+      {
+        "id": "res_munizioni_pg",
+        "label": "Munizioni e Carburante dei PG",
+        "description": "Le risorse tattiche dei PG nel wasteland — scarse e non recuperabili nel breve periodo",
+        "current_value": 6,
+        "max_value": 6,
+        "min_value": 0,
+        "depletion_trigger": "Ogni scontro armato con i Riders, ogni inseguimento, ogni uso di esplosivi o veicoli nel bunker",
+        "depletion_consequence": "A 3: i PG non possono sostenere un assalto frontale — solo infiltrazione furtiva. A 0: i PG devono negoziare obbligatoriamente — non hanno più opzioni di forza",
+        "recovery_method": "Trovare rifornimenti nel bunker dei Riders (rischio) recupera 2 punti. Accordo con Vera può includere rifornimento"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_deal",
+        "label": "Accordo con Vera",
+        "required_threads": [
+          "thread_riders"
+        ],
+        "required_clues": [
+          "clue_hostage_info",
+          "clue_vera_identity"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_vera_identity"
+        ],
+        "method": "Negoziare con Vera usando la conoscenza del suo passato — offrire immunità o un accordo di passaggio sicuro in cambio del carico",
+        "concrete_choice": "I PG devono capire che Vera non è un nemico irrazionale"
+      },
+      {
+        "id": "finale_assault",
+        "label": "Assalto Diretto al Bunker",
+        "required_threads": [
+          "thread_convoy"
+        ],
+        "required_clues": [
+          "clue_rider_camp",
+          "clue_tire_tracks"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "rev_location_found"
+        ],
+        "method": "Infiltrare o assaltare il bunker usando l'analisi delle difese di Vera",
+        "concrete_choice": "Rischioso ma possibile con pianificazione tattica adeguata"
+      }
+    ],
+    "genre_runtime": {},
+    "genre_profile": {
+      "id": "action",
+      "tone": "post-apocalittico, thriller, western",
+      "allowed_escalations": [
+        "combat",
+        "chase",
+        "negotiation"
+      ],
+      "forbidden_escalations": [],
+      "terminal_events_require": [],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {},
+    "suggestions": [
+      "Vera è il personaggio più interessante — può diventare un alleato se i PG mostrano intelligenza",
+      "Chen è un dilemma morale: smascherarlo è giusto, ma condannarlo è complicato data la situazione della figlia",
+      "La tensione del clock è visibile: il Consiglio chiama ogni sessione con aggiornamenti sulle morti"
+    ],
+    "story_threads": [
+      {
+        "id": "thread_convoy",
+        "label": "Il Convoglio Perduto",
+        "status": "active"
+      },
+      {
+        "id": "thread_betrayal",
+        "label": "Il Traditore nel Consiglio",
+        "status": "hidden"
+      },
+      {
+        "id": "thread_riders",
+        "label": "Railgun Vera e i Dust Riders",
+        "status": "hidden"
+      }
+    ]
+  },
+  "runtime_state": {
+    "definition_id": "pdf_railgun_road",
+    "current_scene_id": null,
+    "active_objective_ids": [
+      "obj_find_convoy"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {},
+    "faction_runtime": {},
+    "location_runtime": {},
+    "clock_runtime": {
+      "clock_medicine": {
+        "value": 0,
+        "active": true,
+        "discovered": true,
+        "resolved": false
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {},
+    "finale_runtime": {},
+    "truth_runtime": {},
+    "clue_to_revelation_ids": {
+      "clue_tire_tracks": [
+        "rev_location_found"
+      ],
+      "clue_radio_signal": [
+        "rev_location_found"
+      ],
+      "clue_chen_comm": [
+        "rev_traitor"
+      ],
+      "clue_rider_ledger": [
+        "rev_traitor",
+        "rev_chen_family"
+      ],
+      "clue_rider_camp": [
+        "rev_vera_identity"
+      ],
+      "clue_hostage_info": [
+        "rev_vera_identity"
+      ],
+      "clue_chen_family": [
+        "rev_chen_family"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "thread_convoy": [
+        "rev_location_found"
+      ],
+      "thread_betrayal": [
+        "rev_traitor",
+        "rev_chen_family"
+      ],
+      "thread_riders": [
+        "rev_vera_identity"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "rev_location_found": "thread_convoy",
+      "rev_traitor": "thread_betrayal",
+      "rev_chen_family": "thread_betrayal",
+      "rev_vera_identity": "thread_riders"
+    },
+    "flags": {},
+    "history": []
+  },
+  "validation_report": {
+    "passed": true,
+    "quality_gate": {
+      "passed": true,
+      "score": 91,
+      "issues": [],
+      "warnings": []
+    }
+  }
+}
