@@ -12,7 +12,8 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 60,
-      "includeFiles": "backend/**"
+      "includeFiles": "{backend,data/compiled_adventures}/**",
+      "excludeFiles": "{**/*.pyc,**/__pycache__/**,**/tests/**,**/test/**,**/*.pyi,**/docs/**,**/doc/**,**/*.dist-info/**}"
     }
   }
 }
