@@ -77,6 +77,11 @@ def _build_map_from_definition(definition: AdventureDefinition) -> "MapState | N
     nodes: dict[str, MapNode] = {}
     adj: dict[str, list[str]] = {}
 
+    _FINAL_KEYWORDS = {"finale", "final", "confronto finale", "boss", "scontro finale",
+                       "ultimo scontro", "resa dei conti", "epilogo", "restituzione", "risoluzione"}
+    _COMBAT_KEYWORDS = {"confronto", "combattimento", "scontro", "guardie", "nemici",
+                        "bunker", "prigione", "infiltrazione", "assalto", "attacco"}
+
     for loc in locs:
         connections: list[str] = []
         for ex in (loc.exits or []):
@@ -86,6 +91,27 @@ def _build_map_from_definition(definition: AdventureDefinition) -> "MapState | N
             elif ex.strip() in id_set:
                 connections.append(ex.strip())
         adj[loc.id] = connections
+
+        gf = (loc.gameplay_function or "").lower()
+        hazards = loc.hazards or []
+        tac_feats = loc.tactical_features or []
+        existing_tac = dict(loc.tactical_map or {})
+
+        is_final = any(kw in gf for kw in _FINAL_KEYWORDS)
+        has_combat = any(kw in gf for kw in _COMBAT_KEYWORDS) or len(hazards) >= 2
+
+        # Build minimal tactical_map if missing but combat/final is implied
+        if (is_final or has_combat) and not existing_tac.get("enabled"):
+            role = "finale" if is_final else "hot_zone"
+            existing_tac = {
+                "enabled": True,
+                "role": existing_tac.get("role") or role,
+                "trigger": existing_tac.get("trigger") or gf[:80] or f"Il confronto a {loc.name} non può più essere evitato.",
+                "layout": existing_tac.get("layout") or "room",
+                "features": existing_tac.get("features") or list(tac_feats[:3]),
+                "hazards": existing_tac.get("hazards") or list(hazards[:3]),
+            }
+
         nodes[loc.id] = MapNode(
             id=loc.id,
             name=loc.name,
@@ -93,6 +119,9 @@ def _build_map_from_definition(definition: AdventureDefinition) -> "MapState | N
             description=(loc.description or "")[:200],
             connections=connections,
             visited=False,
+            is_final=is_final,
+            contains_enemy=has_combat,
+            tactical_map=existing_tac,
         )
 
     # BFS from start to assign grid_x (depth) and grid_y (sibling index)
