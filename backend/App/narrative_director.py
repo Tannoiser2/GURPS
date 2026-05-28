@@ -199,7 +199,15 @@ def make_director_decision(
                 scene_clues.append({"id": c.id, "label": c.label, "type": c.type or ""})
         for a in present_actors_at(None, runtime, current_scene_id):  # type: ignore[arg-type]
             if a.status not in {"dead", "captured", "resolved"}:
-                scene_actors.append({"id": a.id, "name": a.name, "role": a.role or ""})
+                scene_actors.append({
+                    "id": a.id,
+                    "name": a.name,
+                    "role": a.role or "",
+                    "goal": a.goal or "",
+                    "fear": a.fear or "",
+                    "current_plan": a.current_plan or "",
+                    "pressure_response": a.pressure_response or {},
+                })
 
     return {
         "scene_directive": final_directive,
@@ -339,6 +347,30 @@ def director_prompt_context(decision: dict, canonical_log: list | None = None) -
         "NPC STATE LOCK: non narrare NPC morti, catturati, scomparsi o risolti come presenti o disponibili. "
         "Solo NPC con stato 'introduced', 'active', 'exposed', 'allied', 'hostile' possono agire in scena."
     )
+
+    # N2 — Voce NPC in scena: guida comportamentale per coerenza caratteriale
+    _voice_actors = [a for a in scene_actors if a.get("goal") or a.get("fear") or a.get("current_plan")]
+    if _voice_actors:
+        _voice_lines: list[str] = []
+        for _a in _voice_actors[:4]:
+            _parts: list[str] = []
+            if _a.get("goal"):
+                _parts.append(f"vuole: {_a['goal'][:70]}")
+            if _a.get("fear"):
+                _parts.append(f"teme: {_a['fear'][:60]}")
+            if _a.get("current_plan"):
+                _parts.append(f"piano attuale: {_a['current_plan'][:60]}")
+            _pr = _a.get("pressure_response")
+            if isinstance(_pr, dict):
+                for _k, _v in list(_pr.items())[:2]:
+                    _parts.append(f"se {_k}: {str(_v)[:50]}")
+            if _parts:
+                _voice_lines.append(f"  {_a['name']}: " + " | ".join(_parts))
+        if _voice_lines:
+            lines.append(
+                "VOCE NPC IN SCENA (usa nel tono e nei dialoghi — non svelare direttamente):\n"
+                + "\n".join(_voice_lines)
+            )
 
     if current_scene_id:
         if scene_clues:

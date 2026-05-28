@@ -5870,8 +5870,14 @@ def master_turn_with_bible(
     _npc_roster = "\n".join(_npc_roster_lines) if _npc_roster_lines else "- nessuno"
 
     # ── System prompt (cacheable per sessione: bibbia + regole statiche) ──────
+    _gp = director_decision.get("genre_profile") or {}
+    _tone_instruction = str(_gp.get("tone_instruction") or "")
+    _tone_line = (
+        "\nSTILE NARRATIVO OBBLIGATORIO: " + _tone_instruction
+    ) if _tone_instruction else ""
+
     _system_prompt = f"""Sei il Master di una campagna GDR in stile {genre_label} (GURPS Lite).
-LINGUA OBBLIGATORIA: rispondi sempre in italiano naturale. Se il canovaccio contiene frasi in inglese, traducile nella narrativa e nelle opzioni mantenendo solo nomi propri e toponimi originali.
+LINGUA OBBLIGATORIA: rispondi sempre in italiano naturale. Se il canovaccio contiene frasi in inglese, traducile nella narrativa e nelle opzioni mantenendo solo nomi propri e toponimi originali.{_tone_line}
 
 ═══ BIBBIA AVVENTURA ═══
 Titolo: {adventure.get('title', '?')}
