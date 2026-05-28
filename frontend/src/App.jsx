@@ -2011,12 +2011,13 @@ function SetupScreen({ onStart }) {
     if (selected.length < 1) return;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minuti
-    // Se l'avventura è già pronta (da PDF o genre select), mostra solo "avvio squadra" (rapido)
-    // altrimenti mostra il caricamento mondo completo (creazione avventura da zero)
     const isQuickStart = !!preloadedAdventure;
     if (isQuickStart) setTeamStarting(true);
     else setLoading(true);
+    setJsonError("");
     try {
+      // Warmup ping: sveglia Render prima delle chiamate principali (free tier dorme dopo 15min)
+      try { await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
       let adventureForStart = preloadedAdventure;
       let poolForStart = pool;
       if (!adventureForStart) {
@@ -2083,7 +2084,10 @@ function SetupScreen({ onStart }) {
       clearTimeout(timeoutId);
       setLoading(false);
       setTeamStarting(false);
-      alert(e.message || "Il server sta impiegando troppo tempo. Riprova tra qualche secondo.");
+      const isTimeout = e?.name === "AbortError";
+      setJsonError(isTimeout
+        ? "Il server sta impiegando troppo tempo (Render free tier si sveglia in 30-60s). Riprova tra qualche secondo."
+        : (e.message || "Errore di connessione al server. Riprova."));
     }
   }
 
@@ -2591,6 +2595,11 @@ function SetupScreen({ onStart }) {
           })}
         </div>
 
+        {jsonError && (
+          <div style={{ color: "#f87171", fontSize: 13, padding: "10px 14px", borderRadius: 8, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", marginBottom: 10, lineHeight: 1.4 }}>
+            ❌ {jsonError}
+          </div>
+        )}
         <button onClick={handleStart} disabled={selected.length === 0 || loading} style={{
           width: "100%", padding: "14px 0", borderRadius: 12, border: "none",
           background: selected.length > 0 ? "var(--accent)" : "var(--border)",
