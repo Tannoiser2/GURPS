@@ -73,6 +73,10 @@ _session_tokens: dict = {
     "cache_read_tokens": 0, "cache_write_tokens": 0, "cache_savings_usd": 0.0,
 }
 
+# R4: soglia warning token — sopra questa soglia il turno include un avviso
+_TOKEN_BUDGET_WARN = int(os.getenv("TOKEN_BUDGET_WARN", "80000"))
+_TOKEN_BUDGET_HARD = int(os.getenv("TOKEN_BUDGET_HARD", "0"))  # 0 = nessun hard cap
+
 # Token usati nell'ultima richiesta HTTP (aggregato tra tutte le chiamate LLM di un turno)
 _last_request_tokens: dict = {"input": 0, "output": 0, "cost_usd": 0.0, "calls": 0}
 
@@ -179,6 +183,36 @@ def reset_session_token_stats() -> None:
         _session_tokens[k] = 0.0 if k in ("cost_usd",) else 0
     for k in ("count", "cost_usd"):
         _session_images[k] = 0.0 if k == "cost_usd" else 0
+
+
+def get_token_budget_status() -> dict:
+    """R4: restituisce lo stato del budget token per la sessione corrente.
+
+    Returns:
+        total_used:    token totali usati (input + output)
+        budget_warn:   soglia di warning configurata
+        budget_pct:    percentuale usata rispetto alla soglia warning (0-100+)
+        warning:       True se sopra la soglia di warning
+        hard_cap_hit:  True se sopra il hard cap (se configurato)
+        suggestion:    stringa di suggerimento per il frontend
+    """
+    total = _session_tokens["input"] + _session_tokens["output"]
+    pct = int(total / max(1, _TOKEN_BUDGET_WARN) * 100)
+    warning = total >= _TOKEN_BUDGET_WARN
+    hard_cap_hit = bool(_TOKEN_BUDGET_HARD and total >= _TOKEN_BUDGET_HARD)
+    suggestion = ""
+    if hard_cap_hit:
+        suggestion = "Limite token sessione raggiunto. Inizia una nuova sessione."
+    elif pct >= 80:
+        suggestion = "Sessione lunga: considera di usare la compressione storia per ridurre i token."
+    return {
+        "total_used": total,
+        "budget_warn": _TOKEN_BUDGET_WARN,
+        "budget_pct": pct,
+        "warning": warning,
+        "hard_cap_hit": hard_cap_hit,
+        "suggestion": suggestion,
+    }
 
 
 def _set_last_image_error(context: str, error: Exception | str) -> None:

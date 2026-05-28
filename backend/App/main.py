@@ -7,7 +7,7 @@ import random
 import re
 import uuid
 from pathlib import Path
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import io
@@ -36,6 +36,7 @@ from .claude_service import (
     generate_opening_scene,
     compress_history, _COMPRESS_THRESHOLD,
     generate_session_recap,
+    get_token_budget_status,
 )
 from . import claude_service
 from .data_genres import GENRE_PACKS
@@ -1759,7 +1760,7 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     return resp
 
 @app.post("/game/master/turn-bible")
-def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
+def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Response):
     """Turno Master con bibbia e tracking stato."""
     # R1: genera un turn_id univoco per questo turno
     _turn_id = str(uuid.uuid4())[:8]
@@ -2011,6 +2012,15 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     result["turn_id"] = _turn_id
     if _history_was_compressed:
         result["compressed_history"] = _history_for_turn
+
+    # R4: token budget tracking — header HTTP + warning nel body
+    _budget = get_token_budget_status()
+    response.headers["X-Session-Tokens-Used"] = str(_budget["total_used"])
+    response.headers["X-Session-Budget-Pct"] = str(_budget["budget_pct"])
+    if _budget["warning"]:
+        result["token_budget_warning"] = _budget["suggestion"]
+    if _budget["hard_cap_hit"]:
+        result["token_budget_hard_cap"] = True
 
     # ── Auto-rilevamento oggetti dalla narrativa AI ───────────────────────────
     # Analizza il testo prodotto dall'AI GM: se menziona oggetti trovati
