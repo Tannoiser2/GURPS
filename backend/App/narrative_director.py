@@ -235,7 +235,7 @@ def make_director_decision(
     }
 
 
-def director_prompt_context(decision: dict) -> str:
+def director_prompt_context(decision: dict, canonical_log: list | None = None) -> str:
     directive = decision.get("scene_directive") or "renderizza lo stato corrente"
     notes = "; ".join(decision.get("director_notes") or []) or "nessuna nota"
     required = decision.get("state_updates_required") or {}
@@ -263,6 +263,36 @@ def director_prompt_context(decision: dict) -> str:
     lines = [
         "\nNARRATIVE DIRECTOR — ISTRUZIONI VINCOLANTI:",
         "LINGUA: tutta la narrazione, i dialoghi, le descrizioni e le azioni proposte DEVONO essere in ITALIANO. Anche se il materiale sorgente è in inglese. Nomi propri e titoli di luogo possono restare nella lingua originale.",
+    ]
+
+    # Canonical event log — fatti già stabiliti dal motore in turni precedenti
+    if canonical_log:
+        _recent = canonical_log[-10:]
+        _canon_lines: list[str] = []
+        for _ev in _recent:
+            _t = _ev.get("turn", "?")
+            _etype = _ev.get("type", "")
+            if _etype == "clue_revealed":
+                _canon_lines.append(f"  T{_t}: indizio [{_ev.get('clue_id','')}] scoperto definitivamente")
+            elif _etype == "clue_partial":
+                _canon_lines.append(f"  T{_t}: indizio [{_ev.get('clue_id','')}] parzialmente avanzato")
+            elif _etype == "npc_state":
+                _canon_lines.append(f"  T{_t}: NPC {_ev.get('npc_name', _ev.get('npc_id',''))} → {_ev.get('status','')}")
+            elif _etype == "thread_closed":
+                _canon_lines.append(f"  T{_t}: pista [{_ev.get('thread_id','')}] deduzione completata")
+            elif _etype == "clock_resolved":
+                _canon_lines.append(f"  T{_t}: clock [{_ev.get('clock_id','')}] sventato dai giocatori")
+            elif _etype == "clock_triggered":
+                _canon_lines.append(f"  T{_t}: clock [{_ev.get('clock_id','')}] COMPLETATO — conseguenza attivata")
+            elif _etype == "fact":
+                _canon_lines.append(f"  T{_t}: fatto stabilito: {_ev.get('text','')[:80]}")
+        if _canon_lines:
+            lines.append(
+                "FATTI GIÀ STABILITI (non contraddire, non ripetere come sorprese):\n"
+                + "\n".join(_canon_lines)
+            )
+
+    lines += [
         f"FASE NARRATIVA CORRENTE: {phase_label} — questa fase determina cosa deve fare il gruppo ADESSO.",
         f"DIRETTIVA SCENA: {directive}",
         f"MAX ESCALATION TIER: {allowed_tier} — {tier_desc}",

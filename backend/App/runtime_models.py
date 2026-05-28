@@ -350,5 +350,6 @@ class AdventureRuntimeState(_MappingCompatibleBase):
     revelation_to_thread_id: Dict[str, str] = {}
     flags: Dict = {}
     history: List[str] = []
+    canonical_log: List[Dict[str, Any]] = []
     destroyed_clue_ids: List[str] = []
     injected_clues: List[Dict[str, Any]] = []

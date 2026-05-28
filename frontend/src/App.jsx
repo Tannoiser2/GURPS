@@ -3544,6 +3544,44 @@ function NpcEventToastOverlay({ toasts, onDismiss }) {
   );
 }
 
+function ClockUrgencyBanner({ clocks }) {
+  if (!clocks || clocks.length === 0) return null;
+  const urgent = clocks.filter(c => c.discovered && c.active !== false && !c.resolved && c.max_value > 0 && (c.value / c.max_value) >= 0.5);
+  if (urgent.length === 0) return null;
+  const top = urgent.sort((a, b) => (b.value / b.max_value) - (a.value / a.max_value))[0];
+  const pct = top.value / top.max_value;
+  const isCritical = pct >= 0.85;
+  const remaining = top.max_value - top.value;
+  const bg = isCritical ? "rgba(239,68,68,0.12)" : "rgba(245,158,11,0.10)";
+  const border = isCritical ? "rgba(239,68,68,0.45)" : "rgba(245,158,11,0.4)";
+  const color = isCritical ? "#ef4444" : "#f59e0b";
+  const icon = isCritical ? "🔴" : "🟡";
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", gap: 8,
+      background: bg, border: `1px solid ${border}`, borderRadius: 8,
+      padding: "6px 12px", margin: "0 0 6px 0", fontSize: 12,
+    }}>
+      <span style={{ fontSize: 14 }}>{icon}</span>
+      <span style={{ flex: 1, color, fontWeight: 600 }}>
+        {top.label}
+        {top.clock_type === "terminal_defeat" && <span style={{ marginLeft: 6, fontSize: 10, background: "rgba(239,68,68,0.2)", color: "#ef4444", padding: "1px 5px", borderRadius: 3 }}>FATALE</span>}
+      </span>
+      <div style={{ display: "flex", gap: 2 }}>
+        {Array.from({ length: top.max_value }).map((_, i) => (
+          <div key={i} style={{
+            width: 8, height: 8, borderRadius: 2,
+            background: i < top.value ? color : "rgba(255,255,255,0.12)",
+          }} />
+        ))}
+      </div>
+      <span style={{ color, fontWeight: 700, fontSize: 11, minWidth: 28, textAlign: "right" }}>
+        {remaining} rimasti
+      </span>
+    </div>
+  );
+}
+
 function ClocksPanel({ clocks, isGM }) {
   if (!clocks || clocks.length === 0) return null;
 
@@ -7616,6 +7654,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
             </button>
           </div>
         )}
+
+        <ClockUrgencyBanner clocks={clocksData} />
 
         {messages.map((msg, i) =>
           msg.role === "combat"
