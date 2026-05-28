@@ -35,6 +35,7 @@ from .claude_service import (
     compile_adventure_to_runtime,
     generate_opening_scene,
     compress_history, _COMPRESS_THRESHOLD,
+    generate_session_recap,
 )
 from . import claude_service
 from .data_genres import GENRE_PACKS
@@ -918,6 +919,8 @@ class MasterStartBiblePayload(BaseModel):
     genre: str
     players: list[dict]
     adventure: dict
+    game_state_data: dict = {}  # N6: stato persistito per resume sessione
+    history: list[dict] = []    # N6: history precedente per resume
 
 class MasterTurnBiblePayload(BaseModel):
     genre: str
@@ -1720,6 +1723,15 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     _seed_world_npcs_from_actors(game_state.adventure_definition)
     opening = _opening_context_from_definition(game_state.adventure_definition)
     opening_narrative = generate_opening_scene(game_state.adventure_definition, payload.players)
+
+    # N6: se c'è un canonical_log (session resume), prependi un recap di 2-3 frasi via Haiku
+    _canonical_log_resume = list(payload.game_state_data.get("canonical_log") or [])
+    _session_recap = ""
+    if _canonical_log_resume:
+        _session_recap = generate_session_recap(_canonical_log_resume, payload.adventure, payload.players)
+    if _session_recap:
+        opening_narrative = _session_recap + "\n\n" + opening_narrative
+
     _ensure_runtime_scene(opening_narrative)
     if game_state.story:
         game_state.story.premise = opening_narrative

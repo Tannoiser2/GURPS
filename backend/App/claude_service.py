@@ -5527,6 +5527,51 @@ def compress_history(history: list[dict]) -> list[dict]:
         return history
 
 
+def generate_session_recap(
+    canonical_log: list[dict],
+    adventure: dict,
+    players: list[dict],
+) -> str:
+    """N6: genera un recap di 2-3 frasi per riprendere una sessione interrotta.
+
+    Usa Haiku sul canonical_log per produrre: dove siete, ultimo fatto stabilito,
+    prossima minaccia di clock. Restituisce stringa vuota se non ci sono eventi.
+    """
+    if not canonical_log:
+        return ""
+    client = _claude_client()
+    if not client:
+        return ""
+
+    title = (adventure or {}).get("title") or "l'avventura"
+    player_names = ", ".join(p.get("name", "Personaggio") for p in (players or []))
+    events_text = "\n".join(
+        f"- T{ev.get('turn',0)}: {ev.get('type','evento')} {ev.get('clue_id', ev.get('npc_id', ev.get('fact','')))}".strip()
+        for ev in canonical_log[-15:]
+    )
+
+    recap_prompt = (
+        f"Sei il Master di '{title}'. I personaggi ({player_names}) riprendono la sessione dopo una pausa.\n"
+        f"Basandoti sugli ultimi eventi canonici, scrivi un brevissimo recap in italiano (2-3 frasi vivide, in seconda persona plurale).\n"
+        f"Includi: dove si trovano, cosa hanno scoperto di più importante, qual è la minaccia più urgente.\n"
+        f"Non usare titoli o elenchi puntati. Solo prosa fluida come se il Master stesse parlando ai giocatori.\n\n"
+        f"ULTIMI EVENTI:\n{events_text}\n\nRECAP:"
+    )
+
+    try:
+        response = client.messages.create(
+            model=_HAIKU_MODEL,
+            max_tokens=200,
+            messages=[{"role": "user", "content": recap_prompt}],
+        )
+        recap = response.content[0].text.strip()
+        print(f"[N6] recap sessione generato ({len(recap)} chars)")
+        return recap
+    except Exception as exc:
+        print(f"[N6] errore recap (non bloccante): {exc}")
+        return ""
+
+
 def master_turn_with_bible(
     genre: str,
     players: list[dict],
