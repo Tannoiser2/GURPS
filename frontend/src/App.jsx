@@ -1747,6 +1747,7 @@ function SetupScreen({ onStart }) {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfError, setPdfError] = useState("");
   const [preloadedAdventure, setPreloadedAdventure] = useState(null);
+  const [showAdventureEditor, setShowAdventureEditor] = useState(false);
   const [doctorReport, setDoctorReport] = useState(null); // {score, findings, enriching}
   const [doctorEnriching, setDoctorEnriching] = useState(false);
   const [hovered, setHovered] = useState(null);
@@ -2508,6 +2509,13 @@ function SetupScreen({ onStart }) {
                 cursor: "pointer", fontSize: 13, fontWeight: 800,
               }}>Scarica JSON</button>
             )}
+            {preloadedAdventure?.adventure_definition && (
+              <button onClick={() => setShowAdventureEditor(true)} style={{
+                padding: "7px 12px", borderRadius: 8, border: "1px solid rgba(167,139,250,0.5)",
+                background: "rgba(124,58,237,0.12)", color: "#c4b5fd",
+                cursor: "pointer", fontSize: 13, fontWeight: 800,
+              }}>✏️ Editor</button>
+            )}
             <button onClick={() => setShowBuilder(true)} style={{
               padding: "7px 16px", borderRadius: 8, border: "1px solid var(--accent)",
               background: "var(--accent-bg)", color: "var(--accent)",
@@ -2612,6 +2620,385 @@ function SetupScreen({ onStart }) {
         }}>
           {loading ? "Avvio storia..." : selected.length > 0 ? `⚔️ Inizia con ${selected.length} personagg${selected.length === 1 ? "io" : "i"}` : "Seleziona almeno un personaggio"}
         </button>
+      </div>
+
+      {/* U6: Adventure Editor modal */}
+      {showAdventureEditor && preloadedAdventure && (
+        <AdventureEditor
+          adventure={preloadedAdventure}
+          onSave={(updated) => setPreloadedAdventure(updated)}
+          onClose={() => setShowAdventureEditor(false)}
+        />
+      )}
+    </div>
+  );
+}
+
+// ─── U6: AdventureEditor ──────────────────────────────────────────────────────
+function AdventureEditor({ adventure, onSave, onClose }) {
+  const def0 = adventure?.adventure_definition || {};
+  const [actors, setActors] = React.useState(() => JSON.parse(JSON.stringify(def0.actors || [])));
+  const [clocks, setClocks] = React.useState(() => JSON.parse(JSON.stringify(def0.event_clocks || [])));
+  const [clues, setClues] = React.useState(() => JSON.parse(JSON.stringify(def0.clues || [])));
+  const [factions, setFactions] = React.useState(() => JSON.parse(JSON.stringify(def0.factions || [])));
+  const [tab, setTab] = React.useState("npcs");
+  const [dirty, setDirty] = React.useState(false);
+  const [expandedNpc, setExpandedNpc] = React.useState(null);
+  const [expandedClue, setExpandedClue] = React.useState(null);
+
+  function patchActor(idx, key, val) {
+    setActors(a => { const n = [...a]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+  function patchClock(idx, key, val) {
+    setClocks(c => { const n = [...c]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+  function patchClue(idx, key, val) {
+    setClues(c => { const n = [...c]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+  function patchFaction(idx, key, val) {
+    setFactions(f => { const n = [...f]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+
+  function handleSave() {
+    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions };
+    onSave({ ...adventure, adventure_definition: newDef });
+    onClose();
+  }
+
+  // Thread IDs collected from clues + revelations for the graph and dropdowns
+  const threadIds = [...new Set([
+    ...(def0.revelations || []).map(r => r.thread_id).filter(Boolean),
+    ...clues.map(c => c.thread_id).filter(Boolean),
+  ])];
+
+  const ROLE_OPTIONS = ["ally", "enemy", "antagonist", "witness", "neutral", "contact", "informant", "bystander", "survivor"];
+  const CLOCK_TYPE_OPTIONS = ["narrative", "terminal_defeat", "terminal_victory", "escalation"];
+  const CLUE_TYPE_COLORS = {
+    physical_evidence: "#60a5fa", testimony: "#4ade80", document: "#fbbf24",
+    payload_object: "#c084fc", red_herring: "#f87171", deduction: "#f97316",
+    finale_key: "#fde68a", location_clue: "#94a3b8",
+  };
+
+  const tabBtn = (id, label) => (
+    <button key={id} onClick={() => setTab(id)} style={{
+      padding: "7px 13px", borderRadius: 6, cursor: "pointer", fontWeight: 700,
+      fontSize: 12, border: "none",
+      background: tab === id ? "var(--accent-bg)" : "transparent",
+      color: tab === id ? "var(--accent)" : "var(--text)",
+    }}>{label}</button>
+  );
+
+  const fieldRow = (label, child) => (
+    <div style={{ marginBottom: 7 }}>
+      <div style={{ fontSize: 9, fontWeight: 800, color: "rgba(255,255,255,0.4)", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 3 }}>{label}</div>
+      {child}
+    </div>
+  );
+  const inputStyle = { width: "100%", background: "rgba(0,0,0,0.35)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 5, color: "var(--text-h)", fontSize: 12, padding: "5px 8px", boxSizing: "border-box", outline: "none" };
+  const selectStyle = { ...inputStyle, cursor: "pointer" };
+  const textareaStyle = { ...inputStyle, resize: "vertical", minHeight: 52, lineHeight: 1.45 };
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 3000, background: "rgba(0,0,0,0.88)", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px 14px", overflowY: "auto" }}
+      onClick={onClose}>
+      <div style={{ width: "min(920px, 100%)", background: "var(--bg)", borderRadius: 14, border: "1px solid var(--border)", boxShadow: "0 12px 60px rgba(0,0,0,0.8)", display: "flex", flexDirection: "column", maxHeight: "calc(100vh - 40px)" }}
+        onClick={e => e.stopPropagation()}>
+
+        {/* Header */}
+        <div style={{ padding: "15px 18px 11px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 9, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 3 }}>Editor Avventura · U6</div>
+            <div style={{ fontSize: 15, fontWeight: 900, color: "var(--text-h)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{def0.title || "Senza titolo"}</div>
+          </div>
+          {dirty && <span style={{ fontSize: 10, color: "#fbbf24", background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.3)", padding: "2px 8px", borderRadius: 4, flexShrink: 0 }}>● non salvato</span>}
+          <button onClick={handleSave} style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: "var(--accent)", color: "#fff", fontWeight: 800, fontSize: 13, cursor: "pointer", flexShrink: 0 }}>
+            Salva
+          </button>
+          <button onClick={onClose} style={{ padding: "7px 10px", borderRadius: 8, border: "1px solid var(--border)", background: "transparent", color: "var(--text)", cursor: "pointer", fontSize: 15 }}>✕</button>
+        </div>
+
+        {/* Tabs */}
+        <div style={{ display: "flex", gap: 2, padding: "7px 10px", borderBottom: "1px solid var(--border)", background: "rgba(0,0,0,0.18)", flexShrink: 0 }}>
+          {tabBtn("npcs", `PNG (${actors.length})`)}
+          {tabBtn("clocks", `Clock (${clocks.length})`)}
+          {tabBtn("clues", `Indizi (${clues.length})`)}
+          {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
+          {tabBtn("graph", "Grafo")}
+        </div>
+
+        {/* Content */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "12px 16px" }}>
+
+          {/* ── NPC TAB ── */}
+          {tab === "npcs" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {actors.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun PNG definito.</div>}
+              {actors.map((actor, i) => {
+                const expanded = expandedNpc === i;
+                const roleColor = { ally: "#4ade80", enemy: "#f87171", antagonist: "#ef4444", witness: "#60a5fa", neutral: "#94a3b8", contact: "#fbbf24" }[actor.role] || "#94a3b8";
+                return (
+                  <div key={actor.id || i} style={{ borderRadius: 9, border: `1px solid ${roleColor}30`, background: "var(--code-bg)", overflow: "hidden" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "9px 12px", cursor: "pointer" }} onClick={() => setExpandedNpc(expanded ? null : i)}>
+                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: roleColor, flexShrink: 0 }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <span style={{ fontSize: 13, fontWeight: 800, color: "var(--text-h)" }}>{actor.name || "(senza nome)"}</span>
+                        <span style={{ fontSize: 10, color: roleColor, marginLeft: 8, fontWeight: 600 }}>{actor.role}</span>
+                      </div>
+                      <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>{expanded ? "▲" : "▼"}</span>
+                    </div>
+                    {expanded && (
+                      <div style={{ padding: "0 12px 12px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
+                        {fieldRow("Nome", <input style={inputStyle} value={actor.name || ""} onChange={e => patchActor(i, "name", e.target.value)} />)}
+                        {fieldRow("Ruolo", (
+                          <select style={selectStyle} value={actor.role || "neutral"} onChange={e => patchActor(i, "role", e.target.value)}>
+                            {ROLE_OPTIONS.map(r => <option key={r} value={r}>{r}</option>)}
+                          </select>
+                        ))}
+                        <div style={{ gridColumn: "1 / -1" }}>
+                          {fieldRow("Obiettivo", <textarea style={textareaStyle} value={actor.goal || ""} onChange={e => patchActor(i, "goal", e.target.value)} />)}
+                        </div>
+                        <div style={{ gridColumn: "1 / -1" }}>
+                          {fieldRow("Segreto", <textarea style={{ ...textareaStyle, borderColor: "rgba(251,191,36,0.25)" }} value={actor.secret || ""} onChange={e => patchActor(i, "secret", e.target.value)} />)}
+                        </div>
+                        {fieldRow("Piano attuale", <textarea style={textareaStyle} value={actor.current_plan || ""} onChange={e => patchActor(i, "current_plan", e.target.value)} />)}
+                        {fieldRow("Piano alternativo", <textarea style={textareaStyle} value={actor.fallback_plan || ""} onChange={e => patchActor(i, "fallback_plan", e.target.value)} />)}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── CLOCKS TAB ── */}
+          {tab === "clocks" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {clocks.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun clock definito.</div>}
+              {clocks.map((clock, i) => {
+                const typeColor = { terminal_defeat: "#ef4444", terminal_victory: "#eab308", escalation: "#f97316", narrative: "#60a5fa" }[clock.clock_type || clock.on_complete] || "#60a5fa";
+                const pct = clock.max_value > 0 ? ((clock.value || 0) / clock.max_value) * 100 : 0;
+                return (
+                  <div key={clock.id || i} style={{ borderRadius: 9, border: `1px solid ${typeColor}35`, background: "var(--code-bg)", padding: "11px 13px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 10, alignItems: "end", marginBottom: 8 }}>
+                      <div>
+                        {fieldRow("Etichetta", <input style={inputStyle} value={clock.label || ""} onChange={e => patchClock(i, "label", e.target.value)} />)}
+                      </div>
+                      <div style={{ minWidth: 70 }}>
+                        {fieldRow("Segmenti max", (
+                          <input type="number" min={1} max={20} style={{ ...inputStyle, width: 70 }}
+                            value={clock.max_value || 6} onChange={e => patchClock(i, "max_value", Math.max(1, parseInt(e.target.value) || 6))} />
+                        ))}
+                      </div>
+                      <div style={{ minWidth: 130 }}>
+                        {fieldRow("Tipo", (
+                          <select style={{ ...selectStyle, width: 130 }} value={clock.clock_type || clock.on_complete || "narrative"}
+                            onChange={e => patchClock(i, "clock_type", e.target.value)}>
+                            {CLOCK_TYPE_OPTIONS.map(t => <option key={t} value={t}>{t}</option>)}
+                          </select>
+                        ))}
+                      </div>
+                    </div>
+                    {/* Progress bar preview */}
+                    <div style={{ height: 4, borderRadius: 3, background: "rgba(255,255,255,0.07)", overflow: "hidden", marginBottom: 8 }}>
+                      <div style={{ width: `${pct}%`, height: "100%", background: typeColor }} />
+                    </div>
+                    {fieldRow("Conseguenza", <textarea style={textareaStyle} value={clock.consequence || ""} onChange={e => patchClock(i, "consequence", e.target.value)} />)}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── CLUES TAB ── */}
+          {tab === "clues" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              {clues.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun indizio definito.</div>}
+              {clues.map((clue, i) => {
+                const expanded = expandedClue === i;
+                const typeCol = CLUE_TYPE_COLORS[clue.type] || "#94a3b8";
+                return (
+                  <div key={clue.id || i} style={{ borderRadius: 8, border: `1px solid ${typeCol}28`, background: "var(--code-bg)", overflow: "hidden" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 11px", cursor: "pointer" }} onClick={() => setExpandedClue(expanded ? null : i)}>
+                      <span style={{ fontSize: 9, padding: "1px 6px", borderRadius: 3, background: `${typeCol}20`, color: typeCol, fontWeight: 700, textTransform: "uppercase", flexShrink: 0 }}>{(clue.type || "?").replace(/_/g, " ")}</span>
+                      <div style={{ flex: 1, fontSize: 12, fontWeight: 700, color: "var(--text-h)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{clue.label || clue.id}</div>
+                      {clue.is_required && <span style={{ fontSize: 9, color: "#fbbf24", flexShrink: 0 }}>★</span>}
+                      <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.45 }}>{expanded ? "▲" : "▼"}</span>
+                    </div>
+                    {expanded && (
+                      <div style={{ padding: "0 11px 11px", display: "flex", flexDirection: "column", gap: 7 }}>
+                        {fieldRow("Etichetta", <input style={inputStyle} value={clue.label || ""} onChange={e => patchClue(i, "label", e.target.value)} />)}
+                        {fieldRow("Informazione immediata", <textarea style={textareaStyle} value={clue.immediate_information || clue.reveals || ""} onChange={e => patchClue(i, "immediate_information", e.target.value)} />)}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
+                          {fieldRow("Pista (thread)", (
+                            <select style={selectStyle} value={clue.thread_id || ""}
+                              onChange={e => patchClue(i, "thread_id", e.target.value)}>
+                              <option value="">(nessuna)</option>
+                              {threadIds.map(tid => <option key={tid} value={tid}>{tid}</option>)}
+                            </select>
+                          ))}
+                          {fieldRow("Location", <input style={inputStyle} value={clue.source_location || ""} onChange={e => patchClue(i, "source_location", e.target.value)} />)}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── FACTIONS TAB ── */}
+          {tab === "factions" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {factions.map((faction, i) => (
+                <div key={faction.id || i} style={{ borderRadius: 9, border: "1px solid rgba(168,85,247,0.28)", background: "var(--code-bg)", padding: "11px 13px" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
+                    {fieldRow("Nome", <input style={inputStyle} value={faction.name || ""} onChange={e => patchFaction(i, "name", e.target.value)} />)}
+                    {fieldRow("Stato", (
+                      <select style={selectStyle} value={faction.status || "quiet"}
+                        onChange={e => patchFaction(i, "status", e.target.value)}>
+                        {["quiet", "watching", "active", "escalating", "dominant", "weakened", "broken"].map(s => <option key={s} value={s}>{s}</option>)}
+                      </select>
+                    ))}
+                    <div style={{ gridColumn: "1 / -1" }}>
+                      {fieldRow("Agenda", <textarea style={textareaStyle} value={faction.agenda || ""} onChange={e => patchFaction(i, "agenda", e.target.value)} />)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── GRAPH TAB ── */}
+          {tab === "graph" && (() => {
+            const revs = def0.revelations || [];
+            // Build unique threads from threadIds
+            const threads = threadIds.map(tid => {
+              const rev = revs.find(r => r.thread_id === tid);
+              return { id: tid, label: tid.replace(/^thread_/, "").replace(/_/g, " "), statement: rev?.statement || "" };
+            });
+            // For each clue, find which thread it belongs to via revelation required_clues
+            const clueThreadMap = {};
+            for (const clue of clues) {
+              if (clue.thread_id) clueThreadMap[clue.id] = clue.thread_id;
+              for (const rev of revs) {
+                if ((rev.required_clues || []).includes(clue.id)) clueThreadMap[clue.id] = rev.thread_id;
+              }
+            }
+            const GPAD = 20, CNODE_W = 160, CNODE_H = 36, TNODE_W = 170, TNODE_H = 44;
+            const GAP_X = 80, COL_GAP = 120;
+            const cluesWithThread = clues.filter(c => clueThreadMap[c.id]);
+            const cluesWithoutThread = clues.filter(c => !clueThreadMap[c.id]);
+            // Layout: clues on left grouped by thread, threads on right
+            const threadGroups = {};
+            for (const t of threads) { threadGroups[t.id] = clues.filter(c => clueThreadMap[c.id] === t.id); }
+            let yC = GPAD, yT = GPAD;
+            const cluePos = {};
+            const threadPos = {};
+            for (const t of threads) {
+              const grpClues = threadGroups[t.id] || [];
+              const grpH = Math.max(TNODE_H, grpClues.length * (CNODE_H + 6));
+              const tY = yC + (grpH - TNODE_H) / 2;
+              threadPos[t.id] = { x: GPAD + CNODE_W + COL_GAP, y: tY };
+              for (let j = 0; j < grpClues.length; j++) {
+                cluePos[grpClues[j].id] = { x: GPAD, y: yC + j * (CNODE_H + 6) };
+              }
+              yC += grpH + 18;
+            }
+            // Clues without thread at bottom left
+            for (const c of cluesWithoutThread) {
+              cluePos[c.id] = { x: GPAD, y: yC };
+              yC += CNODE_H + 6;
+            }
+            const SVG_W = GPAD + CNODE_W + COL_GAP + TNODE_W + GPAD;
+            const SVG_H = Math.max(yC, yT) + GPAD;
+
+            return (
+              <div style={{ overflowX: "auto" }}>
+                {threads.length === 0 && clues.length === 0 && (
+                  <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 30, fontSize: 13 }}>Nessun dato per il grafo.</div>
+                )}
+                <svg width={SVG_W} height={SVG_H} style={{ display: "block", minWidth: SVG_W }}>
+                  {/* Archi clue → thread */}
+                  {clues.map(c => {
+                    const tid = clueThreadMap[c.id];
+                    if (!tid || !cluePos[c.id] || !threadPos[tid]) return null;
+                    const cx = cluePos[c.id].x + CNODE_W;
+                    const cy = cluePos[c.id].y + CNODE_H / 2;
+                    const tx = threadPos[tid].x;
+                    const ty = threadPos[tid].y + TNODE_H / 2;
+                    const mx = (cx + tx) / 2;
+                    const typeCol = CLUE_TYPE_COLORS[c.type] || "#94a3b8";
+                    return (
+                      <path key={c.id} d={`M${cx},${cy} C${mx},${cy} ${mx},${ty} ${tx},${ty}`}
+                        stroke={c.is_required ? typeCol : `${typeCol}60`}
+                        strokeWidth={c.is_required ? 1.5 : 1} fill="none" strokeDasharray={c.is_required ? "" : "4 3"} />
+                    );
+                  })}
+                  {/* Clue nodes */}
+                  {clues.map(c => {
+                    if (!cluePos[c.id]) return null;
+                    const { x, y } = cluePos[c.id];
+                    const typeCol = CLUE_TYPE_COLORS[c.type] || "#94a3b8";
+                    return (
+                      <g key={c.id}>
+                        <rect x={x} y={y} width={CNODE_W} height={CNODE_H} rx={5}
+                          fill={`${typeCol}14`} stroke={c.is_required ? typeCol : `${typeCol}50`} strokeWidth={c.is_required ? 1.5 : 1} />
+                        {c.is_required && <rect x={x} y={y} width={3} height={CNODE_H} rx={2} fill={typeCol} />}
+                        <text x={x + 10} y={y + 14} fontSize={9} fontWeight={700} fill={typeCol} style={{ fontFamily: "system-ui" }}>
+                          {(c.type || "?").replace(/_/g, " ").slice(0, 14).toUpperCase()}
+                        </text>
+                        <text x={x + 10} y={y + 26} fontSize={10} fill="rgba(255,255,255,0.8)" style={{ fontFamily: "system-ui" }}>
+                          {(c.label || c.id).slice(0, 22)}{(c.label || c.id).length > 22 ? "…" : ""}
+                        </text>
+                      </g>
+                    );
+                  })}
+                  {/* Thread nodes */}
+                  {threads.map(t => {
+                    if (!threadPos[t.id]) return null;
+                    const { x, y } = threadPos[t.id];
+                    return (
+                      <g key={t.id}>
+                        <rect x={x} y={y} width={TNODE_W} height={TNODE_H} rx={7}
+                          fill="rgba(124,58,237,0.18)" stroke="rgba(167,139,250,0.55)" strokeWidth={1.5} />
+                        <text x={x + 10} y={y + 15} fontSize={9} fontWeight={800} fill="#a78bfa" style={{ fontFamily: "system-ui", textTransform: "uppercase" }}>
+                          PISTA
+                        </text>
+                        <text x={x + 10} y={y + 30} fontSize={11} fontWeight={700} fill="#e9d5ff" style={{ fontFamily: "system-ui" }}>
+                          {t.label.slice(0, 20)}{t.label.length > 20 ? "…" : ""}
+                        </text>
+                      </g>
+                    );
+                  })}
+                  {/* Legend */}
+                  {clues.length > 0 && (
+                    <g>
+                      <text x={GPAD} y={SVG_H - 6} fontSize={9} fill="rgba(255,255,255,0.3)" style={{ fontFamily: "system-ui" }}>
+                        ★ = richiesto · tratteggio = opzionale
+                      </text>
+                    </g>
+                  )}
+                </svg>
+              </div>
+            );
+          })()}
+
+        </div>
+
+        {/* Footer */}
+        <div style={{ padding: "10px 16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0, background: "rgba(0,0,0,0.15)" }}>
+          <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.5 }}>
+            {actors.length} PNG · {clocks.length} clock · {clues.length} indizi{factions.length > 0 ? ` · ${factions.length} fazioni` : ""}
+          </span>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={onClose} style={{ padding: "7px 14px", borderRadius: 7, border: "1px solid var(--border)", background: "transparent", color: "var(--text)", cursor: "pointer", fontSize: 12 }}>Annulla</button>
+            <button onClick={handleSave} style={{ padding: "7px 18px", borderRadius: 7, border: "none", background: "var(--accent)", color: "#fff", fontWeight: 800, fontSize: 13, cursor: "pointer" }}>Salva modifiche</button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -180,7 +180,7 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
 
 ### 🟡 Medi
 
-- [ ] **U6 — Adventure definition visual editor** `App.jsx`
+- [x] **U6 — Adventure definition visual editor** `App.jsx`
   Attualmente avventure si caricano solo via JSON raw o PDF. Aggiungere un editor minimal post-import:
   - Lista NPC con campo note/agenda editabile
   - Lista clock con descrizione e max_value editabile
