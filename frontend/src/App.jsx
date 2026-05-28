@@ -4504,11 +4504,6 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
           </div>
         )}
 
-        {tab === "map" && (
-          <div style={{ margin: "-10px -14px", height: "100%", display: "flex", flexDirection: "column" }}>
-            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
-          </div>
-        )}
 
         {tab === "clocks" && (
           <div style={{ padding: "4px 0" }}>
@@ -7879,11 +7874,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
             mapState && {
               icon: "🗺",
               label: "Mappa",
-              tab: "map",
+              action: () => setShowMapPanel(true),
               color: "#fbbf24",
             },
           ].filter(Boolean).map((item, i) => (
-            <button key={i} onClick={() => openPlayerTab(item.tab)} style={{
+            <button key={i} onClick={() => item.action ? item.action() : openPlayerTab(item.tab)} style={{
               display: "flex", alignItems: "center", gap: 5,
               padding: "5px 14px", border: "none", borderRight: "1px solid var(--border)",
               background: "none", cursor: "pointer", fontSize: 12,
