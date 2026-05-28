@@ -11,7 +11,6 @@ import uuid
 from collections import defaultdict, deque
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
 from pydantic import BaseModel, field_validator
 import io
@@ -106,14 +105,20 @@ _RATE_RULES: list[tuple[str, int, int]] = [
 ]
 
 app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allow_headers=["Content-Type", "Accept", "Authorization", "X-Requested-With"],
-    max_age=86400,
-)
+
+
+@app.middleware("http")
+async def _cors_mw(request: Request, call_next):
+    if request.method == "OPTIONS":
+        return Response(status_code=200, headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS, PATCH",
+            "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization, X-Requested-With, Origin",
+            "Access-Control-Max-Age": "86400",
+        })
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    return response
 
 
 @app.middleware("http")

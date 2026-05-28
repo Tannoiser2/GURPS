@@ -2131,7 +2131,7 @@ function SetupScreen({ onStart }) {
       else if (isNetwork && import.meta.env.PROD && !skipWake) { wakeAndRetry(); return; }
       else if (isTimeout) msg = "Il server impiega troppo tempo a rispondere. Se usi Render free tier, aspetta 60s e riprova.";
       else if (isNetwork && !import.meta.env.PROD) msg = "Backend non raggiungibile su " + (typeof API_URL !== "undefined" ? API_URL : "localhost:8002") + ". Avvia il server con: cd backend && uvicorn App.main:app --port 8002";
-      else if (isNetwork) msg = "Server non raggiungibile. Riprova.";
+      else if (isNetwork) msg = `Server non raggiungibile. Riprova. [${e.message || e.name}]`;
       else msg = e.message || "Errore di connessione al server.";
       setJsonError(msg);
     }
