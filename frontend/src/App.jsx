@@ -2125,7 +2125,7 @@ function SetupScreen({ onStart }) {
       setLoading(false);
       setTeamStarting(false);
       const isTimeout = e?.name === "AbortError";
-      const isNetwork = e?.message === "Load failed" || e?.message === "Failed to fetch" || e?.message?.includes("NetworkError");
+      const isNetwork = e?.message === "Load failed" || e?.message === "Failed to fetch" || e?.message?.includes("NetworkError") || e?.message?.includes("did not match the expected pattern");
       let msg;
       if (isTimeout && import.meta.env.PROD && !skipWake) { wakeAndRetry(); return; }
       else if (isNetwork && import.meta.env.PROD && !skipWake) { wakeAndRetry(); return; }
