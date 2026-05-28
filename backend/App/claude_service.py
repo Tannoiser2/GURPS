@@ -6160,23 +6160,55 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
         _routing_model = MODEL_NAME  # Sonnet default
     print(f"[L3] tier={_tier} finale={_is_finale} → model={_routing_model}")
 
-    # Usa prompt caching (Claude) o prompt unificato (OpenAI)
-    if _ACTIVE_PROVIDER == "claude" and API_KEY:
-        try:
-            raw = _call_claude_with_cache(_system_prompt, _user_prompt, max_tokens=2400, model=_routing_model)
-        except Exception as _cache_err:
-            print(f"[cache] fallback a chiamata standard: {_cache_err}")
-            raw = _call_claude(prompt, max_tokens=2400, model=_routing_model)
-    else:
-        raw = _call_text_model(prompt, max_tokens=2400)
-    if _looks_like_refusal(raw):
-        fallback_provider = _other_provider()
-        if fallback_provider:
+    # L4: retry a 3 livelli — livello 1: stessa call, livello 2: prompt semplificato, livello 3: fallback deterministico
+    def _do_call(sys_p: str, usr_p: str, mdl: str) -> str:
+        combined = sys_p + "\n\n" + usr_p
+        if _ACTIVE_PROVIDER == "claude" and API_KEY:
             try:
-                raw = _call_text_model_with_provider(fallback_provider, prompt, max_tokens=2400)
-            except Exception:
-                pass
+                return _call_claude_with_cache(sys_p, usr_p, max_tokens=2400, model=mdl)
+            except Exception as _e:
+                print(f"[retry] cache call failed ({_e}), trying standard call")
+                return _call_claude(combined, max_tokens=2400, model=mdl)
+        return _call_text_model(combined, max_tokens=2400)
+
+    # Livello 1: chiamata normale
+    raw = ""
+    try:
+        raw = _do_call(_system_prompt, _user_prompt, _routing_model)
+    except Exception as _err1:
+        print(f"[L4-1] errore chiamata principale: {_err1}")
+
+    # Livello 2: retry con prompt semplificato (no storia, no context lungo)
     if _looks_like_refusal(raw):
+        print("[L4-2] livello 1 fallito, retry con prompt semplificato")
+        _outcome_str = (prerolled or {}).get("outcome", "esito incerto")
+        _success_str = "SUCCESSO" if (prerolled or {}).get("success") else "FALLIMENTO"
+        _simple_user = f"""Turno {turn} — azione: {active.get("name","?")} → {player_action}
+Tiro: {_success_str} ({_outcome_str}), margine {(prerolled or {}).get("margin", 0)}
+Tier escalation autorizzato: {_tier}
+{director_context}
+
+Rispondi SOLO con JSON puro secondo questo schema minimo:
+{{"narrative":"...(3 frasi)...","roll":{{"rolled":{(prerolled or {}).get("rolled",0)},"target":{(prerolled or {}).get("effective_skill",10)},"skill":"{(prerolled or {}).get("skill","")}","skill_name":"{(prerolled or {}).get("skill","")}","success":{str(bool((prerolled or {}).get("success",False))).lower()},"margin":{(prerolled or {}).get("margin",0)},"critical":false}},"options":[{{"text":"Continua l'indagine","skill":"investigare","skill_level":10,"stat":"IN","player_id":{active_player_id}}},{{"text":"Confronta un PNG","skill":"negoziare","skill_level":10,"stat":"SA","player_id":{active_player_id}}},{{"text":"Azione custom","skill":"","skill_level":0,"stat":"","player_id":{active_player_id}}}],"state_updates":{{"clue_progress":[],"clues_found":[],"npc_updates":[],"new_threads":[],"closed_threads":[],"threat_increase":{1 if not (prerolled or {}).get("success") else 0},"activate_combat":false,"combat_scene":null,"combat_over":false,"story_over":false,"victory":false,"end_reason":""}}}}"""
+        try:
+            raw = _do_call(_system_prompt, _simple_user, MODEL_NAME)
+        except Exception as _err2:
+            print(f"[L4-2] errore retry semplificato: {_err2}")
+            raw = ""
+
+    # Livello 2b: prova provider alternativo se disponibile
+    if _looks_like_refusal(raw):
+        _alt = _other_provider()
+        if _alt:
+            try:
+                print(f"[L4-2b] provo provider alternativo: {_alt}")
+                raw = _call_text_model_with_provider(_alt, prompt, max_tokens=2400)
+            except Exception as _err2b:
+                print(f"[L4-2b] errore provider alternativo: {_err2b}")
+
+    # Livello 3: fallback deterministico contestualizzato
+    if _looks_like_refusal(raw):
+        print("[L4-3] tutti i retry falliti, uso fallback deterministico")
         result = _safe_master_refusal_fallback(
             adventure=adventure,
             active_name=active.get("name", "Il gruppo"),
@@ -6192,6 +6224,8 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
             director_decision=director_decision,
             narrative_text=result.get("narrative", ""),
         )
+        result["model_used"] = _routing_model
+        result["fallback_level"] = 3
         return result
     try:
         result = _extract_json_object(raw)
