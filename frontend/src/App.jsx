@@ -3178,7 +3178,7 @@ function isKnownTacticalNode(node, mapState) {
 
 // ─── Location Graph (mappa strategica) ────────────────────────────────────────
 
-function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
+function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdropImage }) {
   const [hoveredId, setHoveredId] = useState(null);
 
   if (!mapState || !mapState.nodes || Object.keys(mapState.nodes).length === 0) {
@@ -3219,16 +3219,14 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
     const c = n.grid_x || 0;
     (cols[c] = cols[c] || []).push(n);
   });
-  // Sort each column by grid_y
   Object.values(cols).forEach(arr => arr.sort((a, b) => (a.grid_y || 0) - (b.grid_y || 0)));
 
   const NODE_W = 96;
   const NODE_H = 68;
-  const COL_GAP = 22;
-  const ROW_GAP = 10;
-  const PAD = 16;
+  const COL_GAP = 28;
+  const ROW_GAP = 14;
+  const PAD = 20;
 
-  // Compute positions
   const pos = {};
   let maxColH = 0;
   for (let c = 0; c <= maxCol; c++) {
@@ -3263,18 +3261,13 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
 
   const canMove = (id) => onMove && id !== currentId && (isGM ? true : adjacentSet.has(id));
 
+  // Nodes that reveal fog (player mode)
+  const revealNodes = !isGM ? allNodes.filter(n => (visitedSet.has(n.id)) && pos[n.id]) : [];
+  const partialRevealNodes = !isGM ? allNodes.filter(n => adjacentSet.has(n.id) && !visitedSet.has(n.id) && pos[n.id]) : [];
+
   return (
     <div style={{ overflowX: "auto", overflowY: "auto" }}>
-      {/* Column zone headers */}
-      <div style={{ display: "flex", paddingLeft: PAD, gap: COL_GAP, marginBottom: 6 }}>
-        {Array.from({ length: maxCol + 1 }, (_, c) => (
-          <div key={c} style={{ width: NODE_W, flexShrink: 0, textAlign: "center", fontSize: 9, fontWeight: 700, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1, opacity: 0.6 }}>
-            {c === 0 ? "Inizio" : c === maxCol ? "Fine" : `Zona ${c}`}
-          </div>
-        ))}
-      </div>
-
-      <svg width={svgW} height={svgH} style={{ display: "block", overflow: "visible" }}>
+      <svg width={svgW} height={svgH} style={{ display: "block", overflow: "visible", borderRadius: 10 }}>
         <defs>
           <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
             <path d="M0,0 L0,6 L6,3 z" fill="rgba(124,58,237,0.7)" />
@@ -3283,9 +3276,90 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
             <feGaussianBlur stdDeviation="3" result="coloredBlur" />
             <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
+          <filter id="node-shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.7)" />
+          </filter>
+          {/* Atmospheric background gradient */}
+          <radialGradient id="mapBg" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stopColor="#0d0a1e" />
+            <stop offset="100%" stopColor="#050310" />
+          </radialGradient>
+          {/* Vignette */}
+          <radialGradient id="vignette" cx="50%" cy="50%" r="60%">
+            <stop offset="50%" stopColor="rgba(0,0,0,0)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.65)" />
+          </radialGradient>
+          {/* Image fade gradient */}
+          <linearGradient id="imgFade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="rgba(0,0,0,0)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.85)" />
+          </linearGradient>
+          {/* FOW reveal gradients (player mode) */}
+          {revealNodes.map(n => {
+            const p = pos[n.id];
+            const cx = p.x + NODE_W / 2, cy = p.y + NODE_H / 2;
+            return (
+              <radialGradient key={`fg-${n.id}`} id={`fog-reveal-${n.id}`}
+                gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={110}>
+                <stop offset="0%" stopColor="black" />
+                <stop offset="55%" stopColor="black" />
+                <stop offset="100%" stopColor="white" />
+              </radialGradient>
+            );
+          })}
+          {partialRevealNodes.map(n => {
+            const p = pos[n.id];
+            const cx = p.x + NODE_W / 2, cy = p.y + NODE_H / 2;
+            return (
+              <radialGradient key={`fgp-${n.id}`} id={`fog-partial-${n.id}`}
+                gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={80}>
+                <stop offset="0%" stopColor="#333333" />
+                <stop offset="100%" stopColor="white" />
+              </radialGradient>
+            );
+          })}
+          {/* FOW mask: white = fog visible, black = fog hidden = map revealed */}
+          {!isGM && (
+            <mask id="fog-mask">
+              <rect fill="white" width={svgW} height={svgH} />
+              {revealNodes.map(n => {
+                const p = pos[n.id];
+                return <ellipse key={n.id} cx={p.x + NODE_W/2} cy={p.y + NODE_H/2} rx={110} ry={90} fill={`url(#fog-reveal-${n.id})`} />;
+              })}
+              {partialRevealNodes.map(n => {
+                const p = pos[n.id];
+                return <ellipse key={n.id} cx={p.x + NODE_W/2} cy={p.y + NODE_H/2} rx={80} ry={65} fill={`url(#fog-partial-${n.id})`} />;
+              })}
+            </mask>
+          )}
         </defs>
 
-        {/* Edges */}
+        {/* ── Background ── */}
+        {backdropImage ? (
+          <>
+            <image href={`data:image/jpeg;base64,${backdropImage}`}
+              x={0} y={0} width={svgW} height={svgH}
+              preserveAspectRatio="xMidYMid slice"
+            />
+            <rect x={0} y={0} width={svgW} height={svgH} fill="rgba(0,0,12,0.42)" />
+          </>
+        ) : (
+          <>
+            <rect x={0} y={0} width={svgW} height={svgH} rx={10} fill="url(#mapBg)" />
+            {/* Subtle grid lines */}
+            {Array.from({ length: maxCol }, (_, c) => (
+              <line key={`gl-${c}`}
+                x1={PAD + (c + 1) * (NODE_W + COL_GAP) - COL_GAP / 2} y1={0}
+                x2={PAD + (c + 1) * (NODE_W + COL_GAP) - COL_GAP / 2} y2={svgH}
+                stroke="rgba(124,58,237,0.07)" strokeWidth={1} strokeDasharray="4,8"
+              />
+            ))}
+          </>
+        )}
+        {/* Vignette overlay */}
+        <rect x={0} y={0} width={svgW} height={svgH} fill="url(#vignette)" />
+
+        {/* ── Edges ── */}
         {edges.map((e, i) => {
           const a = nodes[e.from_id], b = nodes[e.to_id];
           if (!a || !b) return null;
@@ -3294,19 +3368,29 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
           if (!aVis && !bVis) return null;
           const known = visitedSet.has(e.from_id) && visitedSet.has(e.to_id);
           const halfKnown = visitedSet.has(e.from_id) || visitedSet.has(e.to_id);
-          const stroke = known ? "rgba(124,58,237,0.8)" : halfKnown ? "rgba(124,58,237,0.35)" : "rgba(255,255,255,0.08)";
+          const stroke = known ? "rgba(167,139,250,0.9)" : halfKnown ? "rgba(124,58,237,0.4)" : "rgba(255,255,255,0.07)";
           const locked = e.status === "locked";
+          const edgeType = e.type || e.edge_type || "";
+          const dangerColor = edgeType === "danger" ? "rgba(239,68,68,0.7)" : edgeType === "escalation" ? "rgba(251,191,36,0.7)" : null;
           return (
             <path key={i} d={edgePath(a, b)}
-              fill="none" stroke={stroke} strokeWidth={known ? 2.5 : 1.5}
-              strokeDasharray={locked ? "6,4" : "none"}
+              fill="none"
+              stroke={dangerColor || stroke}
+              strokeWidth={known ? 3 : 2}
+              strokeDasharray={locked ? "7,4" : (halfKnown ? "none" : "3,6")}
               markerEnd={known ? "url(#arrow)" : "none"}
-              opacity={halfKnown ? 1 : 0.4}
+              opacity={halfKnown ? 1 : 0.35}
             />
           );
         })}
 
-        {/* Nodes */}
+        {/* ── Fog of War overlay (player mode, goes above edges but below node cards) ── */}
+        {!isGM && (
+          <rect width={svgW} height={svgH} fill="rgba(3,1,12,0.87)"
+            mask="url(#fog-mask)" style={{ pointerEvents: "none" }} />
+        )}
+
+        {/* ── Nodes ── */}
         {allNodes.map(n => {
           const status = isGM ? (n.id === currentId ? "current" : n.visited ? "visited" : "adjacent") : nodeStatus(n.id);
           if (!isGM && status === "unknown") return null;
@@ -3318,9 +3402,10 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
           const hovered = hoveredId === n.id;
           const img = (locationImages || {})[n.id];
           const label = status === "unknown" ? "???" : n.name;
+          const isAdjacent = status === "adjacent";
 
-          const borderColor = isCurrent ? "#c084fc" : isObj ? "#fbbf24" : status === "visited" ? "rgba(74,222,128,0.6)" : status === "adjacent" ? "rgba(96,165,250,0.5)" : "rgba(255,255,255,0.1)";
-          const borderW = isCurrent ? 2.5 : isObj ? 2 : 1.5;
+          const borderColor = isCurrent ? "#c084fc" : isObj ? "#fbbf24" : status === "visited" ? "rgba(74,222,128,0.7)" : isAdjacent ? "rgba(96,165,250,0.55)" : "rgba(255,255,255,0.1)";
+          const borderW = isCurrent ? 2.5 : isObj ? 2.5 : 1.5;
 
           return (
             <g key={n.id}
@@ -3328,62 +3413,57 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
               onMouseEnter={() => setHoveredId(n.id)}
               onMouseLeave={() => setHoveredId(null)}
               onClick={() => moveable && onMove(n.name)}
-              filter={isCurrent ? "url(#glow)" : "none"}
+              filter={isCurrent ? "url(#glow)" : "url(#node-shadow)"}
+              opacity={isAdjacent && !isGM ? 0.75 : 1}
             >
               {/* Card background */}
-              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={7}
-                fill={isCurrent ? "rgba(124,58,237,0.28)" : status === "visited" ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.5)"}
+              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={8}
+                fill={isCurrent ? "rgba(124,58,237,0.32)" : status === "visited" ? "rgba(5,2,18,0.82)" : "rgba(5,2,18,0.72)"}
                 stroke={hovered && moveable ? "#60a5fa" : borderColor}
                 strokeWidth={hovered && moveable ? 2.5 : borderW}
-                opacity={status === "unknown" ? 0.5 : 1}
               />
 
               {/* Location image (top 40px) */}
               {img && status !== "unknown" && (
                 <>
                   <clipPath id={`clip-${n.id}`}>
-                    <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={6} />
+                    <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={7} />
                   </clipPath>
                   <image href={`data:image/jpeg;base64,${img}`}
                     x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40}
                     preserveAspectRatio="xMidYMid slice"
                     clipPath={`url(#clip-${n.id})`}
-                    opacity={status === "adjacent" ? 0.6 : 1}
+                    opacity={isAdjacent ? 0.55 : 1}
                   />
-                  <rect x={p.x + 1} y={p.y + 22} width={NODE_W - 2} height={19}
+                  <rect x={p.x + 1} y={p.y + 20} width={NODE_W - 2} height={21}
                     fill="url(#imgFade)" clipPath={`url(#clip-${n.id})`} />
                 </>
               )}
 
               {/* Solid fill when no image */}
               {!img && status !== "unknown" && (
-                <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={6}
-                  fill={isCurrent ? "rgba(124,58,237,0.35)" : "rgba(20,10,50,0.7)"}
+                <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={7}
+                  fill={isCurrent ? "rgba(124,58,237,0.4)" : isAdjacent ? "rgba(30,15,70,0.6)" : "rgba(20,10,50,0.8)"}
                 />
-              )}
-
-              {/* Subtle map-tile crosshatch pattern when no image */}
-              {!img && status !== "unknown" && (
-                <line x1={p.x + NODE_W/2} y1={p.y+2} x2={p.x + NODE_W/2} y2={p.y+40}
-                  stroke="rgba(255,255,255,0.04)" strokeWidth={1} />
               )}
 
               {/* Status badge */}
               <rect x={p.x + 4} y={p.y + 4} width={isCurrent ? 30 : 22} height={12} rx={3}
-                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.85)" : status === "visited" ? "rgba(74,222,128,0.2)" : "rgba(0,0,0,0.5)"}
+                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.9)" : status === "visited" ? "rgba(74,222,128,0.18)" : "rgba(0,0,0,0.55)"}
               />
-              <text x={p.x + 6} y={p.y + 13} fontSize={7} fontWeight="800" fill={isCurrent ? "#fff" : isObj ? "#000" : status === "visited" ? "#4ade80" : "rgba(255,255,255,0.5)"}>
-                {isCurrent ? "● QUI" : isObj ? "★" : status === "visited" ? "✓" : "?"}
+              <text x={p.x + 6} y={p.y + 13} fontSize={7} fontWeight="800"
+                fill={isCurrent ? "#fff" : isObj ? "#000" : status === "visited" ? "#4ade80" : "rgba(255,255,255,0.45)"}>
+                {isCurrent ? "● QUI" : isObj ? "★" : status === "visited" ? "✓" : isAdjacent ? "?" : "~"}
               </text>
 
               {/* Move indicator */}
               {moveable && (
-                <text x={p.x + NODE_W - 5} y={p.y + 13} fontSize={8} textAnchor="end" fill="#60a5fa" opacity={hovered ? 1 : 0.4}>→</text>
+                <text x={p.x + NODE_W - 5} y={p.y + 13} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered ? 1 : 0.4}>→</text>
               )}
 
               {/* Location name */}
               <text x={p.x + NODE_W / 2} y={p.y + 52} textAnchor="middle" fontSize={8} fontWeight="800"
-                fill={isCurrent ? "#e9d5ff" : status === "visited" ? "var(--text-h)" : "rgba(255,255,255,0.8)"}>
+                fill={isCurrent ? "#e9d5ff" : status === "visited" ? "#f1f5f9" : isAdjacent ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.75)"}>
                 {label.length > 16 ? label.slice(0, 14) + "…" : label}
               </text>
 
@@ -3405,22 +3485,25 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre }) {
           );
         })}
 
-        {/* Gradient def for image fade */}
-        <defs>
-          <linearGradient id="imgFade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(0,0,0,0)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,0.85)" />
-          </linearGradient>
-        </defs>
+        {/* ── Compass rose (decorative, top-right) ── */}
+        {backdropImage && (
+          <g transform={`translate(${svgW - 32}, 28)`} opacity={0.55}>
+            <circle cx={0} cy={0} r={14} fill="rgba(0,0,0,0.5)" stroke="rgba(167,139,250,0.4)" strokeWidth={1} />
+            <text x={0} y={-6} textAnchor="middle" fontSize={7} fill="#c084fc" fontWeight="700">N</text>
+            <line x1={0} y1={-10} x2={0} y2={10} stroke="rgba(167,139,250,0.6)" strokeWidth={1} />
+            <line x1={-10} y1={0} x2={10} y2={0} stroke="rgba(167,139,250,0.4)" strokeWidth={0.8} />
+          </g>
+        )}
       </svg>
 
       {/* Legend */}
-      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", padding: "10px 4px 4px", fontSize: 10, color: "var(--text)", opacity: 0.6 }}>
+      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", padding: "8px 4px 4px", fontSize: 10, color: "var(--text)", opacity: 0.6 }}>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "#7c3aed", display: "inline-block" }} />Posizione attuale</span>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(74,222,128,0.4)", display: "inline-block" }} />Visitata</span>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(96,165,250,0.3)", display: "inline-block" }} />Raggiungibile</span>
         {isGM && <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(251,191,36,0.5)", display: "inline-block" }} />Obiettivo</span>}
-        {onMove && <span style={{ color: "#60a5fa" }}>→ Clicca su una locazione per spostarti</span>}
+        {!isGM && <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(30,15,70,0.8)", border: "1px solid rgba(255,255,255,0.15)", display: "inline-block" }} />Nebbia</span>}
+        {onMove && <span style={{ color: "#60a5fa" }}>→ Clicca per spostarti</span>}
       </div>
     </div>
   );
@@ -3706,7 +3789,7 @@ function ClocksPanel({ clocks, isGM }) {
   );
 }
 
-function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClose }) {
+function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, backdropImage, onClose }) {
   const [pos, setPos] = useState({ x: window.innerWidth - 520, y: 80 });
   const [size, setSize] = useState({ w: 500, h: 340 });
   const dragging = useRef(false);
@@ -3770,7 +3853,7 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClo
       </div>
       {/* Map content */}
       <div style={{ overflow: "auto", flex: 1, padding: "8px 4px", minHeight: 200, height: size.h - 42 }}>
-        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} locationImages={locationImages} genre={genre} />
+        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} locationImages={locationImages} genre={genre} backdropImage={backdropImage} />
       </div>
       {/* Resize handle */}
       <div onMouseDown={onResizeMouseDown} style={{
@@ -3787,7 +3870,7 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClo
 }
 
 // mode: "players" = pannello giocatori (sinistra), "gm" = pannello GM (destra)
-function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose, defaultTab, mode, onDeduce }) {
+function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, backdropImage, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose, defaultTab, mode, onDeduce }) {
   const isGmMode = mode === "gm";
   const [tab, setTab] = useState(defaultTab || (isGmMode ? "gm_overview" : "clues"));
   // Se arriva un nuovo defaultTab (es. click su quick-access), aggiorna la tab
@@ -4015,14 +4098,36 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
       <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "10px 14px" }}>
         {isGmMode && tab === "gm_overview" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {/* ── Adventure title ── */}
+            {(() => {
+              const advDef = adventure?.adventure_definition || adventure || {};
+              const advTitle = advDef.title || adventure?.title || "";
+              if (!advTitle) return null;
+              return (
+                <div style={{
+                  padding: "14px 14px 12px",
+                  borderRadius: 10,
+                  background: "linear-gradient(135deg, rgba(124,58,237,0.18) 0%, rgba(167,139,250,0.08) 100%)",
+                  border: "1px solid rgba(167,139,250,0.38)",
+                  textAlign: "center",
+                }}>
+                  <div style={{ fontSize: 9, fontWeight: 700, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 5, opacity: 0.75 }}>
+                    Avventura
+                  </div>
+                  <div style={{ fontSize: 16, fontWeight: 900, color: "#e9d5ff", lineHeight: 1.2, letterSpacing: 0.3 }}>
+                    {advTitle}
+                  </div>
+                </div>
+              );
+            })()}
+            {/* ── Premise ── */}
             {(() => {
               const advDef = adventure?.adventure_definition || adventure || {};
               const premise = advDef.premise || advDef.initial_hook || advDef.description || "";
-              const advTitle = advDef.title || adventure?.title || "";
               return premise ? (
                 <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.32)" }}>
                   <div style={{ fontSize: 10, fontWeight: 900, color: "#c084fc", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 5 }}>
-                    {advTitle ? `${advTitle} — Premessa` : "Premessa"}
+                    Premessa
                   </div>
                   <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.55 }}>{premise}</div>
                 </div>
@@ -4280,7 +4385,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
         )}
 
         {isGmMode && tab === "gm_map" && (
-          <LocationGraph mapState={mapState} isGM={true} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
+          <LocationGraph mapState={mapState} isGM={true} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} backdropImage={backdropImage} />
         )}
 
         {isGmMode && tab === "gm_clocks" && (
@@ -4365,7 +4470,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
 
         {tab === "map" && (
           <div style={{ margin: "-10px -14px", height: "100%" }}>
-            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} />
+            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} backdropImage={backdropImage} />
           </div>
         )}
 
@@ -6552,6 +6657,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [lastCombatLog, setLastCombatLog] = useState(null);
   const [mapState, setMapState] = useState(null);
   const [locationImages, setLocationImages] = useState({});
+  const [adventureMapBackdrop, setAdventureMapBackdrop] = useState(null);
   const [showMapPanel, setShowMapPanel] = useState(false);
   const [clocksData, setClocksData] = useState([]);
   const [clockToasts, setClockToasts] = useState([]);
@@ -7013,6 +7119,25 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       } catch (_) {}
     });
   }, [mapState?.current_node_id, JSON.stringify(Object.keys(mapState?.nodes || {}))]);
+
+  // Generate adventure overview map backdrop once when adventure + mapState are first available
+  useEffect(() => {
+    if (!adventure || !mapState || adventureMapBackdrop || imageProvider === "none") return;
+    const advDef = adventure?.adventure_definition || adventure || {};
+    const locations = Object.values(mapState.nodes || {}).map(n => ({ name: n.name || "" }));
+    if (locations.length === 0) return;
+    const title = advDef.title || adventure?.title || "";
+    const setting = advDef.setting || advDef.location || advDef.world || "";
+    const period = advDef.period || advDef.year || advDef.era || "";
+    fetch(`${API_URL}/game/adventure/generate-overview-map`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ adventure_title: title, locations, genre: adventure?.genre || genre, setting, period }),
+    }).then(r => r.json()).then(res => {
+      if (res.image_b64) setAdventureMapBackdrop(res.image_b64);
+      if (res.call_tokens) setTokenStats(prev => _mergeTokenStats(prev, res.call_tokens));
+    }).catch(() => {});
+  }, [adventure?.title, mapState ? Object.keys(mapState.nodes || {}).length : 0]);
 
   function handleMoveToLocation(locationName) {
     sendAction(`Spostarsi verso ${locationName}`, "", activePlayerId);
@@ -8050,6 +8175,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               clocksData={clocksData}
               gmEventLog={gmEventLog}
               locationImages={locationImages}
+              backdropImage={adventureMapBackdrop}
               onMove={(id) => { handleMoveToLocation(id); setShowPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
               preparingTacticalMaps={preparingTacticalMaps}
@@ -8088,6 +8214,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               clocksData={clocksData}
               gmEventLog={gmEventLog}
               locationImages={locationImages}
+              backdropImage={adventureMapBackdrop}
               onMove={(id) => { handleMoveToLocation(id); setShowPlayerPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
               preparingTacticalMaps={preparingTacticalMaps}
@@ -8119,6 +8246,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         <FloatingMapPanel
           mapState={mapState}
           locationImages={locationImages}
+          backdropImage={adventureMapBackdrop}
           onMove={handleMoveToLocation}
           isGM={true}
           genre={adventure?.genre}
