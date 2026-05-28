@@ -4177,6 +4177,17 @@ def generate_character_from_description(genre: str, description: str) -> dict:
     }
     genre_label = genre_labels.get(genre, genre)
 
+    _genre_item_hints = {
+        "sci_fi":           "armi futuristiche (fucile laser, blaster, pistola a impulsi), tecnologia avanzata (scanner, toolkit, interfaccia neurale, rampino). VIETATO: armi medievali.",
+        "fantasy":          "armi medievali (spada, ascia, pugnale, arco, lancia, mazza), oggetti magici (grimorio, focus arcano, amuleto, reliquia, kit erboristico). VIETATO: pistole, fucili, tecnologia moderna.",
+        "mystery_horror":   "strumenti investigativi (torcia, taccuino, kit forense, registratore) e al massimo un'arma leggera contemporanea (pistola, coltello). NO armi pesanti.",
+        "ww2":              "armi della Seconda Guerra Mondiale (fucile Garand M1, pistola luger P08, MP40, coltello da combattimento, baionetta, fucile di precisione), equipaggiamento bellico dell'epoca (elmetto, kit medico, radio da campo, granata). VIETATO: armi moderne post-1945.",
+        "romance":          "oggetti personali e quotidiani (taccuino, lettera, fotografia, agenda, libro, fiori, ombrello). VIETATO: armi di qualsiasi tipo.",
+        "action":           "armi moderne contemporanee (pistola semiautomatica, fucile automatico) e gadget operativi (auricolare, laptop, radio, kit medico, jammer). NO armi futuristiche o medievali.",
+        "detective_classico": "strumenti investigativi d'epoca (lente di ingrandimento, taccuino, pipa, cappello, macchina fotografica) e al massimo una pistola d'epoca. NIENTE tecnologia moderna.",
+    }
+    genre_item_hint = _genre_item_hints.get(genre, "scegli item coerenti con l'ambientazione.")
+
     prompt = f"""Sei un game designer esperto di GURPS Lite 4ª ed. italiana.
 Crea un personaggio giocante per una campagna di {genre_label} basandoti su questa descrizione:
 
@@ -4198,6 +4209,9 @@ combattere, resistere, forzare, proteggere, intimidire, lottare, sopravvivere, d
 schivare, furtivita, acrobazia, rapidita, mira, guidare, manualita, infiltrarsi, scassinare, pedinare,
 investigare, analizzare, tecnologia, medicina, cultura, strategia, decifrare, osservare, ingegneria, scienze,
 persuadere, ingannare, intuire, calmare, ispirare, curare, comandare, comunicare, intrattenere, etichetta
+
+EQUIPAGGIAMENTO ({genre_label}): {genre_item_hint}
+Assegna 2-4 item. Ogni item deve essere un oggetto fisico reale, specifico, coerente con l'ambientazione sopra.
 
 Rispondi SOLO con questo JSON:
 {{
