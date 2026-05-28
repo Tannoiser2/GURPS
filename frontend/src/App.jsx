@@ -3888,6 +3888,8 @@ function ClocksPanel({ clocks, isGM }) {
 function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions, players, avatars, npcStatuses, advNpcs, onClose }) {
   const [pos, setPos] = useState({ x: Math.max(10, window.innerWidth - 640), y: 60 });
   const [size, setSize] = useState({ w: 620, h: 480 });
+  const [viewAsPlayer, setViewAsPlayer] = useState(false); // toggle GM/Player view
+  const effectiveIsGM = isGM && !viewAsPlayer;
   const dragging = useRef(false);
   const dragOff = useRef({ dx: 0, dy: 0 });
   const resizing = useRef(false);
@@ -3941,6 +3943,18 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions,
         flexShrink: 0,
       }}>
         <span style={{ fontSize: 13, fontWeight: 700, color: "var(--accent, #a78bfa)", flex: 1 }}>🗺 Mappa Avventura</span>
+        {isGM && (
+          <button onClick={() => setViewAsPlayer(v => !v)}
+            title={viewAsPlayer ? "Stai vedendo come Player (FoW attiva) — clicca per tornare GM" : "Vedi come Player con FoW"}
+            style={{
+              background: viewAsPlayer ? "rgba(96,165,250,0.25)" : "rgba(255,255,255,0.06)",
+              border: "1px solid " + (viewAsPlayer ? "rgba(96,165,250,0.5)" : "rgba(255,255,255,0.15)"),
+              color: viewAsPlayer ? "#93c5fd" : "var(--text)",
+              fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 5, cursor: "pointer", marginRight: 6,
+            }}>
+            {viewAsPlayer ? "👁 PG (FoW)" : "👁 GM"}
+          </button>
+        )}
         <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.4, marginRight: 4 }}>⠿ trascina</span>
         <button onClick={onClose} style={{
           background: "none", border: "none", color: "var(--text)", cursor: "pointer",
@@ -3949,7 +3963,7 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions,
       </div>
       {/* Map content — no scroll, SVG scales to fit */}
       <div style={{ flex: 1, padding: "6px 8px 4px", minHeight: 200, height: size.h - 48, display: "flex", flexDirection: "column" }}>
-        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
+        <LocationGraph mapState={mapState} isGM={effectiveIsGM} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
       </div>
       {/* Resize handle */}
       <div onMouseDown={onResizeMouseDown} style={{

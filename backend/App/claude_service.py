@@ -575,9 +575,17 @@ def generate_candidate_pool(genre: str, active_slots: int, mission_type: str, en
     random.shuffle(selected)
 
     names = _pick_names(genre, POOL_TARGET)
+    # E5-E7 wiring: usa equipment_coherence per item genre-aware. I base_items
+    # hardcoded in data_roles.py mappavano "pistola"→pistola_9mm anche in
+    # fantasy/ww2. starter_item_names filtra per era (GENRE_ERA_MAP).
+    try:
+        from .equipment_coherence import starter_item_names
+    except Exception:
+        starter_item_names = None
     out = []
     for idx, role in enumerate(selected, start=1):
-        items = list(role["base_items"])
+        items = (starter_item_names(role.get("archetype", ""), genre)
+                 if starter_item_names else None) or list(role["base_items"])
         for item in MISSION_EQUIPMENT_BONUS.get(mission_type, []):
             if item not in items and len(items) < 4:
                 items.append(item)
