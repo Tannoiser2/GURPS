@@ -3281,8 +3281,8 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
           </filter>
           {/* Atmospheric background gradient */}
           <radialGradient id="mapBg" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stopColor="#0d0a1e" />
-            <stop offset="100%" stopColor="#050310" />
+            <stop offset="0%" stopColor="#1c1635" />
+            <stop offset="100%" stopColor="#0f0a28" />
           </radialGradient>
           {/* Vignette */}
           <radialGradient id="vignette" cx="50%" cy="50%" r="60%">
@@ -3418,7 +3418,7 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
             >
               {/* Card background */}
               <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={8}
-                fill={isCurrent ? "rgba(124,58,237,0.32)" : status === "visited" ? "rgba(5,2,18,0.82)" : "rgba(5,2,18,0.72)"}
+                fill={isCurrent ? "rgba(124,58,237,0.45)" : status === "visited" ? "rgba(30,22,72,0.95)" : "rgba(25,18,62,0.92)"}
                 stroke={hovered && moveable ? "#60a5fa" : borderColor}
                 strokeWidth={hovered && moveable ? 2.5 : borderW}
               />
@@ -3443,7 +3443,7 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
               {/* Solid fill when no image */}
               {!img && status !== "unknown" && (
                 <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={7}
-                  fill={isCurrent ? "rgba(124,58,237,0.4)" : isAdjacent ? "rgba(30,15,70,0.6)" : "rgba(20,10,50,0.8)"}
+                  fill={isCurrent ? "rgba(124,58,237,0.55)" : isAdjacent ? "rgba(50,35,100,0.65)" : "rgba(42,30,95,0.82)"}
                 />
               )}
 
