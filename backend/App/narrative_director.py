@@ -105,11 +105,29 @@ def make_director_decision(
     # 6. Indizio da avanzare (solo fase investigation)
     # 7. Fallimento / idle
 
+    # N8: conta condizioni finale soddisfatte per segnalare il climax imminente
+    _satisfied_finales = [f for f in runtime.finale_conditions if f.status == "satisfied"]
+    _finale_near = len(_satisfied_finales) >= 2 or (
+        len(_satisfied_finales) >= 1 and len(runtime.finale_conditions) <= 2
+    )
+
     if clock_triggers:
         t = clock_triggers[0]
         scene_directive = (
             f"CLOCK COMPLETO [{t['label']}]: la conseguenza si manifesta ora. "
             f"Narra: {t['consequence'] or t['on_complete']}. Non è evitabile."
+        )
+    elif _finale_near and not ready:
+        # N8: condizioni finale quasi tutte soddisfatte → guida verso il climax
+        satisfied_labels = "; ".join(getattr(f, "label", f.id) for f in _satisfied_finales)
+        remaining = [f for f in runtime.finale_conditions if f.status != "satisfied"]
+        remaining_labels = "; ".join(getattr(f, "label", f.id) for f in remaining) if remaining else "nessuna"
+        scene_directive = (
+            f"CONDIZIONI FINALE VICINE: {satisfied_labels} già soddisfatte. "
+            f"Manca ancora: {remaining_labels}. "
+            f"Aumenta gradualmente la tensione verso il climax — l'antagonista sente la pressione, "
+            f"gli alleati si posizionano, la posta in gioco diventa esplicita. "
+            f"Non ancora story_over — ma la direzione è chiara."
         )
     elif phase == "escape":
         scene_directive = _ESCAPE_DIRECTIVE
@@ -255,6 +273,8 @@ def make_director_decision(
         # N4 pacing
         "revelation_pacing": _pacing,
         "revelation_timing": _rev_timing,
+        # N8: finale near flag per il prompt contestuale
+        "finale_near": _finale_near,
     }
 
 
@@ -459,6 +479,13 @@ def director_prompt_context(decision: dict, canonical_log: list | None = None) -
             f"AZIONI SUGGERITE DAL MOTORE (fase {phase_label}): "
             + ", ".join(clean)
             + ". Usa queste come opzioni concrete da proporre o da narrare come conseguenza naturale."
+        )
+    # N8: nota finale conditions nel prompt contestuale
+    if decision.get("finale_near"):
+        lines.append(
+            "CONDIZIONI FINALE VICINE: la storia si avvicina al culmine. "
+            "Aumenta gradualmente la tensione — l'antagonista sente la pressione, "
+            "gli alleati si posizionano. Guida verso il climax senza forzare story_over."
         )
     lines.append(f"Note stato: {notes}")
     lines.append(f"State updates decisi dal motore: {required}")
