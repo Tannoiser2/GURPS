@@ -148,14 +148,14 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
 
 ### 🔴 Critici
 
-- [ ] **U1 — Clock visualization** `App.jsx`
+- [x] **U1 — Clock visualization** `App.jsx`
   I clock sono il meccanismo di pressione centrale dell'engine ma non sono visibili nel frontend. Aggiungere per ogni clock attivo:
   - Barra di progresso con nome clock, segmenti completati/totali
   - Colore urgenza: verde (0-40%) → giallo (40-70%) → arancione (70-90%) → rosso (90%+)
   - Animazione quando un segmento avanza (shake/flash)
   - "Minaccia: [descrizione]" visibile solo quando il clock supera il 50%
 
-- [ ] **U2 — Clue discovery tracker** `App.jsx`
+- [x] **U2 — Clue discovery tracker** `App.jsx`
   Nessun pannello che mostri lo stato degli indizi. Il giocatore non sa cosa ha trovato e cosa è parziale. Aggiungere sidebar collassabile:
   - Indizi scoperti: icona + titolo + tipo (testimony/physical/document/...)
   - Indizi parziali: testo sfumato + indicatore "continua a indagare"
@@ -163,19 +163,19 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
 
 ### 🟠 Alti
 
-- [ ] **U3 — Deduction interface** `App.jsx` / `main.py`
+- [x] **U3 — Deduction interface** `App.jsx` / `main.py`
   Quando un thread ha tutte le `required_evidence_kinds` soddisfatte, il giocatore dovrebbe poter fare la deduzione esplicitamente (non solo tramite azione libera). Aggiungere:
   - Pulsante "Fai la deduzione: [thread.label]" visibile solo quando le evidenze sono pronte
   - Endpoint `POST /game/deduce` che prende `thread_id` + `player_conclusion` (testo libero)
   - Director confronta la conclusione del giocatore con `hidden_truth`; genera risposta: confermata / parzialmente corretta / sbagliata
 
-- [ ] **U4 — NPC status panel** `App.jsx`
+- [x] **U4 — NPC status panel** `App.jsx`
   Nessuna visualizzazione dello stato degli NPC durante il gioco. Aggiungere lista collassabile degli NPC incontrati con:
   - Stato: disponibile / diffidente / spaventato / fuggito / eliminato
   - Pressione agenda (barra 0-5, visibile solo se il giocatore ha una skill sociale alta)
   - Ultima informazione fornita (dal canonical log)
 
-- [ ] **U5 — Action preview con probabilità** `App.jsx`
+- [x] **U5 — Action preview con probabilità** `App.jsx`
   L'endpoint `POST /game/preview-action` esiste in `main.py` ma non è chiaro se il frontend lo usa per mostrare probabilità prima del tiro. Collegare: quando il giocatore seleziona un'azione, mostrare in tempo reale "Probabilità successo: 74%" con breakdown skill + modificatori.
 
 ### 🟡 Medi
@@ -188,7 +188,7 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
   - Preview del deduction graph (grafico semplice nodi-archi)
   Non deve creare avventure da zero, solo permettere di correggere l'output del compiler.
 
-- [ ] **U7 — Combat log strutturato** `App.jsx`
+- [x] **U7 — Combat log strutturato** `App.jsx`
   Il frontend mostra il testo narrativo ma il combat log meccanico (tiro, risultato, danno, effetti) è mescolato nella narrativa. Aggiungere un toggle "mostra log meccanico" che espone:
   - Ogni attacco: tiro 3d6, target level, successo/fallimento, danno calcolato
   - Ogni difesa: tipo (parry/dodge/block), modifiers, risultato
