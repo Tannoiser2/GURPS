@@ -4001,8 +4001,8 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
               ⏱{(clocksData || []).length > 0 ? ` ${(clocksData || []).length}` : ""}
             </button>
             <button style={tabStyle("gm_maps")} onClick={() => setTab("gm_maps")}>Tattiche{tacticalNodes.length ? ` ${tacticalNodes.length}` : ""}</button>
-            <button style={tabStyle("gm_events")} onClick={() => setTab("gm_events")}>
-              ⚡{gmEventLog?.length > 0 ? ` ${gmEventLog.length}` : ""}
+            <button style={tabStyle("gm_events")} onClick={() => setTab("gm_events")} title="Storico eventi di gioco">
+              📜{gmEventLog?.length > 0 ? ` ${gmEventLog.length}` : ""}
             </button>
           </>
         )}
@@ -4011,6 +4011,19 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
       <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "10px 14px" }}>
         {isGmMode && tab === "gm_overview" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {(() => {
+              const advDef = adventure?.adventure_definition || adventure || {};
+              const premise = advDef.premise || advDef.initial_hook || advDef.description || "";
+              const advTitle = advDef.title || adventure?.title || "";
+              return premise ? (
+                <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.32)" }}>
+                  <div style={{ fontSize: 10, fontWeight: 900, color: "#c084fc", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 5 }}>
+                    {advTitle ? `${advTitle} — Premessa` : "Premessa"}
+                  </div>
+                  <div style={{ fontSize: 12, color: "var(--text-h)", lineHeight: 1.55 }}>{premise}</div>
+                </div>
+              ) : null;
+            })()}
             {(sourceMode || archetypeProfile?.primary_archetype) && (
               <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.32)" }}>
                 <div style={{ fontSize: 10, fontWeight: 900, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 7 }}>Origine e Struttura</div>
@@ -4084,6 +4097,28 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
                 ))}
               </div>
             )}
+            {storyThreads.length > 0 && (
+              <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.22)" }}>
+                <div style={{ fontSize: 10, fontWeight: 900, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 7 }}>Stato piste ({storyThreads.length})</div>
+                {storyThreads.map((t, i) => {
+                  const sc = { resolved: "#4ade80", ready_to_deduce: "#60a5fa", active: "#fbbf24" }[t.status] || "rgba(255,255,255,0.35)";
+                  const label = { resolved: "✓", ready_to_deduce: "⚡", active: "◔", hidden: "☁", unintroduced: "☁" }[t.status] || "☁";
+                  const answer = t.true_answer || t.answer || t.solution || "";
+                  const title = t.question || t.title || t.name || t.id || "(pista)";
+                  return (
+                    <div key={t.id || i} style={{ marginBottom: 7, paddingBottom: 7, borderBottom: i < storyThreads.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none" }}>
+                      <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
+                        <span style={{ fontSize: 11, color: sc, flexShrink: 0, marginTop: 1 }}>{label}</span>
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-h)", lineHeight: 1.35 }}>{title}</div>
+                          {answer && <div style={{ fontSize: 10, color: "#fde68a", lineHeight: 1.4, marginTop: 2 }}>↳ {answer}</div>}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
             <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(96,165,250,0.07)", border: "1px solid rgba(96,165,250,0.24)", fontSize: 11, color: "var(--text)", lineHeight: 1.45 }}>
               Questa zona mostra tutto il canovaccio: risposte, segreti, obiettivi nascosti e mappe non ancora scoperte.
             </div>
@@ -4103,10 +4138,10 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
                 return (
                   <div key={t.id || i} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: `1px solid ${sc}33`, borderLeft: `3px solid ${sc}` }}>
                     <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question}</div>
+                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question || t.title || t.name || t.id || "(pista senza titolo)"}</div>
                       <span style={{ fontSize: 9, color: sc, textTransform: "uppercase", flexShrink: 0, fontWeight: 700 }}>{statusLabel(t.status)}</span>
                     </div>
-                    {t.true_answer && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.45, marginBottom: 4 }}><b>Risposta:</b> {t.true_answer}</div>}
+                    {(t.true_answer || t.answer || t.solution) && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.45, marginBottom: 4 }}><b>Risposta:</b> {t.true_answer || t.answer || t.solution}</div>}
                     {t.payoff && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.45, marginBottom: 4 }}><b>Serve a:</b> {t.payoff}</div>}
                     {(t.required_details || []).length > 0 && (
                       <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -4246,8 +4281,8 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
 
         {isGmMode && tab === "gm_clocks" && (
           <div style={{ padding: "4px 0" }}>
-            <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 10 }}>
-              Vista GM — tutti i clock (nascosti e scoperti)
+            <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.55, marginBottom: 10, lineHeight: 1.4 }}>
+              Stato attuale di tutti i clock — compresi quelli ancora nascosti ai giocatori.
             </div>
             <ClocksPanel clocks={clocksData} isGM={true} />
             {(!clocksData || clocksData.length === 0) && (
@@ -4260,8 +4295,8 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
 
         {isGmMode && tab === "gm_events" && (
           <div style={{ padding: "4px 0" }}>
-            <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, color: "var(--accent)", marginBottom: 10 }}>
-              Log eventi GM
+            <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.55, marginBottom: 10, lineHeight: 1.4 }}>
+              Cronologia degli eventi di gioco: tick clock, azioni PNG, eventi narrativi. Diverso dal tab ⏱ che mostra lo stato <em>corrente</em>.
             </div>
             {(!gmEventLog || gmEventLog.length === 0) && (
               <div style={{ fontSize: 12, color: "var(--text)", opacity: 0.45, fontStyle: "italic" }}>Nessun evento ancora.</div>
