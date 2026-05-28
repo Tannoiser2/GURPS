@@ -5,6 +5,9 @@ import caricaJsonImg from "./assets/carica_json.png";
 import jsonDoctorImg from "./assets/json_doctor.png";
 
 const API_URL = import.meta.env.PROD
+  ? "/api"
+  : (import.meta.env.VITE_API_URL || "http://127.0.0.1:8002");
+const API_URL_DIRECT = import.meta.env.PROD
   ? "https://gurps-f93w.onrender.com"
   : (import.meta.env.VITE_API_URL || "http://127.0.0.1:8002");
 const VERCEL_PDF_UPLOAD_LIMIT_BYTES = 4 * 1024 * 1024;
@@ -1761,7 +1764,7 @@ function SetupScreen({ onStart }) {
 
   // Keep-alive: ping ogni 13 minuti per evitare che Render spenga il backend
   useEffect(() => {
-    const id = setInterval(() => { fetch(`${API_URL}/health`).catch(() => {}); }, 13 * 60 * 1000);
+    const id = setInterval(() => { fetch(`${API_URL_DIRECT}/health`).catch(() => {}); }, 13 * 60 * 1000);
     return () => clearInterval(id);
   }, []);
 
@@ -2030,7 +2033,7 @@ function SetupScreen({ onStart }) {
     try {
       // Una singola richiesta con timeout lungo: Render tiene la connessione aperta
       // finché il server si sveglia (30–90s), non serve polling.
-      const r = await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(100000) });
+      const r = await fetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(100000) });
       clearInterval(ticker);
       if (r.ok) {
         _waking.current = false;
@@ -2057,7 +2060,7 @@ function SetupScreen({ onStart }) {
     setJsonError("");
     try {
       // Warmup ping: sveglia Render prima delle chiamate principali (free tier dorme dopo 15min)
-      try { await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
+      try { await fetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
       let adventureForStart = preloadedAdventure;
       let poolForStart = pool;
       if (!adventureForStart) {
@@ -6720,7 +6723,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
   // Keep-alive: ping ogni 13 minuti per evitare che Render spenga il backend durante il gioco
   useEffect(() => {
-    const id = setInterval(() => { fetch(`${API_URL}/health`).catch(() => {}); }, 13 * 60 * 1000);
+    const id = setInterval(() => { fetch(`${API_URL_DIRECT}/health`).catch(() => {}); }, 13 * 60 * 1000);
     return () => clearInterval(id);
   }, []);
 
@@ -7278,7 +7281,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       setLoading(true);
 
       // Warmup ping: sveglia Render prima delle chiamate principali (free tier dorme dopo 15min)
-      try { await fetchWithTimeout(`${API_URL}/health`, {}, 70000); } catch (_) {}
+      try { await fetchWithTimeout(`${API_URL_DIRECT}/health`, {}, 70000); } catch (_) {}
 
       // Prova a riprendere una sessione salvata per questa avventura
       const advId = adventure?.id || adventure?.adventure_definition_id;
