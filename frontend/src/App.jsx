@@ -3178,7 +3178,7 @@ function isKnownTacticalNode(node, mapState) {
 
 // ─── Location Graph (mappa strategica) ────────────────────────────────────────
 
-function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, advNpcs, backdropImage }) {
+function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, advNpcs, backdropImage, mapPositions }) {
   const [hoveredId, setHoveredId] = useState(null);
 
   if (!mapState || !mapState.nodes || Object.keys(mapState.nodes).length === 0) {
@@ -3211,33 +3211,58 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
     return "unknown";
   }
 
-  const maxCol = Math.max(...allNodes.map(n => n.grid_x || 0), 0);
-  const cols = {};
-  allNodes.forEach(n => { const c = n.grid_x || 0; (cols[c] = cols[c] || []).push(n); });
-  Object.values(cols).forEach(arr => arr.sort((a, b) => (a.grid_y || 0) - (b.grid_y || 0)));
+  const NODE_W = 96;
+  const NODE_H = 68;
+  const PAD = 20;
 
-  const NODE_W = 100;
-  const NODE_H = 72;
-  const COL_GAP = 32;
-  const ROW_GAP = 16;
-  const PAD = 22;
+  // Choose layout mode: geographic (backdrop + positions) or grid fallback
+  const hasGeoPositions = backdropImage && mapPositions && Object.keys(mapPositions).length > 0;
 
-  const pos = {};
-  let maxColH = 0;
-  for (let c = 0; c <= maxCol; c++) {
-    const col = cols[c] || [];
-    const colH = col.length * NODE_H + Math.max(0, col.length - 1) * ROW_GAP;
-    maxColH = Math.max(maxColH, colH);
+  let svgW, svgH, pos;
+
+  if (hasGeoPositions) {
+    // Fixed canvas that matches the backdrop image aspect ratio (≈ 1:1 from generation)
+    svgW = 800;
+    svgH = 800;
+    pos = {};
+    const usableW = svgW - NODE_W - PAD * 2;
+    const usableH = svgH - NODE_H - PAD * 2;
+    allNodes.forEach(n => {
+      const mp = mapPositions[n.name] || mapPositions[n.id];
+      if (mp) {
+        pos[n.id] = {
+          x: PAD + (mp.x / 100) * usableW,
+          y: PAD + (mp.y / 100) * usableH,
+        };
+      } else {
+        // Fallback: place unmapped nodes in a row at the bottom
+        const idx = allNodes.filter(x => !mapPositions[x.name] && !mapPositions[x.id]).indexOf(n);
+        pos[n.id] = { x: PAD + idx * (NODE_W + 10), y: svgH - NODE_H - PAD };
+      }
+    });
+  } else {
+    // Grid layout based on grid_x / grid_y
+    const COL_GAP = 32;
+    const ROW_GAP = 16;
+    const maxCol = Math.max(...allNodes.map(n => n.grid_x || 0), 0);
+    const cols = {};
+    allNodes.forEach(n => { const c = n.grid_x || 0; (cols[c] = cols[c] || []).push(n); });
+    Object.values(cols).forEach(arr => arr.sort((a, b) => (a.grid_y || 0) - (b.grid_y || 0)));
+    let maxColH = 0;
+    for (let c = 0; c <= maxCol; c++) {
+      const col = cols[c] || [];
+      maxColH = Math.max(maxColH, col.length * NODE_H + Math.max(0, col.length - 1) * ROW_GAP);
+    }
+    pos = {};
+    for (let c = 0; c <= maxCol; c++) {
+      const col = cols[c] || [];
+      const colH = col.length * NODE_H + Math.max(0, col.length - 1) * ROW_GAP;
+      const startY = PAD + (maxColH - colH) / 2;
+      col.forEach((n, i) => { pos[n.id] = { x: PAD + c * (NODE_W + COL_GAP), y: startY + i * (NODE_H + ROW_GAP) }; });
+    }
+    svgW = PAD * 2 + (Math.max(...allNodes.map(n => n.grid_x || 0), 0) + 1) * NODE_W + Math.max(...allNodes.map(n => n.grid_x || 0), 0) * COL_GAP;
+    svgH = PAD * 2 + maxColH;
   }
-  for (let c = 0; c <= maxCol; c++) {
-    const col = cols[c] || [];
-    const colH = col.length * NODE_H + Math.max(0, col.length - 1) * ROW_GAP;
-    const startY = PAD + (maxColH - colH) / 2;
-    col.forEach((n, i) => { pos[n.id] = { x: PAD + c * (NODE_W + COL_GAP), y: startY + i * (NODE_H + ROW_GAP) }; });
-  }
-
-  const svgW = PAD * 2 + (maxCol + 1) * NODE_W + maxCol * COL_GAP;
-  const svgH = PAD * 2 + maxColH;
 
   function edgePath(a, b) {
     const pa = pos[a.id], pb = pos[b.id];
@@ -3741,7 +3766,7 @@ function ClocksPanel({ clocks, isGM }) {
   );
 }
 
-function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, players, avatars, npcStatuses, advNpcs, onClose }) {
+function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions, players, avatars, npcStatuses, advNpcs, onClose }) {
   const [pos, setPos] = useState({ x: Math.max(10, window.innerWidth - 640), y: 60 });
   const [size, setSize] = useState({ w: 620, h: 480 });
   const dragging = useRef(false);
@@ -3805,7 +3830,7 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, players, avat
       </div>
       {/* Map content — no scroll, SVG scales to fit */}
       <div style={{ flex: 1, padding: "6px 8px 4px", minHeight: 200, height: size.h - 48, display: "flex", flexDirection: "column" }}>
-        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} backdropImage={backdropImage} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
+        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
       </div>
       {/* Resize handle */}
       <div onMouseDown={onResizeMouseDown} style={{
@@ -3822,7 +3847,7 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, players, avat
 }
 
 // mode: "players" = pannello giocatori (sinistra), "gm" = pannello GM (destra)
-function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, backdropImage, onMove, onOpenMap, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, npcStatuses, advNpcs, onClose, defaultTab, mode, onDeduce }) {
+function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, backdropImage, mapPositions, onMove, onOpenMap, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, npcStatuses, advNpcs, onClose, defaultTab, mode, onDeduce }) {
   const isGmMode = mode === "gm";
   const [tab, setTab] = useState(defaultTab || (isGmMode ? "gm_overview" : "clues"));
   // Se arriva un nuovo defaultTab (es. click su quick-access), aggiorna la tab
@@ -4336,7 +4361,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
 
         {isGmMode && tab === "gm_map" && (
           <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-            <LocationGraph mapState={mapState} isGM={true} onMove={onMove} backdropImage={backdropImage} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
+            <LocationGraph mapState={mapState} isGM={true} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
           </div>
         )}
 
@@ -4422,7 +4447,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
 
         {tab === "map" && (
           <div style={{ margin: "-10px -14px", height: "100%", display: "flex", flexDirection: "column" }}>
-            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} backdropImage={backdropImage} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
+            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
           </div>
         )}
 
@@ -6610,6 +6635,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [mapState, setMapState] = useState(null);
   const [locationImages, setLocationImages] = useState({});
   const [adventureMapBackdrop, setAdventureMapBackdrop] = useState(null);
+  const [adventureMapPositions, setAdventureMapPositions] = useState({});
   const [showMapPanel, setShowMapPanel] = useState(false);
   const [clocksData, setClocksData] = useState([]);
   const [clockToasts, setClockToasts] = useState([]);
@@ -7072,13 +7098,29 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     });
   }, [mapState?.current_node_id, JSON.stringify(Object.keys(mapState?.nodes || {}))]);
 
-  // Generate adventure overview map backdrop once when adventure + mapState are first available
+  // Generate adventure overview map backdrop once per adventure — cache in localStorage
   useEffect(() => {
-    if (!adventure || !mapState || adventureMapBackdrop || imageProvider === "none") return;
+    if (!adventure || !mapState || imageProvider === "none") return;
+    if (adventureMapBackdrop) return; // already in memory
     const advDef = adventure?.adventure_definition || adventure || {};
-    const locations = Object.values(mapState.nodes || {}).map(n => ({ name: n.name || "" }));
-    if (locations.length === 0) return;
     const title = advDef.title || adventure?.title || "";
+    if (!title) return;
+    const locations = Object.values(mapState.nodes || {}).map(n => ({ name: n.name || "" })).filter(l => l.name);
+    if (locations.length === 0) return;
+    const cacheKey = `gurps_map_v1_${title.slice(0, 60)}_${(adventure?.genre || genre || "fantasy")}`;
+    // Try localStorage cache first (avoids re-generation on page reload)
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const data = JSON.parse(cached);
+        if (data.image_b64) {
+          setAdventureMapBackdrop(data.image_b64);
+          setAdventureMapPositions(data.location_positions || {});
+          return;
+        }
+      }
+    } catch (_) {}
+    // Not cached: generate via API
     const setting = advDef.setting || advDef.location || advDef.world || "";
     const period = advDef.period || advDef.year || advDef.era || "";
     fetch(`${API_URL}/game/adventure/generate-overview-map`, {
@@ -7086,7 +7128,12 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ adventure_title: title, locations, genre: adventure?.genre || genre, setting, period }),
     }).then(r => r.json()).then(res => {
-      if (res.image_b64) setAdventureMapBackdrop(res.image_b64);
+      if (res.image_b64) {
+        setAdventureMapBackdrop(res.image_b64);
+        const positions = res.location_positions || {};
+        setAdventureMapPositions(positions);
+        try { localStorage.setItem(cacheKey, JSON.stringify({ image_b64: res.image_b64, location_positions: positions })); } catch (_) {}
+      }
       if (res.call_tokens) setTokenStats(prev => _mergeTokenStats(prev, res.call_tokens));
     }).catch(() => {});
   }, [adventure?.title, mapState ? Object.keys(mapState.nodes || {}).length : 0]);
@@ -8127,6 +8174,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               clocksData={clocksData}
               gmEventLog={gmEventLog}
               backdropImage={adventureMapBackdrop}
+              mapPositions={adventureMapPositions}
               onMove={(id) => { handleMoveToLocation(id); setShowPanel(false); }}
               onOpenMap={() => { setShowMapPanel(true); setShowPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
@@ -8168,6 +8216,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               clocksData={clocksData}
               gmEventLog={gmEventLog}
               backdropImage={adventureMapBackdrop}
+              mapPositions={adventureMapPositions}
               onMove={(id) => { handleMoveToLocation(id); setShowPlayerPanel(false); }}
               onOpenMap={() => { setShowMapPanel(true); setShowPlayerPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
@@ -8202,6 +8251,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         <FloatingMapPanel
           mapState={mapState}
           backdropImage={adventureMapBackdrop}
+          mapPositions={adventureMapPositions}
           onMove={handleMoveToLocation}
           isGM={true}
           players={players}

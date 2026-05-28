@@ -3863,12 +3863,52 @@ def generate_location_map_image(location_name: str, location_description: str) -
         return None
 
 
+def generate_map_positions(title: str, location_names: list, genre: str = "fantasy") -> dict:
+    """Ask Claude Haiku to assign normalized x/y positions (0-100) to each location.
+    Returns {location_name: {x: int, y: int}} or {} on failure."""
+    if not API_KEY or not location_names:
+        return {}
+    try:
+        client = anthropic.Anthropic(api_key=API_KEY)
+        loc_list = "\n".join(f"- {n}" for n in location_names)
+        genre_labels = {
+            "fantasy": "medieval fantasy", "horror": "gothic horror", "sci_fi": "science fiction",
+            "noir": "1940s noir", "western": "wild west", "thriller": "modern thriller",
+            "investigativo": "mystery detective", "action": "action adventure",
+        }
+        genre_label = genre_labels.get(genre, genre or "tabletop RPG")
+        prompt = (
+            f"You are laying out locations on a {genre_label} tabletop RPG map titled \"{title}\".\n"
+            f"Locations:\n{loc_list}\n\n"
+            "Assign each location an (x, y) position on the map canvas:\n"
+            "- x: 0 (left edge) to 100 (right edge)\n"
+            "- y: 0 (top edge) to 100 (bottom edge)\n"
+            "Rules: keep all values between 8 and 92; spread locations so none are closer than 18 units apart; "
+            "use geographic logic (dungeons near mountains, towns in valleys, ports near coast edge, etc).\n"
+            "Return ONLY a JSON array, no explanation:\n"
+            '[{"name": "Location Name", "x": 50, "y": 30}, ...]'
+        )
+        resp = client.messages.create(
+            model=_HAIKU_MODEL, max_tokens=600,
+            messages=[{"role": "user", "content": prompt}]
+        )
+        text = resp.content[0].text.strip()
+        match = re.search(r'\[.*?\]', text, re.DOTALL)
+        if match:
+            data = json.loads(match.group())
+            return {item["name"]: {"x": int(item["x"]), "y": int(item["y"])} for item in data if "name" in item}
+    except Exception as e:
+        print(f"[generate_map_positions] errore: {e}")
+    return {}
+
+
 def generate_adventure_overview_map(
     title: str,
     location_names: list,
     genre: str = "fantasy",
     setting: str = "",
     period: str = "",
+    positions: "dict | None" = None,
 ) -> "str | None":
     """Genera un'immagine mappa panoramica bird's-eye per l'intera avventura."""
     _clear_last_image_error()
@@ -3880,7 +3920,19 @@ def generate_adventure_overview_map(
     genre_label = genre_labels.get(genre, genre or "tabletop RPG")
     setting_part = f" set in {setting}" if setting else ""
     period_part = f", {period}" if period else ""
-    loc_part = f" with {len(location_names)} distinct key locations" if location_names else ""
+
+    # Build spatial description of locations
+    if positions and location_names:
+        def _quadrant(x, y):
+            hq = "left" if x < 35 else ("right" if x > 65 else "center")
+            vq = "top" if y < 35 else ("bottom" if y > 65 else "middle")
+            return f"{vq}-{hq}"
+        loc_hints = [f"{n} at {_quadrant(positions[n]['x'], positions[n]['y'])}" for n in location_names if n in positions]
+        missed = [n for n in location_names if n not in positions]
+        loc_hints += missed
+        loc_part = f" featuring these areas: {', '.join(loc_hints)}" if loc_hints else ""
+    else:
+        loc_part = f" with {len(location_names)} distinct key locations" if location_names else ""
 
     map_prompt = (
         f"Bird's-eye illustrated overhead cartographic map for a {genre_label} tabletop RPG adventure"

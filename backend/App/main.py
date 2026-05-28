@@ -27,7 +27,7 @@ from .combat import stand_up
 from .character_creation import validate_draft, build_custom_player
 from .claude_service import (
     generate_scene_image, generate_character_avatar, generate_npc_avatar,
-    generate_tactical_map_image, generate_location_map_image, generate_adventure_overview_map, narrate_combat_result,
+    generate_tactical_map_image, generate_location_map_image, generate_adventure_overview_map, generate_map_positions, narrate_combat_result,
     set_active_provider,
     get_session_token_stats, reset_session_token_stats,
     reset_last_request_tokens, get_last_request_tokens,
@@ -3086,21 +3086,26 @@ class AdventureOverviewMapPayload(BaseModel):
 
 @app.post("/game/adventure/generate-overview-map")
 def generate_overview_map(payload: AdventureOverviewMapPayload):
-    """Genera una mappa panoramica bird's-eye per l'intera avventura."""
+    """Genera una mappa panoramica bird's-eye per l'intera avventura con posizioni geografiche."""
     provider = _resolve_image_provider()
     if not provider:
-        return {"image_b64": None}
+        return {"image_b64": None, "location_positions": {}}
     reset_last_request_tokens()
     set_active_provider(provider)
     loc_names = [l.get("name", "") if isinstance(l, dict) else str(l) for l in (payload.locations or [])]
+    loc_names = [n for n in loc_names if n]
+    # Step 1: generate geographic positions via text model (Haiku, fast + cheap)
+    positions = generate_map_positions(payload.adventure_title, loc_names, payload.genre)
+    # Step 2: generate image with spatial hints baked into the prompt
     image_b64 = generate_adventure_overview_map(
         payload.adventure_title,
         loc_names,
         payload.genre,
         payload.setting,
         payload.period,
+        positions=positions,
     )
-    return {"image_b64": image_b64, "call_tokens": get_last_request_tokens()}
+    return {"image_b64": image_b64, "location_positions": positions, "call_tokens": get_last_request_tokens()}
 
 
 class TacticalMapPayload(BaseModel):
