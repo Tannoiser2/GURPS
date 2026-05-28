@@ -3921,13 +3921,42 @@ def generate_adventure_overview_map(
     """Genera un'immagine mappa panoramica bird's-eye per l'intera avventura."""
     _clear_last_image_error()
     genre_labels = {
-        "fantasy": "medieval fantasy", "horror": "gothic horror", "sci_fi": "science fiction",
+        "fantasy": "medieval fantasy", "medievale": "medieval", "storico": "historical",
+        "horror": "gothic horror", "mystery_horror": "gothic mystery horror",
+        "sci_fi": "science fiction", "cyberpunk": "cyberpunk",
         "noir": "1940s noir", "western": "wild west", "thriller": "modern thriller",
-        "investigativo": "mystery detective", "action": "action adventure",
+        "investigativo": "mystery detective", "detective_classico": "mystery detective",
+        "action": "action adventure", "spy": "spy thriller",
+        "ww2": "World War II", "militare": "modern military",
+        "post_apocalypse": "post-apocalyptic", "steampunk": "steampunk",
+        "romance": "romantic period",
     }
     genre_label = genre_labels.get(genre, genre or "tabletop RPG")
     setting_part = f" set in {setting}" if setting else ""
     period_part = f", {period}" if period else ""
+
+    # Stile cartografico coerente col genere
+    _MAP_STYLE_BY_GENRE = {
+        "fantasy":          "hand-drawn vintage cartographic illustration, ink and watercolor on aged parchment, compass rose, ornate decorative border",
+        "medievale":        "hand-drawn medieval cartographic illustration, ink and watercolor on aged parchment, compass rose, ornate decorative border",
+        "storico":          "vintage 19th-century cartographic engraving, sepia ink on aged paper, decorative border",
+        "horror":           "dark gothic ink illustration, smoky black-and-grey watercolor on weathered paper, ominous atmosphere, ragged border",
+        "mystery_horror":   "dark gothic ink illustration, smoky black-and-grey watercolor, ominous atmosphere, ragged border",
+        "detective_classico":"noir 1940s sketched street map, sepia and grey ink on yellowed paper, hand-drawn lines",
+        "investigativo":    "noir 1940s sketched street map, sepia and grey ink on yellowed paper",
+        "western":          "dusty old western frontier map, sepia tones on cracked paper, hand-drawn cartography",
+        "sci_fi":           "futuristic holographic schematic, glowing cyan and white lines on dark navy background, sleek minimalist sci-fi HUD style, grid overlay, no parchment",
+        "cyberpunk":        "neon blueprint map, electric magenta and cyan glow on dark grid, futuristic urban schematic, glitchy digital overlay, no parchment",
+        "steampunk":        "ornamental brass-engraved map, sepia tones with gear motifs and rivets, decorative Victorian engineering style on aged parchment",
+        "post_apocalypse":  "tattered weathered survival map, faded ink stains on dirty crumpled paper, ragged edges, hand-scrawled annotations",
+        "spy":              "modern declassified tactical map, contour lines and grid, slate-grey and red overlays on white paper, clean cartography",
+        "thriller":         "modern aerial reconnaissance map, neutral satellite tones, minimal cartographic markers, clean lines",
+        "action":           "modern aerial reconnaissance map, neutral satellite tones, minimal cartographic markers, clean lines",
+        "ww2":              "1940s wartime tactical map, olive green and brown contour lines, military annotations on aged paper, period-accurate cartography",
+        "militare":         "modern military tactical map, olive and tan contour lines, NATO symbols, grid overlay",
+        "romance":          "soft pastel illustrated map, warm dawn colors, gentle hand-drawn cartography, romantic atmosphere",
+    }
+    style_part = _MAP_STYLE_BY_GENRE.get(genre, _MAP_STYLE_BY_GENRE["fantasy"])
 
     # Build spatial description of locations
     if positions and location_names:
@@ -3943,12 +3972,12 @@ def generate_adventure_overview_map(
         loc_part = f" with {len(location_names)} distinct key locations" if location_names else ""
 
     map_prompt = (
-        f"Bird's-eye illustrated overhead cartographic map for a {genre_label} tabletop RPG adventure"
+        f"Bird's-eye overhead cartographic map for a {genre_label} tabletop RPG adventure"
         f"{setting_part}{period_part}{loc_part}. "
-        "Style: hand-drawn vintage cartographic illustration, aerial view of landscape and buildings, "
-        "roads and paths connecting areas, forests, rivers, hills visible from above, "
-        "atmospheric mist and fog drifting at the edges, ink and watercolor on aged parchment, "
-        "compass rose in one corner, decorative border, no text labels, no numbers, "
+        f"Style: {style_part}, aerial view of landscape and buildings, "
+        "roads and paths connecting areas visible from above, "
+        "atmospheric edges, "
+        "absolutely no written words, no text labels, no place names, no numbers, no inscriptions, "
         "no characters or people visible, cinematic RPG map art, high detail."
     )
 

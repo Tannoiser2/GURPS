@@ -4065,20 +4065,26 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
               {/* Move hint top-right */}
               {moveable && <text x={p.x+NODE_W-5} y={p.y+12} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered?1:0.35}>→</text>}
 
-              {/* Location name — centered, 2 righe, contorno scuro per leggibilità */}
-              <text x={p.x+NODE_W/2} y={p.y+32} textAnchor="middle" fontSize={11} fontWeight="900"
-                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.96)"}
-                stroke="rgba(0,0,0,0.85)" strokeWidth={3} paintOrder="stroke"
-                style={{ fontFamily: "system-ui, sans-serif" }}>
-                {line1}
-              </text>
-              {line2 && (
-                <text x={p.x+NODE_W/2} y={p.y+45} textAnchor="middle" fontSize={11} fontWeight="900"
-                  fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.96)"}
-                  stroke="rgba(0,0,0,0.85)" strokeWidth={3} paintOrder="stroke"
-                  style={{ fontFamily: "system-ui, sans-serif" }}>
-                  {line2}
-                </text>
+              {/* Location name — quando c'è backdropImage la mappa ha già le etichette
+                  generate, sovrapporre testo è ridondante. Mostriamo solo lo status
+                  marker (QUI/OBJ/VIS) in alto a sinistra. */}
+              {!backdropImage && (
+                <>
+                  <text x={p.x+NODE_W/2} y={p.y+32} textAnchor="middle" fontSize={11} fontWeight="900"
+                    fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.96)"}
+                    stroke="rgba(0,0,0,0.85)" strokeWidth={3} paintOrder="stroke"
+                    style={{ fontFamily: "system-ui, sans-serif" }}>
+                    {line1}
+                  </text>
+                  {line2 && (
+                    <text x={p.x+NODE_W/2} y={p.y+45} textAnchor="middle" fontSize={11} fontWeight="900"
+                      fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.96)"}
+                      stroke="rgba(0,0,0,0.85)" strokeWidth={3} paintOrder="stroke"
+                      style={{ fontFamily: "system-ui, sans-serif" }}>
+                      {line2}
+                    </text>
+                  )}
+                </>
               )}
 
               {/* Content icons */}
