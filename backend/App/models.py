@@ -518,3 +518,5 @@ class GameState(BaseModel):
     # Inventario persistente: oggetti disponibili per la raccolta nella scena corrente
     loot_pool: List["LootEntry"] = []          # bottino visibile/raccoglibile ora
     scene_items_given: List[str] = []          # item_id già distribuiti (evita duplicati)
+    # G2: reputazione dei giocatori presso le fazioni (-5 → +5)
+    faction_reputation: Dict[str, int] = {}

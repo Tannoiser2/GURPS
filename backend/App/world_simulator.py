@@ -34,6 +34,56 @@ def _profile_cluster(runtime: AdventureRuntime) -> str:
     return _PROFILE_CLUSTER.get(runtime.runtime_profile, "clue")
 
 
+# ── G2: Faction reputation delta ─────────────────────────────────────────────
+
+def _compute_faction_rep_deltas(
+    runtime: AdventureRuntime,
+    game_state_data: dict,
+    prerolled: dict,
+    player_action: str,
+) -> dict[str, int]:
+    """Return per-faction reputation delta for this turn (range -5→+5 total, clamped by caller)."""
+    if not runtime.factions:
+        return {}
+
+    success = bool(prerolled.get("success", True))
+    margin = int(prerolled.get("margin") or 0)
+    current_rep: dict[str, int] = {}
+    for k, v in (game_state_data.get("faction_reputation") or {}).items():
+        try:
+            current_rep[k] = int(v)
+        except (TypeError, ValueError):
+            pass
+
+    rt_state = game_state_data.get("adventure_runtime_state") or {}
+    faction_rt = rt_state.get("faction_runtime") or {} if isinstance(rt_state, dict) else {}
+
+    action_lower = str(player_action).lower()
+    is_betrayal = any(w in action_lower for w in ("tradisci", "tradisco", "tradire", "tradimento", "inganna alleato"))
+
+    deltas: dict[str, int] = {}
+    for faction in runtime.factions:
+        fid = faction.id
+        rt_entry = faction_rt.get(fid) or {}
+        status = rt_entry.get("status") or faction.status
+        cur = current_rep.get(fid, 0)
+
+        if is_betrayal and cur > 0:
+            # Tradire un alleato della fazione → -2 reputazione
+            deltas[fid] = deltas.get(fid, 0) - 2
+            continue
+
+        if success and margin >= 2 and status in ("quiet", "watching"):
+            # Successo netto: fazioni neutrali/in osservazione aumentano fiducia
+            deltas[fid] = deltas.get(fid, 0) + 1
+
+        if not success and margin <= -4 and cur > 0:
+            # Fallimento critico: le fazioni alleate perdono fiducia nel gruppo
+            deltas[fid] = deltas.get(fid, 0) - 1
+
+    return deltas
+
+
 def _action_is_investigative(player_action: str, skill: str = "") -> bool:
     blob = f"{player_action} {skill}".lower()
     return (
@@ -876,6 +926,41 @@ def simulate_world_state(
     map_state = game_state_data.get("map_state") or {}
     if map_state:
         current_location = (map_state.get("nodes") or {}).get(map_state.get("current_node_id")) or {}
+
+    # G2: compute faction reputation deltas and build enriched rep dict for world_reaction_engine
+    faction_rep_deltas = _compute_faction_rep_deltas(runtime, game_state_data, prerolled, player_action)
+    faction_rep_base: dict[str, int] = {}
+    for k, v in (game_state_data.get("faction_reputation") or {}).items():
+        try:
+            faction_rep_base[k] = int(v)
+        except (TypeError, ValueError):
+            pass
+    # Apply deltas provisionally for reaction engine (clamped to [-5, 5])
+    faction_rep_current = {
+        fid: max(-5, min(5, faction_rep_base.get(fid, 0) + delta))
+        for fid, delta in faction_rep_deltas.items()
+    }
+    for fid, score in faction_rep_base.items():
+        if fid not in faction_rep_current:
+            faction_rep_current[fid] = score
+    # Enrich with trusted_npc from actor roster (first ally-role actor per faction)
+    ally_npc_name = next(
+        (a.name for a in runtime.actors if a.role in ("ally", "contact", "allied", "alleato")),
+        None
+    )
+    faction_rep_enriched: dict[str, dict] = {
+        fid: {"score": score, "trusted_npc": ally_npc_name}
+        for fid, score in faction_rep_current.items()
+    }
+    # G2 proactive: se reputazione > 3 con una fazione, NPC offre indizio proattivo
+    for fid, score in faction_rep_current.items():
+        if score > 3:
+            faction_name = next((f.name for f in runtime.factions if f.id == fid), fid)
+            events.append(
+                f"REP ALTA [{faction_name}]: reputazione {score}/5 — un contatto della fazione si offre proattivamente di condividere un indizio utile."
+            )
+            break  # max 1 proactive hint per turn
+
     world_reactions = generate_world_reactions(
         player_action_result=prerolled,
         clock_state={
@@ -884,6 +969,7 @@ def simulate_world_state(
         },
         npc_agendas=actor_agendas,
         current_location=current_location,
+        faction_reputation=faction_rep_enriched,
     )
     for reaction in world_reactions[:2]:
         events.append(f"REAZIONE MONDO [{reaction['type']}]: {reaction['world_state_change']}.")
@@ -937,6 +1023,7 @@ def simulate_world_state(
             "clock_updates": clock_updates,
             "location_access": [],
             "objective_progress": 0,
+            "faction_rep_updates": faction_rep_deltas,  # G2
         },
         "events": events,
         "ready_threads": ready,

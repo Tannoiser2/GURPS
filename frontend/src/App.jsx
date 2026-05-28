@@ -4228,6 +4228,42 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
                 })}
               </div>
             )}
+            {/* ── G2: Faction Reputation ── */}
+            {(() => {
+              const advDef = adventure?.adventure_definition || adventure || {};
+              const defFactions = advDef.factions || [];
+              const rep = gameState?.faction_reputation || {};
+              const repKeys = Object.keys(rep);
+              if (defFactions.length === 0 && repKeys.length === 0) return null;
+              const allFactions = defFactions.length > 0
+                ? defFactions
+                : repKeys.map(id => ({ id, name: id }));
+              return (
+                <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(168,85,247,0.07)", border: "1px solid rgba(168,85,247,0.28)" }}>
+                  <div style={{ fontSize: 10, fontWeight: 900, color: "#c084fc", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 8 }}>Reputazione Fazioni</div>
+                  {allFactions.map((faction, fi) => {
+                    const fid = faction.id || faction;
+                    const fname = faction.name || fid;
+                    const score = rep[fid] ?? 0;
+                    const barColor = score >= 4 ? "#4ade80" : score >= 2 ? "#a3e635" : score <= -4 ? "#f87171" : score <= -2 ? "#fb923c" : "#94a3b8";
+                    const barPct = ((score + 5) / 10) * 100;
+                    return (
+                      <div key={fid} style={{ marginBottom: fi < allFactions.length - 1 ? 8 : 0 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "var(--text)", marginBottom: 2 }}>
+                          <span style={{ fontWeight: 700, color: "var(--text-h)" }}>{fname}</span>
+                          <b style={{ color: barColor }}>{score > 0 ? `+${score}` : score}</b>
+                        </div>
+                        <div style={{ height: 5, borderRadius: 4, background: "rgba(255,255,255,0.08)", overflow: "hidden", position: "relative" }}>
+                          <div style={{ position: "absolute", left: "50%", top: 0, width: 1, height: "100%", background: "rgba(255,255,255,0.18)" }} />
+                          <div style={{ width: `${barPct}%`, height: "100%", background: barColor, borderRadius: 4, transition: "width 0.4s" }} />
+                        </div>
+                        {faction.agenda && <div style={{ fontSize: 9, color: "var(--text)", opacity: 0.6, marginTop: 2 }}>{faction.agenda}</div>}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
             <div style={{ padding: "10px 11px", borderRadius: 8, background: "rgba(96,165,250,0.07)", border: "1px solid rgba(96,165,250,0.24)", fontSize: 11, color: "var(--text)", lineHeight: 1.45 }}>
               Questa zona mostra tutto il canovaccio: risposte, segreti, obiettivi nascosti e mappe non ancora scoperte.
             </div>

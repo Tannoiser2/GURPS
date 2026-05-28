@@ -155,9 +155,15 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 
 
 # ── R1: Health check ──────────────────────────────────────────────────────────
+@app.get("/")
+def root():
+    return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
+
+BUILD_VERSION = "v3-g2-faction-reputation"
+
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat(), "version": BUILD_VERSION}
 
 
 def _ensure_runtime_scene(scene_text: str = "") -> None:
@@ -1786,6 +1792,12 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
             if update.get("pressure") is not None:
                 entry["pressure"] = int(update.get("pressure") or 0)
             rt.faction_runtime[fid] = entry
+    # G2: apply faction reputation deltas to game_state.faction_reputation
+    for fid, delta in (updates.get("faction_rep_updates") or {}).items():
+        fid = str(fid).strip()
+        if fid:
+            cur = int(game_state.faction_reputation.get(fid, 0))
+            game_state.faction_reputation[fid] = max(-5, min(5, cur + int(delta or 0)))
     for update in updates.get("location_updates") or []:
         if not isinstance(update, dict):
             continue

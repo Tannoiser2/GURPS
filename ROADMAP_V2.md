@@ -207,7 +207,7 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
   - Costo calcolato da `character_creation.skill_cost()` / `stat_cost()`
   - Validazione: non si può aumentare una stat > 16 o spendere XP che non si ha
 
-- [ ] **G2 — Faction/reputation tracking** `models.py` / `world_simulator.py`
+- [x] **G2 — Faction/reputation tracking** `models.py` / `world_simulator.py`
   Le fazioni sono estratte dal compiler (P4) ma durante il gioco non cambia nulla in base alle azioni del giocatore verso di esse. Aggiungere:
   - `faction_reputation: dict[str, int]` nel GameState (range -5 → +5)
   - Modificatori automatici: successo contro un nemico della fazione → +1, tradimento di un alleato → -2
