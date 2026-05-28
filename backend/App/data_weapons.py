@@ -304,7 +304,7 @@ WEAPON_TABLE: list[dict] = [
         "ammo": 17, "rcl": 2, "reload": 1, "st_min": 9, "lc": 3,
         "cost": 600, "weight": 1.5,
         "notes": "Caricatore 17 colpi; semi-auto.",
-        "eras": [ERA_MODERN, ERA_HORROR, ERA_SCIFI],
+        "eras": [ERA_MODERN, ERA_HORROR],
     },
     {
         "id": "pistola_38", "name": "Revolver .38", "skill": "pistola",
@@ -777,12 +777,13 @@ def default_weapon_for_archetype(archetype: str, genre: str) -> tuple[str, int] 
         eras_for_genre = set(GENRE_ERA_MAP.get(genre, [ERA_MODERN]))
         if w and any(e in eras_for_genre for e in w.get("eras", [])):
             return wid, packs
-    # Fallback per era
+    # Fallback per era — modern prima di scifi così cyberpunk/post_apoc
+    # (che hanno entrambe le ere) usano 9mm; pure sci_fi prende il blaster.
     eras = set(GENRE_ERA_MAP.get(genre, [ERA_MODERN]))
-    if ERA_SCIFI in eras:
-        return "pistola_9mm", 2
     if ERA_MODERN in eras or ERA_HORROR in eras:
         return "pistola_9mm", 2
+    if ERA_SCIFI in eras:
+        return "blaster", 2
     if ERA_WESTERN in eras:
         return "colt_45", 2
     if ERA_STEAMPUNK in eras:

@@ -6531,6 +6531,18 @@ Rispondi SOLO con JSON puro secondo questo schema minimo:
     result["model_used"] = _routing_model
     # N5: propaga witness_updates per persistenza lato main.py
     result["witness_updates"] = simulation.get("witness_updates") or []
+    # Override del roll AI con il prerolled reale (Claude allucina spesso rolled=0
+    # invece di sostituire il placeholder del template).
+    if prerolled and isinstance(prerolled, dict) and prerolled.get("rolled"):
+        result["roll"] = {
+            "rolled": prerolled["rolled"],
+            "target": prerolled.get("effective_skill", 10),
+            "skill": prerolled.get("skill", ""),
+            "skill_name": prerolled.get("skill", ""),
+            "success": bool(prerolled.get("success", False)),
+            "margin": prerolled.get("margin", 0),
+            "critical": bool(prerolled.get("critical", False)),
+        }
     return result
 
 

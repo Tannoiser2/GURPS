@@ -7332,6 +7332,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [adventureMapBackdrop, setAdventureMapBackdrop] = useState(null);
   const [adventureMapPositions, setAdventureMapPositions] = useState({});
   const [showMapPanel, setShowMapPanel] = useState(false);
+  const [mapOpenedAsGM, setMapOpenedAsGM] = useState(false);
   const [clocksData, setClocksData] = useState([]);
   const [clockToasts, setClockToasts] = useState([]);
   const [npcEventToasts, setNpcEventToasts] = useState([]);
@@ -8877,7 +8878,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               backdropImage={adventureMapBackdrop}
               mapPositions={adventureMapPositions}
               onMove={(id) => { handleMoveToLocation(id); setShowPanel(false); }}
-              onOpenMap={() => { setShowMapPanel(true); setShowPanel(false); }}
+              onOpenMap={() => { setMapOpenedAsGM(true); setShowMapPanel(true); setShowPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
               preparingTacticalMaps={preparingTacticalMaps}
               onPrepareTacticalMap={prepareTacticalMapForNode}
@@ -8919,7 +8920,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               backdropImage={adventureMapBackdrop}
               mapPositions={adventureMapPositions}
               onMove={(id) => { handleMoveToLocation(id); setShowPlayerPanel(false); }}
-              onOpenMap={() => { setShowMapPanel(true); setShowPlayerPanel(false); }}
+              onOpenMap={() => { setMapOpenedAsGM(false); setShowMapPanel(true); setShowPlayerPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
               preparingTacticalMaps={preparingTacticalMaps}
               onPrepareTacticalMap={prepareTacticalMapForNode}
@@ -8954,7 +8955,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           backdropImage={adventureMapBackdrop}
           mapPositions={adventureMapPositions}
           onMove={handleMoveToLocation}
-          isGM={true}
+          isGM={mapOpenedAsGM}
           players={players}
           avatars={avatars}
           npcStatuses={gameStateData?.npc_statuses}
