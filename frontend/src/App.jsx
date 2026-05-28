@@ -1347,6 +1347,55 @@ function calcPoints(stats, skills, advantages, disadvantages) {
   return { total: sc + skc + avc + dvc, sc, skc, avc, dvc };
 }
 
+// ─── Categorie vantaggi/svantaggi ─────────────────────────────────────────
+const ADV_CAT_MAP = {
+  "Difesa Migliorata (Schivata)": "combattimento", "Riflessi da Combattimento": "combattimento",
+  "Duro da Uccidere": "combattimento", "Duro da Uccidere 2": "combattimento", "Duro da Uccidere 3": "combattimento",
+  "Elevata Soglia del Dolore": "combattimento", "Sangue Freddo": "combattimento", "Spericolato": "combattimento",
+  "Agilità del Gatto": "fisico", "Bilanciamento Perfetto": "fisico", "Forza Aumentata": "fisico",
+  "Ambidestrezza": "fisico", "Flessuoso": "fisico", "Snodato": "fisico",
+  "Sensi Acuti": "fisico", "Vista Acuta": "fisico", "Vista Acuta 2": "fisico",
+  "Udito Acuto": "fisico", "Visione Notturna": "fisico", "Visione Notturna 3": "fisico", "Visione Notturna 6": "fisico",
+  "Istinto di Sopravvivenza": "fisico", "Resistente alle Malattie": "fisico", "Resistente ai Veleni": "fisico",
+  "Empatia con gli Animali": "fisico",
+  "Alta Tecnologia": "mentale", "Memoria Fotografica": "mentale",
+  "Coraggio": "mentale", "Intrepido": "mentale", "Intrepido 2": "mentale",
+  "Fortuna": "mentale", "Fortuna Straordinaria": "mentale", "Fortuna Smodata": "mentale",
+  "Talento": "mentale", "Talento (Artificiere)": "mentale", "Talento (Sopravvivenza)": "mentale",
+  "Talento (Parlantina)": "mentale", "Talento Linguistico": "mentale",
+  "Viaggiatore (Tempo)": "mentale", "Viaggiatore (Dimensioni)": "mentale",
+  "Carisma": "sociale", "Bellezza": "sociale", "Empatia": "sociale", "Voce Bella": "sociale",
+  "Status Sociale": "sociale", "Ricchezza": "sociale", "Autorità": "sociale",
+  "Contatti": "sociale", "Linguaggio Nativo Extra": "sociale",
+};
+const DISADV_CAT_MAP = {
+  "Animo Sanguinario": "combattimento", "Codardo": "combattimento",
+  "Codice d'Onore (Pirata)": "combattimento", "Codice d'Onore (Gentiluomo)": "combattimento", "Codice d'Onore (Formale)": "combattimento",
+  "Pacifismo (Riluttante a Uccidere)": "combattimento", "Pacifismo (Incapace di Fare del Male a Innocenti)": "combattimento",
+  "Vista Imperfetta": "fisico", "Vista Imperfetta Non Correggibile": "fisico", "Sordità Parziale": "fisico", "Sfortuna": "fisico",
+  "Avidità": "mentale", "Curiosità": "mentale", "Curiosità Morbosa": "mentale", "Gelosia": "mentale",
+  "Ghiottoneria": "mentale", "Impulsività": "mentale", "Irascibile": "mentale", "Onestà": "mentale",
+  "Ossessione Breve": "mentale", "Ossessione Lunga": "mentale",
+  "Fobia": "mentale", "Fobia (Sangue)": "mentale", "Fobia (Buio)": "mentale", "Fobia (Altezza)": "mentale", "Fobia (Ragni)": "mentale",
+  "Dipendenza": "mentale", "Amnesia": "mentale", "Mancanza di Empatia": "mentale",
+  "Smemoratezza": "mentale", "Pessimismo": "mentale", "Poca Autostima": "mentale",
+  "Presunzione": "mentale", "Arroganza": "mentale",
+  "Illusione Minore": "mentale", "Illusione Maggiore": "mentale", "Illusione Severa": "mentale",
+  "Sospettoso": "sociale", "Intolleranza Totale": "sociale", "Intolleranza Specifica": "sociale",
+  "Libidine": "sociale", "Nemico": "sociale", "Segreto": "sociale",
+  "Senso del Dovere": "sociale", "Senso del Dovere (Individuo)": "sociale",
+  "Senso del Dovere (Squadra)": "sociale", "Senso del Dovere (Nazione)": "sociale",
+  "Lealtà": "sociale", "Sincerità": "sociale",
+  "Voto Minore": "sociale", "Voto Maggiore": "sociale", "Voto Superiore": "sociale",
+};
+const TRAIT_CAT_LABELS = { combattimento: "⚔️ Combattimento", fisico: "💪 Fisico", mentale: "🧠 Mentale", sociale: "💬 Sociale" };
+const SKILL_GROUP_META = [
+  { group: "forza",        label: "💪 FO — Forza" },
+  { group: "agilita",      label: "🏃 DE — Destrezza" },
+  { group: "intelligenza", label: "🧠 IN — Intelligenza" },
+  { group: "empatia",      label: "💙 SA — Empatia" },
+];
+
 // ─── Modal creazione personaggio ───────────────────────────────────────────
 
 function CharacterBuilderModal({ genre, archetypes, onAdd, onClose }) {
@@ -1370,6 +1419,11 @@ function CharacterBuilderModal({ genre, archetypes, onAdd, onClose }) {
   // Archetype state
   const [baseArch, setBaseArch] = useState(archetypes[0] || null);
   const [archName, setArchName] = useState(archetypes[0]?.name || "");
+
+  // Accordion state for skill groups and trait categories
+  const [openSkillGroup, setOpenSkillGroup] = useState(null);
+  const [openAdvCat, setOpenAdvCat] = useState(null);
+  const [openDisadvCat, setOpenDisadvCat] = useState(null);
 
   async function handleAiGenerate() {
     if (!aiDesc.trim()) return;
@@ -1565,58 +1619,124 @@ function CharacterBuilderModal({ genre, archetypes, onAdd, onClose }) {
 
               {/* skill */}
               <div style={{ marginBottom: 14 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>Skill (0 = non acquistata)</div>
-                {[
-                  { group: "forza",        label: "💪 FO — Forza" },
-                  { group: "agilita",      label: "🏃 DE — Destrezza" },
-                  { group: "intelligenza", label: "🧠 IN — Intelligenza" },
-                  { group: "empatia",      label: "💙 SA — Salute/Empatia" },
-                ].map(({ group, label }) => (
-                  <div key={group} style={{ marginBottom: 10 }}>
-                    <div style={{ fontSize: 11, fontWeight: 600, color: "var(--accent)", marginBottom: 4, marginTop: 2 }}>{label}</div>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
-                      {SKILL_LIST.filter(sk => sk.stat === group).map(sk => (
-                        <div key={sk.key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                          <span style={{ fontSize: 12, flex: 1, color: "var(--text)" }}>{sk.label}</span>
-                          <input type="number" min={0} max={18}
-                            value={mSkills[sk.key] || 0}
-                            onChange={e => {
-                              const v = +e.target.value;
-                              setMSkills(s => v === 0 ? Object.fromEntries(Object.entries(s).filter(([k]) => k !== sk.key)) : { ...s, [sk.key]: v });
-                            }}
-                            style={{ width: 44, padding: "3px 6px", borderRadius: 5, border: "1px solid var(--border)", background: "var(--code-bg)", color: "var(--text-h)", fontSize: 13, textAlign: "center" }}
-                          />
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text)", marginBottom: 8, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                  Skill (0 = non acquistata)
+                </div>
+                {SKILL_GROUP_META.map(({ group, label }) => {
+                  const groupSkills = SKILL_LIST.filter(sk => sk.stat === group);
+                  const activeCount = groupSkills.filter(sk => (mSkills[sk.key] || 0) > 0).length;
+                  const isOpen = openSkillGroup === group;
+                  return (
+                    <div key={group} style={{ marginBottom: 4, border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
+                      <div
+                        onClick={() => setOpenSkillGroup(isOpen ? null : group)}
+                        style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
+                          padding: "7px 12px", cursor: "pointer",
+                          background: isOpen ? "var(--accent-bg)" : "var(--code-bg)",
+                        }}
+                      >
+                        <span style={{ fontSize: 12, fontWeight: 700, color: isOpen ? "var(--accent)" : "var(--text-h)" }}>{label}</span>
+                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          {activeCount > 0 && <span style={{ fontSize: 11, color: "var(--accent)", fontWeight: 600 }}>{activeCount} skill</span>}
+                          <span style={{ fontSize: 13, color: "var(--text)", lineHeight: 1 }}>{isOpen ? "▾" : "▸"}</span>
+                        </span>
+                      </div>
+                      {isOpen && (
+                        <div style={{ padding: "8px 12px 10px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
+                          {groupSkills.map(sk => (
+                            <div key={sk.key} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <span style={{ fontSize: 12, flex: 1, color: "var(--text)" }}>{sk.label}</span>
+                              <input type="number" min={0} max={18}
+                                value={mSkills[sk.key] || 0}
+                                onChange={e => {
+                                  const v = +e.target.value;
+                                  setMSkills(s => v === 0 ? Object.fromEntries(Object.entries(s).filter(([k]) => k !== sk.key)) : { ...s, [sk.key]: v });
+                                }}
+                                style={{ width: 44, padding: "3px 6px", borderRadius: 5, border: "1px solid var(--border)", background: "var(--code-bg)", color: "var(--text-h)", fontSize: 13, textAlign: "center" }}
+                              />
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* vantaggi */}
-              <div style={{ marginBottom: 16 }}>
+              <div style={{ marginBottom: 14 }}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text)", marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>Vantaggi</div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
-                  {ADVANTAGE_LIST.map(a => {
-                    const sel = mAdvantages.includes(a.key);
-                    return <button key={a.key} title={a.desc} onClick={() => setMAdvantages(p => sel ? p.filter(x=>x!==a.key) : [...p, a.key])} style={{
-                      padding: "4px 9px", borderRadius: 20, fontSize: 11, cursor: "pointer",
-                      border: sel ? "1px solid var(--accent)" : "1px solid var(--border)",
-                      background: sel ? "var(--accent-bg)" : "var(--bg)", color: sel ? "var(--accent)" : "var(--text)",
-                    }}>{a.label} +{a.cost}pt</button>;
-                  })}
-                </div>
+                {Object.entries(TRAIT_CAT_LABELS).map(([cat, catLabel]) => {
+                  const catAdvs = ADVANTAGE_LIST.filter(a => (ADV_CAT_MAP[a.key] || "sociale") === cat);
+                  const selCount = catAdvs.filter(a => mAdvantages.includes(a.key)).length;
+                  const isOpen = openAdvCat === cat;
+                  return (
+                    <div key={cat} style={{ marginBottom: 4, border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
+                      <div onClick={() => setOpenAdvCat(isOpen ? null : cat)}
+                        style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
+                          padding: "7px 12px", cursor: "pointer",
+                          background: isOpen ? "var(--accent-bg)" : "var(--code-bg)" }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: isOpen ? "var(--accent)" : "var(--text-h)" }}>{catLabel}</span>
+                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          {selCount > 0 && <span style={{ fontSize: 11, color: "var(--accent)", fontWeight: 600 }}>{selCount} sel.</span>}
+                          <span style={{ fontSize: 13, color: "var(--text)" }}>{isOpen ? "▾" : "▸"}</span>
+                        </span>
+                      </div>
+                      {isOpen && (
+                        <div style={{ padding: "8px 10px 10px", display: "flex", flexWrap: "wrap", gap: 5 }}>
+                          {catAdvs.map(a => {
+                            const sel = mAdvantages.includes(a.key);
+                            return <button key={a.key} title={a.desc}
+                              onClick={() => setMAdvantages(p => sel ? p.filter(x=>x!==a.key) : [...p, a.key])}
+                              style={{ padding: "4px 9px", borderRadius: 20, fontSize: 11, cursor: "pointer",
+                                border: sel ? "1px solid var(--accent)" : "1px solid var(--border)",
+                                background: sel ? "var(--accent-bg)" : "var(--bg)", color: sel ? "var(--accent)" : "var(--text)" }}>
+                              {a.label} +{a.cost}pt
+                            </button>;
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* svantaggi */}
+              <div style={{ marginBottom: 16 }}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text)", marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>Svantaggi</div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
-                  {DISADV_LIST.map(d => {
-                    const sel = mDisadvantages.includes(d.key);
-                    return <button key={d.key} title={d.desc} onClick={() => setMDisadvantages(p => sel ? p.filter(x=>x!==d.key) : [...p, d.key])} style={{
-                      padding: "4px 9px", borderRadius: 20, fontSize: 11, cursor: "pointer",
-                      border: sel ? "1px solid #f87171" : "1px solid var(--border)",
-                      background: sel ? "rgba(239,68,68,0.1)" : "var(--bg)", color: sel ? "#f87171" : "var(--text)",
-                    }}>{d.label} {d.cost}pt</button>;
-                  })}
-                </div>
+                {Object.entries(TRAIT_CAT_LABELS).map(([cat, catLabel]) => {
+                  const catDisadvs = DISADV_LIST.filter(d => (DISADV_CAT_MAP[d.key] || "mentale") === cat);
+                  const selCount = catDisadvs.filter(d => mDisadvantages.includes(d.key)).length;
+                  const isOpen = openDisadvCat === cat;
+                  return (
+                    <div key={cat} style={{ marginBottom: 4, border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
+                      <div onClick={() => setOpenDisadvCat(isOpen ? null : cat)}
+                        style={{ display: "flex", alignItems: "center", justifyContent: "space-between",
+                          padding: "7px 12px", cursor: "pointer",
+                          background: isOpen ? "rgba(239,68,68,0.05)" : "var(--code-bg)" }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: isOpen ? "#f87171" : "var(--text-h)" }}>{catLabel}</span>
+                        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          {selCount > 0 && <span style={{ fontSize: 11, color: "#f87171", fontWeight: 600 }}>{selCount} sel.</span>}
+                          <span style={{ fontSize: 13, color: "var(--text)" }}>{isOpen ? "▾" : "▸"}</span>
+                        </span>
+                      </div>
+                      {isOpen && (
+                        <div style={{ padding: "8px 10px 10px", display: "flex", flexWrap: "wrap", gap: 5 }}>
+                          {catDisadvs.map(d => {
+                            const sel = mDisadvantages.includes(d.key);
+                            return <button key={d.key} title={d.desc}
+                              onClick={() => setMDisadvantages(p => sel ? p.filter(x=>x!==d.key) : [...p, d.key])}
+                              style={{ padding: "4px 9px", borderRadius: 20, fontSize: 11, cursor: "pointer",
+                                border: sel ? "1px solid #f87171" : "1px solid var(--border)",
+                                background: sel ? "rgba(239,68,68,0.1)" : "var(--bg)", color: sel ? "#f87171" : "var(--text)" }}>
+                              {d.label} {d.cost}pt
+                            </button>;
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
               <button onClick={handleManualAdd} disabled={!mName.trim() || mPts.total > 100} style={{

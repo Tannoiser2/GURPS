@@ -159,7 +159,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v4-g6-sanity"
+BUILD_VERSION = "v5-equipment-builder-movement"
 
 @app.get("/health")
 def health_check():
@@ -698,17 +698,18 @@ def _needs_roll(action_text: str, threat_level: int, in_combat: bool) -> bool:
     """
     if in_combat:
         return True  # in combattimento si tira sempre
-    if threat_level >= 3:
-        return True  # alta tensione: anche il movimento può nascondere pericoli
     text_lower = action_text.strip().lower()
-    # Movimento semplice senza specificare ostacoli o azioni aggiuntive
+    # Movimento puro (senza obiettivo secondario) non richiede mai un tiro,
+    # indipendentemente dal threat_level: la tensione è nella narrativa, non nei dadi.
     if _ROUTINE_MOVE_RE.match(text_lower):
-        # Eccezioni: se l'azione contiene un obiettivo secondario (es. "spostarsi e cercare")
         secondary_keywords = ("cerca", "osserv", "nascond", "furtiv", "combatt",
                               "attacc", "scappa", "sfuggi", "investiga", "esamina",
-                              "ascolt", "spia", "intercett")
+                              "ascolt", "spia", "intercett", "forza", "sfonda")
         if not any(k in text_lower for k in secondary_keywords):
             return False
+    # Alta tensione: le azioni non-movimento richiedono comunque un tiro
+    if threat_level >= 3:
+        return True
     return True
 
 

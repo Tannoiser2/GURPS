@@ -21,6 +21,7 @@ except Exception as _e:
 
 from .data_roles import ROLE_LIBRARY, THEME_FAMILY_ROLE_OVERRIDE
 from .data_equipment import MISSION_EQUIPMENT_BONUS, ENVIRONMENT_EQUIPMENT_BONUS
+from .equipment_coherence import starter_item_names as _starter_item_names
 from .data_skills import SKILL_TO_EFFECT_TYPE, SKILLS_BY_STAT, VALID_SKILLS, default_skill_for, skill_prompt_text, reconcile_effect_type, infer_effect_type_from_text, skill_display, normalize_skill, stat_display
 from .data_advantages import trait_story_notes, traits_requiring_self_control
 from .adventure_runtime import build_adventure_runtime, runtime_prompt_context
@@ -577,7 +578,10 @@ def generate_candidate_pool(genre: str, active_slots: int, mission_type: str, en
     names = _pick_names(genre, POOL_TARGET)
     out = []
     for idx, role in enumerate(selected, start=1):
-        items = list(role["base_items"])
+        try:
+            items = _starter_item_names(role.get("archetype", ""), genre) or list(role["base_items"])
+        except Exception:
+            items = list(role["base_items"])
         for item in MISSION_EQUIPMENT_BONUS.get(mission_type, []):
             if item not in items and len(items) < 4:
                 items.append(item)
