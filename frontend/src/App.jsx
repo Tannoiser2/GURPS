@@ -2085,9 +2085,13 @@ function SetupScreen({ onStart }) {
       setLoading(false);
       setTeamStarting(false);
       const isTimeout = e?.name === "AbortError";
-      setJsonError(isTimeout
-        ? "Il server sta impiegando troppo tempo (Render free tier si sveglia in 30-60s). Riprova tra qualche secondo."
-        : (e.message || "Errore di connessione al server. Riprova."));
+      const isNetwork = e?.message === "Load failed" || e?.message === "Failed to fetch" || e?.message?.includes("NetworkError");
+      let msg;
+      if (isTimeout) msg = "Il server impiega troppo tempo a rispondere. Se usi Render free tier, aspetta 60s e riprova.";
+      else if (isNetwork && !import.meta.env.PROD) msg = "Backend non raggiungibile su " + (typeof API_URL !== "undefined" ? API_URL : "localhost:8002") + ". Avvia il server con: cd backend && uvicorn App.main:app --port 8002";
+      else if (isNetwork) msg = "Server non raggiungibile. Se è il primo avvio dopo inattività, attendi 60s e riprova.";
+      else msg = e.message || "Errore di connessione al server.";
+      setJsonError(msg);
     }
   }
 
@@ -7159,9 +7163,15 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       setLoading(false);
       setStartupLoading(false);
       const isTimeout = err?.name === "AbortError";
-      const hint = isTimeout
-        ? " Il server (Render free tier) potrebbe impiegare fino a 90 secondi per svegliarsi. Ricarica la pagina e attendi."
-        : " Riprova a ricaricare la pagina.";
+      const isNetwork = err?.message === "Load failed" || err?.message === "Failed to fetch" || err?.message?.includes("NetworkError");
+      let hint;
+      if (isTimeout || isNetwork) {
+        hint = import.meta.env.PROD
+          ? " Il server (Render free tier) si sveglia in 30-90 secondi dopo inattività. Ricarica la pagina e attendi."
+          : ` Backend non raggiungibile su ${API_URL}. Avvia con: cd backend && uvicorn App.main:app --port 8002`;
+      } else {
+        hint = " Riprova a ricaricare la pagina.";
+      }
       const errMsg = { role: "master", name: "Master", text: `⚠️ Errore all'avvio: ${err.message || "il backend non ha risposto"}.${hint}` };
       _setMessages([errMsg]);
       setHistory([{ role: "master", name: "Master", text: errMsg.text }]);
