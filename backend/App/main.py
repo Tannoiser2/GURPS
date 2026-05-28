@@ -764,21 +764,34 @@ def _balance_combat_entities(entities: list[dict], combat_scene: dict | None = N
     player_count = max(1, len([p for p in game_state.players if getattr(p, "hp", 1) > 0]) or len(game_state.players) or 1)
     is_final = _current_tactical_is_final()
     max_enemies = player_count + 2 if is_final else max(1, min(3, player_count))
+    # Scale caps based on party size (each extra player allows slightly tougher enemies)
+    _pc = player_count
+    if is_final:
+        hp_cap = 12 + _pc * 3        # final: 15 for 1PC, 18 for 2PC, 21 for 3PC+
+        skill_cap = 12 + _pc         # final: 13 for 1PC, 14 for 2PC, 15 for 3PC
+        def_cap = 10 + max(0, _pc - 1)
+    else:
+        hp_cap = 8 + _pc * 2         # normal: 10 for 1PC, 12 for 2PC, 14 for 3PC
+        skill_cap = 9 + _pc          # normal: 10 for 1PC, 11 for 2PC, 12 for 3PC
+        def_cap = 8 + max(0, _pc - 1)
+
     balanced: list[dict] = []
     for raw in entities[:max_enemies]:
         entity = dict(raw)
         if not is_final:
-            hp = min(_safe_int(entity.get("hp", entity.get("max_hp", 10)), 10), 11)
-            max_hp = min(_safe_int(entity.get("max_hp", hp), hp), 11)
+            hp = min(_safe_int(entity.get("hp", entity.get("max_hp", 10)), 10), hp_cap)
+            max_hp = min(_safe_int(entity.get("max_hp", hp), hp), hp_cap)
             entity["hp"] = min(hp, max_hp)
             entity["max_hp"] = max_hp
             entity["dr"] = min(_safe_int(entity.get("dr", 0), 0), 1)
-            entity["attack_skill"] = min(_safe_int(entity.get("attack_skill", 10), 10), 11)
-            entity["active_defense"] = min(_safe_int(entity.get("active_defense", 8), 8), 9)
+            entity["attack_skill"] = min(_safe_int(entity.get("attack_skill", 10), 10), skill_cap)
+            entity["active_defense"] = min(_safe_int(entity.get("active_defense", 8), 8), def_cap)
             dmg = str(entity.get("damage_dice") or "1d6")
             if dmg.startswith("2d") or dmg.startswith("3d"):
                 entity["damage_dice"] = "1d6"
-            entity.setdefault("morale", "si ritira se ferito o se il gruppo apre una via di fuga")
+            entity.setdefault("morale", "")  # empty = fuga al 33% HP (default per non-finali)
+        else:
+            entity.setdefault("morale", "fanatico")  # boss/finale: combatte fino alla fine
         balanced.append(entity)
     return balanced
 
@@ -2082,10 +2095,14 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
     # TPK: tutti i PG morti → sconfitta forzata
     if payload.players and all((p.get("hp") or 1) <= 0 for p in payload.players):
         _gsd["total_party_kill"] = True
-    # Flag antagonista ucciso nel combattimento appena concluso
-    _antag_killed_flag = (_gsd.get("last_combat_summary") or {}).get("antagonist_killed")
+    # Flag antagonista ucciso o fuggito nel combattimento appena concluso
+    _combat_summary_flags = _gsd.get("last_combat_summary") or {}
+    _antag_killed_flag = _combat_summary_flags.get("antagonist_killed")
+    _antag_escaped_flag = _combat_summary_flags.get("antagonist_escaped")
     if _antag_killed_flag:
         _gsd["antagonist_killed"] = _antag_killed_flag
+    if _antag_escaped_flag:
+        _gsd["antagonist_escaped"] = _antag_escaped_flag
     # Inietta stato combattimento live: HP corrente entità, ultimo esito round, stato giocatori
     if payload.game_state_data.get("in_combat") and game_state.scene and game_state.scene.entities:
         _gsd["live_combat_entities"] = [
@@ -2169,12 +2186,23 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
                 if any(_a and (_a in _elim_low or _elim_low in _a) for _a in _antag_actor_names):
                     _antagonist_killed_name = _elim
                     break
+        # Antagonist protection: if finale not yet unlocked, antagonist escapes instead of dying
+        _antagonist_escaped_name: str | None = None
+        if _antagonist_killed_name and not _runtime_finale_available():
+            _antagonist_escaped_name = _antagonist_killed_name
+            _antagonist_killed_name = None
+            if _antagonist_escaped_name in _eliminated:
+                _eliminated.remove(_antagonist_escaped_name)
+            _fled.append(_antagonist_escaped_name)
+            print(f"[antagonist_protection] {_antagonist_escaped_name} è fuggito — finale non ancora sbloccato")
+
         game_state.last_combat_summary = {
             "eliminated": _eliminated,
             "fled": _fled,
             "surviving_enemies": _alive_enemies,
             "player_aftermath": _player_aftermath,
             "antagonist_killed": _antagonist_killed_name,
+            "antagonist_escaped": _antagonist_escaped_name,
         }
         # Mark dead enemies in actor_runtime so they don't reappear in narrative
         if game_state.adventure_runtime_state:
@@ -2182,13 +2210,20 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
             if _rt.actor_runtime is None:
                 _rt.actor_runtime = {}
             for _e in _combat_entities:
-                if _e.type == "enemy" and _e.hp <= 0:
+                if _e.type == "enemy" and _e.hp <= 0 and getattr(_e, "status", "") != "fuggito":
                     _entry = dict(_rt.actor_runtime.get(_e.id) or {})
                     _entry["status"] = "morto"
                     _rt.actor_runtime[_e.id] = _entry
-            # Also mark matching adventure actors as dead
-            if _antagonist_killed_name:
-                for _actor in (_adv_def.actors or []):
+            # Mark antagonist as escaped (not dead) in actor_runtime
+            if _antagonist_escaped_name and game_state.adventure_definition:
+                for _actor in (game_state.adventure_definition.actors or []):
+                    if _actor.name.lower() in _antagonist_escaped_name.lower() or _antagonist_escaped_name.lower() in _actor.name.lower():
+                        _entry = dict(_rt.actor_runtime.get(_actor.id) or {})
+                        _entry["status"] = "fuggito"
+                        _rt.actor_runtime[_actor.id] = _entry
+            # Mark antagonist as dead in actor_runtime if finale was available
+            if _antagonist_killed_name and game_state.adventure_definition:
+                for _actor in (game_state.adventure_definition.actors or []):
                     if _actor.name.lower() in _antagonist_killed_name.lower() or _antagonist_killed_name.lower() in _actor.name.lower():
                         _entry = dict(_rt.actor_runtime.get(_actor.id) or {})
                         _entry["status"] = "morto"
@@ -2278,6 +2313,12 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
             su["end_reason"] = su.get("end_reason") or f"{_gsd['antagonist_killed']} è stato eliminato — il gruppo ha vinto."
             result["state_updates"] = su
             print(f"[terminal] Antagonista {_gsd['antagonist_killed']} eliminato: story_over forzato")
+    # Se l'antagonista è fuggito (protetto dal sistema perché finale non sbloccato), annulla story_over forzato
+    if su.get("story_over") and su.get("victory") and _gsd.get("antagonist_escaped") and not _gsd.get("antagonist_killed"):
+        su["story_over"] = False
+        su["victory"] = False
+        result["state_updates"] = su
+        print(f"[antagonist_protection] story_over annullato: {_gsd['antagonist_escaped']} è fuggito, finale non ancora sbloccato")
 
     # Valutazione vittorie personali quando la storia finisce
     if su.get("story_over"):

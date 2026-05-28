@@ -88,6 +88,7 @@ class SceneEntity(BaseModel):
     active_defense: int = 0             # valore base schivata/parata
     damage_dice: str = "1d6"            # formula danno, es. "2d6", "1d6+2"
     damage_type: str = "cr"             # "cut" | "imp" | "cr" | "burn"
+    morale: str = ""                    # "" = si ritira al 33% HP | "tenace" = 20% | "fanatico" = mai
 
 
 class SceneChallenge(BaseModel):

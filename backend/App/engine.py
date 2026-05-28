@@ -4384,6 +4384,30 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
     is_final = bool(getattr(current_node, "is_final", False) or getattr(current_node, "is_objective", False) or "final" in role)
     enemies_acting = alive_enemies if is_final else alive_enemies[:max(1, min(len(alive_enemies), len(alive_players)))]
     for enemy in enemies_acting:
+        # Morale check: retreat when critically wounded (unless fanatic/boss)
+        morale = str(getattr(enemy, "morale", "") or "").lower()
+        is_fanatic = morale == "fanatico" or "combatte fino" in morale
+        if not is_fanatic and enemy.max_hp > 0:
+            flee_threshold = 0.20 if morale == "tenace" else 0.33
+            if enemy.hp / enemy.max_hp <= flee_threshold and getattr(enemy, "status", "") != "fuggito":
+                enemy.status = "fuggito"
+                npc_logs.append({
+                    "attacker": enemy.name, "target": "",
+                    "skill": "fuga", "skill_level": 0, "attack_roll": 0,
+                    "damage_formula": "", "damage_type": "", "is_npc_turn": True,
+                    "result": {
+                        "hit": False, "defended": False, "raw_damage": 0, "dr_absorbed": 0,
+                        "net_damage": 0, "attacker_margin": 0, "defense_margin": 0,
+                        "attacker_critical": False, "defense_critical_fail": False,
+                        "wound_threshold": "fuggito", "narrative_hint": "npc_fugge",
+                        "shock_applied": 0, "major_wound": False, "major_wound_check_passed": False,
+                        "knockdown": False, "knockdown_check_passed": False,
+                        "death_check": False, "death_check_passed": False,
+                        "fp_cost": 0, "target_stunned": False, "target_prone": False,
+                    },
+                })
+                continue
+
         enemy_key = f"e_{enemy.id}"
         enemy_pos = positions.get(enemy_key)
         # Bersaglio tattico: il più vicino; a parità, quello con meno HP.

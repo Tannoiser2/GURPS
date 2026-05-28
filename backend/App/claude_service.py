@@ -4060,6 +4060,8 @@ def _build_combat_context(game_state_data: dict) -> str:
             hl = _health_label(pa.get("hp"), pa.get("max_hp"))
             if hl:
                 lines.append(f"  {pa['name']}: {hl}")
+        if summary.get("antagonist_escaped"):
+            lines.append(f"  ⚠ {summary['antagonist_escaped']}: FUGGITO gravemente ferito — NON è morto, continuerà a essere una minaccia.")
         lines.append("OBBLIGO: descrivi le conseguenze immediate — ferite riportate, chi è caduto, come i sopravvissuti reagiscono emotivamente. Aggiorna attitudine PNG sconfitti (npc_updates) se presenti nell'avventura.")
         return "\n" + "\n".join(lines) + "\n"
 
@@ -6316,20 +6318,29 @@ NARRATIVE AUTHORITY LIMITS — OBBLIGATORIO:
 
     # ── Terminal condition block (computed before f-string to avoid backslash issue) ────
     _terminal_block = ""
-    if game_state_data.get("antagonist_killed") or game_state_data.get("total_party_kill"):
-        _lines = ["⚠ CONDIZIONE TERMINALE RILEVATA DAL MOTORE — AZIONE OBBLIGATORIA:"]
-        if game_state_data.get("antagonist_killed"):
-            _lines.append(
-                f"- VITTORIA: l'antagonista {game_state_data['antagonist_killed']} è stato eliminato in combattimento. "
-                "DEVI narrare il trionfo del gruppo, impostare story_over=true, victory=true, end_reason con 2-3 frasi "
-                "che descrivono come il gruppo ha sconfitto l'antagonista e cosa questo significa per la storia."
-            )
-        if game_state_data.get("total_party_kill"):
-            _lines.append(
-                "- SCONFITTA: tutti i personaggi giocanti sono incapacitati/morti (HP ≤ 0). "
-                "DEVI narrare la fine tragica, impostare story_over=true, victory=false, end_reason con 2-3 frasi sulla caduta del gruppo."
-            )
-        _terminal_block = "\n".join(_lines) + "\n"
+    _term_lines = []
+    if game_state_data.get("antagonist_killed") or game_state_data.get("total_party_kill") or game_state_data.get("antagonist_escaped"):
+        _term_lines.append("⚠ CONDIZIONE SPECIALE RILEVATA DAL MOTORE — AZIONE OBBLIGATORIA:")
+    if game_state_data.get("antagonist_killed"):
+        _term_lines.append(
+            f"- VITTORIA: l'antagonista {game_state_data['antagonist_killed']} è stato eliminato in combattimento. "
+            "DEVI narrare il trionfo del gruppo, impostare story_over=true, victory=true, end_reason con 2-3 frasi "
+            "che descrivono come il gruppo ha sconfitto l'antagonista e cosa questo significa per la storia."
+        )
+    if game_state_data.get("total_party_kill"):
+        _term_lines.append(
+            "- SCONFITTA: tutti i personaggi giocanti sono incapacitati/morti (HP ≤ 0). "
+            "DEVI narrare la fine tragica, impostare story_over=true, victory=false, end_reason con 2-3 frasi sulla caduta del gruppo."
+        )
+    if game_state_data.get("antagonist_escaped"):
+        _term_lines.append(
+            f"- FUGA ANTAGONISTA: {game_state_data['antagonist_escaped']} era in fin di vita ma è FUGGITO (il finale non è ancora sbloccato). "
+            "DEVI narrare la sua fuga drammatica — ferito ma vivo, scappa promettendo vendetta o scomparendo nell'ombra. "
+            "Non impostare story_over. Usa npc_updates per aggiornare il suo status a 'fuggito'. "
+            "L'avventura continua — il gruppo deve ancora trovare il modo per affrontarlo definitivamente."
+        )
+    if _term_lines:
+        _terminal_block = "\n".join(_term_lines) + "\n"
 
     # ── User prompt (per-turn: stato dinamico + azione + regole dinamiche) ────
     _user_prompt = f"""{twists_context}
