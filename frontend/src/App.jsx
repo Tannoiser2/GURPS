@@ -3497,11 +3497,11 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
               filter={isCurrent ? "url(#glow)" : "none"}
               opacity={isAdjacent && !isGM ? 0.7 : 1}
             >
-              {/* Card */}
+              {/* Card — solo bordo se attivo/obiettivo, niente sfondo colorato */}
               <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={9}
-                fill={cardFill}
-                stroke={hovered && moveable ? "#60a5fa" : borderColor}
-                strokeWidth={isCurrent ? 2.5 : isObj ? 2.5 : 1.5}
+                fill="none"
+                stroke={hovered && moveable ? "#60a5fa" : (isCurrent || isObj ? borderColor : "transparent")}
+                strokeWidth={isCurrent ? 2.5 : isObj ? 2 : (hovered && moveable ? 1.5 : 0)}
               />
 
               {/* Status dot + label (no rect, fits text size) */}
@@ -3516,9 +3516,10 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
               {/* Move hint top-right */}
               {moveable && <text x={p.x+NODE_W-5} y={p.y+12} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered?1:0.35}>→</text>}
 
-              {/* Location name — centered */}
+              {/* Location name — centered, con contorno scuro per leggibilità */}
               <text x={p.x+NODE_W/2} y={p.y+34} textAnchor="middle" fontSize={9} fontWeight="900"
-                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.8)"}
+                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.92)"}
+                stroke="rgba(0,0,0,0.75)" strokeWidth={2.5} paintOrder="stroke"
                 style={{ fontFamily: "system-ui, sans-serif" }}>
                 {line1}
               </text>
