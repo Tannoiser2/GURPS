@@ -10,11 +10,28 @@ _INVESTIGATIVE_WORDS = {
     "studia", "ispeziona", "controlla", "traccia", "segue",
 }
 
-# Stati che bloccano definitivamente un NPC (non può essere riutilizzato come neutrale)
 _TERMINAL_NPC_STATES = {"dead", "captured", "missing", "resolved"}
-
-# Ruoli di NPC testimone che richiedono gestione speciale
 _WITNESS_ROLES = {"witness", "informant", "survivor", "bystander", "protected", "testimone"}
+
+# ── E1: Profile cluster mapping ───────────────────────────────────────────────
+# Raggruppa i runtime_profile in cluster di comportamento omogeneo.
+_PROFILE_CLUSTER: dict[str, str] = {
+    "investigation_graph":   "clue",
+    "guided_sandbox":        "clue",
+    "mythic_quest":          "clue",
+    "journey":               "clue",
+    "branching_node_graph":  "clue",
+    "ritual_dungeon":        "dungeon",
+    "room_keyed_dungeon":    "dungeon",
+    "pursuit_thriller":      "thriller",
+    "survival_escape":       "thriller",
+    "escalating_horror":     "horror",
+    "heist":                 "heist",
+    "faction_crisis":        "faction",
+}
+
+def _profile_cluster(runtime: AdventureRuntime) -> str:
+    return _PROFILE_CLUSTER.get(runtime.runtime_profile, "clue")
 
 
 def _action_is_investigative(player_action: str, skill: str = "") -> bool:
@@ -27,29 +44,91 @@ def _action_is_investigative(player_action: str, skill: str = "") -> bool:
 
 def _compute_narrative_phase(runtime: AdventureRuntime, game_state_data: dict) -> str:
     """
-    Determina la fase narrativa corrente in base allo stato dei clue e delle rivelazioni.
+    Determina la fase narrativa corrente. Logica dipende dal cluster del runtime_profile.
 
-    Fasi:
-    - "investigation" : raccolta prove, la maggioranza degli indizi non è ancora trovata
-    - "extraction"    : prove critiche in mano, ora bisogna portarle al sicuro / consegnarle
-    - "delivery"      : prove già consegnate o finale raggiunto
-    - "escape"        : clock terminale critico (≥ 80%), sopravvivenza priorità assoluta
+    Cluster clue      → investigation / extraction / delivery / escape (clue-based)
+    Cluster dungeon   → exploration / confrontation / escape (clock/room-based)
+    Cluster thriller  → evasion / objective_reached / escape (threat-first)
+    Cluster horror    → curiosity / dread / confrontation / survival
+    Cluster heist     → planning / infiltration / execution / exfil
+    Cluster faction   → assessment / negotiation / confrontation / resolution
     """
-    found = set(game_state_data.get("clues_found") or [])
+    cluster = _profile_cluster(runtime)
 
-    # Finale già soddisfatto
+    # Terminazione comune: finale soddisfatto
     if any(f.status == "satisfied" for f in runtime.finale_conditions):
         return "delivery"
 
-    # Clock terminali di sconfitta: se ≥ 80% del max → modalità escape
+    # Escape comune: clock terminale ≥ 80%
     for clock in runtime.event_clocks:
         if not clock.active or clock.clock_type != "terminal_defeat":
             continue
         current = _clock_runtime_value(clock.id, game_state_data)
         if clock.max_value > 0 and current / clock.max_value >= 0.80:
-            return "escape"
+            # Label cluster-specifico per l'escape
+            return "survival" if cluster == "horror" else "escape"
 
-    # Rivela quante rivelazioni sono pronte o già emerse
+    found = set(game_state_data.get("clues_found") or [])
+
+    # ── Dungeon ────────────────────────────────────────────────────────────────
+    if cluster == "dungeon":
+        # Confrontazione: payload o chiave finale trovata
+        payload = [c for c in runtime.clues if c.type in ("payload_object", "finale_key")]
+        if payload and any(c.id in found for c in payload):
+            return "confrontation"
+        # Exploration altrimenti
+        return "exploration"
+
+    # ── Thriller / Survival ────────────────────────────────────────────────────
+    if cluster == "thriller":
+        # Alta pressione = priorità fuga anche senza clock al 80%
+        threat = int(game_state_data.get("threat_level") or 0)
+        threat_max = max(1, max((c.max_value for c in runtime.event_clocks), default=8))
+        if threat / threat_max >= 0.60:
+            return "escape"
+        required = [c for c in runtime.clues if c.is_required]
+        if required and sum(1 for c in required if c.id in found) / len(required) >= 0.70:
+            return "objective_reached"
+        return "evasion"
+
+    # ── Horror ────────────────────────────────────────────────────────────────
+    if cluster == "horror":
+        required = [c for c in runtime.clues if c.is_required]
+        pct = (sum(1 for c in required if c.id in found) / len(required)) if required else 0.0
+        if pct >= 0.70:
+            return "confrontation"
+        if pct >= 0.35:
+            return "dread"
+        return "curiosity"
+
+    # ── Heist ─────────────────────────────────────────────────────────────────
+    if cluster == "heist":
+        objectives = runtime.objective_stack or []
+        done = sum(1 for o in objectives if getattr(o, "status", "") == "completed")
+        total = len(objectives) or 1
+        pct = done / total
+        if pct >= 1.0:
+            return "exfil"
+        if pct >= 0.50:
+            return "execution"
+        required = [c for c in runtime.clues if c.is_required]
+        if required and sum(1 for c in required if c.id in found) / len(required) >= 0.50:
+            return "infiltration"
+        return "planning"
+
+    # ── Faction ───────────────────────────────────────────────────────────────
+    if cluster == "faction":
+        required = [c for c in runtime.clues if c.is_required]
+        pct = (sum(1 for c in required if c.id in found) / len(required)) if required else 0.0
+        if pct >= 0.80:
+            return "resolution"
+        if pct >= 0.50:
+            return "confrontation"
+        if pct >= 0.20:
+            return "negotiation"
+        return "assessment"
+
+    # ── Clue-based (default: investigation_graph e affini) ────────────────────
     ready_count = 0
     for rev in runtime.revelations:
         if rev.status == "revealed":
@@ -60,19 +139,14 @@ def _compute_narrative_phase(runtime: AdventureRuntime, game_state_data: dict) -
         minimum = min(2, max(1, len(rev.required_clues)))
         if len([cid for cid in rev.required_clues if cid in found]) >= minimum:
             ready_count += 1
-
     total_revs = len(runtime.revelations)
     if total_revs > 0 and ready_count >= max(1, total_revs - 1):
         return "extraction"
 
-    # Clue di tipo payload_object / finale_key / evidence in mano
     payload_clues = [c for c in runtime.clues if c.type in ("payload_object", "finale_key", "evidence")]
-    if payload_clues:
-        found_payload = sum(1 for c in payload_clues if c.id in found)
-        if found_payload >= max(1, len(payload_clues) // 2):
-            return "extraction"
+    if payload_clues and sum(1 for c in payload_clues if c.id in found) >= max(1, len(payload_clues) // 2):
+        return "extraction"
 
-    # 70% degli indizi richiesti trovati → passa a extraction
     required_clues = [c for c in runtime.clues if c.is_required]
     if required_clues:
         pct = sum(1 for c in required_clues if c.id in found) / len(required_clues)
@@ -84,11 +158,12 @@ def _compute_narrative_phase(runtime: AdventureRuntime, game_state_data: dict) -
 
 def _fail_tier(prerolled: dict, game_state_data: dict, runtime: AdventureRuntime) -> str:
     """
-    Classifica il fallimento per un sistema fail-forward graduato a tre livelli:
+    Classifica il fallimento con logica dipendente dal cluster del runtime_profile.
+
     - "none"     : successo, nessun costo
-    - "soft"     : piccolo costo — indizio parziale, complicazione minore
-    - "pressure" : il clock avanza, la situazione peggiora
-    - "hard"     : conseguenza immediata — NPC compromesso, prova a rischio
+    - "soft"     : piccolo costo narrativo (solo in cluster permissivi)
+    - "pressure" : clock avanza o situazione peggiora
+    - "hard"     : conseguenza immediata — NPC compromesso, danno, allarme
     """
     success = bool(prerolled.get("success", True))
     if success:
@@ -99,7 +174,37 @@ def _fail_tier(prerolled: dict, game_state_data: dict, runtime: AdventureRuntime
     threat_level = int(game_state_data.get("threat_level") or 0)
     threat_max = max(1, max((c.max_value for c in runtime.event_clocks), default=8))
     threat_pct = threat_level / threat_max
+    cluster = _profile_cluster(runtime)
 
+    # Dungeon e Horror: nessun fallimento "soft" — ogni errore ha peso
+    if cluster in ("dungeon", "horror"):
+        if critical or margin <= -3:
+            return "hard"
+        return "pressure"
+
+    # Thriller / Survival: alta pressione scala più velocemente
+    if cluster == "thriller":
+        if critical or margin <= -4 or threat_pct >= 0.50:
+            return "hard"
+        return "pressure"  # No "soft" — ogni passo falso è pericoloso
+
+    # Heist: soft = sospetto alzato, pressure = allarme parziale, hard = lockdown
+    if cluster == "heist":
+        if critical or margin <= -5:
+            return "hard"
+        if threat_pct >= 0.40 or margin <= -2:
+            return "pressure"
+        return "soft"
+
+    # Faction: soft = reputazione scalfita, pressure = fazione ostile, hard = conflitto
+    if cluster == "faction":
+        if critical or margin <= -5:
+            return "hard"
+        if margin <= -2:
+            return "pressure"
+        return "soft"
+
+    # Clue-based (default)
     if critical or margin <= -5:
         return "hard"
     if threat_pct >= 0.60 or margin <= -3:
@@ -180,33 +285,41 @@ def _next_best_actions(
     if ready_threads:
         actions.append("dedurre_e_confermare_rivelazione")
 
-    if phase == "extraction":
-        actions += [
-            "proteggere_o_copiare_le_prove",
-            "raggiungere_luogo_sicuro",
-            "contattare_autorita_di_fiducia",
-            "separare_il_testimone_dalle_prove",
-            "evitare_la_polizia_locale",
-        ]
-    elif phase == "escape":
-        actions += [
-            "evacuare_immediatamente",
-            "consegnare_le_prove_prima_di_fuggire",
-            "evitare_pattuglie_antagonista",
-            "trovare_via_di_fuga",
-        ]
-    elif phase == "delivery":
-        actions += [
-            "consegnare_prove_all_autorita",
-            "proteggere_testimonianza",
-            "smascherare_antagonista_pubblicamente",
-        ]
-    else:  # investigation
-        actions += [
-            "seguire_la_pista_piu_calda",
-            "interrogare_testimone_disponibile",
-            "esaminare_prova_fisica",
-        ]
+    cluster = _profile_cluster(runtime)
+
+    _PHASE_ACTIONS: dict[str, list[str]] = {
+        # clue
+        "investigation": ["seguire_la_pista_piu_calda", "interrogare_testimone_disponibile", "esaminare_prova_fisica"],
+        "extraction":    ["proteggere_o_copiare_le_prove", "raggiungere_luogo_sicuro", "contattare_autorita_di_fiducia", "separare_il_testimone_dalle_prove"],
+        "delivery":      ["consegnare_prove_all_autorita", "proteggere_testimonianza", "smascherare_antagonista_pubblicamente"],
+        "escape":        ["evacuare_immediatamente", "consegnare_le_prove_prima_di_fuggire", "evitare_pattuglie_antagonista", "trovare_via_di_fuga"],
+        # dungeon
+        "exploration":   ["avanzare_con_cautela", "cercare_trappole", "forzare_porta", "mappare_il_corridoio"],
+        "confrontation": ["affrontare_il_boss", "cercare_debolezza", "proteggere_il_gruppo", "usare_l_ambiente"],
+        # thriller
+        "evasion":          ["nascondersi", "cambiare_percorso", "creare_diversione", "segnalare_posizione_sicura"],
+        "objective_reached":["recuperare_l_obiettivo", "proteggere_il_corridoio_di_fuga", "eliminare_ultima_guardia"],
+        # horror
+        "curiosity":     ["investigare_con_cautela", "documentare_l_anomalia", "intervistare_i_sopravvissuti"],
+        "dread":         ["non_separarsi_dal_gruppo", "trovare_riparo_sicuro", "cercare_debolezza_dell_entita"],
+        "confrontation_horror": ["affrontare_l_entita", "fuggire_ora", "proteggere_l_alleato_vulnerabile"],
+        "survival":      ["fuggire_a_tutti_i_costi", "sacrificare_un_esca", "trovare_l_uscita"],
+        # heist
+        "planning":      ["raccogliere_intel_sul_bersaglio", "individuare_vulnerabilita", "reclutare_specialista"],
+        "infiltration":  ["eludere_la_guardia", "disattivare_sicurezza", "avanzare_non_rilevati"],
+        "execution":     ["recuperare_il_bersaglio", "mantenere_copertura", "gestire_imprevisto"],
+        "exfil":         ["raggiungere_il_punto_di_estrazione", "eliminare_tracce", "aborta_se_compromessi"],
+        # faction
+        "assessment":    ["raccogliere_intel_sulle_fazioni", "identificare_interlocutore_chiave"],
+        "negotiation":   ["proporre_accordo", "costruire_alleanza", "neutralizzare_estremisti"],
+        "resolution":    ["smascherare_il_tradimento", "consolidare_l_alleanza", "pacificare_le_parti"],
+    }
+
+    phase_key = phase
+    if cluster == "horror" and phase == "confrontation":
+        phase_key = "confrontation_horror"
+
+    actions += _PHASE_ACTIONS.get(phase_key, _PHASE_ACTIONS["investigation"])
 
     # Payload object trovati → suggerisci consegna
     payload_found = [
