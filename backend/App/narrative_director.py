@@ -4,6 +4,7 @@ from .runtime_models import AdventureRuntime
 from .escalation_limiter import compute_allowed_escalation_tier, TIER_DESCRIPTIONS
 from .genre_constraints import get_genre_profile
 from .scene_context import present_actors_at, visible_clues_at
+from .revelation_controller import pacing_score, suggest_revelation_timing
 
 
 _PHASE_LABELS = {
@@ -46,7 +47,7 @@ def make_director_decision(
     """Trasforma lo stato simulato in una direttiva singola e concreta per il renderer AI."""
     prerolled = prerolled or {}
     success = bool(prerolled.get("success", True))
-    ready = simulation.get("ready_threads") or []
+    ready = list(simulation.get("ready_threads") or [])
     clue_id = simulation.get("selected_clue_id")
     npcs_to_introduce = simulation.get("npcs_to_introduce") or []
     clock_tick = int(simulation.get("clock_tick") or 0)
@@ -57,6 +58,15 @@ def make_director_decision(
     urgency_warnings = simulation.get("urgency_warnings") or []
     next_best_actions = simulation.get("next_best_actions") or []
     witness_updates = simulation.get("witness_updates") or []
+
+    # N4: pacing control — anti-dump e cadenza rivelazioni
+    _canonical_log = simulation.get("canonical_log") or []
+    _current_turn = int(simulation.get("current_turn") or 0)
+    _pacing = pacing_score(_canonical_log, _current_turn)
+    _rev_timing = suggest_revelation_timing(_pacing, available_revelations=len(ready))
+    if _rev_timing == "hold" and ready and not clock_triggers:
+        # Blocca la prima ready revelation per anti-dump; la riprende al turno prossimo
+        ready = ready[1:]
 
     genre_profile = runtime.genre_profile.model_dump() if hasattr(runtime.genre_profile, "model_dump") else (runtime.genre_profile or {})
     if not genre_profile:
@@ -240,6 +250,9 @@ def make_director_decision(
         "urgency_warnings": urgency_warnings,
         "next_best_actions": next_best_actions,
         "witness_updates": witness_updates,
+        # N4 pacing
+        "revelation_pacing": _pacing,
+        "revelation_timing": _rev_timing,
     }
 
 
@@ -256,6 +269,7 @@ def director_prompt_context(decision: dict, canonical_log: list | None = None) -
     clock_tick = int(decision.get("clock_tick") or 0)
     triggers = decision.get("clock_triggers") or []
     ready = decision.get("ready_threads") or []
+    rev_timing = decision.get("revelation_timing") or "now"
     scene_clues = decision.get("scene_clues") or []
     scene_actors = decision.get("scene_actors") or []
     current_scene_id = decision.get("current_scene_id") or ""
@@ -410,6 +424,16 @@ def director_prompt_context(decision: dict, canonical_log: list | None = None) -
         )
     if ready:
         lines.append(f"PISTE PRONTE: {', '.join(ready)}. Non aprire nuovi filoni prima di offrire deduzione.")
+    if rev_timing == "hold":
+        lines.append(
+            "ANTI-DUMP ATTIVO: troppe rivelazioni recenti. NON presentare ora una deduzione o revelation. "
+            "Costruisci tensione o muovi un NPC — la revelation arriva al prossimo turno."
+        )
+    elif rev_timing == "wait":
+        lines.append(
+            "PACING REVELATION: il ritmo è già alto. Se possibile, ritarda la deduzione di 1 turno. "
+            "Concentra la scena su azione, atmosfera o dialogo."
+        )
     if next_best_actions and phase in ("extraction", "escape", "delivery"):
         clean = [a.replace("proteggere_testimone:", "proteggere_testimone ") for a in next_best_actions[:5]]
         lines.append(

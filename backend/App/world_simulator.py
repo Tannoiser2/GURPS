@@ -749,4 +749,7 @@ def simulate_world_state(
         "urgency_warnings": urgency_warnings,
         "next_best_actions": next_best,
         "witness_updates": witness_updates,
+        # N4: campi per pacing rivelazioni
+        "canonical_log": game_state_data.get("canonical_log") or [],
+        "current_turn": int(game_state_data.get("turn") or 0),
     }
