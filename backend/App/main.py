@@ -27,7 +27,7 @@ from .combat import stand_up
 from .character_creation import validate_draft, build_custom_player
 from .claude_service import (
     generate_scene_image, generate_character_avatar, generate_npc_avatar,
-    generate_tactical_map_image, generate_location_map_image, narrate_combat_result,
+    generate_tactical_map_image, generate_location_map_image, generate_adventure_overview_map, narrate_combat_result,
     set_active_provider,
     get_session_token_stats, reset_session_token_stats,
     reset_last_request_tokens, get_last_request_tokens,
@@ -3075,6 +3075,33 @@ def generate_location_image(payload: LocationImagePayload):
     set_active_provider(provider)
     image_b64 = generate_location_map_image(payload.location_name, payload.location_description or "")
     return {"location_id": payload.location_id, "image_b64": image_b64, "call_tokens": get_last_request_tokens()}
+
+
+class AdventureOverviewMapPayload(BaseModel):
+    adventure_title: str = ""
+    locations: list = []
+    genre: str = "fantasy"
+    setting: str = ""
+    period: str = ""
+
+@app.post("/game/adventure/generate-overview-map")
+def generate_overview_map(payload: AdventureOverviewMapPayload):
+    """Genera una mappa panoramica bird's-eye per l'intera avventura."""
+    provider = _resolve_image_provider()
+    if not provider:
+        return {"image_b64": None}
+    reset_last_request_tokens()
+    set_active_provider(provider)
+    loc_names = [l.get("name", "") if isinstance(l, dict) else str(l) for l in (payload.locations or [])]
+    image_b64 = generate_adventure_overview_map(
+        payload.adventure_title,
+        loc_names,
+        payload.genre,
+        payload.setting,
+        payload.period,
+    )
+    return {"image_b64": image_b64, "call_tokens": get_last_request_tokens()}
+
 
 class TacticalMapPayload(BaseModel):
     location_name: str = ""

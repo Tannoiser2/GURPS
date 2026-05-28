@@ -3863,6 +3863,91 @@ def generate_location_map_image(location_name: str, location_description: str) -
         return None
 
 
+def generate_adventure_overview_map(
+    title: str,
+    location_names: list,
+    genre: str = "fantasy",
+    setting: str = "",
+    period: str = "",
+) -> "str | None":
+    """Genera un'immagine mappa panoramica bird's-eye per l'intera avventura."""
+    _clear_last_image_error()
+    genre_labels = {
+        "fantasy": "medieval fantasy", "horror": "gothic horror", "sci_fi": "science fiction",
+        "noir": "1940s noir", "western": "wild west", "thriller": "modern thriller",
+        "investigativo": "mystery detective", "action": "action adventure",
+    }
+    genre_label = genre_labels.get(genre, genre or "tabletop RPG")
+    setting_part = f" set in {setting}" if setting else ""
+    period_part = f", {period}" if period else ""
+    loc_part = f" with {len(location_names)} distinct key locations" if location_names else ""
+
+    map_prompt = (
+        f"Bird's-eye illustrated overhead cartographic map for a {genre_label} tabletop RPG adventure"
+        f"{setting_part}{period_part}{loc_part}. "
+        "Style: hand-drawn vintage cartographic illustration, aerial view of landscape and buildings, "
+        "roads and paths connecting areas, forests, rivers, hills visible from above, "
+        "atmospheric mist and fog drifting at the edges, ink and watercolor on aged parchment, "
+        "compass rose in one corner, decorative border, no text labels, no numbers, "
+        "no characters or people visible, cinematic RPG map art, high detail."
+    )
+
+    if _ACTIVE_PROVIDER == "openai":
+        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
+            return None
+        try:
+            client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
+            response = client.images.generate(
+                model=OPENAI_IMAGE_EDIT_MODEL,
+                prompt=map_prompt,
+                size="1024x1024",
+                quality="medium",
+                n=1,
+            )
+            if getattr(response, "data", None) and response.data[0].b64_json:
+                _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+                return response.data[0].b64_json
+            return None
+        except Exception as e:
+            _set_last_image_error("generate_adventure_overview_map/openai", e)
+            return None
+
+    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    if not key or not _GOOGLE_GENAI_AVAILABLE:
+        return None
+    try:
+        client = google_genai.Client(api_key=key)
+        for imagen_model in ("imagen-4.0-generate-001", "imagen-3.0-generate-001"):
+            try:
+                response = client.models.generate_images(
+                    model=imagen_model,
+                    prompt=map_prompt,
+                    config=google_genai_types.GenerateImagesConfig(
+                        number_of_images=1,
+                        aspect_ratio="1:1",
+                        output_mime_type="image/jpeg",
+                    ),
+                )
+                _record_image_usage(imagen_model)
+                return base64.b64encode(response.generated_images[0].image.image_bytes).decode("utf-8")
+            except Exception as img_err:
+                if "RESOURCE_EXHAUSTED" not in str(img_err) and "429" not in str(img_err):
+                    break
+        if _OPENAI_AVAILABLE and OPENAI_API_KEY:
+            try:
+                client2 = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
+                resp2 = client2.images.generate(model=OPENAI_IMAGE_EDIT_MODEL, prompt=map_prompt, size="1024x1024", quality="medium", n=1)
+                if getattr(resp2, "data", None) and resp2.data[0].b64_json:
+                    _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+                    return resp2.data[0].b64_json
+            except Exception:
+                pass
+        return None
+    except Exception as e:
+        _set_last_image_error("generate_adventure_overview_map/gemini", e)
+        return None
+
+
 # ── Master GDR: turno narrativo ───────────────────────────────────────────────
 
 def _build_combat_context(game_state_data: dict) -> str:
