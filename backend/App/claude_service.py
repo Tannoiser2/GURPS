@@ -4043,9 +4043,26 @@ def _build_combat_context(game_state_data: dict) -> str:
     """
     Costruisce il blocco di contesto sul combattimento in corso da inserire nel prompt.
     Include HP corrente dei nemici e l'esito dell'ultimo round GURPS, se disponibili.
+    Quando il combattimento è appena finito, mostra il summary dell'esito.
     """
     if not game_state_data.get("in_combat"):
-        return ""
+        summary = game_state_data.get("last_combat_summary")
+        if not summary:
+            return ""
+        lines = ["ESITO COMBATTIMENTO (appena concluso — integra nella narrativa):"]
+        if summary.get("eliminated"):
+            lines.append(f"  Nemici eliminati: {', '.join(summary['eliminated'])}")
+        if summary.get("fled"):
+            lines.append(f"  Nemici fuggiti: {', '.join(summary['fled'])}")
+        if summary.get("surviving_enemies"):
+            lines.append(f"  Nemici ancora presenti/catturati: {', '.join(summary['surviving_enemies'])}")
+        for pa in (summary.get("player_aftermath") or []):
+            hl = _health_label(pa.get("hp"), pa.get("max_hp"))
+            if hl:
+                lines.append(f"  {pa['name']}: {hl}")
+        lines.append("OBBLIGO: descrivi le conseguenze immediate — ferite riportate, chi è caduto, come i sopravvissuti reagiscono emotivamente. Aggiorna attitudine PNG sconfitti (npc_updates) se presenti nell'avventura.")
+        return "\n" + "\n".join(lines) + "\n"
+
 
     lines = []
     live_entities = game_state_data.get("live_combat_entities") or []
@@ -4101,6 +4118,19 @@ def _build_combat_context(game_state_data: dict) -> str:
     return ("\n" + "\n".join(lines) + "\n") if lines else ""
 
 
+def _health_label(hp, max_hp) -> str:
+    if hp is None or not max_hp:
+        return ""
+    if hp <= 0:
+        return f"INCAPACITATO (HP {hp}/{max_hp})"
+    ratio = hp / max_hp
+    if ratio <= 0.33:
+        return f"GRAVEMENTE FERITO (HP {hp}/{max_hp})"
+    if ratio <= 0.70:
+        return f"FERITO (HP {hp}/{max_hp})"
+    return f"SANO (HP {hp}/{max_hp})"
+
+
 def _player_sheet(p: dict) -> str:
     """Formatta la scheda sintetica di un personaggio per il prompt Master."""
     stats = p.get("stats", {})
@@ -4111,7 +4141,9 @@ def _player_sheet(p: dict) -> str:
     adv = p.get("advantages", [])
     disadv = p.get("disadvantages", [])
     adv_str = (", ".join(adv + disadv)) if (adv or disadv) else "nessuno"
-    line = f"- {p['name']} ({p['role']}): {stat_str} | Skills: {skill_str} | Vantaggi: {adv_str}"
+    health_label = _health_label(p.get("hp"), p.get("max_hp"))
+    health_str = f" | Salute: {health_label}" if health_label else ""
+    line = f"- {p['name']} ({p['role']}): {stat_str} | Skills: {skill_str} | Vantaggi: {adv_str}{health_str}"
     trait_notes = trait_story_notes(list(adv or []) + list(disadv or []), limit=3)
     if trait_notes:
         line += f"\n  Tratti attivi in fiction: {' | '.join(trait_notes)}"
@@ -6299,6 +6331,7 @@ Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
 Ultimo ad agire: {active["name"]} ({active.get("role","")})
 Roster gruppo:
 {roster_text}
+{"⚠ INCAPACITATI: " + ", ".join(game_state_data.get("incapacitated_players") or []) + " (HP ≤ 0 — non possono agire, potrebbero morire o essere catturati)" if game_state_data.get("incapacitated_players") else ""}
 
 ═══ STORIA RECENTE ═══{history_text if history_text else " (inizio)"}
 
@@ -6326,6 +6359,7 @@ Stato attuale combattimento: {"IN COMBATTIMENTO" if game_state_data.get("in_comb
 - Se NON in combattimento: imposta activate_combat=true SE la narrativa porta a uno scontro fisico diretto (nemico attacca, i giocatori attaccano, sparatoria inizia, aggressione esplicita). NON aspettare che il giocatore lo chieda — se il contesto porta allo scontro, ATTIVALO.
 - Se la Location attuale contiene una scheda tattica canonica e il trigger indicato si verifica, activate_combat=true è fortemente preferito: quella zona è stata progettata come zona calda/finale.
 - Se GIÀ IN COMBATTIMENTO: activate_combat=false e combat_scene=null (il combattimento è già attivo — NON rigenerare le entità). Imposta combat_over=true se i nemici sono stati eliminati/fuggiti/catturati e lo scontro è concluso. Quando narri azioni durante il combattimento, rifletti lo stato HP reale degli avversari (vedi STATO NEMICI sopra).
+- Se ESITO COMBATTIMENTO è presente: narra le conseguenze (ferite, morti, fuga nemici). Usa npc_updates per ogni PNG dell'avventura coinvolto nel combattimento: imposta status="morto" o status="fuggito" o attitude="ostile_sconfitto" secondo l'esito. Le ferite dei PG (vedi Salute in PERSONAGGI) devono influenzare il tono e le opzioni proposte.
 - combat_scene (SOLO quando activate_combat=true, primo ingresso): popola ESCLUSIVAMENTE con PNG antagonisti vivi che combattono (persone, creature). NO luoghi, ambienti, oggetti. HP realistici: umano normale 10-12 HP, guardia 12-15, boss 20+. attack_skill: 10-14 per umani, active_defense: 8-10, damage_dice: "1d6" corpo a corpo, "2d6-1" arma da fuoco.
 - BILANCIAMENTO: se non è una zona finale/boss, genera al massimo {max(1, min(3, len(players)))} nemici, meglio 1-3, con skill 9-11 e danni contenuti. Gli scontri iniziali devono poter essere evitati, vinti o abbandonati.
 - VIA DI USCITA: ogni combat_scene non finale deve lasciare una ritirata plausibile o una via alternativa nella fiction; non chiudere i giocatori in una trappola letale salvo scena finale dichiarata.

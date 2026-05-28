@@ -2071,6 +2071,14 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
     _prev_found = set(payload.game_state_data.get("clues_found") or [])
     _curr_found = set((game_state.adventure_runtime_state.discovered_clue_ids or []) if game_state.adventure_runtime_state else [])
     _gsd["clues_found_this_turn"] = list(_curr_found - _prev_found)
+    # Inietta post-combat summary (turno immediatamente dopo la fine del combattimento)
+    if game_state.last_combat_summary and not payload.game_state_data.get("in_combat"):
+        _gsd["last_combat_summary"] = game_state.last_combat_summary
+        game_state.last_combat_summary = None  # consumato: mostralo solo una volta
+    # Flag giocatori incapacitati (HP ≤ 0) — il narratore deve riflettere questa condizione
+    _incapacitated = [p["name"] for p in payload.players if (p.get("hp") or 1) <= 0]
+    if _incapacitated:
+        _gsd["incapacitated_players"] = _incapacitated
     # Inietta stato combattimento live: HP corrente entità, ultimo esito round, stato giocatori
     if payload.game_state_data.get("in_combat") and game_state.scene and game_state.scene.entities:
         _gsd["live_combat_entities"] = [
@@ -2132,6 +2140,31 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
         result["state_updates"] = su
     if su.get("combat_over"):
         game_state.pending_attack = None
+        # Build combat summary before clearing entities
+        _combat_entities = list(game_state.scene.entities) if game_state.scene else []
+        _eliminated = [e.name for e in _combat_entities if e.type == "enemy" and e.hp <= 0]
+        _fled = [e.name for e in _combat_entities if e.type == "enemy" and getattr(e, "status", "") == "fuggito"]
+        _alive_enemies = [e.name for e in _combat_entities if e.type == "enemy" and e.hp > 0 and getattr(e, "status", "") != "fuggito"]
+        _player_aftermath = [
+            {"name": p.name, "hp": p.hp, "max_hp": p.max_hp}
+            for p in game_state.players
+        ]
+        game_state.last_combat_summary = {
+            "eliminated": _eliminated,
+            "fled": _fled,
+            "surviving_enemies": _alive_enemies,
+            "player_aftermath": _player_aftermath,
+        }
+        # Mark dead enemies in actor_runtime so they don't reappear in narrative
+        if game_state.adventure_runtime_state:
+            _rt = game_state.adventure_runtime_state
+            if _rt.actor_runtime is None:
+                _rt.actor_runtime = {}
+            for _e in _combat_entities:
+                if _e.type == "enemy" and _e.hp <= 0:
+                    _entry = dict(_rt.actor_runtime.get(_e.id) or {})
+                    _entry["status"] = "morto"
+                    _rt.actor_runtime[_e.id] = _entry
         if game_state.scene:
             game_state.scene.entities = []
     game_state.allowed_escalation_tier = int(su.get("allowed_escalation_tier", game_state.allowed_escalation_tier or 3) or 3)

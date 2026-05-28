@@ -513,6 +513,7 @@ class GameState(BaseModel):
     # Combattimento meccanico PR2: attacco in attesa di difesa dichiarata
     pending_attack: Optional[Dict] = None  # payload attacco (player_id, action, target_id, roll)
     last_attack_result: Optional[Dict] = None  # AttackResult dettagliato dell'ultimo scambio
+    last_combat_summary: Optional[Dict] = None  # outcome del combattimento appena concluso (consumato al turno successivo)
     last_roll_details: List[Dict] = []  # per_player_outcomes dell'ultimo resolve_actions (playtest)
     personal_victories: Dict[int, bool] = {}  # player_id → obiettivo personale raggiunto
     flags: Dict = {}  # runtime flags: pending_npc_events, pe_triggered_*, etc.
