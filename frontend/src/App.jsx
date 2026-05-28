@@ -7350,7 +7350,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [combatTarget, setCombatTarget] = useState(null);
   const [npcAvatars, setNpcAvatars] = useState({});  // entity_id → base64
   const [devMode, setDevMode] = useState(() => new URLSearchParams(window.location.search).has("dev"));
-  const [showMenu, setShowMenu] = useState(false);
   const [expandedPlayerId, setExpandedPlayerId] = useState(null);
   const [panelOpenTab, setPanelOpenTab] = useState(null);
   const [showPlayerPanel, setShowPlayerPanel] = useState(false);
@@ -7364,7 +7363,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
   const messagesRef = useRef([]);
-  const menuRef = useRef(null);
 
   // Keep-alive: ping ogni 13 minuti per evitare che Render spenga il backend durante il gioco
   useEffect(() => {
@@ -7376,16 +7374,6 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     return Array.isArray(scene?.entities)
       && scene.entities.some(e => e.type === "enemy" && (e.hp ?? e.max_hp ?? 1) > 0);
   }
-
-  // Chiudi hamburger menu al click fuori
-  useEffect(() => {
-    if (!showMenu) return;
-    function handleClickOutside(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setShowMenu(false);
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [showMenu]);
 
   // keep ref in sync
   const _setMessages = (updater) => {
@@ -8363,54 +8351,48 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           ))}
         </div>
 
-        {/* Hamburger menu ─────────────────────────────────────── */}
-        <div ref={menuRef} style={{ position: "relative", flexShrink: 0 }}>
+        {/* Toolbar inline ─────────────────────────────────────── */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
           <button
-            onClick={() => setShowMenu(v => !v)}
-            title="Menu"
+            onClick={() => setDevMode(v => !v)}
+            title={devMode ? "Disattiva Dev mode" : "Attiva Dev mode"}
             style={{
-              padding: "6px 10px", borderRadius: 8, border: "1px solid var(--border)",
-              background: showMenu ? "var(--code-bg)" : "none",
-              color: "var(--text)", cursor: "pointer", fontSize: 16, lineHeight: 1,
+              padding: "6px 10px", borderRadius: 8,
+              border: "1px solid " + (devMode ? "var(--accent-border)" : "var(--border)"),
+              background: devMode ? "var(--accent-bg)" : "none",
+              color: devMode ? "var(--accent)" : "var(--text)",
+              cursor: "pointer", fontSize: 13, fontWeight: 600, lineHeight: 1,
             }}
-          >☰</button>
-
-          {showMenu && (
-            <div style={{
-              position: "absolute", top: "calc(100% + 6px)", right: 0, zIndex: 200,
-              background: "var(--bg)", border: "1px solid var(--border)",
-              borderRadius: 10, boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
-              minWidth: 180, overflow: "hidden",
-            }}>
-              {[
-                adventure && mapState && { icon: "🗺", label: "Mappa", action: () => { setShowMapPanel(v => !v); setShowMenu(false); }, active: showMapPanel },
-                { icon: "↩", label: "Nuova partita", action: () => { setShowMenu(false); onRestart(); }, danger: true },
-                !devMode && { icon: "🛠", label: "Dev mode", action: () => { setDevMode(true); setShowMenu(false); } },
-                { icon: "⚔", label: "Test combattimento", action: async () => {
-                  setShowMenu(false);
-                  const res = await fetch(`${API_URL}/game/debug/start-combat`, { method: "POST" }).then(r => r.json());
-                  if (res.ok) {
-                    setCombatEntities(res.combat_scene.entities);
-                    setGameStateData(prev => ({ ...prev, in_combat: true }));
-                    setShowCombatMap(true);
-                  }
-                }},
-              ].filter(Boolean).map((item, i) => (
-                <button key={i} onClick={item.action} style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  width: "100%", padding: "10px 16px", border: "none",
-                  background: item.active ? "var(--accent-bg)" : "none",
-                  color: item.danger ? "#f87171" : item.active ? "var(--accent)" : "var(--text-h)",
-                  fontSize: 13, cursor: "pointer", textAlign: "left",
-                  borderBottom: "1px solid var(--border)",
-                }}>
-                  <span style={{ fontSize: 15 }}>{item.icon}</span>
-                  <span style={{ fontWeight: 600 }}>{item.label}</span>
-                  {item.active && <span style={{ marginLeft: "auto", fontSize: 10, color: "var(--accent)" }}>●</span>}
-                </button>
-              ))}
-            </div>
+          >🛠 Dev{devMode ? " ●" : ""}</button>
+          {devMode && (
+            <button
+              onClick={async () => {
+                const res = await fetch(`${API_URL}/game/debug/start-combat`, { method: "POST" }).then(r => r.json());
+                if (res.ok) {
+                  setCombatEntities(res.combat_scene.entities);
+                  setGameStateData(prev => ({ ...prev, in_combat: true }));
+                  setShowCombatMap(true);
+                }
+              }}
+              title="Test combattimento"
+              style={{
+                padding: "6px 10px", borderRadius: 8, border: "1px solid var(--border)",
+                background: "none", color: "var(--text)",
+                cursor: "pointer", fontSize: 13, fontWeight: 600, lineHeight: 1,
+              }}
+            >⚔ Test</button>
           )}
+          <button
+            onClick={onRestart}
+            title="Nuova partita"
+            style={{
+              padding: "6px 14px", borderRadius: 8,
+              border: "1px solid rgba(239,68,68,0.5)",
+              background: "rgba(239,68,68,0.12)",
+              color: "#f87171", cursor: "pointer",
+              fontSize: 13, fontWeight: 700, lineHeight: 1,
+            }}
+          >↩ Nuova partita</button>
         </div>
       </div>
 
