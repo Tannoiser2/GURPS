@@ -2,14 +2,18 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 from datetime import datetime, timezone
 import json
+import logging
 import os
 import random
 import re
+import time
 import uuid
+from collections import defaultdict, deque
 from pathlib import Path
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Response
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from starlette.responses import JSONResponse
+from pydantic import BaseModel, field_validator
 import io
 from .engine import (
     empty_game_state, prepare_team_setup, start_game_from_selection,
@@ -62,6 +66,45 @@ from .adventure_wizard import (
     draft_as_raw as _wiz_draft_as_raw,
 )
 
+# ── R2: Structured JSON logging ───────────────────────────────────────────────
+class _JSONLogFmt(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:
+        obj: dict = {
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "level": record.levelname,
+            "logger": record.name,
+            "msg": record.getMessage(),
+        }
+        if record.exc_info:
+            obj["exc"] = self.formatException(record.exc_info)
+        if hasattr(record, "extra"):
+            obj.update(record.extra)  # type: ignore[arg-type]
+        return json.dumps(obj, ensure_ascii=False)
+
+def _setup_logging() -> None:
+    handler = logging.StreamHandler()
+    handler.setFormatter(_JSONLogFmt())
+    root = logging.getLogger()
+    root.handlers.clear()
+    root.addHandler(handler)
+    root.setLevel(logging.INFO)
+    logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+
+_setup_logging()
+_log = logging.getLogger("gurps")
+
+# ── R5: In-memory sliding-window rate limiter ─────────────────────────────────
+_rate_windows: dict[str, deque] = defaultdict(deque)
+_RATE_RULES: list[tuple[str, int, int]] = [
+    # (path_prefix, max_requests, window_seconds)
+    ("/game/master/turn-bible",  30, 60),
+    ("/game/master/start-bible", 10, 60),
+    ("/game/adventure/create",    5, 60),
+    ("/adventure/from-template/", 5, 60),
+    ("/game/adventure/compile",   5, 60),
+]
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -70,10 +113,51 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def _rate_limit_mw(request: Request, call_next):
+    if request.method == "POST":
+        path = request.url.path
+        ip = request.client.host if request.client else "unknown"
+        now = time.time()
+        for prefix, max_req, window in _RATE_RULES:
+            if path.startswith(prefix):
+                key = f"{ip}:{prefix}"
+                bucket = _rate_windows[key]
+                while bucket and bucket[0] < now - window:
+                    bucket.popleft()
+                if len(bucket) >= max_req:
+                    return JSONResponse(
+                        status_code=429,
+                        content={"detail": f"Troppe richieste. Max {max_req} ogni {window}s."},
+                        headers={"Retry-After": str(window)},
+                    )
+                bucket.append(now)
+                break
+    return await call_next(request)
+
+
+@app.middleware("http")
+async def _request_log_mw(request: Request, call_next):
+    t0 = time.perf_counter()
+    response = await call_next(request)
+    ms = int((time.perf_counter() - t0) * 1000)
+    _log.info(
+        "%s %s %d %dms",
+        request.method, request.url.path, response.status_code, ms,
+    )
+    return response
 game_state: GameState = empty_game_state()
 tactical_map_image_cache: dict[str, str] = {}
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_debug_pdf"
+
+
+# ── R1: Health check ──────────────────────────────────────────────────────────
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 def _ensure_runtime_scene(scene_text: str = "") -> None:
@@ -907,6 +991,11 @@ class ImageGenPayload(BaseModel):
     player_photos_b64: list[str] = []
     player_names: list[str] = []
 
+    @field_validator("scene_text")
+    @classmethod
+    def _limit_scene(cls, v: str) -> str:
+        return v.strip()[:3000]
+
 class AdventureCreatePayload(BaseModel):
     genre: str
     players: list[dict]
@@ -917,6 +1006,18 @@ class AdventureCompilePayload(BaseModel):
     content: str
     genre_hint: str | None = None
     runtime_profile_hint: str | None = None
+
+    @field_validator("content")
+    @classmethod
+    def _limit_content(cls, v: str) -> str:
+        if len(v) > 100_000:
+            raise ValueError("content troppo lungo (max 100000 caratteri)")
+        return v
+
+    @field_validator("title")
+    @classmethod
+    def _trim_title(cls, v: str) -> str:
+        return v.strip()[:300]
 
 class RuntimeUpdatePayload(BaseModel):
     adventure_definition: dict | None = None
@@ -942,6 +1043,20 @@ class MasterTurnBiblePayload(BaseModel):
     active_player_id: int
     adventure: dict
     game_state_data: dict = {}
+
+    @field_validator("player_action")
+    @classmethod
+    def _sanitize_action(cls, v: str) -> str:
+        v = v.strip()
+        if len(v) > 2000:
+            raise ValueError("player_action troppo lungo (max 2000 caratteri)")
+        v = re.sub(r"<script[^>]*>.*?</script>", "", v, flags=re.I | re.DOTALL)
+        return v
+
+    @field_validator("genre")
+    @classmethod
+    def _trim_genre(cls, v: str) -> str:
+        return v.strip()[:50]
 
 @app.post("/game/adventure/create")
 def adventure_create(payload: AdventureCreatePayload):
