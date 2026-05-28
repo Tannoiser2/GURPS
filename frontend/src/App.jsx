@@ -7024,6 +7024,19 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   }
 
   useEffect(() => {
+    async function fetchWithTimeout(url, opts = {}, ms = 90000) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), ms);
+      try {
+        const r = await fetch(url, { ...opts, signal: ctrl.signal });
+        clearTimeout(timer);
+        return r;
+      } catch (e) {
+        clearTimeout(timer);
+        throw e;
+      }
+    }
+
     async function start() {
       // Sessione persa (es. backend riavviato) — torna al setup invece di avviare vuoto
       if (!initialPlayers || initialPlayers.length === 0) {
@@ -7032,11 +7045,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       }
       setLoading(true);
 
+      // Warmup ping: sveglia Render prima delle chiamate principali (free tier dorme dopo 15min)
+      try { await fetchWithTimeout(`${API_URL}/health`, {}, 70000); } catch (_) {}
+
       // Prova a riprendere una sessione salvata per questa avventura
       const advId = adventure?.id || adventure?.adventure_definition_id;
       if (advId) {
         try {
-          const liveRes = await fetch(`${API_URL}/game/adventure/runtime/${advId}/live-state`).then(r => r.json());
+          const liveRes = await fetchWithTimeout(`${API_URL}/game/adventure/runtime/${advId}/live-state`).then(r => r.json());
           const saved = liveRes?.live_game_state;
           if (saved && (saved.turn || 0) > 1) {
             // Sessione esistente: ripristina lo stato world senza chiamare l'AI
@@ -7067,11 +7083,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
       // Nessuna sessione salvata: avvio normale
       if (!adventure) throw new Error("Avventura compilata mancante: riavvia dalla schermata di setup.");
-      const res = await fetch(`${API_URL}/game/master/start-bible`, {
+      const res = await fetchWithTimeout(`${API_URL}/game/master/start-bible`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ genre, players: playerDicts, adventure }),
-      }).then(r => r.json());
+      }, 90000).then(r => r.json());
       if (res.detail) throw new Error(res.detail);
       const masterMsg = { role: "master", name: "Master", text: res.narrative, roll: res.roll };
       _setMessages([masterMsg]);
@@ -7098,8 +7114,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       console.error("[start] errore apertura scena:", err);
       setLoading(false);
       setStartupLoading(false);
-      // Mostra il messaggio di errore in chat invece di bloccare la UI
-      const errMsg = { role: "master", name: "Master", text: `⚠️ Errore all'avvio: ${err.message || "il backend non ha risposto"}. Riprova a ricaricare la pagina o riavvia il backend.` };
+      const isTimeout = err?.name === "AbortError";
+      const hint = isTimeout
+        ? " Il server (Render free tier) potrebbe impiegare fino a 90 secondi per svegliarsi. Ricarica la pagina e attendi."
+        : " Riprova a ricaricare la pagina.";
+      const errMsg = { role: "master", name: "Master", text: `⚠️ Errore all'avvio: ${err.message || "il backend non ha risposto"}.${hint}` };
       _setMessages([errMsg]);
       setHistory([{ role: "master", name: "Master", text: errMsg.text }]);
       setOptions([]);
@@ -7366,13 +7385,15 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       icon="🎲"
       title="Il Master apre la scena..."
       steps={[
-        { at: 0,     pill: "Contesto",   label: "Leggo la bibbia dell'avventura..." },
-        { at: 3000,  pill: "Personaggi", label: "Analizzo il gruppo di avventurieri..." },
-        { at: 7000,  pill: "Location",   label: "Colloco la squadra nella prima scena..." },
-        { at: 13000, pill: "Narrativa",  label: "Il Master scrive la scena d'apertura..." },
-        { at: 22000, pill: "Indizi",     label: "Posiziono i primi indizi e PNG in scena..." },
-        { at: 30000, pill: "Opzioni",    label: "Preparo le azioni disponibili per il primo turno..." },
-        { at: 36000, pill: "Pronto",     label: "Quasi pronto, ancora un momento..." },
+        { at: 0,     pill: "Connessione", label: "Connessione al server in corso..." },
+        { at: 4000,  pill: "Contesto",   label: "Leggo la bibbia dell'avventura..." },
+        { at: 9000,  pill: "Personaggi", label: "Analizzo il gruppo di avventurieri..." },
+        { at: 16000, pill: "Location",   label: "Colloco la squadra nella prima scena..." },
+        { at: 24000, pill: "Narrativa",  label: "Il Master scrive la scena d'apertura..." },
+        { at: 34000, pill: "Indizi",     label: "Posiziono i primi indizi e PNG in scena..." },
+        { at: 44000, pill: "Server",     label: "Il server si sta svegliando (servizio gratuito)..." },
+        { at: 55000, pill: "Opzioni",    label: "Preparo le azioni disponibili per il primo turno..." },
+        { at: 65000, pill: "Pronto",     label: "Quasi pronto, ancora un momento..." },
       ]}
     />
   );
