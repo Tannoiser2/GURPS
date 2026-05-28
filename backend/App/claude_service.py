@@ -35,6 +35,7 @@ GOOGLE_AI_STUDIO_KEY = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL_NAME = "claude-sonnet-4-5"
 _HAIKU_MODEL = "claude-haiku-4-5-20251001"
+_OPUS_MODEL = "claude-opus-4-7"
 _COMPRESS_THRESHOLD = 12   # compress when history has more than this many entries
 _COMPRESS_KEEP_RECENT = 6  # keep last N messages uncompressed
 OPENAI_TEXT_MODEL = "gpt-4o"
@@ -363,13 +364,13 @@ def _claude_client() -> anthropic.Anthropic | None:
     return anthropic.Anthropic(api_key=API_KEY, timeout=120.0)
 
 
-def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
+def _call_claude(prompt: str, max_tokens: int = 1200, model: str = MODEL_NAME) -> str:
     client = _claude_client()
     if not client:
         raise RuntimeError("API key Anthropic non configurata")
     try:
         response = client.messages.create(
-            model=MODEL_NAME,
+            model=model,
             max_tokens=max_tokens,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -380,11 +381,11 @@ def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
         raise RuntimeError("Claude API ha restituito una risposta vuota (content=[])")
     usage = getattr(response, "usage", None)
     if usage:
-        _record_usage(MODEL_NAME, getattr(usage, "input_tokens", 0), getattr(usage, "output_tokens", 0))
+        _record_usage(model, getattr(usage, "input_tokens", 0), getattr(usage, "output_tokens", 0))
     return response.content[0].text
 
 
-def _call_claude_with_cache(system_text: str, user_text: str, max_tokens: int = 2400) -> str:
+def _call_claude_with_cache(system_text: str, user_text: str, max_tokens: int = 2400, model: str = MODEL_NAME) -> str:
     """Chiama Claude con prompt caching sul system prompt.
     Usa cache_control ephemeral per ridurre i token in input del 70-80% nelle sessioni lunghe.
     Fallback su _call_claude se il client non è disponibile o la cache fallisce.
@@ -394,7 +395,7 @@ def _call_claude_with_cache(system_text: str, user_text: str, max_tokens: int = 
         raise RuntimeError("API key Anthropic non configurata")
     try:
         response = client.messages.create(
-            model=MODEL_NAME,
+            model=model,
             max_tokens=max_tokens,
             system=[{
                 "type": "text",
@@ -414,9 +415,9 @@ def _call_claude_with_cache(system_text: str, user_text: str, max_tokens: int = 
         out = getattr(usage, "output_tokens", 0)
         cache_read = getattr(usage, "cache_read_input_tokens", 0)
         cache_write = getattr(usage, "cache_creation_input_tokens", 0)
-        _record_usage_cached(MODEL_NAME, inp, out, cache_read, cache_write)
+        _record_usage_cached(model, inp, out, cache_read, cache_write)
         if cache_read > 0 or cache_write > 0:
-            print(f"[cache] read={cache_read} write={cache_write} input={inp} output={out}")
+            print(f"[cache] model={model} read={cache_read} write={cache_write} input={inp} output={out}")
     return response.content[0].text
 
 
@@ -6144,13 +6145,28 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
             },
         }
 
+    # L3: model routing basato su escalation tier
+    _tier = int(director_decision.get("allowed_escalation_tier") or 3)
+    _scene_ctx = director_decision.get("scene_context") or {}
+    _is_finale = bool(
+        _scene_ctx.get("finale_condition_met")
+        or game_state_data.get("finale_condition_met")
+    )
+    if _tier >= 5 or _is_finale:
+        _routing_model = _OPUS_MODEL
+    elif _tier <= 1:
+        _routing_model = _HAIKU_MODEL
+    else:
+        _routing_model = MODEL_NAME  # Sonnet default
+    print(f"[L3] tier={_tier} finale={_is_finale} → model={_routing_model}")
+
     # Usa prompt caching (Claude) o prompt unificato (OpenAI)
     if _ACTIVE_PROVIDER == "claude" and API_KEY:
         try:
-            raw = _call_claude_with_cache(_system_prompt, _user_prompt, max_tokens=2400)
+            raw = _call_claude_with_cache(_system_prompt, _user_prompt, max_tokens=2400, model=_routing_model)
         except Exception as _cache_err:
             print(f"[cache] fallback a chiamata standard: {_cache_err}")
-            raw = _call_claude(prompt, max_tokens=2400)
+            raw = _call_claude(prompt, max_tokens=2400, model=_routing_model)
     else:
         raw = _call_text_model(prompt, max_tokens=2400)
     if _looks_like_refusal(raw):
@@ -6240,6 +6256,7 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     if _new_events:
         result["canonical_log_append"] = _new_events
 
+    result["model_used"] = _routing_model
     return result
 
 
