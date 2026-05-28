@@ -10,7 +10,7 @@ All-Out Attack/Defense dichiarati come action_type sul Player prima del tiro.
 """
 
 import random
-from .models import AttackResult, CombatDefenseRequest, Player, SceneEntity
+from .models import AttackResult, CombatDefenseRequest, Player, SceneEntity, Wound
 from .data_advantages import advantage_dodge_bonus, advantage_death_threshold_mult, advantage_combat_penalty, advantage_ignores_shock
 
 # ─── Distribuzione esatta 3d6 (216 combinazioni) ────────────────────────────
@@ -104,6 +104,71 @@ def compute_shock(net_damage: int) -> int:
     return min(net_damage, 4)
 
 
+# ─── Ferite persistenti (G3) ─────────────────────────────────────────────────
+
+def wounds_skill_penalty(player: Player) -> int:
+    """Penalità cumulativa da ferite non guarite: −1 per ogni ferita major/critical."""
+    return -sum(1 for w in (player.wounds or []) if w.severity in ("major", "critical"))
+
+
+def tick_player_wounds(players: list) -> None:
+    """Riduce turns_remaining per le ferite minor/major di tutti i giocatori.
+    Chiamato una volta per turno. Rimuove le ferite guarite.
+    Solo le ferite con turns_remaining > 0 decrescono automaticamente.
+    """
+    for player in players:
+        if not hasattr(player, "wounds"):
+            continue
+        healed: list[Wound] = []
+        for wound in player.wounds:
+            if wound.turns_remaining > 0:
+                wound.turns_remaining -= 1
+                if wound.turns_remaining == 0 and wound.severity == "minor":
+                    healed.append(wound)
+        for w in healed:
+            player.wounds.remove(w)
+
+
+def apply_wound_recovery(player: Player, action: str = "rest") -> int:
+    """Recupero ferite tramite azione esplicita del giocatore.
+
+    action="rest":       decrementa turns_remaining per tutte le ferite, rimuove le minor guarite
+    action="first_aid":  guarisce immediatamente una ferita minor, o converte la prima major
+                         in minor (turns_remaining=3) — richiede kit_medico nell'inventario
+
+    Restituisce il numero di ferite guarite/migliorate.
+    """
+    if not hasattr(player, "wounds") or not player.wounds:
+        return 0
+
+    healed = 0
+    if action == "rest":
+        to_remove: list[Wound] = []
+        for wound in player.wounds:
+            if wound.turns_remaining > 0:
+                wound.turns_remaining -= 1
+                if wound.turns_remaining == 0 and wound.severity == "minor":
+                    to_remove.append(wound)
+                    healed += 1
+        for w in to_remove:
+            player.wounds.remove(w)
+
+    elif action == "first_aid":
+        # Prima cura a disposizione: guarisce minor o migliora major → minor
+        for wound in player.wounds:
+            if wound.severity == "minor":
+                player.wounds.remove(wound)
+                healed += 1
+                break
+            elif wound.severity == "major":
+                wound.severity = "minor"
+                wound.turns_remaining = 3
+                healed += 1
+                break
+
+    return healed
+
+
 # ─── Tiro salvezza su Salute (SA) ────────────────────────────────────────────
 
 def _ht_check(player: Player) -> tuple[int, bool]:
@@ -179,6 +244,9 @@ def _defense_value(
                 dv += 1   # a terra è più difficile da colpire con proiettili
             else:
                 dv -= 3
+
+        # Ferite persistenti: −1 difesa per ogni ferita major/critical non guarita
+        dv += wounds_skill_penalty(target_player)
 
         return max(0, dv)
 
@@ -286,6 +354,9 @@ def _attack_level(
 
     # Shock: malus al tiro attacco
     level -= attacker.shock_penalty
+
+    # Ferite persistenti: −1 per ogni ferita major/critical non guarita
+    level += wounds_skill_penalty(attacker)
 
     # Stordito: non può attaccare (gestito in engine prima di chiamare resolve_attack)
     # Prone: −3 attacco
@@ -463,6 +534,14 @@ def resolve_attack(
                 if not mw_passed:
                     target_player.stunned = True
                     target_stunned = True
+                # G3: persisti la ferita grave — penalità −1 fino a cure
+                if hasattr(target_player, "wounds"):
+                    severity = "critical" if target_player.hp <= 0 else "major"
+                    target_player.wounds.append(Wound(
+                        severity=severity,
+                        turns_remaining=0,
+                        description=f"Ferita {severity} ({net} danni netti)",
+                    ))
 
             # ── Knockdown (GURPS Lite p.14) ──────────────────────────────────
             # HP scende a 0 o meno → tiro SA o cade a terra (prone)

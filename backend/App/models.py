@@ -107,6 +107,16 @@ class SceneChallenge(BaseModel):
     scene_actions: List[Dict[str, str]] = []
 
 
+class Wound(BaseModel):
+    """Ferita persistente GURPS — rimane tra i turni fino a guarigione."""
+    severity: Literal["minor", "major", "critical"] = "minor"
+    turns_remaining: int = 3
+    # minor:    auto-guarisce dopo turns_remaining turni di riposo
+    # major:    turns_remaining=0 → non auto-guarisce senza cure; dopo First Aid → 0+3
+    # critical: turns_remaining=0 → richiede cure specifiche; non auto-guarisce mai
+    description: str = ""
+
+
 class Player(BaseModel):
     id: int
     name: str
@@ -146,6 +156,8 @@ class Player(BaseModel):
     evaluate_target: str = ""          # ID bersaglio corrente della manovra Valuta
     all_out_defense_active: bool = False  # True → +2 a tutte le difese questo turno, no attacco
     last_maneuver: str = ""            # ultima manovra usata (per UI e log)
+    # ── Ferite persistenti (G3) ───────────────────────────────────────────────
+    wounds: List[Wound] = []           # ferite attive — penalità cumulativa -1/ferita major+
 
 
 class CharacterDraft(BaseModel):

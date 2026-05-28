@@ -30,6 +30,7 @@ from .models import (
 from .combat import (
     resolve_attack,
     reset_action_type, attempt_stun_recovery, stand_up,
+    tick_player_wounds, apply_wound_recovery,
 )
 from .action_intent import select_best_skill as resolve_action_skill
 from .data_skills import (
@@ -1808,6 +1809,9 @@ def apply_story_updates(state: GameState, updates: dict, *, outcome: str = "succ
                 ):
                     edge.status = "open"
                     edge.discovered = True
+
+    # ── G3: tick ferite persistenti una volta per turno ──────────────────────
+    tick_player_wounds(state.players)
 
 
 def get_accessible_connections(state: GameState) -> list[str]:
