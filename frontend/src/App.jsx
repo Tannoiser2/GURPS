@@ -4,10 +4,7 @@ import caricaPdfImg from "./assets/carica_pdf.png";
 import caricaJsonImg from "./assets/carica_json.png";
 import jsonDoctorImg from "./assets/json_doctor.png";
 
-const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? null : "http://127.0.0.1:8002");
-if (import.meta.env.PROD && !import.meta.env.VITE_API_URL) {
-  console.error("VITE_API_URL non configurata. Imposta questa variabile d'ambiente su Vercel (Project Settings → Environment Variables).");
-}
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "https://gurps-production.up.railway.app" : "http://127.0.0.1:8002");
 const VERCEL_PDF_UPLOAD_LIMIT_BYTES = 4 * 1024 * 1024;
 
 const STAT_ICON = { forza: "💪", agilita: "🏃", intelligenza: "🧠", empatia: "💙" };
