@@ -165,9 +165,11 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
+BUILD_VERSION = "1b3b38f-legacy-tolerant"
+
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat(), "version": BUILD_VERSION}
 
 
 def _ensure_runtime_scene(scene_text: str = "") -> None:
@@ -2496,7 +2498,7 @@ def select_team(payload: TeamSelectionPayload):
         import traceback
         tb = traceback.format_exc()
         print(f"[select-team] ERRORE: {type(e).__name__}: {e}\n{tb}")
-        raise HTTPException(status_code=500, detail=f"select-team failed: {type(e).__name__}: {str(e)[:300]}")
+        raise HTTPException(status_code=500, detail=f"select-team failed [{BUILD_VERSION}]: {type(e).__name__}: {str(e)[:300]}")
 
 @app.post("/game/generate-avatar")
 def gen_avatar(payload: AvatarGenPayload):
