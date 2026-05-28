@@ -393,6 +393,11 @@ def build_players_from_dicts(
         hp_val = max(0, min(hp_val, max_hp_val))
         fp_val = previous.fp if previous else p.get("fp", max_fp_val)
         fp_val = max(0, min(fp_val, max_fp_val))
+        # G6: sanità iniziale = Volontà (o valore precedente se ripresa partita)
+        san_max_val = p.get("san_max", will_val)
+        san_val = previous.san if previous else p.get("san", san_max_val)
+        san_val = max(0, min(san_val, san_max_val))
+        san_broken_val = previous.san_broken if previous else p.get("san_broken", False) or san_val == 0
         status = hp_to_status(hp_val, max_hp_val)
 
         players.append(
@@ -453,6 +458,10 @@ def build_players_from_dicts(
                     EquipmentItem(**eq) if isinstance(eq, dict) else eq
                     for eq in p.get("equipment", [])
                 ],
+                # G6
+                san=san_val,
+                san_max=san_max_val,
+                san_broken=san_broken_val,
             )
         )
 
@@ -3360,7 +3369,13 @@ def _resolve_action_roll(
             adv_bonus += reckless
             adv_detail.append({"name": "Spericolato", "delta": reckless})
 
-    effective_skill = base_skill_level + item_bonus + adv_bonus + coordination_bonus - difficulty - status_malus - threat_malus
+    # G6: penalità sanità mentale (solo se san <= 3)
+    san_malus = 0
+    san_val = getattr(player, "san", player.will)
+    if san_val <= 3:
+        san_malus = 4 - san_val  # san=3→-1, san=2→-2, san=1→-3, san=0→-4
+
+    effective_skill = base_skill_level + item_bonus + adv_bonus + coordination_bonus - difficulty - status_malus - threat_malus - san_malus
     margin = effective_skill - roll
     luck_detail = None
     if advantage_luck_rerolls(player.advantages) > 0 and margin < 0:
@@ -3419,6 +3434,7 @@ def _resolve_action_roll(
         "stat_value": player.stats.get(action.stat, 0),  # retro-compat
         "status_malus": status_malus,
         "threat_malus": threat_malus,
+        "san_malus": san_malus,
         "difficulty": difficulty,
         "item_bonus": item_bonus,
         "equip_bonus": equip_bonus,

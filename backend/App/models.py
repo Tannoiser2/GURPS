@@ -158,6 +158,10 @@ class Player(BaseModel):
     last_maneuver: str = ""            # ultima manovra usata (per UI e log)
     # ── Ferite persistenti (G3) ───────────────────────────────────────────────
     wounds: List[Wound] = []           # ferite attive — penalità cumulativa -1/ferita major+
+    # ── Sanità mentale G6 (genere horror) ────────────────────────────────────
+    san: int = 10        # punti sanità correnti (0 → in crisi mentale)
+    san_max: int = 10    # sanità massima (= Volontà al momento della creazione)
+    san_broken: bool = False  # True quando san ha raggiunto 0
 
 
 class CharacterDraft(BaseModel):
@@ -518,3 +522,5 @@ class GameState(BaseModel):
     # Inventario persistente: oggetti disponibili per la raccolta nella scena corrente
     loot_pool: List["LootEntry"] = []          # bottino visibile/raccoglibile ora
     scene_items_given: List[str] = []          # item_id già distribuiti (evita duplicati)
+    # G2: reputazione dei giocatori presso le fazioni (-5 → +5)
+    faction_reputation: Dict[str, int] = {}

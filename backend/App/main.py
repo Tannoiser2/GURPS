@@ -165,7 +165,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v2-clue-list-coerce"
+BUILD_VERSION = "v5-equipment-builder-movement"
 
 @app.get("/health")
 def health_check():
@@ -704,17 +704,18 @@ def _needs_roll(action_text: str, threat_level: int, in_combat: bool) -> bool:
     """
     if in_combat:
         return True  # in combattimento si tira sempre
-    if threat_level >= 3:
-        return True  # alta tensione: anche il movimento può nascondere pericoli
     text_lower = action_text.strip().lower()
-    # Movimento semplice senza specificare ostacoli o azioni aggiuntive
+    # Movimento puro (senza obiettivo secondario) non richiede mai un tiro,
+    # indipendentemente dal threat_level: la tensione è nella narrativa, non nei dadi.
     if _ROUTINE_MOVE_RE.match(text_lower):
-        # Eccezioni: se l'azione contiene un obiettivo secondario (es. "spostarsi e cercare")
         secondary_keywords = ("cerca", "osserv", "nascond", "furtiv", "combatt",
                               "attacc", "scappa", "sfuggi", "investiga", "esamina",
-                              "ascolt", "spia", "intercett")
+                              "ascolt", "spia", "intercett", "forza", "sfonda")
         if not any(k in text_lower for k in secondary_keywords):
             return False
+    # Alta tensione: le azioni non-movimento richiedono comunque un tiro
+    if threat_level >= 3:
+        return True
     return True
 
 
@@ -1799,6 +1800,26 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
             if update.get("pressure") is not None:
                 entry["pressure"] = int(update.get("pressure") or 0)
             rt.faction_runtime[fid] = entry
+    # G2: apply faction reputation deltas to game_state.faction_reputation
+    for fid, delta in (updates.get("faction_rep_updates") or {}).items():
+        fid = str(fid).strip()
+        if fid:
+            cur = int(game_state.faction_reputation.get(fid, 0))
+            game_state.faction_reputation[fid] = max(-5, min(5, cur + int(delta or 0)))
+    # G6: apply sanity updates to players
+    for su in (updates.get("san_updates") or []):
+        if not isinstance(su, dict):
+            continue
+        pid = su.get("player_id")
+        delta = int(su.get("delta") or 0)
+        if pid is None or delta == 0:
+            continue
+        for p in game_state.players:
+            if p.id == pid:
+                p.san = max(0, min(p.san_max, p.san + delta))
+                if p.san <= 0:
+                    p.san_broken = True
+                break
     for update in updates.get("location_updates") or []:
         if not isinstance(update, dict):
             continue

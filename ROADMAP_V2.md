@@ -180,7 +180,7 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
 
 ### 🟡 Medi
 
-- [ ] **U6 — Adventure definition visual editor** `App.jsx`
+- [x] **U6 — Adventure definition visual editor** `App.jsx`
   Attualmente avventure si caricano solo via JSON raw o PDF. Aggiungere un editor minimal post-import:
   - Lista NPC con campo note/agenda editabile
   - Lista clock con descrizione e max_value editabile
@@ -207,7 +207,7 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
   - Costo calcolato da `character_creation.skill_cost()` / `stat_cost()`
   - Validazione: non si può aumentare una stat > 16 o spendere XP che non si ha
 
-- [ ] **G2 — Faction/reputation tracking** `models.py` / `world_simulator.py`
+- [x] **G2 — Faction/reputation tracking** `models.py` / `world_simulator.py`
   Le fazioni sono estratte dal compiler (P4) ma durante il gioco non cambia nulla in base alle azioni del giocatore verso di esse. Aggiungere:
   - `faction_reputation: dict[str, int]` nel GameState (range -5 → +5)
   - Modificatori automatici: successo contro un nemico della fazione → +1, tradimento di un alleato → -2
@@ -236,7 +236,7 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
   - Azione "Guidare/Sfuggire inseguimento": skill check + esito narrativo
   - Combat su veicolo: +2 DR per pedoni vs. armi leggere
 
-- [ ] **G6 — Sanità mentale per genere horror** `models.py` / `world_simulator.py`
+- [x] **G6 — Sanità mentale per genere horror** `models.py` / `world_simulator.py`
   In generi horror/cosmic l'esposizione a eventi traumatici dovrebbe avere effetti meccanici. Implementare come sistema opzionale (attivato solo se `genre.profile.has_sanity`):
   - `sanity: int` (0-20) nel Player, inizia a 15
   - Trigger: scoperta di cadaveri, creature soprannaturali, rivelazioni cosmiche → Fright Check (IN - sanity_penalty)
