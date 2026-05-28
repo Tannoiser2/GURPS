@@ -165,7 +165,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v5-equipment-builder-movement"
+BUILD_VERSION = "v6-equipment-picker-bigger-avatar"
 
 @app.get("/health")
 def health_check():
@@ -2771,6 +2771,67 @@ def player_remove_weapon(player_id: int, weapon_id: str):
         return {"error": result["error"]}
     return {
         "log": result.get("log", ""),
+        "players": [p.model_dump() for p in game_state.players],
+    }
+
+
+@app.get("/game/items/catalog")
+def get_items_catalog(genre: str | None = None):
+    """Ritorna il catalogo oggetti filtrato per il genere corrente."""
+    from .data_items import ITEM_CATALOG
+    from .data_weapons import GENRE_ERA_MAP
+    g = genre or (game_state.genre if game_state else None) or "fantasy"
+    era_set = set(GENRE_ERA_MAP.get(g, []))
+    items = []
+    for iid, data in ITEM_CATALOG.items():
+        item_eras = data.get("eras", [])
+        # Universal items (no era list) always pass
+        if item_eras and era_set and not (set(item_eras) & era_set):
+            continue
+        items.append({
+            "id": iid,
+            "name": data.get("name", iid),
+            "category": data.get("category", "misc"),
+            "notes": data.get("notes", ""),
+            "weight": data.get("weight", 0),
+        })
+    items.sort(key=lambda x: (x["category"], x["name"]))
+    return {"genre": g, "items": items}
+
+
+class AddItemPayload(BaseModel):
+    item_id: str
+    quantity: int = 1
+
+
+@app.post("/game/player/{player_id}/add-item")
+def player_add_item(player_id: int, payload: AddItemPayload):
+    """Aggiunge un oggetto (non-arma) all'inventario di un PG."""
+    global game_state
+    from .data_items import ITEM_CATALOG
+    from .models import EquipmentItem
+    import uuid as _uuid
+    player = next((p for p in game_state.players if p.id == player_id), None)
+    if not player:
+        return {"error": f"Player {player_id} non trovato"}
+    data = ITEM_CATALOG.get(payload.item_id)
+    if not data:
+        return {"error": f"Oggetto {payload.item_id} sconosciuto"}
+    qty = max(1, min(99, int(payload.quantity or 1)))
+    cat_map = {"tool": "misc", "weapon": "weapon", "armor": "armor", "shield": "armor",
+               "consumable": "consumable", "ammo": "ammo", "quest_item": "misc", "key_item": "misc"}
+    category = cat_map.get(data.get("category", "misc"), "misc")
+    player.equipment.append(EquipmentItem(
+        id=f"{payload.item_id}_{_uuid.uuid4().hex[:5]}",
+        name=data.get("name", payload.item_id),
+        category=category,
+        quantity=qty,
+        weight=float(data.get("weight", 0)),
+        cost=int(data.get("cost", 0)),
+        notes=data.get("notes", ""),
+    ))
+    return {
+        "log": f"{player.name} aggiunge {data.get('name', payload.item_id)}{f' ×{qty}' if qty > 1 else ''} all'inventario.",
         "players": [p.model_dump() for p in game_state.players],
     }
 

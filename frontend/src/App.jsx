@@ -782,25 +782,41 @@ const EQ_CAT_ICON = { weapon: "⚔️", armor: "🛡️", ammo: "🔫", consumab
 const EQ_CAT_LABEL = { weapon: "Arma", armor: "Armatura", ammo: "Munizioni", consumable: "Consumabile", misc: "Oggetto" };
 
 function EquipmentPanel({ player, onPlayersUpdate }) {
-  const [showAddWeapon, setShowAddWeapon] = React.useState(false);
+  const [showAdd, setShowAdd] = React.useState(false);
+  const [pickerTab, setPickerTab] = React.useState("weapon"); // "weapon" | "item"
   const [weaponList, setWeaponList] = React.useState([]);
+  const [itemList, setItemList] = React.useState([]);
   const [selectedWeaponId, setSelectedWeaponId] = React.useState("");
+  const [selectedItemId, setSelectedItemId] = React.useState("");
   const [ammoPacks, setAmmoPacks] = React.useState(1);
+  const [itemQty, setItemQty] = React.useState(1);
   const [loading, setLoading] = React.useState(false);
+  const [fetchState, setFetchState] = React.useState("idle"); // idle|loading|ready|empty|error
   const [msg, setMsg] = React.useState("");
 
   const equipment = player.equipment || [];
   const actions = player.actions || [];
   const items = player.items || [];
 
-  // Carica lista armi quando si apre il picker
-  async function loadWeapons() {
-    if (weaponList.length > 0) return;
+  // Carica catalogo armi+oggetti quando si apre il picker
+  async function loadCatalog() {
+    setFetchState("loading"); setMsg("");
     try {
-      const res = await fetch(`${API_URL}/game/combat/weapons`).then(r => r.json());
-      setWeaponList([...(res.melee || []), ...(res.ranged || [])]);
-      if (res.melee?.length > 0) setSelectedWeaponId(res.melee[0].id);
-    } catch (_) {}
+      const [wRes, iRes] = await Promise.all([
+        fetch(`${API_URL}/game/combat/weapons`).then(r => r.json()),
+        fetch(`${API_URL}/game/items/catalog`).then(r => r.json()),
+      ]);
+      const weapons = [...(wRes.melee || []), ...(wRes.ranged || [])];
+      const itemsCat = iRes.items || [];
+      setWeaponList(weapons);
+      setItemList(itemsCat);
+      if (weapons.length > 0) setSelectedWeaponId(weapons[0].id);
+      if (itemsCat.length > 0) setSelectedItemId(itemsCat[0].id);
+      setFetchState(weapons.length || itemsCat.length ? "ready" : "empty");
+    } catch (e) {
+      setFetchState("error");
+      setMsg(`Errore di rete: ${e.message || "impossibile contattare il server"}`);
+    }
   }
 
   async function handleAddWeapon() {
@@ -813,7 +829,22 @@ function EquipmentPanel({ player, onPlayersUpdate }) {
         body: JSON.stringify({ weapon_id: selectedWeaponId, ammo_packs: ammoPacks }),
       }).then(r => r.json());
       if (res.error) { setMsg(`Errore: ${res.error}`); }
-      else { setMsg(res.log || "Aggiunto."); onPlayersUpdate && onPlayersUpdate(res.players); setShowAddWeapon(false); }
+      else { setMsg(res.log || "Aggiunto."); onPlayersUpdate && onPlayersUpdate(res.players); }
+    } catch (_) { setMsg("Errore di rete."); }
+    setLoading(false);
+  }
+
+  async function handleAddItem() {
+    if (!selectedItemId) return;
+    setLoading(true); setMsg("");
+    try {
+      const res = await fetch(`${API_URL}/game/player/${player.id}/add-item`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ item_id: selectedItemId, quantity: itemQty }),
+      }).then(r => r.json());
+      if (res.error) { setMsg(`Errore: ${res.error}`); }
+      else { setMsg(res.log || "Aggiunto."); onPlayersUpdate && onPlayersUpdate(res.players); }
     } catch (_) { setMsg("Errore di rete."); }
     setLoading(false);
   }
@@ -837,39 +868,100 @@ function EquipmentPanel({ player, onPlayersUpdate }) {
   }
 
   const weaponActions = actions.filter(a => a.attack_kind);
-  const hasRanged = weaponActions.some(a => a.attack_kind === "ranged");
   const selectedW = weaponList.find(w => w.id === selectedWeaponId);
 
   return (
     <div style={{ marginTop: 10, borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 10 }}>
       <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 7, display: "flex", alignItems: "center", gap: 8 }}>
         🎒 Equipaggiamento
-        <button onClick={() => { setShowAddWeapon(v => !v); if (!showAddWeapon) loadWeapons(); }}
+        <button onClick={() => {
+            const next = !showAdd;
+            setShowAdd(next);
+            if (next && fetchState === "idle") loadCatalog();
+          }}
           style={{ fontSize: 10, padding: "1px 8px", borderRadius: 5, border: "1px solid rgba(99,102,241,0.4)", background: "rgba(99,102,241,0.12)", color: "#a5b4fc", cursor: "pointer", fontWeight: 700 }}>
-          {showAddWeapon ? "✕ Chiudi" : "+ Aggiungi arma"}
+          {showAdd ? "✕ Chiudi" : "+ Aggiungi"}
         </button>
+        {showAdd && fetchState === "error" && (
+          <button onClick={loadCatalog}
+            style={{ fontSize: 10, padding: "1px 8px", borderRadius: 5, border: "1px solid rgba(239,68,68,0.4)", background: "rgba(239,68,68,0.12)", color: "#fca5a5", cursor: "pointer", fontWeight: 700 }}>
+            ↻ Riprova
+          </button>
+        )}
       </div>
 
-      {/* Picker aggiungi arma */}
-      {showAddWeapon && (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", padding: "7px 10px", borderRadius: 8, background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.2)", marginBottom: 8 }}>
-          <select value={selectedWeaponId} onChange={e => setSelectedWeaponId(e.target.value)}
-            style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(99,102,241,0.35)", background: "rgba(20,20,50,0.9)", color: "#c4b5fd", fontSize: 12 }}>
-            {weaponList.length === 0 && <option>Caricamento…</option>}
-            {weaponList.map(w => <option key={w.id} value={w.id}>{w.attack_kind === "ranged" ? "🎯" : "⚔️"} {w.name}</option>)}
-          </select>
-          {selectedW?.ammo > 0 && (
-            <label style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", gap: 4 }}>
-              Ricariche:
-              <input type="number" min={0} max={20} value={ammoPacks} onChange={e => setAmmoPacks(Math.max(0, parseInt(e.target.value) || 0))}
-                style={{ width: 40, padding: "2px 6px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(0,0,0,0.3)", color: "#fff", fontSize: 12, textAlign: "center" }} />
-            </label>
+      {/* Picker aggiungi arma/oggetto */}
+      {showAdd && (
+        <div style={{ padding: "7px 10px", borderRadius: 8, background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.2)", marginBottom: 8 }}>
+          {/* tabs arma/oggetto */}
+          <div style={{ display: "flex", gap: 4, marginBottom: 6 }}>
+            {["weapon", "item"].map(t => (
+              <button key={t} onClick={() => setPickerTab(t)}
+                style={{
+                  fontSize: 10, padding: "2px 10px", borderRadius: 5,
+                  border: pickerTab === t ? "1px solid #6366f1" : "1px solid rgba(255,255,255,0.12)",
+                  background: pickerTab === t ? "rgba(99,102,241,0.25)" : "transparent",
+                  color: pickerTab === t ? "#c4b5fd" : "rgba(255,255,255,0.55)",
+                  cursor: "pointer", fontWeight: 700,
+                }}>
+                {t === "weapon" ? "⚔️ Arma" : "🎒 Oggetto"}
+              </button>
+            ))}
+          </div>
+
+          {fetchState === "loading" && (
+            <div style={{ fontSize: 11, color: "#a5b4fc", padding: "4px 0" }}>Caricamento catalogo…</div>
           )}
-          <button onClick={handleAddWeapon} disabled={loading || !selectedWeaponId}
-            style={{ padding: "3px 12px", borderRadius: 6, border: "none", background: "#6366f1", color: "#fff", fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-            {loading ? "…" : "Aggiungi"}
-          </button>
-          {msg && <span style={{ fontSize: 11, color: msg.startsWith("Errore") ? "#f87171" : "#4ade80" }}>{msg}</span>}
+          {fetchState === "error" && (
+            <div style={{ fontSize: 11, color: "#fca5a5", padding: "4px 0" }}>{msg}</div>
+          )}
+          {fetchState === "empty" && (
+            <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", padding: "4px 0" }}>Nessun oggetto disponibile per questo genere.</div>
+          )}
+
+          {fetchState === "ready" && pickerTab === "weapon" && (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <select value={selectedWeaponId} onChange={e => setSelectedWeaponId(e.target.value)}
+                style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(99,102,241,0.35)", background: "rgba(20,20,50,0.9)", color: "#c4b5fd", fontSize: 12, maxWidth: 220 }}>
+                {weaponList.length === 0 && <option value="">Nessuna arma per questo genere</option>}
+                {weaponList.map(w => <option key={w.id} value={w.id}>{w.attack_kind === "ranged" ? "🎯" : "⚔️"} {w.name}</option>)}
+              </select>
+              {selectedW?.ammo > 0 && (
+                <label style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", gap: 4 }}>
+                  Ricariche:
+                  <input type="number" min={0} max={20} value={ammoPacks} onChange={e => setAmmoPacks(Math.max(0, parseInt(e.target.value) || 0))}
+                    style={{ width: 40, padding: "2px 6px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(0,0,0,0.3)", color: "#fff", fontSize: 12, textAlign: "center" }} />
+                </label>
+              )}
+              <button onClick={handleAddWeapon} disabled={loading || !selectedWeaponId}
+                style={{ padding: "3px 12px", borderRadius: 6, border: "none", background: "#6366f1", color: "#fff", fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                {loading ? "…" : "Aggiungi"}
+              </button>
+            </div>
+          )}
+
+          {fetchState === "ready" && pickerTab === "item" && (
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <select value={selectedItemId} onChange={e => setSelectedItemId(e.target.value)}
+                style={{ padding: "3px 8px", borderRadius: 6, border: "1px solid rgba(99,102,241,0.35)", background: "rgba(20,20,50,0.9)", color: "#c4b5fd", fontSize: 12, maxWidth: 260 }}>
+                {itemList.length === 0 && <option value="">Nessun oggetto per questo genere</option>}
+                {itemList.map(it => <option key={it.id} value={it.id}>{EQ_CAT_ICON[it.category] || "📦"} {it.name}</option>)}
+              </select>
+              <label style={{ fontSize: 11, color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", gap: 4 }}>
+                Q.tà:
+                <input type="number" min={1} max={20} value={itemQty} onChange={e => setItemQty(Math.max(1, parseInt(e.target.value) || 1))}
+                  style={{ width: 40, padding: "2px 6px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(0,0,0,0.3)", color: "#fff", fontSize: 12, textAlign: "center" }} />
+              </label>
+              <button onClick={handleAddItem} disabled={loading || !selectedItemId}
+                style={{ padding: "3px 12px", borderRadius: 6, border: "none", background: "#6366f1", color: "#fff", fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                {loading ? "…" : "Aggiungi"}
+              </button>
+            </div>
+          )}
+
+          {msg && fetchState !== "error" && (
+            <div style={{ fontSize: 11, color: msg.startsWith("Errore") ? "#f87171" : "#4ade80", marginTop: 4 }}>{msg}</div>
+          )}
         </div>
       )}
 
@@ -963,30 +1055,24 @@ function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
     <div style={{
       borderBottom: "1px solid var(--border)",
       background: "var(--code-bg)",
-      padding: "12px 20px 14px",
+      padding: "14px 20px 16px",
       animation: "expandDown 0.18s ease",
     }}>
       <style>{`@keyframes expandDown { from { opacity: 0; transform: translateY(-8px) } to { opacity: 1; transform: translateY(0) } }`}</style>
 
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        {/* Riga top: avatar + nome + HP + chiudi */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
-          <AvatarCircle src={avatar} size={44} fallback="🧑" />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-              <span style={{ fontWeight: 800, fontSize: 15, color: "var(--text-h)" }}>{player.name}</span>
-              <span style={{ fontSize: 12, color: "var(--text)", opacity: 0.6 }}>{player.role}</span>
-              {player.motivation && (
-                <span style={{ fontSize: 11, color: "#a78bfa", fontStyle: "italic", marginLeft: 4 }}>"{player.motivation}"</span>
-              )}
-            </div>
-            {/* HP + SAN bars */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 5 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 11, color: hpColor, fontWeight: 700, fontVariantNumeric: "tabular-nums", minWidth: 60 }}>
+        {/* Layout: avatar grande a sinistra | tutto il resto a destra */}
+        <div style={{ display: "flex", gap: 18, alignItems: "flex-start" }}>
+          {/* Avatar grande */}
+          <div style={{ flexShrink: 0, position: "relative" }}>
+            <AvatarCircle src={avatar} size={108} fallback="🧑" />
+            {/* HP/SAN compatti sotto l'avatar */}
+            <div style={{ marginTop: 6, display: "flex", flexDirection: "column", gap: 3, width: 108 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                <span style={{ fontSize: 10, color: hpColor, fontWeight: 700, fontVariantNumeric: "tabular-nums", minWidth: 36 }}>
                   ❤️ {player.hp ?? player.max_hp}/{player.max_hp}
                 </span>
-                <div style={{ flex: 1, maxWidth: 120, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
+                <div style={{ flex: 1, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
                   <div style={{ height: "100%", borderRadius: 2, width: `${hpPct}%`, background: hpColor, transition: "width 0.3s" }} />
                 </div>
               </div>
@@ -994,29 +1080,38 @@ function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
                 const sanPct = Math.max(0, Math.min(100, (player.san / player.san_max) * 100));
                 const sanColor = sanPct > 60 ? "#c084fc" : sanPct > 30 ? "#f59e0b" : "#ef4444";
                 return (
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 11, color: sanColor, fontWeight: 700, fontVariantNumeric: "tabular-nums", minWidth: 60 }}
-                      title="Sanità mentale">
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }} title={player.san <= 3 && !player.san_broken ? `Penalità: −${4 - player.san} ai tiri` : "Sanità mentale"}>
+                    <span style={{ fontSize: 10, color: sanColor, fontWeight: 700, fontVariantNumeric: "tabular-nums", minWidth: 36 }}>
                       {player.san_broken ? "💀" : "🧠"} {player.san}/{player.san_max}
                     </span>
-                    <div style={{ flex: 1, maxWidth: 120, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
+                    <div style={{ flex: 1, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
                       <div style={{ height: "100%", borderRadius: 2, width: `${sanPct}%`, background: sanColor, transition: "width 0.3s" }} />
                     </div>
-                    {player.san <= 3 && !player.san_broken && (
-                      <span style={{ fontSize: 9, color: "#fbbf24", fontWeight: 700 }}>−{4 - player.san} ai tiri</span>
-                    )}
                   </div>
                 );
               })()}
             </div>
           </div>
-          <button onClick={onClose} style={{
-            background: "none", border: "none", color: "var(--text)", opacity: 0.5,
-            cursor: "pointer", fontSize: 18, padding: "0 4px", lineHeight: 1,
-          }}>✕</button>
-        </div>
 
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+          {/* Colonna destra: header + griglia info */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 10 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ fontWeight: 800, fontSize: 17, color: "var(--text-h)" }}>{player.name}</span>
+                  <span style={{ fontSize: 13, color: "var(--accent)", fontWeight: 600 }}>{player.role}</span>
+                </div>
+                {player.motivation && (
+                  <div style={{ fontSize: 11, color: "#a78bfa", fontStyle: "italic", marginTop: 2, lineHeight: 1.35 }}>"{player.motivation}"</div>
+                )}
+              </div>
+              <button onClick={onClose} style={{
+                background: "none", border: "none", color: "var(--text)", opacity: 0.5,
+                cursor: "pointer", fontSize: 18, padding: "0 4px", lineHeight: 1,
+              }}>✕</button>
+            </div>
+
+            <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
           {/* Stats */}
           <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
             {Object.entries(stats).map(([k, v]) => (
@@ -1099,7 +1194,9 @@ function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
               </div>
             </div>
           )}
-        </div>
+            </div>{/* /inner stats-skills-adv flex */}
+          </div>{/* /right column */}
+        </div>{/* /avatar+right flex */}
         {/* Inventario / Equipaggiamento */}
         <EquipmentPanel player={player} onPlayersUpdate={onPlayersUpdate} />
       </div>
@@ -1440,7 +1537,28 @@ function CharacterBuilderModal({ genre, archetypes, onAdd, onClose }) {
   const [mSkills, setMSkills] = useState({});
   const [mAdvantages, setMAdvantages] = useState([]);
   const [mDisadvantages, setMDisadvantages] = useState([]);
+  const [mWeaponId, setMWeaponId] = useState("");
+  const [mItemIds, setMItemIds] = useState([]); // multi-select
+  const [catalogWeapons, setCatalogWeapons] = useState([]);
+  const [catalogItems, setCatalogItems] = useState([]);
+  const [catalogFetched, setCatalogFetched] = useState(false);
   const mPts = calcPoints(mStats, mSkills, mAdvantages, mDisadvantages);
+
+  // Carica catalogo armi+oggetti la prima volta che si apre il tab Manuale
+  useEffect(() => {
+    if (tab !== "manual" || catalogFetched) return;
+    (async () => {
+      try {
+        const [wRes, iRes] = await Promise.all([
+          fetch(`${API_URL}/game/combat/weapons?genre=${encodeURIComponent(genre || "")}`).then(r => r.json()),
+          fetch(`${API_URL}/game/items/catalog?genre=${encodeURIComponent(genre || "")}`).then(r => r.json()),
+        ]);
+        setCatalogWeapons([...(wRes.melee || []), ...(wRes.ranged || [])]);
+        setCatalogItems(iRes.items || []);
+      } catch (_) {}
+      setCatalogFetched(true);
+    })();
+  }, [tab, catalogFetched, genre]);
 
   // Archetype state
   const [baseArch, setBaseArch] = useState(archetypes[0] || null);
@@ -1476,8 +1594,18 @@ function CharacterBuilderModal({ genre, archetypes, onAdd, onClose }) {
 
   async function handleManualAdd() {
     if (!mName.trim()) return;
+    // Costruisci la lista items: arma + oggetti scelti (i nomi vengono risolti
+    // backend in item_id / weapon_id via item_to_weapon_id / catalogo).
+    const weapon = catalogWeapons.find(w => w.id === mWeaponId);
+    const chosenItems = mItemIds.map(iid => catalogItems.find(it => it.id === iid)).filter(Boolean);
+    const itemsList = [
+      ...(weapon ? [weapon.name] : []),
+      ...chosenItems.map(it => it.name),
+    ];
     const draft = { name: mName, role: mRole || "Avventuriero", archetype: mRole || "custom",
-      stats: mStats, skills: mSkills, advantages: mAdvantages, disadvantages: mDisadvantages, dr: 0, items: [] };
+      genre: genre || "fantasy",
+      stats: mStats, skills: mSkills, advantages: mAdvantages, disadvantages: mDisadvantages, dr: 0,
+      items: itemsList };
     const res = await fetch(`${API_URL}/game/character/create`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -1763,6 +1891,52 @@ function CharacterBuilderModal({ genre, archetypes, onAdd, onClose }) {
                     </div>
                   );
                 })}
+              </div>
+
+              {/* equipaggiamento iniziale */}
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text)", marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                  Equipaggiamento iniziale
+                </div>
+                {!catalogFetched ? (
+                  <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6 }}>Caricamento catalogo…</div>
+                ) : (
+                  <>
+                    <div style={{ marginBottom: 8 }}>
+                      <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text)", display: "block", marginBottom: 3 }}>
+                        Arma principale {mWeaponId && <span style={{ color: "var(--accent)", fontWeight: 400, marginLeft: 4 }}>· {catalogWeapons.find(w => w.id === mWeaponId)?.damage} {catalogWeapons.find(w => w.id === mWeaponId)?.damage_type}</span>}
+                      </label>
+                      <select value={mWeaponId} onChange={e => setMWeaponId(e.target.value)}
+                        style={{ display: "block", width: "100%", boxSizing: "border-box", padding: "7px 10px", borderRadius: 7, border: "1px solid var(--border)", background: "var(--code-bg)", color: "var(--text-h)", fontSize: 13 }}>
+                        <option value="">— nessuna arma —</option>
+                        {catalogWeapons.map(w => (
+                          <option key={w.id} value={w.id}>{w.attack_kind === "ranged" ? "🎯" : "⚔️"} {w.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label style={{ fontSize: 11, fontWeight: 600, color: "var(--text)", display: "block", marginBottom: 3 }}>
+                        Oggetti ({mItemIds.length} selezionati)
+                      </label>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 4, maxHeight: 120, overflowY: "auto", padding: 6, border: "1px solid var(--border)", borderRadius: 7, background: "var(--code-bg)" }}>
+                        {catalogItems.length === 0 && (
+                          <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.5 }}>Nessun oggetto disponibile per questo genere.</span>
+                        )}
+                        {catalogItems.map(it => {
+                          const sel = mItemIds.includes(it.id);
+                          return <button key={it.id} title={it.notes || ""}
+                            onClick={() => setMItemIds(p => sel ? p.filter(x=>x!==it.id) : [...p, it.id])}
+                            style={{ padding: "3px 8px", borderRadius: 14, fontSize: 11, cursor: "pointer",
+                              border: sel ? "1px solid var(--accent)" : "1px solid var(--border)",
+                              background: sel ? "var(--accent-bg)" : "var(--bg)",
+                              color: sel ? "var(--accent)" : "var(--text)" }}>
+                            {EQ_CAT_ICON[it.category] || "📦"} {it.name}
+                          </button>;
+                        })}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
               <button onClick={handleManualAdd} disabled={!mName.trim() || mPts.total > 100} style={{
