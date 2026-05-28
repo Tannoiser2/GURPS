@@ -10,6 +10,27 @@ const API_URL = import.meta.env.PROD
 const API_URL_DIRECT = import.meta.env.PROD
   ? "https://gurps-f93w.onrender.com"
   : (import.meta.env.VITE_API_URL || "http://127.0.0.1:8002");
+
+// Diagnostica fetch: traccia ultima URL e cattura errori Safari ("did not match...")
+window.__lastFetchUrl = null;
+window.__lastFetchError = null;
+async function safeFetch(url, opts) {
+  // Costruisci URL assoluto esplicito (Safari iOS richiede stringa URL valida)
+  let absoluteUrl;
+  try {
+    absoluteUrl = url.startsWith("http") ? url : new URL(url, window.location.origin).toString();
+  } catch (urlErr) {
+    window.__lastFetchError = `URL build failed: ${urlErr.message} (input: ${url})`;
+    throw new Error(`URL invalid: ${url} — ${urlErr.message}`);
+  }
+  window.__lastFetchUrl = absoluteUrl;
+  try {
+    return await fetch(absoluteUrl, opts);
+  } catch (e) {
+    window.__lastFetchError = `${e?.name}: ${e?.message} @ ${absoluteUrl}`;
+    throw e;
+  }
+}
 const VERCEL_PDF_UPLOAD_LIMIT_BYTES = 4 * 1024 * 1024;
 
 const STAT_ICON = { forza: "💪", agilita: "🏃", intelligenza: "🧠", empatia: "💙" };
@@ -2060,7 +2081,7 @@ function SetupScreen({ onStart }) {
     setJsonError("");
     try {
       // Warmup ping: sveglia Render prima delle chiamate principali (free tier dorme dopo 15min)
-      try { await fetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
+      try { await safeFetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
       let adventureForStart = preloadedAdventure;
       let poolForStart = pool;
       if (!adventureForStart) {
@@ -2073,7 +2094,7 @@ function SetupScreen({ onStart }) {
           dr: p.dr || 0, items: p.items || [], actions: p.actions || [],
           backstory: p.backstory || "", motivation: p.motivation || "",
         }));
-        const created = await fetch(`${API_URL}/game/adventure/create`, {
+        const created = await safeFetch(`${API_URL}/game/adventure/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
@@ -2087,7 +2108,7 @@ function SetupScreen({ onStart }) {
           setDoctorReport({ ...created.doctor, source: src });
         }
         try {
-          const enriched = await fetch(`${API_URL}/game/character/enrich-backstory`, {
+          const enriched = await safeFetch(`${API_URL}/game/character/enrich-backstory`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             signal: controller.signal,
@@ -2099,7 +2120,7 @@ function SetupScreen({ onStart }) {
           }
         } catch (_) {}
       }
-      const stateRes = await fetch(`${API_URL}/game/select-team`, {
+      const stateRes = await safeFetch(`${API_URL}/game/select-team`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ selected_player_ids: selected, adventure_bible: adventureForStart }),
@@ -2134,7 +2155,7 @@ function SetupScreen({ onStart }) {
       else if (isNetwork && import.meta.env.PROD && !skipWake) { wakeAndRetry(); return; }
       else if (isTimeout) msg = "Il server impiega troppo tempo a rispondere. Se usi Render free tier, aspetta 60s e riprova.";
       else if (isNetwork && !import.meta.env.PROD) msg = "Backend non raggiungibile su " + (typeof API_URL !== "undefined" ? API_URL : "localhost:8002") + ". Avvia il server con: cd backend && uvicorn App.main:app --port 8002";
-      else if (isNetwork) msg = `Server non raggiungibile. Riprova. [${e.message || e.name}]`;
+      else if (isNetwork) msg = `Server non raggiungibile. Riprova. [${e.message || e.name}] url=${window.__lastFetchUrl || "?"} origin=${window.location.origin}`;
       else msg = e.message || "Errore di connessione al server.";
       setJsonError(msg);
     }
