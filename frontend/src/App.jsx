@@ -2120,12 +2120,21 @@ function SetupScreen({ onStart }) {
           }
         } catch (_) {}
       }
+      // Ottimizzazione: se l'avventura ha un runtime_id, manda solo quello (body byte vs MB)
+      // Render free tier/Vercel proxy reject body troppo grandi → 500 Internal Server Error
+      const selectTeamBody = adventureForStart?.runtime_id
+        ? { selected_player_ids: selected, runtime_id: adventureForStart.runtime_id }
+        : { selected_player_ids: selected, adventure_bible: adventureForStart };
       const stateRes = await safeFetch(`${API_URL}/game/select-team`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ selected_player_ids: selected, adventure_bible: adventureForStart }),
+        body: JSON.stringify(selectTeamBody),
         signal: controller.signal,
-      }).then(r => r.json());
+      }).then(async r => {
+        const text = await r.text();
+        try { return JSON.parse(text); }
+        catch (_) { throw new Error(`Backend ${r.status}: ${text.slice(0, 200)}`); }
+      });
       if (stateRes.detail) throw new Error(stateRes.detail);
       clearTimeout(timeoutId);
       // Merge backend players with enriched pool data (backstory, motivation, enriched advantages/disadvantages)

@@ -960,6 +960,7 @@ class TeamSelectionPayload(BaseModel):
     selected_player_ids: list[int]
     custom_names: dict[int, str] = {}
     adventure_bible: dict | None = None
+    runtime_id: str | None = None
 
 class AvatarGenPayload(BaseModel):
     photo_b64: str = ""
@@ -2443,15 +2444,26 @@ def setup_game(payload: SetupPayload):
 @app.post("/game/select-team")
 def select_team(payload: TeamSelectionPayload):
     global game_state, tactical_map_image_cache
-    if not payload.adventure_bible or not payload.adventure_bible.get("adventure_definition"):
-        raise HTTPException(
-            status_code=400,
-            detail="Selezione squadra bloccata: il vecchio avvio procedurale e stato rimosso. Compila prima un'avventura.",
-        )
-    game_state = start_game_from_selection(game_state, payload.selected_player_ids, payload.custom_names, payload.adventure_bible)
-    if payload.adventure_bible:
-        definition_data = payload.adventure_bible.get("adventure_definition")
-        runtime_data = payload.adventure_bible.get("runtime_state")
+    try:
+        # Se il client passa solo runtime_id, ricarica l'adventure_bible dal disco
+        adventure_bible = payload.adventure_bible
+        if (not adventure_bible or not adventure_bible.get("adventure_definition")) and payload.runtime_id:
+            data = load_runtime(payload.runtime_id)
+            if data:
+                adventure_bible = {
+                    **(data.get("adventure_definition", {}).get("legacy_adventure") or {}),
+                    "adventure_definition": data["adventure_definition"],
+                    "runtime_state": data["runtime_state"],
+                    "runtime_id": payload.runtime_id,
+                }
+        if not adventure_bible or not adventure_bible.get("adventure_definition"):
+            raise HTTPException(
+                status_code=400,
+                detail="Selezione squadra bloccata: serve adventure_bible o runtime_id valido.",
+            )
+        game_state = start_game_from_selection(game_state, payload.selected_player_ids, payload.custom_names, adventure_bible)
+        definition_data = adventure_bible.get("adventure_definition")
+        runtime_data = adventure_bible.get("runtime_state")
         try:
             if definition_data:
                 definition = AdventureDefinition(**definition_data)
@@ -2466,8 +2478,15 @@ def select_team(payload: TeamSelectionPayload):
                 game_state.active_pressure_ids = list(runtime_state.pressure_runtime.keys())
         except Exception as e:
             print(f"[select-team] runtime bridge non applicato: {type(e).__name__}: {e}")
-    tactical_map_image_cache = {}
-    return game_state
+        tactical_map_image_cache = {}
+        return game_state
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        print(f"[select-team] ERRORE: {type(e).__name__}: {e}\n{tb}")
+        raise HTTPException(status_code=500, detail=f"select-team failed: {type(e).__name__}: {str(e)[:300]}")
 
 @app.post("/game/generate-avatar")
 def gen_avatar(payload: AvatarGenPayload):
