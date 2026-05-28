@@ -274,6 +274,92 @@ ITEM_CATALOG: Dict[str, Dict] = {
         "aliases": ["antitossina", "siero", "contravveleno"],
     },
 
+    # ── Armature storiche (GURPS 4e Basic Set) ────────────────────────────
+
+    "armatura_cuoio": {
+        "name": "Armatura di cuoio",
+        "category": "armor",
+        "skill_bonuses": {"furtivita": -1},
+        "armor_dr": 2,
+        "armor_location": "torso",
+        "weight": 10.0, "cost": 100,
+        "notes": "DR 2 torso/inguine. −1 furtività. Protezione base medievale/fantasy.",
+        "aliases": ["cuoio", "armatura cuoio", "giubbotto di cuoio", "leather armor"],
+    },
+
+    "cotta_maglia": {
+        "name": "Cotta di maglia",
+        "category": "armor",
+        "skill_bonuses": {"furtivita": -2, "acrobazia": -1},
+        "armor_dr": 4,
+        "armor_location": "torso",
+        "weight": 16.0, "cost": 150,
+        "notes": "DR 4 torso. −2 furtività, −1 acrobazia. Buona protezione medievale.",
+        "aliases": ["maglia", "cotta di maglia corta", "mail shirt", "usbergo"],
+    },
+
+    "cotta_maglia_lunga": {
+        "name": "Cotta di maglia lunga",
+        "category": "armor",
+        "skill_bonuses": {"furtivita": -3, "acrobazia": -2, "atletica": -1},
+        "armor_dr": 4,
+        "armor_location": "totale",
+        "weight": 25.0, "cost": 230,
+        "notes": "DR 4 torso/inguine, DR 2 braccia (rivetti). Protezione medievale completa.",
+        "aliases": ["haubert", "cotta lunga", "mail hauberk", "maglia lunga", "cotta di maglia intera"],
+    },
+
+    "corazza_piastre": {
+        "name": "Corazza di piastre",
+        "category": "armor",
+        "skill_bonuses": {"furtivita": -2, "acrobazia": -1},
+        "armor_dr": 5,
+        "armor_location": "torso",
+        "weight": 18.0, "cost": 500,
+        "notes": "DR 5 torso. Piastra d'acciaio; protezione eccellente contro armi da taglio.",
+        "aliases": ["pettorale", "breastplate", "piastra pettorale", "corazza acciaio"],
+    },
+
+    "armatura_piastre_pesante": {
+        "name": "Armatura di piastre pesante",
+        "category": "armor",
+        "skill_bonuses": {"furtivita": -4, "acrobazia": -3, "atletica": -2},
+        "armor_dr": 7,
+        "armor_location": "torso",
+        "weight": 45.0, "cost": 2300,
+        "notes": "DR 7 torso/inguine. Armatura di piastre pesante; massima protezione medievale.",
+        "aliases": ["armatura completa pesante", "heavy steel corselet", "piastre pesanti"],
+    },
+
+    # ── Scudi (GURPS 4e Basic Set) ────────────────────────────────────────
+
+    "scudo_leggero": {
+        "name": "Scudo leggero",
+        "category": "misc",
+        "skill_bonuses": {"proteggere": 1, "difendere": 1},
+        "weight": 3.0, "cost": 30,
+        "notes": "DB +1 alla difesa in blocco. DR 2 contro colpi diretti allo scudo.",
+        "aliases": ["scudo piccolo", "buckler", "round shield", "targa"],
+    },
+
+    "scudo_medio": {
+        "name": "Scudo medio",
+        "category": "misc",
+        "skill_bonuses": {"proteggere": 2, "difendere": 1},
+        "weight": 7.0, "cost": 60,
+        "notes": "DB +2 alla difesa in blocco. DR 3 contro colpi diretti allo scudo.",
+        "aliases": ["scudo", "kite shield", "heater shield", "scudo rotondo"],
+    },
+
+    "scudo_grande": {
+        "name": "Scudo grande",
+        "category": "misc",
+        "skill_bonuses": {"proteggere": 3, "difendere": 2, "furtivita": -1},
+        "weight": 15.0, "cost": 90,
+        "notes": "DB +3 alla difesa in blocco. DR 4. −1 schivata. Copertura quasi totale.",
+        "aliases": ["scudo torre", "tower shield", "pavese", "grande scudo"],
+    },
+
     # ── Armature speciali ─────────────────────────────────────────────────
 
     "armatura_pesante": {
