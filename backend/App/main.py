@@ -2079,6 +2079,13 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
     _incapacitated = [p["name"] for p in payload.players if (p.get("hp") or 1) <= 0]
     if _incapacitated:
         _gsd["incapacitated_players"] = _incapacitated
+    # TPK: tutti i PG morti → sconfitta forzata
+    if payload.players and all((p.get("hp") or 1) <= 0 for p in payload.players):
+        _gsd["total_party_kill"] = True
+    # Flag antagonista ucciso nel combattimento appena concluso
+    _antag_killed_flag = (_gsd.get("last_combat_summary") or {}).get("antagonist_killed")
+    if _antag_killed_flag:
+        _gsd["antagonist_killed"] = _antag_killed_flag
     # Inietta stato combattimento live: HP corrente entità, ultimo esito round, stato giocatori
     if payload.game_state_data.get("in_combat") and game_state.scene and game_state.scene.entities:
         _gsd["live_combat_entities"] = [
@@ -2149,11 +2156,25 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
             {"name": p.name, "hp": p.hp, "max_hp": p.max_hp}
             for p in game_state.players
         ]
+        # Check if the main antagonist was among the eliminated
+        _antagonist_killed_name: str | None = None
+        if _eliminated and game_state.adventure_definition:
+            _adv_def = game_state.adventure_definition
+            _antag_actor_names: list[str] = []
+            for _actor in (_adv_def.actors or []):
+                if _actor.role.lower() in ("antagonist", "antagonista", "villain", "enemy", "hostile", "nemico"):
+                    _antag_actor_names.append(_actor.name.lower())
+            for _elim in _eliminated:
+                _elim_low = _elim.lower()
+                if any(_a and (_a in _elim_low or _elim_low in _a) for _a in _antag_actor_names):
+                    _antagonist_killed_name = _elim
+                    break
         game_state.last_combat_summary = {
             "eliminated": _eliminated,
             "fled": _fled,
             "surviving_enemies": _alive_enemies,
             "player_aftermath": _player_aftermath,
+            "antagonist_killed": _antagonist_killed_name,
         }
         # Mark dead enemies in actor_runtime so they don't reappear in narrative
         if game_state.adventure_runtime_state:
@@ -2165,6 +2186,13 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
                     _entry = dict(_rt.actor_runtime.get(_e.id) or {})
                     _entry["status"] = "morto"
                     _rt.actor_runtime[_e.id] = _entry
+            # Also mark matching adventure actors as dead
+            if _antagonist_killed_name:
+                for _actor in (_adv_def.actors or []):
+                    if _actor.name.lower() in _antagonist_killed_name.lower() or _antagonist_killed_name.lower() in _actor.name.lower():
+                        _entry = dict(_rt.actor_runtime.get(_actor.id) or {})
+                        _entry["status"] = "morto"
+                        _rt.actor_runtime[_actor.id] = _entry
         if game_state.scene:
             game_state.scene.entities = []
     game_state.allowed_escalation_tier = int(su.get("allowed_escalation_tier", game_state.allowed_escalation_tier or 3) or 3)
@@ -2235,6 +2263,21 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
     if game_state.adventure_runtime:
         result["clocks_data"] = _build_clocks_data(game_state.adventure_runtime, game_state.adventure_runtime_state)
     _sync_runtime_state_from_updates(su, result.get("narrative", ""))
+
+    # Backend enforcement: condizioni terminali che l'AI deve rispettare ma potrebbe ignorare
+    if not su.get("story_over"):
+        if _gsd.get("total_party_kill"):
+            su["story_over"] = True
+            su["victory"] = False
+            su["end_reason"] = su.get("end_reason") or "Tutto il gruppo è caduto in combattimento — nessuno è sopravvissuto."
+            result["state_updates"] = su
+            print("[terminal] TPK rilevato: story_over forzato")
+        elif _gsd.get("antagonist_killed"):
+            su["story_over"] = True
+            su["victory"] = True
+            su["end_reason"] = su.get("end_reason") or f"{_gsd['antagonist_killed']} è stato eliminato — il gruppo ha vinto."
+            result["state_updates"] = su
+            print(f"[terminal] Antagonista {_gsd['antagonist_killed']} eliminato: story_over forzato")
 
     # Valutazione vittorie personali quando la storia finisce
     if su.get("story_over"):

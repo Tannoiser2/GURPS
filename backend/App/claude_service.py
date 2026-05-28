@@ -6314,6 +6314,23 @@ NARRATIVE AUTHORITY LIMITS — OBBLIGATORIO:
 - Se il Director dice pressure increase, narra solo pressione/allarme/costo locale.
 - Non concludere l'avventura: story_over e victory valgono solo se validati dal backend."""
 
+    # ── Terminal condition block (computed before f-string to avoid backslash issue) ────
+    _terminal_block = ""
+    if game_state_data.get("antagonist_killed") or game_state_data.get("total_party_kill"):
+        _lines = ["⚠ CONDIZIONE TERMINALE RILEVATA DAL MOTORE — AZIONE OBBLIGATORIA:"]
+        if game_state_data.get("antagonist_killed"):
+            _lines.append(
+                f"- VITTORIA: l'antagonista {game_state_data['antagonist_killed']} è stato eliminato in combattimento. "
+                "DEVI narrare il trionfo del gruppo, impostare story_over=true, victory=true, end_reason con 2-3 frasi "
+                "che descrivono come il gruppo ha sconfitto l'antagonista e cosa questo significa per la storia."
+            )
+        if game_state_data.get("total_party_kill"):
+            _lines.append(
+                "- SCONFITTA: tutti i personaggi giocanti sono incapacitati/morti (HP ≤ 0). "
+                "DEVI narrare la fine tragica, impostare story_over=true, victory=false, end_reason con 2-3 frasi sulla caduta del gruppo."
+            )
+        _terminal_block = "\n".join(_lines) + "\n"
+
     # ── User prompt (per-turn: stato dinamico + azione + regole dinamiche) ────
     _user_prompt = f"""{twists_context}
 {director_context}
@@ -6348,7 +6365,7 @@ ISTRUZIONI:
 
 3. OPZIONI — DEVONO essere diverse da queste azioni già fatte: {'; '.join(player_actions_recent[-4:]) if player_actions_recent else 'nessuna'}
 
-REGOLA FINE AVVENTURA — OBBLIGATORIA:
+{_terminal_block}REGOLA FINE AVVENTURA — OBBLIGATORIA:
 - Se threat_level >= threat_max ({threat_pct}% attuale): questo è l'ULTIMO turno. La minaccia ha vinto. Narra un finale drammatico di sconfitta ({adventure.get('threat_description','la minaccia')[:60]} si compie), poi imposta story_over=true, victory=false, end_reason="2-3 frasi in italiano che spiegano perché il gruppo ha perso: quale minaccia si è compiuta, quale errore chiave è stato fatale, cosa è andato storto". Non proporre opzioni di continuazione.
 - Se i giocatori hanno soddisfatto la condizione di vittoria ("{adventure.get('win_condition','')[:100]}"): narra il trionfo e imposta story_over=true, victory=true, end_reason="2-3 frasi in italiano che spiegano perché il gruppo ha vinto: quale indizio chiave ha risolto il caso, quale scelta è stata decisiva".
 - Se mancano ancora indizi importanti ma la minaccia è >= 80%: fai emergere indizi chiave nelle prossime scene anche senza tiro specifico — il tempo stringe.
