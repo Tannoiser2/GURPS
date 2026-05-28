@@ -155,6 +155,10 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 
 
 # ── R1: Health check ──────────────────────────────────────────────────────────
+@app.get("/")
+def root():
+    return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
+
 @app.get("/health")
 def health_check():
     return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
