@@ -1,9 +1,36 @@
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, field_validator, model_validator
 from typing import Any, Dict, List, Literal, Optional
 
 
 SourceMode = Literal["ai_generated", "pdf_import", "pdf_import_fallback", "raw_text", "manual_json"]
 SourceStatus = Literal["explicit", "inferred", "suggested", "generated"]
+
+# Mapping legacy → nuovo per i runtime_profile (file sample committati hanno valori vecchi)
+_VALID_RUNTIME_PROFILES = {
+    "investigation_graph", "guided_sandbox", "ritual_dungeon",
+    "pursuit_thriller", "escalating_horror", "mythic_quest",
+    "heist", "survival_escape", "faction_crisis", "journey",
+    "branching_node_graph", "room_keyed_dungeon",
+}
+_RUNTIME_PROFILE_LEGACY_MAP = {
+    "investigation": "investigation_graph",
+    "location_graph": "branching_node_graph",
+    "pressure_clock": "pursuit_thriller",
+    "sandbox": "guided_sandbox",
+    "horror": "escalating_horror",
+    "quest": "mythic_quest",
+    "survival": "survival_escape",
+    "faction": "faction_crisis",
+    "dungeon": "room_keyed_dungeon",
+}
+
+def _normalize_runtime_profile(v: Any) -> str:
+    if not v:
+        return "investigation_graph"
+    s = str(v).strip().lower()
+    if s in _VALID_RUNTIME_PROFILES:
+        return s
+    return _RUNTIME_PROFILE_LEGACY_MAP.get(s, "investigation_graph")
 
 
 class SourceRef(BaseModel):
@@ -241,6 +268,11 @@ class AdventureRuntime(BaseModel):
         "branching_node_graph",
         "room_keyed_dungeon",
     ] = "investigation_graph"
+
+    @field_validator("runtime_profile", mode="before")
+    @classmethod
+    def _norm_rp(cls, v):
+        return _normalize_runtime_profile(v)
     tone: str = ""
     premise: str = ""
     initial_hook: str = ""
@@ -304,6 +336,22 @@ class AdventureDefinition(_MappingCompatibleBase):
         "branching_node_graph",
         "room_keyed_dungeon",
     ]] = ["investigation_graph"]
+
+    @field_validator("runtime_profiles", mode="before")
+    @classmethod
+    def _norm_rps(cls, v):
+        if v is None:
+            return ["investigation_graph"]
+        if isinstance(v, str):
+            v = [v]
+        normalized = []
+        seen = set()
+        for x in v:
+            n = _normalize_runtime_profile(x)
+            if n not in seen:
+                seen.add(n)
+                normalized.append(n)
+        return normalized or ["investigation_graph"]
     tone: str = ""
     premise: str = ""
     initial_hook: str = ""

@@ -2450,9 +2450,16 @@ def select_team(payload: TeamSelectionPayload):
         if (not adventure_bible or not adventure_bible.get("adventure_definition")) and payload.runtime_id:
             data = load_runtime(payload.runtime_id)
             if data and data.get("adventure_definition"):
-                # File pre-esistenti possono non avere runtime_state: genera default
-                defn = data["adventure_definition"]
-                rt_state = data.get("runtime_state") or {"definition_id": defn.get("id") or payload.runtime_id}
+                # File pre-esistenti possono mancare di runtime_state o avere None
+                # su campi Literal (status, etc.): rimuovi i None ricorsivamente
+                def _strip_nones(obj):
+                    if isinstance(obj, dict):
+                        return {k: _strip_nones(v) for k, v in obj.items() if v is not None}
+                    if isinstance(obj, list):
+                        return [_strip_nones(x) for x in obj]
+                    return obj
+                defn = _strip_nones(data["adventure_definition"])
+                rt_state = _strip_nones(data.get("runtime_state") or {"definition_id": defn.get("id") or payload.runtime_id})
                 adventure_bible = {
                     **(defn.get("legacy_adventure") or {}),
                     "adventure_definition": defn,
