@@ -404,10 +404,16 @@ def director_prompt_context(decision: dict, canonical_log: list | None = None) -
 
     if witness_updates:
         for wu in witness_updates:
+            ws = wu["witness_state"]
             lines.append(
-                f"TESTIMONE IN CRISI [{wu['npc_name']}]: stato → {wu['witness_state'].upper()}. "
+                f"TESTIMONE IN CRISI [{wu['npc_name']}]: stato → {ws.upper()}. "
                 f"{wu['note']} — Il tuo intervento per calmare/proteggere questo NPC è narrativamente prioritario."
             )
+            for wa in (wu.get("available_witness_actions") or []):
+                lines.append(
+                    f"  AZIONE DISPONIBILE — {wa['label']} "
+                    f"(skill: {wa['skill_hint']}): {wa['effect']}"
+                )
 
     if clue_id:
         found_update = required.get("clues_found") or []

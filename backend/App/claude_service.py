@@ -6291,6 +6291,8 @@ Rispondi SOLO con JSON puro secondo questo schema minimo:
         result["canonical_log_append"] = _new_events
 
     result["model_used"] = _routing_model
+    # N5: propaga witness_updates per persistenza lato main.py
+    result["witness_updates"] = simulation.get("witness_updates") or []
     return result
 
 

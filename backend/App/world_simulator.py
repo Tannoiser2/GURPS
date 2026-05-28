@@ -238,6 +238,9 @@ def _witness_state_check(runtime: AdventureRuntime, game_state_data: dict) -> li
     """
     Controlla lo stato dei NPC testimone rispetto alla pressione attuale.
     Restituisce aggiornamenti di stato che il director deve narrare.
+
+    N5: aggiunge degradazione per witness ignorati (fearful_turns_ignored >= 2)
+    e popola available_witness_actions per ogni testimone attivo.
     """
     threat_level = int(game_state_data.get("threat_level") or 0)
     threat_max = max(1, max((c.max_value for c in runtime.event_clocks), default=8))
@@ -257,9 +260,12 @@ def _witness_state_check(runtime: AdventureRuntime, game_state_data: dict) -> li
             continue
 
         current_ws = rt_e.get("witness_state") or "available"
+        fearful_turns = int(rt_e.get("fearful_turns_ignored") or 0)
 
         new_ws = current_ws
         note = ""
+
+        # Degrado da pressione minaccia
         if threat_pct >= 0.85 and current_ws in ("available", "fearful"):
             new_ws = "panicked"
             note = f"{actor.name} sta valutando di fuggire o ritirare la collaborazione — va calmato o messo in sicurezza subito."
@@ -267,14 +273,41 @@ def _witness_state_check(runtime: AdventureRuntime, game_state_data: dict) -> li
             new_ws = "fearful"
             note = f"{actor.name} è visibilmente nervoso e difficile da raggiungere — la pressione lo sta logorando."
 
-        if new_ws != current_ws:
-            updates.append({
+        # N5: degrado da abbandono — 2+ turni senza intervento su witness fearful
+        if current_ws == "fearful" and fearful_turns >= 2 and new_ws == "fearful":
+            new_ws = "panicked"
+            note = f"{actor.name} è stato ignorato troppo a lungo mentre era spaventato: ora è in preda al panico e potrebbe fuggire al prossimo turno."
+
+        # N5: azioni disponibili per il giocatore
+        available_actions: list[dict] = []
+        if current_ws in ("fearful", "panicked"):
+            available_actions.append({
+                "action": "reassure",
+                "label": f"Rassicurare {actor.name}",
+                "skill_hint": "diplomazia o empatia",
+                "effect": "se successo pieno: witness torna a 'available' e sblocca informazioni extra",
+            })
+            available_actions.append({
+                "action": "protect",
+                "label": f"Offrire protezione a {actor.name}",
+                "skill_hint": "leadership o persuasione",
+                "effect": "stabilizza lo stato (non peggiora ulteriormente), sblocca possible_action aggiuntiva",
+            })
+
+        state_changed = new_ws != current_ws
+        # Include entry when state changes or when already-fearful witness has been ignored (≥1 turn)
+        is_ignored_fearful = current_ws == "fearful" and fearful_turns >= 1
+        if state_changed or is_ignored_fearful:
+            entry: dict = {
                 "npc_id": actor.id,
                 "npc_name": actor.name,
                 "previous_witness_state": current_ws,
                 "witness_state": new_ws,
                 "note": note,
-            })
+                "available_witness_actions": available_actions,
+                "fearful_turns_ignored": fearful_turns,
+            }
+            updates.append(entry)
 
     return updates
 

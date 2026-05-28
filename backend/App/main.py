@@ -1565,6 +1565,10 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
                 entry["location_id"] = update.get("location_id") or update.get("location")
             if update.get("attitude"):
                 entry["attitude"] = update.get("attitude")
+            # N5: witness state changes from player actions (reassure/protect)
+            if update.get("witness_state"):
+                entry["witness_state"] = update["witness_state"]
+                entry["fearful_turns_ignored"] = 0  # reset counter on interaction
             rt.actor_runtime[aid] = entry
     for update in updates.get("faction_updates") or []:
         if not isinstance(update, dict):
@@ -1803,6 +1807,16 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
 
     # Inject soft escalation data nel game_state_data
     _gsd = dict(payload.game_state_data or {})
+    # N5: inietta npc_runtime persistente (witness_state + fearful_turns_ignored)
+    if game_state.adventure_runtime_state and game_state.adventure_runtime_state.actor_runtime:
+        _merged_npc_rt = dict(_gsd.get("npc_runtime") or {})
+        for _aid, _adata in game_state.adventure_runtime_state.actor_runtime.items():
+            _existing = dict(_merged_npc_rt.get(_aid) or {})
+            for _k in ("witness_state", "fearful_turns_ignored"):
+                if _k in _adata:
+                    _existing[_k] = _adata[_k]
+            _merged_npc_rt[_aid] = _existing
+        _gsd["npc_runtime"] = _merged_npc_rt
     _gsd["consecutive_no_progress_turns"] = game_state.consecutive_no_progress_turns
     # clues_found_this_turn: indizi trovati nell'ultimo turno (per progress awareness)
     # Derivati dal runtime state: quelli trovati dall'ultimo sync
@@ -1958,6 +1972,28 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         if game_state.adventure_runtime_state:
             patch["runtime_state"] = game_state.adventure_runtime_state.model_dump()
         update_runtime(adv_id, patch)
+
+    # N5: applica witness_updates al runtime actor_runtime per persistenza tra turni
+    _witness_updates = result.get("witness_updates") or []
+    if _witness_updates and game_state.adventure_runtime_state:
+        _art = game_state.adventure_runtime_state
+        _touched_witness_ids = set()
+        for wu in _witness_updates:
+            wid = wu.get("npc_id") or ""
+            if not wid:
+                continue
+            _entry = dict((_art.actor_runtime or {}).get(wid) or {})
+            new_ws = wu.get("witness_state") or wu.get("previous_witness_state") or "available"
+            _entry["witness_state"] = new_ws
+            # Incrementa fearful_turns_ignored se il witness è ancora fearful
+            if new_ws == "fearful":
+                _entry["fearful_turns_ignored"] = int(_entry.get("fearful_turns_ignored") or 0) + 1
+            else:
+                _entry["fearful_turns_ignored"] = 0
+            _art.actor_runtime[wid] = _entry
+            _touched_witness_ids.add(wid)
+        # Esponi il npc_runtime aggiornato nella risposta per sync frontend
+        result["npc_runtime"] = {k: dict(v) for k, v in (_art.actor_runtime or {}).items()}
 
     result["call_tokens"] = get_last_request_tokens()
     result["turn_id"] = _turn_id
