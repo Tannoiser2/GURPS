@@ -31,7 +31,7 @@ from .adventure_compiler import compile_ai_generated_to_runtime, compile_from_ra
 from .pdf_structure_extractor import extract_pdf_structure
 
 API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-GOOGLE_AI_STUDIO_KEY = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+GOOGLE_AI_STUDIO_KEY = os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL_NAME = "claude-sonnet-4-5"
 _HAIKU_MODEL = "claude-haiku-4-5-20251001"
@@ -3305,7 +3305,7 @@ def generate_character_avatar(
         except Exception as e:
             _set_last_image_error("generate_character_avatar/openai", e)
             return None
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         _set_last_image_error("generate_character_avatar/gemini", "Gemini non disponibile o GOOGLE_AI_STUDIO_KEY mancante")
         return None
@@ -3416,7 +3416,7 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
             _set_last_image_error("generate_npc_avatar/openai", e)
             return None
 
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         return None
     try:
@@ -3698,7 +3698,7 @@ def generate_tactical_map_image(
             _set_last_image_error("generate_tactical_map_image/openai", e)
             return None
 
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         return None
     try:
@@ -3732,7 +3732,7 @@ def generate_scene_image(
     Claude+Gemini: usa Gemini con foto se disponibili, altrimenti Imagen 4."""
     if _ACTIVE_PROVIDER == "openai":
         return _generate_scene_image_openai(scene_text, genre, environment_type, player_photos_b64, player_names)
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         print(f"[generate_scene_image] non disponibile: key={'presente' if key else 'mancante'}, genai={_GOOGLE_GENAI_AVAILABLE}")
         return None
@@ -3827,7 +3827,7 @@ def generate_location_map_image(location_name: str, location_description: str) -
         except Exception as e:
             _set_last_image_error("generate_location_map_image/openai", e)
             return None
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         return None
     try:
@@ -3912,7 +3912,7 @@ def generate_adventure_overview_map(
             _set_last_image_error("generate_adventure_overview_map/openai", e)
             return None
 
-    key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         return None
     try:

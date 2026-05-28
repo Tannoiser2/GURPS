@@ -910,7 +910,7 @@ def _persist_combat_scene(combat_scene: dict | None, preserve_live_hp: bool = Fa
 def _image_provider_available(provider: str) -> bool:
     if provider == "openai":
         return bool(OPENAI_API_KEY) and _OPENAI_AVAILABLE
-    return bool(os.getenv("GOOGLE_AI_STUDIO_KEY")) and _GOOGLE_GENAI_AVAILABLE
+    return bool((os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY"))) and _GOOGLE_GENAI_AVAILABLE
 
 def _resolve_image_provider() -> str | None:
     """Restituisce il provider immagini da usare o None se disabilitato.
@@ -3157,7 +3157,7 @@ def image_available():
 
 @app.get("/game/debug-image")
 def debug_image():
-    google_key = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
+    google_key = os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY", "")
     return {
         "provider": game_state.team_setup.provider,
         "google_key_len": len(google_key), "google_key_prefix": google_key[:8] if google_key else "",
@@ -3183,7 +3183,7 @@ def providers_available():
     return {
         "claude": bool(os.getenv("ANTHROPIC_API_KEY")),
         "openai": bool(OPENAI_API_KEY) and _OPENAI_AVAILABLE,
-        "gemini": bool(os.getenv("GOOGLE_AI_STUDIO_KEY")) and _GOOGLE_GENAI_AVAILABLE,
+        "gemini": bool((os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY"))) and _GOOGLE_GENAI_AVAILABLE,
     }
 
 def _extract_title_from_pdf_pages(text_pages: list[str]) -> str | None:
