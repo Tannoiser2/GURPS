@@ -47,6 +47,7 @@ from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to
 from .adventure_validator import check_raw_compilation_quality
 from .scene_context import actions_for_scene
 from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor_score
+from .adventure_templates import ADVENTURE_TEMPLATES, get_template_list, get_template_by_id
 from .clock_engine import tick_clocks, format_clock_event_narrative
 from .npc_state_machine import update_pressure_from_clues, build_npc_pressure_context
 from .deadlock_guard import check_and_fix_deadlocks
@@ -1088,6 +1089,77 @@ def adventure_doctor(payload: DoctorPayload):
     except Exception as e:
         print(f"[doctor endpoint] error: {e}")
         return {"error": str(e), "score": 0, "findings": [], "enriched_definition": None}
+
+
+# ── Adventure Templates ────────────────────────────────────────────────────────
+
+@app.get("/adventure/templates")
+def adventure_templates_list():
+    """Returns list of predefined adventure templates with summary metadata."""
+    return {"templates": get_template_list()}
+
+
+class FromTemplatePayload(BaseModel):
+    players: list[dict] = []
+    customizations: dict = {}
+
+
+@app.post("/adventure/from-template/{template_id}")
+def adventure_from_template(template_id: str, payload: FromTemplatePayload | None = None):
+    """
+    Compile a predefined template into a full runtime adventure.
+    Optionally accepts customizations (title, genre, ...) and a players list.
+    Returns the same shape as /game/adventure/create.
+    """
+    template = get_template_by_id(template_id)
+    if template is None:
+        raise HTTPException(status_code=404, detail=f"Template '{template_id}' non trovato")
+
+    raw = dict(template)
+    raw["source_mode"] = "manual_json"
+
+    # Apply customizations (title, genre, etc.)
+    if payload and payload.customizations:
+        raw.update(payload.customizations)
+
+    genre_hint = raw.get("genre", "")
+    title = raw.get("title", "Avventura da template")
+
+    compiled = compile_from_raw_structure(
+        raw,
+        source_type="raw_text",
+        title=title,
+        genre_hint=genre_hint,
+    )
+    definition = compiled["adventure_definition"]
+    definition.legacy_adventure = definition.legacy_adventure or {}
+    runtime_state = compiled["runtime_state"]
+    saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+
+    # ── Doctor: audit ────────────────────────────────────────────────────────
+    defn_dict = saved["adventure_definition"]
+    doctor_result: dict = {"score": 10.0, "findings": [], "score_after": 10.0}
+    try:
+        doctor_result = run_doctor(defn_dict, do_enrich=False)
+    except Exception as de:
+        print(f"[from-template/doctor] errore (non bloccante): {de}")
+
+    result = dict(definition.legacy_adventure or {})
+    result.update({
+        "from_runtime_compiler": True,
+        "from_template": template_id,
+        "runtime_id": definition.id,
+        "adventure_definition": defn_dict,
+        "runtime_state": saved["runtime_state"],
+        "validation_report": saved["validation_report"],
+        "doctor": {
+            "score":       doctor_result.get("score", 10.0),
+            "score_after": doctor_result.get("score_after"),
+            "findings":    doctor_result.get("findings", []),
+            "auto_fixed":  False,
+        },
+    })
+    return result
 
 
 def _merge_game_state(current: dict, updates: dict) -> dict:
