@@ -159,7 +159,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v3-g2-faction-reputation"
+BUILD_VERSION = "v4-g6-sanity"
 
 @app.get("/health")
 def health_check():
@@ -1798,6 +1798,20 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
         if fid:
             cur = int(game_state.faction_reputation.get(fid, 0))
             game_state.faction_reputation[fid] = max(-5, min(5, cur + int(delta or 0)))
+    # G6: apply sanity updates to players
+    for su in (updates.get("san_updates") or []):
+        if not isinstance(su, dict):
+            continue
+        pid = su.get("player_id")
+        delta = int(su.get("delta") or 0)
+        if pid is None or delta == 0:
+            continue
+        for p in game_state.players:
+            if p.id == pid:
+                p.san = max(0, min(p.san_max, p.san + delta))
+                if p.san <= 0:
+                    p.san_broken = True
+                break
     for update in updates.get("location_updates") or []:
         if not isinstance(update, dict):
             continue

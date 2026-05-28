@@ -84,6 +84,61 @@ def _compute_faction_rep_deltas(
     return deltas
 
 
+# ── G6: Sanità mentale (solo genere horror) ───────────────────────────────────
+
+_HORROR_NPC_ROLES = {"monster", "orrore", "entita", "entità", "cultist", "abomination", "horror_entity"}
+
+def _compute_sanity_damage(
+    runtime: AdventureRuntime,
+    game_state_data: dict,
+    prerolled: dict,
+    clock_step_reactions: list[dict],
+    npcs_to_introduce: list[str],
+) -> list[dict]:
+    """Restituisce lista di {player_id, delta} per la sanità — solo in cluster horror."""
+    if _profile_cluster(runtime) != "horror":
+        return []
+
+    success = bool(prerolled.get("success", True))
+    margin = int(prerolled.get("margin") or 0)
+    critical = bool(prerolled.get("critical", False))
+    player_ids = [p.get("id") for p in (game_state_data.get("players") or []) if p.get("id") is not None]
+    if not player_ids:
+        return []
+
+    san_hit = 0
+
+    # Fallimento duro in contesto horror → trauma
+    if not success and margin <= -3:
+        san_hit -= 1
+    if not success and (critical or margin <= -5):
+        san_hit -= 1  # danno extra per fallimento critico
+
+    # Clock horror che avanza → esposizione a terrore crescente
+    if clock_step_reactions:
+        san_hit -= 1
+
+    # Introduzione di un'entità horror (prima apparizione)
+    actor_map = {a.id: a for a in runtime.actors}
+    rt_state = game_state_data.get("adventure_runtime_state") or {}
+    actor_rt = rt_state.get("actor_runtime") or {} if isinstance(rt_state, dict) else {}
+    for npc_id in npcs_to_introduce:
+        actor = actor_map.get(npc_id)
+        if actor and actor.role.lower() in _HORROR_NPC_ROLES:
+            san_hit -= 1
+            break  # max -1 per entità introdotta per turno
+
+    # Successo con margine alto in fase dread/survival → recupero parziale (+1)
+    phase_str = str(game_state_data.get("narrative_phase") or "")
+    if success and margin >= 3 and phase_str in ("survival", "confrontation"):
+        san_hit += 1
+
+    if san_hit == 0:
+        return []
+
+    return [{"player_id": pid, "delta": san_hit} for pid in player_ids]
+
+
 def _action_is_investigative(player_action: str, skill: str = "") -> bool:
     blob = f"{player_action} {skill}".lower()
     return (
@@ -927,6 +982,15 @@ def simulate_world_state(
     if map_state:
         current_location = (map_state.get("nodes") or {}).get(map_state.get("current_node_id")) or {}
 
+    # G6: compute sanity damage (horror only)
+    sanity_updates = _compute_sanity_damage(runtime, game_state_data, prerolled, clock_step_reactions, npcs_to_introduce)
+    for su in sanity_updates:
+        delta = su["delta"]
+        if delta < 0:
+            events.append(f"SANITÀ {delta}: {'l' if delta <= -2 else 'un'} {'trauma grave' if delta <= -2 else 'trauma lieve'} scuote i personaggi — narra la reazione psicologica.")
+        elif delta > 0:
+            events.append("SANITÀ +1: il gruppo supera la paura — narra il momento di sollievo o determinazione.")
+
     # G2: compute faction reputation deltas and build enriched rep dict for world_reaction_engine
     faction_rep_deltas = _compute_faction_rep_deltas(runtime, game_state_data, prerolled, player_action)
     faction_rep_base: dict[str, int] = {}
@@ -1024,6 +1088,7 @@ def simulate_world_state(
             "location_access": [],
             "objective_progress": 0,
             "faction_rep_updates": faction_rep_deltas,  # G2
+            "san_updates": sanity_updates,               # G6
         },
         "events": events,
         "ready_threads": ready,

@@ -236,7 +236,7 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
   - Azione "Guidare/Sfuggire inseguimento": skill check + esito narrativo
   - Combat su veicolo: +2 DR per pedoni vs. armi leggere
 
-- [ ] **G6 — Sanità mentale per genere horror** `models.py` / `world_simulator.py`
+- [x] **G6 — Sanità mentale per genere horror** `models.py` / `world_simulator.py`
   In generi horror/cosmic l'esposizione a eventi traumatici dovrebbe avere effetti meccanici. Implementare come sistema opzionale (attivato solo se `genre.profile.has_sanity`):
   - `sanity: int` (0-20) nel Player, inizia a 15
   - Trigger: scoperta di cadaveri, creature soprannaturali, rivelazioni cosmiche → Fright Check (IN - sanity_penalty)

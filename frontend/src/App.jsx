@@ -954,14 +954,34 @@ function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
                 <span style={{ fontSize: 11, color: "#a78bfa", fontStyle: "italic", marginLeft: 4 }}>"{player.motivation}"</span>
               )}
             </div>
-            {/* HP bar */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 5 }}>
-              <span style={{ fontSize: 11, color: hpColor, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
-                ❤️ {player.hp ?? player.max_hp}/{player.max_hp}
-              </span>
-              <div style={{ flex: 1, maxWidth: 120, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
-                <div style={{ height: "100%", borderRadius: 2, width: `${hpPct}%`, background: hpColor, transition: "width 0.3s" }} />
+            {/* HP + SAN bars */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 4, marginTop: 5 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 11, color: hpColor, fontWeight: 700, fontVariantNumeric: "tabular-nums", minWidth: 60 }}>
+                  ❤️ {player.hp ?? player.max_hp}/{player.max_hp}
+                </span>
+                <div style={{ flex: 1, maxWidth: 120, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
+                  <div style={{ height: "100%", borderRadius: 2, width: `${hpPct}%`, background: hpColor, transition: "width 0.3s" }} />
+                </div>
               </div>
+              {(player.san != null && player.san_max > 0) && (() => {
+                const sanPct = Math.max(0, Math.min(100, (player.san / player.san_max) * 100));
+                const sanColor = sanPct > 60 ? "#c084fc" : sanPct > 30 ? "#f59e0b" : "#ef4444";
+                return (
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 11, color: sanColor, fontWeight: 700, fontVariantNumeric: "tabular-nums", minWidth: 60 }}
+                      title="Sanità mentale">
+                      {player.san_broken ? "💀" : "🧠"} {player.san}/{player.san_max}
+                    </span>
+                    <div style={{ flex: 1, maxWidth: 120, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.1)" }}>
+                      <div style={{ height: "100%", borderRadius: 2, width: `${sanPct}%`, background: sanColor, transition: "width 0.3s" }} />
+                    </div>
+                    {player.san <= 3 && !player.san_broken && (
+                      <span style={{ fontSize: 9, color: "#fbbf24", fontWeight: 700 }}>−{4 - player.san} ai tiri</span>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           </div>
           <button onClick={onClose} style={{
@@ -1096,6 +1116,16 @@ function PlayerChip({ player, active, onClick, avatar, onRename, expanded }) {
           <span style={{ fontSize: 10, color: hpColor, fontWeight: 700, fontVariantNumeric: "tabular-nums" }}>
             {player.hp ?? player.max_hp}/{player.max_hp}
           </span>
+          {player.san != null && player.san_max > 0 && (() => {
+            const sPct = Math.max(0, Math.min(100, (player.san / player.san_max) * 100));
+            const sCol = sPct > 60 ? "#c084fc" : sPct > 30 ? "#f59e0b" : "#ef4444";
+            return <>
+              <div style={{ width: 32, height: 3, borderRadius: 2, background: "rgba(255,255,255,0.1)", overflow: "hidden" }} title={`SAN ${player.san}/${player.san_max}`}>
+                <div style={{ height: "100%", width: `${sPct}%`, background: sCol, borderRadius: 2 }} />
+              </div>
+              {player.san_broken && <span style={{ fontSize: 9 }}>💀</span>}
+            </>;
+          })()}
           {/* FO/DE/IN/SA mini */}
           {(stats.forza || stats.agilita || stats.intelligenza || stats.empatia) && (
             <span style={{ fontSize: 9, color: "var(--text)", opacity: 0.55, letterSpacing: 0.2 }}>
