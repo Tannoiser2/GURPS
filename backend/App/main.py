@@ -165,7 +165,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v6-equipment-picker-bigger-avatar"
+BUILD_VERSION = "v7-hp-plumbing-canonical-log"
 
 @app.get("/health")
 def health_check():
@@ -2015,6 +2015,21 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
     game_state.turn_id = _turn_id
 
     _sync_players_from_payload(payload.players)
+    # Il frontend non invia hp/fp/san nel payload del turno narrativo: la fonte di verità
+    # è game_state.players (HP preservato tra turni e modificato dal combattimento).
+    # Arricchisce payload.players con lo stato fisico reale così il prompt Master,
+    # i check di incapacitazione e il rilevamento TPK leggono valori corretti.
+    _gs_player_by_id = {gp.id: gp for gp in game_state.players}
+    for _pd in payload.players:
+        _gp = _gs_player_by_id.get(_pd.get("id"))
+        if _gp is not None:
+            _pd["hp"] = _gp.hp
+            _pd["max_hp"] = _gp.max_hp
+            _pd["fp"] = _gp.fp
+            _pd["max_fp"] = _gp.max_fp
+            _pd["san"] = _gp.san
+            _pd["san_max"] = _gp.san_max
+            _pd["status"] = _gp.status
     _ensure_runtime_scene()
     if not game_state.adventure_definition and payload.adventure:
         try:
@@ -2068,6 +2083,10 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
 
     # Inject soft escalation data nel game_state_data
     _gsd = dict(payload.game_state_data or {})
+    # N1: inietta il canonical log persistito lato server (memoria strutturata dei fatti
+    # già narrati). Il frontend NON lo round-trippa, quindi la fonte è adventure_runtime_state.
+    if game_state.adventure_runtime_state and game_state.adventure_runtime_state.canonical_log:
+        _gsd["canonical_log"] = list(game_state.adventure_runtime_state.canonical_log)
     # N5: inietta npc_runtime persistente (witness_state + fearful_turns_ignored)
     if game_state.adventure_runtime_state and game_state.adventure_runtime_state.actor_runtime:
         _merged_npc_rt = dict(_gsd.get("npc_runtime") or {})
@@ -2329,6 +2348,16 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
         su["personal_victories"] = personal
         result["state_updates"] = su
 
+    # N1: consuma canonical_log_append e persiste nel runtime state (memoria tra turni).
+    # Senza questo il canonical log resta sempre vuoto e il Master perde memoria dei fatti.
+    # DEVE precedere update_runtime() così il log finisce anche su disco per recovery/resume.
+    _cl_append = result.get("canonical_log_append") or []
+    if _cl_append and game_state.adventure_runtime_state:
+        _existing_log = list(game_state.adventure_runtime_state.canonical_log or [])
+        _existing_log.extend(_cl_append)
+        # Mantiene solo gli ultimi 40 eventi per non gonfiare prompt e storage
+        game_state.adventure_runtime_state.canonical_log = _existing_log[-40:]
+
     # Persiste lo stato world sul disco dopo ogni turno
     adv_id = _adventure_id(payload.adventure)
     if adv_id:
@@ -2362,6 +2391,9 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
 
     result["call_tokens"] = get_last_request_tokens()
     result["turn_id"] = _turn_id
+    # Restituisce lo stato fisico aggiornato dei PG così il frontend riflette
+    # danni/cure/sanità subiti in combattimento e applicati durante il turno.
+    result["players"] = [p.model_dump() for p in game_state.players]
     if _history_was_compressed:
         result["compressed_history"] = _history_for_turn
 

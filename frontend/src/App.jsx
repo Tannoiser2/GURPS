@@ -8269,6 +8269,13 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     }).then(r => r.json());
     if (res.detail) throw new Error(res.detail);
 
+    // Sincronizza lo stato fisico dei PG (HP/FP/sanità) restituito dal turno narrativo:
+    // riflette danni del combattimento, cure e incapacitazione nella scheda PG.
+    if (res.players) setPlayers(prev => res.players.map(rp => {
+      const local = prev.find(lp => lp.id === rp.id);
+      return local ? { ...rp, backstory: rp.backstory || local.backstory || "", motivation: rp.motivation || local.motivation || "" } : rp;
+    }));
+
     const masterMsg = { role: "master", name: "Master", text: res.narrative, roll: res.roll };
     // capture index before state update — prev.length is reliable inside the updater
     // but we also need it synchronously: use a ref snapshot
