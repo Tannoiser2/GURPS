@@ -6450,6 +6450,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [endReason, setEndReason] = useState("");
   const [personalVictories, setPersonalVictories] = useState({});
   const [history, setHistory] = useState([]);
+  const [turnId, setTurnId] = useState("");
   const [showPanel, setShowPanel] = useState(!!adventure);
   const [showSecrets, setShowSecrets] = useState(false);
   const [startupLoading, setStartupLoading] = useState(true);
@@ -7148,7 +7149,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     // but we also need it synchronously: use a ref snapshot
     const masterIdx = messagesRef.current.length;
     _setMessages(prev => [...prev, masterMsg]);
-    setHistory([...newHistory, { role: "master", name: "Master", text: res.narrative }]);
+    // L2: se il backend ha compresso la history, usa quella come nuova base
+    const historyBase = res.compressed_history || newHistory;
+    setHistory([...historyBase, { role: "master", name: "Master", text: res.narrative }]);
+    // R1: traccia turn_id per rilevare stati stale dopo reconnect
+    if (res.turn_id) setTurnId(res.turn_id);
     setOptions(res.options || []);
 
     if (res.map_state) {

@@ -502,6 +502,7 @@ class GameState(BaseModel):
     flags: Dict = {}  # runtime flags: pending_npc_events, pe_triggered_*, etc.
     locked_context: List[str] = []  # fatti pilastro bloccati — iniettati in ogni turno, non troncabili
     consecutive_no_progress_turns: int = 0  # turni consecutivi senza indizi trovati — usato dal soft escalation
+    turn_id: str = ""                           # UUID del turno corrente — per sync client/server
     # Inventario persistente: oggetti disponibili per la raccolta nella scena corrente
     loot_pool: List["LootEntry"] = []          # bottino visibile/raccoglibile ora
     scene_items_given: List[str] = []          # item_id già distribuiti (evita duplicati)

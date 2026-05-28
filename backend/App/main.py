@@ -5,6 +5,7 @@ import json
 import os
 import random
 import re
+import uuid
 from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -33,6 +34,7 @@ from .claude_service import (
     _OPENAI_AVAILABLE, _OPENAI_IMPORT_ERROR, OPENAI_API_KEY,
     compile_adventure_to_runtime,
     generate_opening_scene,
+    compress_history, _COMPRESS_THRESHOLD,
 )
 from . import claude_service
 from .data_genres import GENRE_PACKS
@@ -1743,6 +1745,10 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
 @app.post("/game/master/turn-bible")
 def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     """Turno Master con bibbia e tracking stato."""
+    # R1: genera un turn_id univoco per questo turno
+    _turn_id = str(uuid.uuid4())[:8]
+    game_state.turn_id = _turn_id
+
     _sync_players_from_payload(payload.players)
     _ensure_runtime_scene()
     if not game_state.adventure_definition and payload.adventure:
@@ -1816,8 +1822,17 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     if game_state.last_attack_result:
         _gsd["last_combat_round"] = game_state.last_attack_result
 
+    # L2: comprimi la history se è cresciuta troppo — risparmia token e mantiene coerenza
+    _history_for_turn = payload.history
+    _history_was_compressed = False
+    if len(payload.history) > _COMPRESS_THRESHOLD:
+        _compressed = compress_history(payload.history)
+        if len(_compressed) < len(payload.history):
+            _history_for_turn = _compressed
+            _history_was_compressed = True
+
     result = master_turn_with_bible(
-        payload.genre, payload.players, payload.history,
+        payload.genre, payload.players, _history_for_turn,
         payload.player_action, payload.active_player_id,
         adventure_with_npc_state, _gsd,
         prerolled=roll_detail,
@@ -1945,6 +1960,9 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
         update_runtime(adv_id, patch)
 
     result["call_tokens"] = get_last_request_tokens()
+    result["turn_id"] = _turn_id
+    if _history_was_compressed:
+        result["compressed_history"] = _history_for_turn
 
     # ── Auto-rilevamento oggetti dalla narrativa AI ───────────────────────────
     # Analizza il testo prodotto dall'AI GM: se menziona oggetti trovati
@@ -2017,6 +2035,37 @@ def get_game_state():
     )
     game_state.last_roll_details = []   # consuma i dettagli dopo la prima lettura
     return data
+
+@app.get("/game/state/sync")
+def get_game_state_sync():
+    """Sync rapido: restituisce turn_id + campi essenziali per riallineare il client.
+    Usato dal frontend quando sospetta di avere uno stato stale (es. dopo reconnect).
+    """
+    clocks: list[dict] = []
+    if game_state.adventure_runtime and game_state.adventure_runtime_state:
+        try:
+            clocks = _build_clocks_data(game_state.adventure_runtime, game_state.adventure_runtime_state)
+        except Exception:
+            pass
+    map_dump = game_state.map_state.model_dump() if game_state.map_state else None
+    rt_state = game_state.adventure_runtime_state
+    return {
+        "turn_id": game_state.turn_id,
+        "turn": game_state.turn,
+        "clocks_data": clocks,
+        "map_state": map_dump,
+        "game_state_snapshot": {
+            "threat_level": game_state.scene.threat_level if game_state.scene else 0,
+            "in_combat": bool(
+                game_state.pending_attack
+                or (game_state.scene and any(e.type == "enemy" and e.hp > 0 for e in game_state.scene.entities))
+            ),
+            "discovered_clue_ids": list(rt_state.discovered_clue_ids) if rt_state else [],
+            "active_objective_ids": list(rt_state.active_objective_ids) if rt_state else [],
+            "locked_context": list(game_state.locked_context),
+        },
+    }
+
 
 @app.get("/game/genres")
 def get_genres():

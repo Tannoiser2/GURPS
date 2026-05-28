@@ -34,6 +34,9 @@ API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 GOOGLE_AI_STUDIO_KEY = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL_NAME = "claude-sonnet-4-5"
+_HAIKU_MODEL = "claude-haiku-4-5-20251001"
+_COMPRESS_THRESHOLD = 12   # compress when history has more than this many entries
+_COMPRESS_KEEP_RECENT = 6  # keep last N messages uncompressed
 OPENAI_TEXT_MODEL = "gpt-4o"
 OPENAI_IMAGE_MODEL = "dall-e-3"
 OPENAI_IMAGE_EDIT_MODEL = "gpt-image-1"
@@ -5470,6 +5473,57 @@ def _resolve_movement_destination(player_action: str, runtime, current_scene_id:
         if dest_norm in loc.name.lower() or loc.name.lower() in dest_norm:
             return loc.id
     return current_scene_id
+
+
+def compress_history(history: list[dict]) -> list[dict]:
+    """Comprimi la storia vecchia via Haiku in un riassunto compatto.
+
+    Trigger: len(history) > _COMPRESS_THRESHOLD.
+    Restituisce [summary_msg] + history[-_COMPRESS_KEEP_RECENT:].
+    Se la compressione fallisce, restituisce la history originale invariata.
+    """
+    if len(history) <= _COMPRESS_THRESHOLD:
+        return history
+
+    to_compress = history[:-_COMPRESS_KEEP_RECENT]
+    recent = history[-_COMPRESS_KEEP_RECENT:]
+
+    lines: list[str] = []
+    for msg in to_compress:
+        role_tag = "MASTER" if msg.get("role") == "master" else (msg.get("name") or "PLAYER").upper()
+        text = (msg.get("text") or "")[:280]
+        lines.append(f"[{role_tag}]: {text}")
+    old_text = "\n".join(lines)
+
+    summary_prompt = (
+        "Riassumi in italiano questa sequenza di eventi di gioco di ruolo in 4-6 punti chiave.\n"
+        "Includi: fatti scoperti, stati NPC cambiati, decisioni dei personaggi, progressi sugli obiettivi.\n"
+        "Solo fatti concreti che cambiano lo stato del gioco. Niente atmosfera o descrizioni decorative.\n"
+        "Formato: ogni punto inizia con '- '.\n\n"
+        f"EVENTI:\n{old_text}\n\nRIASSUNTO:"
+    )
+
+    client = _claude_client()
+    if not client:
+        return history
+    try:
+        response = client.messages.create(
+            model=_HAIKU_MODEL,
+            max_tokens=450,
+            messages=[{"role": "user", "content": summary_prompt}],
+        )
+        summary_text = response.content[0].text.strip()
+        turn_range = f"T1-T{len(to_compress)}"
+        summary_msg = {
+            "role": "master",
+            "name": "Sistema",
+            "text": f"[RIASSUNTO SESSIONE {turn_range}]\n{summary_text}",
+        }
+        print(f"[compress_history] {len(to_compress)} messaggi → riassunto ({len(summary_text)} chars)")
+        return [summary_msg] + recent
+    except Exception as exc:
+        print(f"[compress_history] errore Haiku (non bloccante): {exc}")
+        return history
 
 
 def master_turn_with_bible(
