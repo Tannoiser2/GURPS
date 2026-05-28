@@ -5,7 +5,7 @@ import caricaJsonImg from "./assets/carica_json.png";
 import jsonDoctorImg from "./assets/json_doctor.png";
 
 const API_URL = import.meta.env.PROD
-  ? "/api"
+  ? `${window.location.origin}/api`
   : (import.meta.env.VITE_API_URL || "http://127.0.0.1:8002");
 const API_URL_DIRECT = import.meta.env.PROD
   ? "https://gurps-f93w.onrender.com"
