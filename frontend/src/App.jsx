@@ -3178,7 +3178,7 @@ function isKnownTacticalNode(node, mapState) {
 
 // ─── Location Graph (mappa strategica) ────────────────────────────────────────
 
-function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdropImage }) {
+function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, advNpcs, backdropImage }) {
   const [hoveredId, setHoveredId] = useState(null);
 
   if (!mapState || !mapState.nodes || Object.keys(mapState.nodes).length === 0) {
@@ -3195,7 +3195,6 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
   const currentId = mapState.current_node_id;
   const allNodes = Object.values(nodes);
 
-  // Visibility sets
   const visitedSet = new Set(allNodes.filter(n => n.visited).map(n => n.id));
   visitedSet.add(currentId);
   const adjacentSet = new Set();
@@ -3212,38 +3211,29 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
     return "unknown";
   }
 
-  // Layout: group by grid_x column
   const maxCol = Math.max(...allNodes.map(n => n.grid_x || 0), 0);
   const cols = {};
-  allNodes.forEach(n => {
-    const c = n.grid_x || 0;
-    (cols[c] = cols[c] || []).push(n);
-  });
+  allNodes.forEach(n => { const c = n.grid_x || 0; (cols[c] = cols[c] || []).push(n); });
   Object.values(cols).forEach(arr => arr.sort((a, b) => (a.grid_y || 0) - (b.grid_y || 0)));
 
-  const NODE_W = 96;
-  const NODE_H = 68;
-  const COL_GAP = 28;
-  const ROW_GAP = 14;
-  const PAD = 20;
+  const NODE_W = 100;
+  const NODE_H = 72;
+  const COL_GAP = 32;
+  const ROW_GAP = 16;
+  const PAD = 22;
 
   const pos = {};
   let maxColH = 0;
   for (let c = 0; c <= maxCol; c++) {
     const col = cols[c] || [];
-    const colH = col.length * NODE_H + (col.length - 1) * ROW_GAP;
+    const colH = col.length * NODE_H + Math.max(0, col.length - 1) * ROW_GAP;
     maxColH = Math.max(maxColH, colH);
   }
   for (let c = 0; c <= maxCol; c++) {
     const col = cols[c] || [];
-    const colH = col.length * NODE_H + (col.length - 1) * ROW_GAP;
+    const colH = col.length * NODE_H + Math.max(0, col.length - 1) * ROW_GAP;
     const startY = PAD + (maxColH - colH) / 2;
-    col.forEach((n, i) => {
-      pos[n.id] = {
-        x: PAD + c * (NODE_W + COL_GAP),
-        y: startY + i * (NODE_H + ROW_GAP),
-      };
-    });
+    col.forEach((n, i) => { pos[n.id] = { x: PAD + c * (NODE_W + COL_GAP), y: startY + i * (NODE_H + ROW_GAP) }; });
   }
 
   const svgW = PAD * 2 + (maxCol + 1) * NODE_W + maxCol * COL_GAP;
@@ -3254,145 +3244,116 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
     if (!pa || !pb) return "";
     const ax = pa.x + NODE_W / 2, ay = pa.y + NODE_H / 2;
     const bx = pb.x + NODE_W / 2, by = pb.y + NODE_H / 2;
-    const cx1 = ax + (bx - ax) * 0.5, cy1 = ay;
-    const cx2 = ax + (bx - ax) * 0.5, cy2 = by;
-    return `M${ax},${ay} C${cx1},${cy1} ${cx2},${cy2} ${bx},${by}`;
+    return `M${ax},${ay} C${ax + (bx-ax)*0.5},${ay} ${ax + (bx-ax)*0.5},${by} ${bx},${by}`;
   }
 
   const canMove = (id) => onMove && id !== currentId && (isGM ? true : adjacentSet.has(id));
 
-  // Nodes that reveal fog (player mode)
-  const revealNodes = !isGM ? allNodes.filter(n => (visitedSet.has(n.id)) && pos[n.id]) : [];
+  // Character tokens per node
+  const PLAYER_COLORS = ["#a78bfa", "#60a5fa", "#34d399", "#f59e0b", "#f87171", "#c084fc", "#fb7185", "#38bdf8"];
+  const playerList = players || [];
+  // All players are at current node (party moves together)
+  const tokensPerNode = {};
+  if (currentId) {
+    tokensPerNode[currentId] = playerList.map((p, i) => ({
+      label: (p.name || "?")[0].toUpperCase(),
+      color: PLAYER_COLORS[i % PLAYER_COLORS.length],
+      avatar: avatars?.[p.id] || null,
+    }));
+  }
+  // GM mode: add NPCs by location
+  if (isGM && advNpcs && npcStatuses) {
+    advNpcs.forEach(npc => {
+      const st = npcStatuses[npc.id] || npcStatuses[npc.name] || {};
+      const locId = st.location_id || st.current_node_id || npc.location_id || npc.node_id;
+      if (locId && nodes[locId]) {
+        if (!tokensPerNode[locId]) tokensPerNode[locId] = [];
+        tokensPerNode[locId].push({ label: (npc.name || "?")[0].toUpperCase(), color: "#94a3b8", avatar: null, isNpc: true });
+      }
+    });
+  }
+
+  // FOW reveal data (player mode)
+  const revealNodes = !isGM ? allNodes.filter(n => visitedSet.has(n.id) && pos[n.id]) : [];
   const partialRevealNodes = !isGM ? allNodes.filter(n => adjacentSet.has(n.id) && !visitedSet.has(n.id) && pos[n.id]) : [];
 
   return (
-    <div style={{ overflowX: "auto", overflowY: "auto" }}>
-      <svg width={svgW} height={svgH} style={{ display: "block", overflow: "visible", borderRadius: 10 }}>
+    <div style={{ width: "100%", height: "100%" }}>
+      <svg
+        viewBox={`0 0 ${svgW} ${svgH}`}
+        width="100%" height="100%"
+        preserveAspectRatio="xMidYMid meet"
+        style={{ display: "block", borderRadius: 10 }}
+      >
         <defs>
           <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-            <path d="M0,0 L0,6 L6,3 z" fill="rgba(124,58,237,0.7)" />
+            <path d="M0,0 L0,6 L6,3 z" fill="rgba(167,139,250,0.8)" />
           </marker>
           <filter id="glow">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
             <feMerge><feMergeNode in="coloredBlur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
-          <filter id="node-shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="rgba(0,0,0,0.7)" />
-          </filter>
-          {/* Atmospheric background gradient */}
           <radialGradient id="mapBg" cx="50%" cy="50%" r="70%">
             <stop offset="0%" stopColor="#1c1635" />
             <stop offset="100%" stopColor="#0f0a28" />
           </radialGradient>
-          {/* Vignette */}
           <radialGradient id="vignette" cx="50%" cy="50%" r="60%">
             <stop offset="50%" stopColor="rgba(0,0,0,0)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,0.65)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.6)" />
           </radialGradient>
-          {/* Image fade gradient */}
-          <linearGradient id="imgFade" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(0,0,0,0)" />
-            <stop offset="100%" stopColor="rgba(0,0,0,0.85)" />
-          </linearGradient>
-          {/* FOW reveal gradients (player mode) */}
+          {/* FOW reveal gradients */}
           {revealNodes.map(n => {
-            const p = pos[n.id];
-            const cx = p.x + NODE_W / 2, cy = p.y + NODE_H / 2;
-            return (
-              <radialGradient key={`fg-${n.id}`} id={`fog-reveal-${n.id}`}
-                gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={110}>
-                <stop offset="0%" stopColor="black" />
-                <stop offset="55%" stopColor="black" />
-                <stop offset="100%" stopColor="white" />
-              </radialGradient>
-            );
+            const p = pos[n.id], cx = p.x + NODE_W/2, cy = p.y + NODE_H/2;
+            return <radialGradient key={`fg-${n.id}`} id={`fog-reveal-${n.id}`} gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={120}>
+              <stop offset="0%" stopColor="black" /><stop offset="55%" stopColor="black" /><stop offset="100%" stopColor="white" />
+            </radialGradient>;
           })}
           {partialRevealNodes.map(n => {
-            const p = pos[n.id];
-            const cx = p.x + NODE_W / 2, cy = p.y + NODE_H / 2;
-            return (
-              <radialGradient key={`fgp-${n.id}`} id={`fog-partial-${n.id}`}
-                gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={80}>
-                <stop offset="0%" stopColor="#333333" />
-                <stop offset="100%" stopColor="white" />
-              </radialGradient>
-            );
+            const p = pos[n.id], cx = p.x + NODE_W/2, cy = p.y + NODE_H/2;
+            return <radialGradient key={`fgp-${n.id}`} id={`fog-partial-${n.id}`} gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={85}>
+              <stop offset="0%" stopColor="#444" /><stop offset="100%" stopColor="white" />
+            </radialGradient>;
           })}
-          {/* FOW mask: white = fog visible, black = fog hidden = map revealed */}
           {!isGM && (
             <mask id="fog-mask">
               <rect fill="white" width={svgW} height={svgH} />
-              {revealNodes.map(n => {
-                const p = pos[n.id];
-                return <ellipse key={n.id} cx={p.x + NODE_W/2} cy={p.y + NODE_H/2} rx={110} ry={90} fill={`url(#fog-reveal-${n.id})`} />;
-              })}
-              {partialRevealNodes.map(n => {
-                const p = pos[n.id];
-                return <ellipse key={n.id} cx={p.x + NODE_W/2} cy={p.y + NODE_H/2} rx={80} ry={65} fill={`url(#fog-partial-${n.id})`} />;
-              })}
+              {revealNodes.map(n => { const p = pos[n.id]; return <ellipse key={n.id} cx={p.x+NODE_W/2} cy={p.y+NODE_H/2} rx={120} ry={100} fill={`url(#fog-reveal-${n.id})`} />; })}
+              {partialRevealNodes.map(n => { const p = pos[n.id]; return <ellipse key={n.id} cx={p.x+NODE_W/2} cy={p.y+NODE_H/2} rx={85} ry={70} fill={`url(#fog-partial-${n.id})`} />; })}
             </mask>
           )}
         </defs>
 
-        {/* ── Background ── */}
+        {/* Background */}
         {backdropImage ? (
           <>
-            <image href={`data:image/jpeg;base64,${backdropImage}`}
-              x={0} y={0} width={svgW} height={svgH}
-              preserveAspectRatio="xMidYMid slice"
-            />
-            <rect x={0} y={0} width={svgW} height={svgH} fill="rgba(0,0,12,0.42)" />
+            <image href={`data:image/jpeg;base64,${backdropImage}`} x={0} y={0} width={svgW} height={svgH} preserveAspectRatio="xMidYMid slice" />
+            <rect x={0} y={0} width={svgW} height={svgH} fill="rgba(0,0,12,0.48)" />
           </>
         ) : (
-          <>
-            <rect x={0} y={0} width={svgW} height={svgH} rx={10} fill="url(#mapBg)" />
-            {/* Subtle grid lines */}
-            {Array.from({ length: maxCol }, (_, c) => (
-              <line key={`gl-${c}`}
-                x1={PAD + (c + 1) * (NODE_W + COL_GAP) - COL_GAP / 2} y1={0}
-                x2={PAD + (c + 1) * (NODE_W + COL_GAP) - COL_GAP / 2} y2={svgH}
-                stroke="rgba(124,58,237,0.07)" strokeWidth={1} strokeDasharray="4,8"
-              />
-            ))}
-          </>
+          <rect x={0} y={0} width={svgW} height={svgH} rx={10} fill="url(#mapBg)" />
         )}
-        {/* Vignette overlay */}
         <rect x={0} y={0} width={svgW} height={svgH} fill="url(#vignette)" />
 
-        {/* ── Edges ── */}
+        {/* Edges */}
         {edges.map((e, i) => {
           const a = nodes[e.from_id], b = nodes[e.to_id];
           if (!a || !b) return null;
-          const aVis = isGM || visibleSet.has(e.from_id);
-          const bVis = isGM || visibleSet.has(e.to_id);
-          if (!aVis && !bVis) return null;
+          if (!isGM && !visibleSet.has(e.from_id) && !visibleSet.has(e.to_id)) return null;
           const known = visitedSet.has(e.from_id) && visitedSet.has(e.to_id);
           const halfKnown = visitedSet.has(e.from_id) || visitedSet.has(e.to_id);
-          const stroke = known ? "rgba(167,139,250,0.9)" : halfKnown ? "rgba(124,58,237,0.4)" : "rgba(255,255,255,0.07)";
-          const locked = e.status === "locked";
           const edgeType = e.type || e.edge_type || "";
-          const dangerColor = edgeType === "danger" ? "rgba(239,68,68,0.7)" : edgeType === "escalation" ? "rgba(251,191,36,0.7)" : null;
-          return (
-            <path key={i} d={edgePath(a, b)}
-              fill="none"
-              stroke={dangerColor || stroke}
-              strokeWidth={known ? 3 : 2}
-              strokeDasharray={locked ? "7,4" : (halfKnown ? "none" : "3,6")}
-              markerEnd={known ? "url(#arrow)" : "none"}
-              opacity={halfKnown ? 1 : 0.35}
-            />
-          );
+          const stroke = edgeType === "danger" ? "rgba(239,68,68,0.7)" : edgeType === "escalation" ? "rgba(251,191,36,0.7)" : known ? "rgba(167,139,250,0.85)" : halfKnown ? "rgba(124,58,237,0.4)" : "rgba(255,255,255,0.07)";
+          return <path key={i} d={edgePath(a, b)} fill="none" stroke={stroke} strokeWidth={known ? 2.5 : 1.5}
+            strokeDasharray={e.status === "locked" ? "7,4" : "none"}
+            markerEnd={known ? "url(#arrow)" : "none"} opacity={halfKnown ? 1 : 0.3} />;
         })}
 
-        {/* ── Fog of War overlay (player mode, goes above edges but below node cards) ── */}
-        {!isGM && (
-          <rect width={svgW} height={svgH} fill="rgba(3,1,12,0.87)"
-            mask="url(#fog-mask)" style={{ pointerEvents: "none" }} />
-        )}
+        {/* FOW overlay */}
+        {!isGM && <rect width={svgW} height={svgH} fill="rgba(3,1,12,0.88)" mask="url(#fog-mask)" style={{ pointerEvents: "none" }} />}
 
-        {/* ── Nodes ── */}
+        {/* Nodes */}
         {allNodes.map(n => {
-          const status = isGM ? (n.id === currentId ? "current" : n.visited ? "visited" : "adjacent") : nodeStatus(n.id);
+          const status = isGM ? (n.id === currentId ? "current" : n.visited ? "visited" : "known") : nodeStatus(n.id);
           if (!isGM && status === "unknown") return null;
           const p = pos[n.id];
           if (!p) return null;
@@ -3400,12 +3361,15 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
           const isCurrent = n.id === currentId;
           const moveable = canMove(n.id);
           const hovered = hoveredId === n.id;
-          const img = (locationImages || {})[n.id];
-          const label = status === "unknown" ? "???" : n.name;
           const isAdjacent = status === "adjacent";
+          const tokens = tokensPerNode[n.id] || [];
 
-          const borderColor = isCurrent ? "#c084fc" : isObj ? "#fbbf24" : status === "visited" ? "rgba(74,222,128,0.7)" : isAdjacent ? "rgba(96,165,250,0.55)" : "rgba(255,255,255,0.1)";
-          const borderW = isCurrent ? 2.5 : isObj ? 2.5 : 1.5;
+          const borderColor = isCurrent ? "#c084fc" : isObj ? "#fbbf24" : status === "visited" ? "rgba(74,222,128,0.75)" : isAdjacent ? "rgba(96,165,250,0.5)" : "rgba(255,255,255,0.12)";
+          const cardFill = isCurrent ? "rgba(124,58,237,0.55)" : status === "visited" ? "rgba(30,22,72,0.95)" : isAdjacent ? "rgba(22,18,55,0.85)" : "rgba(18,14,45,0.88)";
+
+          // Wrap name to 2 lines
+          const name = n.name || "???";
+          const line1 = name.length > 14 ? name.slice(0, 13) + "…" : name;
 
           return (
             <g key={n.id}
@@ -3413,101 +3377,89 @@ function LocationGraph({ mapState, isGM, onMove, locationImages, genre, backdrop
               onMouseEnter={() => setHoveredId(n.id)}
               onMouseLeave={() => setHoveredId(null)}
               onClick={() => moveable && onMove(n.name)}
-              filter={isCurrent ? "url(#glow)" : "url(#node-shadow)"}
-              opacity={isAdjacent && !isGM ? 0.75 : 1}
+              filter={isCurrent ? "url(#glow)" : "none"}
+              opacity={isAdjacent && !isGM ? 0.7 : 1}
             >
-              {/* Card background */}
-              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={8}
-                fill={isCurrent ? "rgba(124,58,237,0.45)" : status === "visited" ? "rgba(30,22,72,0.95)" : "rgba(25,18,62,0.92)"}
+              {/* Card */}
+              <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={9}
+                fill={cardFill}
                 stroke={hovered && moveable ? "#60a5fa" : borderColor}
-                strokeWidth={hovered && moveable ? 2.5 : borderW}
+                strokeWidth={isCurrent ? 2.5 : isObj ? 2.5 : 1.5}
               />
 
-              {/* Location image (top 40px) */}
-              {img && status !== "unknown" && (
-                <>
-                  <clipPath id={`clip-${n.id}`}>
-                    <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={7} />
-                  </clipPath>
-                  <image href={`data:image/jpeg;base64,${img}`}
-                    x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40}
-                    preserveAspectRatio="xMidYMid slice"
-                    clipPath={`url(#clip-${n.id})`}
-                    opacity={isAdjacent ? 0.55 : 1}
-                  />
-                  <rect x={p.x + 1} y={p.y + 20} width={NODE_W - 2} height={21}
-                    fill="url(#imgFade)" clipPath={`url(#clip-${n.id})`} />
-                </>
-              )}
-
-              {/* Solid fill when no image */}
-              {!img && status !== "unknown" && (
-                <rect x={p.x + 1} y={p.y + 1} width={NODE_W - 2} height={40} rx={7}
-                  fill={isCurrent ? "rgba(124,58,237,0.55)" : isAdjacent ? "rgba(50,35,100,0.65)" : "rgba(42,30,95,0.82)"}
-                />
-              )}
-
-              {/* Status badge */}
-              <rect x={p.x + 4} y={p.y + 4} width={isCurrent ? 30 : 22} height={12} rx={3}
-                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.9)" : status === "visited" ? "rgba(74,222,128,0.18)" : "rgba(0,0,0,0.55)"}
+              {/* Status badge top-left */}
+              <rect x={p.x+4} y={p.y+4} width={isCurrent ? 32 : 18} height={13} rx={3}
+                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.9)" : status==="visited" ? "rgba(74,222,128,0.15)" : "rgba(0,0,0,0.4)"}
               />
-              <text x={p.x + 6} y={p.y + 13} fontSize={7} fontWeight="800"
-                fill={isCurrent ? "#fff" : isObj ? "#000" : status === "visited" ? "#4ade80" : "rgba(255,255,255,0.45)"}>
-                {isCurrent ? "● QUI" : isObj ? "★" : status === "visited" ? "✓" : isAdjacent ? "?" : "~"}
+              <text x={p.x+6} y={p.y+13} fontSize={7} fontWeight="800"
+                fill={isCurrent ? "#fff" : isObj ? "#000" : status==="visited" ? "#4ade80" : "rgba(255,255,255,0.4)"}>
+                {isCurrent ? "● QUI" : isObj ? "★" : status==="visited" ? "✓" : isAdjacent ? "?" : "~"}
               </text>
 
-              {/* Move indicator */}
-              {moveable && (
-                <text x={p.x + NODE_W - 5} y={p.y + 13} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered ? 1 : 0.4}>→</text>
-              )}
+              {/* Move arrow top-right */}
+              {moveable && <text x={p.x+NODE_W-5} y={p.y+14} fontSize={10} textAnchor="end" fill="#60a5fa" opacity={hovered?1:0.4}>→</text>}
 
-              {/* Location name */}
-              <text x={p.x + NODE_W / 2} y={p.y + 52} textAnchor="middle" fontSize={8} fontWeight="800"
-                fill={isCurrent ? "#e9d5ff" : status === "visited" ? "#f1f5f9" : isAdjacent ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.75)"}>
-                {label.length > 16 ? label.slice(0, 14) + "…" : label}
+              {/* Location name — centered */}
+              <text x={p.x+NODE_W/2} y={p.y+38} textAnchor="middle" fontSize={9} fontWeight="900"
+                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.75)"}
+                style={{ fontFamily: "system-ui, sans-serif" }}>
+                {line1}
               </text>
 
               {/* Icons row */}
-              <text x={p.x + NODE_W/2} y={p.y + NODE_H - 4} textAnchor="middle" fontSize={8}>
-                {n.contains_enemy ? "⚔" : ""}{n.contains_clue ? "🔍" : ""}{n.contains_loot ? "💰" : ""}
+              <text x={p.x+NODE_W/2} y={p.y+50} textAnchor="middle" fontSize={9}>
+                {n.contains_enemy ? "⚔ " : ""}{n.contains_clue ? "🔍 " : ""}{n.contains_loot ? "💰" : ""}
               </text>
+
+              {/* Character tokens */}
+              {tokens.length > 0 && tokens.slice(0, 5).map((tok, ti) => {
+                const tx = p.x + 6 + ti * 17;
+                const ty = p.y + NODE_H - 10;
+                return (
+                  <g key={ti}>
+                    <circle cx={tx} cy={ty} r={7}
+                      fill={tok.color} opacity={0.9}
+                      stroke="rgba(0,0,0,0.5)" strokeWidth={1}
+                    />
+                    <text x={tx} y={ty+3} textAnchor="middle" fontSize={7} fontWeight="800" fill="#fff">{tok.label}</text>
+                  </g>
+                );
+              })}
 
               {/* Hover tooltip */}
               {hovered && moveable && (
                 <>
-                  <rect x={p.x} y={p.y + NODE_H + 3} width={NODE_W} height={15} rx={4} fill="rgba(96,165,250,0.9)" />
-                  <text x={p.x + NODE_W / 2} y={p.y + NODE_H + 13} textAnchor="middle" fontSize={8} fontWeight="700" fill="#000">
-                    Spostati qui
-                  </text>
+                  <rect x={p.x} y={p.y+NODE_H+3} width={NODE_W} height={15} rx={4} fill="rgba(96,165,250,0.9)" />
+                  <text x={p.x+NODE_W/2} y={p.y+NODE_H+13} textAnchor="middle" fontSize={8} fontWeight="700" fill="#000">Spostati qui</text>
                 </>
               )}
             </g>
           );
         })}
 
-        {/* ── Compass rose (decorative, top-right) ── */}
+        {/* Compass rose */}
         {backdropImage && (
-          <g transform={`translate(${svgW - 32}, 28)`} opacity={0.55}>
-            <circle cx={0} cy={0} r={14} fill="rgba(0,0,0,0.5)" stroke="rgba(167,139,250,0.4)" strokeWidth={1} />
-            <text x={0} y={-6} textAnchor="middle" fontSize={7} fill="#c084fc" fontWeight="700">N</text>
-            <line x1={0} y1={-10} x2={0} y2={10} stroke="rgba(167,139,250,0.6)" strokeWidth={1} />
-            <line x1={-10} y1={0} x2={10} y2={0} stroke="rgba(167,139,250,0.4)" strokeWidth={0.8} />
+          <g transform={`translate(${svgW-34}, 30)`} opacity={0.6}>
+            <circle cx={0} cy={0} r={14} fill="rgba(0,0,0,0.55)" stroke="rgba(167,139,250,0.5)" strokeWidth={1} />
+            <text x={0} y={-5} textAnchor="middle" fontSize={7} fill="#c084fc" fontWeight="700">N</text>
+            <line x1={0} y1={-10} x2={0} y2={10} stroke="rgba(167,139,250,0.7)" strokeWidth={1.5} />
+            <line x1={-10} y1={0} x2={10} y2={0} stroke="rgba(167,139,250,0.5)" strokeWidth={1} />
           </g>
         )}
       </svg>
 
       {/* Legend */}
-      <div style={{ display: "flex", gap: 14, flexWrap: "wrap", padding: "8px 4px 4px", fontSize: 10, color: "var(--text)", opacity: 0.6 }}>
+      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", padding: "6px 4px 2px", fontSize: 10, color: "var(--text)", opacity: 0.6 }}>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "#7c3aed", display: "inline-block" }} />Posizione attuale</span>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(74,222,128,0.4)", display: "inline-block" }} />Visitata</span>
         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(96,165,250,0.3)", display: "inline-block" }} />Raggiungibile</span>
-        {isGM && <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(251,191,36,0.5)", display: "inline-block" }} />Obiettivo</span>}
-        {!isGM && <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(30,15,70,0.8)", border: "1px solid rgba(255,255,255,0.15)", display: "inline-block" }} />Nebbia</span>}
+        {!isGM && <span style={{ display: "flex", alignItems: "center", gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 3, background: "rgba(18,14,45,0.9)", border: "1px solid rgba(255,255,255,0.12)", display: "inline-block" }} />Nebbia</span>}
         {onMove && <span style={{ color: "#60a5fa" }}>→ Clicca per spostarti</span>}
       </div>
     </div>
   );
 }
+
 
 function ClockToastOverlay({ toasts, onDismiss }) {
   useEffect(() => {
@@ -3789,9 +3741,9 @@ function ClocksPanel({ clocks, isGM }) {
   );
 }
 
-function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, backdropImage, onClose }) {
-  const [pos, setPos] = useState({ x: window.innerWidth - 520, y: 80 });
-  const [size, setSize] = useState({ w: 500, h: 340 });
+function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, players, avatars, npcStatuses, advNpcs, onClose }) {
+  const [pos, setPos] = useState({ x: Math.max(10, window.innerWidth - 640), y: 60 });
+  const [size, setSize] = useState({ w: 620, h: 480 });
   const dragging = useRef(false);
   const dragOff = useRef({ dx: 0, dy: 0 });
   const resizing = useRef(false);
@@ -3851,9 +3803,9 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, backd
           fontSize: 16, lineHeight: 1, padding: "0 2px", opacity: 0.6,
         }}>✕</button>
       </div>
-      {/* Map content */}
-      <div style={{ overflow: "auto", flex: 1, padding: "8px 4px", minHeight: 200, height: size.h - 42 }}>
-        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} locationImages={locationImages} genre={genre} backdropImage={backdropImage} />
+      {/* Map content — no scroll, SVG scales to fit */}
+      <div style={{ flex: 1, padding: "6px 8px 4px", minHeight: 200, height: size.h - 48, display: "flex", flexDirection: "column" }}>
+        <LocationGraph mapState={mapState} isGM={isGM} onMove={onMove} backdropImage={backdropImage} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
       </div>
       {/* Resize handle */}
       <div onMouseDown={onResizeMouseDown} style={{
@@ -3870,7 +3822,7 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, backd
 }
 
 // mode: "players" = pannello giocatori (sinistra), "gm" = pannello GM (destra)
-function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, backdropImage, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose, defaultTab, mode, onDeduce }) {
+function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, backdropImage, onMove, onOpenMap, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, npcStatuses, advNpcs, onClose, defaultTab, mode, onDeduce }) {
   const isGmMode = mode === "gm";
   const [tab, setTab] = useState(defaultTab || (isGmMode ? "gm_overview" : "clues"));
   // Se arriva un nuovo defaultTab (es. click su quick-access), aggiorna la tab
@@ -3888,7 +3840,6 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
   const storyThreads = deriveStoryThreads(adventure, gameState?.clues_found || [], clueProgress, gameState?.resolved_threads || []);
   const readyThreads = storyThreads.filter(t => t.status === "ready_to_deduce");
   const resolvedThreads = storyThreads.filter(t => t.status === "resolved");
-  const advNpcs = _def.actors || _def.npcs || [];
   const worldNpcs = gameState?.world_npcs || [];
   // Merge: world_npcs prende il sopravvento per nomi corrispondenti
   const npcMap = new Map();
@@ -3903,7 +3854,6 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
   const threatLevel = gameState?.threat_level || 0;
   const threatMax = adventure?.threat_max_turns || 8;
   const threatPct = Math.round(threatLevel / Math.max(threatMax, 1) * 100);
-  const npcStatuses = gameState?.npc_statuses || {};
   const tacticalNodes = deriveTacticalNodes(adventure, mapState);
   const canon = adventure?.adventure_canon || {};
   const finaleConditions = canon?.finale_conditions || _def.finale_conditions || adventure?.finale_conditions || [];
@@ -4069,7 +4019,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
             <button style={tabStyle("clues")} onClick={() => setTab("clues")}>🔍 Indizi</button>
             <button style={tabStyle("threads")} onClick={() => setTab("threads")}>🧵 Piste{readyThreads.length ? ` (${readyThreads.length})` : ""}</button>
             <button style={tabStyle("npcs")} onClick={() => setTab("npcs")}>👥 PNG</button>
-            <button style={tabStyle("map")} onClick={() => setTab("map")}>🗺 Mappa</button>
+            {mapState && <button style={{ ...tabStyle("map"), color: "var(--accent)" }} onClick={() => onOpenMap && onOpenMap()}>🗺 Mappa</button>}
             {/* Clock solo se discovered=true: il Master ha scelto di renderlo visibile ai giocatori */}
             {(clocksData || []).some(c => c.discovered) && (
               <button style={tabStyle("clocks")} title="Timer che i giocatori conoscono esplicitamente" onClick={() => setTab("clocks")}>
@@ -4385,7 +4335,9 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
         )}
 
         {isGmMode && tab === "gm_map" && (
-          <LocationGraph mapState={mapState} isGM={true} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} backdropImage={backdropImage} />
+          <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+            <LocationGraph mapState={mapState} isGM={true} onMove={onMove} backdropImage={backdropImage} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
+          </div>
         )}
 
         {isGmMode && tab === "gm_clocks" && (
@@ -4469,8 +4421,8 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
         )}
 
         {tab === "map" && (
-          <div style={{ margin: "-10px -14px", height: "100%" }}>
-            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} locationImages={locationImages} genre={adventure?.genre} backdropImage={backdropImage} />
+          <div style={{ margin: "-10px -14px", height: "100%", display: "flex", flexDirection: "column" }}>
+            <LocationGraph mapState={mapState} isGM={false} onMove={onMove} backdropImage={backdropImage} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
           </div>
         )}
 
@@ -8174,15 +8126,17 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               mapState={mapState}
               clocksData={clocksData}
               gmEventLog={gmEventLog}
-              locationImages={locationImages}
               backdropImage={adventureMapBackdrop}
               onMove={(id) => { handleMoveToLocation(id); setShowPanel(false); }}
+              onOpenMap={() => { setShowMapPanel(true); setShowPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
               preparingTacticalMaps={preparingTacticalMaps}
               onPrepareTacticalMap={prepareTacticalMapForNode}
               players={players}
               avatars={avatars}
               npcAvatars={npcAvatars}
+              npcStatuses={gameStateData?.npc_statuses}
+              advNpcs={adventure?.adventure_definition?.actors || adventure?.adventure_definition?.npcs || []}
               onClose={() => setShowPanel(false)}
               defaultTab={undefined}
               mode="gm"
@@ -8213,15 +8167,17 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               mapState={mapState}
               clocksData={clocksData}
               gmEventLog={gmEventLog}
-              locationImages={locationImages}
               backdropImage={adventureMapBackdrop}
               onMove={(id) => { handleMoveToLocation(id); setShowPlayerPanel(false); }}
+              onOpenMap={() => { setShowMapPanel(true); setShowPlayerPanel(false); }}
               preparedTacticalMaps={preparedTacticalMaps}
               preparingTacticalMaps={preparingTacticalMaps}
               onPrepareTacticalMap={prepareTacticalMapForNode}
               players={players}
               avatars={avatars}
               npcAvatars={npcAvatars}
+              npcStatuses={gameStateData?.npc_statuses}
+              advNpcs={adventure?.adventure_definition?.actors || adventure?.adventure_definition?.npcs || []}
               onClose={() => setShowPlayerPanel(false)}
               defaultTab={panelOpenTab}
               mode="players"
@@ -8245,11 +8201,13 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       {showMapPanel && adventure && mapState && (
         <FloatingMapPanel
           mapState={mapState}
-          locationImages={locationImages}
           backdropImage={adventureMapBackdrop}
           onMove={handleMoveToLocation}
           isGM={true}
-          genre={adventure?.genre}
+          players={players}
+          avatars={avatars}
+          npcStatuses={gameStateData?.npc_statuses}
+          advNpcs={adventure?.adventure_definition?.actors || adventure?.adventure_definition?.npcs || []}
           onClose={() => setShowMapPanel(false)}
         />
       )}
