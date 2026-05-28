@@ -937,6 +937,10 @@ class PreviewActionPayload(BaseModel):
     custom_intents: dict[int, str] = {}
     structured_intent: dict = {}
 
+class DeducePayload(BaseModel):
+    thread_id: str
+    deduction_text: str = ""
+
 class SetupPayload(BaseModel):
     genre: str
     provider: str = "claude"        # "claude" | "openai" — AI testuale
@@ -2530,6 +2534,27 @@ def preview_action(payload: PreviewActionPayload):
         structured_intent=payload.structured_intent,
         custom_intents=payload.custom_intents,
     )
+
+
+@app.post("/game/deduce")
+def deduce_thread(payload: DeducePayload):
+    global game_state
+    adv = game_state.adventure_definition
+    threads = adv.story_threads if adv else []
+    thread = next((t for t in (threads or []) if t.get("id") == payload.thread_id), None)
+    if not thread:
+        return {"ok": False, "error": "thread_not_found"}
+    already = payload.thread_id in (game_state.resolved_threads or [])
+    if not already:
+        game_state.resolved_threads = list(game_state.resolved_threads or []) + [payload.thread_id]
+    answer = thread.get("answer") or thread.get("solution") or ""
+    return {
+        "ok": True,
+        "thread_id": payload.thread_id,
+        "thread_question": thread.get("question", ""),
+        "answer": answer,
+        "already_resolved": already,
+    }
 
 @app.post("/game/combat/attack")
 def combat_attack(payload: CombatAttackPayload):
