@@ -50,6 +50,16 @@ from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor
 from .clock_engine import tick_clocks, format_clock_event_narrative
 from .npc_state_machine import update_pressure_from_clues, build_npc_pressure_context
 from .deadlock_guard import check_and_fix_deadlocks
+from .adventure_wizard import (
+    WIZARD_STEPS as _WIZARD_STEPS,
+    WIZARD_STEP_SCHEMA as _WIZARD_STEP_SCHEMA,
+    _drafts as _wizard_drafts,
+    validate_step as _wiz_validate_step,
+    apply_step as _wiz_apply_step,
+    get_draft as _wiz_get_draft,
+    pop_draft as _wiz_pop_draft,
+    draft_as_raw as _wiz_draft_as_raw,
+)
 
 app = FastAPI()
 app.add_middleware(
@@ -2128,6 +2138,93 @@ def get_game_state_sync():
 @app.get("/game/genres")
 def get_genres():
     return {"genres": list(GENRE_PACKS.keys())}
+
+
+# ── A3: Adventure creation wizard ─────────────────────────────────────────────
+# Logic lives in adventure_wizard.py; this section exposes HTTP endpoints only.
+# _WIZARD_STEPS, _WIZARD_STEP_SCHEMA, _wizard_drafts are imported at the top.
+
+
+class WizardStepPayload(BaseModel):
+    draft_id: str = ""
+    step: str
+    data: dict
+
+
+@app.get("/adventure/wizard/steps")
+def wizard_get_steps():
+    return {"steps": _WIZARD_STEPS, "schema": _WIZARD_STEP_SCHEMA}
+
+
+@app.post("/adventure/wizard/step")
+def wizard_submit_step(payload: WizardStepPayload):
+    if payload.step not in _WIZARD_STEPS:
+        raise HTTPException(status_code=400, detail=f"Step sconosciuto: {payload.step}. Validi: {_WIZARD_STEPS}")
+    result = _wiz_apply_step(payload.draft_id, payload.step, payload.data)
+    if result.get("validation_errors"):
+        return result
+    return result
+
+
+@app.get("/adventure/wizard/draft/{draft_id}")
+def wizard_get_draft(draft_id: str):
+    result = _wiz_get_draft(draft_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail=f"Bozza '{draft_id}' non trovata")
+    return result
+
+
+@app.post("/adventure/wizard/draft/{draft_id}/compile")
+def wizard_compile_draft(draft_id: str):
+    """Compila una bozza completata in un runtime pronto per il gioco."""
+    raw = _wiz_draft_as_raw(draft_id)
+    if raw is None:
+        info = _wiz_get_draft(draft_id)
+        if info is None:
+            raise HTTPException(status_code=404, detail=f"Bozza '{draft_id}' non trovata")
+        missing = info.get("missing_steps", [])
+        raise HTTPException(status_code=400, detail=f"Step incompleti: {missing}")
+
+    try:
+        compiled = compile_from_raw_structure(
+            raw,
+            source_type="raw_text",
+            title=raw.get("title", "Avventura wizard"),
+            genre_hint=raw.get("genre"),
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Errore compilazione: {e}")
+
+    definition = compiled["adventure_definition"]
+    runtime_state = compiled["runtime_state"]
+    saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+
+    doctor_result: dict = {"score": 10.0, "findings": [], "score_after": 10.0}
+    try:
+        doctor_result = run_doctor(saved["adventure_definition"], do_enrich=True)
+        enriched = doctor_result.get("enriched_definition")
+        if enriched:
+            enr_def = AdventureDefinition(**{k: v for k, v in enriched.items() if k in AdventureDefinition.model_fields})
+            enr_def.id = definition.id
+            saved = save_runtime(enr_def, runtime_state, compiled["validation_report"])
+    except Exception as de:
+        print(f"[wizard/compile] doctor error (non bloccante): {de}")
+
+    _wiz_pop_draft(draft_id)
+
+    return {
+        "adventure_id": definition.id,
+        "adventure_definition": saved["adventure_definition"],
+        "runtime_state": saved["runtime_state"],
+        "doctor": {
+            "score": doctor_result.get("score"),
+            "score_after": doctor_result.get("score_after"),
+            "findings_count": len(doctor_result.get("findings") or []),
+            "estimated_session_length": doctor_result.get("estimated_session_length"),
+        },
+        "source": "wizard",
+    }
+
 
 @app.get("/game/debug-world")
 def get_debug_world():
