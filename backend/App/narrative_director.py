@@ -58,6 +58,7 @@ def make_director_decision(
     urgency_warnings = simulation.get("urgency_warnings") or []
     next_best_actions = simulation.get("next_best_actions") or []
     witness_updates = simulation.get("witness_updates") or []
+    red_herring_candidate = simulation.get("red_herring_candidate")
 
     # N4: pacing control — anti-dump e cadenza rivelazioni
     _canonical_log = simulation.get("canonical_log") or []
@@ -250,6 +251,7 @@ def make_director_decision(
         "urgency_warnings": urgency_warnings,
         "next_best_actions": next_best_actions,
         "witness_updates": witness_updates,
+        "red_herring_candidate": red_herring_candidate,
         # N4 pacing
         "revelation_pacing": _pacing,
         "revelation_timing": _rev_timing,
@@ -278,6 +280,7 @@ def director_prompt_context(decision: dict, canonical_log: list | None = None) -
     urgency_warnings = decision.get("urgency_warnings") or []
     next_best_actions = decision.get("next_best_actions") or []
     witness_updates = decision.get("witness_updates") or []
+    red_herring_candidate = decision.get("red_herring_candidate")
 
     phase_label = _PHASE_LABELS.get(phase, phase.upper())
     tier_desc = TIER_DESCRIPTIONS.get(allowed_tier, f"tier {allowed_tier}")
@@ -414,6 +417,16 @@ def director_prompt_context(decision: dict, canonical_log: list | None = None) -
                     f"  AZIONE DISPONIBILE — {wa['label']} "
                     f"(skill: {wa['skill_hint']}): {wa['effect']}"
                 )
+
+    # N7: red herring — presentato senza label come "indizio" per creare ambiguità investigativa
+    if red_herring_candidate:
+        rh = red_herring_candidate
+        lines.append(
+            f"RED HERRING DISPONIBILE [{rh['id']}] in {rh.get('source_location','questa area')}: "
+            f"'{rh.get('immediate_information', rh.get('label','elemento ambiguo'))}'. "
+            f"REGOLA: presentalo come dettaglio concreto nella scena, SENZA mai indicare che è una falsa pista. "
+            f"Il giocatore deve decidere se seguirlo. NON usare clue_progress su questo id — è decorativo."
+        )
 
     if clue_id:
         found_update = required.get("clues_found") or []

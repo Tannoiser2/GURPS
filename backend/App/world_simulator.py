@@ -375,6 +375,60 @@ def _select_clue(
     return clue.id, f"avanzamento indizio canonico [{clue.id}]"
 
 
+def _select_red_herring(
+    runtime: AdventureRuntime,
+    game_state_data: dict,
+) -> dict | None:
+    """N7: seleziona un red herring clue da presentare se le condizioni lo permettono.
+
+    Condizioni:
+    - Almeno una revelation ha red_herring_clues definiti
+    - Il giocatore è nella stessa location di un red herring clue
+    - La pressione NPC attuale è bassa (threat < 50%)
+    - Il red herring non è già stato mostrato (non in clues_found né in clue_progress)
+
+    Restituisce il RuntimeClue del red herring selezionato, o None.
+    """
+    threat_level = int(game_state_data.get("threat_level") or 0)
+    threat_max = max(1, max((c.max_value for c in runtime.event_clocks), default=8))
+    if threat_level / threat_max >= 0.5:
+        return None  # pressione troppo alta, non distrarre con false piste
+
+    found = set(game_state_data.get("clues_found") or [])
+    progress_keys = set((game_state_data.get("clue_progress") or {}).keys())
+    shown = found | progress_keys
+
+    # Raccogli tutti i red herring clue IDs da tutte le revelations
+    rh_ids: set[str] = set()
+    for rev in runtime.revelations:
+        for rhid in (rev.red_herring_clues or []):
+            if rhid not in shown:
+                rh_ids.add(rhid)
+
+    if not rh_ids:
+        return None
+
+    # Filtra per location corrente
+    current_name = ""
+    map_state = game_state_data.get("map_state") or {}
+    if map_state:
+        node = (map_state.get("nodes") or {}).get(map_state.get("current_node_id")) or {}
+        current_name = str(node.get("name") or "")
+
+    candidates = [
+        c for c in runtime.clues
+        if c.id in rh_ids
+        and (
+            not current_name
+            or not c.source_location
+            or c.source_location.lower() in current_name.lower()
+            or current_name.lower() in c.source_location.lower()
+        )
+    ]
+
+    return candidates[0] if candidates else None
+
+
 def _npcs_to_introduce(runtime: AdventureRuntime, game_state_data: dict) -> list[str]:
     """
     Determina quali NPC devono apparire questo turno per pressione narrativa.
@@ -615,6 +669,19 @@ def simulate_world_state(
     # Next best actions basate su fase e rivelazioni
     next_best = _next_best_actions(runtime, game_state_data, ready, found_after, phase)
 
+    # N7: red herring candidato (solo se pressione bassa e location match)
+    red_herring_candidate: dict | None = None
+    if not success and phase == "investigation":
+        rh = _select_red_herring(runtime, game_state_data)
+        if rh:
+            red_herring_candidate = {
+                "id": rh.id,
+                "label": rh.label,
+                "type": rh.type,
+                "source_location": rh.source_location,
+                "immediate_information": rh.immediate_information or rh.label,
+            }
+
     # Witness state check
     witness_updates = _witness_state_check(runtime, game_state_data)
 
@@ -782,6 +849,8 @@ def simulate_world_state(
         "urgency_warnings": urgency_warnings,
         "next_best_actions": next_best,
         "witness_updates": witness_updates,
+        # N7: red herring candidato (solo in investigation con pressione bassa)
+        "red_herring_candidate": red_herring_candidate,
         # N4: campi per pacing rivelazioni
         "canonical_log": game_state_data.get("canonical_log") or [],
         "current_turn": int(game_state_data.get("turn") or 0),
