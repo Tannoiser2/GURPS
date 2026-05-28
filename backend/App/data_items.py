@@ -26,6 +26,7 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "scanner": {
         "name": "Scanner",
         "category": "tool",
+        "eras": ["scifi", "modern"],
         "skill_bonuses": {"ricerca": 2, "percezione": 1, "investigare": 2},
         "conditional_bonuses": [
             {"skill": "ricerca", "bonus": 1, "tags": ["tecnologico", "laboratorio", "navicella", "base"]},
@@ -38,6 +39,7 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "kit_medico": {
         "name": "Kit medico",
         "category": "tool",
+        "eras": [],  # universale
         "skill_bonuses": {"pronto_soccorso": 2, "medicina": 1},
         "conditional_bonuses": [
             {"skill": "pronto_soccorso", "bonus": 1, "tags": ["ospedale", "infermeria", "laboratorio"]},
@@ -51,6 +53,7 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "grimaldelli": {
         "name": "Grimaldelli",
         "category": "tool",
+        "eras": [],  # universale
         "skill_bonuses": {"grimaldello": 2, "infiltrazione": 1, "ladrocinio": 1},
         "weight": 0.1, "cost": 50,
         "notes": "+2 grimaldello, +1 infiltrazione. Senza: malus −4 ai tiri su serrature.",
@@ -60,6 +63,7 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "binocolo": {
         "name": "Binocolo",
         "category": "tool",
+        "eras": ["modern", "horror", "western", "scifi", "steampunk"],
         "skill_bonuses": {"percezione": 2, "sorveglianza": 2},
         "conditional_bonuses": [
             {"skill": "percezione", "bonus": 1, "tags": ["aperto", "esterno", "citta", "deserto", "montagna"]},
@@ -72,6 +76,7 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "computer_portatile": {
         "name": "Computer portatile",
         "category": "tool",
+        "eras": ["modern", "scifi"],
         "skill_bonuses": {"informatica": 2, "ricerca": 1, "hacking": 2, "elettronica": 1},
         "weight": 1.5, "cost": 1000,
         "notes": "+2 informatica/hacking, +1 ricerca/elettronica.",
@@ -81,15 +86,17 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "radio_tattica": {
         "name": "Radio tattica",
         "category": "tool",
+        "eras": ["modern", "horror", "scifi"],
         "skill_bonuses": {"comunicazioni": 2, "coordinamento": 1},
         "weight": 0.3, "cost": 200,
         "notes": "+2 comunicazioni. Permette coordinamento a lunga distanza.",
-        "aliases": ["radio", "walkie-talkie", "ricetrasmittente", "radio militare"],
+        "aliases": ["radio", "walkie-talkie", "ricetrasmittente", "radio militare", "radio da campo"],
     },
 
     "kit_elettronico": {
         "name": "Kit elettronico",
         "category": "tool",
+        "eras": ["modern", "scifi"],
         "skill_bonuses": {"elettronica": 2, "riparazione": 1, "sabotaggio": 1},
         "weight": 1.0, "cost": 300,
         "notes": "+2 elettronica, +1 riparazione/sabotaggio.",
@@ -99,24 +106,29 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "kit_meccanico": {
         "name": "Kit meccanico",
         "category": "tool",
+        "eras": [],  # universale (fabbri esistono in ogni epoca)
         "skill_bonuses": {"meccanica": 2, "riparazione": 2},
         "weight": 2.0, "cost": 200,
         "notes": "+2 meccanica/riparazione.",
-        "aliases": ["kit meccanico", "cassetta degli attrezzi", "kit da riparazione", "attrezzi meccanici"],
+        "aliases": ["kit meccanico", "cassetta degli attrezzi", "kit da riparazione", "attrezzi meccanici",
+                    "arnesi", "attrezzi da fabbro"],
     },
 
     "kit_esplosivi": {
         "name": "Kit esplosivi",
         "category": "tool",
+        "eras": ["modern", "scifi"],
         "skill_bonuses": {"esplosivi": 2, "sabotaggio": 1},
         "weight": 1.5, "cost": 500,
         "notes": "+2 esplosivi, +1 sabotaggio. Pericoloso senza training.",
-        "aliases": ["kit da esplosivista", "materiale esplosivo", "attrezzi per esplosivi"],
+        "aliases": ["kit da esplosivista", "materiale esplosivo", "attrezzi per esplosivi",
+                    "cariche esplosive", "esplosivi artigianali"],
     },
 
     "occhiali_notturni": {
         "name": "Occhiali notturni",
         "category": "tool",
+        "eras": ["modern", "scifi"],
         "skill_bonuses": {"percezione": 2, "furtivita": 1},
         "conditional_bonuses": [
             {"skill": "percezione", "bonus": 2, "tags": ["buio", "notte", "oscurità"]},
@@ -130,13 +142,111 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "maschera_antigas": {
         "name": "Maschera antigas",
         "category": "tool",
+        "eras": ["modern", "scifi"],
         "skill_bonuses": {},
         "conditional_bonuses": [
             {"skill": "resistenza", "bonus": 4, "tags": ["gas", "tossico", "contaminato", "biologico"]},
         ],
         "weight": 0.5, "cost": 100,
         "notes": "Immunità a gas/tossine ambientali. Lieve penalità visione periferica.",
-        "aliases": ["respiratore", "maschera antigas", "maschera antigas militare"],
+        "aliases": ["respiratore", "maschera antigas", "maschera antigas militare", "filtri"],
+    },
+
+    # ── Equipaggiamento militare/moderno ──────────────────────────────────────
+
+    "granata_frammentazione": {
+        "name": "Granata a frammentazione",
+        "category": "consumable",
+        "eras": ["modern", "scifi", "horror"],
+        "skill_bonuses": {},
+        "weight": 1.0, "cost": 50,
+        "notes": "4d [2d] cr ex. Raggio frammenti 10 yard. Una sola; LC 1.",
+        "aliases": ["granata", "granata offensiva", "frag grenade", "bomba a mano"],
+    },
+
+    "granata_fumogena": {
+        "name": "Granata fumogena",
+        "category": "consumable",
+        "eras": ["modern", "scifi"],
+        "skill_bonuses": {},
+        "weight": 1.0, "cost": 30,
+        "notes": "Crea nube fumogena 4 yard × 2 round. Penalità −4 a mira in zona.",
+        "aliases": ["granata fumo", "smoke grenade", "bomba fumogena", "candelotto fumogeno"],
+    },
+
+    "granata_stordente": {
+        "name": "Granata stordente (flashbang)",
+        "category": "consumable",
+        "eras": ["modern", "scifi"],
+        "skill_bonuses": {},
+        "weight": 0.5, "cost": 60,
+        "notes": "Flashbang: HT-5 o stordito per 1d secondi. Non letale. LC 2.",
+        "aliases": ["flashbang", "granata accecante", "stun grenade", "granata non letale"],
+    },
+
+    "giubbotto_tattico": {
+        "name": "Giubbotto tattico",
+        "category": "armor",
+        "eras": ["modern", "scifi"],
+        "skill_bonuses": {"furtivita": -1},
+        "armor_dr": 6,
+        "armor_location": "torso",
+        "weight": 7.0, "cost": 500,
+        "notes": "DR 6 torso (DR 12 vs proiettili, DR 5 vs altro). TL7. Kevlar moderno.",
+        "aliases": ["kevlar tattico", "tactical vest", "giubbotto balistico avanzato", "body armor tattico"],
+    },
+
+    "elmetto_balistico": {
+        "name": "Elmetto balistico",
+        "category": "armor",
+        "eras": ["modern", "scifi"],
+        "skill_bonuses": {},
+        "armor_dr": 5,
+        "armor_location": "testa",
+        "weight": 3.0, "cost": 125,
+        "notes": "DR 5 cranio. TL7; frammenti e schegge. Visiera +DR 1 faccia ($25, +1.5lb).",
+        "aliases": ["casco balistico", "elmetto militare", "frag helmet", "casco kevlar"],
+    },
+
+    "esplosivi_demolizione": {
+        "name": "Cariche esplosive (demolizione)",
+        "category": "consumable",
+        "eras": ["modern", "scifi"],
+        "skill_bonuses": {"esplosivi": 2, "sabotaggio": 2},
+        "weight": 1.0, "cost": 100,
+        "notes": "C4 o equivalente. +2 esplosivi/sabotaggio. 6d cr ex per carica. LC 0.",
+        "aliases": ["c4", "esplosivo plastico", "carica demolitiva", "esplosivi", "cariche esplosive"],
+    },
+
+    "razioni": {
+        "name": "Razioni da campo",
+        "category": "misc",
+        "eras": [],  # universale
+        "skill_bonuses": {},
+        "weight": 1.0, "cost": 10,
+        "notes": "Cibo per 3 giorni. Evita penalità da fame in sopravvivenza.",
+        "aliases": ["razioni militari", "cibo", "provviste", "vitto", "razioni di sopravvivenza"],
+    },
+
+    "manette": {
+        "name": "Manette",
+        "category": "misc",
+        "eras": ["modern", "horror", "western", "scifi"],
+        "skill_bonuses": {},
+        "weight": 0.5, "cost": 25,
+        "notes": "DR 5 vs tentativi di fuga. Chiave necessaria. LC 4.",
+        "aliases": ["ammanettare", "braccialetti", "ceppi", "handcuffs", "ferri"],
+    },
+
+    "documento_falso": {
+        "name": "Documento falso",
+        "category": "misc",
+        "eras": ["modern", "horror", "western", "scifi"],
+        "skill_bonuses": {"persuadere": 1, "infiltrazione": 2},
+        "weight": 0.1, "cost": 500,
+        "notes": "+2 infiltrazione, +1 persuadere quando presentato. Scoperta = guai seri.",
+        "aliases": ["documenti falsi", "documento contraffatto", "passaporto falso",
+                    "identità falsa", "papers falsi"],
     },
 
     # ── Documenti / Indizi ─────────────────────────────────────────────────
@@ -274,11 +384,106 @@ ITEM_CATALOG: Dict[str, Dict] = {
         "aliases": ["antitossina", "siero", "contravveleno"],
     },
 
+    # ── Armature storiche (GURPS 4e Basic Set) ────────────────────────────
+
+    "armatura_cuoio": {
+        "name": "Armatura di cuoio",
+        "category": "armor",
+        "eras": ["primitive", "medieval", "fantasy", "western", "steampunk"],
+        "skill_bonuses": {"furtivita": -1},
+        "armor_dr": 2,
+        "armor_location": "torso",
+        "weight": 10.0, "cost": 100,
+        "notes": "DR 2 torso/inguine. −1 furtività. Protezione base medievale/fantasy.",
+        "aliases": ["cuoio", "armatura cuoio", "giubbotto di cuoio", "leather armor"],
+    },
+
+    "cotta_maglia": {
+        "name": "Cotta di maglia",
+        "category": "armor",
+        "eras": ["primitive", "medieval", "fantasy", "steampunk"],
+        "skill_bonuses": {"furtivita": -2, "acrobazia": -1},
+        "armor_dr": 4,
+        "armor_location": "torso",
+        "weight": 16.0, "cost": 150,
+        "notes": "DR 4 torso. −2 furtività, −1 acrobazia. Buona protezione medievale.",
+        "aliases": ["maglia", "cotta di maglia corta", "mail shirt", "usbergo"],
+    },
+
+    "cotta_maglia_lunga": {
+        "name": "Cotta di maglia lunga",
+        "category": "armor",
+        "eras": ["primitive", "medieval", "fantasy", "steampunk"],
+        "skill_bonuses": {"furtivita": -3, "acrobazia": -2, "atletica": -1},
+        "armor_dr": 4,
+        "armor_location": "totale",
+        "weight": 25.0, "cost": 230,
+        "notes": "DR 4 torso/inguine, DR 2 braccia (rivetti). Protezione medievale completa.",
+        "aliases": ["haubert", "cotta lunga", "mail hauberk", "maglia lunga", "cotta di maglia intera"],
+    },
+
+    "corazza_piastre": {
+        "name": "Corazza di piastre",
+        "category": "armor",
+        "eras": ["medieval", "fantasy", "steampunk"],
+        "skill_bonuses": {"furtivita": -2, "acrobazia": -1},
+        "armor_dr": 5,
+        "armor_location": "torso",
+        "weight": 18.0, "cost": 500,
+        "notes": "DR 5 torso. Piastra d'acciaio; protezione eccellente contro armi da taglio.",
+        "aliases": ["pettorale", "breastplate", "piastra pettorale", "corazza acciaio"],
+    },
+
+    "armatura_piastre_pesante": {
+        "name": "Armatura di piastre pesante",
+        "category": "armor",
+        "eras": ["medieval", "fantasy"],
+        "skill_bonuses": {"furtivita": -4, "acrobazia": -3, "atletica": -2},
+        "armor_dr": 7,
+        "armor_location": "torso",
+        "weight": 45.0, "cost": 2300,
+        "notes": "DR 7 torso/inguine. Armatura di piastre pesante; massima protezione medievale.",
+        "aliases": ["armatura completa pesante", "heavy steel corselet", "piastre pesanti"],
+    },
+
+    # ── Scudi (GURPS 4e Basic Set) ────────────────────────────────────────
+
+    "scudo_leggero": {
+        "name": "Scudo leggero",
+        "category": "misc",
+        "eras": ["primitive", "medieval", "fantasy", "western", "steampunk"],
+        "skill_bonuses": {"proteggere": 1, "difendere": 1},
+        "weight": 3.0, "cost": 30,
+        "notes": "DB +1 alla difesa in blocco. DR 2 contro colpi diretti allo scudo.",
+        "aliases": ["scudo piccolo", "buckler", "round shield", "targa"],
+    },
+
+    "scudo_medio": {
+        "name": "Scudo medio",
+        "category": "misc",
+        "eras": ["primitive", "medieval", "fantasy", "steampunk"],
+        "skill_bonuses": {"proteggere": 2, "difendere": 1},
+        "weight": 7.0, "cost": 60,
+        "notes": "DB +2 alla difesa in blocco. DR 3 contro colpi diretti allo scudo.",
+        "aliases": ["scudo", "kite shield", "heater shield", "scudo rotondo"],
+    },
+
+    "scudo_grande": {
+        "name": "Scudo grande",
+        "category": "misc",
+        "eras": ["primitive", "medieval", "fantasy"],
+        "skill_bonuses": {"proteggere": 3, "difendere": 2, "furtivita": -1},
+        "weight": 15.0, "cost": 90,
+        "notes": "DB +3 alla difesa in blocco. DR 4. −1 schivata. Copertura quasi totale.",
+        "aliases": ["scudo torre", "tower shield", "pavese", "grande scudo"],
+    },
+
     # ── Armature speciali ─────────────────────────────────────────────────
 
     "armatura_pesante": {
         "name": "Armatura pesante",
         "category": "armor",
+        "eras": ["medieval", "fantasy"],
         "skill_bonuses": {"furtivita": -2, "acrobazia": -2, "atletica": -1},
         "armor_dr": 5,
         "armor_location": "totale",
@@ -290,6 +495,7 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "giubbotto_antiproiettile": {
         "name": "Giubbotto antiproiettile",
         "category": "armor",
+        "eras": ["modern", "horror", "scifi"],
         "skill_bonuses": {"furtivita": -1},
         "armor_dr": 3,
         "armor_location": "torso",
@@ -301,6 +507,7 @@ ITEM_CATALOG: Dict[str, Dict] = {
     "esoscheletro": {
         "name": "Esoscheletro",
         "category": "armor",
+        "eras": ["scifi"],
         "skill_bonuses": {"forza_bruta": 3, "resistenza": 2, "furtivita": -3, "acrobazia": -2},
         "armor_dr": 8,
         "armor_location": "totale",

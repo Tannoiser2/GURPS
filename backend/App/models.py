@@ -107,6 +107,16 @@ class SceneChallenge(BaseModel):
     scene_actions: List[Dict[str, str]] = []
 
 
+class Wound(BaseModel):
+    """Ferita persistente GURPS — rimane tra i turni fino a guarigione."""
+    severity: Literal["minor", "major", "critical"] = "minor"
+    turns_remaining: int = 3
+    # minor:    auto-guarisce dopo turns_remaining turni di riposo
+    # major:    turns_remaining=0 → non auto-guarisce senza cure; dopo First Aid → 0+3
+    # critical: turns_remaining=0 → richiede cure specifiche; non auto-guarisce mai
+    description: str = ""
+
+
 class Player(BaseModel):
     id: int
     name: str
@@ -146,6 +156,8 @@ class Player(BaseModel):
     evaluate_target: str = ""          # ID bersaglio corrente della manovra Valuta
     all_out_defense_active: bool = False  # True → +2 a tutte le difese questo turno, no attacco
     last_maneuver: str = ""            # ultima manovra usata (per UI e log)
+    # ── Ferite persistenti (G3) ───────────────────────────────────────────────
+    wounds: List[Wound] = []           # ferite attive — penalità cumulativa -1/ferita major+
 
 
 class CharacterDraft(BaseModel):
@@ -502,6 +514,7 @@ class GameState(BaseModel):
     flags: Dict = {}  # runtime flags: pending_npc_events, pe_triggered_*, etc.
     locked_context: List[str] = []  # fatti pilastro bloccati — iniettati in ogni turno, non troncabili
     consecutive_no_progress_turns: int = 0  # turni consecutivi senza indizi trovati — usato dal soft escalation
+    turn_id: str = ""                           # UUID del turno corrente — per sync client/server
     # Inventario persistente: oggetti disponibili per la raccolta nella scena corrente
     loot_pool: List["LootEntry"] = []          # bottino visibile/raccoglibile ora
     scene_items_given: List[str] = []          # item_id già distribuiti (evita duplicati)

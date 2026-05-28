@@ -3544,6 +3544,44 @@ function NpcEventToastOverlay({ toasts, onDismiss }) {
   );
 }
 
+function ClockUrgencyBanner({ clocks }) {
+  if (!clocks || clocks.length === 0) return null;
+  const urgent = clocks.filter(c => c.discovered && c.active !== false && !c.resolved && c.max_value > 0 && (c.value / c.max_value) >= 0.5);
+  if (urgent.length === 0) return null;
+  const top = urgent.sort((a, b) => (b.value / b.max_value) - (a.value / a.max_value))[0];
+  const pct = top.value / top.max_value;
+  const isCritical = pct >= 0.85;
+  const remaining = top.max_value - top.value;
+  const bg = isCritical ? "rgba(239,68,68,0.12)" : "rgba(245,158,11,0.10)";
+  const border = isCritical ? "rgba(239,68,68,0.45)" : "rgba(245,158,11,0.4)";
+  const color = isCritical ? "#ef4444" : "#f59e0b";
+  const icon = isCritical ? "🔴" : "🟡";
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", gap: 8,
+      background: bg, border: `1px solid ${border}`, borderRadius: 8,
+      padding: "6px 12px", margin: "0 0 6px 0", fontSize: 12,
+    }}>
+      <span style={{ fontSize: 14 }}>{icon}</span>
+      <span style={{ flex: 1, color, fontWeight: 600 }}>
+        {top.label}
+        {top.clock_type === "terminal_defeat" && <span style={{ marginLeft: 6, fontSize: 10, background: "rgba(239,68,68,0.2)", color: "#ef4444", padding: "1px 5px", borderRadius: 3 }}>FATALE</span>}
+      </span>
+      <div style={{ display: "flex", gap: 2 }}>
+        {Array.from({ length: top.max_value }).map((_, i) => (
+          <div key={i} style={{
+            width: 8, height: 8, borderRadius: 2,
+            background: i < top.value ? color : "rgba(255,255,255,0.12)",
+          }} />
+        ))}
+      </div>
+      <span style={{ color, fontWeight: 700, fontSize: 11, minWidth: 28, textAlign: "right" }}>
+        {remaining} rimasti
+      </span>
+    </div>
+  );
+}
+
 function ClocksPanel({ clocks, isGM }) {
   if (!clocks || clocks.length === 0) return null;
 
@@ -3736,7 +3774,7 @@ function FloatingMapPanel({ mapState, locationImages, onMove, isGM, genre, onClo
 }
 
 // mode: "players" = pannello giocatori (sinistra), "gm" = pannello GM (destra)
-function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose, defaultTab, mode }) {
+function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, locationImages, onMove, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, onClose, defaultTab, mode, onDeduce }) {
   const isGmMode = mode === "gm";
   const [tab, setTab] = useState(defaultTab || (isGmMode ? "gm_overview" : "clues"));
   // Se arriva un nuovo defaultTab (es. click su quick-access), aggiorna la tab
@@ -4475,6 +4513,19 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
                       {publicDesc && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.65, marginTop: 1, fontStyle: "italic" }}>{publicDesc}</div>}
                       {lastSeen && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5, marginTop: 3 }}>📍 Visto a: {lastSeen}</div>}
                       {interactionNote && <div style={{ fontSize: 10, color: "#93c5fd", opacity: 0.8, marginTop: 2 }}>↳ {interactionNote}</div>}
+                      {st.pressure > 0 && (
+                        <div style={{ marginTop: 5 }}>
+                          <div style={{ fontSize: 9, color: "var(--text)", opacity: 0.5, marginBottom: 2 }}>
+                            Pressione {st.pressure}/10
+                          </div>
+                          <div style={{ height: 4, borderRadius: 4, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+                            <div style={{ height: "100%", width: `${st.pressure * 10}%`, background: st.pressure >= 7 ? "#ef4444" : st.pressure >= 4 ? "#f59e0b" : "#60a5fa", transition: "width 0.4s" }} />
+                          </div>
+                        </div>
+                      )}
+                      {st.witness_state && (
+                        <div style={{ fontSize: 10, color: "#fbbf24", opacity: 0.85, marginTop: 2 }}>👁 {st.witness_state}</div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -4507,7 +4558,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
                     <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question}</div>
                     <span style={{ fontSize: 9, color: ready ? "#60a5fa" : "var(--text)", textTransform: "uppercase", flexShrink: 0 }}>
-                      {ready ? "deduci" : t.status}
+                      {ready ? "PRONTA" : t.status}
                     </span>
                   </div>
                   {t.payoff && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.75, lineHeight: 1.35, marginBottom: 6 }}>{t.payoff}</div>}
@@ -4547,6 +4598,14 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, loc
                     {(t.discovered_clues?.length || 0)} ottenuti
                     {(t.partial_clues?.length || 0) > 0 ? `, ${t.partial_clues.length} in progresso` : ""} / {t.minimum_clues_to_deduce || 1} per dedurre
                   </div>
+                  {ready && (
+                    <button
+                      onClick={() => onDeduce && onDeduce(t.id, t.question)}
+                      style={{ marginTop: 7, width: "100%", padding: "6px 0", borderRadius: 7, border: "1px solid rgba(96,165,250,0.5)", background: "rgba(96,165,250,0.15)", color: "#93c5fd", fontSize: 11, fontWeight: 700, cursor: "pointer" }}
+                    >
+                      ⚡ Fai la deduzione
+                    </button>
+                  )}
                 </div>
               );
             })}
@@ -6412,6 +6471,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [endReason, setEndReason] = useState("");
   const [personalVictories, setPersonalVictories] = useState({});
   const [history, setHistory] = useState([]);
+  const [turnId, setTurnId] = useState("");
   const [showPanel, setShowPanel] = useState(!!adventure);
   const [showSecrets, setShowSecrets] = useState(false);
   const [startupLoading, setStartupLoading] = useState(true);
@@ -6460,6 +6520,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [expandedPlayerId, setExpandedPlayerId] = useState(null);
   const [panelOpenTab, setPanelOpenTab] = useState(null);
   const [showPlayerPanel, setShowPlayerPanel] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
 
   function openPlayerTab(tab) {
     setPanelOpenTab(tab);
@@ -6908,6 +6970,41 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     sendAction(`Spostarsi verso ${locationName}`, "", activePlayerId);
   }
 
+  async function handleDeduce(threadId, question) {
+    try {
+      const r = await fetch(`${API_URL}/game/deduce`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ thread_id: threadId, deduction_text: question }),
+      });
+      const res = await r.json();
+      if (r.ok) {
+        _setMessages(prev => [...prev, { role: "assistant", content: "[Sistema] Deduzione confermata: \"" + question + "\". " + (res.answer || "La pista è risolta.") }]);
+        setGameStateData(prev => ({ ...prev, resolved_threads: [...new Set([...(prev.resolved_threads || []), threadId])] }));
+      }
+    } catch (e) {
+      console.error("[GURPS] handleDeduce error:", e);
+    }
+  }
+
+  async function handlePreviewAction() {
+    if (!customText.trim()) return;
+    setPreviewLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/game/preview-action`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player_id: activePlayerId, intent: customText }),
+      });
+      const data = await res.json();
+      setPreviewData(data);
+    } catch (e) {
+      setPreviewData({ available: false, reason: "network_error" });
+    } finally {
+      setPreviewLoading(false);
+    }
+  }
+
   async function fetchSceneImage(narrative, msgIndex) {
     try {
       const res = await fetch(`${API_URL}/game/generate-scene-image`, {
@@ -6927,6 +7024,19 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   }
 
   useEffect(() => {
+    async function fetchWithTimeout(url, opts = {}, ms = 90000) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), ms);
+      try {
+        const r = await fetch(url, { ...opts, signal: ctrl.signal });
+        clearTimeout(timer);
+        return r;
+      } catch (e) {
+        clearTimeout(timer);
+        throw e;
+      }
+    }
+
     async function start() {
       // Sessione persa (es. backend riavviato) — torna al setup invece di avviare vuoto
       if (!initialPlayers || initialPlayers.length === 0) {
@@ -6935,11 +7045,14 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       }
       setLoading(true);
 
+      // Warmup ping: sveglia Render prima delle chiamate principali (free tier dorme dopo 15min)
+      try { await fetchWithTimeout(`${API_URL}/health`, {}, 70000); } catch (_) {}
+
       // Prova a riprendere una sessione salvata per questa avventura
       const advId = adventure?.id || adventure?.adventure_definition_id;
       if (advId) {
         try {
-          const liveRes = await fetch(`${API_URL}/game/adventure/runtime/${advId}/live-state`).then(r => r.json());
+          const liveRes = await fetchWithTimeout(`${API_URL}/game/adventure/runtime/${advId}/live-state`).then(r => r.json());
           const saved = liveRes?.live_game_state;
           if (saved && (saved.turn || 0) > 1) {
             // Sessione esistente: ripristina lo stato world senza chiamare l'AI
@@ -6970,11 +7083,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
       // Nessuna sessione salvata: avvio normale
       if (!adventure) throw new Error("Avventura compilata mancante: riavvia dalla schermata di setup.");
-      const res = await fetch(`${API_URL}/game/master/start-bible`, {
+      const res = await fetchWithTimeout(`${API_URL}/game/master/start-bible`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ genre, players: playerDicts, adventure }),
-      }).then(r => r.json());
+      }, 90000).then(r => r.json());
       if (res.detail) throw new Error(res.detail);
       const masterMsg = { role: "master", name: "Master", text: res.narrative, roll: res.roll };
       _setMessages([masterMsg]);
@@ -7001,8 +7114,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       console.error("[start] errore apertura scena:", err);
       setLoading(false);
       setStartupLoading(false);
-      // Mostra il messaggio di errore in chat invece di bloccare la UI
-      const errMsg = { role: "master", name: "Master", text: `⚠️ Errore all'avvio: ${err.message || "il backend non ha risposto"}. Riprova a ricaricare la pagina o riavvia il backend.` };
+      const isTimeout = err?.name === "AbortError";
+      const hint = isTimeout
+        ? " Il server (Render free tier) potrebbe impiegare fino a 90 secondi per svegliarsi. Ricarica la pagina e attendi."
+        : " Riprova a ricaricare la pagina.";
+      const errMsg = { role: "master", name: "Master", text: `⚠️ Errore all'avvio: ${err.message || "il backend non ha risposto"}.${hint}` };
       _setMessages([errMsg]);
       setHistory([{ role: "master", name: "Master", text: errMsg.text }]);
       setOptions([]);
@@ -7110,7 +7226,11 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     // but we also need it synchronously: use a ref snapshot
     const masterIdx = messagesRef.current.length;
     _setMessages(prev => [...prev, masterMsg]);
-    setHistory([...newHistory, { role: "master", name: "Master", text: res.narrative }]);
+    // L2: se il backend ha compresso la history, usa quella come nuova base
+    const historyBase = res.compressed_history || newHistory;
+    setHistory([...historyBase, { role: "master", name: "Master", text: res.narrative }]);
+    // R1: traccia turn_id per rilevare stati stale dopo reconnect
+    if (res.turn_id) setTurnId(res.turn_id);
     setOptions(res.options || []);
 
     if (res.map_state) {
@@ -7247,6 +7367,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   function handleCustomSubmit(e) {
     e.preventDefault();
     if (!customText.trim()) return;
+    setPreviewData(null);
     sendAction(customText.trim(), "", activePlayerId);
   }
 
@@ -7264,13 +7385,15 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       icon="🎲"
       title="Il Master apre la scena..."
       steps={[
-        { at: 0,     pill: "Contesto",   label: "Leggo la bibbia dell'avventura..." },
-        { at: 3000,  pill: "Personaggi", label: "Analizzo il gruppo di avventurieri..." },
-        { at: 7000,  pill: "Location",   label: "Colloco la squadra nella prima scena..." },
-        { at: 13000, pill: "Narrativa",  label: "Il Master scrive la scena d'apertura..." },
-        { at: 22000, pill: "Indizi",     label: "Posiziono i primi indizi e PNG in scena..." },
-        { at: 30000, pill: "Opzioni",    label: "Preparo le azioni disponibili per il primo turno..." },
-        { at: 36000, pill: "Pronto",     label: "Quasi pronto, ancora un momento..." },
+        { at: 0,     pill: "Connessione", label: "Connessione al server in corso..." },
+        { at: 4000,  pill: "Contesto",   label: "Leggo la bibbia dell'avventura..." },
+        { at: 9000,  pill: "Personaggi", label: "Analizzo il gruppo di avventurieri..." },
+        { at: 16000, pill: "Location",   label: "Colloco la squadra nella prima scena..." },
+        { at: 24000, pill: "Narrativa",  label: "Il Master scrive la scena d'apertura..." },
+        { at: 34000, pill: "Indizi",     label: "Posiziono i primi indizi e PNG in scena..." },
+        { at: 44000, pill: "Server",     label: "Il server si sta svegliando (servizio gratuito)..." },
+        { at: 55000, pill: "Opzioni",    label: "Preparo le azioni disponibili per il primo turno..." },
+        { at: 65000, pill: "Pronto",     label: "Quasi pronto, ancora un momento..." },
       ]}
     />
   );
@@ -7617,6 +7740,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           </div>
         )}
 
+        <ClockUrgencyBanner clocks={clocksData} />
+
         {messages.map((msg, i) =>
           msg.role === "combat"
             ? <CombatLogMessage key={i} msg={msg} />
@@ -7684,30 +7809,78 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
             </>
           )}
           {(pendingOption || options.length === 0) && (
-            <form onSubmit={handleCustomSubmit} style={{ display: "flex", gap: 8, marginTop: pendingOption ? 10 : 0 }}>
-              <input
-                ref={inputRef}
-                value={customText}
-                onChange={e => setCustomText(e.target.value)}
-                placeholder={`${activePlayer?.name || "Personaggio"}: cosa fa? Scrivi liberamente...`}
-                style={{
-                  flex: 1, padding: "11px 16px", borderRadius: 10,
-                  border: "1px solid var(--border)", background: "var(--bg)",
-                  color: "var(--text-h)", fontSize: 15, outline: "none",
-                }}
-              />
-              {pendingOption && (
-                <button type="button" onClick={() => setPendingOption(null)} style={{
-                  padding: "11px 14px", borderRadius: 10, border: "1px solid var(--border)",
-                  background: "var(--bg)", color: "var(--text)", cursor: "pointer", fontSize: 14,
-                }}>✕</button>
+            <div style={{ position: "relative" }}>
+              {previewData !== null && (
+                <div style={{
+                  position: "absolute", bottom: "calc(100% + 8px)", left: 0, right: 0,
+                  background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 12,
+                  padding: "12px 14px", zIndex: 50, boxShadow: "0 -4px 24px rgba(0,0,0,0.4)",
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-h)" }}>
+                      {previewData.available === false
+                        ? "⚠ Anteprima non disponibile"
+                        : `${previewData.action?.name || "Azione"} · ${previewData.action?.stat || ""} / ${previewData.action?.skill || ""}`}
+                    </div>
+                    <button onClick={() => setPreviewData(null)} style={{ background: "none", border: "none", color: "var(--text)", fontSize: 16, cursor: "pointer", lineHeight: 1, padding: "0 4px" }}>×</button>
+                  </div>
+                  {previewData.available === false ? (
+                    <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.7 }}>{previewData.reason || "Nessuna anteprima disponibile."}</div>
+                  ) : (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                      {(previewData.rows || []).map(row => {
+                        const colorMap = { "critico": "#f59e0b", "successo pieno": "#4ade80", "successo parziale": "#60a5fa", "fallimento": "#ef4444" };
+                        const color = colorMap[row.key] || "var(--text)";
+                        const pct = row.probability ?? 0;
+                        return (
+                          <div key={row.key} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <div style={{ width: 120, fontSize: 10, color: "var(--text)", opacity: 0.8, flexShrink: 0, textTransform: "capitalize" }}>{row.label}</div>
+                            <div style={{ flex: 1, height: 6, borderRadius: 4, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
+                              <div style={{ height: "100%", width: `${pct}%`, background: color, transition: "width 0.4s" }} />
+                            </div>
+                            <div style={{ width: 34, fontSize: 10, color, fontWeight: 700, textAlign: "right", flexShrink: 0 }}>{pct}%</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               )}
-              <button type="submit" disabled={!customText.trim()} style={{
-                padding: "11px 20px", borderRadius: 10, border: "none",
-                background: customText.trim() ? "var(--accent)" : "var(--border)",
-                color: "#fff", fontWeight: 700, cursor: customText.trim() ? "pointer" : "not-allowed",
-              }}>Invia 🎲</button>
-            </form>
+              <form onSubmit={handleCustomSubmit} style={{ display: "flex", gap: 8, marginTop: pendingOption ? 10 : 0 }}>
+                <input
+                  ref={inputRef}
+                  value={customText}
+                  onChange={e => setCustomText(e.target.value)}
+                  placeholder={`${activePlayer?.name || "Personaggio"}: cosa fa? Scrivi liberamente...`}
+                  style={{
+                    flex: 1, padding: "11px 16px", borderRadius: 10,
+                    border: "1px solid var(--border)", background: "var(--bg)",
+                    color: "var(--text-h)", fontSize: 15, outline: "none",
+                  }}
+                />
+                {pendingOption && (
+                  <button type="button" onClick={() => setPendingOption(null)} style={{
+                    padding: "11px 14px", borderRadius: 10, border: "1px solid var(--border)",
+                    background: "var(--bg)", color: "var(--text)", cursor: "pointer", fontSize: 14,
+                  }}>✕</button>
+                )}
+                <button
+                  type="button"
+                  onClick={handlePreviewAction}
+                  disabled={!customText.trim() || previewLoading}
+                  style={{
+                    padding: "11px 13px", borderRadius: 10, border: "1px solid var(--border)",
+                    background: "var(--bg)", color: "var(--text)", fontSize: 12, cursor: customText.trim() && !previewLoading ? "pointer" : "not-allowed",
+                    opacity: customText.trim() && !previewLoading ? 1 : 0.45, whiteSpace: "nowrap",
+                  }}
+                >{previewLoading ? "…" : "Anteprima"}</button>
+                <button type="submit" disabled={!customText.trim()} style={{
+                  padding: "11px 20px", borderRadius: 10, border: "none",
+                  background: customText.trim() ? "var(--accent)" : "var(--border)",
+                  color: "#fff", fontWeight: 700, cursor: customText.trim() ? "pointer" : "not-allowed",
+                }}>Invia 🎲</button>
+              </form>
+            </div>
           )}
             </>
           )}
@@ -7833,6 +8006,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               onClose={() => setShowPanel(false)}
               defaultTab={undefined}
               mode="gm"
+              onDeduce={handleDeduce}
             />
           </div>
         </>
@@ -7870,6 +8044,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               onClose={() => setShowPlayerPanel(false)}
               defaultTab={panelOpenTab}
               mode="players"
+              onDeduce={handleDeduce}
             />
           </div>
         </>

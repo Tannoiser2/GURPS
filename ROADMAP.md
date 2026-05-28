@@ -37,6 +37,16 @@ Roadmap viva delle migliorie su compiler PDF→runtime e game engine, partendo d
 - [x] **F4** — Visibility constraints nel prompt Master IA: `director_prompt_context` aggiunge blocco "INDIZI/NPC PRESENTI IN SCENA" + "REGOLA VISIBILITÀ". `make_director_decision` calcola elementi visibili via `scene_context`.
 - [x] **F5** — `current_scene_id` sync atomico col movimento: `_resolve_movement_destination()` in `claude_service.py` — se `player_action` è "Spostarsi verso X" risolve la destinazione *prima* della decisione director. Elimina race tra movimento e narrazione.
 
+## Sistema Equipaggiamento — completato
+
+- [x] **E1** — Integrazione armi da GURPS 4e Basic Set (PDF): +30 armi (polearm, storiche, avancarica, sciabola, ecc.) · `data_weapons.py` ora ha 58 armi
+- [x] **E2** — Armature storiche e scudi da Basic Set: cuoio DR 2, cotta DR 4, corazza DR 5, piastre DR 7, scudi DB +1/+2/+3 · `data_items.py`
+- [x] **E3** — Equipaggiamento militare/moderno: granata frammentazione/fumogena/stordente, giubbotto tattico DR 6, elmetto balistico DR 5, esplosivi demolizione, razioni, manette, documento falso · `data_items.py`
+- [x] **E4** — Tagging `eras` su tutti gli item del catalogo: item era-specifici (scanner, computer, giubbotto, esoscheletro…) hanno lista `eras`; universali (kit medico, torcia, corda…) `eras: []`
+- [x] **E5** — Controllo coerenza genere: `equipment_coherence.validate_gear_for_genre(items, genre)` → warning se arma/item fuori epoca (es. mitra in fantasy, cotta di maglia in sci-fi) · `equipment_coherence.py`
+- [x] **E6** — Auto-assegnazione equipaggiamento in character creation: `assign_starter_items(archetype, genre)` assegna base-kit per genere + extra per archetipo filtrati per era · `equipment_coherence.py`
+- [x] **E7** — Integrazione in `character_creation.py`: `validate_draft()` aggiunge warning di coerenza; `build_custom_player()` auto-assegna item se `draft.items` è vuoto
+
 ## Test plan
 
 - [x] Suite esistente 99 verdi in 0.05s offline
@@ -44,3 +54,4 @@ Roadmap viva delle migliorie su compiler PDF→runtime e game engine, partendo d
 - [x] `test_clue_progression.py`: 9 test — successo/parziale/fallimento → outcome corretto
 - [x] `test_action_generation.py`: 8 test — LLM labels, filtro location, global clue, actor filter, move actions, discovered skip, fallback explore, skill_hints
 - [ ] Integration: failure check su Thrusher → clue resta nascosto + narrativa non rivela contenuto
+- [ ] Equipment coherence: mitra in fantasy → warning; cotta in sci_fi → warning; kit medico in qualsiasi genere → nessun warning

@@ -2,13 +2,18 @@ from dotenv import load_dotenv
 load_dotenv(override=True)
 from datetime import datetime, timezone
 import json
+import logging
 import os
 import random
 import re
+import time
+import uuid
+from collections import defaultdict, deque
 from pathlib import Path
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from starlette.responses import JSONResponse
+from pydantic import BaseModel, field_validator
 import io
 from .engine import (
     empty_game_state, prepare_team_setup, start_game_from_selection,
@@ -33,6 +38,9 @@ from .claude_service import (
     _OPENAI_AVAILABLE, _OPENAI_IMPORT_ERROR, OPENAI_API_KEY,
     compile_adventure_to_runtime,
     generate_opening_scene,
+    compress_history, _COMPRESS_THRESHOLD,
+    generate_session_recap,
+    get_token_budget_status,
 )
 from . import claude_service
 from .data_genres import GENRE_PACKS
@@ -43,9 +51,59 @@ from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to
 from .adventure_validator import check_raw_compilation_quality
 from .scene_context import actions_for_scene
 from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor_score
+from .adventure_templates import ADVENTURE_TEMPLATES, get_template_list, get_template_by_id
 from .clock_engine import tick_clocks, format_clock_event_narrative
 from .npc_state_machine import update_pressure_from_clues, build_npc_pressure_context
 from .deadlock_guard import check_and_fix_deadlocks
+from .adventure_wizard import (
+    WIZARD_STEPS as _WIZARD_STEPS,
+    WIZARD_STEP_SCHEMA as _WIZARD_STEP_SCHEMA,
+    _drafts as _wizard_drafts,
+    validate_step as _wiz_validate_step,
+    apply_step as _wiz_apply_step,
+    get_draft as _wiz_get_draft,
+    pop_draft as _wiz_pop_draft,
+    draft_as_raw as _wiz_draft_as_raw,
+)
+
+# ── R2: Structured JSON logging ───────────────────────────────────────────────
+class _JSONLogFmt(logging.Formatter):
+    def format(self, record: logging.LogRecord) -> str:
+        obj: dict = {
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "level": record.levelname,
+            "logger": record.name,
+            "msg": record.getMessage(),
+        }
+        if record.exc_info:
+            obj["exc"] = self.formatException(record.exc_info)
+        if hasattr(record, "extra"):
+            obj.update(record.extra)  # type: ignore[arg-type]
+        return json.dumps(obj, ensure_ascii=False)
+
+def _setup_logging() -> None:
+    handler = logging.StreamHandler()
+    handler.setFormatter(_JSONLogFmt())
+    root = logging.getLogger()
+    root.handlers.clear()
+    root.addHandler(handler)
+    root.setLevel(logging.INFO)
+    logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+
+_setup_logging()
+_log = logging.getLogger("gurps")
+
+# ── R5: In-memory sliding-window rate limiter ─────────────────────────────────
+_rate_windows: dict[str, deque] = defaultdict(deque)
+_RATE_RULES: list[tuple[str, int, int]] = [
+    # (path_prefix, max_requests, window_seconds)
+    ("/game/master/turn-bible",  30, 60),
+    ("/game/master/start-bible", 10, 60),
+    ("/game/adventure/create",    5, 60),
+    ("/adventure/from-template/", 5, 60),
+    ("/game/adventure/compile",   5, 60),
+]
 
 app = FastAPI()
 app.add_middleware(
@@ -55,10 +113,51 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def _rate_limit_mw(request: Request, call_next):
+    if request.method == "POST":
+        path = request.url.path
+        ip = request.client.host if request.client else "unknown"
+        now = time.time()
+        for prefix, max_req, window in _RATE_RULES:
+            if path.startswith(prefix):
+                key = f"{ip}:{prefix}"
+                bucket = _rate_windows[key]
+                while bucket and bucket[0] < now - window:
+                    bucket.popleft()
+                if len(bucket) >= max_req:
+                    return JSONResponse(
+                        status_code=429,
+                        content={"detail": f"Troppe richieste. Max {max_req} ogni {window}s."},
+                        headers={"Retry-After": str(window)},
+                    )
+                bucket.append(now)
+                break
+    return await call_next(request)
+
+
+@app.middleware("http")
+async def _request_log_mw(request: Request, call_next):
+    t0 = time.perf_counter()
+    response = await call_next(request)
+    ms = int((time.perf_counter() - t0) * 1000)
+    _log.info(
+        "%s %s %d %dms",
+        request.method, request.url.path, response.status_code, ms,
+    )
+    return response
 game_state: GameState = empty_game_state()
 tactical_map_image_cache: dict[str, str] = {}
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_debug_pdf"
+
+
+# ── R1: Health check ──────────────────────────────────────────────────────────
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 
 def _ensure_runtime_scene(scene_text: str = "") -> None:
@@ -838,6 +937,10 @@ class PreviewActionPayload(BaseModel):
     custom_intents: dict[int, str] = {}
     structured_intent: dict = {}
 
+class DeducePayload(BaseModel):
+    thread_id: str
+    deduction_text: str = ""
+
 class SetupPayload(BaseModel):
     genre: str
     provider: str = "claude"        # "claude" | "openai" — AI testuale
@@ -892,6 +995,11 @@ class ImageGenPayload(BaseModel):
     player_photos_b64: list[str] = []
     player_names: list[str] = []
 
+    @field_validator("scene_text")
+    @classmethod
+    def _limit_scene(cls, v: str) -> str:
+        return v.strip()[:3000]
+
 class AdventureCreatePayload(BaseModel):
     genre: str
     players: list[dict]
@@ -902,6 +1010,18 @@ class AdventureCompilePayload(BaseModel):
     content: str
     genre_hint: str | None = None
     runtime_profile_hint: str | None = None
+
+    @field_validator("content")
+    @classmethod
+    def _limit_content(cls, v: str) -> str:
+        if len(v) > 100_000:
+            raise ValueError("content troppo lungo (max 100000 caratteri)")
+        return v
+
+    @field_validator("title")
+    @classmethod
+    def _trim_title(cls, v: str) -> str:
+        return v.strip()[:300]
 
 class RuntimeUpdatePayload(BaseModel):
     adventure_definition: dict | None = None
@@ -916,6 +1036,8 @@ class MasterStartBiblePayload(BaseModel):
     genre: str
     players: list[dict]
     adventure: dict
+    game_state_data: dict = {}  # N6: stato persistito per resume sessione
+    history: list[dict] = []    # N6: history precedente per resume
 
 class MasterTurnBiblePayload(BaseModel):
     genre: str
@@ -925,6 +1047,20 @@ class MasterTurnBiblePayload(BaseModel):
     active_player_id: int
     adventure: dict
     game_state_data: dict = {}
+
+    @field_validator("player_action")
+    @classmethod
+    def _sanitize_action(cls, v: str) -> str:
+        v = v.strip()
+        if len(v) > 2000:
+            raise ValueError("player_action troppo lungo (max 2000 caratteri)")
+        v = re.sub(r"<script[^>]*>.*?</script>", "", v, flags=re.I | re.DOTALL)
+        return v
+
+    @field_validator("genre")
+    @classmethod
+    def _trim_genre(cls, v: str) -> str:
+        return v.strip()[:50]
 
 @app.post("/game/adventure/create")
 def adventure_create(payload: AdventureCreatePayload):
@@ -1072,6 +1208,77 @@ def adventure_doctor(payload: DoctorPayload):
     except Exception as e:
         print(f"[doctor endpoint] error: {e}")
         return {"error": str(e), "score": 0, "findings": [], "enriched_definition": None}
+
+
+# ── Adventure Templates ────────────────────────────────────────────────────────
+
+@app.get("/adventure/templates")
+def adventure_templates_list():
+    """Returns list of predefined adventure templates with summary metadata."""
+    return {"templates": get_template_list()}
+
+
+class FromTemplatePayload(BaseModel):
+    players: list[dict] = []
+    customizations: dict = {}
+
+
+@app.post("/adventure/from-template/{template_id}")
+def adventure_from_template(template_id: str, payload: FromTemplatePayload | None = None):
+    """
+    Compile a predefined template into a full runtime adventure.
+    Optionally accepts customizations (title, genre, ...) and a players list.
+    Returns the same shape as /game/adventure/create.
+    """
+    template = get_template_by_id(template_id)
+    if template is None:
+        raise HTTPException(status_code=404, detail=f"Template '{template_id}' non trovato")
+
+    raw = dict(template)
+    raw["source_mode"] = "manual_json"
+
+    # Apply customizations (title, genre, etc.)
+    if payload and payload.customizations:
+        raw.update(payload.customizations)
+
+    genre_hint = raw.get("genre", "")
+    title = raw.get("title", "Avventura da template")
+
+    compiled = compile_from_raw_structure(
+        raw,
+        source_type="raw_text",
+        title=title,
+        genre_hint=genre_hint,
+    )
+    definition = compiled["adventure_definition"]
+    definition.legacy_adventure = definition.legacy_adventure or {}
+    runtime_state = compiled["runtime_state"]
+    saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+
+    # ── Doctor: audit ────────────────────────────────────────────────────────
+    defn_dict = saved["adventure_definition"]
+    doctor_result: dict = {"score": 10.0, "findings": [], "score_after": 10.0}
+    try:
+        doctor_result = run_doctor(defn_dict, do_enrich=False)
+    except Exception as de:
+        print(f"[from-template/doctor] errore (non bloccante): {de}")
+
+    result = dict(definition.legacy_adventure or {})
+    result.update({
+        "from_runtime_compiler": True,
+        "from_template": template_id,
+        "runtime_id": definition.id,
+        "adventure_definition": defn_dict,
+        "runtime_state": saved["runtime_state"],
+        "validation_report": saved["validation_report"],
+        "doctor": {
+            "score":       doctor_result.get("score", 10.0),
+            "score_after": doctor_result.get("score_after"),
+            "findings":    doctor_result.get("findings", []),
+            "auto_fixed":  False,
+        },
+    })
+    return result
 
 
 def _merge_game_state(current: dict, updates: dict) -> dict:
@@ -1563,6 +1770,10 @@ def _sync_runtime_state_from_updates(updates: dict, narrative: str = "") -> None
                 entry["location_id"] = update.get("location_id") or update.get("location")
             if update.get("attitude"):
                 entry["attitude"] = update.get("attitude")
+            # N5: witness state changes from player actions (reassure/protect)
+            if update.get("witness_state"):
+                entry["witness_state"] = update["witness_state"]
+                entry["fearful_turns_ignored"] = 0  # reset counter on interaction
             rt.actor_runtime[aid] = entry
     for update in updates.get("faction_updates") or []:
         if not isinstance(update, dict):
@@ -1714,6 +1925,15 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     _seed_world_npcs_from_actors(game_state.adventure_definition)
     opening = _opening_context_from_definition(game_state.adventure_definition)
     opening_narrative = generate_opening_scene(game_state.adventure_definition, payload.players)
+
+    # N6: se c'è un canonical_log (session resume), prependi un recap di 2-3 frasi via Haiku
+    _canonical_log_resume = list(payload.game_state_data.get("canonical_log") or [])
+    _session_recap = ""
+    if _canonical_log_resume:
+        _session_recap = generate_session_recap(_canonical_log_resume, payload.adventure, payload.players)
+    if _session_recap:
+        opening_narrative = _session_recap + "\n\n" + opening_narrative
+
     _ensure_runtime_scene(opening_narrative)
     if game_state.story:
         game_state.story.premise = opening_narrative
@@ -1741,8 +1961,12 @@ def master_start_bible_endpoint(payload: MasterStartBiblePayload):
     return resp
 
 @app.post("/game/master/turn-bible")
-def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
+def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Response):
     """Turno Master con bibbia e tracking stato."""
+    # R1: genera un turn_id univoco per questo turno
+    _turn_id = str(uuid.uuid4())[:8]
+    game_state.turn_id = _turn_id
+
     _sync_players_from_payload(payload.players)
     _ensure_runtime_scene()
     if not game_state.adventure_definition and payload.adventure:
@@ -1797,6 +2021,16 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
 
     # Inject soft escalation data nel game_state_data
     _gsd = dict(payload.game_state_data or {})
+    # N5: inietta npc_runtime persistente (witness_state + fearful_turns_ignored)
+    if game_state.adventure_runtime_state and game_state.adventure_runtime_state.actor_runtime:
+        _merged_npc_rt = dict(_gsd.get("npc_runtime") or {})
+        for _aid, _adata in game_state.adventure_runtime_state.actor_runtime.items():
+            _existing = dict(_merged_npc_rt.get(_aid) or {})
+            for _k in ("witness_state", "fearful_turns_ignored"):
+                if _k in _adata:
+                    _existing[_k] = _adata[_k]
+            _merged_npc_rt[_aid] = _existing
+        _gsd["npc_runtime"] = _merged_npc_rt
     _gsd["consecutive_no_progress_turns"] = game_state.consecutive_no_progress_turns
     # clues_found_this_turn: indizi trovati nell'ultimo turno (per progress awareness)
     # Derivati dal runtime state: quelli trovati dall'ultimo sync
@@ -1816,8 +2050,17 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
     if game_state.last_attack_result:
         _gsd["last_combat_round"] = game_state.last_attack_result
 
+    # L2: comprimi la history se è cresciuta troppo — risparmia token e mantiene coerenza
+    _history_for_turn = payload.history
+    _history_was_compressed = False
+    if len(payload.history) > _COMPRESS_THRESHOLD:
+        _compressed = compress_history(payload.history)
+        if len(_compressed) < len(payload.history):
+            _history_for_turn = _compressed
+            _history_was_compressed = True
+
     result = master_turn_with_bible(
-        payload.genre, payload.players, payload.history,
+        payload.genre, payload.players, _history_for_turn,
         payload.player_action, payload.active_player_id,
         adventure_with_npc_state, _gsd,
         prerolled=roll_detail,
@@ -1944,7 +2187,41 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload):
             patch["runtime_state"] = game_state.adventure_runtime_state.model_dump()
         update_runtime(adv_id, patch)
 
+    # N5: applica witness_updates al runtime actor_runtime per persistenza tra turni
+    _witness_updates = result.get("witness_updates") or []
+    if _witness_updates and game_state.adventure_runtime_state:
+        _art = game_state.adventure_runtime_state
+        _touched_witness_ids = set()
+        for wu in _witness_updates:
+            wid = wu.get("npc_id") or ""
+            if not wid:
+                continue
+            _entry = dict((_art.actor_runtime or {}).get(wid) or {})
+            new_ws = wu.get("witness_state") or wu.get("previous_witness_state") or "available"
+            _entry["witness_state"] = new_ws
+            # Incrementa fearful_turns_ignored se il witness è ancora fearful
+            if new_ws == "fearful":
+                _entry["fearful_turns_ignored"] = int(_entry.get("fearful_turns_ignored") or 0) + 1
+            else:
+                _entry["fearful_turns_ignored"] = 0
+            _art.actor_runtime[wid] = _entry
+            _touched_witness_ids.add(wid)
+        # Esponi il npc_runtime aggiornato nella risposta per sync frontend
+        result["npc_runtime"] = {k: dict(v) for k, v in (_art.actor_runtime or {}).items()}
+
     result["call_tokens"] = get_last_request_tokens()
+    result["turn_id"] = _turn_id
+    if _history_was_compressed:
+        result["compressed_history"] = _history_for_turn
+
+    # R4: token budget tracking — header HTTP + warning nel body
+    _budget = get_token_budget_status()
+    response.headers["X-Session-Tokens-Used"] = str(_budget["total_used"])
+    response.headers["X-Session-Budget-Pct"] = str(_budget["budget_pct"])
+    if _budget["warning"]:
+        result["token_budget_warning"] = _budget["suggestion"]
+    if _budget["hard_cap_hit"]:
+        result["token_budget_hard_cap"] = True
 
     # ── Auto-rilevamento oggetti dalla narrativa AI ───────────────────────────
     # Analizza il testo prodotto dall'AI GM: se menziona oggetti trovati
@@ -2018,9 +2295,127 @@ def get_game_state():
     game_state.last_roll_details = []   # consuma i dettagli dopo la prima lettura
     return data
 
+@app.get("/game/state/sync")
+def get_game_state_sync():
+    """Sync rapido: restituisce turn_id + campi essenziali per riallineare il client.
+    Usato dal frontend quando sospetta di avere uno stato stale (es. dopo reconnect).
+    """
+    clocks: list[dict] = []
+    if game_state.adventure_runtime and game_state.adventure_runtime_state:
+        try:
+            clocks = _build_clocks_data(game_state.adventure_runtime, game_state.adventure_runtime_state)
+        except Exception:
+            pass
+    map_dump = game_state.map_state.model_dump() if game_state.map_state else None
+    rt_state = game_state.adventure_runtime_state
+    return {
+        "turn_id": game_state.turn_id,
+        "turn": game_state.turn,
+        "clocks_data": clocks,
+        "map_state": map_dump,
+        "game_state_snapshot": {
+            "threat_level": game_state.scene.threat_level if game_state.scene else 0,
+            "in_combat": bool(
+                game_state.pending_attack
+                or (game_state.scene and any(e.type == "enemy" and e.hp > 0 for e in game_state.scene.entities))
+            ),
+            "discovered_clue_ids": list(rt_state.discovered_clue_ids) if rt_state else [],
+            "active_objective_ids": list(rt_state.active_objective_ids) if rt_state else [],
+            "locked_context": list(game_state.locked_context),
+        },
+    }
+
+
 @app.get("/game/genres")
 def get_genres():
     return {"genres": list(GENRE_PACKS.keys())}
+
+
+# ── A3: Adventure creation wizard ─────────────────────────────────────────────
+# Logic lives in adventure_wizard.py; this section exposes HTTP endpoints only.
+# _WIZARD_STEPS, _WIZARD_STEP_SCHEMA, _wizard_drafts are imported at the top.
+
+
+class WizardStepPayload(BaseModel):
+    draft_id: str = ""
+    step: str
+    data: dict
+
+
+@app.get("/adventure/wizard/steps")
+def wizard_get_steps():
+    return {"steps": _WIZARD_STEPS, "schema": _WIZARD_STEP_SCHEMA}
+
+
+@app.post("/adventure/wizard/step")
+def wizard_submit_step(payload: WizardStepPayload):
+    if payload.step not in _WIZARD_STEPS:
+        raise HTTPException(status_code=400, detail=f"Step sconosciuto: {payload.step}. Validi: {_WIZARD_STEPS}")
+    result = _wiz_apply_step(payload.draft_id, payload.step, payload.data)
+    if result.get("validation_errors"):
+        return result
+    return result
+
+
+@app.get("/adventure/wizard/draft/{draft_id}")
+def wizard_get_draft(draft_id: str):
+    result = _wiz_get_draft(draft_id)
+    if result is None:
+        raise HTTPException(status_code=404, detail=f"Bozza '{draft_id}' non trovata")
+    return result
+
+
+@app.post("/adventure/wizard/draft/{draft_id}/compile")
+def wizard_compile_draft(draft_id: str):
+    """Compila una bozza completata in un runtime pronto per il gioco."""
+    raw = _wiz_draft_as_raw(draft_id)
+    if raw is None:
+        info = _wiz_get_draft(draft_id)
+        if info is None:
+            raise HTTPException(status_code=404, detail=f"Bozza '{draft_id}' non trovata")
+        missing = info.get("missing_steps", [])
+        raise HTTPException(status_code=400, detail=f"Step incompleti: {missing}")
+
+    try:
+        compiled = compile_from_raw_structure(
+            raw,
+            source_type="raw_text",
+            title=raw.get("title", "Avventura wizard"),
+            genre_hint=raw.get("genre"),
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Errore compilazione: {e}")
+
+    definition = compiled["adventure_definition"]
+    runtime_state = compiled["runtime_state"]
+    saved = save_runtime(definition, runtime_state, compiled["validation_report"])
+
+    doctor_result: dict = {"score": 10.0, "findings": [], "score_after": 10.0}
+    try:
+        doctor_result = run_doctor(saved["adventure_definition"], do_enrich=True)
+        enriched = doctor_result.get("enriched_definition")
+        if enriched:
+            enr_def = AdventureDefinition(**{k: v for k, v in enriched.items() if k in AdventureDefinition.model_fields})
+            enr_def.id = definition.id
+            saved = save_runtime(enr_def, runtime_state, compiled["validation_report"])
+    except Exception as de:
+        print(f"[wizard/compile] doctor error (non bloccante): {de}")
+
+    _wiz_pop_draft(draft_id)
+
+    return {
+        "adventure_id": definition.id,
+        "adventure_definition": saved["adventure_definition"],
+        "runtime_state": saved["runtime_state"],
+        "doctor": {
+            "score": doctor_result.get("score"),
+            "score_after": doctor_result.get("score_after"),
+            "findings_count": len(doctor_result.get("findings") or []),
+            "estimated_session_length": doctor_result.get("estimated_session_length"),
+        },
+        "source": "wizard",
+    }
+
 
 @app.get("/game/debug-world")
 def get_debug_world():
@@ -2139,6 +2534,27 @@ def preview_action(payload: PreviewActionPayload):
         structured_intent=payload.structured_intent,
         custom_intents=payload.custom_intents,
     )
+
+
+@app.post("/game/deduce")
+def deduce_thread(payload: DeducePayload):
+    global game_state
+    adv = game_state.adventure_definition
+    threads = adv.story_threads if adv else []
+    thread = next((t for t in (threads or []) if t.get("id") == payload.thread_id), None)
+    if not thread:
+        return {"ok": False, "error": "thread_not_found"}
+    already = payload.thread_id in (game_state.resolved_threads or [])
+    if not already:
+        game_state.resolved_threads = list(game_state.resolved_threads or []) + [payload.thread_id]
+    answer = thread.get("answer") or thread.get("solution") or ""
+    return {
+        "ok": True,
+        "thread_id": payload.thread_id,
+        "thread_question": thread.get("question", ""),
+        "answer": answer,
+        "already_resolved": already,
+    }
 
 @app.post("/game/combat/attack")
 def combat_attack(payload: CombatAttackPayload):

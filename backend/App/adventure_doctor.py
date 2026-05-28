@@ -29,7 +29,9 @@ def _llm(prompt: str, max_tokens: int = 1024) -> str:
 
 @dataclass
 class Finding:
-    severity: str    # "critical" | "warning" | "info"
+    severity: str    # "error" — blocks runtime (missing required fields)
+                     # "warning" — degrades play experience
+                     # "suggestion" — nice to have, cosmetic improvement
     category: str    # "structure" | "npc" | "clock" | "clue" | "thread" |
                      # "location" | "resource" | "equipment"
     entity_id: str
@@ -74,21 +76,39 @@ def _detect_thread_cycles(threads: List[Dict]) -> List[str]:
 def _structure_rules(data: Dict) -> List[Finding]:
     findings = []
     title = data.get("title", data.get("id", "?"))
-    for fld, sev, hint in [
-        ("premise",           "critical", "Aggiungi una descrizione generale dell'avventura"),
-        ("initial_hook",      "critical", "Aggiungi il gancio iniziale (scena d'apertura per i PG)"),
-        ("actors",            "critical", "Aggiungi almeno gli NPC principali"),
-        ("locations",         "warning",  "Aggiungi le location principali"),
-        ("event_clocks",      "warning",  "Aggiungi almeno 1 clock per creare urgenza"),
-        ("finale_conditions", "info",     "Definisci le condizioni di vittoria/sconfitta"),
+    for fld, sev, human_msg, hint in [
+        ("premise",
+         "error",
+         "L'avventura non ha una premessa: i giocatori non sapranno da dove partire",
+         "Aggiungi una descrizione generale dell'avventura (2-4 frasi che spiegano la situazione iniziale)"),
+        ("initial_hook",
+         "error",
+         "Manca il gancio iniziale: il Master non ha una scena di apertura con cui coinvolgere i giocatori",
+         "Aggiungi il gancio iniziale — la scena concreta in cui i PG vengono trascinati nell'avventura"),
+        ("actors",
+         "error",
+         "L'avventura non ha personaggi non giocanti: non ci sono PNG con cui interagire",
+         "Aggiungi almeno 2-3 PNG principali con motivazioni proprie"),
+        ("locations",
+         "warning",
+         "Non sono definite le location: il Master non sa dove ambientare le scene",
+         "Aggiungi le location principali dove si svolge l'avventura"),
+        ("event_clocks",
+         "warning",
+         "Nessun clock di tensione: l'avventura non ha senso di urgenza né conseguenze per l'inattività",
+         "Aggiungi almeno 1 clock per creare pressione temporale e rendere le scelte dei PG rilevanti"),
+        ("finale_conditions",
+         "suggestion",
+         "Non sono definite le condizioni di vittoria/sconfitta: il Master non sa quando l'avventura finisce",
+         "Definisci le condizioni di vittoria e sconfitta per dare una struttura narrativa chiara"),
     ]:
         if not data.get(fld):
-            findings.append(Finding(sev, "structure", title, f"Campo '{fld}' mancante", hint))
+            findings.append(Finding(sev, "structure", title, human_msg, hint))
 
     if not data.get("clues") and not data.get("story_threads"):
-        findings.append(Finding("warning", "structure", title,
-            "Nessun indizio né thread narrativo",
-            "Aggiungi clues o story_threads per guidare l'investigazione"))
+        findings.append(Finding("error", "structure", title,
+            "L'avventura non ha indizi né piste narrative: i giocatori non hanno modo di progredire",
+            "Aggiungi almeno 3-5 clues concreti o story_threads per guidare l'investigazione"))
 
     # Genere incompatibile con le armi dichiarate negli attori
     genre = str(data.get("genre", "")).lower()
@@ -139,10 +159,17 @@ def _npc_rules(actors: List[Dict], location_ids: Set[str]) -> List[Finding]:
                 "Imposta agenda_pressure tra 7 e 9"))
 
         # campi strategici
+        _strategic_field_labels = {
+            "goal": ("l'obiettivo dell'NPC", "cosa vuole ottenere dall'avventura"),
+            "current_plan": ("il piano attuale dell'NPC", "cosa sta facendo concretamente adesso"),
+            "fallback_plan": ("il piano di riserva", "cosa fa se il piano principale fallisce"),
+        }
         for fld in ("goal", "current_plan", "fallback_plan"):
             if not a.get(fld):
-                findings.append(Finding("info", "npc", aid,
-                    f"NPC '{name}': '{fld}' mancante", f"Aggiungi {fld}"))
+                label, desc = _strategic_field_labels[fld]
+                findings.append(Finding("suggestion", "npc", aid,
+                    f"'{name}' non ha {label}: rende l'NPC piatto e prevedibile",
+                    f"Aggiungi '{fld}': {desc}"))
 
         # location_id esistente
         loc_id = str(a.get("location_id") or "").strip()
@@ -171,9 +198,9 @@ def _clock_rules(clocks: List[Dict]) -> List[Finding]:
                 "Spiega come i PG possono fermare/invertire il clock"))
 
         if not c.get("discovery_hint"):
-            findings.append(Finding("info", "clock", cid,
-                f"Clock '{label}': discovery_hint mancante",
-                "Aggiungi un presagio narrativo ambiguo che segnala il pericolo"))
+            findings.append(Finding("suggestion", "clock", cid,
+                f"Il clock '{label}' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+                "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"))
 
     return findings
 
@@ -184,14 +211,25 @@ def _clue_rules(clues: List[Dict], thread_ids: Set[str]) -> List[Finding]:
         cid = cl.get("id", "?")
         label = cl.get("label", cid)
 
-        for fld, hint in [
-            ("payoff",              "cosa rivela narrativamente quando scoperta"),
-            ("hidden_implication",  "significato nascosto oltre l'evidenza diretta"),
-            ("wrong_interpretations", "1-2 false interpretazioni plausibili"),
-        ]:
+        _clue_field_labels = {
+            "payoff": (
+                "non ha un payoff narrativo: il Master non sa cosa cambia quando i giocatori lo trovano",
+                "Aggiungi 'payoff': descrivi cosa sblocca o rivela narrativamente questo indizio quando viene scoperto"
+            ),
+            "hidden_implication": (
+                "non ha un'implicazione nascosta: è un indizio a una dimensione senza profondità",
+                "Aggiungi 'hidden_implication': il significato segreto che emerge solo se i PG mettono insieme più pezzi"
+            ),
+            "wrong_interpretations": (
+                "non ha false interpretazioni: non permette ai giocatori di sbagliarsi e imparare",
+                "Aggiungi 'wrong_interpretations': 1-2 letture plausibili ma errate che rendono il mistero più ricco"
+            ),
+        }
+        for fld in ("payoff", "hidden_implication", "wrong_interpretations"):
             if not cl.get(fld):
-                findings.append(Finding("info", "clue", cid,
-                    f"Indizio '{label}': '{fld}' mancante", hint))
+                issue, fix = _clue_field_labels[fld]
+                findings.append(Finding("suggestion", "clue", cid,
+                    f"L'indizio '{label}' {issue}", fix))
 
         # thread_id esistente
         tid = str(cl.get("thread_id") or "").strip()
@@ -228,15 +266,15 @@ def _thread_rules(threads: List[Dict], clue_ids: Set[str]) -> List[Finding]:
         # nessuna clue associata
         collected = set(t.get("collected_clue_ids") or []) | set(t.get("clue_plan") or [])
         if not collected and not t.get("partial_clues"):
-            findings.append(Finding("info", "thread", tid,
-                f"Thread '{label}': nessun indizio associato",
-                "Collega almeno 1 clue tramite thread_id o clue_plan"))
+            findings.append(Finding("suggestion", "thread", tid,
+                f"La pista '{label}' non ha indizi collegati: i giocatori non hanno modo di progredire su questa domanda",
+                "Collega almeno 1 clue a questa pista tramite thread_id o clue_plan"))
 
         # risposta canonica mancante
         if not t.get("true_answer") and not t.get("answer"):
-            findings.append(Finding("info", "thread", tid,
-                f"Thread '{label}': true_answer/answer mancante",
-                "Definisci la risposta canonica nascosta al tavolo"))
+            findings.append(Finding("suggestion", "thread", tid,
+                f"La pista '{label}' non ha una risposta canonica: il Master non sa qual è la verità",
+                "Aggiungi 'true_answer': la risposta corretta che il Master conosce ma che i giocatori devono scoprire"))
 
     return findings
 
@@ -258,36 +296,36 @@ def _location_rules(locations: List[Dict], actor_ids_by_loc: Dict[str, List],
         has_tmap   = bool(tmap.get("enabled") or tmap)
 
         if not has_actors and not has_clues and not has_desc and not has_enemy:
-            findings.append(Finding("info", "location", lid,
-                f"Location '{name}': completamente vuota (nessun NPC, indizio né descrizione)",
-                "Aggiungi description, un NPC o un indizio"))
+            findings.append(Finding("suggestion", "location", lid,
+                f"La location '{name}' è completamente vuota: i giocatori non hanno motivo di visitarla",
+                "Aggiungi una descrizione, un PNG o almeno un indizio che rende la location rilevante"))
 
         # Zona calda senza tactical_map
         if loc.get("has_combat_potential") or loc.get("contains_actors"):
             if not has_tmap:
-                findings.append(Finding("info", "location", lid,
-                    f"Location '{name}': potenziale combattimento ma tactical_map assente",
-                    "Aggiungi tactical_map con enabled:true, layout e features"))
+                findings.append(Finding("suggestion", "location", lid,
+                    f"'{name}' può avere combattimento ma manca la mappa tattica: il Master non ha informazioni per gestire gli scontri",
+                    "Aggiungi tactical_map con enabled:true, layout e features per supportare il combattimento"))
             elif has_tmap:
                 # tactical_map presente ma incompleta
                 if not tmap.get("features"):
-                    findings.append(Finding("info", "location", lid,
-                        f"Location '{name}': tactical_map senza features (coperture/elementi)",
-                        "Aggiungi features: ['copertura', 'ostacolo', ...]"))
+                    findings.append(Finding("suggestion", "location", lid,
+                        f"'{name}': la mappa tattica non ha elementi di copertura o interazione",
+                        "Aggiungi features: ['copertura', 'ostacolo', 'tavolo rovesciabile', ...]"))
                 if not tmap.get("hazards"):
-                    findings.append(Finding("info", "location", lid,
-                        f"Location '{name}': tactical_map senza hazards (rischi ambientali)",
-                        "Aggiungi hazards: ['terreno difficile', ...]"))
+                    findings.append(Finding("suggestion", "location", lid,
+                        f"'{name}': la mappa tattica non ha rischi ambientali",
+                        "Aggiungi hazards: ['terreno difficile', 'fuoco', 'buio', ...] per rendere il combattimento più interessante"))
                 if not tmap.get("layout"):
-                    findings.append(Finding("info", "location", lid,
-                        f"Location '{name}': tactical_map senza layout",
-                        "Specifica layout: 'room' | 'narrow' | 'open'"))
+                    findings.append(Finding("suggestion", "location", lid,
+                        f"'{name}': la mappa tattica non ha un layout definito",
+                        "Specifica layout: 'room' | 'narrow' | 'open' per aiutare il Master a descrivere lo spazio"))
 
         # contains_loot ma nessun item definito
         if loc.get("contains_loot") and not loc.get("loot") and not loc.get("items"):
-            findings.append(Finding("info", "location", lid,
-                f"Location '{name}': contains_loot=true ma nessun item definito",
-                "Aggiungi items: [...] alla location oppure rimuovi contains_loot"))
+            findings.append(Finding("suggestion", "location", lid,
+                f"'{name}' dichiara di contenere loot ma non ha item definiti: i giocatori non troveranno nulla di concreto",
+                "Aggiungi items: [...] alla location oppure rimuovi contains_loot se non è rilevante"))
 
     return findings
 
@@ -295,9 +333,13 @@ def _location_rules(locations: List[Dict], actor_ids_by_loc: Dict[str, List],
 def _resource_rules(resources: list, genre: str, title: str) -> List[Finding]:
     if not resources:
         horror = ("horror", "cosmic", "thriller", "survival", "western")
-        sev = "warning" if any(h in genre.lower() for h in horror) else "info"
+        sev = "warning" if any(h in genre.lower() for h in horror) else "suggestion"
+        if sev == "warning":
+            msg = "Nessuna risorsa limitata definita: per un genere horror/survival le risorse (sanità, munizioni, luce) sono fondamentali"
+        else:
+            msg = "Nessuna risorsa narrativa definita: aggiungere risorse limitate (tempo, morale, forniture) rende le scelte dei giocatori più significative"
         return [Finding(sev, "resource", title,
-            "Nessuna risorsa definita (sanità, morale, luce, tempo...)",
+            msg,
             "Considera risorse narrative come sanità mentale, munizioni, tempo, morale")]
     return []
 
@@ -383,9 +425,9 @@ def _equipment_rules(data: Dict) -> List[Finding]:
                 # Controlla anche nel catalogo oggetti
                 in_catalog = item_str.lower() in _ALIAS_TO_ITEM_ID or item_str.lower() in ITEM_CATALOG
                 if not wid and not in_catalog and len(item_str) > 3:
-                    findings.append(Finding("info", "equipment", aid,
-                        f"NPC '{name}': item '{item_str}' non riconosciuto dal catalogo",
-                        "Verifica il nome o aggiungilo a data_items.py / data_weapons.py"))
+                    findings.append(Finding("suggestion", "equipment", aid,
+                        f"L'oggetto '{item_str}' di '{name}' non è nel catalogo del sistema: le statistiche potrebbero non essere calcolate correttamente",
+                        "Verifica il nome dell'oggetto o aggiungilo a data_items.py / data_weapons.py"))
 
     # ── Controlli item nelle location ─────────────────────────────────────────
     for itm in loc_items:
@@ -396,9 +438,9 @@ def _equipment_rules(data: Dict) -> List[Finding]:
         if weapon_check_available:
             for skill_name, bonus in (itm.get("skill_bonuses") or {}).items():
                 if skill_name not in VALID_SKILLS:
-                    findings.append(Finding("info", "equipment", str(iid),
-                        f"Item '{iname}': skill_bonus su skill sconosciuta '{skill_name}'",
-                        f"Skill valide: ricerca, investigare, percezione, furtivita, ..."))
+                    findings.append(Finding("suggestion", "equipment", str(iid),
+                        f"L'item '{iname}' dà un bonus a una skill sconosciuta ('{skill_name}'): il bonus potrebbe non essere applicato",
+                        f"Usa nomi di skill riconosciute: ricerca, investigare, percezione, furtivita, ..."))
 
             # weapon_id esistente
             wid = itm.get("weapon_id") or ""
@@ -422,9 +464,9 @@ def _equipment_rules(data: Dict) -> List[Finding]:
             if isinstance(ki, dict)
         )
         if not found_ref and len(item_name) > 3:
-            findings.append(Finding("info", "equipment", item_name,
-                f"Item chiave '{item_name}' non referenziato in nessun thread né clue",
-                "Collega l'oggetto a un thread o clue che ne usi il ritrovamento"))
+            findings.append(Finding("suggestion", "equipment", item_name,
+                f"L'oggetto chiave '{item_name}' non è menzionato in nessun indizio né pista: i giocatori potrebbero non sapere che esiste",
+                "Collega l'oggetto a un thread o clue che ne giustifichi il ritrovamento"))
 
     # ── Items negli aventura-level key_items ──────────────────────────────────
     for ki in data.get("key_items", []):
@@ -432,9 +474,9 @@ def _equipment_rules(data: Dict) -> List[Finding]:
             continue
         kiname = ki.get("name") or ki.get("id") or "?"
         if not ki.get("dove") and not ki.get("location") and not ki.get("where"):
-            findings.append(Finding("info", "equipment", str(kiname),
-                f"Key item '{kiname}': posizione (dove) non specificata",
-                "Aggiungi 'dove': 'nome_location' per il posizionamento narrativo"))
+            findings.append(Finding("suggestion", "equipment", str(kiname),
+                f"L'oggetto importante '{kiname}' non ha una posizione: il Master non sa dove collocarlo nella fiction",
+                "Aggiungi 'dove': 'nome_location' per indicare dove i giocatori possono trovare l'oggetto"))
 
     return findings
 
@@ -480,7 +522,10 @@ def audit(data: Dict) -> List[Finding]:
 
 
 def score(findings: List[Finding]) -> float:
-    penalty = sum({"critical": 1.5, "warning": 0.5, "info": 0.1}[f.severity] for f in findings)
+    _weights = {"error": 1.5, "warning": 0.5, "suggestion": 0.1,
+                # Legacy aliases kept for backward compatibility
+                "critical": 1.5, "info": 0.1}
+    penalty = sum(_weights.get(f.severity, 0.1) for f in findings)
     return max(0.0, round(10.0 - penalty, 1))
 
 
@@ -612,6 +657,37 @@ def _enrich_locations(locations: List[Dict], context: str) -> List[Dict]:
 
 # ─── Public API ───────────────────────────────────────────────────────────────
 
+def _estimate_session_length(definition: Dict) -> str:
+    """
+    Estimate session length based on adventure complexity.
+
+    Formula:
+      base = 30 min
+      + n_clues × 10 min
+      + sum(clock max_value) × 5 min
+      + n_npcs × 5 min
+    """
+    n_clues = len(definition.get("clues") or [])
+    n_npcs = len(definition.get("actors") or [])
+    clocks = definition.get("event_clocks") or []
+    n_clock_segments = sum(
+        int(c.get("max_value") or c.get("max") or 0) for c in clocks if isinstance(c, dict)
+    )
+
+    total_minutes = 30 + (n_clues * 10) + (n_clock_segments * 5) + (n_npcs * 5)
+
+    if total_minutes < 90:
+        return "1-2 ore"
+    elif total_minutes < 150:
+        return "2-3 ore"
+    elif total_minutes < 210:
+        return "3-4 ore"
+    elif total_minutes < 270:
+        return "4-5 ore"
+    else:
+        return "5+ ore"
+
+
 def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
     """
     Audit (and optionally enrich) an adventure definition.
@@ -620,6 +696,7 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
       {
         score: float,
         findings: [{severity, category, entity_id, message, fix_hint}],
+        estimated_session_length: str,       # e.g. "2-3 ore"
         enriched_definition: dict | None,   # only if do_enrich=True
         score_after: float | None,
       }
@@ -639,6 +716,7 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
             }
             for f in findings
         ],
+        "estimated_session_length": _estimate_session_length(definition),
         "enriched_definition": None,
     }
 

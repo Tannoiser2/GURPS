@@ -4,6 +4,7 @@ from .runtime_models import AdventureRuntime
 from .escalation_limiter import compute_allowed_escalation_tier, TIER_DESCRIPTIONS
 from .genre_constraints import get_genre_profile
 from .scene_context import present_actors_at, visible_clues_at
+from .revelation_controller import pacing_score, suggest_revelation_timing
 
 
 _PHASE_LABELS = {
@@ -46,7 +47,7 @@ def make_director_decision(
     """Trasforma lo stato simulato in una direttiva singola e concreta per il renderer AI."""
     prerolled = prerolled or {}
     success = bool(prerolled.get("success", True))
-    ready = simulation.get("ready_threads") or []
+    ready = list(simulation.get("ready_threads") or [])
     clue_id = simulation.get("selected_clue_id")
     npcs_to_introduce = simulation.get("npcs_to_introduce") or []
     clock_tick = int(simulation.get("clock_tick") or 0)
@@ -57,6 +58,16 @@ def make_director_decision(
     urgency_warnings = simulation.get("urgency_warnings") or []
     next_best_actions = simulation.get("next_best_actions") or []
     witness_updates = simulation.get("witness_updates") or []
+    red_herring_candidate = simulation.get("red_herring_candidate")
+
+    # N4: pacing control — anti-dump e cadenza rivelazioni
+    _canonical_log = simulation.get("canonical_log") or []
+    _current_turn = int(simulation.get("current_turn") or 0)
+    _pacing = pacing_score(_canonical_log, _current_turn)
+    _rev_timing = suggest_revelation_timing(_pacing, available_revelations=len(ready))
+    if _rev_timing == "hold" and ready and not clock_triggers:
+        # Blocca la prima ready revelation per anti-dump; la riprende al turno prossimo
+        ready = ready[1:]
 
     genre_profile = runtime.genre_profile.model_dump() if hasattr(runtime.genre_profile, "model_dump") else (runtime.genre_profile or {})
     if not genre_profile:
@@ -94,11 +105,29 @@ def make_director_decision(
     # 6. Indizio da avanzare (solo fase investigation)
     # 7. Fallimento / idle
 
+    # N8: conta condizioni finale soddisfatte per segnalare il climax imminente
+    _satisfied_finales = [f for f in runtime.finale_conditions if f.status == "satisfied"]
+    _finale_near = len(_satisfied_finales) >= 2 or (
+        len(_satisfied_finales) >= 1 and len(runtime.finale_conditions) <= 2
+    )
+
     if clock_triggers:
         t = clock_triggers[0]
         scene_directive = (
             f"CLOCK COMPLETO [{t['label']}]: la conseguenza si manifesta ora. "
             f"Narra: {t['consequence'] or t['on_complete']}. Non è evitabile."
+        )
+    elif _finale_near and not ready:
+        # N8: condizioni finale quasi tutte soddisfatte → guida verso il climax
+        satisfied_labels = "; ".join(getattr(f, "label", f.id) for f in _satisfied_finales)
+        remaining = [f for f in runtime.finale_conditions if f.status != "satisfied"]
+        remaining_labels = "; ".join(getattr(f, "label", f.id) for f in remaining) if remaining else "nessuna"
+        scene_directive = (
+            f"CONDIZIONI FINALE VICINE: {satisfied_labels} già soddisfatte. "
+            f"Manca ancora: {remaining_labels}. "
+            f"Aumenta gradualmente la tensione verso il climax — l'antagonista sente la pressione, "
+            f"gli alleati si posizionano, la posta in gioco diventa esplicita. "
+            f"Non ancora story_over — ma la direzione è chiara."
         )
     elif phase == "escape":
         scene_directive = _ESCAPE_DIRECTIVE
@@ -199,7 +228,15 @@ def make_director_decision(
                 scene_clues.append({"id": c.id, "label": c.label, "type": c.type or ""})
         for a in present_actors_at(None, runtime, current_scene_id):  # type: ignore[arg-type]
             if a.status not in {"dead", "captured", "resolved"}:
-                scene_actors.append({"id": a.id, "name": a.name, "role": a.role or ""})
+                scene_actors.append({
+                    "id": a.id,
+                    "name": a.name,
+                    "role": a.role or "",
+                    "goal": a.goal or "",
+                    "fear": a.fear or "",
+                    "current_plan": a.current_plan or "",
+                    "pressure_response": a.pressure_response or {},
+                })
 
     return {
         "scene_directive": final_directive,
@@ -232,10 +269,16 @@ def make_director_decision(
         "urgency_warnings": urgency_warnings,
         "next_best_actions": next_best_actions,
         "witness_updates": witness_updates,
+        "red_herring_candidate": red_herring_candidate,
+        # N4 pacing
+        "revelation_pacing": _pacing,
+        "revelation_timing": _rev_timing,
+        # N8: finale near flag per il prompt contestuale
+        "finale_near": _finale_near,
     }
 
 
-def director_prompt_context(decision: dict) -> str:
+def director_prompt_context(decision: dict, canonical_log: list | None = None) -> str:
     directive = decision.get("scene_directive") or "renderizza lo stato corrente"
     notes = "; ".join(decision.get("director_notes") or []) or "nessuna nota"
     required = decision.get("state_updates_required") or {}
@@ -248,6 +291,7 @@ def director_prompt_context(decision: dict) -> str:
     clock_tick = int(decision.get("clock_tick") or 0)
     triggers = decision.get("clock_triggers") or []
     ready = decision.get("ready_threads") or []
+    rev_timing = decision.get("revelation_timing") or "now"
     scene_clues = decision.get("scene_clues") or []
     scene_actors = decision.get("scene_actors") or []
     current_scene_id = decision.get("current_scene_id") or ""
@@ -256,6 +300,7 @@ def director_prompt_context(decision: dict) -> str:
     urgency_warnings = decision.get("urgency_warnings") or []
     next_best_actions = decision.get("next_best_actions") or []
     witness_updates = decision.get("witness_updates") or []
+    red_herring_candidate = decision.get("red_herring_candidate")
 
     phase_label = _PHASE_LABELS.get(phase, phase.upper())
     tier_desc = TIER_DESCRIPTIONS.get(allowed_tier, f"tier {allowed_tier}")
@@ -263,6 +308,36 @@ def director_prompt_context(decision: dict) -> str:
     lines = [
         "\nNARRATIVE DIRECTOR — ISTRUZIONI VINCOLANTI:",
         "LINGUA: tutta la narrazione, i dialoghi, le descrizioni e le azioni proposte DEVONO essere in ITALIANO. Anche se il materiale sorgente è in inglese. Nomi propri e titoli di luogo possono restare nella lingua originale.",
+    ]
+
+    # Canonical event log — fatti già stabiliti dal motore in turni precedenti
+    if canonical_log:
+        _recent = canonical_log[-10:]
+        _canon_lines: list[str] = []
+        for _ev in _recent:
+            _t = _ev.get("turn", "?")
+            _etype = _ev.get("type", "")
+            if _etype == "clue_revealed":
+                _canon_lines.append(f"  T{_t}: indizio [{_ev.get('clue_id','')}] scoperto definitivamente")
+            elif _etype == "clue_partial":
+                _canon_lines.append(f"  T{_t}: indizio [{_ev.get('clue_id','')}] parzialmente avanzato")
+            elif _etype == "npc_state":
+                _canon_lines.append(f"  T{_t}: NPC {_ev.get('npc_name', _ev.get('npc_id',''))} → {_ev.get('status','')}")
+            elif _etype == "thread_closed":
+                _canon_lines.append(f"  T{_t}: pista [{_ev.get('thread_id','')}] deduzione completata")
+            elif _etype == "clock_resolved":
+                _canon_lines.append(f"  T{_t}: clock [{_ev.get('clock_id','')}] sventato dai giocatori")
+            elif _etype == "clock_triggered":
+                _canon_lines.append(f"  T{_t}: clock [{_ev.get('clock_id','')}] COMPLETATO — conseguenza attivata")
+            elif _etype == "fact":
+                _canon_lines.append(f"  T{_t}: fatto stabilito: {_ev.get('text','')[:80]}")
+        if _canon_lines:
+            lines.append(
+                "FATTI GIÀ STABILITI (non contraddire, non ripetere come sorprese):\n"
+                + "\n".join(_canon_lines)
+            )
+
+    lines += [
         f"FASE NARRATIVA CORRENTE: {phase_label} — questa fase determina cosa deve fare il gruppo ADESSO.",
         f"DIRETTIVA SCENA: {directive}",
         f"MAX ESCALATION TIER: {allowed_tier} — {tier_desc}",
@@ -310,6 +385,30 @@ def director_prompt_context(decision: dict) -> str:
         "Solo NPC con stato 'introduced', 'active', 'exposed', 'allied', 'hostile' possono agire in scena."
     )
 
+    # N2 — Voce NPC in scena: guida comportamentale per coerenza caratteriale
+    _voice_actors = [a for a in scene_actors if a.get("goal") or a.get("fear") or a.get("current_plan")]
+    if _voice_actors:
+        _voice_lines: list[str] = []
+        for _a in _voice_actors[:4]:
+            _parts: list[str] = []
+            if _a.get("goal"):
+                _parts.append(f"vuole: {_a['goal'][:70]}")
+            if _a.get("fear"):
+                _parts.append(f"teme: {_a['fear'][:60]}")
+            if _a.get("current_plan"):
+                _parts.append(f"piano attuale: {_a['current_plan'][:60]}")
+            _pr = _a.get("pressure_response")
+            if isinstance(_pr, dict):
+                for _k, _v in list(_pr.items())[:2]:
+                    _parts.append(f"se {_k}: {str(_v)[:50]}")
+            if _parts:
+                _voice_lines.append(f"  {_a['name']}: " + " | ".join(_parts))
+        if _voice_lines:
+            lines.append(
+                "VOCE NPC IN SCENA (usa nel tono e nei dialoghi — non svelare direttamente):\n"
+                + "\n".join(_voice_lines)
+            )
+
     if current_scene_id:
         if scene_clues:
             clue_list = "; ".join(f"{c['label']} [{c['id']}]" for c in scene_clues[:8])
@@ -328,10 +427,26 @@ def director_prompt_context(decision: dict) -> str:
 
     if witness_updates:
         for wu in witness_updates:
+            ws = wu["witness_state"]
             lines.append(
-                f"TESTIMONE IN CRISI [{wu['npc_name']}]: stato → {wu['witness_state'].upper()}. "
+                f"TESTIMONE IN CRISI [{wu['npc_name']}]: stato → {ws.upper()}. "
                 f"{wu['note']} — Il tuo intervento per calmare/proteggere questo NPC è narrativamente prioritario."
             )
+            for wa in (wu.get("available_witness_actions") or []):
+                lines.append(
+                    f"  AZIONE DISPONIBILE — {wa['label']} "
+                    f"(skill: {wa['skill_hint']}): {wa['effect']}"
+                )
+
+    # N7: red herring — presentato senza label come "indizio" per creare ambiguità investigativa
+    if red_herring_candidate:
+        rh = red_herring_candidate
+        lines.append(
+            f"RED HERRING DISPONIBILE [{rh['id']}] in {rh.get('source_location','questa area')}: "
+            f"'{rh.get('immediate_information', rh.get('label','elemento ambiguo'))}'. "
+            f"REGOLA: presentalo come dettaglio concreto nella scena, SENZA mai indicare che è una falsa pista. "
+            f"Il giocatore deve decidere se seguirlo. NON usare clue_progress su questo id — è decorativo."
+        )
 
     if clue_id:
         found_update = required.get("clues_found") or []
@@ -348,12 +463,29 @@ def director_prompt_context(decision: dict) -> str:
         )
     if ready:
         lines.append(f"PISTE PRONTE: {', '.join(ready)}. Non aprire nuovi filoni prima di offrire deduzione.")
+    if rev_timing == "hold":
+        lines.append(
+            "ANTI-DUMP ATTIVO: troppe rivelazioni recenti. NON presentare ora una deduzione o revelation. "
+            "Costruisci tensione o muovi un NPC — la revelation arriva al prossimo turno."
+        )
+    elif rev_timing == "wait":
+        lines.append(
+            "PACING REVELATION: il ritmo è già alto. Se possibile, ritarda la deduzione di 1 turno. "
+            "Concentra la scena su azione, atmosfera o dialogo."
+        )
     if next_best_actions and phase in ("extraction", "escape", "delivery"):
         clean = [a.replace("proteggere_testimone:", "proteggere_testimone ") for a in next_best_actions[:5]]
         lines.append(
             f"AZIONI SUGGERITE DAL MOTORE (fase {phase_label}): "
             + ", ".join(clean)
             + ". Usa queste come opzioni concrete da proporre o da narrare come conseguenza naturale."
+        )
+    # N8: nota finale conditions nel prompt contestuale
+    if decision.get("finale_near"):
+        lines.append(
+            "CONDIZIONI FINALE VICINE: la storia si avvicina al culmine. "
+            "Aumenta gradualmente la tensione — l'antagonista sente la pressione, "
+            "gli alleati si posizionano. Guida verso il climax senza forzare story_over."
         )
     lines.append(f"Note stato: {notes}")
     lines.append(f"State updates decisi dal motore: {required}")

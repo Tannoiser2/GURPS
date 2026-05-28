@@ -34,6 +34,10 @@ API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 GOOGLE_AI_STUDIO_KEY = os.getenv("GOOGLE_AI_STUDIO_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL_NAME = "claude-sonnet-4-5"
+_HAIKU_MODEL = "claude-haiku-4-5-20251001"
+_OPUS_MODEL = "claude-opus-4-7"
+_COMPRESS_THRESHOLD = 12   # compress when history has more than this many entries
+_COMPRESS_KEEP_RECENT = 6  # keep last N messages uncompressed
 OPENAI_TEXT_MODEL = "gpt-4o"
 OPENAI_IMAGE_MODEL = "dall-e-3"
 OPENAI_IMAGE_EDIT_MODEL = "gpt-image-1"
@@ -53,17 +57,25 @@ LAST_IMAGE_ERROR = ""
 # ── Token usage tracking ─────────────────────────────────────────────────────
 # Prezzi per milione di token (USD), aggiornati a maggio 2025
 _PRICE_PER_M = {
-    "claude-sonnet-4-5":   {"input": 3.0,  "output": 15.0},
-    "gpt-4o":              {"input": 2.5,  "output": 10.0},
-    "gpt-4o-mini":         {"input": 0.15, "output": 0.60},
-    "dall-e-3":            {"input": 0.0,  "output": 0.0},
-    "gpt-image-1":         {"input": 0.0,  "output": 0.0},
+    "claude-sonnet-4-5": {
+        "input": 3.0, "output": 15.0,
+        "cache_read": 0.30, "cache_write": 3.75,
+    },
+    "gpt-4o":              {"input": 2.5,  "output": 10.0, "cache_read": 0.0, "cache_write": 0.0},
+    "gpt-4o-mini":         {"input": 0.15, "output": 0.60, "cache_read": 0.0, "cache_write": 0.0},
+    "dall-e-3":            {"input": 0.0,  "output": 0.0,  "cache_read": 0.0, "cache_write": 0.0},
+    "gpt-image-1":         {"input": 0.0,  "output": 0.0,  "cache_read": 0.0, "cache_write": 0.0},
 }
 
 _session_tokens: dict = {
     "input": 0, "output": 0, "cost_usd": 0.0,
     "calls": 0, "errors": 0,
+    "cache_read_tokens": 0, "cache_write_tokens": 0, "cache_savings_usd": 0.0,
 }
+
+# R4: soglia warning token — sopra questa soglia il turno include un avviso
+_TOKEN_BUDGET_WARN = int(os.getenv("TOKEN_BUDGET_WARN", "80000"))
+_TOKEN_BUDGET_HARD = int(os.getenv("TOKEN_BUDGET_HARD", "0"))  # 0 = nessun hard cap
 
 # Token usati nell'ultima richiesta HTTP (aggregato tra tutte le chiamate LLM di un turno)
 _last_request_tokens: dict = {"input": 0, "output": 0, "cost_usd": 0.0, "calls": 0}
@@ -118,6 +130,31 @@ def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
     _last_request_tokens["input"] += input_tokens
     _last_request_tokens["output"] += output_tokens
     _last_request_tokens["cost_usd"] += cost
+
+
+def _record_usage_cached(model: str, input_tokens: int, output_tokens: int,
+                          cache_read: int = 0, cache_write: int = 0) -> None:
+    """Registra usage con token cache (prompt caching Anthropic)."""
+    prices = _PRICE_PER_M.get(model, {"input": 0.0, "output": 0.0, "cache_read": 0.0, "cache_write": 0.0})
+    full_input_cost = input_tokens * prices["input"] / 1_000_000
+    cache_read_cost = cache_read * prices.get("cache_read", 0.0) / 1_000_000
+    cache_write_cost = cache_write * prices.get("cache_write", prices["input"] * 1.25) / 1_000_000
+    output_cost = output_tokens * prices["output"] / 1_000_000
+    total_cost = full_input_cost + cache_read_cost + cache_write_cost + output_cost
+    # Saving vs. no caching: token that were served from cache at 0.1x price
+    savings = cache_read * (prices["input"] - prices.get("cache_read", 0.0)) / 1_000_000
+
+    _session_tokens["input"] += input_tokens
+    _session_tokens["output"] += output_tokens
+    _session_tokens["cost_usd"] += total_cost
+    _session_tokens["calls"] += 1
+    _session_tokens["cache_read_tokens"] = _session_tokens.get("cache_read_tokens", 0) + cache_read
+    _session_tokens["cache_write_tokens"] = _session_tokens.get("cache_write_tokens", 0) + cache_write
+    _session_tokens["cache_savings_usd"] = _session_tokens.get("cache_savings_usd", 0.0) + savings
+
+    _last_request_tokens["input"] += input_tokens
+    _last_request_tokens["output"] += output_tokens
+    _last_request_tokens["cost_usd"] += total_cost
     _last_request_tokens["calls"] += 1
 
 
@@ -132,6 +169,9 @@ def get_session_token_stats() -> dict:
         "cost_usd": text_cost,
         "calls": t["calls"],
         "errors": t["errors"],
+        "cache_read_tokens": t.get("cache_read_tokens", 0),
+        "cache_write_tokens": t.get("cache_write_tokens", 0),
+        "cache_savings_usd": round(t.get("cache_savings_usd", 0.0), 4),
         "image_count": _session_images["count"],
         "image_cost_usd": img_cost,
         "total_cost_usd": round(text_cost + img_cost, 4),
@@ -143,6 +183,36 @@ def reset_session_token_stats() -> None:
         _session_tokens[k] = 0.0 if k in ("cost_usd",) else 0
     for k in ("count", "cost_usd"):
         _session_images[k] = 0.0 if k == "cost_usd" else 0
+
+
+def get_token_budget_status() -> dict:
+    """R4: restituisce lo stato del budget token per la sessione corrente.
+
+    Returns:
+        total_used:    token totali usati (input + output)
+        budget_warn:   soglia di warning configurata
+        budget_pct:    percentuale usata rispetto alla soglia warning (0-100+)
+        warning:       True se sopra la soglia di warning
+        hard_cap_hit:  True se sopra il hard cap (se configurato)
+        suggestion:    stringa di suggerimento per il frontend
+    """
+    total = _session_tokens["input"] + _session_tokens["output"]
+    pct = int(total / max(1, _TOKEN_BUDGET_WARN) * 100)
+    warning = total >= _TOKEN_BUDGET_WARN
+    hard_cap_hit = bool(_TOKEN_BUDGET_HARD and total >= _TOKEN_BUDGET_HARD)
+    suggestion = ""
+    if hard_cap_hit:
+        suggestion = "Limite token sessione raggiunto. Inizia una nuova sessione."
+    elif pct >= 80:
+        suggestion = "Sessione lunga: considera di usare la compressione storia per ridurre i token."
+    return {
+        "total_used": total,
+        "budget_warn": _TOKEN_BUDGET_WARN,
+        "budget_pct": pct,
+        "warning": warning,
+        "hard_cap_hit": hard_cap_hit,
+        "suggestion": suggestion,
+    }
 
 
 def _set_last_image_error(context: str, error: Exception | str) -> None:
@@ -328,13 +398,13 @@ def _claude_client() -> anthropic.Anthropic | None:
     return anthropic.Anthropic(api_key=API_KEY, timeout=120.0)
 
 
-def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
+def _call_claude(prompt: str, max_tokens: int = 1200, model: str = MODEL_NAME) -> str:
     client = _claude_client()
     if not client:
         raise RuntimeError("API key Anthropic non configurata")
     try:
         response = client.messages.create(
-            model=MODEL_NAME,
+            model=model,
             max_tokens=max_tokens,
             messages=[{"role": "user", "content": prompt}],
         )
@@ -345,7 +415,43 @@ def _call_claude(prompt: str, max_tokens: int = 1200) -> str:
         raise RuntimeError("Claude API ha restituito una risposta vuota (content=[])")
     usage = getattr(response, "usage", None)
     if usage:
-        _record_usage(MODEL_NAME, getattr(usage, "input_tokens", 0), getattr(usage, "output_tokens", 0))
+        _record_usage(model, getattr(usage, "input_tokens", 0), getattr(usage, "output_tokens", 0))
+    return response.content[0].text
+
+
+def _call_claude_with_cache(system_text: str, user_text: str, max_tokens: int = 2400, model: str = MODEL_NAME) -> str:
+    """Chiama Claude con prompt caching sul system prompt.
+    Usa cache_control ephemeral per ridurre i token in input del 70-80% nelle sessioni lunghe.
+    Fallback su _call_claude se il client non è disponibile o la cache fallisce.
+    """
+    client = _claude_client()
+    if not client:
+        raise RuntimeError("API key Anthropic non configurata")
+    try:
+        response = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            system=[{
+                "type": "text",
+                "text": system_text,
+                "cache_control": {"type": "ephemeral"},
+            }],
+            messages=[{"role": "user", "content": user_text}],
+        )
+    except Exception:
+        _session_tokens["errors"] += 1
+        raise
+    if not response.content:
+        raise RuntimeError("Claude API ha restituito una risposta vuota (content=[])")
+    usage = getattr(response, "usage", None)
+    if usage:
+        inp = getattr(usage, "input_tokens", 0)
+        out = getattr(usage, "output_tokens", 0)
+        cache_read = getattr(usage, "cache_read_input_tokens", 0)
+        cache_write = getattr(usage, "cache_creation_input_tokens", 0)
+        _record_usage_cached(model, inp, out, cache_read, cache_write)
+        if cache_read > 0 or cache_write > 0:
+            print(f"[cache] model={model} read={cache_read} write={cache_write} input={inp} output={out}")
     return response.content[0].text
 
 
@@ -5404,6 +5510,102 @@ def _resolve_movement_destination(player_action: str, runtime, current_scene_id:
     return current_scene_id
 
 
+def compress_history(history: list[dict]) -> list[dict]:
+    """Comprimi la storia vecchia via Haiku in un riassunto compatto.
+
+    Trigger: len(history) > _COMPRESS_THRESHOLD.
+    Restituisce [summary_msg] + history[-_COMPRESS_KEEP_RECENT:].
+    Se la compressione fallisce, restituisce la history originale invariata.
+    """
+    if len(history) <= _COMPRESS_THRESHOLD:
+        return history
+
+    to_compress = history[:-_COMPRESS_KEEP_RECENT]
+    recent = history[-_COMPRESS_KEEP_RECENT:]
+
+    lines: list[str] = []
+    for msg in to_compress:
+        role_tag = "MASTER" if msg.get("role") == "master" else (msg.get("name") or "PLAYER").upper()
+        text = (msg.get("text") or "")[:280]
+        lines.append(f"[{role_tag}]: {text}")
+    old_text = "\n".join(lines)
+
+    summary_prompt = (
+        "Riassumi in italiano questa sequenza di eventi di gioco di ruolo in 4-6 punti chiave.\n"
+        "Includi: fatti scoperti, stati NPC cambiati, decisioni dei personaggi, progressi sugli obiettivi.\n"
+        "Solo fatti concreti che cambiano lo stato del gioco. Niente atmosfera o descrizioni decorative.\n"
+        "Formato: ogni punto inizia con '- '.\n\n"
+        f"EVENTI:\n{old_text}\n\nRIASSUNTO:"
+    )
+
+    client = _claude_client()
+    if not client:
+        return history
+    try:
+        response = client.messages.create(
+            model=_HAIKU_MODEL,
+            max_tokens=450,
+            messages=[{"role": "user", "content": summary_prompt}],
+        )
+        summary_text = response.content[0].text.strip()
+        turn_range = f"T1-T{len(to_compress)}"
+        summary_msg = {
+            "role": "master",
+            "name": "Sistema",
+            "text": f"[RIASSUNTO SESSIONE {turn_range}]\n{summary_text}",
+        }
+        print(f"[compress_history] {len(to_compress)} messaggi → riassunto ({len(summary_text)} chars)")
+        return [summary_msg] + recent
+    except Exception as exc:
+        print(f"[compress_history] errore Haiku (non bloccante): {exc}")
+        return history
+
+
+def generate_session_recap(
+    canonical_log: list[dict],
+    adventure: dict,
+    players: list[dict],
+) -> str:
+    """N6: genera un recap di 2-3 frasi per riprendere una sessione interrotta.
+
+    Usa Haiku sul canonical_log per produrre: dove siete, ultimo fatto stabilito,
+    prossima minaccia di clock. Restituisce stringa vuota se non ci sono eventi.
+    """
+    if not canonical_log:
+        return ""
+    client = _claude_client()
+    if not client:
+        return ""
+
+    title = (adventure or {}).get("title") or "l'avventura"
+    player_names = ", ".join(p.get("name", "Personaggio") for p in (players or []))
+    events_text = "\n".join(
+        f"- T{ev.get('turn',0)}: {ev.get('type','evento')} {ev.get('clue_id', ev.get('npc_id', ev.get('fact','')))}".strip()
+        for ev in canonical_log[-15:]
+    )
+
+    recap_prompt = (
+        f"Sei il Master di '{title}'. I personaggi ({player_names}) riprendono la sessione dopo una pausa.\n"
+        f"Basandoti sugli ultimi eventi canonici, scrivi un brevissimo recap in italiano (2-3 frasi vivide, in seconda persona plurale).\n"
+        f"Includi: dove si trovano, cosa hanno scoperto di più importante, qual è la minaccia più urgente.\n"
+        f"Non usare titoli o elenchi puntati. Solo prosa fluida come se il Master stesse parlando ai giocatori.\n\n"
+        f"ULTIMI EVENTI:\n{events_text}\n\nRECAP:"
+    )
+
+    try:
+        response = client.messages.create(
+            model=_HAIKU_MODEL,
+            max_tokens=200,
+            messages=[{"role": "user", "content": recap_prompt}],
+        )
+        recap = response.content[0].text.strip()
+        print(f"[N6] recap sessione generato ({len(recap)} chars)")
+        return recap
+    except Exception as exc:
+        print(f"[N6] errore recap (non bloccante): {exc}")
+        return ""
+
+
 def master_turn_with_bible(
     genre: str,
     players: list[dict],
@@ -5474,7 +5676,8 @@ def master_turn_with_bible(
     )
     engine_updates = director_decision.get("state_updates_required") or {}
     runtime_context = runtime_prompt_context(runtime)
-    director_context = director_prompt_context(director_decision)
+    _canonical_log = list(game_state_data.get("canonical_log") or [])
+    director_context = director_prompt_context(director_decision, canonical_log=_canonical_log)
     if runtime_warnings:
         director_context += "\n- Avvisi runtime: " + "; ".join(runtime_warnings[:4])
     sheets = "\n".join(_player_sheet(p) for p in players)
@@ -5784,53 +5987,51 @@ def master_turn_with_bible(
             pass  # non usato, ma teniamo il riferimento
     player_actions_recent = [m["text"] for m in history[-8:] if m["role"] != "master"]
 
-    prompt = f"""Sei il Master di una campagna GDR in stile {genre_label} (GURPS Lite).
-LINGUA OBBLIGATORIA: rispondi sempre in italiano naturale. Se il canovaccio contiene frasi in inglese, traducile nella narrativa e nelle opzioni mantenendo solo nomi propri e toponimi originali.
+    # ── Variabili pre-calcolate (nessun backslash nelle f-string) ────────────
+    _npc_agenda_text = npc_agenda_context or "\n- nessuna agenda strutturata"
+
+    # ── NPC static roster per system cache ────────────────────────────────────
+    _npc_roster_lines = []
+    for _npc in adventure.get("npcs", []):
+        _ag = _npc.get("npc_agenda") or {}
+        _npc_roster_lines.append(
+            f"- {_npc['name']} ({_npc.get('role','?')}): "
+            f"obiettivo={_ag.get('goal', _npc.get('motivation','?'))} | "
+            f"segreto=[RISERVATO — visibile solo se ESPOSTO] | "
+            f"location_base={_npc.get('location','?')} | "
+            f"priority={_ag.get('recurrence_priority','medium')}"
+        )
+    _npc_roster = "\n".join(_npc_roster_lines) if _npc_roster_lines else "- nessuno"
+
+    # ── System prompt (cacheable per sessione: bibbia + regole statiche) ──────
+    _gp = director_decision.get("genre_profile") or {}
+    _tone_instruction = str(_gp.get("tone_instruction") or "")
+    _tone_line = (
+        "\nSTILE NARRATIVO OBBLIGATORIO: " + _tone_instruction
+    ) if _tone_instruction else ""
+
+    _system_prompt = f"""Sei il Master di una campagna GDR in stile {genre_label} (GURPS Lite).
+LINGUA OBBLIGATORIA: rispondi sempre in italiano naturale. Se il canovaccio contiene frasi in inglese, traducile nella narrativa e nelle opzioni mantenendo solo nomi propri e toponimi originali.{_tone_line}
 
 ═══ BIBBIA AVVENTURA ═══
 Titolo: {adventure.get('title', '?')}
 Premessa: {adventure.get('premise', '?')}
 Verità nascosta (NON rivelare ancora se non è il momento): {adventure.get('hidden_truth', '?')}
-Minaccia: {adventure.get('threat_description', '?')} — livello attuale {threat_level}/{threat_max} ({threat_pct}%)
+Minaccia: {adventure.get('threat_description', '?')}
 Condizione vittoria: {adventure.get('win_condition', '?')}
-{twists_context}
 {canon_context}
 {runtime_context}
-{director_context}
 
-{locked_context_block}═══ STATO PARTITA (turno {turn}) ═══{current_location}
-PNG:{npcs_context}
-AGENDE PNG:{npc_agenda_context or "\n- nessuna agenda strutturata"}{npc_pressure_context}
-{clues_context}
-Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
-{threads_context}
-{revelation_state_block}
-═══ PERSONAGGI ═══
-{sheets}
-Ultimo ad agire: {active["name"]} ({active.get("role","")})
-Roster gruppo:
-{roster_text}
-
-═══ STORIA RECENTE ═══{history_text if history_text else " (inizio)"}
-
-═══ AZIONE ═══
-{active["name"].upper()}: {player_action}
+═══ NPC CANONICI (roster base) ═══
+{_npc_roster}
 
 ISTRUZIONI:
-1. TIRO GURPS già effettuato — NON simularlo. Esito vincolante:
-   Skill: {prerolled["skill"] if prerolled else "?"} | 3d6={prerolled["rolled"] if prerolled else "?"} vs {prerolled["effective_skill"] if prerolled else "?"} | Margine: {prerolled["margin"] if prerolled else "?"} | Esito: {prerolled["outcome"] if prerolled else "?"} | Successo: {str(prerolled["success"]) if prerolled else "?"}
-   Intento rilevato: {prerolled.get("intent", "?") if prerolled else "?"} | Skill consentite per intento: {", ".join((prerolled.get("allowed_skills") or [])[:10]) if prerolled else "?"}
-   - FALLIMENTO: il personaggio non ottiene ciò che voleva, c'è un costo narrativo concreto.
-   - SUCCESSO PARZIALE: risultato incompleto con conseguenza.
-   - SUCCESSO PIENO/CRITICO: pieno successo, narra con dettaglio.
-
 2. NARRATIVA (3-5 frasi vivide): descrivi l'esito dell'azione E fai muovere la storia. Inserisci {{{{ROLL}}}} nel punto drammatico.
    - La scena deve CAMBIARE rispetto a quella precedente: nuova informazione, reazione di un PNG, spostamento, escalation.
    - Se il gruppo è fermo sulla stessa situazione da 2+ turni, introduce una svolta: arriva un PNG, scatta una trappola, si apre un passaggio, un alleato tradisce.
    - REGOLA INDIZI (segui la progressione in PROGRESSIONE INDIZI): tick=0→hint atmosferico; tick=1→partial reveal (immediate_information); tick=2/clues_found→payoff completo. Un'azione avanza al massimo 1 tick. Non rivelare il contenuto di un indizio NASCOSTO.
 
 3. OPZIONI (3 proposte per il prossimo turno):
-   - DEVONO essere diverse da queste azioni già fatte: {'; '.join(player_actions_recent[-4:]) if player_actions_recent else 'nessuna'}
    - DEVONO essere ancorate alla situazione attuale (location, PNG presenti, indizi appena trovati, minaccia in corso).
    - Almeno una deve spingere verso la condizione di vittoria o rivelare un indizio.
    - Assegna ogni opzione al personaggio più adatto per skill e motivazione.
@@ -5891,7 +6092,40 @@ NARRATIVE AUTHORITY LIMITS — OBBLIGATORIO:
 - Narra dentro il genre_profile e usa solo escalation_types consentiti.
 - Se il tiro fallisce, produci il tipo di conseguenza indicato dal Director, non una piu grande.
 - Se il Director dice pressure increase, narra solo pressione/allarme/costo locale.
-- Non concludere l'avventura: story_over e victory valgono solo se validati dal backend.
+- Non concludere l'avventura: story_over e victory valgono solo se validati dal backend."""
+
+    # ── User prompt (per-turn: stato dinamico + azione + regole dinamiche) ────
+    _user_prompt = f"""{twists_context}
+{director_context}
+
+{locked_context_block}═══ STATO PARTITA (turno {turn}) ═══
+Livello minaccia: {threat_level}/{threat_max} ({threat_pct}%){current_location}
+PNG:{npcs_context}
+AGENDE PNG:{_npc_agenda_text}{npc_pressure_context}
+{clues_context}
+Thread aperti: {'; '.join(open_threads) if open_threads else 'nessuno'}
+{threads_context}
+{revelation_state_block}
+═══ PERSONAGGI ═══
+{sheets}
+Ultimo ad agire: {active["name"]} ({active.get("role","")})
+Roster gruppo:
+{roster_text}
+
+═══ STORIA RECENTE ═══{history_text if history_text else " (inizio)"}
+
+═══ AZIONE ═══
+{active["name"].upper()}: {player_action}
+
+ISTRUZIONI:
+1. TIRO GURPS già effettuato — NON simularlo. Esito vincolante:
+   Skill: {prerolled["skill"] if prerolled else "?"} | 3d6={prerolled["rolled"] if prerolled else "?"} vs {prerolled["effective_skill"] if prerolled else "?"} | Margine: {prerolled["margin"] if prerolled else "?"} | Esito: {prerolled["outcome"] if prerolled else "?"} | Successo: {str(prerolled["success"]) if prerolled else "?"}
+   Intento rilevato: {prerolled.get("intent", "?") if prerolled else "?"} | Skill consentite per intento: {", ".join((prerolled.get("allowed_skills") or [])[:10]) if prerolled else "?"}
+   - FALLIMENTO: il personaggio non ottiene ciò che voleva, c'è un costo narrativo concreto.
+   - SUCCESSO PARZIALE: risultato incompleto con conseguenza.
+   - SUCCESSO PIENO/CRITICO: pieno successo, narra con dettaglio.
+
+3. OPZIONI — DEVONO essere diverse da queste azioni già fatte: {'; '.join(player_actions_recent[-4:]) if player_actions_recent else 'nessuna'}
 
 REGOLA FINE AVVENTURA — OBBLIGATORIA:
 - Se threat_level >= threat_max ({threat_pct}% attuale): questo è l'ULTIMO turno. La minaccia ha vinto. Narra un finale drammatico di sconfitta ({adventure.get('threat_description','la minaccia')[:60]} si compie), poi imposta story_over=true, victory=false, end_reason="2-3 frasi in italiano che spiegano perché il gruppo ha perso: quale minaccia si è compiuta, quale errore chiave è stato fatale, cosa è andato storto". Non proporre opzioni di continuazione.
@@ -5962,6 +6196,9 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
   }}
 }}"""
 
+    # Prompt unificato (fallback per OpenAI che non supporta caching)
+    prompt = _system_prompt + "\n\n" + _user_prompt
+
     # Cortocircuito: se la minaccia è già al 100% genera il finale senza chiamare Claude
     if threat_pct >= 100:
         threat_desc = adventure.get("threat_description", "La minaccia si è compiuta.")
@@ -5987,15 +6224,70 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
             },
         }
 
-    raw = _call_text_model(prompt, max_tokens=2400)
-    if _looks_like_refusal(raw):
-        fallback_provider = _other_provider()
-        if fallback_provider:
+    # L3: model routing basato su escalation tier
+    _tier = int(director_decision.get("allowed_escalation_tier") or 3)
+    _scene_ctx = director_decision.get("scene_context") or {}
+    _is_finale = bool(
+        _scene_ctx.get("finale_condition_met")
+        or game_state_data.get("finale_condition_met")
+    )
+    if _tier >= 5 or _is_finale:
+        _routing_model = _OPUS_MODEL
+    elif _tier <= 1:
+        _routing_model = _HAIKU_MODEL
+    else:
+        _routing_model = MODEL_NAME  # Sonnet default
+    print(f"[L3] tier={_tier} finale={_is_finale} → model={_routing_model}")
+
+    # L4: retry a 3 livelli — livello 1: stessa call, livello 2: prompt semplificato, livello 3: fallback deterministico
+    def _do_call(sys_p: str, usr_p: str, mdl: str) -> str:
+        combined = sys_p + "\n\n" + usr_p
+        if _ACTIVE_PROVIDER == "claude" and API_KEY:
             try:
-                raw = _call_text_model_with_provider(fallback_provider, prompt, max_tokens=2400)
-            except Exception:
-                pass
+                return _call_claude_with_cache(sys_p, usr_p, max_tokens=2400, model=mdl)
+            except Exception as _e:
+                print(f"[retry] cache call failed ({_e}), trying standard call")
+                return _call_claude(combined, max_tokens=2400, model=mdl)
+        return _call_text_model(combined, max_tokens=2400)
+
+    # Livello 1: chiamata normale
+    raw = ""
+    try:
+        raw = _do_call(_system_prompt, _user_prompt, _routing_model)
+    except Exception as _err1:
+        print(f"[L4-1] errore chiamata principale: {_err1}")
+
+    # Livello 2: retry con prompt semplificato (no storia, no context lungo)
     if _looks_like_refusal(raw):
+        print("[L4-2] livello 1 fallito, retry con prompt semplificato")
+        _outcome_str = (prerolled or {}).get("outcome", "esito incerto")
+        _success_str = "SUCCESSO" if (prerolled or {}).get("success") else "FALLIMENTO"
+        _simple_user = f"""Turno {turn} — azione: {active.get("name","?")} → {player_action}
+Tiro: {_success_str} ({_outcome_str}), margine {(prerolled or {}).get("margin", 0)}
+Tier escalation autorizzato: {_tier}
+{director_context}
+
+Rispondi SOLO con JSON puro secondo questo schema minimo:
+{{"narrative":"...(3 frasi)...","roll":{{"rolled":{(prerolled or {}).get("rolled",0)},"target":{(prerolled or {}).get("effective_skill",10)},"skill":"{(prerolled or {}).get("skill","")}","skill_name":"{(prerolled or {}).get("skill","")}","success":{str(bool((prerolled or {}).get("success",False))).lower()},"margin":{(prerolled or {}).get("margin",0)},"critical":false}},"options":[{{"text":"Continua l'indagine","skill":"investigare","skill_level":10,"stat":"IN","player_id":{active_player_id}}},{{"text":"Confronta un PNG","skill":"negoziare","skill_level":10,"stat":"SA","player_id":{active_player_id}}},{{"text":"Azione custom","skill":"","skill_level":0,"stat":"","player_id":{active_player_id}}}],"state_updates":{{"clue_progress":[],"clues_found":[],"npc_updates":[],"new_threads":[],"closed_threads":[],"threat_increase":{1 if not (prerolled or {}).get("success") else 0},"activate_combat":false,"combat_scene":null,"combat_over":false,"story_over":false,"victory":false,"end_reason":""}}}}"""
+        try:
+            raw = _do_call(_system_prompt, _simple_user, MODEL_NAME)
+        except Exception as _err2:
+            print(f"[L4-2] errore retry semplificato: {_err2}")
+            raw = ""
+
+    # Livello 2b: prova provider alternativo se disponibile
+    if _looks_like_refusal(raw):
+        _alt = _other_provider()
+        if _alt:
+            try:
+                print(f"[L4-2b] provo provider alternativo: {_alt}")
+                raw = _call_text_model_with_provider(_alt, prompt, max_tokens=2400)
+            except Exception as _err2b:
+                print(f"[L4-2b] errore provider alternativo: {_err2b}")
+
+    # Livello 3: fallback deterministico contestualizzato
+    if _looks_like_refusal(raw):
+        print("[L4-3] tutti i retry falliti, uso fallback deterministico")
         result = _safe_master_refusal_fallback(
             adventure=adventure,
             active_name=active.get("name", "Il gruppo"),
@@ -6011,6 +6303,8 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
             director_decision=director_decision,
             narrative_text=result.get("narrative", ""),
         )
+        result["model_used"] = _routing_model
+        result["fallback_level"] = 3
         return result
     try:
         result = _extract_json_object(raw)
@@ -6069,7 +6363,47 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
                 su["end_reason"] = f"Il gruppo ha trovato tutti gli indizi necessari e risolto il clock '{resolved['label']}'. L'avventura si conclude con la loro vittoria."
             break
     result["state_updates"] = su
+
+    # ── Aggiorna canonical log con eventi di questo turno ─────────────────────
+    _new_events = _extract_canonical_events(su, turn)
+    if _new_events:
+        result["canonical_log_append"] = _new_events
+
+    result["model_used"] = _routing_model
+    # N5: propaga witness_updates per persistenza lato main.py
+    result["witness_updates"] = simulation.get("witness_updates") or []
     return result
+
+
+def _extract_canonical_events(state_updates: dict, turn: int) -> list[dict]:
+    """Estrae eventi canonici da state_updates per alimentare il canonical log."""
+    events: list[dict] = []
+    for clue_id in (state_updates.get("clues_found") or []):
+        events.append({"turn": turn, "type": "clue_revealed", "clue_id": clue_id})
+    for cp in (state_updates.get("clue_progress") or []):
+        cid = cp.get("clue_id") if isinstance(cp, dict) else None
+        if cid:
+            events.append({"turn": turn, "type": "clue_partial", "clue_id": cid})
+    for npc in (state_updates.get("npc_updates") or []):
+        if not isinstance(npc, dict):
+            continue
+        status = npc.get("status")
+        if status in ("dead", "captured", "exposed", "resolved", "missing"):
+            events.append({
+                "turn": turn, "type": "npc_state",
+                "npc_id": npc.get("id", ""), "npc_name": npc.get("name", npc.get("id", "")),
+                "status": status,
+            })
+    for thread_id in (state_updates.get("closed_threads") or []):
+        events.append({"turn": turn, "type": "thread_closed", "thread_id": thread_id})
+    for fact in (state_updates.get("discovered_facts") or []):
+        text = fact.get("text", fact) if isinstance(fact, dict) else str(fact)
+        if text:
+            events.append({"turn": turn, "type": "fact", "text": text[:120]})
+    for clock_trigger in (state_updates.get("clock_triggers") or []):
+        if isinstance(clock_trigger, dict):
+            events.append({"turn": turn, "type": "clock_triggered", "clock_id": clock_trigger.get("id", "")})
+    return events
 
 
 def evaluate_personal_victories(players: list[dict], adventure: dict, final_narrative: str, group_victory: bool) -> dict[int, bool]:
