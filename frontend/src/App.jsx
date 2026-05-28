@@ -1753,6 +1753,15 @@ function SetupScreen({ onStart }) {
   const [showBuilder, setShowBuilder] = useState(false);
   const [avatars, setAvatars] = useState({});
   const [avatarLoading, setAvatarLoading] = useState({});
+  const [serverWaking, setServerWaking] = useState(false);
+  const [wakeCountdown, setWakeCountdown] = useState(0);
+  const _waking = useRef(false);
+
+  // Keep-alive: ping ogni 13 minuti per evitare che Render spenga il backend
+  useEffect(() => {
+    const id = setInterval(() => { fetch(`${API_URL}/health`).catch(() => {}); }, 13 * 60 * 1000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     fetch(`${API_URL}/game/providers-available`).then(r => r.json()).then(d => {
@@ -2007,7 +2016,33 @@ function SetupScreen({ onStart }) {
     );
   }
 
-  async function handleStart() {
+  async function wakeAndRetry() {
+    if (_waking.current) return;
+    _waking.current = true;
+    setServerWaking(true);
+    setJsonError("");
+    const maxAttempts = 24; // 24 × 5s = 120s
+    for (let i = 0; i < maxAttempts; i++) {
+      setWakeCountdown(Math.max(0, (maxAttempts - i) * 5));
+      try {
+        const r = await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(8000) });
+        if (r.ok) {
+          _waking.current = false;
+          setServerWaking(false);
+          setWakeCountdown(0);
+          await handleStart(true);
+          return;
+        }
+      } catch (_) {}
+      await new Promise(r => setTimeout(r, 5000));
+    }
+    _waking.current = false;
+    setServerWaking(false);
+    setWakeCountdown(0);
+    setJsonError("Il server non risponde dopo 2 minuti. Controlla lo stato su render.com e riprova.");
+  }
+
+  async function handleStart(skipWake = false) {
     if (selected.length < 1) return;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 180000); // 3 minuti
@@ -2087,9 +2122,11 @@ function SetupScreen({ onStart }) {
       const isTimeout = e?.name === "AbortError";
       const isNetwork = e?.message === "Load failed" || e?.message === "Failed to fetch" || e?.message?.includes("NetworkError");
       let msg;
-      if (isTimeout) msg = "Il server impiega troppo tempo a rispondere. Se usi Render free tier, aspetta 60s e riprova.";
+      if (isTimeout && import.meta.env.PROD && !skipWake) { wakeAndRetry(); return; }
+      else if (isNetwork && import.meta.env.PROD && !skipWake) { wakeAndRetry(); return; }
+      else if (isTimeout) msg = "Il server impiega troppo tempo a rispondere. Se usi Render free tier, aspetta 60s e riprova.";
       else if (isNetwork && !import.meta.env.PROD) msg = "Backend non raggiungibile su " + (typeof API_URL !== "undefined" ? API_URL : "localhost:8002") + ". Avvia il server con: cd backend && uvicorn App.main:app --port 8002";
-      else if (isNetwork) msg = "Server non raggiungibile. Se è il primo avvio dopo inattività, attendi 60s e riprova.";
+      else if (isNetwork) msg = "Server non raggiungibile. Riprova.";
       else msg = e.message || "Errore di connessione al server.";
       setJsonError(msg);
     }
@@ -2599,12 +2636,29 @@ function SetupScreen({ onStart }) {
           })}
         </div>
 
-        {jsonError && (
-          <div style={{ color: "#f87171", fontSize: 13, padding: "10px 14px", borderRadius: 8, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", marginBottom: 10, lineHeight: 1.4 }}>
-            ❌ {jsonError}
+        {serverWaking && (
+          <div style={{ color: "#f59e0b", fontSize: 13, padding: "10px 14px", borderRadius: 8, background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.3)", marginBottom: 10, lineHeight: 1.5 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <span style={{ display: "inline-block", animation: "spin 1.2s linear infinite" }}>⏳</span>
+              <strong>Server Render in avvio...</strong>
+            </div>
+            <div style={{ opacity: 0.8, fontSize: 12 }}>
+              Render free tier si sveglia dopo inattività (30–90 secondi). Riprovo automaticamente tra <strong>{wakeCountdown}s</strong>.
+            </div>
+            <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
           </div>
         )}
-        <button onClick={handleStart} disabled={selected.length === 0 || loading} style={{
+        {!serverWaking && jsonError && (
+          <div style={{ color: "#f87171", fontSize: 13, padding: "10px 14px", borderRadius: 8, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", marginBottom: 10, lineHeight: 1.4, display: "flex", flexDirection: "column", gap: 6 }}>
+            <span>❌ {jsonError}</span>
+            {import.meta.env.PROD && (
+              <button onClick={() => wakeAndRetry()} style={{ alignSelf: "flex-start", padding: "4px 12px", borderRadius: 6, border: "1px solid rgba(239,68,68,0.5)", background: "rgba(239,68,68,0.15)", color: "#f87171", fontSize: 12, cursor: "pointer", fontWeight: 600 }}>
+                ↻ Riprova svegliare il server
+              </button>
+            )}
+          </div>
+        )}
+        <button onClick={() => handleStart()} disabled={selected.length === 0 || loading || serverWaking} style={{
           width: "100%", padding: "14px 0", borderRadius: 12, border: "none",
           background: selected.length > 0 ? "var(--accent)" : "var(--border)",
           color: "#fff", fontWeight: 800, fontSize: 17, cursor: selected.length > 0 ? "pointer" : "not-allowed",
@@ -6663,6 +6717,12 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const inputRef = useRef(null);
   const messagesRef = useRef([]);
   const menuRef = useRef(null);
+
+  // Keep-alive: ping ogni 13 minuti per evitare che Render spenga il backend durante il gioco
+  useEffect(() => {
+    const id = setInterval(() => { fetch(`${API_URL}/health`).catch(() => {}); }, 13 * 60 * 1000);
+    return () => clearInterval(id);
+  }, []);
 
   function hasLivingCombatEnemies(scene) {
     return Array.isArray(scene?.entities)
