@@ -3212,7 +3212,7 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
   }
 
   const NODE_W = 96;
-  const NODE_H = 68;
+  const NODE_H = 76;
   const PAD = 20;
 
   // Choose layout mode: geographic (backdrop + positions) or grid fallback
@@ -3412,44 +3412,50 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
                 strokeWidth={isCurrent ? 2.5 : isObj ? 2.5 : 1.5}
               />
 
-              {/* Status badge top-left */}
-              <rect x={p.x+4} y={p.y+4} width={isCurrent ? 32 : 18} height={13} rx={3}
-                fill={isCurrent ? "#7c3aed" : isObj ? "rgba(251,191,36,0.9)" : status==="visited" ? "rgba(74,222,128,0.15)" : "rgba(0,0,0,0.4)"}
+              {/* Status dot + label (no rect, fits text size) */}
+              <circle cx={p.x+7} cy={p.y+9} r={3.5}
+                fill={isCurrent ? "#c084fc" : isObj ? "#fbbf24" : status==="visited" ? "#4ade80" : "rgba(255,255,255,0.18)"}
               />
-              <text x={p.x+6} y={p.y+13} fontSize={7} fontWeight="800"
-                fill={isCurrent ? "#fff" : isObj ? "#000" : status==="visited" ? "#4ade80" : "rgba(255,255,255,0.4)"}>
-                {isCurrent ? "● QUI" : isObj ? "★" : status==="visited" ? "✓" : isAdjacent ? "?" : "~"}
+              <text x={p.x+13} y={p.y+12} fontSize={6.5} fontWeight="800"
+                fill={isCurrent ? "#e9d5ff" : isObj ? "#fbbf24" : status==="visited" ? "#4ade80" : "rgba(255,255,255,0.35)"}>
+                {isCurrent ? "QUI" : isObj ? "OBJ" : status==="visited" ? "VIS" : isAdjacent ? "?" : "~"}
               </text>
 
-              {/* Move arrow top-right */}
-              {moveable && <text x={p.x+NODE_W-5} y={p.y+14} fontSize={10} textAnchor="end" fill="#60a5fa" opacity={hovered?1:0.4}>→</text>}
+              {/* Move hint top-right */}
+              {moveable && <text x={p.x+NODE_W-5} y={p.y+12} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered?1:0.35}>→</text>}
 
               {/* Location name — centered */}
-              <text x={p.x+NODE_W/2} y={p.y+38} textAnchor="middle" fontSize={9} fontWeight="900"
-                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.75)"}
+              <text x={p.x+NODE_W/2} y={p.y+34} textAnchor="middle" fontSize={9} fontWeight="900"
+                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.8)"}
                 style={{ fontFamily: "system-ui, sans-serif" }}>
                 {line1}
               </text>
 
-              {/* Icons row */}
-              <text x={p.x+NODE_W/2} y={p.y+50} textAnchor="middle" fontSize={9}>
-                {n.contains_enemy ? "⚔ " : ""}{n.contains_clue ? "🔍 " : ""}{n.contains_loot ? "💰" : ""}
+              {/* Content icons */}
+              <text x={p.x+NODE_W/2} y={p.y+47} textAnchor="middle" fontSize={8}>
+                {n.contains_enemy ? "⚔" : ""}{n.contains_clue ? "🔍" : ""}{n.contains_loot ? "💰" : ""}
               </text>
 
-              {/* Character tokens */}
-              {tokens.length > 0 && tokens.slice(0, 5).map((tok, ti) => {
-                const tx = p.x + 6 + ti * 17;
-                const ty = p.y + NODE_H - 10;
-                return (
-                  <g key={ti}>
-                    <circle cx={tx} cy={ty} r={7}
-                      fill={tok.color} opacity={0.9}
-                      stroke="rgba(0,0,0,0.5)" strokeWidth={1}
-                    />
-                    <text x={tx} y={ty+3} textAnchor="middle" fontSize={7} fontWeight="800" fill="#fff">{tok.label}</text>
-                  </g>
-                );
-              })}
+              {/* Character tokens — centered horizontally */}
+              {tokens.length > 0 && (() => {
+                const visible = tokens.slice(0, 5);
+                const spacing = 16;
+                const totalW = visible.length * spacing - (spacing - 14);
+                const startX = p.x + NODE_W / 2 - totalW / 2 + 7;
+                const ty = p.y + NODE_H - 12;
+                return visible.map((tok, ti) => {
+                  const tx = startX + ti * spacing;
+                  return (
+                    <g key={ti}>
+                      <circle cx={tx} cy={ty} r={7}
+                        fill={tok.color} opacity={0.95}
+                        stroke="rgba(0,0,0,0.6)" strokeWidth={1.2}
+                      />
+                      <text x={tx} y={ty+3} textAnchor="middle" fontSize={6.5} fontWeight="900" fill="#fff">{tok.label}</text>
+                    </g>
+                  );
+                });
+              })()}
 
               {/* Hover tooltip */}
               {hovered && moveable && (
@@ -4058,7 +4064,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
             <button style={tabStyle("gm_threads")} onClick={() => setTab("gm_threads")}>Piste</button>
             <button style={tabStyle("gm_clues")} onClick={() => setTab("gm_clues")}>Indizi</button>
             <button style={tabStyle("gm_npcs")} onClick={() => setTab("gm_npcs")}>PNG</button>
-            <button style={tabStyle("gm_map")} onClick={() => setTab("gm_map")}>Mappa</button>
+            {mapState && <button style={{ ...tabStyle("gm_map"), color: "var(--accent)" }} onClick={() => { onOpenMap && onOpenMap(); }}>🗺 Mappa</button>}
             <button style={tabStyle("gm_clocks")} onClick={() => setTab("gm_clocks")}>
               ⏱{(clocksData || []).length > 0 ? ` ${(clocksData || []).length}` : ""}
             </button>
@@ -4356,12 +4362,6 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
                 </div>
               );
             })}
-          </div>
-        )}
-
-        {isGmMode && tab === "gm_map" && (
-          <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-            <LocationGraph mapState={mapState} isGM={true} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
           </div>
         )}
 
