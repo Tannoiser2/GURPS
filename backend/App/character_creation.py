@@ -13,6 +13,7 @@ from .models import CharacterDraft, CharacterValidation, Player, Action
 from .data_skills import SKILL_INFO, default_skill_for, VALID_SKILLS, normalize_skill, normalize_stat
 from .data_advantages import ADVANTAGES, advantage_dodge_bonus, advantage_death_threshold_mult, advantage_will_modifier, advantage_per_modifier, trait_cost
 from .engine import build_players_from_dicts
+from .equipment_coherence import validate_gear_for_genre, starter_item_names
 
 # ─── Costo stat GURPS ────────────────────────────────────────────────────────
 # Ogni punto oltre 10 costa 10 pt; ogni punto sotto 10 restituisce 10 pt.
@@ -156,6 +157,11 @@ def validate_draft(draft: CharacterDraft) -> CharacterValidation:
     if disadv_refund < _DISADV_LIMIT:
         errors.append(f"Troppi svantaggi: rimborso totale {disadv_refund} supera il limite di {_DISADV_LIMIT} pt")
 
+    # ── Coerenza equipaggiamento con il genere ───────────────────────────────
+    if draft.items and draft.genre:
+        gear_warnings = validate_gear_for_genre(list(draft.items), draft.genre)
+        warnings.extend(gear_warnings)
+
     # ── Punti ─────────────────────────────────────────────────────────────────
     total, sc, skc, avc = point_total(draft)
     remaining = _POINT_BUDGET - total
@@ -216,6 +222,14 @@ def build_custom_player(draft: CharacterDraft) -> Player:
     player_id = _NEXT_CUSTOM_ID
     _NEXT_CUSTOM_ID += 1
 
+    # Auto-assegna equipaggiamento iniziale se non specificato
+    if draft.items:
+        assigned_items = list(draft.items)
+    else:
+        archetype = (draft.archetype or "").lower()
+        genre = draft.genre or "fantasy"
+        assigned_items = starter_item_names(archetype, genre)
+
     player_dict = {
         "id": player_id,
         "name": draft.name,
@@ -226,7 +240,7 @@ def build_custom_player(draft: CharacterDraft) -> Player:
         "advantages": list(draft.advantages or []),
         "disadvantages": list(draft.disadvantages or []),
         "dr": draft.dr,
-        "items": list(draft.items or []),
+        "items": assigned_items,
         "backstory": draft.backstory or "",
         "motivation": draft.motivation or "",
         "actions": [],

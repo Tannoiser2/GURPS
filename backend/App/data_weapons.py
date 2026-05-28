@@ -570,6 +570,45 @@ WEAPON_TABLE: list[dict] = [
         "notes": "Fucile ad avancarica rigato TL5; Guerra Civile. Ricarica 15 turni.",
         "eras": [ERA_WESTERN],
     },
+
+    # ─── ARMI A DISTANZA — MODERNE AGGIUNTIVE (GURPS 4e Basic Set) ──────────
+
+    {
+        "id": "blunderbuss", "name": "Blunderbuss", "skill": "fucile",
+        "attack_kind": "ranged", "damage": "1d",    "damage_type": "pi",
+        "acc": 1, "range_half": 15, "range_max": 100, "bulk": -5,
+        "ammo": 1, "rcl": 1, "reload": 15, "st_min": 11, "lc": 4,
+        "cost": 150, "weight": 12.0,
+        "notes": "Sparo a pallini ×9; efficace solo a corta distanza. TL4. Ricarica 15 turni.",
+        "eras": [ERA_STEAMPUNK],
+    },
+    {
+        "id": "derringer", "name": "Derringer", "skill": "pistola",
+        "attack_kind": "ranged", "damage": "1d",    "damage_type": "pi+",
+        "acc": 1, "range_half": 80, "range_max": 650, "bulk": -1,
+        "ammo": 2, "rcl": 2, "reload": 3, "st_min": 9, "lc": 4,
+        "cost": 150, "weight": 0.5,
+        "notes": "Pistola tascabile nascondibile (TL5); 2 colpi; facile da occultare.",
+        "eras": [ERA_WESTERN, ERA_HORROR],
+    },
+    {
+        "id": "carabina_lever_action", "name": "Carabina a leva", "skill": "fucile",
+        "attack_kind": "ranged", "damage": "5d",    "damage_type": "pi",
+        "acc": 4, "range_half": 450, "range_max": 3000, "bulk": -4,
+        "ammo": 6, "rcl": 2, "reload": 1, "st_min": 10, "lc": 3,
+        "cost": 300, "weight": 7.0,
+        "notes": "Azione a leva TL5; 1 turno per ricaricare singolo colpo.",
+        "eras": [ERA_WESTERN, ERA_MODERN],
+    },
+    {
+        "id": "fucile_bolt_action", "name": "Fucile a otturatore", "skill": "fucile",
+        "attack_kind": "ranged", "damage": "7d",    "damage_type": "pi",
+        "acc": 5, "range_half": 1000, "range_max": 4200, "bulk": -5,
+        "ammo": 5, "rcl": 4, "reload": 3, "st_min": 10, "lc": 3,
+        "cost": 350, "weight": 8.9,
+        "notes": "TL6; guerra e caccia pesante (WWI/II). Canna lunga, precisissimo.",
+        "eras": [ERA_MODERN, ERA_HORROR],
+    },
 ]
 
 # ── Indici rapidi ──────────────────────────────────────────────────────────────
@@ -621,9 +660,15 @@ ITEM_NAME_TO_WEAPON_ID: dict[str, str] = {
     "moschetto": "moschetto", "musket": "moschetto", "moschetto ad avancarica": "moschetto",
     "revolver 36": "revolver_36", "revolver .36": "revolver_36",
     "fucile rigato": "fucile_rigato", "rifle musket": "fucile_rigato",
+    # Moderni aggiuntivi
+    "blunderbuss": "blunderbuss", "archibugio": "blunderbuss",
+    "derringer": "derringer", "pistola tascabile": "derringer",
+    "carabina a leva": "carabina_lever_action",
+    "fucile a otturatore": "fucile_bolt_action", "bolt action": "fucile_bolt_action",
+    "fucile seconda guerra": "fucile_bolt_action",
     # Firearms western
     "colt": "colt45", "revolver": "pistola_38", "pistola revolver": "pistola_38",
-    "winchester": "winchester", "carabina": "winchester",
+    "winchester": "winchester", "carabina": "carabina_lever_action",
     "doppietta": "doppietta", "fucile a pompa": "doppietta",
     # Firearms modern
     "pistola": "pistola_9mm", "pistola 9mm": "pistola_9mm", "9mm": "pistola_9mm",
@@ -698,6 +743,8 @@ ARCHETYPE_WEAPON_MAP: dict[str, tuple[str, int]] = {
     "forensic":    ("pistola_9mm", 1),
     # Western
     "hunter":      ("winchester",  2),
+    "sharpshooter": ("fucile_bolt_action", 3),
+    "cowboy":       ("carabina_lever_action", 2),
     "gunslinger":  ("colt45",      3),
     # Military
     "partisan":    ("fucile_assalto", 2),
