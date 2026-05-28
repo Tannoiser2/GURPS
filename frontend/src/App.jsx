@@ -2021,25 +2021,28 @@ function SetupScreen({ onStart }) {
     _waking.current = true;
     setServerWaking(true);
     setJsonError("");
-    const maxAttempts = 24; // 24 × 5s = 120s
-    for (let i = 0; i < maxAttempts; i++) {
-      setWakeCountdown(Math.max(0, (maxAttempts - i) * 5));
-      try {
-        const r = await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(8000) });
-        if (r.ok) {
-          _waking.current = false;
-          setServerWaking(false);
-          setWakeCountdown(0);
-          await handleStart(true);
-          return;
-        }
-      } catch (_) {}
-      await new Promise(r => setTimeout(r, 5000));
-    }
+    // Countdown UI aggiornato ogni secondo
+    let secs = 90;
+    setWakeCountdown(secs);
+    const ticker = setInterval(() => { secs = Math.max(0, secs - 1); setWakeCountdown(secs); }, 1000);
+    try {
+      // Una singola richiesta con timeout lungo: Render tiene la connessione aperta
+      // finché il server si sveglia (30–90s), non serve polling.
+      const r = await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(100000) });
+      clearInterval(ticker);
+      if (r.ok) {
+        _waking.current = false;
+        setServerWaking(false);
+        setWakeCountdown(0);
+        await handleStart(true);
+        return;
+      }
+    } catch (_) {}
+    clearInterval(ticker);
     _waking.current = false;
     setServerWaking(false);
     setWakeCountdown(0);
-    setJsonError("Il server non risponde dopo 2 minuti. Controlla lo stato su render.com e riprova.");
+    setJsonError("Il server non risponde. Controlla lo stato su render.com e riprova.");
   }
 
   async function handleStart(skipWake = false) {
@@ -2643,7 +2646,7 @@ function SetupScreen({ onStart }) {
               <strong>Server Render in avvio...</strong>
             </div>
             <div style={{ opacity: 0.8, fontSize: 12 }}>
-              Render free tier si sveglia dopo inattività (30–90 secondi). Riprovo automaticamente tra <strong>{wakeCountdown}s</strong>.
+              Render free tier si sveglia dopo inattività (30–90 secondi). Connessione aperta, attendo risposta... <strong>{wakeCountdown}s</strong>
             </div>
             <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
           </div>
