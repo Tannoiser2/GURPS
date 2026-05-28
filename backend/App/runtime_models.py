@@ -167,6 +167,18 @@ class RuntimeClue(BaseModel):
     unlocks: List[str] = []
     possible_actions: List[str] = []
     wrong_interpretations: List[str] = []
+
+    @field_validator(
+        "revelation_ids", "unlocks", "possible_actions", "wrong_interpretations",
+        mode="before",
+    )
+    @classmethod
+    def _coerce_str_to_list(cls, v):
+        if v is None:
+            return []
+        if isinstance(v, str):
+            return [v] if v.strip() else []
+        return v
     source_ref: Dict[str, Any] = {}
     source_status: SourceStatus = "generated"
     is_preserved_from_pdf: bool = False

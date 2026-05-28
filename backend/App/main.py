@@ -165,7 +165,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "1b3b38f-legacy-tolerant"
+BUILD_VERSION = "v2-clue-list-coerce"
 
 @app.get("/health")
 def health_check():
