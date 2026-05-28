@@ -3484,9 +3484,21 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
           const borderColor = isCurrent ? "#c084fc" : isObj ? "#fbbf24" : status === "visited" ? "rgba(74,222,128,0.75)" : isAdjacent ? "rgba(96,165,250,0.5)" : "rgba(255,255,255,0.12)";
           const cardFill = isCurrent ? "rgba(124,58,237,0.55)" : status === "visited" ? "rgba(30,22,72,0.95)" : isAdjacent ? "rgba(22,18,55,0.85)" : "rgba(18,14,45,0.88)";
 
-          // Wrap name to 2 lines
+          // Wrap name su 2 righe per parole (no truncation)
           const name = n.name || "???";
-          const line1 = name.length > 14 ? name.slice(0, 13) + "…" : name;
+          const [line1, line2] = (() => {
+            if (name.length <= 16) return [name, ""];
+            const words = name.split(/\s+/);
+            const mid = Math.ceil(words.length / 2);
+            const a = words.slice(0, mid).join(" ");
+            const b = words.slice(mid).join(" ");
+            // se una riga è troppo lunga, fallback a split a metà
+            if (a.length > 22 || b.length > 22) {
+              const half = Math.ceil(name.length / 2);
+              return [name.slice(0, half), name.slice(half)];
+            }
+            return [a, b];
+          })();
 
           return (
             <g key={n.id}
@@ -3516,13 +3528,21 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
               {/* Move hint top-right */}
               {moveable && <text x={p.x+NODE_W-5} y={p.y+12} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered?1:0.35}>→</text>}
 
-              {/* Location name — centered, con contorno scuro per leggibilità */}
-              <text x={p.x+NODE_W/2} y={p.y+34} textAnchor="middle" fontSize={9} fontWeight="900"
-                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.92)"}
-                stroke="rgba(0,0,0,0.75)" strokeWidth={2.5} paintOrder="stroke"
+              {/* Location name — centered, 2 righe, contorno scuro per leggibilità */}
+              <text x={p.x+NODE_W/2} y={p.y+32} textAnchor="middle" fontSize={11} fontWeight="900"
+                fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.96)"}
+                stroke="rgba(0,0,0,0.85)" strokeWidth={3} paintOrder="stroke"
                 style={{ fontFamily: "system-ui, sans-serif" }}>
                 {line1}
               </text>
+              {line2 && (
+                <text x={p.x+NODE_W/2} y={p.y+45} textAnchor="middle" fontSize={11} fontWeight="900"
+                  fill={isCurrent ? "#e9d5ff" : status==="visited" ? "#f1f5f9" : "rgba(255,255,255,0.96)"}
+                  stroke="rgba(0,0,0,0.85)" strokeWidth={3} paintOrder="stroke"
+                  style={{ fontFamily: "system-ui, sans-serif" }}>
+                  {line2}
+                </text>
+              )}
 
               {/* Content icons */}
               <text x={p.x+NODE_W/2} y={p.y+47} textAnchor="middle" fontSize={8}>
@@ -4321,7 +4341,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
                 return (
                   <div key={t.id || i} style={{ padding: "9px 10px", borderRadius: 8, marginBottom: 8, background: "var(--code-bg)", border: `1px solid ${sc}33`, borderLeft: `3px solid ${sc}` }}>
                     <div style={{ display: "flex", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question || t.title || t.name || t.id || "(pista senza titolo)"}</div>
+                      <div style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)", lineHeight: 1.35 }}>{t.question || t.title || t.name || t.statement || t.description || t.summary || (t.id && t.id !== "thread_main" ? t.id : "(pista senza titolo)")}</div>
                       <span style={{ fontSize: 9, color: sc, textTransform: "uppercase", flexShrink: 0, fontWeight: 700 }}>{statusLabel(t.status)}</span>
                     </div>
                     {(t.true_answer || t.answer || t.solution) && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.45, marginBottom: 4 }}><b>Risposta:</b> {t.true_answer || t.answer || t.solution}</div>}
