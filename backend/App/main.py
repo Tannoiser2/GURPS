@@ -2449,11 +2449,14 @@ def select_team(payload: TeamSelectionPayload):
         adventure_bible = payload.adventure_bible
         if (not adventure_bible or not adventure_bible.get("adventure_definition")) and payload.runtime_id:
             data = load_runtime(payload.runtime_id)
-            if data:
+            if data and data.get("adventure_definition"):
+                # File pre-esistenti possono non avere runtime_state: genera default
+                defn = data["adventure_definition"]
+                rt_state = data.get("runtime_state") or {"definition_id": defn.get("id") or payload.runtime_id}
                 adventure_bible = {
-                    **(data.get("adventure_definition", {}).get("legacy_adventure") or {}),
-                    "adventure_definition": data["adventure_definition"],
-                    "runtime_state": data["runtime_state"],
+                    **(defn.get("legacy_adventure") or {}),
+                    "adventure_definition": defn,
+                    "runtime_state": rt_state,
                     "runtime_id": payload.runtime_id,
                 }
         if not adventure_bible or not adventure_bible.get("adventure_definition"):
