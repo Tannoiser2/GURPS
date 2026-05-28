@@ -4,10 +4,6 @@
   "installCommand": "cd frontend && npm ci",
   "rewrites": [
     {
-      "source": "/api/:path*",
-      "destination": "https://gurps-f93w.onrender.com/:path*"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
