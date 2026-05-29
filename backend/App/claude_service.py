@@ -4626,7 +4626,7 @@ _COMPLEXITY_SCALES = {
         "label": "Compatta", "emoji": "🗜",
         "npc_count": "3-4", "clue_count": "5-6", "thread_count": "2",
         "twist_count": "1",
-        "location_strategic": "2", "location_regional": "2-3 per area strategica", "location_tactical": "1-2 zone tattiche totali",
+        "location_strategic": "2", "location_regional": "2-3 per area strategica", "location_local": "2-3 locali per area regionale",
         "additional_directives": "",
         "max_tokens": 3500,
         "clue_slice": 10, "npc_slice": 8, "loc_slice": 10,
@@ -4635,7 +4635,7 @@ _COMPLEXITY_SCALES = {
         "label": "Standard", "emoji": "⚖",
         "npc_count": "5-7", "clue_count": "8-10", "thread_count": "3",
         "twist_count": "2",
-        "location_strategic": "2-3", "location_regional": "3-4 per area strategica", "location_tactical": "2-3 zone tattiche totali",
+        "location_strategic": "2-3", "location_regional": "3-4 per area strategica", "location_local": "2-4 locali per area regionale",
         "additional_directives": (
             "- Includi almeno 1 falso indizio che punta al sospetto sbagliato\n"
             "- Includi almeno 1 subplot secondario (una storia minore che incrocia quella principale)\n"
@@ -4648,7 +4648,7 @@ _COMPLEXITY_SCALES = {
         "label": "Epica", "emoji": "🔥",
         "npc_count": "7-10", "clue_count": "12-15", "thread_count": "4-5",
         "twist_count": "3",
-        "location_strategic": "3-4", "location_regional": "3-5 per area strategica", "location_tactical": "3-4 zone tattiche totali",
+        "location_strategic": "3-4", "location_regional": "3-5 per area strategica", "location_local": "3-5 locali per area regionale",
         "additional_directives": (
             "- Sistema di fazioni (almeno 3 gruppi con agendas esplicite, anche se il template non è 'web')\n"
             "- Almeno 1 subplot con arco narrativo completo\n"
@@ -4754,7 +4754,7 @@ def _build_create_adventure_prompt(
     twist_count = scale_cfg["twist_count"]
     location_strategic = scale_cfg["location_strategic"]
     location_regional = scale_cfg["location_regional"]
-    location_tactical = scale_cfg["location_tactical"]
+    location_local = scale_cfg["location_local"]
     additional = scale_cfg["additional_directives"] or "- Struttura pulita e giocabile in poche sessioni"
 
     json_schema = f"""{{
@@ -4792,15 +4792,17 @@ def _build_create_adventure_prompt(
     "finale_conditions": ["condizione finale concreta"]
   }},
   "locations": [
-    // === LIVELLO STRATEGICO (aree macro, parent_location_id vuoto) ===
-    {{"id": "area_1", "location_type": "strategic", "name": "Nome area principale", "description": "Descrizione geografica/scenica dell'area", "parent_location_id": "", "connections_to": ["area_2"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
-    {{"id": "area_2", "location_type": "strategic", "name": "Seconda area", "description": "...", "parent_location_id": "", "connections_to": ["area_1", "area_3"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
-    // === LIVELLO REGIONALE (luoghi specifici dentro un'area, parent = ID area strategica) ===
-    {{"id": "area_1_loc_a", "location_type": "regional", "name": "Luogo specifico", "description": "Descrizione dettagliata del luogo", "parent_location_id": "area_1", "connections_to": ["area_1_loc_b"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
-    {{"id": "area_1_loc_b", "location_type": "regional", "name": "Altro luogo", "description": "...", "parent_location_id": "area_1", "connections_to": ["area_1_loc_a", "area_2_loc_a"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
-    // === LIVELLO TATTICO (zone combattimento, parent = ID location regionale) ===
-    {{"id": "area_1_loc_a_tac_1", "location_type": "tactical", "name": "Zona scontro", "description": "Descrizione della zona per il combattimento", "parent_location_id": "area_1_loc_a", "connections_to": [], "has_combat_potential": true, "tactical_map": {{"enabled": true, "role": "hot_zone", "layout": "room", "features": ["copertura", "ostacolo"], "hazards": ["trappola"], "trigger": "quando inizia il confronto"}}}},
-    "// GENERA {location_strategic} aree strategiche + {location_regional} + {location_tactical}"
+    // === LIVELLO STRATEGICO (mappa del mondo/regno, parent_location_id vuoto) ===
+    {{"id": "area_1", "location_type": "strategic", "name": "Nome regno/regione", "description": "Descrizione geografica e scenica", "parent_location_id": "", "connections_to": ["area_2"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    {{"id": "area_2", "location_type": "strategic", "name": "Seconda regione", "description": "...", "parent_location_id": "", "connections_to": ["area_1"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    // === LIVELLO REGIONALE (città, dungeon, foresta — parent = area strategica) ===
+    {{"id": "area_1_city_a", "location_type": "regional", "name": "Città o dungeon specifico", "description": "...", "parent_location_id": "area_1", "connections_to": ["area_1_city_b"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    {{"id": "area_1_city_b", "location_type": "regional", "name": "Altro insediamento", "description": "...", "parent_location_id": "area_1", "connections_to": ["area_1_city_a", "area_2_city_a"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    // === LIVELLO LOCALE (taverna, prigione, stanza del boss — parent = location regionale) ===
+    // Nota: tactical_map è opzionale — aggiungilo SOLO se combat_potential è true
+    {{"id": "area_1_city_a_loc_1", "location_type": "local", "name": "La Taverna del Cinghiale", "description": "...", "parent_location_id": "area_1_city_a", "connections_to": ["area_1_city_a_loc_2"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    {{"id": "area_1_city_a_loc_2", "location_type": "local", "name": "Prigione del Castello", "description": "...", "parent_location_id": "area_1_city_a", "connections_to": ["area_1_city_a_loc_1"], "has_combat_potential": true, "tactical_map": {{"enabled": true, "role": "hot_zone", "layout": "narrow", "features": ["sbarre", "copertura muro"], "hazards": ["buio", "guardie"], "trigger": "quando i PG tentano la fuga"}}}},
+    "// GENERA {location_strategic} aree strategiche + {location_regional} + {location_local}"
   ]{extra}
 }}"""
 
@@ -4820,15 +4822,16 @@ QUANTITÀ OBBLIGATORIE:
 - Indizi: {clue_count} (NON di meno)
 - Piste (story_threads): {thread_count}
 - Colpi di scena (twists): {twist_count}
-- Location STRATEGICHE (aree macro, parent vuoto): {location_strategic}
-- Location REGIONALI (luoghi specifici, parent = area strategica): {location_regional}
-- Location TATTICHE (zone combattimento, parent = location regionale): {location_tactical}
+- Location STRATEGICHE (mappa mondo/regno, parent vuoto): {location_strategic}
+- Location REGIONALI (città/dungeon/zone, parent = strategica): {location_regional}
+- Location LOCALI (taverne/stanze/edifici specifici, parent = regionale): {location_local}
 
 STRUTTURA MAPPA OBBLIGATORIA:
-- Ogni location strategica deve avere connections_to alle altre aree raggiungibili
-- Ogni location regionale deve avere connections_to ad altri luoghi nello stesso parent o in aree adiacenti
-- Le location tattiche sono zone di combattimento figlie di una location regionale
-- Gli ID devono riflettere la gerarchia: area_1 → area_1_loc_a → area_1_loc_a_tac_1
+- Ogni location strategica ha connections_to alle altre aree raggiungibili
+- Ogni location regionale ha connections_to agli altri luoghi nella stessa area o adiacenti
+- Ogni location locale ha connections_to agli altri locali nella stessa regione
+- Gli ID riflettono la gerarchia: area_1 → area_1_city_a → area_1_city_a_loc_1
+- tactical_map va aggiunto SOLO sulle location locali con has_combat_potential: true
 
 REQUISITI AGGIUNTIVI:
 {additional}
@@ -4838,7 +4841,7 @@ VIETATO:
 - Iniziare la premessa con "Un misterioso cliente vi ha assunto" o "Una lettera anonima"
 - NPC tutti neutrali o tutti alleati — servono tensioni tra loro
 - Indizi tutti dello stesso tipo — varia tra prove fisiche, testimonianze, documenti, comportamenti
-- Location senza connections_to (almeno le strategiche e regionali devono essere collegate)
+- Location senza connections_to (strategiche, regionali e locali devono essere collegate tra loro)
 
 Rispondi SOLO con il JSON seguente (genera il numero esatto di elementi richiesti, non di meno):
 
@@ -5212,7 +5215,7 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
     _loc_parents = {str(l.get("id", "")): str(l.get("parent_location_id") or "") for l in locations if isinstance(l, dict)}
 
     def _infer_location_type(loc_id: str, parent_id: str, explicit: str) -> str:
-        valid = {"strategic", "regional", "tactical"}
+        valid = {"strategic", "regional", "local"}
         if explicit in valid:
             return explicit
         if not parent_id:
@@ -5220,7 +5223,7 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
         grandparent = _loc_parents.get(parent_id, "")
         if not grandparent:
             return "regional"
-        return "tactical"
+        return "local"
 
     enriched_locations = []
     for i, loc in enumerate(locations):
