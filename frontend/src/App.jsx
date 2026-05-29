@@ -3227,6 +3227,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [locations, setLocations] = React.useState(() => JSON.parse(JSON.stringify(def0.locations || [])));
   const [objectives, setObjectives] = React.useState(() => JSON.parse(JSON.stringify(def0.objectives || [])));
   const [revelations, setRevelations] = React.useState(() => JSON.parse(JSON.stringify(def0.revelations || [])));
+  const [mapState, setMapState] = React.useState(() => JSON.parse(JSON.stringify(def0.map_state || {})));
   const [tab, setTab] = React.useState("npcs");
   const [dirty, setDirty] = React.useState(false);
   const [expandedNpc, setExpandedNpc] = React.useState(null);
@@ -3363,6 +3364,74 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     });
     setDirty(true);
   }
+  // ── Mappa strategica ──
+  function patchMapState(key, val) {
+    setMapState(m => ({ ...m, [key]: val }));
+    setDirty(true);
+  }
+  function patchMapNode(nodeId, key, val) {
+    setMapState(m => {
+      const nodes = { ...(m.nodes || {}) };
+      nodes[nodeId] = { ...(nodes[nodeId] || {}), [key]: val };
+      return { ...m, nodes };
+    });
+    setDirty(true);
+  }
+  function addMapNode() {
+    setMapState(m => {
+      const nodes = { ...(m.nodes || {}) };
+      let nid = "n_1";
+      let i = 1;
+      while (nodes[nid]) { i++; nid = `n_${i}`; }
+      nodes[nid] = { id: nid, name: "Nuovo nodo", grid_x: 0, grid_y: i - 1, visited: false, blocked: false, destroyed: false };
+      return { ...m, nodes };
+    });
+    setDirty(true);
+  }
+  function removeMapNode(nodeId) {
+    if (!confirm(`Rimuovere il nodo "${mapState.nodes?.[nodeId]?.name || nodeId}"?`)) return;
+    setMapState(m => {
+      const nodes = { ...(m.nodes || {}) };
+      delete nodes[nodeId];
+      const conns = { ...(m.connections_meta || {}) };
+      for (const k of Object.keys(conns)) {
+        if (conns[k]?.from === nodeId || conns[k]?.to === nodeId) delete conns[k];
+      }
+      const updates = { nodes, connections_meta: conns };
+      if (m.current_node_id === nodeId) updates.current_node_id = "";
+      if (m.start_node_id === nodeId) updates.start_node_id = "";
+      if (m.objective_node_id === nodeId) updates.objective_node_id = "";
+      if (m.extraction_node_id === nodeId) updates.extraction_node_id = "";
+      return { ...m, ...updates };
+    });
+    setDirty(true);
+  }
+  function patchMapEdge(edgeKey, key, val) {
+    setMapState(m => {
+      const conns = { ...(m.connections_meta || {}) };
+      conns[edgeKey] = { ...(conns[edgeKey] || {}), [key]: val };
+      return { ...m, connections_meta: conns };
+    });
+    setDirty(true);
+  }
+  function addMapEdge() {
+    setMapState(m => {
+      const conns = { ...(m.connections_meta || {}) };
+      let key = "e_1", i = 1;
+      while (conns[key]) { i++; key = `e_${i}`; }
+      conns[key] = { id: key, from: "", to: "", status: "open", discovered: true };
+      return { ...m, connections_meta: conns };
+    });
+    setDirty(true);
+  }
+  function removeMapEdge(edgeKey) {
+    setMapState(m => {
+      const conns = { ...(m.connections_meta || {}) };
+      delete conns[edgeKey];
+      return { ...m, connections_meta: conns };
+    });
+    setDirty(true);
+  }
   function patchObjective(idx, key, val) {
     setObjectives(o => { const n = [...o]; n[idx] = { ...n[idx], [key]: val }; return n; });
     setDirty(true);
@@ -3477,7 +3546,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   );
 
   function handleSave() {
-    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads, locations, objectives, revelations };
+    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads, locations, objectives, revelations, map_state: mapState };
     onSave({ ...adventure, adventure_definition: newDef });
     onClose();
   }
@@ -3487,10 +3556,10 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   React.useEffect(() => {
     if (!inline) return;
     if (_firstAutoSave.current) { _firstAutoSave.current = false; return; }
-    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads, locations, objectives, revelations };
+    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads, locations, objectives, revelations, map_state: mapState };
     onSave({ ...adventure, adventure_definition: newDef });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inline, actors, clocks, clues, factions, threads, locations, objectives, revelations]);
+  }, [inline, actors, clocks, clues, factions, threads, locations, objectives, revelations, mapState]);
 
   // Risincronizza lo state interno quando il padre incrementa `revision` (es. dopo doctor enrich)
   // — è il segnale esplicito che def0 è stato modificato da fuori e va ricaricato.
@@ -3505,6 +3574,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     setLocations(JSON.parse(JSON.stringify(def0.locations || [])));
     setObjectives(JSON.parse(JSON.stringify(def0.objectives || [])));
     setRevelations(JSON.parse(JSON.stringify(def0.revelations || [])));
+    setMapState(JSON.parse(JSON.stringify(def0.map_state || {})));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revision]);
 
@@ -3551,6 +3621,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
       {tabBtn("objectives", `🎯 Obiettivi (${objectives.length})`)}
       {revelations.length > 0 && tabBtn("revelations", `💡 Rivelazioni (${revelations.length})`)}
       {tabBtn("clocks", `⏱️ Clock (${clocks.length})`)}
+      {tabBtn("strategy", `🗺 Strategia${mapState.nodes ? ` (${Object.keys(mapState.nodes).length})` : ""}`)}
       {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
       {tabBtn("graph", "Grafo")}
       {extraToolbar && <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>{extraToolbar}</div>}
@@ -3921,6 +3992,214 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                           {loc.contains_actors?.length > 0 && <span>🎭 Attori: {loc.contains_actors.join(", ")}</span>}
                           {loc.tactical_map && Object.keys(loc.tactical_map).length > 0 && <span style={{ color: "#4ade80" }}>🗺 mappa tattica presente</span>}
                         </div>
+
+                        {/* ── MAPPA TATTICA ── */}
+                        {(() => {
+                          const tm = loc.tactical_map || {};
+                          const tmOpen = expandedTacticalMap === i;
+                          const sceneObjs = tm.scene_objects || [];
+                          const enemyPos = tm.enemy_positions || [];
+                          return (
+                            <div style={{ marginTop: 4, borderRadius: 8, border: "1px solid rgba(74,222,128,0.25)", background: "rgba(74,222,128,0.04)", overflow: "hidden" }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 11px", cursor: "pointer" }} onClick={() => setExpandedTacticalMap(tmOpen ? null : i)}>
+                                <span style={{ fontSize: 13 }}>🗺</span>
+                                <div style={{ flex: 1, fontSize: 12, fontWeight: 800, color: "var(--text-h)" }}>
+                                  Mappa tattica
+                                  {tm.enabled && <span style={{ fontSize: 10, color: "#4ade80", marginLeft: 8 }}>● attiva</span>}
+                                  {!tm.enabled && Object.keys(tm).length > 0 && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginLeft: 8 }}>○ disattivata</span>}
+                                  {tm.layout && <span style={{ fontSize: 10, color: "#94a3b8", marginLeft: 8 }}>· {tm.layout} {tm.cols && tm.rows ? `(${tm.cols}×${tm.rows} hex)` : ""}</span>}
+                                  {sceneObjs.length > 0 && <span style={{ fontSize: 10, color: "#a78bfa", marginLeft: 8 }}>· {sceneObjs.length} oggett{sceneObjs.length === 1 ? "o" : "i"}</span>}
+                                  {enemyPos.length > 0 && <span style={{ fontSize: 10, color: "#f87171", marginLeft: 8 }}>· {enemyPos.length} nemic{enemyPos.length === 1 ? "o" : "i"} piazzat{enemyPos.length === 1 ? "o" : "i"}</span>}
+                                </div>
+                                <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>{tmOpen ? "▲" : "▼"}</span>
+                              </div>
+                              {tmOpen && (
+                                <div style={{ padding: "0 12px 12px", display: "flex", flexDirection: "column", gap: 10 }}>
+                                  {/* Riga toggle + role + layout */}
+                                  <div style={{ display: "grid", gridTemplateColumns: "auto 1fr 1fr", gap: "8px 12px", alignItems: "end" }}>
+                                    <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, fontWeight: 700, color: "var(--text-h)", cursor: "pointer", paddingBottom: 6 }}>
+                                      <input type="checkbox" checked={!!tm.enabled} onChange={e => patchTacticalMap(i, "enabled", e.target.checked)} />
+                                      Attiva
+                                    </label>
+                                    {fieldRow("Ruolo della scena", (
+                                      <select style={selectStyle} value={tm.role || "hot_zone"} onChange={e => patchTacticalMap(i, "role", e.target.value)}>
+                                        {["hot_zone", "finale", "combat", "infiltrazione", "set-piece"].map(s => <option key={s} value={s}>{s}</option>)}
+                                      </select>
+                                    ))}
+                                    {fieldRow("Layout", (
+                                      <select style={selectStyle} value={tm.layout || "room"} onChange={e => {
+                                        const lay = e.target.value;
+                                        const defaults = { room: [10, 7], narrow: [12, 6], open: [12, 8] };
+                                        const [c, r] = defaults[lay] || [10, 7];
+                                        patchTacticalMap(i, "layout", lay);
+                                        if (!tm.cols) patchTacticalMap(i, "cols", c);
+                                        if (!tm.rows) patchTacticalMap(i, "rows", r);
+                                      }}>
+                                        {["room", "narrow", "open"].map(s => <option key={s} value={s}>{s}</option>)}
+                                      </select>
+                                    ))}
+                                  </div>
+
+                                  {/* Dimensioni in esagoni */}
+                                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px 12px" }}>
+                                    {fieldRow("Colonne (hex)", (
+                                      <input type="number" min={4} max={30} style={inputStyle}
+                                        value={tm.cols || 10}
+                                        onChange={e => patchTacticalMap(i, "cols", Math.max(4, parseInt(e.target.value) || 10))} />
+                                    ))}
+                                    {fieldRow("Righe (hex)", (
+                                      <input type="number" min={3} max={20} style={inputStyle}
+                                        value={tm.rows || 7}
+                                        onChange={e => patchTacticalMap(i, "rows", Math.max(3, parseInt(e.target.value) || 7))} />
+                                    ))}
+                                    {fieldRow("Nome zona", (
+                                      <input style={inputStyle} value={tm.name || ""} onChange={e => patchTacticalMap(i, "name", e.target.value)} placeholder="es. cripta interna" />
+                                    ))}
+                                  </div>
+
+                                  {/* Trigger + condizione di vittoria */}
+                                  {fieldRow("Quando si attiva (trigger)", (
+                                    <textarea style={textareaStyle} value={tm.trigger || ""} onChange={e => patchTacticalMap(i, "trigger", e.target.value)}
+                                      placeholder="es. quando il gruppo affronta lo sceriffo dopo aver scoperto il rituale" />
+                                  ))}
+                                  {fieldRow("Condizione di vittoria", (
+                                    <textarea style={textareaStyle} value={tm.victory_condition || ""} onChange={e => patchTacticalMap(i, "victory_condition", e.target.value)}
+                                      placeholder="es. neutralizzare lo sceriffo o metterlo in fuga senza ferire i bystander" />
+                                  ))}
+
+                                  {/* Zone */}
+                                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px" }}>
+                                    {fieldRow("Zone d'ingresso PG (CSV)", (
+                                      <input style={inputStyle}
+                                        value={Array.isArray(tm.entry_zones) ? tm.entry_zones.join(", ") : (tm.entry_zones || "")}
+                                        onChange={e => patchTacticalMap(i, "entry_zones", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
+                                        placeholder="es. lato sud, porta principale" />
+                                    ))}
+                                    {fieldRow("Zone difese da nemici (CSV)", (
+                                      <input style={inputStyle}
+                                        value={Array.isArray(tm.enemy_zones) ? tm.enemy_zones.join(", ") : (tm.enemy_zones || "")}
+                                        onChange={e => patchTacticalMap(i, "enemy_zones", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
+                                        placeholder="es. lato nord, balconata" />
+                                    ))}
+                                  </div>
+
+                                  {/* Features / Hazards generali (legacy, ancora utili) */}
+                                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px" }}>
+                                    {fieldRow("Coperture & elementi tattici (uno per riga)", (
+                                      <textarea style={textareaStyle}
+                                        value={Array.isArray(tm.features) ? tm.features.join("\n") : (tm.features || "")}
+                                        onChange={e => patchTacticalMap(i, "features", e.target.value.split("\n").map(s => s.trim()).filter(Boolean))}
+                                        placeholder={"banco di legno\nscaffali rovesciati\nmuretto a metà sala"} />
+                                    ))}
+                                    {fieldRow("Pericoli ambientali (uno per riga)", (
+                                      <textarea style={textareaStyle}
+                                        value={Array.isArray(tm.hazards) ? tm.hazards.join("\n") : (tm.hazards || "")}
+                                        onChange={e => patchTacticalMap(i, "hazards", e.target.value.split("\n").map(s => s.trim()).filter(Boolean))}
+                                        placeholder={"pavimento marcio\nfuoco al centro\nbuco nel pavimento"} />
+                                    ))}
+                                  </div>
+
+                                  {/* Oggetti di scena strutturati */}
+                                  <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: "9px 10px" }}>
+                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                                      <span style={{ fontSize: 11, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                                        🎲 Oggetti di scena ({sceneObjs.length})
+                                      </span>
+                                      <button onClick={() => addSceneObject(i)} style={{
+                                        padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(167,139,250,0.5)",
+                                        background: "rgba(167,139,250,0.1)", color: "#c4b5fd", fontSize: 11, fontWeight: 700, cursor: "pointer",
+                                      }}>+ Oggetto</button>
+                                    </div>
+                                    {sceneObjs.length === 0 && (
+                                      <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+                                        Nessun oggetto piazzato. Aggiungi tavoli, leve, statue, casse, leve interattive…
+                                      </div>
+                                    )}
+                                    {sceneObjs.map((obj, j) => (
+                                      <div key={j} style={{ display: "grid", gridTemplateColumns: "1.4fr 0.9fr 60px 60px 60px 1.4fr auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: j < sceneObjs.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
+                                        <input style={{ ...inputStyle, fontSize: 11 }} value={obj.name || ""} onChange={e => patchSceneObject(i, j, "name", e.target.value)} placeholder="nome" />
+                                        <select style={{ ...selectStyle, fontSize: 11 }} value={obj.type || "cover"} onChange={e => patchSceneObject(i, j, "type", e.target.value)}>
+                                          {["cover", "hazard", "terrain", "prop", "interactive", "destructible"].map(s => <option key={s} value={s}>{s}</option>)}
+                                        </select>
+                                        <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.grid_x ?? 0} onChange={e => patchSceneObject(i, j, "grid_x", parseInt(e.target.value) || 0)} title="x" />
+                                        <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.grid_y ?? 0} onChange={e => patchSceneObject(i, j, "grid_y", parseInt(e.target.value) || 0)} title="y" />
+                                        <input style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.occupancy || "1"} onChange={e => patchSceneObject(i, j, "occupancy", e.target.value)} title="occupazione (es. 1, 2x3)" placeholder="1" />
+                                        <input style={{ ...inputStyle, fontSize: 11 }} value={obj.effect || ""} onChange={e => patchSceneObject(i, j, "effect", e.target.value)} placeholder="cosa fa / descrizione" />
+                                        {delBtn(() => removeSceneObject(i, j), "Rimuovi oggetto")}
+                                      </div>
+                                    ))}
+                                    {sceneObjs.length > 0 && (
+                                      <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
+                                        nome · tipo · x · y · occupazione · effetto
+                                      </div>
+                                    )}
+                                  </div>
+
+                                  {/* Posizioni nemici sulla griglia */}
+                                  <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: "9px 10px" }}>
+                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                                      <span style={{ fontSize: 11, fontWeight: 800, color: "#f87171", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                                        ⚔ Posizioni nemici ({enemyPos.length})
+                                      </span>
+                                      <button onClick={() => addEnemyPos(i)} style={{
+                                        padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(248,113,113,0.5)",
+                                        background: "rgba(248,113,113,0.1)", color: "#fca5a5", fontSize: 11, fontWeight: 700, cursor: "pointer",
+                                      }}>+ Piazza nemico</button>
+                                    </div>
+                                    {enemyPos.length === 0 && (
+                                      <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+                                        Nessun nemico piazzato. Specifica chi è in scena quando la mappa si attiva.
+                                      </div>
+                                    )}
+                                    {enemyPos.map((pos, j) => (
+                                      <div key={j} style={{ display: "grid", gridTemplateColumns: "1.5fr 60px 60px auto auto 1.5fr auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: j < enemyPos.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
+                                        <select style={{ ...selectStyle, fontSize: 11 }} value={pos.npc_id || ""} onChange={e => patchEnemyPos(i, j, "npc_id", e.target.value)}>
+                                          <option value="">(scegli PNG…)</option>
+                                          {actors.map(a => <option key={a.id} value={a.id}>{a.name || a.id}</option>)}
+                                        </select>
+                                        <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={pos.grid_x ?? 0} onChange={e => patchEnemyPos(i, j, "grid_x", parseInt(e.target.value) || 0)} title="x" />
+                                        <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={pos.grid_y ?? 0} onChange={e => patchEnemyPos(i, j, "grid_y", parseInt(e.target.value) || 0)} title="y" />
+                                        <label style={{ fontSize: 10, color: "rgba(255,255,255,0.7)", display: "flex", gap: 4, alignItems: "center", cursor: "pointer" }} title="Nascosto all'inizio (sorpresa)">
+                                          <input type="checkbox" checked={!!pos.hidden} onChange={e => patchEnemyPos(i, j, "hidden", e.target.checked)} /> nascosto
+                                        </label>
+                                        <label style={{ fontSize: 10, color: "rgba(255,255,255,0.7)", display: "flex", gap: 4, alignItems: "center", cursor: "pointer" }} title="Pronto al combattimento">
+                                          <input type="checkbox" checked={pos.ready !== false} onChange={e => patchEnemyPos(i, j, "ready", e.target.checked)} /> pronto
+                                        </label>
+                                        <input style={{ ...inputStyle, fontSize: 11 }} value={pos.notes || ""} onChange={e => patchEnemyPos(i, j, "notes", e.target.value)} placeholder="note (postura, comportamento)" />
+                                        {delBtn(() => removeEnemyPos(i, j), "Rimuovi posizione")}
+                                      </div>
+                                    ))}
+                                  </div>
+
+                                  {/* Immagine mappa pre-generata (se presente) */}
+                                  {tm.image_b64 && (
+                                    <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: 8 }}>
+                                      <div style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 6 }}>Anteprima mappa</div>
+                                      <img src={`data:image/jpeg;base64,${tm.image_b64}`} alt="mappa tattica" style={{ maxWidth: "100%", display: "block", borderRadius: 5, border: "1px solid rgba(255,255,255,0.1)" }} />
+                                      <button onClick={() => patchTacticalMap(i, "image_b64", "")} style={{ marginTop: 6, padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
+                                    </div>
+                                  )}
+                                  {!tm.image_b64 && (
+                                    <label style={{ display: "block", padding: "8px 12px", borderRadius: 6, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
+                                      📷 Carica immagine mappa (PNG/JPEG)
+                                      <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
+                                        const f = e.target.files?.[0];
+                                        if (!f) return;
+                                        if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
+                                        const reader = new FileReader();
+                                        reader.onload = () => {
+                                          const b64 = String(reader.result || "").split(",")[1] || "";
+                                          patchTacticalMap(i, "image_b64", b64);
+                                        };
+                                        reader.readAsDataURL(f);
+                                      }} />
+                                    </label>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })()}
                       </div>
                     )}
                   </div>
@@ -4015,6 +4294,183 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           )}
 
           {/* ── FACTIONS TAB ── */}
+          {/* ── STRATEGY TAB (mappa strategica) ── */}
+          {tab === "strategy" && (() => {
+            const nodes = mapState.nodes || {};
+            const nodeIds = Object.keys(nodes);
+            const conns = mapState.connections_meta || {};
+            const connIds = Object.keys(conns);
+            return (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {/* Meta */}
+                <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "11px 13px" }}>
+                  <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8 }}>Configurazione mappa</div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px" }}>
+                    {fieldRow("Tipo di mappa", (
+                      <select style={selectStyle} value={mapState.map_type || "investigation"} onChange={e => patchMapState("map_type", e.target.value)}>
+                        {["investigation", "sandbox", "dungeon", "journey", "pursuit", "crisis", "branching"].map(s => <option key={s} value={s}>{s}</option>)}
+                      </select>
+                    ))}
+                    {fieldRow("Tema visivo", (
+                      <input style={inputStyle} value={mapState.theme || ""} onChange={e => patchMapState("theme", e.target.value)} placeholder="es. villaggio nebbioso, stazione orbitale" />
+                    ))}
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px", marginTop: 4 }}>
+                    {fieldRow("Nodo di partenza", (
+                      <select style={selectStyle} value={mapState.start_node_id || ""} onChange={e => patchMapState("start_node_id", e.target.value)}>
+                        <option value="">(non impostato)</option>
+                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                      </select>
+                    ))}
+                    {fieldRow("Nodo corrente", (
+                      <select style={selectStyle} value={mapState.current_node_id || ""} onChange={e => patchMapState("current_node_id", e.target.value)}>
+                        <option value="">(non impostato)</option>
+                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                      </select>
+                    ))}
+                    {fieldRow("Nodo obiettivo finale", (
+                      <select style={selectStyle} value={mapState.objective_node_id || ""} onChange={e => patchMapState("objective_node_id", e.target.value)}>
+                        <option value="">(non impostato)</option>
+                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                      </select>
+                    ))}
+                    {fieldRow("Nodo estrazione/uscita", (
+                      <select style={selectStyle} value={mapState.extraction_node_id || ""} onChange={e => patchMapState("extraction_node_id", e.target.value)}>
+                        <option value="">(non impostato)</option>
+                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                      </select>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Immagine overview pre-generata */}
+                {mapState.image_b64 ? (
+                  <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "9px 11px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                      <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>Anteprima mappa strategica</span>
+                      <button onClick={() => patchMapState("image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi</button>
+                    </div>
+                    <img src={`data:image/jpeg;base64,${mapState.image_b64}`} alt="overview" style={{ maxWidth: "100%", display: "block", borderRadius: 5, border: "1px solid rgba(255,255,255,0.1)" }} />
+                  </div>
+                ) : (
+                  <label style={{ display: "block", padding: "10px 12px", borderRadius: 7, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
+                    📷 Carica immagine overview (PNG/JPEG, max 1.5MB)
+                    <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
+                      const f = e.target.files?.[0];
+                      if (!f) return;
+                      if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        const b64 = String(reader.result || "").split(",")[1] || "";
+                        patchMapState("image_b64", b64);
+                      };
+                      reader.readAsDataURL(f);
+                    }} />
+                  </label>
+                )}
+
+                {/* Nodi */}
+                <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: "#60a5fa", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      📍 Nodi ({nodeIds.length})
+                    </span>
+                    <button onClick={addMapNode} style={{
+                      padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(96,165,250,0.5)",
+                      background: "rgba(96,165,250,0.1)", color: "#93c5fd", fontSize: 11, fontWeight: 700, cursor: "pointer",
+                    }}>+ Aggiungi nodo</button>
+                  </div>
+                  {nodeIds.length === 0 && (
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+                      Nessun nodo definito. I nodi sono le location collegate sulla mappa strategica.
+                    </div>
+                  )}
+                  {nodeIds.map(nid => {
+                    const n = nodes[nid] || {};
+                    return (
+                      <div key={nid} style={{ padding: "8px 0", borderBottom: "1px dashed rgba(255,255,255,0.07)" }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1.4fr 70px 70px 1.2fr auto", gap: 6, alignItems: "center" }}>
+                          <input style={{ ...inputStyle, fontSize: 11 }} value={n.name || ""} onChange={e => patchMapNode(nid, "name", e.target.value)} placeholder="nome" />
+                          <select style={{ ...selectStyle, fontSize: 11 }} value={n.location_id || ""} onChange={e => patchMapNode(nid, "location_id", e.target.value)}>
+                            <option value="">(location libera)</option>
+                            {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
+                          </select>
+                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={n.grid_x ?? 0} onChange={e => patchMapNode(nid, "grid_x", parseInt(e.target.value) || 0)} title="x cliccabile" />
+                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={n.grid_y ?? 0} onChange={e => patchMapNode(nid, "grid_y", parseInt(e.target.value) || 0)} title="y cliccabile" />
+                          <div style={{ display: "flex", gap: 6, fontSize: 10 }}>
+                            <label style={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", color: n.visited ? "#4ade80" : "rgba(255,255,255,0.5)" }}>
+                              <input type="checkbox" checked={!!n.visited} onChange={e => patchMapNode(nid, "visited", e.target.checked)} /> vis.
+                            </label>
+                            <label style={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", color: n.blocked ? "#fbbf24" : "rgba(255,255,255,0.5)" }}>
+                              <input type="checkbox" checked={!!n.blocked} onChange={e => patchMapNode(nid, "blocked", e.target.checked)} /> blk.
+                            </label>
+                            <label style={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", color: n.destroyed ? "#ef4444" : "rgba(255,255,255,0.5)" }}>
+                              <input type="checkbox" checked={!!n.destroyed} onChange={e => patchMapNode(nid, "destroyed", e.target.checked)} /> dist.
+                            </label>
+                          </div>
+                          {delBtn(() => removeMapNode(nid), "Elimina nodo")}
+                        </div>
+                        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 3, paddingLeft: 2 }}>id: {nid}</div>
+                      </div>
+                    );
+                  })}
+                  {nodeIds.length > 0 && (
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
+                      nome · location collegata · x · y (coord. clic per spostamento) · stati (visitato/bloccato/distrutto)
+                    </div>
+                  )}
+                </div>
+
+                {/* Connessioni / archi */}
+                <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      ↔ Connessioni ({connIds.length})
+                    </span>
+                    <button onClick={addMapEdge} disabled={nodeIds.length < 2} style={{
+                      padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(167,139,250,0.5)",
+                      background: nodeIds.length < 2 ? "rgba(255,255,255,0.05)" : "rgba(167,139,250,0.1)",
+                      color: nodeIds.length < 2 ? "rgba(255,255,255,0.3)" : "#c4b5fd",
+                      fontSize: 11, fontWeight: 700, cursor: nodeIds.length < 2 ? "default" : "pointer",
+                    }}>+ Aggiungi connessione</button>
+                  </div>
+                  {connIds.length === 0 && (
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+                      Nessuna connessione. Collega due nodi per permettere ai PG di spostarsi tra loro.
+                    </div>
+                  )}
+                  {connIds.map(ek => {
+                    const c = conns[ek] || {};
+                    return (
+                      <div key={ek} style={{ display: "grid", gridTemplateColumns: "1.4fr 1.4fr 1fr auto auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: "1px dashed rgba(255,255,255,0.07)" }}>
+                        <select style={{ ...selectStyle, fontSize: 11 }} value={c.from || ""} onChange={e => patchMapEdge(ek, "from", e.target.value)}>
+                          <option value="">(da…)</option>
+                          {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                        </select>
+                        <select style={{ ...selectStyle, fontSize: 11 }} value={c.to || ""} onChange={e => patchMapEdge(ek, "to", e.target.value)}>
+                          <option value="">(a…)</option>
+                          {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                        </select>
+                        <select style={{ ...selectStyle, fontSize: 11 }} value={c.status || "open"} onChange={e => patchMapEdge(ek, "status", e.target.value)}>
+                          {["open", "locked", "hidden", "trap", "one_way"].map(s => <option key={s} value={s}>{s}</option>)}
+                        </select>
+                        <label style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 10, color: c.discovered ? "#4ade80" : "rgba(255,255,255,0.5)", cursor: "pointer" }}>
+                          <input type="checkbox" checked={c.discovered !== false} onChange={e => patchMapEdge(ek, "discovered", e.target.checked)} /> nota
+                        </label>
+                        {delBtn(() => removeMapEdge(ek), "Rimuovi connessione")}
+                      </div>
+                    );
+                  })}
+                  {connIds.length > 0 && (
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
+                      nodo origine · nodo destinazione · stato · scoperta dai PG (no = nascosta sulla mappa)
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
+
           {tab === "factions" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
               {addBtn("Aggiungi fazione", addFaction)}
