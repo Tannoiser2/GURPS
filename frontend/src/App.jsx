@@ -3234,6 +3234,30 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [expandedThread, setExpandedThread] = React.useState(null);
   const [expandedLocation, setExpandedLocation] = React.useState(null);
 
+  // Pan/zoom del grafo
+  const [graphView, setGraphView] = React.useState({ panX: 0, panY: 0, zoom: 1 });
+  const _graphDrag = React.useRef(null);
+  function onGraphMouseDown(e) {
+    if (e.button !== 0) return;
+    _graphDrag.current = { x: e.clientX, y: e.clientY, startPanX: graphView.panX, startPanY: graphView.panY };
+  }
+  function onGraphMouseMove(e) {
+    if (!_graphDrag.current) return;
+    const dx = e.clientX - _graphDrag.current.x;
+    const dy = e.clientY - _graphDrag.current.y;
+    setGraphView(v => ({ ...v, panX: _graphDrag.current.startPanX + dx, panY: _graphDrag.current.startPanY + dy }));
+  }
+  function onGraphMouseUp() { _graphDrag.current = null; }
+  function onGraphWheel(e) {
+    e.preventDefault();
+    const delta = -e.deltaY * 0.0015;
+    setGraphView(v => {
+      const nz = Math.min(2.5, Math.max(0.3, v.zoom + delta));
+      return { ...v, zoom: nz };
+    });
+  }
+  function resetGraphView() { setGraphView({ panX: 0, panY: 0, zoom: 1 }); }
+
   function patchActor(idx, key, val) {
     setActors(a => { const n = [...a]; n[idx] = { ...n[idx], [key]: val }; return n; });
     setDirty(true);
@@ -3274,6 +3298,110 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     setRevelations(r => { const n = [...r]; n[idx] = { ...n[idx], [key]: val }; return n; });
     setDirty(true);
   }
+
+  // ── Add / Remove ──
+  function _newId(prefix, existing) {
+    let i = existing.length + 1;
+    while (existing.some(e => e.id === `${prefix}_${i}`)) i++;
+    return `${prefix}_${i}`;
+  }
+  function addActor() {
+    setActors(a => [...a, { id: _newId("npc", a), name: "Nuovo PNG", role: "neutral", goal: "", current_plan: "" }]);
+    setExpandedNpc(actors.length);
+    setDirty(true);
+  }
+  function removeActor(idx) {
+    if (!confirm(`Eliminare "${actors[idx]?.name || 'questo PNG'}"?`)) return;
+    setActors(a => a.filter((_, i) => i !== idx));
+    setExpandedNpc(null);
+    setDirty(true);
+  }
+  function addClue() {
+    setClues(c => [...c, { id: _newId("clue", c), label: "Nuovo indizio", type: "physical_evidence", is_required: false }]);
+    setExpandedClue(clues.length);
+    setDirty(true);
+  }
+  function removeClue(idx) {
+    if (!confirm(`Eliminare "${clues[idx]?.label || 'questo indizio'}"?`)) return;
+    setClues(c => c.filter((_, i) => i !== idx));
+    setExpandedClue(null);
+    setDirty(true);
+  }
+  function addThread() {
+    const next = `T${threads.length + 1}`;
+    setThreads(t => [...t, { id: next, question: "Nuova domanda?", true_answer: "", clue_plan: [], required_clues: 2, status: "hidden", parent_thread_ids: [] }]);
+    setExpandedThread(threads.length);
+    setDirty(true);
+  }
+  function removeThread(idx) {
+    if (!confirm(`Eliminare pista "${threads[idx]?.question || threads[idx]?.id}"?`)) return;
+    setThreads(t => t.filter((_, i) => i !== idx));
+    setExpandedThread(null);
+    setDirty(true);
+  }
+  function addClock() {
+    setClocks(c => [...c, { id: _newId("clock", c), label: "Nuovo clock", max_value: 6, current_value: 0, clock_type: "narrative" }]);
+    setDirty(true);
+  }
+  function removeClock(idx) {
+    if (!confirm(`Eliminare clock "${clocks[idx]?.label || ''}"?`)) return;
+    setClocks(c => c.filter((_, i) => i !== idx));
+    setDirty(true);
+  }
+  function addLocation() {
+    setLocations(l => [...l, { id: _newId("loc", l), name: "Nuovo luogo", description: "", status: "known", access_state: "open", type: "location" }]);
+    setExpandedLocation(locations.length);
+    setDirty(true);
+  }
+  function removeLocation(idx) {
+    if (!confirm(`Eliminare luogo "${locations[idx]?.name || ''}"?`)) return;
+    setLocations(l => l.filter((_, i) => i !== idx));
+    setExpandedLocation(null);
+    setDirty(true);
+  }
+  function addObjective() {
+    setObjectives(o => [...o, { id: _newId("obj", o), label: "Nuovo obiettivo", status: "active", success_conditions: [], unlocks: [] }]);
+    setDirty(true);
+  }
+  function removeObjective(idx) {
+    if (!confirm(`Eliminare obiettivo "${objectives[idx]?.label || ''}"?`)) return;
+    setObjectives(o => o.filter((_, i) => i !== idx));
+    setDirty(true);
+  }
+  function addRevelation() {
+    setRevelations(r => [...r, { id: _newId("rev", r), statement: "Nuova rivelazione", thread_id: "", required_clues: [], status: "hidden", minimum_independent_kinds: 1, payoff: "" }]);
+    setDirty(true);
+  }
+  function removeRevelation(idx) {
+    if (!confirm(`Eliminare rivelazione "${revelations[idx]?.statement?.slice(0, 30) || ''}"?`)) return;
+    setRevelations(r => r.filter((_, i) => i !== idx));
+    setDirty(true);
+  }
+  function addFaction() {
+    setFactions(f => [...f, { id: _newId("fac", f), name: "Nuova fazione", status: "quiet", agenda: "" }]);
+    setDirty(true);
+  }
+  function removeFaction(idx) {
+    if (!confirm(`Eliminare fazione "${factions[idx]?.name || ''}"?`)) return;
+    setFactions(f => f.filter((_, i) => i !== idx));
+    setDirty(true);
+  }
+
+  // Bottoni "+ Aggiungi" e "🗑" riusabili
+  const addBtn = (label, onClick) => (
+    <button onClick={onClick} style={{
+      padding: "7px 14px", borderRadius: 7, border: "1px dashed rgba(74,222,128,0.4)",
+      background: "rgba(74,222,128,0.07)", color: "#4ade80", fontSize: 12, fontWeight: 700,
+      cursor: "pointer", alignSelf: "flex-start", marginBottom: 2,
+    }}>+ {label}</button>
+  );
+  const delBtn = (onClick, title = "Elimina") => (
+    <button onClick={(e) => { e.stopPropagation(); onClick(); }} title={title} style={{
+      background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)",
+      borderRadius: 5, color: "#fca5a5", cursor: "pointer", padding: "3px 8px",
+      fontSize: 11, fontWeight: 700, flexShrink: 0,
+    }}>🗑</button>
+  );
 
   function handleSave() {
     const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads, locations, objectives, revelations };
@@ -3408,6 +3536,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── NPC TAB ── */}
           {tab === "npcs" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {addBtn("Aggiungi PNG", addActor)}
               {actors.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun PNG definito.</div>}
               {actors.map((actor, i) => {
                 const expanded = expandedNpc === i;
@@ -3420,6 +3549,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                         <span style={{ fontSize: 13, fontWeight: 800, color: "var(--text-h)" }}>{actor.name || "(senza nome)"}</span>
                         <span style={{ fontSize: 10, color: roleColor, marginLeft: 8, fontWeight: 600 }}>{actor.role}</span>
                       </div>
+                      {delBtn(() => removeActor(i))}
                       <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>{expanded ? "▲" : "▼"}</span>
                     </div>
                     {expanded && (
@@ -3449,12 +3579,14 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── CLOCKS TAB ── */}
           {tab === "clocks" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {addBtn("Aggiungi clock", addClock)}
               {clocks.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun clock definito.</div>}
               {clocks.map((clock, i) => {
                 const typeColor = { terminal_defeat: "#ef4444", terminal_victory: "#eab308", escalation: "#f97316", narrative: "#60a5fa" }[clock.clock_type || clock.on_complete] || "#60a5fa";
                 const pct = clock.max_value > 0 ? ((clock.value || 0) / clock.max_value) * 100 : 0;
                 return (
-                  <div key={clock.id || i} style={{ borderRadius: 9, border: `1px solid ${typeColor}35`, background: "var(--code-bg)", padding: "11px 13px" }}>
+                  <div key={clock.id || i} style={{ borderRadius: 9, border: `1px solid ${typeColor}35`, background: "var(--code-bg)", padding: "11px 13px", position: "relative" }}>
+                    <div style={{ position: "absolute", top: 8, right: 8 }}>{delBtn(() => removeClock(i))}</div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 10, alignItems: "end", marginBottom: 8 }}>
                       <div>
                         {fieldRow("Etichetta", <input style={inputStyle} value={clock.label || ""} onChange={e => patchClock(i, "label", e.target.value)} />)}
@@ -3488,6 +3620,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── CLUES TAB ── */}
           {tab === "clues" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+              {addBtn("Aggiungi indizio", addClue)}
               {clues.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun indizio definito.</div>}
               {clues.map((clue, i) => {
                 const expanded = expandedClue === i;
@@ -3498,6 +3631,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                       <span style={{ fontSize: 9, padding: "1px 6px", borderRadius: 3, background: `${typeCol}20`, color: typeCol, fontWeight: 700, textTransform: "uppercase", flexShrink: 0 }}>{(clue.type || "?").replace(/_/g, " ")}</span>
                       <div style={{ flex: 1, fontSize: 12, fontWeight: 700, color: "var(--text-h)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{clue.label || clue.id}</div>
                       {clue.is_required && <span style={{ fontSize: 9, color: "#fbbf24", flexShrink: 0 }}>★</span>}
+                      {delBtn(() => removeClue(i))}
                       <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.45 }}>{expanded ? "▲" : "▼"}</span>
                     </div>
                     {expanded && (
@@ -3525,6 +3659,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── PISTE TAB ── */}
           {tab === "piste" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {addBtn("Aggiungi pista", addThread)}
               {threads.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessuna pista definita.</div>}
               {threads.map((t, i) => {
                 const expanded = expandedThread === i;
@@ -3541,6 +3676,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                         <span style={{ fontSize: 10, color: statusColor, marginLeft: 8, fontWeight: 600 }}>{t.status || "hidden"}</span>
                         {t.parent_thread_ids?.length > 0 && <span style={{ fontSize: 10, color: "#94a3b8", marginLeft: 8 }}>← {t.parent_thread_ids.join(", ")}</span>}
                       </div>
+                      {delBtn(() => removeThread(i))}
                       <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>{expanded ? "▲" : "▼"}</span>
                     </div>
                     {expanded && (
@@ -3599,6 +3735,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── LOCATIONS TAB ── */}
           {tab === "locations" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {addBtn("Aggiungi luogo", addLocation)}
               {locations.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun luogo definito.</div>}
               {locations.map((loc, i) => {
                 const expanded = expandedLocation === i;
@@ -3621,6 +3758,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                           <span style={{ fontSize: 10, color: "#94a3b8", marginLeft: 8 }}>· {loc.type}</span>
                         )}
                       </div>
+                      {delBtn(() => removeLocation(i))}
                       <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>{expanded ? "▲" : "▼"}</span>
                     </div>
                     {expanded && (
@@ -3669,11 +3807,13 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── OBJECTIVES TAB ── */}
           {tab === "objectives" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {addBtn("Aggiungi obiettivo", addObjective)}
               {objectives.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun obiettivo definito.</div>}
               {objectives.map((obj, i) => {
                 const stColor = { hidden: "#94a3b8", inactive: "#94a3b8", available: "#60a5fa", active: "#fbbf24", complete: "#4ade80", failed: "#ef4444" }[obj.status] || "#fbbf24";
                 return (
-                  <div key={obj.id || i} style={{ borderRadius: 9, border: `1px solid ${stColor}35`, background: "var(--code-bg)", padding: "11px 13px" }}>
+                  <div key={obj.id || i} style={{ borderRadius: 9, border: `1px solid ${stColor}35`, background: "var(--code-bg)", padding: "11px 13px", position: "relative" }}>
+                    <div style={{ position: "absolute", top: 8, right: 8 }}>{delBtn(() => removeObjective(i))}</div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 140px", gap: "8px 16px" }}>
                       {fieldRow("Etichetta", <input style={inputStyle} value={obj.label || ""} onChange={e => patchObjective(i, "label", e.target.value)} />)}
                       {fieldRow("Stato", (
@@ -3705,11 +3845,13 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── REVELATIONS TAB ── */}
           {tab === "revelations" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {addBtn("Aggiungi rivelazione", addRevelation)}
               {revelations.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessuna rivelazione definita.</div>}
               {revelations.map((rev, i) => {
                 const stColor = { hidden: "#94a3b8", seeded: "#a78bfa", available: "#fbbf24", revealed: "#60a5fa", resolved: "#4ade80" }[rev.status] || "#a78bfa";
                 return (
-                  <div key={rev.id || i} style={{ borderRadius: 9, border: `1px solid ${stColor}35`, background: "var(--code-bg)", padding: "11px 13px" }}>
+                  <div key={rev.id || i} style={{ borderRadius: 9, border: `1px solid ${stColor}35`, background: "var(--code-bg)", padding: "11px 13px", position: "relative" }}>
+                    <div style={{ position: "absolute", top: 8, right: 8 }}>{delBtn(() => removeRevelation(i))}</div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 140px 140px", gap: "8px 16px" }}>
                       <div style={{ gridColumn: "1 / -1" }}>
                         {fieldRow("Dichiarazione (cosa rivela)", <textarea style={textareaStyle} value={rev.statement || ""} onChange={e => patchRevelation(i, "statement", e.target.value)} />)}
@@ -3750,8 +3892,10 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── FACTIONS TAB ── */}
           {tab === "factions" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {addBtn("Aggiungi fazione", addFaction)}
               {factions.map((faction, i) => (
-                <div key={faction.id || i} style={{ borderRadius: 9, border: "1px solid rgba(168,85,247,0.28)", background: "var(--code-bg)", padding: "11px 13px" }}>
+                <div key={faction.id || i} style={{ borderRadius: 9, border: "1px solid rgba(168,85,247,0.28)", background: "var(--code-bg)", padding: "11px 13px", position: "relative" }}>
+                  <div style={{ position: "absolute", top: 8, right: 8 }}>{delBtn(() => removeFaction(i))}</div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
                     {fieldRow("Nome", <input style={inputStyle} value={faction.name || ""} onChange={e => patchFaction(i, "name", e.target.value)} />)}
                     {fieldRow("Stato", (
@@ -3813,12 +3957,25 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
             const SVG_W = GPAD + CNODE_W + COL_GAP + TNODE_W + GPAD;
             const SVG_H = Math.max(yC, yT) + GPAD;
 
+            const VIEW_W = 720, VIEW_H = 460;
             return (
-              <div style={{ overflowX: "auto" }}>
+              <div style={{ position: "relative" }}>
                 {threads.length === 0 && clues.length === 0 && (
                   <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 30, fontSize: 13 }}>Nessun dato per il grafo.</div>
                 )}
-                <svg width={SVG_W} height={SVG_H} style={{ display: "block", minWidth: SVG_W }}>
+                <div style={{ position: "absolute", top: 6, right: 6, zIndex: 2, display: "flex", gap: 4, background: "rgba(0,0,0,0.55)", borderRadius: 6, padding: 3 }}>
+                  <button onClick={() => setGraphView(v => ({ ...v, zoom: Math.min(2.5, v.zoom + 0.2) }))} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: 4, color: "#fff", cursor: "pointer", padding: "3px 8px", fontSize: 12, fontWeight: 700 }} title="Zoom +">＋</button>
+                  <button onClick={() => setGraphView(v => ({ ...v, zoom: Math.max(0.3, v.zoom - 0.2) }))} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: 4, color: "#fff", cursor: "pointer", padding: "3px 8px", fontSize: 12, fontWeight: 700 }} title="Zoom −">−</button>
+                  <button onClick={resetGraphView} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: 4, color: "#fff", cursor: "pointer", padding: "3px 8px", fontSize: 11 }} title="Reset vista">⌂</button>
+                </div>
+                <svg width="100%" height={VIEW_H} viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
+                  style={{ display: "block", background: "rgba(0,0,0,0.18)", borderRadius: 8, cursor: _graphDrag.current ? "grabbing" : "grab", touchAction: "none", userSelect: "none" }}
+                  onMouseDown={onGraphMouseDown}
+                  onMouseMove={onGraphMouseMove}
+                  onMouseUp={onGraphMouseUp}
+                  onMouseLeave={onGraphMouseUp}
+                  onWheel={onGraphWheel}>
+                  <g transform={`translate(${graphView.panX}, ${graphView.panY}) scale(${graphView.zoom})`}>
                   {/* Archi clue → thread */}
                   {clues.map(c => {
                     const tid = clueThreadMap[c.id];
@@ -3840,15 +3997,16 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                     if (!cluePos[c.id]) return null;
                     const { x, y } = cluePos[c.id];
                     const typeCol = CLUE_TYPE_COLORS[c.type] || "#94a3b8";
+                    const idx = clues.findIndex(cc => cc.id === c.id);
                     return (
-                      <g key={c.id}>
+                      <g key={c.id} style={{ cursor: "pointer" }} onClick={(e) => { e.stopPropagation(); setExpandedClue(idx); setTab("clues"); }}>
                         <rect x={x} y={y} width={CNODE_W} height={CNODE_H} rx={5}
                           fill={`${typeCol}14`} stroke={c.is_required ? typeCol : `${typeCol}50`} strokeWidth={c.is_required ? 1.5 : 1} />
                         {c.is_required && <rect x={x} y={y} width={3} height={CNODE_H} rx={2} fill={typeCol} />}
-                        <text x={x + 10} y={y + 14} fontSize={9} fontWeight={700} fill={typeCol} style={{ fontFamily: "system-ui" }}>
+                        <text x={x + 10} y={y + 14} fontSize={9} fontWeight={700} fill={typeCol} style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
                           {(c.type || "?").replace(/_/g, " ").slice(0, 14).toUpperCase()}
                         </text>
-                        <text x={x + 10} y={y + 26} fontSize={10} fill="rgba(255,255,255,0.8)" style={{ fontFamily: "system-ui" }}>
+                        <text x={x + 10} y={y + 26} fontSize={10} fill="rgba(255,255,255,0.8)" style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
                           {(c.label || c.id).slice(0, 22)}{(c.label || c.id).length > 22 ? "…" : ""}
                         </text>
                       </g>
@@ -3858,28 +4016,31 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                   {threads.map(t => {
                     if (!threadPos[t.id]) return null;
                     const { x, y } = threadPos[t.id];
+                    const idx = threads.findIndex(tt => tt.id === t.id);
                     return (
-                      <g key={t.id}>
+                      <g key={t.id} style={{ cursor: "pointer" }} onClick={(e) => { e.stopPropagation(); setExpandedThread(idx); setTab("piste"); }}>
                         <rect x={x} y={y} width={TNODE_W} height={TNODE_H} rx={7}
                           fill="rgba(124,58,237,0.18)" stroke="rgba(167,139,250,0.55)" strokeWidth={1.5} />
-                        <text x={x + 10} y={y + 15} fontSize={9} fontWeight={800} fill="#a78bfa" style={{ fontFamily: "system-ui", textTransform: "uppercase" }}>
+                        <text x={x + 10} y={y + 15} fontSize={9} fontWeight={800} fill="#a78bfa" style={{ fontFamily: "system-ui", textTransform: "uppercase", pointerEvents: "none" }}>
                           PISTA
                         </text>
-                        <text x={x + 10} y={y + 30} fontSize={11} fontWeight={700} fill="#e9d5ff" style={{ fontFamily: "system-ui" }}>
-                          {t.label.slice(0, 20)}{t.label.length > 20 ? "…" : ""}
+                        <text x={x + 10} y={y + 30} fontSize={11} fontWeight={700} fill="#e9d5ff" style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
+                          {(t.label || "").slice(0, 20)}{(t.label || "").length > 20 ? "…" : ""}
                         </text>
                       </g>
                     );
                   })}
                   {/* Legend */}
                   {clues.length > 0 && (
-                    <g>
-                      <text x={GPAD} y={SVG_H - 6} fontSize={9} fill="rgba(255,255,255,0.3)" style={{ fontFamily: "system-ui" }}>
-                        ★ = richiesto · tratteggio = opzionale
-                      </text>
-                    </g>
+                    <text x={GPAD} y={SVG_H - 6} fontSize={9} fill="rgba(255,255,255,0.3)" style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
+                      ★ = richiesto · tratteggio = opzionale · click su nodo per editare
+                    </text>
                   )}
+                  </g>
                 </svg>
+                <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5, textAlign: "center", marginTop: 4 }}>
+                  Trascina per spostare · rotellina mouse per zoom · click su un nodo per editarlo
+                </div>
               </div>
             );
           })()}
