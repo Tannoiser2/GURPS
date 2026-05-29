@@ -6188,13 +6188,15 @@ def master_turn_with_bible(
     if destroyed_clue_ids:
         npc_pressure_context += "\nINDIZI DISTRUTTI/NON PIÙ ACCESSIBILI: " + ", ".join(destroyed_clue_ids)
     _EXPOSED_STATUSES = {"exposed", "captured", "resolved"}
+    _DEAD_STATUSES = {"morto", "dead", "killed"}
     for npc in adventure.get("npcs", []):
         st = npc_statuses.get(npc["id"], {})
         status = st.get("status", npc.get("status", "alive"))
         attitude = st.get("attitude", npc.get("attitude", "neutral"))
         loc = st.get("location", npc.get("location", "?"))
         is_exposed = status in _EXPOSED_STATUSES
-        exposure_marker = "[ESPOSTO]" if is_exposed else "[COPERTO]"
+        is_dead = status in _DEAD_STATUSES
+        exposure_marker = "[ESPOSTO]" if is_exposed else ("[MORTO — NON REINTRODURRE]" if is_dead else "[COPERTO]")
         npcs_context += f"\n- {npc['name']} ({npc['role']}) {exposure_marker}: status={status}, attitude={attitude}, location={loc}"
         agenda = npc.get("npc_agenda") or {}
         if agenda:
@@ -6499,6 +6501,7 @@ REGOLE CANOVACCIO PDF — OBBLIGATORIE:
 - new_threads deve essere sempre []. Se emerge una nuova complicazione, mettila in npc_updates, threat_increase, combat_scene o narrativa, non come thread.
 - discovered_facts deve contenere solo fatti concreti gia derivati da un clue, non atmosfera.
 - Usa npc_updates per far cambiare stato, luogo, atteggiamento o arc_status agli NPC del canovaccio; non inventare PNG importanti se ci sono NPC canonici inutilizzati.
+- REGOLA ASSOLUTA: ogni NPC con status="morto" o status="dead" nella lista PNG è PERMANENTEMENTE MORTO. Non può essere reintrodotto come vivo, alleato o neutrale. Se l'NPC è segnato [MORTO — NON REINTRODURRE] non farlo apparire nella narrativa come persona viva.
 - Se una pista e ready_to_deduce, proponi una sintesi deduttiva esplicita nella narrativa e chiudila in closed_threads solo se i giocatori hanno verificato o accettato la deduzione.
 - Se una pista e ready_to_deduce, NON introdurre nuovi misteri prima di aver offerto una scena di sintesi/confronto/verifica.
 - Un successo deve sempre modificare almeno uno stato persistente: clue_progress, clues_found, npc_updates, location_updates, objective_updates, faction_updates, closed_threads, threat_increase, activate_combat/combat_over, story_over.

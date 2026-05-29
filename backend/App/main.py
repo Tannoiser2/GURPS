@@ -2239,16 +2239,24 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
     # già narrati). Il frontend NON lo round-trippa, quindi la fonte è adventure_runtime_state.
     if game_state.adventure_runtime_state and game_state.adventure_runtime_state.canonical_log:
         _gsd["canonical_log"] = list(game_state.adventure_runtime_state.canonical_log)
-    # N5: inietta npc_runtime persistente (witness_state + fearful_turns_ignored)
+    # N5: inietta npc_runtime persistente (witness_state + fearful_turns_ignored + status)
     if game_state.adventure_runtime_state and game_state.adventure_runtime_state.actor_runtime:
         _merged_npc_rt = dict(_gsd.get("npc_runtime") or {})
+        # Also merge death/escape statuses into npc_statuses so master_turn_with_bible sees them
+        _merged_npc_st = dict(_gsd.get("npc_statuses") or {})
         for _aid, _adata in game_state.adventure_runtime_state.actor_runtime.items():
             _existing = dict(_merged_npc_rt.get(_aid) or {})
-            for _k in ("witness_state", "fearful_turns_ignored", "attitude", "fought_players"):
+            for _k in ("witness_state", "fearful_turns_ignored", "attitude", "fought_players", "status"):
                 if _k in _adata:
                     _existing[_k] = _adata[_k]
             _merged_npc_rt[_aid] = _existing
+            # Propagate persistent status (morto/fuggito) into npc_statuses
+            if _adata.get("status") in ("morto", "fuggito", "dead"):
+                _st_entry = dict(_merged_npc_st.get(_aid) or {})
+                _st_entry["status"] = _adata["status"]
+                _merged_npc_st[_aid] = _st_entry
         _gsd["npc_runtime"] = _merged_npc_rt
+        _gsd["npc_statuses"] = _merged_npc_st
     _gsd["consecutive_no_progress_turns"] = game_state.consecutive_no_progress_turns
     # clues_found_this_turn: indizi trovati nell'ultimo turno (per progress awareness)
     # Derivati dal runtime state: quelli trovati dall'ultimo sync
@@ -2392,6 +2400,18 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
                     _entry = dict(_rt.actor_runtime.get(_e.id) or {})
                     _entry["status"] = "morto"
                     _rt.actor_runtime[_e.id] = _entry
+                    # Also mark by actor name in adventure_definition (ID may differ)
+                    if game_state.adventure_definition:
+                        for _actor in (game_state.adventure_definition.actors or []):
+                            if _actor.name.lower() in _e.name.lower() or _e.name.lower() in _actor.name.lower():
+                                _aentry = dict(_rt.actor_runtime.get(_actor.id) or {})
+                                _aentry["status"] = "morto"
+                                _rt.actor_runtime[_actor.id] = _aentry
+                    # Update WorldNPC so narrative AI excludes this character
+                    for _npc in game_state.world_npcs:
+                        if _npc.id == _e.id or _npc.name.lower() == _e.name.lower():
+                            _npc.status = "dead"
+                            break
                 elif _e.type == "enemy" and _e.hp > 0 and getattr(_e, "status", "") != "fuggito":
                     _entry = dict(_rt.actor_runtime.get(_e.id) or {})
                     _entry["attitude"] = "ostile"
@@ -2411,6 +2431,10 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
                         _entry = dict(_rt.actor_runtime.get(_actor.id) or {})
                         _entry["status"] = "fuggito"
                         _rt.actor_runtime[_actor.id] = _entry
+                        for _npc in game_state.world_npcs:
+                            if _npc.id == _actor.id or _npc.name.lower() == _actor.name.lower():
+                                _npc.status = "missing"
+                                break
             # Mark antagonist as dead in actor_runtime if finale was available
             if _antagonist_killed_name and game_state.adventure_definition:
                 for _actor in (game_state.adventure_definition.actors or []):
@@ -2418,6 +2442,10 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
                         _entry = dict(_rt.actor_runtime.get(_actor.id) or {})
                         _entry["status"] = "morto"
                         _rt.actor_runtime[_actor.id] = _entry
+                        for _npc in game_state.world_npcs:
+                            if _npc.id == _actor.id or _npc.name.lower() == _actor.name.lower():
+                                _npc.status = "dead"
+                                break
         if game_state.scene:
             game_state.scene.entities = []
     game_state.allowed_escalation_tier = int(su.get("allowed_escalation_tier", game_state.allowed_escalation_tier or 3) or 3)
