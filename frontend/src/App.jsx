@@ -2214,7 +2214,7 @@ function SetupScreen({ onStart }) {
       setSelected([]);
       setLoading(false);
       setJsonLoading(false);
-      setStep("team");
+      setStep("review");
     } catch (e) {
       setLoading(false);
       setJsonLoading(false);
@@ -2227,6 +2227,20 @@ function SetupScreen({ onStart }) {
     const payload = buildAdventureExport({ adventure: preloadedAdventure, source: "json_load" });
     downloadJsonFile(payload, `${safeFilePart(payload.title)}-compilata.json`);
   }
+
+  async function runDoctorOn(adv) {
+    if (!adv?.adventure_definition) return;
+    try {
+      const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adventure_definition: adv.adventure_definition, enrich: false }),
+      }).then(r => r.json());
+      if (!dr.error) setDoctorReport({ ...dr, source: "json" });
+    } catch (_) {}
+  }
+
+  function handleReviewApprove() { setStep("team"); }
 
   async function handleDoctorEnrich() {
     if (!preloadedAdventure?.adventure_definition) return;
@@ -2864,6 +2878,166 @@ function SetupScreen({ onStart }) {
           <div style={{ textAlign: "center", padding: 12, color: "rgba(255,255,255,0.6)", fontSize: 14, background: "#0a0a0a" }}>
             {jsonLoading ? "📂 Carico avventura dal JSON..." : "Carico personaggi..."}
           </div>
+        )}
+      </div>
+    );
+  }
+
+  // ── Step 1.5: revisione tecnica avventura ──
+  if (step === "review") {
+    const def = preloadedAdventure?.adventure_definition || {};
+    const ractors = def.actors || [];
+    const rclues = def.clues || [];
+    const rthreads = def.story_threads || [];
+    const rlocations = def.locations || [];
+    const rclocks = def.event_clocks || [];
+    const sc = doctorReport?.score ?? null;
+    const findings = doctorReport?.findings || [];
+    const rcriticals = findings.filter(f => f.severity === "error" || f.severity === "critical");
+    const rwarnings  = findings.filter(f => f.severity === "warning");
+    const rsuggestions = findings.filter(f => f.severity === "suggestion" || f.severity === "info");
+    const scoreColor = sc === null ? "#94a3b8" : sc >= 9 ? "#4ade80" : sc >= 6 ? "#facc15" : "#f87171";
+    const scoreLabel = sc === null ? "Analisi in corso…" : sc >= 9 ? "Ottima qualità" : sc >= 6 ? "Qualità discreta" : "Qualità bassa";
+    const [showInfos, setShowInfos] = React.useState(false);
+
+    return (
+      <div style={{ minHeight: "100vh", background: "#000", display: "flex", flexDirection: "column" }}>
+        <img src="/Banner superiore GURPS.png" alt="GURPS" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0, maxHeight: "14vh" }} />
+
+        <div style={{ flex: 1, overflowY: "auto", padding: "20px 16px 100px", maxWidth: 860, margin: "0 auto", width: "100%" }}>
+
+          {/* Intestazione avventura */}
+          <div style={{ marginBottom: 18 }}>
+            <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 }}>
+              Revisione tecnica · {(def.genre || genre || "").toUpperCase()}
+            </div>
+            <div style={{ fontSize: 22, fontWeight: 900, color: "var(--text-h)", marginBottom: 8, lineHeight: 1.2 }}>
+              {def.title || preloadedAdventure?.title || "Avventura senza titolo"}
+            </div>
+            {def.premise && (
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, maxWidth: 680 }}>
+                {def.premise}
+              </div>
+            )}
+          </div>
+
+          {/* Statistiche struttura */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 22 }}>
+            {[
+              ["🎭", "PNG", ractors.length],
+              ["🔍", "Indizi", rclues.length],
+              ["🧵", "Piste", rthreads.length],
+              ["📍", "Location", rlocations.length],
+              ["⏱️", "Clock", rclocks.length],
+            ].map(([icon, label, n]) => (
+              <div key={label} style={{
+                display: "flex", alignItems: "center", gap: 6, padding: "6px 12px",
+                background: "rgba(255,255,255,0.05)", borderRadius: 8,
+                border: "1px solid rgba(255,255,255,0.1)",
+              }}>
+                <span style={{ fontSize: 14 }}>{icon}</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-h)" }}>{n}</span>
+                <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.6 }}>{label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Doctor report */}
+          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 12, padding: "14px 16px", marginBottom: 18 }}>
+            {/* Score */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: scoreColor }}>
+                    🩺 {scoreLabel}
+                  </span>
+                  <span style={{ fontSize: 13, fontWeight: 900, color: scoreColor }}>
+                    {sc !== null ? `${sc}/10` : "—"}
+                  </span>
+                </div>
+                <div style={{ height: 6, background: "rgba(255,255,255,0.08)", borderRadius: 3, overflow: "hidden" }}>
+                  {sc !== null && (
+                    <div style={{ height: "100%", width: `${(sc / 10) * 100}%`, background: scoreColor, borderRadius: 3, transition: "width 0.4s" }} />
+                  )}
+                </div>
+              </div>
+              {sc !== null && sc < 9.5 && (
+                <img
+                  src={jsonDoctorImg}
+                  alt="Migliora con AI"
+                  title="Migliora automaticamente con AI"
+                  onClick={doctorEnriching ? undefined : handleDoctorEnrich}
+                  style={{ height: 32, cursor: doctorEnriching ? "default" : "pointer", borderRadius: 6, opacity: doctorEnriching ? 0.4 : 1 }}
+                />
+              )}
+              {doctorEnriching && <span style={{ fontSize: 11, color: "#a78bfa" }}>✦ Analisi in corso…</span>}
+              {doctorReport?.source === "enriched" && <span style={{ fontSize: 11, color: "#4ade80" }}>✓ Migliorata</span>}
+            </div>
+
+            {/* Findings */}
+            {findings.length === 0 && sc !== null && (
+              <div style={{ fontSize: 12, color: "#4ade80" }}>✓ Nessun problema trovato</div>
+            )}
+            {findings.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                {rcriticals.map((f, i) => (
+                  <div key={`c${i}`} style={{ fontSize: 12, color: "#fca5a5", lineHeight: 1.4 }}>
+                    🔴 <strong>{f.category}</strong> — {f.message}
+                    {f.fix_hint && <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, paddingLeft: 16, marginTop: 2 }}>↳ {f.fix_hint}</div>}
+                  </div>
+                ))}
+                {rwarnings.map((f, i) => (
+                  <div key={`w${i}`} style={{ fontSize: 12, color: "#fde68a", lineHeight: 1.4 }}>
+                    🟡 <strong>{f.category}</strong> — {f.message}
+                    {f.fix_hint && <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, paddingLeft: 16, marginTop: 2 }}>↳ {f.fix_hint}</div>}
+                  </div>
+                ))}
+                {rsuggestions.length > 0 && (
+                  <>
+                    <button onClick={() => setShowInfos(v => !v)} style={{ alignSelf: "flex-start", background: "none", border: "none", cursor: "pointer", color: "#60a5fa", fontSize: 11, padding: "2px 0" }}>
+                      {showInfos ? "▲" : "▼"} {rsuggestions.length} suggeriment{rsuggestions.length === 1 ? "o" : "i"} opzionali
+                    </button>
+                    {showInfos && rsuggestions.map((f, i) => (
+                      <div key={`s${i}`} style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.4 }}>
+                        🔵 <strong>{f.category}</strong> — {f.message}
+                        {f.fix_hint && <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, paddingLeft: 16, marginTop: 2 }}>↳ {f.fix_hint}</div>}
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
+        </div>
+
+        {/* Barra azioni fissa in basso */}
+        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.1)", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, zIndex: 200 }}>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={() => setStep("genre")} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "rgba(255,255,255,0.6)", fontSize: 12, cursor: "pointer" }}>
+              ← Indietro
+            </button>
+            <button onClick={() => setShowAdventureEditor(true)} style={{ padding: "8px 16px", borderRadius: 8, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(124,58,237,0.12)", color: "#a78bfa", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+              ✏️ Modifica
+            </button>
+            <button onClick={handleDownloadAdventureJson} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "rgba(255,255,255,0.6)", fontSize: 12, cursor: "pointer" }}>
+              ⬇ Scarica JSON
+            </button>
+          </div>
+          <button
+            onClick={handleReviewApprove}
+            disabled={doctorEnriching}
+            style={{ padding: "10px 28px", borderRadius: 9, border: "none", background: doctorEnriching ? "rgba(255,255,255,0.1)" : "var(--accent)", color: doctorEnriching ? "rgba(255,255,255,0.3)" : "#fff", fontWeight: 900, fontSize: 14, cursor: doctorEnriching ? "default" : "pointer" }}>
+            {doctorEnriching ? "Analisi in corso…" : "Scegli personaggi →"}
+          </button>
+        </div>
+
+        {showAdventureEditor && preloadedAdventure && (
+          <AdventureEditor
+            adventure={preloadedAdventure}
+            onSave={async (updated) => { setPreloadedAdventure(updated); setShowAdventureEditor(false); await runDoctorOn(updated); }}
+            onClose={() => setShowAdventureEditor(false)}
+          />
         )}
       </div>
     );
