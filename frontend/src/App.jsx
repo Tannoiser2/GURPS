@@ -2112,6 +2112,33 @@ function SetupScreen({ onStart }) {
   const [wakeCountdown, setWakeCountdown] = useState(0);
   const _waking = useRef(false);
 
+  // ── Template Panel ──────────────────────────────────────────────────────────
+  const [showTemplatesPanel, setShowTemplatesPanel] = useState(false);
+  const [templatesList, setTemplatesList] = useState([]);
+  const [templatesLoading, setTemplatesLoading] = useState(false);
+  const [templateError, setTemplateError] = useState("");
+
+  // ── Wizard ──────────────────────────────────────────────────────────────────
+  const WIZARD_STEPS_ORDER = ["title", "premise", "npcs", "clocks", "clues"];
+  const [wizardStepIdx, setWizardStepIdx] = useState(0);
+  const [wizardDraftId, setWizardDraftId] = useState(null);
+  const [wizardLoading, setWizardLoading] = useState(false);
+  const [wizardErrors, setWizardErrors] = useState([]);
+  const [wizTitle, setWizTitle] = useState("");
+  const [wizGenre, setWizGenre] = useState("investigation");
+  const [wizPremise, setWizPremise] = useState("");
+  const [wizHiddenTruth, setWizHiddenTruth] = useState("");
+  const [wizWinCondition, setWizWinCondition] = useState("");
+  const [wizThreat, setWizThreat] = useState("");
+  const [wizNpcs, setWizNpcs] = useState([{ id: "npc_1", name: "", role: "antagonist", goal: "", location: "", attitude: "neutral" }]);
+  const [wizClocks, setWizClocks] = useState([{ id: "clock_1", label: "", max_value: 6, consequence: "", clock_type: "terminal_defeat" }]);
+  const [wizThreads, setWizThreads] = useState([{ id: "thread_1", question: "", payoff: "" }]);
+  const [wizClues, setWizClues] = useState([
+    { id: "clue_1", label: "", type: "object", thread_id: "thread_1", source_location: "", reveals: "" },
+    { id: "clue_2", label: "", type: "testimony", thread_id: "thread_1", source_location: "", reveals: "" },
+    { id: "clue_3", label: "", type: "document", thread_id: "thread_1", source_location: "", reveals: "" },
+  ]);
+
   // Keep-alive: ping ogni 13 minuti per evitare che Render spenga il backend
   useEffect(() => {
     const id = setInterval(() => { fetch(`${API_URL_DIRECT}/health`).catch(() => {}); }, 13 * 60 * 1000);
@@ -2379,6 +2406,133 @@ function SetupScreen({ onStart }) {
       }
     } catch (_) {}
     setDoctorEnriching(false);
+  }
+
+  // ── Utility: processa un adventure compilato (da template o wizard) ──────────
+  async function _loadCompiledAdventure(data, source) {
+    const definition = data.adventure_definition;
+    if (!definition) throw new Error("adventure_definition mancante nella risposta.");
+    const detectedGenre = normalizeGenreKey(definition.genre || "detective_classico", "detective_classico");
+    const adventure = {
+      ...definition,
+      id: definition.id || data.adventure_id,
+      runtime_id: definition.id || data.adventure_id,
+      genre: detectedGenre,
+      detected_genre: detectedGenre,
+      adventure_definition: definition,
+      runtime_state: data.runtime_state || null,
+      validation_report: data.validation_report || null,
+      [`from_${source}_load`]: true,
+    };
+    setPreloadedAdventure(adventure);
+    setGenre(detectedGenre);
+    if (data.doctor) setDoctorReport({ ...data.doctor, source });
+    else setDoctorReport(null);
+    setLoading(true);
+    await fetch(`${API_URL}/game/setup`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }),
+    });
+    const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
+    const rawPool = s?.team_setup?.candidate_pool || [];
+    let contextualPool = rawPool;
+    try {
+      const er = await fetch(`${API_URL}/game/character/enrich-backstory`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ characters: rawPool, adventure, genre: detectedGenre }),
+      }).then(r => r.json());
+      if (er.characters) contextualPool = er.characters;
+    } catch (_) {}
+    setPool(contextualPool);
+    setSelected([]);
+    setLoading(false);
+    await preGenerateMaps(adventure);
+    setStep("review");
+  }
+
+  // ── Template Panel ───────────────────────────────────────────────────────────
+  async function openTemplatesPanel() {
+    setShowTemplatesPanel(true);
+    setTemplateError("");
+    if (templatesList.length > 0) return;
+    setTemplatesLoading(true);
+    try {
+      const r = await fetch(`${API_URL_DIRECT}/adventure/templates`).then(r => r.json());
+      setTemplatesList(r.templates || []);
+    } catch (_) {
+      setTemplateError("Impossibile caricare i moduli.");
+    } finally {
+      setTemplatesLoading(false);
+    }
+  }
+
+  async function handleTemplateLoad(templateId) {
+    setTemplateError("");
+    setTemplatesLoading(true);
+    try {
+      const data = await fetch(`${API_URL_DIRECT}/adventure/from-template/${templateId}`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ players: [], customizations: {} }),
+      }).then(r => r.json());
+      if (data.error || data.detail) throw new Error(data.error || data.detail);
+      setShowTemplatesPanel(false);
+      await _loadCompiledAdventure(data, "template");
+    } catch (e) {
+      setTemplateError(e.message || "Errore caricamento modulo.");
+    } finally {
+      setTemplatesLoading(false);
+    }
+  }
+
+  // ── Wizard ───────────────────────────────────────────────────────────────────
+  function resetWizard() {
+    setWizardStepIdx(0); setWizardDraftId(null); setWizardErrors([]);
+    setWizTitle(""); setWizGenre("investigation");
+    setWizPremise(""); setWizHiddenTruth(""); setWizWinCondition(""); setWizThreat("");
+    setWizNpcs([{ id: "npc_1", name: "", role: "antagonist", goal: "", location: "", attitude: "neutral" }]);
+    setWizClocks([{ id: "clock_1", label: "", max_value: 6, consequence: "", clock_type: "terminal_defeat" }]);
+    setWizThreads([{ id: "thread_1", question: "", payoff: "" }]);
+    setWizClues([
+      { id: "clue_1", label: "", type: "object", thread_id: "thread_1", source_location: "", reveals: "" },
+      { id: "clue_2", label: "", type: "testimony", thread_id: "thread_1", source_location: "", reveals: "" },
+      { id: "clue_3", label: "", type: "document", thread_id: "thread_1", source_location: "", reveals: "" },
+    ]);
+  }
+
+  async function wizardSubmitStep() {
+    const stepName = WIZARD_STEPS_ORDER[wizardStepIdx];
+    let data = {};
+    if (stepName === "title") data = { title: wizTitle, genre: wizGenre };
+    else if (stepName === "premise") data = { premise: wizPremise, hidden_truth: wizHiddenTruth, win_condition: wizWinCondition, threat_description: wizThreat };
+    else if (stepName === "npcs") data = { npcs: wizNpcs.map((n, i) => ({ ...n, id: n.id || `npc_${i+1}` })) };
+    else if (stepName === "clocks") data = { clocks: wizClocks.map((c, i) => ({ ...c, id: c.id || `clock_${i+1}` })) };
+    else if (stepName === "clues") data = { clues: wizClues.map((c, i) => ({ ...c, id: c.id || `clue_${i+1}` })), threads: wizThreads.map((t, i) => ({ ...t, id: t.id || `thread_${i+1}`, required_clues: [], minimum_clues_to_deduce: 1 })) };
+
+    setWizardLoading(true);
+    setWizardErrors([]);
+    try {
+      const res = await fetch(`${API_URL_DIRECT}/adventure/wizard/step`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ draft_id: wizardDraftId || "", step: stepName, data }),
+      }).then(r => r.json());
+      if (res.validation_errors?.length) { setWizardErrors(res.validation_errors); return; }
+      if (!wizardDraftId) setWizardDraftId(res.draft_id);
+      if (res.completed) {
+        // Tutti gli step completati — compila
+        const compiled = await fetch(`${API_URL_DIRECT}/adventure/wizard/draft/${res.draft_id}/compile`, {
+          method: "POST",
+        }).then(r => r.json());
+        if (compiled.detail || compiled.error) throw new Error(compiled.detail || compiled.error);
+        await _loadCompiledAdventure(compiled, "wizard");
+        resetWizard();
+      } else {
+        setWizardStepIdx(i => i + 1);
+      }
+    } catch (e) {
+      setWizardErrors([e.message || "Errore di rete."]);
+    } finally {
+      setWizardLoading(false);
+    }
   }
 
   async function handlePdfUpload(file) {
@@ -2779,6 +2933,224 @@ function SetupScreen({ onStart }) {
     />
   );
 
+  // ── Step: Wizard creazione manuale ──
+  if (step === "wizard") {
+    const stepName = WIZARD_STEPS_ORDER[wizardStepIdx];
+    const stepLabels = { title: "1. Titolo", premise: "2. Premessa", npcs: "3. Personaggi", clocks: "4. Clock", clues: "5. Indizi" };
+    const inputStyle = { width: "100%", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: 6, color: "#fff", padding: "7px 10px", fontSize: 13, boxSizing: "border-box" };
+    const taStyle = { ...inputStyle, resize: "vertical", minHeight: 72, fontFamily: "inherit" };
+    const labelStyle = { fontSize: 11, color: "rgba(255,255,255,0.5)", marginBottom: 3, display: "block" };
+    const sectionStyle = { marginBottom: 14 };
+
+    const npcRoles = ["villain", "antagonist", "ally", "witness", "neutral"];
+    const clueTypes = ["object", "document", "testimony", "location", "clue"];
+    const clockTypes = ["terminal_defeat", "terminal_victory", "pressure"];
+
+    return (
+      <div style={{ height: "100vh", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0, maxHeight: "14vh" }} />
+
+        {/* Step progress bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: 0, padding: "10px 24px 6px", background: "#0a0a0a", flexShrink: 0 }}>
+          {WIZARD_STEPS_ORDER.map((s, i) => (
+            <React.Fragment key={s}>
+              <div style={{
+                padding: "4px 12px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+                background: i === wizardStepIdx ? "var(--accent)" : i < wizardStepIdx ? "rgba(139,92,246,0.3)" : "rgba(255,255,255,0.07)",
+                color: i === wizardStepIdx ? "#fff" : i < wizardStepIdx ? "#a78bfa" : "rgba(255,255,255,0.35)",
+                border: i < wizardStepIdx ? "1px solid rgba(139,92,246,0.4)" : "1px solid transparent",
+              }}>{stepLabels[s]}</div>
+              {i < WIZARD_STEPS_ORDER.length - 1 && <div style={{ flex: 1, height: 1, background: i < wizardStepIdx ? "rgba(139,92,246,0.4)" : "rgba(255,255,255,0.1)", margin: "0 4px" }} />}
+            </React.Fragment>
+          ))}
+          <button onClick={() => { resetWizard(); setStep("genre"); }} style={{ marginLeft: 16, background: "transparent", border: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: 18 }}>✕</button>
+        </div>
+
+        {/* Form body */}
+        <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px" }}>
+          {wizardErrors.length > 0 && (
+            <div style={{ background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.3)", borderRadius: 8, padding: "10px 14px", marginBottom: 16 }}>
+              {wizardErrors.map((e, i) => <div key={i} style={{ color: "#f87171", fontSize: 12 }}>• {e}</div>)}
+            </div>
+          )}
+
+          {stepName === "title" && (
+            <div>
+              <div style={sectionStyle}>
+                <label style={labelStyle}>Titolo dell'avventura *</label>
+                <input style={inputStyle} value={wizTitle} onChange={e => setWizTitle(e.target.value)} placeholder="Es: La Notte dei Lupi Argento" />
+              </div>
+              <div style={sectionStyle}>
+                <label style={labelStyle}>Genere *</label>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {Object.keys(GENRE_META).map(g => (
+                    <button key={g} onClick={() => setWizGenre(g)} style={{
+                      padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+                      background: wizGenre === g ? "var(--accent)" : "rgba(255,255,255,0.07)",
+                      color: wizGenre === g ? "#fff" : "rgba(255,255,255,0.6)",
+                      border: wizGenre === g ? "none" : "1px solid rgba(255,255,255,0.12)",
+                      fontWeight: wizGenre === g ? 600 : 400,
+                    }}>{GENRE_META[g]?.label || g}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {stepName === "premise" && (
+            <div>
+              <div style={sectionStyle}><label style={labelStyle}>Premessa (situazione iniziale) *</label><textarea style={taStyle} value={wizPremise} onChange={e => setWizPremise(e.target.value)} placeholder="Descrivi la situazione di partenza dell'avventura..." /></div>
+              <div style={sectionStyle}><label style={labelStyle}>Verità Nascosta * (ciò che i PG non sanno all'inizio)</label><textarea style={taStyle} value={wizHiddenTruth} onChange={e => setWizHiddenTruth(e.target.value)} placeholder="Il vero colpevole è... / Il segreto è..." /></div>
+              <div style={sectionStyle}><label style={labelStyle}>Condizione di Vittoria *</label><textarea style={{ ...taStyle, minHeight: 56 }} value={wizWinCondition} onChange={e => setWizWinCondition(e.target.value)} placeholder="I PG vincono quando..." /></div>
+              <div style={sectionStyle}><label style={labelStyle}>Minaccia / Antagonista (opzionale)</label><textarea style={{ ...taStyle, minHeight: 56 }} value={wizThreat} onChange={e => setWizThreat(e.target.value)} placeholder="La forza antagonista è..." /></div>
+            </div>
+          )}
+
+          {stepName === "npcs" && (
+            <div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginBottom: 12 }}>Minimo 2 personaggi non giocanti.</div>
+              {wizNpcs.map((npc, i) => (
+                <div key={i} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontSize: 12, color: "#a78bfa", fontWeight: 600 }}>NPC #{i + 1}</span>
+                    {wizNpcs.length > 2 && <button onClick={() => setWizNpcs(n => n.filter((_, j) => j !== i))} style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", fontSize: 14 }}>✕</button>}
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
+                    <div><label style={labelStyle}>Nome *</label><input style={inputStyle} value={npc.name} onChange={e => setWizNpcs(n => n.map((x, j) => j === i ? { ...x, name: e.target.value } : x))} placeholder="Nome NPC" /></div>
+                    <div><label style={labelStyle}>Ruolo</label>
+                      <select style={inputStyle} value={npc.role} onChange={e => setWizNpcs(n => n.map((x, j) => j === i ? { ...x, role: e.target.value } : x))}>
+                        {npcRoles.map(r => <option key={r} value={r}>{r}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
+                    <div><label style={labelStyle}>Luogo iniziale</label><input style={inputStyle} value={npc.location} onChange={e => setWizNpcs(n => n.map((x, j) => j === i ? { ...x, location: e.target.value } : x))} placeholder="Es: Taverna del porto" /></div>
+                    <div><label style={labelStyle}>Attitudine</label>
+                      <select style={inputStyle} value={npc.attitude} onChange={e => setWizNpcs(n => n.map((x, j) => j === i ? { ...x, attitude: e.target.value } : x))}>
+                        {["friendly", "neutral", "hostile", "fearful"].map(a => <option key={a} value={a}>{a}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div><label style={labelStyle}>Obiettivo / motivazione</label><input style={inputStyle} value={npc.goal} onChange={e => setWizNpcs(n => n.map((x, j) => j === i ? { ...x, goal: e.target.value } : x))} placeholder="Cosa vuole questo personaggio?" /></div>
+                </div>
+              ))}
+              <button onClick={() => setWizNpcs(n => [...n, { id: `npc_${n.length + 1}`, name: "", role: "neutral", goal: "", location: "", attitude: "neutral" }])}
+                style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)", color: "#a78bfa", borderRadius: 8, padding: "7px 16px", fontSize: 12, cursor: "pointer" }}>
+                + Aggiungi NPC
+              </button>
+            </div>
+          )}
+
+          {stepName === "clocks" && (
+            <div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.45)", marginBottom: 12 }}>I clock rappresentano pressioni temporali sull'avventura. Minimo 1.</div>
+              {wizClocks.map((ck, i) => (
+                <div key={i} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <span style={{ fontSize: 12, color: "#f59e0b", fontWeight: 600 }}>Clock #{i + 1}</span>
+                    {wizClocks.length > 1 && <button onClick={() => setWizClocks(c => c.filter((_, j) => j !== i))} style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", fontSize: 14 }}>✕</button>}
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 80px 1fr", gap: 8, marginBottom: 8 }}>
+                    <div><label style={labelStyle}>Etichetta *</label><input style={inputStyle} value={ck.label} onChange={e => setWizClocks(c => c.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} placeholder="Es: Prove distrutte" /></div>
+                    <div><label style={labelStyle}>Segmenti</label>
+                      <select style={inputStyle} value={ck.max_value} onChange={e => setWizClocks(c => c.map((x, j) => j === i ? { ...x, max_value: parseInt(e.target.value) } : x))}>
+                        {[4, 6, 8, 10].map(v => <option key={v} value={v}>{v}</option>)}
+                      </select>
+                    </div>
+                    <div><label style={labelStyle}>Tipo</label>
+                      <select style={inputStyle} value={ck.clock_type} onChange={e => setWizClocks(c => c.map((x, j) => j === i ? { ...x, clock_type: e.target.value } : x))}>
+                        {clockTypes.map(t => <option key={t} value={t}>{t}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div><label style={labelStyle}>Conseguenza se completo</label><input style={inputStyle} value={ck.consequence} onChange={e => setWizClocks(c => c.map((x, j) => j === i ? { ...x, consequence: e.target.value } : x))} placeholder="Cosa succede quando il clock si riempie?" /></div>
+                </div>
+              ))}
+              <button onClick={() => setWizClocks(c => [...c, { id: `clock_${c.length + 1}`, label: "", max_value: 6, consequence: "", clock_type: "pressure" }])}
+                style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.3)", color: "#f59e0b", borderRadius: 8, padding: "7px 16px", fontSize: 12, cursor: "pointer" }}>
+                + Aggiungi Clock
+              </button>
+            </div>
+          )}
+
+          {stepName === "clues" && (
+            <div>
+              {/* Thread narrativi */}
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ fontSize: 13, color: "#a78bfa", fontWeight: 600, marginBottom: 8 }}>Piste narrative</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 10 }}>Una pista è una domanda a cui i PG devono rispondere (min. 1).</div>
+                {wizThreads.map((th, i) => (
+                  <div key={i} style={{ background: "rgba(139,92,246,0.06)", border: "1px solid rgba(139,92,246,0.2)", borderRadius: 8, padding: 10, marginBottom: 8 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                      <span style={{ fontSize: 11, color: "#a78bfa" }}>Pista #{i + 1}</span>
+                      {wizThreads.length > 1 && <button onClick={() => setWizThreads(t => t.filter((_, j) => j !== i))} style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", fontSize: 13 }}>✕</button>}
+                    </div>
+                    <div style={{ marginBottom: 6 }}><label style={labelStyle}>Domanda *</label><input style={inputStyle} value={th.question} onChange={e => setWizThreads(t => t.map((x, j) => j === i ? { ...x, question: e.target.value } : x))} placeholder="Chi ha...? / Cosa nasconde...?" /></div>
+                    <div><label style={labelStyle}>Payoff (cosa si scopre)</label><input style={inputStyle} value={th.payoff} onChange={e => setWizThreads(t => t.map((x, j) => j === i ? { ...x, payoff: e.target.value } : x))} placeholder="La risposta alla domanda è..." /></div>
+                  </div>
+                ))}
+                <button onClick={() => setWizThreads(t => [...t, { id: `thread_${t.length + 1}`, question: "", payoff: "" }])}
+                  style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.25)", color: "#a78bfa", borderRadius: 8, padding: "5px 14px", fontSize: 11, cursor: "pointer" }}>
+                  + Pista
+                </button>
+              </div>
+
+              {/* Indizi */}
+              <div>
+                <div style={{ fontSize: 13, color: "#4ade80", fontWeight: 600, marginBottom: 8 }}>Indizi</div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginBottom: 10 }}>Minimo 3 indizi. Ogni indizio appartiene a una pista.</div>
+                {wizClues.map((cl, i) => (
+                  <div key={i} style={{ background: "rgba(74,222,128,0.04)", border: "1px solid rgba(74,222,128,0.15)", borderRadius: 8, padding: 10, marginBottom: 8 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                      <span style={{ fontSize: 11, color: "#4ade80" }}>Indizio #{i + 1}</span>
+                      {wizClues.length > 3 && <button onClick={() => setWizClues(c => c.filter((_, j) => j !== i))} style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", fontSize: 13 }}>✕</button>}
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 6 }}>
+                      <div><label style={labelStyle}>Etichetta *</label><input style={inputStyle} value={cl.label} onChange={e => setWizClues(c => c.map((x, j) => j === i ? { ...x, label: e.target.value } : x))} placeholder="Nome indizio" /></div>
+                      <div><label style={labelStyle}>Tipo</label>
+                        <select style={inputStyle} value={cl.type} onChange={e => setWizClues(c => c.map((x, j) => j === i ? { ...x, type: e.target.value } : x))}>
+                          {clueTypes.map(t => <option key={t} value={t}>{t}</option>)}
+                        </select>
+                      </div>
+                      <div><label style={labelStyle}>Pista collegata</label>
+                        <select style={inputStyle} value={cl.thread_id} onChange={e => setWizClues(c => c.map((x, j) => j === i ? { ...x, thread_id: e.target.value } : x))}>
+                          {wizThreads.map((th, ti) => <option key={ti} value={th.id || `thread_${ti + 1}`}>Pista #{ti + 1}</option>)}
+                        </select>
+                      </div>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      <div><label style={labelStyle}>Luogo in cui si trova</label><input style={inputStyle} value={cl.source_location} onChange={e => setWizClues(c => c.map((x, j) => j === i ? { ...x, source_location: e.target.value } : x))} placeholder="Es: Ufficio del sindaco" /></div>
+                      <div><label style={labelStyle}>Cosa rivela</label><input style={inputStyle} value={cl.reveals} onChange={e => setWizClues(c => c.map((x, j) => j === i ? { ...x, reveals: e.target.value } : x))} placeholder="Questo indizio rivela che..." /></div>
+                    </div>
+                  </div>
+                ))}
+                <button onClick={() => setWizClues(c => [...c, { id: `clue_${c.length + 1}`, label: "", type: "object", thread_id: wizThreads[0]?.id || "thread_1", source_location: "", reveals: "" }])}
+                  style={{ background: "rgba(74,222,128,0.08)", border: "1px solid rgba(74,222,128,0.2)", color: "#4ade80", borderRadius: 8, padding: "5px 14px", fontSize: 11, cursor: "pointer" }}>
+                  + Indizio
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Footer navigation */}
+        <div style={{ padding: "12px 24px", background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+          {wizardStepIdx > 0 && (
+            <button onClick={() => { setWizardStepIdx(i => i - 1); setWizardErrors([]); }}
+              style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)", borderRadius: 8, padding: "8px 20px", fontSize: 13, cursor: "pointer" }}>
+              ← Indietro
+            </button>
+          )}
+          <div style={{ flex: 1 }} />
+          <button onClick={wizardSubmitStep} disabled={wizardLoading}
+            style={{ background: "var(--accent)", border: "none", color: "#fff", borderRadius: 8, padding: "9px 28px", fontSize: 14, fontWeight: 600, cursor: wizardLoading ? "default" : "pointer", opacity: wizardLoading ? 0.7 : 1 }}>
+            {wizardLoading ? "⏳ In corso..." : stepName === "clues" ? "✨ Compila Avventura" : "Avanti →"}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // ── Step 1: scegli genere ──
   if (step === "genre") {
     const genres = Object.keys(GENRE_META);
@@ -2864,15 +3236,86 @@ function SetupScreen({ onStart }) {
               }}
             />
           </label>
+          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
+
+          {/* Moduli pronti */}
+          <button onClick={openTemplatesPanel} style={{
+            background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.35)",
+            color: "#f59e0b", borderRadius: 7, padding: "5px 12px", fontSize: 12,
+            fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
+          }}>📚 Moduli Pronti</button>
+
+          {/* Wizard */}
+          <button onClick={() => { resetWizard(); setStep("wizard"); }} style={{
+            background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.35)",
+            color: "#a78bfa", borderRadius: 7, padding: "5px 12px", fontSize: 12,
+            fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
+          }}>🧙 Crea Passo-Passo</button>
+
           {buildVersion && (
             <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 0.4, flexShrink: 0, alignSelf: "center" }}>
               {buildVersion}
             </span>
           )}
         </div>
-        {(pdfError || jsonError) && (
+        {(pdfError || jsonError || templateError) && (
           <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
-            ❌ {pdfError || jsonError}
+            ❌ {pdfError || jsonError || templateError}
+          </div>
+        )}
+
+        {/* Template Panel Modal */}
+        {showTemplatesPanel && (
+          <div style={{
+            position: "fixed", inset: 0, zIndex: 999,
+            background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center",
+          }} onClick={e => e.target === e.currentTarget && setShowTemplatesPanel(false)}>
+            <div style={{
+              background: "#111", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14,
+              width: "min(700px, 94vw)", maxHeight: "80vh", display: "flex", flexDirection: "column",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.7)",
+            }}>
+              <div style={{ padding: "16px 20px 10px", borderBottom: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: "#f59e0b" }}>📚 Moduli Pronti</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>Avventure complete, pronte da giocare o modificare</div>
+                </div>
+                <button onClick={() => setShowTemplatesPanel(false)} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 20 }}>✕</button>
+              </div>
+              <div style={{ overflowY: "auto", padding: "14px 16px", display: "flex", flexDirection: "column", gap: 10 }}>
+                {templatesLoading && <div style={{ textAlign: "center", color: "rgba(255,255,255,0.4)", padding: 24 }}>Caricamento moduli...</div>}
+                {!templatesLoading && templatesList.map(tpl => {
+                  const genreMeta = GENRE_META[tpl.genre] || {};
+                  return (
+                    <div key={tpl.id} style={{
+                      background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
+                      borderRadius: 10, padding: "12px 14px", display: "flex", gap: 12, alignItems: "flex-start",
+                    }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{tpl.title}</span>
+                          <span style={{ fontSize: 10, padding: "2px 7px", borderRadius: 10, background: genreMeta.color ? `${genreMeta.color}25` : "rgba(255,255,255,0.1)", color: genreMeta.color || "#aaa", border: `1px solid ${genreMeta.color || "#aaa"}40` }}>
+                            {genreMeta.label || tpl.genre}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", lineHeight: 1.5, marginBottom: 8 }}>
+                          {tpl.description}
+                        </div>
+                        <div style={{ display: "flex", gap: 10 }}>
+                          {[["👤", tpl.npc_count, "NPC"], ["🔍", tpl.clue_count, "indizi"], ["⏱", tpl.clock_count, "clock"]].map(([ico, n, lbl]) => (
+                            <span key={lbl} style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>{ico} {n} {lbl}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <button onClick={() => handleTemplateLoad(tpl.id)} disabled={templatesLoading}
+                        style={{ background: "var(--accent)", border: "none", color: "#fff", borderRadius: 8, padding: "8px 18px", fontSize: 13, fontWeight: 600, cursor: "pointer", flexShrink: 0 }}>
+                        Carica →
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
 
