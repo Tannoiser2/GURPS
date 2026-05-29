@@ -2100,6 +2100,7 @@ function SetupScreen({ onStart }) {
   const [showAdventureEditor, setShowAdventureEditor] = useState(false);
   const [doctorReport, setDoctorReport] = useState(null); // {score, findings, enriching}
   const [doctorEnriching, setDoctorEnriching] = useState(false);
+  const [editorRevision, setEditorRevision] = useState(0); // incrementa quando l'editor deve risincronizzarsi
   const [reviewShowInfos, setReviewShowInfos] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [showBuilder, setShowBuilder] = useState(false);
@@ -2261,6 +2262,7 @@ function SetupScreen({ onStart }) {
           adventure_definition: enrichedDef,
         }));
         setDoctorReport({ score: dr.score_after ?? dr.score, findings: [], findings_count: 0, source: "enriched" });
+        setEditorRevision(r => r + 1);  // forza l'editor a leggere i nuovi dati arricchiti
       }
     } catch (_) {}
     setDoctorEnriching(false);
@@ -3001,6 +3003,7 @@ function SetupScreen({ onStart }) {
           {/* 3 — Editor inline (tabs PNG/Indizi/Piste/Clock + Scarica JSON come pulsante extra) */}
           <AdventureEditor
             inline
+            revision={editorRevision}
             adventure={preloadedAdventure}
             onSave={(updated) => setPreloadedAdventure(updated)}
             extraToolbar={
@@ -3214,7 +3217,7 @@ function SetupScreen({ onStart }) {
 }
 
 // ─── U6: AdventureEditor ──────────────────────────────────────────────────────
-function AdventureEditor({ adventure, onSave, onClose, inline = false, extraToolbar = null }) {
+function AdventureEditor({ adventure, onSave, onClose, inline = false, extraToolbar = null, revision = 0 }) {
   const def0 = adventure?.adventure_definition || {};
   const [actors, setActors] = React.useState(() => JSON.parse(JSON.stringify(def0.actors || [])));
   const [clocks, setClocks] = React.useState(() => JSON.parse(JSON.stringify(def0.event_clocks || [])));
@@ -3271,6 +3274,19 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     onSave({ ...adventure, adventure_definition: newDef });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inline, actors, clocks, clues, factions, threads]);
+
+  // Risincronizza lo state interno quando il padre incrementa `revision` (es. dopo doctor enrich)
+  // — è il segnale esplicito che def0 è stato modificato da fuori e va ricaricato.
+  React.useEffect(() => {
+    if (revision === 0) return;
+    _firstAutoSave.current = true; // evita di propagare immediatamente l'auto-save dopo il reset
+    setActors(JSON.parse(JSON.stringify(def0.actors || [])));
+    setClocks(JSON.parse(JSON.stringify(def0.event_clocks || [])));
+    setClues(JSON.parse(JSON.stringify(def0.clues || [])));
+    setFactions(JSON.parse(JSON.stringify(def0.factions || [])));
+    setThreads(JSON.parse(JSON.stringify(def0.story_threads || [])));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [revision]);
 
   // Thread IDs collected from story_threads + clues + revelations for graph and dropdowns
   const threadIds = [...new Set([
