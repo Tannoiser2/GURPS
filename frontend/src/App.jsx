@@ -4924,7 +4924,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     setDirty(true);
   }
   function addLocation() {
-    setLocations(l => [...l, { id: _newId("loc", l), name: "Nuovo luogo", description: "", status: "known", access_state: "open", type: "location" }]);
+    setLocations(l => [...l, { id: _newId("loc", l), name: "Nuovo luogo", description: "", status: "known", access_state: "open", type: "location", location_type: "regional", connections_to: [] }]);
     setExpandedLocation(locations.length);
     setDirty(true);
   }
@@ -5399,6 +5399,8 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                 const featuresStr = Array.isArray(loc.concrete_features) ? loc.concrete_features.join(", ") : (loc.concrete_features || "");
                 const hazardsStr = Array.isArray(loc.hazards) ? loc.hazards.join(", ") : (loc.hazards || "");
                 const exitsStr = Array.isArray(loc.exits) ? loc.exits.join(", ") : (loc.exits || "");
+                const locTypeIcon = { strategic: "🌍", regional: "🏙", local: "🏠" }[loc.location_type] || "📍";
+                const locTypeLabel = { strategic: "Strategica", regional: "Regionale", local: "Locale" }[loc.location_type] || "";
                 return (
                   <div key={loc.id || i} style={{ borderRadius: 9, border: `1px solid ${statusColor}35`, background: "var(--code-bg)", overflow: "hidden" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "9px 12px", cursor: "pointer" }} onClick={() => setExpandedLocation(expanded ? null : i)}>
@@ -5406,6 +5408,9 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <span style={{ fontSize: 13, fontWeight: 800, color: "var(--text-h)" }}>{loc.name || "(senza nome)"}</span>
                         <span style={{ fontSize: 10, color: statusColor, marginLeft: 8, fontWeight: 600 }}>{loc.status}</span>
+                        {locTypeLabel && (
+                          <span style={{ fontSize: 10, color: "#a78bfa", marginLeft: 8, fontWeight: 600 }}>{locTypeIcon} {locTypeLabel}</span>
+                        )}
                         {loc.access_state && loc.access_state !== "open" && (
                           <span style={{ fontSize: 10, color: accessColor, marginLeft: 8, fontWeight: 600 }}>🔒 {loc.access_state}</span>
                         )}
@@ -5447,15 +5452,54 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                           ))}
                         </div>
 
-                        {/* Location padre (per nesting) */}
-                        {fieldRow("Location padre", (
-                          <select style={selectStyle} value={loc.parent_location_id || ""}
-                            onChange={e => patchLocation(i, "parent_location_id", e.target.value)}>
-                            <option value="">(nessuna — livello root)</option>
-                            {(locations || []).filter((_, li) => li !== i).map(l => (
-                              <option key={l.id} value={l.id}>{l.name || l.id}</option>
-                            ))}
-                          </select>
+                        {/* Livello e gerarchia */}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
+                          {fieldRow("Livello", (
+                            <select style={selectStyle} value={loc.location_type || "regional"}
+                              onChange={e => patchLocation(i, "location_type", e.target.value)}>
+                              <option value="strategic">🌍 Strategica (regno/regione)</option>
+                              <option value="regional">🏙 Regionale (città/dungeon)</option>
+                              <option value="local">🏠 Locale (taverna/stanza)</option>
+                            </select>
+                          ))}
+                          {fieldRow("Location padre", (
+                            <select style={selectStyle} value={loc.parent_location_id || ""}
+                              onChange={e => patchLocation(i, "parent_location_id", e.target.value)}>
+                              <option value="">(nessuna — strategica)</option>
+                              {(locations || []).filter((_, li) => li !== i).map(l => (
+                                <option key={l.id} value={l.id}>{l.name || l.id}</option>
+                              ))}
+                            </select>
+                          ))}
+                        </div>
+                        {fieldRow("Collega a (connections_to)", (
+                          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                              {(Array.isArray(loc.connections_to) ? loc.connections_to : []).map(cid => {
+                                const cName = (locations.find(l => l.id === cid) || {}).name || cid;
+                                return (
+                                  <span key={cid} style={{ display: "flex", alignItems: "center", gap: 3, padding: "2px 7px", borderRadius: 4, background: "rgba(167,139,250,0.15)", border: "1px solid rgba(167,139,250,0.3)", fontSize: 10, color: "#c4b5fd" }}>
+                                    {cName}
+                                    <button onClick={() => patchLocation(i, "connections_to", (loc.connections_to || []).filter(x => x !== cid))}
+                                      style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", padding: 0, fontSize: 10, lineHeight: 1 }}>✕</button>
+                                  </span>
+                                );
+                              })}
+                            </div>
+                            <select style={{ ...selectStyle, fontSize: 10 }}
+                              value=""
+                              onChange={e => {
+                                const val = e.target.value;
+                                if (!val) return;
+                                const current = Array.isArray(loc.connections_to) ? loc.connections_to : [];
+                                if (!current.includes(val)) patchLocation(i, "connections_to", [...current, val]);
+                              }}>
+                              <option value="">+ Aggiungi collegamento…</option>
+                              {(locations || []).filter((_, li) => li !== i && !(Array.isArray(loc.connections_to) && loc.connections_to.includes(locations[li]?.id))).map(l => (
+                                <option key={l.id} value={l.id}>{l.name || l.id}</option>
+                              ))}
+                            </select>
+                          </div>
                         ))}
 
                         {/* Mappa locale (per sub-locazioni) */}
