@@ -4459,7 +4459,19 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
       seen.add(key);
       edges.push({ from: c.from, to: c.to, status: c.status || "open", discovered: c.discovered !== false });
     });
-    // 2. Connessioni implicite dalle exits delle location
+    // 2. Connessioni esplicite dal nuovo schema 3-livelli (connections_to)
+    visibleLocations.forEach(loc => {
+      if (!loc?.id || !Array.isArray(loc.connections_to)) return;
+      loc.connections_to.forEach(cid => {
+        const target = locById[cid] || locByName[String(cid || "").trim().toLowerCase()];
+        if (!target?.id) return;
+        const key = [loc.id, target.id].sort().join("|");
+        if (seen.has(key)) return;
+        seen.add(key);
+        edges.push({ from: loc.id, to: target.id, status: "open", discovered: true });
+      });
+    });
+    // 3. Connessioni implicite dalle exits delle location
     visibleLocations.forEach(loc => {
       if (!loc?.id || !Array.isArray(loc.exits)) return;
       loc.exits.forEach(ex => {

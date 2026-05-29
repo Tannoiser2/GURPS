@@ -1009,32 +1009,42 @@ def _enrich_clues(clues: List[Dict], context: str) -> List[Dict]:
 
 
 def _enrich_location_hierarchy(locations: List[Dict], context: str) -> List[Dict]:
-    """Chiede all'AI di organizzare le location in una gerarchia a 2 livelli con parent_location_id."""
+    """Organizza le location in una gerarchia a 3 livelli (strategic/regional/local)
+    con parent_location_id e location_type coerenti."""
     if not locations:
         return locations
     loc_list = [{"id": l.get("id"), "name": l.get("name"), "description": (l.get("description") or "")[:80]} for l in locations]
     prompt = (
         f"Avventura: {context}\n\n"
         f"Location attuali:\n{json.dumps(loc_list, ensure_ascii=False, indent=2)}\n\n"
-        "Organizza queste location in una gerarchia a 2 livelli:\n"
-        "- Livello 0 (aree macroscopiche): 2-3 location con parent_location_id: \"\"\n"
-        "- Livello 1 (sub-zone): le restanti, ciascuna con parent_location_id = id dell'area padre logica\n\n"
-        "Se necessario puoi rinominare o accorpare location molto simili.\n"
-        "Restituisci SOLO una lista JSON con TUTTI gli id originali, aggiungendo parent_location_id a ciascuno.\n"
-        "Formato: [{\"id\": \"...\", \"parent_location_id\": \"\"}, ...]\n"
-        "Non aggiungere altri campi."
+        "Organizza queste location in una gerarchia a 3 livelli:\n"
+        "- STRATEGIC (regno/regione/mappa del mondo): 1-3 location con parent_location_id: \"\"\n"
+        "- REGIONAL (città/dungeon/foresta): parent_location_id = id dell'area strategica\n"
+        "- LOCAL (taverna/stanza/edificio specifico): parent_location_id = id della location regionale\n\n"
+        "Per ogni location indica anche connections_to: gli id delle location allo stesso livello con cui è collegata.\n"
+        "Restituisci SOLO una lista JSON con TUTTI gli id originali.\n"
+        "Formato: [{\"id\": \"...\", \"parent_location_id\": \"\", \"location_type\": \"strategic|regional|local\", \"connections_to\": []}, ...]\n"
+        "Non aggiungere altri campi né nuovi id."
     )
     try:
-        result = _json_from_llm(_llm(prompt, max_tokens=800))
+        result = _json_from_llm(_llm(prompt, max_tokens=1100))
         if isinstance(result, list):
-            parent_map = {item["id"]: item.get("parent_location_id", "") for item in result if "id" in item}
+            by_id = {item["id"]: item for item in result if "id" in item}
             updated = []
             for loc in locations:
                 lid = loc.get("id")
-                if lid in parent_map:
-                    updated.append({**loc, "parent_location_id": parent_map[lid]})
-                else:
+                item = by_id.get(lid)
+                if not item:
                     updated.append(loc)
+                    continue
+                patch = {"parent_location_id": item.get("parent_location_id", "")}
+                lt = str(item.get("location_type") or "").strip()
+                if lt in {"strategic", "regional", "local"}:
+                    patch["location_type"] = lt
+                conns = item.get("connections_to")
+                if isinstance(conns, list):
+                    patch["connections_to"] = [str(c) for c in conns if c]
+                updated.append({**loc, **patch})
             return updated
     except Exception as e:
         print(f"[doctor] location hierarchy enrichment failed: {e}", file=sys.stderr)

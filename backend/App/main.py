@@ -320,6 +320,17 @@ def _build_map_from_definition(definition: AdventureDefinition) -> "MapState | N
                 connections.append(name_to_id[en])
             elif ex.strip() in id_set:
                 connections.append(ex.strip())
+        # Bridge: i collegamenti espliciti del nuovo schema 3-livelli (connections_to)
+        for cid in (getattr(loc, "connections_to", None) or []):
+            cid = str(cid).strip()
+            if cid in id_set and cid not in connections:
+                connections.append(cid)
+            elif cid.lower() in name_to_id and name_to_id[cid.lower()] not in connections:
+                connections.append(name_to_id[cid.lower()])
+        # Bridge: collega ogni figlio al proprio genitore (gerarchia → navigabilità)
+        pid = str(getattr(loc, "parent_location_id", "") or "").strip()
+        if pid and pid in id_set and pid not in connections:
+            connections.append(pid)
         adj[loc.id] = connections
 
         gf = (loc.gameplay_function or "").lower()

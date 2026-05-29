@@ -5240,6 +5240,14 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
         # Preserva connections_to come lista di stringhe
         raw_connections = loc.get("connections_to")
         loc["connections_to"] = [str(c) for c in raw_connections if c] if isinstance(raw_connections, list) else []
+        # Fog of war iniziale per livello (se l'AI non ha imposto uno status):
+        #   strategica = nota (mappa del mondo), regionale = intravista, locale = nascosta
+        if not loc.get("status"):
+            loc["status"] = {
+                "strategic": "known",
+                "regional": "unknown",
+                "local": "hidden",
+            }.get(loc["location_type"], "known")
         if i in hot_location_indexes:
             loc["has_combat_potential"] = True
             existing_tactical = loc.get("tactical_map") if isinstance(loc.get("tactical_map"), dict) else {}
