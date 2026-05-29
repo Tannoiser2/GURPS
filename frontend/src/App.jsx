@@ -2131,7 +2131,7 @@ function SetupScreen({ onStart }) {
     setMapsLoading(true);
     setMapsResult(null);
     try {
-      const res = await fetch(`${API_URL}/game/adventure/pre-generate-maps`, {
+      const res = await fetch(`${API_URL_DIRECT}/game/adventure/pre-generate-maps`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -3339,6 +3339,230 @@ function SetupScreen({ onStart }) {
 }
 
 // ─── U6: AdventureEditor ──────────────────────────────────────────────────────
+// ── TacticalMapVisualEditor ──────────────────────────────────────────────
+// Sfondo immagine + griglia hex SVG + token trascinabili (scene_objects, enemy_positions).
+// I token si snappano alla cella hex più vicina al rilascio.
+function TacticalMapVisualEditor({ tm, actors, onMoveSceneObject, onMoveEnemy }) {
+  const cols = Math.max(4, Number(tm.cols) || 10);
+  const rows = Math.max(3, Number(tm.rows) || 7);
+  const HEX_R = 36;
+  const HEX_W = HEX_R * 2;
+  const HEX_H = Math.sqrt(3) * HEX_R;
+  const HEX_OFF_X = HEX_W * 0.75;
+  const vbW = cols * HEX_OFF_X + HEX_R * 0.5;
+  const vbH = rows * HEX_H + HEX_H / 2 + 4;
+
+  const hexCenter = React.useCallback((col, row) => ({
+    x: col * HEX_OFF_X + HEX_R,
+    y: row * HEX_H + (col % 2 === 1 ? HEX_H / 2 : 0) + HEX_H / 2,
+  }), []);
+
+  const pixelToHex = React.useCallback((px, py) => {
+    let best = { col: 0, row: 0, d: Infinity };
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        const { x, y } = hexCenter(c, r);
+        const d = (x - px) ** 2 + (y - py) ** 2;
+        if (d < best.d) best = { col: c, row: r, d };
+      }
+    }
+    return { col: best.col, row: best.row };
+  }, [cols, rows, hexCenter]);
+
+  const hexPath = (cx, cy) => {
+    const r = HEX_R - 1;
+    const pts = [];
+    for (let i = 0; i < 6; i++) {
+      const a = (Math.PI / 180) * (60 * i);
+      pts.push(`${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`);
+    }
+    return `M${pts.join('L')}Z`;
+  };
+
+  const svgRef = React.useRef(null);
+  const [drag, setDrag] = React.useState(null); // {kind, idx, x, y}
+
+  function clientToVB(clientX, clientY) {
+    const svg = svgRef.current;
+    if (!svg || !svg.getScreenCTM) return { x: 0, y: 0 };
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return { x: 0, y: 0 };
+    const pt = svg.createSVGPoint();
+    pt.x = clientX; pt.y = clientY;
+    const r = pt.matrixTransform(ctm.inverse());
+    return { x: r.x, y: r.y };
+  }
+
+  function handleDown(kind, idx, e) {
+    e.stopPropagation();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
+    const { x, y } = clientToVB(e.clientX, e.clientY);
+    setDrag({ kind, idx, x, y });
+  }
+  function handleMove(e) {
+    if (!drag) return;
+    const { x, y } = clientToVB(e.clientX, e.clientY);
+    setDrag(d => d ? { ...d, x, y } : d);
+  }
+  function handleUp(e) {
+    if (!drag) return;
+    const { col, row } = pixelToHex(drag.x, drag.y);
+    if (drag.kind === 'obj') onMoveSceneObject(drag.idx, col, row);
+    else if (drag.kind === 'enemy') onMoveEnemy(drag.idx, col, row);
+    setDrag(null);
+  }
+
+  const sceneObjs = tm.scene_objects || [];
+  const enemyPos = tm.enemy_positions || [];
+  const aspectRatio = vbW / vbH;
+
+  return (
+    <div style={{ position: 'relative', width: '100%', maxWidth: 720, margin: '0 auto', userSelect: 'none' }}>
+      <div style={{ position: 'relative', width: '100%', paddingBottom: `${100 / aspectRatio}%`, background: tm.image_b64 ? 'transparent' : 'rgba(0,0,0,0.4)', borderRadius: 6, overflow: 'hidden' }}>
+        {tm.image_b64 && (
+          <img src={`data:image/jpeg;base64,${tm.image_b64}`} alt="mappa tattica"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'fill', display: 'block' }} />
+        )}
+        <svg ref={svgRef}
+          viewBox={`0 0 ${vbW} ${vbH}`}
+          preserveAspectRatio="none"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', touchAction: 'none' }}
+          onPointerMove={handleMove}
+          onPointerUp={handleUp}
+          onPointerLeave={handleUp}
+        >
+          {Array.from({ length: cols }).flatMap((_, c) =>
+            Array.from({ length: rows }).map((_, r) => {
+              const { x, y } = hexCenter(c, r);
+              return (
+                <path key={`${c}-${r}`} d={hexPath(x, y)}
+                  fill="rgba(255,255,255,0.04)"
+                  stroke="rgba(255,255,255,0.35)"
+                  strokeWidth="0.7" />
+              );
+            })
+          )}
+          {sceneObjs.map((obj, j) => {
+            const isDrag = drag?.kind === 'obj' && drag.idx === j;
+            const { x, y } = isDrag ? drag : hexCenter(obj.grid_x || 0, obj.grid_y || 0);
+            return (
+              <g key={`o-${j}`} onPointerDown={(e) => handleDown('obj', j, e)} style={{ cursor: isDrag ? 'grabbing' : 'grab' }}>
+                <circle cx={x} cy={y} r={HEX_R * 0.6}
+                  fill="rgba(167,139,250,0.92)" stroke="#fff" strokeWidth="2" />
+                <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="800" fill="#fff" style={{ pointerEvents: 'none' }}>
+                  {(obj.name || 'obj').slice(0, 7)}
+                </text>
+              </g>
+            );
+          })}
+          {enemyPos.map((pos, j) => {
+            const isDrag = drag?.kind === 'enemy' && drag.idx === j;
+            const { x, y } = isDrag ? drag : hexCenter(pos.grid_x || 0, pos.grid_y || 0);
+            const actor = (actors || []).find(a => a.id === pos.npc_id);
+            const label = actor?.name || pos.npc_id || '?';
+            return (
+              <g key={`e-${j}`} onPointerDown={(e) => handleDown('enemy', j, e)} style={{ cursor: isDrag ? 'grabbing' : 'grab' }}>
+                <circle cx={x} cy={y} r={HEX_R * 0.6}
+                  fill={pos.hidden ? "rgba(120,53,15,0.92)" : "rgba(248,113,113,0.92)"}
+                  stroke="#fff" strokeWidth="2" />
+                <text x={x} y={y + 4} textAnchor="middle" fontSize="11" fontWeight="800" fill="#fff" style={{ pointerEvents: 'none' }}>
+                  {label.slice(0, 7)}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+      <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginTop: 6, textAlign: 'center' }}>
+        Trascina i token per riposizionarli sulla griglia esagonale ({cols}×{rows})
+      </div>
+    </div>
+  );
+}
+
+// ── StrategicMapVisualEditor ──────────────────────────────────────────────
+// Sfondo immagine + pin location trascinabili in coordinate percentuali (0-100).
+function StrategicMapVisualEditor({ image_b64, locations, onMoveLocation }) {
+  const containerRef = React.useRef(null);
+  const [drag, setDrag] = React.useState(null);
+
+  function clientToPct(clientX, clientY) {
+    const c = containerRef.current;
+    if (!c) return { x: 0, y: 0 };
+    const r = c.getBoundingClientRect();
+    if (r.width === 0 || r.height === 0) return { x: 0, y: 0 };
+    return {
+      x: Math.max(0, Math.min(100, ((clientX - r.left) / r.width) * 100)),
+      y: Math.max(0, Math.min(100, ((clientY - r.top) / r.height) * 100)),
+    };
+  }
+
+  function handleDown(idx, e) {
+    e.stopPropagation();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
+    const { x, y } = clientToPct(e.clientX, e.clientY);
+    setDrag({ idx, x, y });
+  }
+  function handleMove(e) {
+    if (!drag) return;
+    const { x, y } = clientToPct(e.clientX, e.clientY);
+    setDrag(d => d ? { ...d, x, y } : d);
+  }
+  function handleUp() {
+    if (!drag) return;
+    onMoveLocation(drag.idx, Math.round(drag.x), Math.round(drag.y));
+    setDrag(null);
+  }
+
+  return (
+    <div ref={containerRef}
+      onPointerMove={handleMove}
+      onPointerUp={handleUp}
+      onPointerLeave={handleUp}
+      style={{ position: 'relative', width: '100%', maxWidth: 800, margin: '0 auto', userSelect: 'none', touchAction: 'none' }}
+    >
+      <img src={`data:image/jpeg;base64,${image_b64}`} alt="mappa strategica"
+        style={{ width: '100%', display: 'block', borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)' }} />
+      {(locations || []).map((loc, i) => {
+        const isDrag = drag?.idx === i;
+        const x = isDrag ? drag.x : (Number(loc.map_x) || 50);
+        const y = isDrag ? drag.y : (Number(loc.map_y) || 50);
+        return (
+          <div key={loc.id || i}
+            onPointerDown={(e) => handleDown(i, e)}
+            style={{
+              position: 'absolute',
+              left: `${x}%`,
+              top: `${y}%`,
+              transform: 'translate(-50%, -50%)',
+              cursor: isDrag ? 'grabbing' : 'grab',
+              background: 'rgba(96,165,250,0.95)',
+              color: '#fff',
+              padding: '5px 11px',
+              borderRadius: 5,
+              fontSize: 11,
+              fontWeight: 800,
+              border: '2px solid #fff',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
+              whiteSpace: 'nowrap',
+              maxWidth: 160,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              pointerEvents: 'auto',
+            }}
+            title={loc.description || loc.name}
+          >
+            📍 {loc.name || loc.id}
+          </div>
+        );
+      })}
+      <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginTop: 6, textAlign: 'center' }}>
+        Trascina i pin per posizionare le location sulla mappa
+      </div>
+    </div>
+  );
+}
+
 function AdventureEditor({ adventure, onSave, onClose, inline = false, extraToolbar = null, revision = 0 }) {
   const def0 = adventure?.adventure_definition || {};
   const [actors, setActors] = React.useState(() => JSON.parse(JSON.stringify(def0.actors || [])));
@@ -3484,6 +3708,36 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
       n[locIdx] = { ...n[locIdx], tactical_map: tm };
       return n;
     });
+    setDirty(true);
+  }
+  function moveSceneObjectXY(locIdx, objIdx, x, y) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      const objs = [...(tm.scene_objects || [])];
+      if (!objs[objIdx]) return l;
+      objs[objIdx] = { ...objs[objIdx], grid_x: x, grid_y: y };
+      tm.scene_objects = objs;
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
+    setDirty(true);
+  }
+  function moveEnemyPosXY(locIdx, posIdx, x, y) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      const ps = [...(tm.enemy_positions || [])];
+      if (!ps[posIdx]) return l;
+      ps[posIdx] = { ...ps[posIdx], grid_x: x, grid_y: y };
+      tm.enemy_positions = ps;
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
+    setDirty(true);
+  }
+  function moveLocationXY(idx, x, y) {
+    setLocations(l => { const n = [...l]; n[idx] = { ...n[idx], map_x: x, map_y: y }; return n; });
     setDirty(true);
   }
   // ── Mappa strategica ──
@@ -4258,30 +4512,39 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                                     ))}
                                   </div>
 
-                                  {/* Immagine mappa pre-generata (se presente) */}
-                                  {tm.image_b64 && (
-                                    <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: 8 }}>
-                                      <div style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 6 }}>Anteprima mappa</div>
-                                      <img src={`data:image/jpeg;base64,${tm.image_b64}`} alt="mappa tattica" style={{ maxWidth: "100%", display: "block", borderRadius: 5, border: "1px solid rgba(255,255,255,0.1)" }} />
-                                      <button onClick={() => patchTacticalMap(i, "image_b64", "")} style={{ marginTop: 6, padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
+                                  {/* Editor visuale: immagine + griglia hex + token trascinabili */}
+                                  <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: 10 }}>
+                                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                                      <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>
+                                        Editor visuale ({sceneObjs.length} oggetti, {enemyPos.length} nemici)
+                                      </span>
+                                      {tm.image_b64 && (
+                                        <button onClick={() => patchTacticalMap(i, "image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
+                                      )}
                                     </div>
-                                  )}
-                                  {!tm.image_b64 && (
-                                    <label style={{ display: "block", padding: "8px 12px", borderRadius: 6, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
-                                      📷 Carica immagine mappa (PNG/JPEG)
-                                      <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
-                                        const f = e.target.files?.[0];
-                                        if (!f) return;
-                                        if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
-                                        const reader = new FileReader();
-                                        reader.onload = () => {
-                                          const b64 = String(reader.result || "").split(",")[1] || "";
-                                          patchTacticalMap(i, "image_b64", b64);
-                                        };
-                                        reader.readAsDataURL(f);
-                                      }} />
-                                    </label>
-                                  )}
+                                    <TacticalMapVisualEditor
+                                      tm={tm}
+                                      actors={actors}
+                                      onMoveSceneObject={(idx, x, y) => moveSceneObjectXY(i, idx, x, y)}
+                                      onMoveEnemy={(idx, x, y) => moveEnemyPosXY(i, idx, x, y)}
+                                    />
+                                    {!tm.image_b64 && (
+                                      <label style={{ display: "block", marginTop: 10, padding: "8px 12px", borderRadius: 6, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
+                                        📷 Carica immagine mappa di sfondo (PNG/JPEG, max 1.5MB)
+                                        <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
+                                          const f = e.target.files?.[0];
+                                          if (!f) return;
+                                          if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
+                                          const reader = new FileReader();
+                                          reader.onload = () => {
+                                            const b64 = String(reader.result || "").split(",")[1] || "";
+                                            patchTacticalMap(i, "image_b64", b64);
+                                          };
+                                          reader.readAsDataURL(f);
+                                        }} />
+                                      </label>
+                                    )}
+                                  </div>
                                 </div>
                               )}
                             </div>
@@ -4428,14 +4691,20 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                   </div>
                 </div>
 
-                {/* Immagine overview */}
+                {/* Editor visuale: overview + pin location trascinabili */}
                 {mapState.image_b64 ? (
                   <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "9px 11px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                      <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>Anteprima mappa strategica</span>
-                      <button onClick={() => patchMapState("image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi</button>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>
+                        Editor visuale ({locations.length} location)
+                      </span>
+                      <button onClick={() => patchMapState("image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
                     </div>
-                    <img src={`data:image/jpeg;base64,${mapState.image_b64}`} alt="overview" style={{ maxWidth: "100%", display: "block", borderRadius: 5, border: "1px solid rgba(255,255,255,0.1)" }} />
+                    <StrategicMapVisualEditor
+                      image_b64={mapState.image_b64}
+                      locations={locations}
+                      onMoveLocation={(idx, x, y) => moveLocationXY(idx, x, y)}
+                    />
                   </div>
                 ) : (
                   <label style={{ display: "block", padding: "10px 12px", borderRadius: 7, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
@@ -4454,13 +4723,13 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                   </label>
                 )}
 
-                {/* Posizionamento location sulla mappa overview */}
-                <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
-                  <div style={{ fontSize: 11, fontWeight: 800, color: "#60a5fa", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8 }}>
-                    📍 Posizione location sulla mappa ({locations.length})
-                  </div>
+                {/* Tabella coordinate numeriche (fallback per editing preciso) */}
+                <details style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
+                  <summary style={{ fontSize: 11, fontWeight: 800, color: "#60a5fa", textTransform: "uppercase", letterSpacing: 0.8, cursor: "pointer" }}>
+                    📍 Coordinate numeriche ({locations.length})
+                  </summary>
                   {locations.length === 0 && (
-                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic", marginTop: 8 }}>
                       Aggiungi prima delle location nel tab "📍 Luoghi": appariranno qui automaticamente.
                     </div>
                   )}
@@ -4470,11 +4739,11 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                       <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
                         value={loc.map_x ?? 0}
                         onChange={e => patchLocation(idx, "map_x", parseInt(e.target.value) || 0)}
-                        title="Colonna sulla mappa overview (0 = sinistra)" placeholder="col" />
+                        title="X% sulla mappa overview (0 = sinistra, 100 = destra)" placeholder="X%" />
                       <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
                         value={loc.map_y ?? 0}
                         onChange={e => patchLocation(idx, "map_y", parseInt(e.target.value) || 0)}
-                        title="Riga sulla mappa overview (0 = alto)" placeholder="riga" />
+                        title="Y% sulla mappa overview (0 = alto, 100 = basso)" placeholder="Y%" />
                       <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>
                         {loc.status || "—"}
                         {loc.tactical_map?.enabled && <span style={{ color: "#4ade80", marginLeft: 6 }}>· combat</span>}
@@ -4483,10 +4752,10 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                   ))}
                   {locations.length > 0 && (
                     <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 7 }}>
-                      X = colonna (0 = sinistra) · Y = riga (0 = alto) — coordinate sull'overview, usate come click-target per lo spostamento PG
+                      X = posizione orizzontale 0-100% · Y = posizione verticale 0-100% (preferisci drag-and-drop sulla mappa visuale sopra)
                     </div>
                   )}
-                </div>
+                </details>
 
                 {/* Connessioni tra location */}
                 <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
