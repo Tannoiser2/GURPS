@@ -4625,7 +4625,8 @@ _COMPLEXITY_SCALES = {
     "compact": {
         "label": "Compatta", "emoji": "🗜",
         "npc_count": "3-4", "clue_count": "5-6", "thread_count": "2",
-        "twist_count": "1", "location_root": "2", "location_sub": "2-3 per area",
+        "twist_count": "1",
+        "location_strategic": "2", "location_regional": "2-3 per area strategica", "location_tactical": "1-2 zone tattiche totali",
         "additional_directives": "",
         "max_tokens": 3500,
         "clue_slice": 10, "npc_slice": 8, "loc_slice": 10,
@@ -4633,7 +4634,8 @@ _COMPLEXITY_SCALES = {
     "standard": {
         "label": "Standard", "emoji": "⚖",
         "npc_count": "5-7", "clue_count": "8-10", "thread_count": "3",
-        "twist_count": "2", "location_root": "2-3", "location_sub": "3-4 per area",
+        "twist_count": "2",
+        "location_strategic": "2-3", "location_regional": "3-4 per area strategica", "location_tactical": "2-3 zone tattiche totali",
         "additional_directives": (
             "- Includi almeno 1 falso indizio che punta al sospetto sbagliato\n"
             "- Includi almeno 1 subplot secondario (una storia minore che incrocia quella principale)\n"
@@ -4645,7 +4647,8 @@ _COMPLEXITY_SCALES = {
     "epic": {
         "label": "Epica", "emoji": "🔥",
         "npc_count": "7-10", "clue_count": "12-15", "thread_count": "4-5",
-        "twist_count": "3", "location_root": "3-4", "location_sub": "3-5 per area",
+        "twist_count": "3",
+        "location_strategic": "3-4", "location_regional": "3-5 per area strategica", "location_tactical": "3-4 zone tattiche totali",
         "additional_directives": (
             "- Sistema di fazioni (almeno 3 gruppi con agendas esplicite, anche se il template non è 'web')\n"
             "- Almeno 1 subplot con arco narrativo completo\n"
@@ -4749,8 +4752,9 @@ def _build_create_adventure_prompt(
     clue_count = scale_cfg["clue_count"]
     thread_count = scale_cfg["thread_count"]
     twist_count = scale_cfg["twist_count"]
-    location_root = scale_cfg["location_root"]
-    location_sub = scale_cfg["location_sub"]
+    location_strategic = scale_cfg["location_strategic"]
+    location_regional = scale_cfg["location_regional"]
+    location_tactical = scale_cfg["location_tactical"]
     additional = scale_cfg["additional_directives"] or "- Struttura pulita e giocabile in poche sessioni"
 
     json_schema = f"""{{
@@ -4788,9 +4792,15 @@ def _build_create_adventure_prompt(
     "finale_conditions": ["condizione finale concreta"]
   }},
   "locations": [
-    {{"id": "area_1", "name": "Nome area principale", "description": "Descrizione", "parent_location_id": "", "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
-    {{"id": "area_1_sub_a", "name": "Sub-zona", "description": "...", "parent_location_id": "area_1", "has_combat_potential": true, "tactical_map": {{"enabled": true, "role": "hot_zone", "layout": "room", "features": ["copertura"], "hazards": ["trappola"], "trigger": "quando inizia il confronto"}}}},
-    "// GENERA {location_root} aree root + {location_sub} sub-zone per area"
+    // === LIVELLO STRATEGICO (aree macro, parent_location_id vuoto) ===
+    {{"id": "area_1", "location_type": "strategic", "name": "Nome area principale", "description": "Descrizione geografica/scenica dell'area", "parent_location_id": "", "connections_to": ["area_2"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    {{"id": "area_2", "location_type": "strategic", "name": "Seconda area", "description": "...", "parent_location_id": "", "connections_to": ["area_1", "area_3"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    // === LIVELLO REGIONALE (luoghi specifici dentro un'area, parent = ID area strategica) ===
+    {{"id": "area_1_loc_a", "location_type": "regional", "name": "Luogo specifico", "description": "Descrizione dettagliata del luogo", "parent_location_id": "area_1", "connections_to": ["area_1_loc_b"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    {{"id": "area_1_loc_b", "location_type": "regional", "name": "Altro luogo", "description": "...", "parent_location_id": "area_1", "connections_to": ["area_1_loc_a", "area_2_loc_a"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    // === LIVELLO TATTICO (zone combattimento, parent = ID location regionale) ===
+    {{"id": "area_1_loc_a_tac_1", "location_type": "tactical", "name": "Zona scontro", "description": "Descrizione della zona per il combattimento", "parent_location_id": "area_1_loc_a", "connections_to": [], "has_combat_potential": true, "tactical_map": {{"enabled": true, "role": "hot_zone", "layout": "room", "features": ["copertura", "ostacolo"], "hazards": ["trappola"], "trigger": "quando inizia il confronto"}}}},
+    "// GENERA {location_strategic} aree strategiche + {location_regional} + {location_tactical}"
   ]{extra}
 }}"""
 
@@ -4810,8 +4820,15 @@ QUANTITÀ OBBLIGATORIE:
 - Indizi: {clue_count} (NON di meno)
 - Piste (story_threads): {thread_count}
 - Colpi di scena (twists): {twist_count}
-- Aree principali (root locations): {location_root}
-- Sub-zone per area: {location_sub}
+- Location STRATEGICHE (aree macro, parent vuoto): {location_strategic}
+- Location REGIONALI (luoghi specifici, parent = area strategica): {location_regional}
+- Location TATTICHE (zone combattimento, parent = location regionale): {location_tactical}
+
+STRUTTURA MAPPA OBBLIGATORIA:
+- Ogni location strategica deve avere connections_to alle altre aree raggiungibili
+- Ogni location regionale deve avere connections_to ad altri luoghi nello stesso parent o in aree adiacenti
+- Le location tattiche sono zone di combattimento figlie di una location regionale
+- Gli ID devono riflettere la gerarchia: area_1 → area_1_loc_a → area_1_loc_a_tac_1
 
 REQUISITI AGGIUNTIVI:
 {additional}
@@ -4821,6 +4838,7 @@ VIETATO:
 - Iniziare la premessa con "Un misterioso cliente vi ha assunto" o "Una lettera anonima"
 - NPC tutti neutrali o tutti alleati — servono tensioni tra loro
 - Indizi tutti dello stesso tipo — varia tra prove fisiche, testimonianze, documenti, comportamenti
+- Location senza connections_to (almeno le strategiche e regionali devono essere collegate)
 
 Rispondi SOLO con il JSON seguente (genera il numero esatto di elementi richiesti, non di meno):
 
@@ -5190,12 +5208,35 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
         for i, loc in enumerate(locations):
             if isinstance(loc, dict) and ant_loc and (ant_loc in str(loc.get("name", "")).lower() or str(loc.get("name", "")).lower() in ant_loc):
                 hot_location_indexes.add(i)
+    # Indice id→parent per inferire location_type dalla profondità
+    _loc_parents = {str(l.get("id", "")): str(l.get("parent_location_id") or "") for l in locations if isinstance(l, dict)}
+
+    def _infer_location_type(loc_id: str, parent_id: str, explicit: str) -> str:
+        valid = {"strategic", "regional", "tactical"}
+        if explicit in valid:
+            return explicit
+        if not parent_id:
+            return "strategic"
+        grandparent = _loc_parents.get(parent_id, "")
+        if not grandparent:
+            return "regional"
+        return "tactical"
+
     enriched_locations = []
     for i, loc in enumerate(locations):
         if not isinstance(loc, dict):
             continue
         role = "finale" if i == len(locations) - 1 else "hot_zone"
         loc = dict(loc)
+        # Inferisci location_type se non fornito o non valido
+        loc["location_type"] = _infer_location_type(
+            str(loc.get("id", "")),
+            str(loc.get("parent_location_id") or ""),
+            str(loc.get("location_type") or ""),
+        )
+        # Preserva connections_to come lista di stringhe
+        raw_connections = loc.get("connections_to")
+        loc["connections_to"] = [str(c) for c in raw_connections if c] if isinstance(raw_connections, list) else []
         if i in hot_location_indexes:
             loc["has_combat_potential"] = True
             existing_tactical = loc.get("tactical_map") if isinstance(loc.get("tactical_map"), dict) else {}

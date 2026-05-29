@@ -88,6 +88,8 @@ class LocationState(BaseModel):
     map_w: int = 0
     map_h: int = 0
     parent_location_id: str = ""      # vuoto = primo livello (root); altrimenti ID del genitore
+    location_type: str = "regional"   # "strategic" | "regional" | "tactical"
+    connections_to: List[str] = []    # IDs di location collegate allo stesso livello
     local_map_image_b64: str = ""     # immagine mappa interna (PNG/JPG b64) per sub-locazioni
     original_section: str = ""
     is_preserved_from_pdf: bool = False
