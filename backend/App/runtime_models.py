@@ -79,6 +79,10 @@ class LocationState(BaseModel):
     source_ref: Dict[str, Any] = {}
     source_status: SourceStatus = "generated"
     original_room_number: str = ""
+    # Posizione su mappa strategica (overview): colonna x (0..N da sx), riga y (0..N dall'alto).
+    # Quando map_state.image_b64 è una bitmap, x/y sono coord clic per spostarsi.
+    map_x: int = 0
+    map_y: int = 0
     original_section: str = ""
     is_preserved_from_pdf: bool = False
     inferred_runtime_fields: List[str] = []

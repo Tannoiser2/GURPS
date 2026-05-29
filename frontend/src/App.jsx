@@ -3365,70 +3365,35 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     setDirty(true);
   }
   // ── Mappa strategica ──
+  // Le location sono i nodi; map_state contiene solo overview (immagine, tipo, tema),
+  // le connessioni tra location e i punti chiave (start/current/objective/extraction).
   function patchMapState(key, val) {
     setMapState(m => ({ ...m, [key]: val }));
     setDirty(true);
   }
-  function patchMapNode(nodeId, key, val) {
-    setMapState(m => {
-      const nodes = { ...(m.nodes || {}) };
-      nodes[nodeId] = { ...(nodes[nodeId] || {}), [key]: val };
-      return { ...m, nodes };
-    });
-    setDirty(true);
-  }
-  function addMapNode() {
-    setMapState(m => {
-      const nodes = { ...(m.nodes || {}) };
-      let nid = "n_1";
-      let i = 1;
-      while (nodes[nid]) { i++; nid = `n_${i}`; }
-      nodes[nid] = { id: nid, name: "Nuovo nodo", grid_x: 0, grid_y: i - 1, visited: false, blocked: false, destroyed: false };
-      return { ...m, nodes };
-    });
-    setDirty(true);
-  }
-  function removeMapNode(nodeId) {
-    if (!confirm(`Rimuovere il nodo "${mapState.nodes?.[nodeId]?.name || nodeId}"?`)) return;
-    setMapState(m => {
-      const nodes = { ...(m.nodes || {}) };
-      delete nodes[nodeId];
-      const conns = { ...(m.connections_meta || {}) };
-      for (const k of Object.keys(conns)) {
-        if (conns[k]?.from === nodeId || conns[k]?.to === nodeId) delete conns[k];
-      }
-      const updates = { nodes, connections_meta: conns };
-      if (m.current_node_id === nodeId) updates.current_node_id = "";
-      if (m.start_node_id === nodeId) updates.start_node_id = "";
-      if (m.objective_node_id === nodeId) updates.objective_node_id = "";
-      if (m.extraction_node_id === nodeId) updates.extraction_node_id = "";
-      return { ...m, ...updates };
-    });
-    setDirty(true);
-  }
   function patchMapEdge(edgeKey, key, val) {
     setMapState(m => {
-      const conns = { ...(m.connections_meta || {}) };
+      const conns = { ...(m.connections || {}) };
       conns[edgeKey] = { ...(conns[edgeKey] || {}), [key]: val };
-      return { ...m, connections_meta: conns };
+      return { ...m, connections: conns };
     });
     setDirty(true);
   }
   function addMapEdge() {
     setMapState(m => {
-      const conns = { ...(m.connections_meta || {}) };
+      const conns = { ...(m.connections || {}) };
       let key = "e_1", i = 1;
       while (conns[key]) { i++; key = `e_${i}`; }
       conns[key] = { id: key, from: "", to: "", status: "open", discovered: true };
-      return { ...m, connections_meta: conns };
+      return { ...m, connections: conns };
     });
     setDirty(true);
   }
   function removeMapEdge(edgeKey) {
     setMapState(m => {
-      const conns = { ...(m.connections_meta || {}) };
+      const conns = { ...(m.connections || {}) };
       delete conns[edgeKey];
-      return { ...m, connections_meta: conns };
+      return { ...m, connections: conns };
     });
     setDirty(true);
   }
@@ -3621,7 +3586,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
       {tabBtn("objectives", `🎯 Obiettivi (${objectives.length})`)}
       {revelations.length > 0 && tabBtn("revelations", `💡 Rivelazioni (${revelations.length})`)}
       {tabBtn("clocks", `⏱️ Clock (${clocks.length})`)}
-      {tabBtn("strategy", `🗺 Strategia${mapState.nodes ? ` (${Object.keys(mapState.nodes).length})` : ""}`)}
+      {tabBtn("strategy", `🗺 Strategia${mapState.connections ? ` (${Object.keys(mapState.connections).length})` : ""}`)}
       {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
       {tabBtn("graph", "Grafo")}
       {extraToolbar && <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>{extraToolbar}</div>}
@@ -4294,17 +4259,15 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           )}
 
           {/* ── FACTIONS TAB ── */}
-          {/* ── STRATEGY TAB (mappa strategica) ── */}
+          {/* ── STRATEGY TAB (mappa strategica — usa le location come nodi) ── */}
           {tab === "strategy" && (() => {
-            const nodes = mapState.nodes || {};
-            const nodeIds = Object.keys(nodes);
-            const conns = mapState.connections_meta || {};
+            const conns = mapState.connections || {};
             const connIds = Object.keys(conns);
             return (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {/* Meta */}
+                {/* Meta + key points */}
                 <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "11px 13px" }}>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8 }}>Configurazione mappa</div>
+                  <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8 }}>Configurazione overview</div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px" }}>
                     {fieldRow("Tipo di mappa", (
                       <select style={selectStyle} value={mapState.map_type || "investigation"} onChange={e => patchMapState("map_type", e.target.value)}>
@@ -4316,34 +4279,34 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                     ))}
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px", marginTop: 4 }}>
-                    {fieldRow("Nodo di partenza", (
-                      <select style={selectStyle} value={mapState.start_node_id || ""} onChange={e => patchMapState("start_node_id", e.target.value)}>
-                        <option value="">(non impostato)</option>
-                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                    {fieldRow("Location di partenza", (
+                      <select style={selectStyle} value={mapState.start_location_id || ""} onChange={e => patchMapState("start_location_id", e.target.value)}>
+                        <option value="">(non impostata)</option>
+                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
                       </select>
                     ))}
-                    {fieldRow("Nodo corrente", (
-                      <select style={selectStyle} value={mapState.current_node_id || ""} onChange={e => patchMapState("current_node_id", e.target.value)}>
-                        <option value="">(non impostato)</option>
-                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                    {fieldRow("Location corrente", (
+                      <select style={selectStyle} value={mapState.current_location_id || ""} onChange={e => patchMapState("current_location_id", e.target.value)}>
+                        <option value="">(non impostata)</option>
+                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
                       </select>
                     ))}
-                    {fieldRow("Nodo obiettivo finale", (
-                      <select style={selectStyle} value={mapState.objective_node_id || ""} onChange={e => patchMapState("objective_node_id", e.target.value)}>
-                        <option value="">(non impostato)</option>
-                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                    {fieldRow("Location obiettivo finale", (
+                      <select style={selectStyle} value={mapState.objective_location_id || ""} onChange={e => patchMapState("objective_location_id", e.target.value)}>
+                        <option value="">(non impostata)</option>
+                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
                       </select>
                     ))}
-                    {fieldRow("Nodo estrazione/uscita", (
-                      <select style={selectStyle} value={mapState.extraction_node_id || ""} onChange={e => patchMapState("extraction_node_id", e.target.value)}>
-                        <option value="">(non impostato)</option>
-                        {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                    {fieldRow("Location estrazione/uscita", (
+                      <select style={selectStyle} value={mapState.extraction_location_id || ""} onChange={e => patchMapState("extraction_location_id", e.target.value)}>
+                        <option value="">(non impostata)</option>
+                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
                       </select>
                     ))}
                   </div>
                 </div>
 
-                {/* Immagine overview pre-generata */}
+                {/* Immagine overview */}
                 {mapState.image_b64 ? (
                   <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "9px 11px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
@@ -4369,74 +4332,56 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                   </label>
                 )}
 
-                {/* Nodi */}
+                {/* Posizionamento location sulla mappa overview */}
                 <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: "#60a5fa", textTransform: "uppercase", letterSpacing: 0.8 }}>
-                      📍 Nodi ({nodeIds.length})
-                    </span>
-                    <button onClick={addMapNode} style={{
-                      padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(96,165,250,0.5)",
-                      background: "rgba(96,165,250,0.1)", color: "#93c5fd", fontSize: 11, fontWeight: 700, cursor: "pointer",
-                    }}>+ Aggiungi nodo</button>
+                  <div style={{ fontSize: 11, fontWeight: 800, color: "#60a5fa", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8 }}>
+                    📍 Posizione location sulla mappa ({locations.length})
                   </div>
-                  {nodeIds.length === 0 && (
+                  {locations.length === 0 && (
                     <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
-                      Nessun nodo definito. I nodi sono le location collegate sulla mappa strategica.
+                      Aggiungi prima delle location nel tab "📍 Luoghi": appariranno qui automaticamente.
                     </div>
                   )}
-                  {nodeIds.map(nid => {
-                    const n = nodes[nid] || {};
-                    return (
-                      <div key={nid} style={{ padding: "8px 0", borderBottom: "1px dashed rgba(255,255,255,0.07)" }}>
-                        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1.4fr 70px 70px 1.2fr auto", gap: 6, alignItems: "center" }}>
-                          <input style={{ ...inputStyle, fontSize: 11 }} value={n.name || ""} onChange={e => patchMapNode(nid, "name", e.target.value)} placeholder="nome" />
-                          <select style={{ ...selectStyle, fontSize: 11 }} value={n.location_id || ""} onChange={e => patchMapNode(nid, "location_id", e.target.value)}>
-                            <option value="">(location libera)</option>
-                            {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
-                          </select>
-                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={n.grid_x ?? 0} onChange={e => patchMapNode(nid, "grid_x", parseInt(e.target.value) || 0)} title="x cliccabile" />
-                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={n.grid_y ?? 0} onChange={e => patchMapNode(nid, "grid_y", parseInt(e.target.value) || 0)} title="y cliccabile" />
-                          <div style={{ display: "flex", gap: 6, fontSize: 10 }}>
-                            <label style={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", color: n.visited ? "#4ade80" : "rgba(255,255,255,0.5)" }}>
-                              <input type="checkbox" checked={!!n.visited} onChange={e => patchMapNode(nid, "visited", e.target.checked)} /> vis.
-                            </label>
-                            <label style={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", color: n.blocked ? "#fbbf24" : "rgba(255,255,255,0.5)" }}>
-                              <input type="checkbox" checked={!!n.blocked} onChange={e => patchMapNode(nid, "blocked", e.target.checked)} /> blk.
-                            </label>
-                            <label style={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer", color: n.destroyed ? "#ef4444" : "rgba(255,255,255,0.5)" }}>
-                              <input type="checkbox" checked={!!n.destroyed} onChange={e => patchMapNode(nid, "destroyed", e.target.checked)} /> dist.
-                            </label>
-                          </div>
-                          {delBtn(() => removeMapNode(nid), "Elimina nodo")}
-                        </div>
-                        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 3, paddingLeft: 2 }}>id: {nid}</div>
-                      </div>
-                    );
-                  })}
-                  {nodeIds.length > 0 && (
-                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
-                      nome · location collegata · x · y (coord. clic per spostamento) · stati (visitato/bloccato/distrutto)
+                  {locations.map((loc, idx) => (
+                    <div key={loc.id || idx} style={{ display: "grid", gridTemplateColumns: "1.7fr 80px 80px 1fr", gap: 8, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: idx < locations.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-h)" }}>{loc.name || loc.id}</div>
+                      <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
+                        value={loc.map_x ?? 0}
+                        onChange={e => patchLocation(idx, "map_x", parseInt(e.target.value) || 0)}
+                        title="Colonna sulla mappa overview (0 = sinistra)" placeholder="col" />
+                      <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
+                        value={loc.map_y ?? 0}
+                        onChange={e => patchLocation(idx, "map_y", parseInt(e.target.value) || 0)}
+                        title="Riga sulla mappa overview (0 = alto)" placeholder="riga" />
+                      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>
+                        {loc.status || "—"}
+                        {loc.tactical_map?.enabled && <span style={{ color: "#4ade80", marginLeft: 6 }}>· combat</span>}
+                      </span>
+                    </div>
+                  ))}
+                  {locations.length > 0 && (
+                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 7 }}>
+                      X = colonna (0 = sinistra) · Y = riga (0 = alto) — coordinate sull'overview, usate come click-target per lo spostamento PG
                     </div>
                   )}
                 </div>
 
-                {/* Connessioni / archi */}
+                {/* Connessioni tra location */}
                 <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                     <span style={{ fontSize: 11, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>
                       ↔ Connessioni ({connIds.length})
                     </span>
-                    <button onClick={addMapEdge} disabled={nodeIds.length < 2} style={{
+                    <button onClick={addMapEdge} disabled={locations.length < 2} style={{
                       padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(167,139,250,0.5)",
-                      background: nodeIds.length < 2 ? "rgba(255,255,255,0.05)" : "rgba(167,139,250,0.1)",
-                      color: nodeIds.length < 2 ? "rgba(255,255,255,0.3)" : "#c4b5fd",
-                      fontSize: 11, fontWeight: 700, cursor: nodeIds.length < 2 ? "default" : "pointer",
+                      background: locations.length < 2 ? "rgba(255,255,255,0.05)" : "rgba(167,139,250,0.1)",
+                      color: locations.length < 2 ? "rgba(255,255,255,0.3)" : "#c4b5fd",
+                      fontSize: 11, fontWeight: 700, cursor: locations.length < 2 ? "default" : "pointer",
                     }}>+ Aggiungi connessione</button>
                   </div>
                   {connIds.length === 0 && (
                     <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
-                      Nessuna connessione. Collega due nodi per permettere ai PG di spostarsi tra loro.
+                      Nessuna connessione. Collega due location per permettere ai PG di spostarsi tra loro.
                     </div>
                   )}
                   {connIds.map(ek => {
@@ -4445,11 +4390,11 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                       <div key={ek} style={{ display: "grid", gridTemplateColumns: "1.4fr 1.4fr 1fr auto auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: "1px dashed rgba(255,255,255,0.07)" }}>
                         <select style={{ ...selectStyle, fontSize: 11 }} value={c.from || ""} onChange={e => patchMapEdge(ek, "from", e.target.value)}>
                           <option value="">(da…)</option>
-                          {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                          {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
                         </select>
                         <select style={{ ...selectStyle, fontSize: 11 }} value={c.to || ""} onChange={e => patchMapEdge(ek, "to", e.target.value)}>
                           <option value="">(a…)</option>
-                          {nodeIds.map(nid => <option key={nid} value={nid}>{nodes[nid].name || nid}</option>)}
+                          {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
                         </select>
                         <select style={{ ...selectStyle, fontSize: 11 }} value={c.status || "open"} onChange={e => patchMapEdge(ek, "status", e.target.value)}>
                           {["open", "locked", "hidden", "trap", "one_way"].map(s => <option key={s} value={s}>{s}</option>)}
@@ -4463,7 +4408,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                   })}
                   {connIds.length > 0 && (
                     <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
-                      nodo origine · nodo destinazione · stato · scoperta dai PG (no = nascosta sulla mappa)
+                      location origine · location destinazione · stato · scoperta dai PG (no = nascosta sulla mappa)
                     </div>
                   )}
                 </div>
