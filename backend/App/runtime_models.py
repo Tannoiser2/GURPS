@@ -411,5 +411,6 @@ class AdventureRuntimeState(_MappingCompatibleBase):
     flags: Dict = {}
     history: List[str] = []
     canonical_log: List[Dict[str, Any]] = []
+    engine_log: List[Dict[str, Any]] = []
     destroyed_clue_ids: List[str] = []
     injected_clues: List[Dict[str, Any]] = []

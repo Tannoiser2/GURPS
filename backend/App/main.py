@@ -1176,6 +1176,47 @@ def adventure_live_state(runtime_id: str):
         return {"live_game_state": None}
     return {"live_game_state": data.get("live_game_state")}
 
+@app.get("/game/adventure/runtime/{runtime_id}/engine-log")
+def adventure_engine_log(runtime_id: str, fmt: str = "json"):
+    """Restituisce il log delle decisioni engine per analisi post-sessione.
+    fmt=json (default) → array JSON. fmt=md → Markdown leggibile."""
+    data = load_runtime(runtime_id)
+    if not data:
+        return {"engine_log": []}
+    rt = data.get("runtime_state") or {}
+    log = rt.get("engine_log") or []
+    if fmt == "md":
+        lines = ["# Engine Log\n"]
+        for entry in log:
+            lines.append(f"## Turno {entry.get('turn')} — {entry.get('ts', '')[:19]}")
+            lines.append(f"**Azione:** {entry.get('action') or '—'}")
+            roll = entry.get("roll")
+            if roll:
+                lines.append(f"**Tiro:** {roll.get('skill')} → {roll.get('result')} (margine {roll.get('margin')}) — {roll.get('outcome')}")
+            su = entry.get("su") or {}
+            su_flags = [k for k in ("activate_combat", "combat_over", "story_over") if su.get(k)]
+            if su_flags:
+                lines.append(f"**Story updates:** {', '.join(su_flags)}")
+            npc_upd = su.get("npc_updates") or []
+            if npc_upd:
+                lines.append(f"**NPC updates:** {npc_upd}")
+            cl = entry.get("canonical_appended") or []
+            if cl:
+                lines.append(f"**Canonical log:** {cl}")
+            d = entry.get("director") or {}
+            if d.get("blocked"):
+                lines.append(f"**Director bloccato:** {d['blocked']}")
+            if d.get("reason"):
+                lines.append(f"**Motivo director:** {d['reason']}")
+            flags = entry.get("flags") or {}
+            flag_str = ", ".join(f"{k}={v}" for k, v in flags.items() if v)
+            if flag_str:
+                lines.append(f"**Flag:** {flag_str}")
+            lines.append("")
+        from fastapi.responses import PlainTextResponse
+        return PlainTextResponse("\n".join(lines), media_type="text/markdown")
+    return {"engine_log": log}
+
 @app.post("/game/adventure/runtime/{runtime_id}/update")
 def adventure_runtime_update(runtime_id: str, payload: RuntimeUpdatePayload):
     patch = {}
@@ -2376,6 +2417,44 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
         _existing_log.extend(_cl_append)
         # Mantiene solo gli ultimi 40 eventi per non gonfiare prompt e storage
         game_state.adventure_runtime_state.canonical_log = _existing_log[-40:]
+
+    # Engine log: traccia decisioni engine per analisi post-sessione
+    if game_state.adventure_runtime_state:
+        _elog = list(game_state.adventure_runtime_state.engine_log or [])
+        _log_entry: dict = {
+            "turn": len(_elog) + 1,
+            "ts": datetime.now(timezone.utc).isoformat(),
+            "action": payload.player_action or "",
+            "roll": {
+                "skill": roll_detail.get("skill"),
+                "result": roll_detail.get("roll"),
+                "margin": roll_detail.get("margin"),
+                "outcome": roll_detail.get("outcome"),
+            } if roll_detail else None,
+            "director": {
+                "blocked": list(game_state.blocked_major_events or []),
+                "downgraded": list(game_state.downgraded_events or []),
+                "reason": game_state.director_reason or "",
+            },
+            "su": {
+                "activate_combat": bool(su.get("activate_combat")),
+                "combat_over": bool(su.get("combat_over")),
+                "story_over": bool(su.get("story_over")),
+                "victory": su.get("victory"),
+                "npc_updates": su.get("npc_updates") or [],
+                "clues_found": su.get("clues_found") or [],
+                "allowed_escalation_tier": su.get("allowed_escalation_tier"),
+            },
+            "canonical_appended": list(_cl_append),
+            "flags": {
+                "in_combat": bool(result.get("in_combat") or payload.game_state_data.get("in_combat")),
+                "antagonist_killed": bool(_gsd.get("antagonist_killed")),
+                "total_party_kill": bool(_gsd.get("total_party_kill")),
+                "no_progress_turns": game_state.consecutive_no_progress_turns,
+            },
+        }
+        _elog.append(_log_entry)
+        game_state.adventure_runtime_state.engine_log = _elog[-100:]  # max 100 turni
 
     # Persiste lo stato world sul disco dopo ogni turno
     adv_id = _adventure_id(payload.adventure)

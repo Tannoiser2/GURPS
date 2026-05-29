@@ -241,9 +241,35 @@ def _clue_rules(clues: List[Dict], thread_ids: Set[str]) -> List[Finding]:
     return findings
 
 
-def _thread_rules(threads: List[Dict], clue_ids: Set[str]) -> List[Finding]:
+def _thread_rules(threads: List[Dict], clue_ids: Set[str],
+                  actors: List[Dict] = None, locations: List[Dict] = None) -> List[Finding]:
     findings = []
     all_thread_ids = _ids(threads)
+
+    # Build lookup sets for actor names and location names (lower-case)
+    _actors = actors or []
+    _locations = locations or []
+    actor_names_lower: List[str] = [
+        str(a.get("name") or a.get("id") or "").lower()
+        for a in _actors if a.get("name") or a.get("id")
+    ]
+    location_names_lower: List[str] = [
+        str(loc.get("name") or loc.get("id") or "").lower()
+        for loc in _locations if loc.get("name") or loc.get("id")
+    ]
+    known_sources_lower: List[str] = actor_names_lower + location_names_lower
+
+    # ── Check 1: at least 2 root threads ──────────────────────────────────────
+    root_threads = [
+        t for t in threads
+        if not t.get("parent_thread_ids")
+    ]
+    if threads and len(root_threads) < 2:
+        findings.append(Finding("warning", "thread", "adventure",
+            f"Meno di 2 piste radice (root thread): con una sola pista immediatamente accessibile "
+            f"i giocatori rischiano di bloccarsi se non trovano il primo indizio",
+            "Imposta parent_thread_ids a [] o rimuovilo da almeno un altro thread in modo da avere "
+            "2+ piste percorribili fin dall'inizio"))
 
     # Cicli
     cycles = _detect_thread_cycles(threads)
@@ -275,6 +301,64 @@ def _thread_rules(threads: List[Dict], clue_ids: Set[str]) -> List[Finding]:
             findings.append(Finding("suggestion", "thread", tid,
                 f"La pista '{label}' non ha una risposta canonica: il Master non sa qual è la verità",
                 "Aggiungi 'true_answer': la risposta corretta che il Master conosce ma che i giocatori devono scoprire"))
+
+        # ── Check 2: clue source specificity ──────────────────────────────────
+        clue_plan_entries: List[str] = [
+            str(c) for c in (t.get("clue_plan") or [])
+            if isinstance(c, str)
+        ]
+        if clue_plan_entries and known_sources_lower:
+            vague_clues: List[str] = []
+            for clue_text in clue_plan_entries:
+                clue_lower = clue_text.lower()
+                has_source = any(src and src in clue_lower for src in known_sources_lower)
+                if not has_source:
+                    vague_clues.append(clue_text)
+            if vague_clues:
+                sev = "info" if len(vague_clues) == 1 else "warning"
+                findings.append(Finding(sev, "thread", tid,
+                    f"La pista '{label}': clue_plan contiene indizi senza source specifico "
+                    f"(luogo/PNG non identificato)",
+                    "Riformula ogni indizio con '(in LUOGO / con NPC)' per guidare il narratore"))
+
+        # ── Check 3: linked_npcs completeness ─────────────────────────────────
+        linked_npcs = t.get("linked_npcs") or []
+        if not linked_npcs and clue_plan_entries and actor_names_lower:
+            clue_plan_text = " ".join(clue_plan_entries).lower()
+            mentions_actor = any(
+                name and name in clue_plan_text
+                for name in actor_names_lower
+            )
+            if mentions_actor:
+                findings.append(Finding("info", "thread", tid,
+                    f"La pista '{label}': linked_npcs vuoto ma clue_plan cita PNG — "
+                    f"il narratore potrebbe non associare correttamente gli indizi",
+                    "Popola linked_npcs con gli ID degli attori citati in clue_plan"))
+
+        # ── Check 4: clue diversity ────────────────────────────────────────────
+        required_clues = t.get("required_clues") or 0
+        if (isinstance(required_clues, int) and required_clues >= 2
+                and len(clue_plan_entries) >= 2
+                and known_sources_lower):
+            # Find which sources are mentioned in each clue entry
+            clue_sources: List[Set[str]] = []
+            for clue_text in clue_plan_entries:
+                clue_lower = clue_text.lower()
+                sources_in_clue = {
+                    src for src in known_sources_lower
+                    if src and src in clue_lower
+                }
+                clue_sources.append(sources_in_clue)
+
+            # All clues mention sources AND all mention exactly the same single source
+            non_empty = [s for s in clue_sources if s]
+            if (len(non_empty) == len(clue_plan_entries)
+                    and len(non_empty) >= 2
+                    and len(set.union(*non_empty)) == 1):
+                findings.append(Finding("info", "thread", tid,
+                    f"La pista '{label}': tutti gli indizi citano la stessa fonte — "
+                    f"diversifica i source per rendere l'investigazione più ricca",
+                    "Distribuisci gli indizi tra più location o PNG diversi"))
 
     return findings
 
@@ -510,7 +594,12 @@ def audit(data: Dict) -> List[Finding]:
     findings.extend(_npc_rules(data.get("actors", []), location_ids))
     findings.extend(_clock_rules(data.get("event_clocks", [])))
     findings.extend(_clue_rules(data.get("clues", []), thread_ids))
-    findings.extend(_thread_rules(data.get("story_threads", []), clue_ids))
+    findings.extend(_thread_rules(
+        data.get("story_threads", []),
+        clue_ids,
+        actors=data.get("actors", []),
+        locations=data.get("locations", []),
+    ))
     findings.extend(_location_rules(data.get("locations", []), actor_by_loc, clue_by_loc))
     findings.extend(_resource_rules(
         data.get("resources", []),
