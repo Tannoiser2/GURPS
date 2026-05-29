@@ -3297,10 +3297,7 @@ def generate_character_avatar(
     """Genera un ritratto del personaggio adattato al genere.
     Con Gemini usa input immagine + prompt; con OpenAI usa image edit/reference generation."""
     _clear_last_image_error()
-    if _ACTIVE_PROVIDER == "openai":
-        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-            _set_last_image_error("generate_character_avatar/openai", "OpenAI non disponibile o API key mancante")
-            return None
+    if _ACTIVE_PROVIDER == "openai" and OPENAI_API_KEY and _OPENAI_AVAILABLE:
         try:
             style = _GENRE_IMAGE_STYLE.get(genre, "cinematic, dramatic, atmospheric")
             costume = {
@@ -3342,10 +3339,9 @@ def generate_character_avatar(
                 _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
             _set_last_image_error("generate_character_avatar/openai", f"risposta senza immagine base64: {repr(response)[:500]}")
-            return None
         except Exception as e:
             _set_last_image_error("generate_character_avatar/openai", e)
-            return None
+            # fallback automatico su Gemini se OpenAI non disponibile/billing esaurito
     key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         _set_last_image_error("generate_character_avatar/gemini", "Gemini non disponibile o GOOGLE_AI_STUDIO_KEY mancante")
@@ -3436,9 +3432,7 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
         f"No text, no captions, centered face."
     )
 
-    if _ACTIVE_PROVIDER == "openai":
-        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-            return None
+    if _ACTIVE_PROVIDER == "openai" and OPENAI_API_KEY and _OPENAI_AVAILABLE:
         try:
             client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
             response = client.images.generate(
@@ -3452,10 +3446,9 @@ def generate_npc_avatar(name: str, description: str, entity_type: str, genre: st
             if getattr(response, "data", None) and getattr(response.data[0], "b64_json", None):
                 _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
-            return None
         except Exception as e:
             _set_last_image_error("generate_npc_avatar/openai", e)
-            return None
+            # fallback automatico su Gemini se OpenAI non disponibile/billing esaurito
 
     key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
@@ -3719,9 +3712,7 @@ def generate_tactical_map_image(
         "entrances, cover and obstacles visible from above, suitable for a hex grid overlay."
     )
 
-    if _ACTIVE_PROVIDER == "openai":
-        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-            return None
+    if _ACTIVE_PROVIDER == "openai" and OPENAI_API_KEY and _OPENAI_AVAILABLE:
         try:
             client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
             response = client.images.generate(
@@ -3734,10 +3725,9 @@ def generate_tactical_map_image(
             if getattr(response, "data", None) and response.data[0].b64_json:
                 _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
-            return None
         except Exception as e:
             _set_last_image_error("generate_tactical_map_image/openai", e)
-            return None
+            # fallback automatico su Gemini se OpenAI non disponibile/billing esaurito
 
     key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
@@ -3964,9 +3954,7 @@ def generate_location_map_image(location_name: str, location_description: str) -
         "cream parchment background, labeled rooms, corridors, doors and key features clearly marked, "
         "no characters, no people, top-down orthographic view, clean cartographic detail."
     )
-    if _ACTIVE_PROVIDER == "openai":
-        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-            return None
+    if _ACTIVE_PROVIDER == "openai" and OPENAI_API_KEY and _OPENAI_AVAILABLE:
         try:
             client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
             response = client.images.generate(
@@ -3979,10 +3967,9 @@ def generate_location_map_image(location_name: str, location_description: str) -
             if getattr(response, "data", None) and response.data[0].b64_json:
                 _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
-            return None
         except Exception as e:
             _set_last_image_error("generate_location_map_image/openai", e)
-            return None
+            # fallback automatico su Gemini se OpenAI non disponibile/billing esaurito
     key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         return None
@@ -4129,9 +4116,7 @@ def generate_adventure_overview_map(
         "no characters or people visible, cinematic RPG map art, high detail."
     )
 
-    if _ACTIVE_PROVIDER == "openai":
-        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-            return None
+    if _ACTIVE_PROVIDER == "openai" and OPENAI_API_KEY and _OPENAI_AVAILABLE:
         try:
             client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
             response = client.images.generate(
@@ -4144,10 +4129,9 @@ def generate_adventure_overview_map(
             if getattr(response, "data", None) and response.data[0].b64_json:
                 _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
-            return None
         except Exception as e:
             _set_last_image_error("generate_adventure_overview_map/openai", e)
-            return None
+            # fallback automatico su Gemini se OpenAI non disponibile/billing esaurito
 
     key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
