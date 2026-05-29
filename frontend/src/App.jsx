@@ -3408,6 +3408,150 @@ function SetupScreen({ onStart }) {
 }
 
 // ─── U6: AdventureEditor ──────────────────────────────────────────────────────
+
+// ── PropsLibraryModal ──────────────────────────────────────────────────────
+function PropsLibraryModal({ onClose, onSelect, genre = "fantasy" }) {
+  const [props, setProps] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [search, setSearch] = React.useState("");
+  const [uploading, setUploading] = React.useState(false);
+  const [uploadName, setUploadName] = React.useState("");
+  const [uploadType, setUploadType] = React.useState("prop");
+  const [uploadDesc, setUploadDesc] = React.useState("");
+  const [uploadFile, setUploadFile] = React.useState(null);
+  const [selected, setSelected] = React.useState(null);
+  const [selectedImg, setSelectedImg] = React.useState(null);
+  const fileInputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    setLoading(true);
+    fetch(`${API_URL_DIRECT}/game/props`)
+      .then(r => r.json())
+      .then(d => setProps(d.props || []))
+      .catch(() => setProps([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  async function loadImage(prop) {
+    if (selectedImg?.id === prop.id) return;
+    setSelected(prop);
+    setSelectedImg(null);
+    try {
+      const r = await fetch(`${API_URL_DIRECT}/game/props/${prop.id}`);
+      const d = await r.json();
+      setSelectedImg(d);
+    } catch (_) {}
+  }
+
+  async function handleUpload() {
+    if (!uploadFile || !uploadName.trim()) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("name", uploadName.trim());
+      fd.append("object_type", uploadType);
+      fd.append("genre", genre);
+      fd.append("description", uploadDesc);
+      fd.append("file", uploadFile);
+      const r = await fetch(`${API_URL_DIRECT}/game/props/upload`, { method: "POST", body: fd });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const r2 = await fetch(`${API_URL_DIRECT}/game/props`);
+      const d2 = await r2.json();
+      setProps(d2.props || []);
+      setUploadName(""); setUploadDesc(""); setUploadFile(null); setUploadType("prop");
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    } catch (e) { alert(`Errore upload: ${e?.message || e}`); }
+    finally { setUploading(false); }
+  }
+
+  async function handleDelete(propId) {
+    if (!confirm("Rimuovere questo prop dalla libreria?")) return;
+    await fetch(`${API_URL_DIRECT}/game/props/${propId}`, { method: "DELETE" });
+    setProps(p => p.filter(x => x.id !== propId));
+    if (selected?.id === propId) { setSelected(null); setSelectedImg(null); }
+  }
+
+  const filtered = props.filter(p => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return (p.name || "").toLowerCase().includes(q) || (p.description || "").toLowerCase().includes(q) || (p.object_type || "").toLowerCase().includes(q);
+  });
+
+  return (
+    <div style={{ position: "fixed", inset: 0, zIndex: 9000, background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ background: "#1a1a2e", border: "1px solid rgba(167,139,250,0.3)", borderRadius: 12, padding: 24, width: "min(780px, 95vw)", maxHeight: "88vh", display: "flex", flexDirection: "column", gap: 14, overflow: "hidden" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontWeight: 800, fontSize: 16, color: "#c4b5fd" }}>📚 Libreria Props</span>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.5)", fontSize: 20, cursor: "pointer" }}>✕</button>
+        </div>
+        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Cerca per nome, tipo, descrizione…"
+          style={{ padding: "7px 11px", borderRadius: 6, border: "1px solid rgba(167,139,250,0.3)", background: "rgba(0,0,0,0.3)", color: "#e2e8f0", fontSize: 12, outline: "none" }} />
+        <div style={{ display: "flex", gap: 14, flex: 1, minHeight: 0, overflow: "hidden" }}>
+          <div style={{ flex: 1, overflowY: "auto", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(90px, 1fr))", gap: 8, alignContent: "start" }}>
+            {loading && <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, gridColumn: "1/-1" }}>Caricamento…</div>}
+            {!loading && filtered.length === 0 && <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, gridColumn: "1/-1", fontStyle: "italic" }}>Nessun prop trovato.{props.length === 0 ? " Genera un oggetto o carica un PNG personalizzato." : ""}</div>}
+            {filtered.map(p => (
+              <div key={p.id} onClick={() => loadImage(p)}
+                style={{ border: selected?.id === p.id ? "2px solid #a78bfa" : "1px solid rgba(167,139,250,0.2)", borderRadius: 8, padding: 6, cursor: "pointer", background: selected?.id === p.id ? "rgba(167,139,250,0.12)" : "rgba(0,0,0,0.25)", textAlign: "center" }}>
+                <div style={{ width: 68, height: 68, margin: "0 auto 4px", borderRadius: 6, background: "rgba(0,0,0,0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>🖼</div>
+                <div style={{ fontSize: 9, color: "#c4b5fd", fontWeight: 700, lineHeight: 1.2, wordBreak: "break-word" }}>{p.name}</div>
+                <div style={{ fontSize: 8, color: "rgba(255,255,255,0.35)", marginTop: 2 }}>{p.object_type}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ width: 220, flexShrink: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+            {selected ? (
+              <>
+                <div style={{ borderRadius: 8, overflow: "hidden", background: "rgba(0,0,0,0.4)", border: "1px solid rgba(167,139,250,0.2)", padding: 8, textAlign: "center" }}>
+                  {selectedImg?.image_b64 ? (
+                    <img src={`data:image/png;base64,${selectedImg.image_b64}`} alt={selected.name} style={{ width: "100%", maxHeight: 160, objectFit: "contain" }} />
+                  ) : <div style={{ height: 100, display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.3)", fontSize: 11 }}>Caricamento…</div>}
+                </div>
+                <div style={{ fontSize: 11, color: "#e2e8f0", fontWeight: 700 }}>{selected.name}</div>
+                <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>{selected.object_type} · {selected.genre}</div>
+                {selected.description && <div style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", fontStyle: "italic" }}>{selected.description}</div>}
+                <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)" }}>{selected.source === "upload" ? "📁 Upload utente" : selected.source === "generated" ? "🤖 Generato AI" : "📌 Manuale"}</div>
+                <button disabled={!selectedImg?.image_b64} onClick={() => { onSelect(selectedImg || selected); onClose(); }}
+                  style={{ padding: "7px 12px", borderRadius: 6, border: "1px solid rgba(167,139,250,0.5)", background: "rgba(167,139,250,0.2)", color: "#c4b5fd", fontSize: 11, fontWeight: 700, cursor: selectedImg?.image_b64 ? "pointer" : "default", opacity: selectedImg?.image_b64 ? 1 : 0.4 }}>
+                  Usa questo prop
+                </button>
+                <button onClick={() => handleDelete(selected.id)}
+                  style={{ padding: "6px 12px", borderRadius: 6, border: "1px solid rgba(248,113,113,0.3)", background: "rgba(248,113,113,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>
+                  Rimuovi dalla libreria
+                </button>
+              </>
+            ) : (
+              <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, fontStyle: "italic", marginTop: 16 }}>Seleziona un prop per vedere l'anteprima</div>
+            )}
+          </div>
+        </div>
+        <div style={{ borderTop: "1px solid rgba(167,139,250,0.15)", paddingTop: 12 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "#a78bfa", marginBottom: 8 }}>📁 Aggiungi PNG personalizzato</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 0.6fr 1fr auto", gap: 6, alignItems: "end" }}>
+            <input value={uploadName} onChange={e => setUploadName(e.target.value)} placeholder="Nome oggetto"
+              style={{ padding: "6px 9px", borderRadius: 5, border: "1px solid rgba(167,139,250,0.25)", background: "rgba(0,0,0,0.3)", color: "#e2e8f0", fontSize: 11, outline: "none" }} />
+            <select value={uploadType} onChange={e => setUploadType(e.target.value)}
+              style={{ padding: "6px 9px", borderRadius: 5, border: "1px solid rgba(167,139,250,0.25)", background: "#1a1a2e", color: "#e2e8f0", fontSize: 11 }}>
+              {["cover","hazard","terrain","prop","interactive","destructible"].map(t => <option key={t} value={t}>{t}</option>)}
+            </select>
+            <input value={uploadDesc} onChange={e => setUploadDesc(e.target.value)} placeholder="Descrizione (opzionale)"
+              style={{ padding: "6px 9px", borderRadius: 5, border: "1px solid rgba(167,139,250,0.25)", background: "rgba(0,0,0,0.3)", color: "#e2e8f0", fontSize: 11, outline: "none" }} />
+            <div />
+          </div>
+          <div style={{ display: "flex", gap: 8, marginTop: 6, alignItems: "center" }}>
+            <input ref={fileInputRef} type="file" accept=".png" onChange={e => setUploadFile(e.target.files?.[0] || null)}
+              style={{ fontSize: 11, color: "rgba(255,255,255,0.7)", flex: 1 }} />
+            <button onClick={handleUpload} disabled={!uploadFile || !uploadName.trim() || uploading}
+              style={{ padding: "6px 14px", borderRadius: 5, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(167,139,250,0.15)", color: "#c4b5fd", fontSize: 11, fontWeight: 700, cursor: (!uploadFile || !uploadName.trim() || uploading) ? "default" : "pointer", opacity: (!uploadFile || !uploadName.trim() || uploading) ? 0.4 : 1 }}>
+              {uploading ? "Caricamento…" : "Carica"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── TacticalMapVisualEditor ──────────────────────────────────────────────
 // Sfondo immagine + griglia hex SVG + token trascinabili (scene_objects, enemy_positions).
 // I token si snappano alla cella hex più vicina al rilascio.
@@ -3818,6 +3962,8 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [genTacticalLoc, setGenTacticalLoc] = React.useState(null);
   const [genTacticalError, setGenTacticalError] = React.useState("");
   const [genSceneObjKey, setGenSceneObjKey] = React.useState(null);
+  const [propsLibModal, setPropsLibModal] = React.useState(null); // {locIdx, objIdx}
+  const [propMatchToast, setPropMatchToast] = React.useState(null); // {locIdx, objIdx, match, score}
   const [tab, setTab] = React.useState("npcs");
   const [dirty, setDirty] = React.useState(false);
   const [expandedNpc, setExpandedNpc] = React.useState(null);
@@ -3921,6 +4067,31 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
       return n;
     });
     setDirty(true);
+  }
+  async function generateSceneObjectImage(locIdx, objIdx) {
+    const loc = locations[locIdx];
+    const obj = loc?.tactical_map?.scene_objects?.[objIdx];
+    if (!obj?.name) return;
+    const objKey = `${locIdx}.${objIdx}`;
+    setGenSceneObjKey(objKey);
+    try {
+      const r = await fetch(`${API_URL_DIRECT}/game/adventure/generate-scene-object-image`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: obj.name,
+          object_type: obj.type || "prop",
+          genre: def0.genre || "fantasy",
+          description: obj.effect || "",
+          location_description: loc.description || "",
+        }),
+      });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const data = await r.json();
+      if (data.image_b64) patchSceneObject(locIdx, objIdx, "image_b64", data.image_b64);
+      else alert(`Generazione fallita${data.error ? `: ${data.error}` : ''}`);
+    } catch (e) { alert(`Errore: ${e?.message || e}`); }
+    finally { setGenSceneObjKey(null); }
   }
   function patchEnemyPos(locIdx, posIdx, key, val) {
     setLocations(l => {
@@ -4223,6 +4394,31 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   }
 
   return (
+    <>
+    {propsLibModal && (
+      <PropsLibraryModal
+        genre={def0.genre || "fantasy"}
+        onClose={() => setPropsLibModal(null)}
+        onSelect={prop => {
+          if (propsLibModal && prop?.image_b64) {
+            patchSceneObject(propsLibModal.locIdx, propsLibModal.objIdx, "image_b64", prop.image_b64);
+          }
+        }}
+      />
+    )}
+    {propMatchToast && (
+      <div style={{ position: "fixed", bottom: 80, left: "50%", transform: "translateX(-50%)", zIndex: 9500, background: "#1a1a2e", border: "1px solid rgba(167,139,250,0.5)", borderRadius: 10, padding: "12px 18px", display: "flex", alignItems: "center", gap: 12, boxShadow: "0 8px 32px rgba(0,0,0,0.7)", maxWidth: 420 }}>
+        <img src={`data:image/png;base64,${propMatchToast.match.image_b64}`} alt="" style={{ width: 48, height: 48, borderRadius: 6, objectFit: "contain", background: "rgba(0,0,0,0.4)" }} />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "#c4b5fd" }}>Trovato prop simile in libreria</div>
+          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.6)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{propMatchToast.match.name}</div>
+        </div>
+        <button onClick={() => { patchSceneObject(propMatchToast.locIdx, propMatchToast.objIdx, "image_b64", propMatchToast.match.image_b64); setPropMatchToast(null); }}
+          style={{ padding: "5px 10px", borderRadius: 5, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(167,139,250,0.15)", color: "#c4b5fd", fontSize: 10, fontWeight: 700, cursor: "pointer" }}>Usa</button>
+        <button onClick={() => { const t = propMatchToast; setPropMatchToast(null); generateSceneObjectImage(t.locIdx, t.objIdx); }}
+          style={{ padding: "5px 10px", borderRadius: 5, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.5)", fontSize: 10, cursor: "pointer" }}>Genera nuovo</button>
+      </div>
+    )}
     <div style={{ position: "fixed", inset: 0, zIndex: 3000, background: "rgba(0,0,0,0.88)", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px 14px", overflowY: "auto" }}
       onClick={onClose}>
       <div style={{ width: "min(920px, 100%)", background: "var(--bg)", borderRadius: 14, border: "1px solid var(--border)", boxShadow: "0 12px 60px rgba(0,0,0,0.8)", display: "flex", flexDirection: "column", maxHeight: "calc(100vh - 40px)" }}
@@ -4258,6 +4454,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
         </div>
       </div>
     </div>
+    </>
   );
 
   function renderTabContent() {
@@ -4704,8 +4901,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                                       const objKey = `${i}.${j}`;
                                       const isGen = genSceneObjKey === objKey;
                                       return (
-                                        <div key={j} style={{ display: "grid", gridTemplateColumns: "32px 1.3fr 0.85fr 55px 55px 55px 1.3fr auto auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: j < sceneObjs.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
-                                          {/* Thumbnail PNG (o placeholder viola) */}
+                                        <div key={j} style={{ display: "grid", gridTemplateColumns: "32px 1.3fr 0.85fr 55px 55px 55px 1.3fr auto auto auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: j < sceneObjs.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
                                           {obj.image_b64 ? (
                                             <img src={`data:image/png;base64,${obj.image_b64}`} alt={obj.name}
                                               style={{ width: 30, height: 30, borderRadius: 4, background: "rgba(0,0,0,0.4)", objectFit: "contain" }}
@@ -4721,31 +4917,34 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                                           <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.grid_y ?? 0} onChange={e => patchSceneObject(i, j, "grid_y", parseInt(e.target.value) || 0)} title="y" />
                                           <input style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.occupancy || "1"} onChange={e => patchSceneObject(i, j, "occupancy", e.target.value)} title="occupazione (es. 1, 2x3)" placeholder="1" />
                                           <input style={{ ...inputStyle, fontSize: 11 }} value={obj.effect || ""} onChange={e => patchSceneObject(i, j, "effect", e.target.value)} placeholder="cosa fa / descrizione" />
-                                          {/* Genera/rigenera PNG trasparente */}
+                                          {/* 📚 Sfoglia libreria */}
+                                          <button title="Sfoglia libreria props" onClick={() => setPropsLibModal({ locIdx: i, objIdx: j })}
+                                            style={{ padding: "4px 7px", borderRadius: 4, border: "1px solid rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.07)", color: "#a78bfa", fontSize: 13, cursor: "pointer" }}>
+                                            📚
+                                          </button>
+                                          {/* 🤖 Genera PNG (con pre-search libreria) */}
                                           <button
                                             disabled={isGen || !obj.name}
                                             onClick={async () => {
-                                              setGenSceneObjKey(objKey);
-                                              try {
-                                                const r = await fetch(`${API_URL_DIRECT}/game/adventure/generate-scene-object-image`, {
-                                                  method: "POST",
-                                                  headers: { "Content-Type": "application/json" },
-                                                  body: JSON.stringify({
-                                                    name: obj.name || "",
-                                                    object_type: obj.type || "prop",
-                                                    genre: def0.genre || adventure?.genre || "detective_classico",
-                                                    description: obj.effect || "",
-                                                    location_description: loc.description || "",
-                                                  }),
-                                                });
-                                                if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                                                const data = await r.json();
-                                                if (data.image_b64) patchSceneObject(i, j, "image_b64", data.image_b64);
-                                                else alert(`Generazione fallita${data.error ? `: ${data.error}` : ''}`);
-                                              } catch (e) { alert(`Errore: ${e?.message || e}`); }
-                                              finally { setGenSceneObjKey(null); }
+                                              if (obj.name) {
+                                                try {
+                                                  const sr = await fetch(`${API_URL_DIRECT}/game/props/search`, {
+                                                    method: "POST",
+                                                    headers: { "Content-Type": "application/json" },
+                                                    body: JSON.stringify({ name: obj.name, description: obj.effect || "", object_type: obj.type || "", threshold: 0.28 }),
+                                                  });
+                                                  if (sr.ok) {
+                                                    const sd = await sr.json();
+                                                    if (sd.match?.image_b64 && sd.score >= 0.28) {
+                                                      setPropMatchToast({ locIdx: i, objIdx: j, match: sd.match, score: sd.score });
+                                                      return;
+                                                    }
+                                                  }
+                                                } catch (_) {}
+                                              }
+                                              generateSceneObjectImage(i, j);
                                             }}
-                                            title={obj.image_b64 ? "Rigenera PNG trasparente" : "Genera PNG trasparente"}
+                                            title={obj.image_b64 ? "Rigenera PNG trasparente" : "Genera PNG (controlla libreria prima)"}
                                             style={{
                                               padding: "4px 8px", borderRadius: 4,
                                               border: "1px solid rgba(167,139,250,0.4)",
@@ -4762,7 +4961,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                                     })}
                                     {sceneObjs.length > 0 && (
                                       <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
-                                        img · nome · tipo · x · y · occupazione · effetto · 🤖 genera PNG · ✕
+                                        img · nome · tipo · x · y · occupazione · effetto · 📚 libreria · 🤖 genera · ✕
                                       </div>
                                     )}
                                   </div>

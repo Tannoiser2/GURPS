@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv(override=True)
+import base64
 from datetime import datetime, timezone
 import json
 import logging
@@ -159,13 +160,67 @@ tactical_map_image_cache: dict[str, str] = {}
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_debug_pdf"
 
+# ── Props library ─────────────────────────────────────────────────────────────
+_PROPS_LIBRARY_PATH = Path(__file__).resolve().parent / "props_library.json"
+_props_library: list[dict] = []
+
+def _load_props_library() -> None:
+    global _props_library
+    try:
+        if _PROPS_LIBRARY_PATH.exists():
+            data = json.loads(_PROPS_LIBRARY_PATH.read_text(encoding="utf-8"))
+            _props_library = data.get("entries", [])
+    except Exception as e:
+        _log.warning("props_library load failed: %s", e)
+        _props_library = []
+
+def _save_props_library() -> None:
+    try:
+        _PROPS_LIBRARY_PATH.write_text(
+            json.dumps({"entries": _props_library}, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    except Exception as e:
+        _log.warning("props_library save failed (ephemeral fs): %s", e)
+
+def _tokenize(text: str) -> set[str]:
+    return set(re.findall(r"\w+", text.lower()))
+
+def _prop_score(query_tokens: set[str], prop: dict) -> float:
+    lib_text = (
+        (prop.get("name") or "") + " " +
+        (prop.get("description") or "") + " " +
+        " ".join(prop.get("tags") or [])
+    )
+    lib_tokens = _tokenize(lib_text)
+    if not lib_tokens:
+        return 0.0
+    return len(query_tokens & lib_tokens) / len(query_tokens | lib_tokens)
+
+def _fuzzy_match_prop(name: str, description: str, object_type: str, threshold: float = 0.28) -> "dict | None":
+    query_tokens = _tokenize(name + " " + description)
+    if not query_tokens:
+        return None
+    best_score = 0.0
+    best_prop = None
+    for prop in _props_library:
+        if object_type and prop.get("object_type") and prop["object_type"] != object_type:
+            score = _prop_score(query_tokens, prop) * 0.7
+        else:
+            score = _prop_score(query_tokens, prop)
+        if score > best_score:
+            best_score = score
+            best_prop = prop
+    return best_prop if best_score >= threshold else None
+
+_load_props_library()
 
 # ── R1: Health check ──────────────────────────────────────────────────────────
 @app.get("/")
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v10-scene-png"
+BUILD_VERSION = "v11-props-library"
 
 @app.get("/health")
 def health_check():
@@ -3665,7 +3720,128 @@ def generate_scene_object_image_endpoint(payload: SceneObjectImagePayload):
         payload.description or "",
         payload.location_description or "",
     )
-    return {"image_b64": image_b64, "available": bool(image_b64), "call_tokens": get_last_request_tokens()}
+    tokens = get_last_request_tokens()
+    if image_b64:
+        tags = list(_tokenize(payload.name + " " + (payload.description or "")))[:12]
+        entry = {
+            "id": str(uuid.uuid4()),
+            "name": payload.name or "oggetto",
+            "object_type": payload.object_type or "prop",
+            "genre": payload.genre or "fantasy",
+            "description": payload.description or "",
+            "tags": tags,
+            "image_b64": image_b64,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "source": "generated",
+        }
+        _props_library.append(entry)
+        _save_props_library()
+        return {"image_b64": image_b64, "available": True, "call_tokens": tokens, "saved_prop_id": entry["id"]}
+    return {"image_b64": None, "available": False, "call_tokens": tokens}
+
+
+# ── Props library endpoints ───────────────────────────────────────────────────
+
+class PropSearchPayload(BaseModel):
+    name: str = ""
+    description: str = ""
+    object_type: str = ""
+    threshold: float = 0.28
+
+class PropSavePayload(BaseModel):
+    name: str
+    object_type: str = "prop"
+    genre: str = "fantasy"
+    description: str = ""
+    tags: list[str] = []
+    image_b64: str
+
+@app.get("/game/props")
+def list_props():
+    """Lista tutti i prop della libreria (senza image_b64 per risparmio payload)."""
+    return {
+        "props": [
+            {k: v for k, v in p.items() if k != "image_b64"}
+            for p in _props_library
+        ],
+        "total": len(_props_library),
+    }
+
+@app.get("/game/props/{prop_id}")
+def get_prop(prop_id: str):
+    """Restituisce un singolo prop con image_b64."""
+    for p in _props_library:
+        if p.get("id") == prop_id:
+            return p
+    raise HTTPException(status_code=404, detail="prop non trovato")
+
+@app.post("/game/props/search")
+def search_prop(payload: PropSearchPayload):
+    """Ricerca fuzzy nella libreria. Restituisce il miglior match (con image_b64) o null."""
+    match = _fuzzy_match_prop(payload.name, payload.description, payload.object_type, payload.threshold)
+    if not match:
+        return {"match": None, "score": 0.0}
+    query_tokens = _tokenize(payload.name + " " + payload.description)
+    score = _prop_score(query_tokens, match)
+    return {"match": match, "score": round(score, 3)}
+
+@app.post("/game/props")
+def save_prop(payload: PropSavePayload):
+    """Salva manualmente un prop nella libreria."""
+    entry = {
+        "id": str(uuid.uuid4()),
+        "name": payload.name,
+        "object_type": payload.object_type,
+        "genre": payload.genre,
+        "description": payload.description,
+        "tags": payload.tags or list(_tokenize(payload.name + " " + payload.description))[:12],
+        "image_b64": payload.image_b64,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "source": "manual",
+    }
+    _props_library.append(entry)
+    _save_props_library()
+    return {"id": entry["id"], "ok": True}
+
+@app.delete("/game/props/{prop_id}")
+def delete_prop(prop_id: str):
+    """Rimuove un prop dalla libreria."""
+    global _props_library
+    before = len(_props_library)
+    _props_library = [p for p in _props_library if p.get("id") != prop_id]
+    if len(_props_library) == before:
+        raise HTTPException(status_code=404, detail="prop non trovato")
+    _save_props_library()
+    return {"ok": True}
+
+@app.post("/game/props/upload")
+async def upload_prop(
+    name: str = Form(...),
+    object_type: str = Form("prop"),
+    genre: str = Form("fantasy"),
+    description: str = Form(""),
+    file: UploadFile = File(...),
+):
+    """Upload di un PNG personalizzato nella libreria prop."""
+    if not file.filename or not file.filename.lower().endswith(".png"):
+        raise HTTPException(status_code=400, detail="solo file PNG accettati")
+    raw = await file.read()
+    image_b64 = base64.b64encode(raw).decode("utf-8")
+    entry = {
+        "id": str(uuid.uuid4()),
+        "name": name,
+        "object_type": object_type,
+        "genre": genre,
+        "description": description,
+        "tags": list(_tokenize(name + " " + description))[:12],
+        "image_b64": image_b64,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "source": "upload",
+        "original_filename": file.filename,
+    }
+    _props_library.append(entry)
+    _save_props_library()
+    return {"id": entry["id"], "ok": True}
 
 
 @app.get("/game/image-available")
