@@ -466,6 +466,78 @@ def _location_rules(locations: List[Dict], actor_ids_by_loc: Dict[str, List],
     return findings
 
 
+def _balance_rules(data: Dict) -> List[Finding]:
+    """Rileva squilibri strutturali tra indizi (clues) e piste (story_threads).
+
+    Problemi tipici dei PDF:
+    - Troppe objectives, nessun story_thread investigativo
+    - Clues senza thread_id valido (orfani)
+    - Threads senza clue collegate (piste vuote)
+    - Meno di 2 clue per thread (il giocatore non può dedurre)
+    """
+    findings = []
+    threads = data.get("story_threads") or []
+    clues = data.get("clues") or []
+    objectives = data.get("objectives") or []
+    title = data.get("title", data.get("id", "?"))
+
+    thread_ids = {str(t.get("id", "")) for t in threads if t.get("id")}
+
+    # Clue → thread mapping
+    clues_per_thread: Dict[str, List[str]] = {tid: [] for tid in thread_ids}
+    orphan_clue_ids: List[str] = []
+    for cl in clues:
+        tid = str(cl.get("thread_id") or "").strip()
+        cid = str(cl.get("id") or cl.get("label") or "?")
+        if tid and tid in thread_ids:
+            clues_per_thread[tid].append(cid)
+        else:
+            orphan_clue_ids.append(cid)
+
+    # [BALANCE-1] Nessun thread investigativo ma ci sono obiettivi
+    if not threads and objectives:
+        findings.append(Finding("warning", "balance", title,
+            f"Nessuna pista investigativa (story_threads): l'avventura ha {len(objectives)} obiettivi "
+            "ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+            "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"))
+
+    # [BALANCE-2] Troppo pochi thread (< 2)
+    elif len(threads) < 2 and clues:
+        findings.append(Finding("warning", "balance", title,
+            f"Solo {len(threads)} pista investigativa con {len(clues)} indizi: "
+            "se i giocatori falliscono il primo indizio si bloccano",
+            "Aggiungi almeno una seconda pista radice percorribile indipendentemente"))
+
+    # [BALANCE-3] Clue orfani (senza thread_id valido)
+    if orphan_clue_ids:
+        findings.append(Finding("warning", "balance", "orphan_clues",
+            f"{len(orphan_clue_ids)} indizi senza pista assegnata: "
+            f"{', '.join(orphan_clue_ids[:5])}{'...' if len(orphan_clue_ids) > 5 else ''} — "
+            "il motore narrativo non sa come usarli",
+            "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"))
+
+    # [BALANCE-4] Thread con meno di 2 clue (il giocatore non può dedurre)
+    for tid, clist in clues_per_thread.items():
+        t = next((t for t in threads if t.get("id") == tid), {})
+        label = t.get("title") or t.get("question") or tid
+        if len(clist) < 2:
+            findings.append(Finding("warning", "balance", tid,
+                f"La pista '{label}' ha solo {len(clist)} indizi: "
+                "GURPS richiede almeno 2 prove per una deduzione credibile",
+                f"Aggiungi almeno 1 indizio con thread_id='{tid}'"))
+
+    # [BALANCE-5] Rapporto clue/thread troppo sbilanciato
+    if threads and clues:
+        avg = len(clues) / len(threads)
+        if avg < 1.5:
+            findings.append(Finding("suggestion", "balance", title,
+                f"Media di {avg:.1f} indizi per pista: troppo pochi per permettere deduzioni — "
+                "i giocatori troveranno la soluzione per esclusione, non per ragionamento",
+                "Obiettivo: almeno 2-3 indizi per pista, con tipi diversi (fisico, testimonianza, documento)"))
+
+    return findings
+
+
 def _resource_rules(resources: list, genre: str, title: str) -> List[Finding]:
     if not resources:
         horror = ("horror", "cosmic", "thriller", "survival", "western")
@@ -661,6 +733,7 @@ def audit(data: Dict) -> List[Finding]:
         data.get("title", data.get("id", "?")),
     ))
     findings.extend(_equipment_rules(data))
+    findings.extend(_balance_rules(data))
     return findings
 
 
@@ -681,6 +754,169 @@ def _json_from_llm(raw: str) -> Any:
         if raw.startswith("json"):
             raw = raw[4:]
     return json.loads(raw.strip())
+
+
+def _enrich_structure_balance(enriched: Dict, findings: List[Finding]) -> Dict:
+    """Genera clue e/o story_thread mancanti per bilanciare la struttura investigativa."""
+    balance_issues = [f for f in findings if f.category == "balance"]
+    if not balance_issues:
+        return enriched
+
+    title = enriched.get("title", "")
+    genre = enriched.get("genre", "")
+    premise = (enriched.get("premise") or "")[:300]
+    hidden_truth = (enriched.get("hidden_truth") or enriched.get("core_truths") or "")
+    if isinstance(hidden_truth, list):
+        hidden_truth = "; ".join(str(h.get("statement", h) if isinstance(h, dict) else h) for h in hidden_truth[:2])
+
+    threads = enriched.get("story_threads") or []
+    clues = enriched.get("clues") or []
+    actors = enriched.get("actors") or []
+    locations = enriched.get("locations") or []
+
+    thread_ids = {str(t.get("id", "")) for t in threads if t.get("id")}
+    clues_per_thread: Dict[str, int] = {tid: 0 for tid in thread_ids}
+    for cl in clues:
+        tid = str(cl.get("thread_id") or "").strip()
+        if tid in clues_per_thread:
+            clues_per_thread[tid] += 1
+
+    # Determina cosa manca
+    needs_new_threads = len(threads) < 2
+    threads_needing_clues = [tid for tid, cnt in clues_per_thread.items() if cnt < 2]
+    has_orphan_clues = any(
+        not str(cl.get("thread_id") or "").strip() or str(cl.get("thread_id") or "").strip() not in thread_ids
+        for cl in clues
+    )
+
+    actor_summary = ", ".join(
+        f"{a.get('name', '?')} ({a.get('role', '?')})" for a in actors[:5]
+    )
+    loc_summary = ", ".join(
+        l.get("name", "?") for l in locations[:6] if not l.get("parent_location_id")
+    )
+    thread_summary = "\n".join(
+        f"  - id={t.get('id')} titolo='{t.get('title') or t.get('question', '')}' "
+        f"clues_attuali={clues_per_thread.get(t.get('id', ''), 0)}"
+        for t in threads
+    ) or "  (nessuna pista definita)"
+    clue_summary = "\n".join(
+        f"  - id={c.get('id')} label='{c.get('label', '')}' thread_id='{c.get('thread_id', '')}'"
+        for c in clues[:10]
+    ) or "  (nessun indizio)"
+
+    task_lines = []
+    if needs_new_threads:
+        task_lines.append(
+            "1. Crea 2-3 nuove piste investigative (story_threads) con domanda investigativa "
+            "e risposta nascosta (true_answer). Ogni pista deve coprire un aspetto diverso della trama."
+        )
+    if threads_needing_clues or has_orphan_clues:
+        task_lines.append(
+            f"2. Genera indizi mancanti: ogni pista deve avere almeno 2 clue con thread_id valido. "
+            f"Piste che ne hanno bisogno: {', '.join(threads_needing_clues) or 'tutte'}. "
+            "Usa NPC e luoghi reali dell'avventura come fonte degli indizi."
+        )
+    if not task_lines:
+        return enriched
+
+    prompt = f"""Sei un game designer GURPS. Analizza questa avventura e completa la struttura investigativa.
+
+AVVENTURA: {title}
+GENERE: {genre}
+PREMESSA: {premise}
+VERITÀ NASCOSTA: {hidden_truth}
+NPC: {actor_summary}
+LOCATION ROOT: {loc_summary}
+
+PISTE ATTUALI:
+{thread_summary}
+
+INDIZI ATTUALI:
+{clue_summary}
+
+COMPITO:
+{chr(10).join(task_lines)}
+
+Rispondi SOLO con questo JSON (non aggiungere altro testo):
+{{
+  "new_threads": [
+    {{
+      "id": "T_nuovo_1",
+      "title": "Titolo pista",
+      "question": "Domanda investigativa concreta",
+      "true_answer": "Risposta canonica nascosta",
+      "status": "hidden",
+      "required_clues": ["nuovo_clue_1", "nuovo_clue_2"],
+      "minimum_clues_to_deduce": 2,
+      "parent_thread_ids": [],
+      "linked_npcs": [],
+      "linked_locations": []
+    }}
+  ],
+  "new_clues": [
+    {{
+      "id": "nuovo_clue_1",
+      "label": "Nome breve indizio",
+      "text": "Descrizione concreta di cosa è l'indizio",
+      "type": "physical_evidence | testimony | document | behavior | location_detail",
+      "thread_id": "id_pista_esistente_o_nuova",
+      "reveals": "Cosa suggerisce",
+      "payoff": "Cosa permette di capire o sbloccare",
+      "location": "Dove si trova / come si ottiene",
+      "found": false
+    }}
+  ],
+  "clue_thread_fixes": [
+    {{"clue_id": "id_indizio_orfano", "thread_id": "id_pista_da_assegnare"}}
+  ]
+}}
+
+REGOLE:
+- new_threads: [] se non servono nuove piste
+- new_clues: almeno 2 per ogni pista che ne ha meno di 2
+- clue_thread_fixes: assegna thread_id agli indizi orfani
+- Usa nomi di NPC e luoghi già esistenti nell'avventura come fonte degli indizi
+- Ogni indizio deve essere fisicamente trovabile o dedotto da una situazione concreta"""
+
+    try:
+        raw = _llm(prompt, max_tokens=2048)
+        result = _json_from_llm(raw)
+    except Exception as e:
+        print(f"[doctor] balance enrichment failed: {e}", file=sys.stderr)
+        return enriched
+
+    # Apply new_threads
+    new_threads = result.get("new_threads") or []
+    if new_threads:
+        existing_ids = {str(t.get("id", "")) for t in (enriched.get("story_threads") or [])}
+        added = [t for t in new_threads if str(t.get("id", "")) not in existing_ids]
+        enriched["story_threads"] = list(enriched.get("story_threads") or []) + added
+        print(f"[doctor] balance: added {len(added)} new thread(s)")
+
+    # Apply new_clues
+    new_clues = result.get("new_clues") or []
+    if new_clues:
+        existing_cids = {str(c.get("id", "")) for c in (enriched.get("clues") or [])}
+        added_clues = [c for c in new_clues if str(c.get("id", "")) not in existing_cids]
+        enriched["clues"] = list(enriched.get("clues") or []) + added_clues
+        print(f"[doctor] balance: added {len(added_clues)} new clue(s)")
+
+    # Apply clue_thread_fixes (assign thread_id to orphan clues)
+    fixes = result.get("clue_thread_fixes") or []
+    if fixes:
+        fix_map = {str(f.get("clue_id", "")): str(f.get("thread_id", "")) for f in fixes if f.get("clue_id") and f.get("thread_id")}
+        updated = []
+        for cl in (enriched.get("clues") or []):
+            cid = str(cl.get("id", ""))
+            if cid in fix_map:
+                cl = dict(cl)
+                cl["thread_id"] = fix_map[cid]
+            updated.append(cl)
+        enriched["clues"] = updated
+        print(f"[doctor] balance: fixed thread_id for {len(fix_map)} orphan clue(s)")
+
+    return enriched
 
 
 def _enrich_initial_hook(data: Dict) -> str:
@@ -905,6 +1141,11 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
         f"— {(definition.get('premise') or '')[:200]}"
     )
     enriched = dict(definition)
+
+    # [BALANCE] Prima di tutto: correggi squilibri strutturali clue/thread
+    if "balance" in categories:
+        print("[doctor] fixing structural balance (clues/threads)")
+        enriched = _enrich_structure_balance(enriched, findings)
 
     # initial_hook
     if not enriched.get("initial_hook"):
