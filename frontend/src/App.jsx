@@ -2100,6 +2100,7 @@ function SetupScreen({ onStart }) {
   const [showAdventureEditor, setShowAdventureEditor] = useState(false);
   const [doctorReport, setDoctorReport] = useState(null); // {score, findings, enriching}
   const [doctorEnriching, setDoctorEnriching] = useState(false);
+  const [reviewShowInfos, setReviewShowInfos] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [showBuilder, setShowBuilder] = useState(false);
   const [avatars, setAvatars] = useState({});
@@ -2902,7 +2903,6 @@ function SetupScreen({ onStart }) {
     const rsuggestions = findings.filter(f => f.severity === "suggestion" || f.severity === "info");
     const scoreColor = sc === null ? "#94a3b8" : sc >= 9 ? "#4ade80" : sc >= 6 ? "#facc15" : "#f87171";
     const scoreLabel = sc === null ? "Analisi in corso…" : sc >= 9 ? "Ottima qualità" : sc >= 6 ? "Qualità discreta" : "Qualità bassa";
-    const [showInfos, setShowInfos] = React.useState(false);
 
     return (
       <div style={{ minHeight: "100vh", background: "#000", display: "flex", flexDirection: "column" }}>
@@ -2998,10 +2998,10 @@ function SetupScreen({ onStart }) {
                 ))}
                 {rsuggestions.length > 0 && (
                   <>
-                    <button onClick={() => setShowInfos(v => !v)} style={{ alignSelf: "flex-start", background: "none", border: "none", cursor: "pointer", color: "#60a5fa", fontSize: 11, padding: "2px 0" }}>
-                      {showInfos ? "▲" : "▼"} {rsuggestions.length} suggeriment{rsuggestions.length === 1 ? "o" : "i"} opzionali
+                    <button onClick={() => setReviewShowInfos(v => !v)} style={{ alignSelf: "flex-start", background: "none", border: "none", cursor: "pointer", color: "#60a5fa", fontSize: 11, padding: "2px 0" }}>
+                      {reviewShowInfos ? "▲" : "▼"} {rsuggestions.length} suggeriment{rsuggestions.length === 1 ? "o" : "i"} opzionali
                     </button>
-                    {showInfos && rsuggestions.map((f, i) => (
+                    {reviewShowInfos && rsuggestions.map((f, i) => (
                       <div key={`s${i}`} style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.4 }}>
                         🔵 <strong>{f.category}</strong> — {f.message}
                         {f.fix_hint && <div style={{ color: "rgba(255,255,255,0.3)", fontSize: 10, paddingLeft: 16, marginTop: 2 }}>↳ {f.fix_hint}</div>}
