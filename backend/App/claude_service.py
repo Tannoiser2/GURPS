@@ -4646,35 +4646,60 @@ Rispondi SOLO con questo JSON:
   "has_time_pressure": true,
   "locations": [
     {{
-      "id": "loc_1",
-      "name": "Nome location",
-      "description": "Descrizione breve",
+      "id": "area_1",
+      "name": "Prima area principale (es. Città, Edificio, Zona)",
+      "description": "Descrizione dell'area",
+      "parent_location_id": "",
       "has_combat_potential": false,
+      "tactical_map": {{"enabled": false}}
+    }},
+    {{
+      "id": "area_1_zona_a",
+      "name": "Prima sub-zona di area_1 (es. Mercato, Pian terreno, Porto)",
+      "description": "Descrizione della sub-zona",
+      "parent_location_id": "area_1",
+      "has_combat_potential": false,
+      "tactical_map": {{"enabled": false}}
+    }},
+    {{
+      "id": "area_1_zona_b",
+      "name": "Seconda sub-zona di area_1 (es. Castello, Piano superiore, Quartiere)",
+      "description": "Descrizione della sub-zona",
+      "parent_location_id": "area_1",
+      "has_combat_potential": true,
       "tactical_map": {{
-        "enabled": false,
-        "role": "hot_zone | finale",
-        "layout": "room | narrow | open",
-        "features": ["coperture/elementi tattici"],
-        "hazards": ["rischi ambientali"],
-        "trigger": "quando si apre il confronto"
+        "enabled": true,
+        "role": "hot_zone",
+        "layout": "room",
+        "features": ["copertura", "ostacolo"],
+        "hazards": ["buio", "trappola"],
+        "trigger": "quando inizia il confronto"
       }}
     }},
     {{
       "id": "area_2",
       "name": "Seconda area principale",
-      "description": "Descrizione breve",
+      "description": "Descrizione dell'area",
       "parent_location_id": "",
+      "has_combat_potential": false,
+      "tactical_map": {{"enabled": false}}
+    }},
+    {{
+      "id": "area_2_zona_a",
+      "name": "Sub-zona di area_2",
+      "description": "Descrizione",
+      "parent_location_id": "area_2",
       "has_combat_potential": false,
       "tactical_map": {{"enabled": false}}
     }}
   ]
 }}
 
-REGOLA GERARCHIA LOCATION: organizza le location su 2 livelli usando `parent_location_id`.
+REGOLA GERARCHIA LOCATION: organizza sempre le location su 2 livelli.
 - Livello 0 (root, parent_location_id: ""): 2-3 aree macroscopiche (città, edificio, zona).
-- Livello 1 (sub-zone, parent_location_id = id padre): 2-4 sotto-luoghi per area (quartieri, stanze, punti chiave).
+- Livello 1 (sub-zone, parent_location_id = id padre): 2-4 sotto-luoghi per area.
 - Le mappe tattiche (enabled:true) vanno SOLO sulle sub-zone, non sulle aree root.
-- Totale location suggerito: 8-12."""
+- Totale location: 8-12 (2-3 root + sotto-zone)."""
 
     attempts: list[tuple[str, str]] = [(_ACTIVE_PROVIDER, prompt)]
     fallback_provider = _other_provider()
