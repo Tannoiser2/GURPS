@@ -2791,13 +2791,19 @@ function SetupScreen({ onStart }) {
                       ))}
                     </div>
                   )}
-                  {/* dettaglio critici visibile direttamente */}
-                  {criticals.length > 0 && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  {/* dettaglio critici e warning visibili direttamente */}
+                  {(criticals.length > 0 || warnings.length > 0) && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
                       {criticals.map((f, i) => (
-                        <div key={i} style={{ fontSize: 10, color: "#fca5a5" }}>
-                          🔴 {f.message}
-                          {f.fix_hint && <span style={{ color: "rgba(255,255,255,0.3)", marginLeft: 4 }}>→ {f.fix_hint}</span>}
+                        <div key={`c${i}`} style={{ fontSize: 11, color: "#fca5a5", lineHeight: 1.4 }}>
+                          🔴 <strong>{f.category}</strong> — {f.message}
+                          {f.fix_hint && <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, paddingLeft: 16, marginTop: 1 }}>↳ {f.fix_hint}</div>}
+                        </div>
+                      ))}
+                      {warnings.map((f, i) => (
+                        <div key={`w${i}`} style={{ fontSize: 11, color: "#fde68a", lineHeight: 1.4 }}>
+                          🟡 <strong>{f.category}</strong> — {f.message}
+                          {f.fix_hint && <div style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, paddingLeft: 16, marginTop: 1 }}>↳ {f.fix_hint}</div>}
                         </div>
                       ))}
                     </div>
