@@ -3162,6 +3162,7 @@ function SetupScreen({ onStart }) {
                     },
                   };
                   setPreloadedAdventure(updated);
+                  setEditorRevision(r => r + 1);
                 }
               } catch (e) { console.error("[regional map]", e); }
             }
@@ -3223,6 +3224,7 @@ function SetupScreen({ onStart }) {
                             const file = e.target.files[0]; if (!file) return; e.target.value = "";
                             const b64 = await new Promise(res => { const r = new FileReader(); r.onload = ev => res(ev.target.result.split(",")[1]); r.readAsDataURL(file); });
                             setPreloadedAdventure(prev => ({ ...prev, adventure_definition: { ...prev.adventure_definition, locations: (prev.adventure_definition.locations || []).map(l => l.id === loc.id ? { ...l, local_map_image_b64: b64 } : l) } }));
+                            setEditorRevision(r => r + 1);
                           }} />
                         </label>
                       </div>
