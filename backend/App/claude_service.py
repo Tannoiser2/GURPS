@@ -3790,9 +3790,7 @@ def generate_scene_object_image(
         f"Centered, fills frame, fully visible. "
     )
 
-    if _ACTIVE_PROVIDER == "openai":
-        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
-            return None
+    if _ACTIVE_PROVIDER == "openai" and OPENAI_API_KEY and _OPENAI_AVAILABLE:
         try:
             prompt = base_prompt + (
                 "PURE TRANSPARENT BACKGROUND. No floor, no walls, no scenery — only the object itself."
@@ -3810,12 +3808,11 @@ def generate_scene_object_image(
             if getattr(response, "data", None) and getattr(response.data[0], "b64_json", None):
                 _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
                 return response.data[0].b64_json
-            return None
         except Exception as e:
             _set_last_image_error("generate_scene_object_image/openai", e)
-            return None
+            # fallback automatico su Gemini se OpenAI non disponibile/billing esaurito
 
-    # Gemini fallback: prompt con sfondo magenta, poi rendi trasparente via PIL
+    # Gemini: prompt con sfondo magenta, poi rendi trasparente via PIL
     key = GOOGLE_AI_STUDIO_KEY
     if not key or not _GOOGLE_GENAI_AVAILABLE:
         return None
@@ -3838,23 +3835,33 @@ def generate_scene_object_image(
                 break
         if not raw_b64:
             return None
-        # Post-process: magenta → trasparente
+        # Post-process: rimuovi sfondo magenta/rosa tramite numpy o PIL
         try:
             from PIL import Image
             import io as _io
             img_bytes = base64.b64decode(raw_b64)
             im = Image.open(_io.BytesIO(img_bytes)).convert("RGBA")
-            pixels = im.load()
-            w, h = im.size
-            for y in range(h):
-                for x in range(w):
-                    r, g, b, a = pixels[x, y]
-                    # Magenta range: alto R, basso G, alto B
-                    if r > 200 and g < 80 and b > 200:
-                        pixels[x, y] = (0, 0, 0, 0)
-                    elif r > 180 and g < 120 and b > 180:
-                        # bordo: alpha parziale
-                        pixels[x, y] = (r, g, b, max(0, a - 180))
+            try:
+                import numpy as np
+                arr = np.array(im, dtype=np.int32)
+                r_ch, g_ch, b_ch = arr[:,:,0], arr[:,:,1], arr[:,:,2]
+                # Magenta/rosa: R e B dominano su G (cattura sia magenta puro che hot pink, rose, ecc.)
+                mask_full = (r_ch - g_ch > 50) & (b_ch - g_ch > 15) & (r_ch > 130)
+                mask_soft = (r_ch - g_ch > 30) & (b_ch - g_ch > 5) & (r_ch > 100) & ~mask_full
+                arr[mask_full, 3] = 0
+                arr[mask_soft, 3] = (arr[mask_soft, 3] * 0.25).astype(np.int32)
+                im = Image.fromarray(arr.astype(np.uint8))
+            except ImportError:
+                # fallback PIL pixel-by-pixel con soglie allargate
+                pixels = im.load()
+                w2, h2 = im.size
+                for y2 in range(h2):
+                    for x2 in range(w2):
+                        r2, g2, b2, a2 = pixels[x2, y2]
+                        if r2 - g2 > 50 and b2 - g2 > 15 and r2 > 130:
+                            pixels[x2, y2] = (0, 0, 0, 0)
+                        elif r2 - g2 > 30 and b2 - g2 > 5 and r2 > 100:
+                            pixels[x2, y2] = (r2, g2, b2, max(0, int(a2 * 0.25)))
             out = _io.BytesIO()
             im.save(out, format="PNG")
             return base64.b64encode(out.getvalue()).decode("utf-8")
