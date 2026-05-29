@@ -26,7 +26,7 @@ from .combat import stand_up
 from .character_creation import validate_draft, build_custom_player
 from .claude_service import (
     generate_scene_image, generate_character_avatar, generate_npc_avatar,
-    generate_tactical_map_image, generate_location_map_image, generate_adventure_overview_map, generate_map_positions, narrate_combat_result,
+    generate_tactical_map_image, generate_location_map_image, generate_adventure_overview_map, generate_map_positions, generate_scene_object_image, narrate_combat_result,
     set_active_provider,
     get_session_token_stats, reset_session_token_stats,
     reset_last_request_tokens, get_last_request_tokens,
@@ -165,7 +165,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v9-map-pregen"
+BUILD_VERSION = "v10-scene-png"
 
 @app.get("/health")
 def health_check():
@@ -3640,6 +3640,33 @@ def generate_tactical_map(payload: TacticalMapPayload):
     if image_b64:
         tactical_map_image_cache[cache_key] = image_b64
     return {"image_b64": image_b64, "available": bool(image_b64), "call_tokens": get_last_request_tokens()}
+
+
+class SceneObjectImagePayload(BaseModel):
+    name: str = ""
+    object_type: str = "prop"        # cover|hazard|terrain|prop|interactive|destructible
+    genre: str = "fantasy"
+    description: str = ""            # effetto/descrizione dell'oggetto
+    location_description: str = ""   # contesto della location
+
+@app.post("/game/adventure/generate-scene-object-image")
+def generate_scene_object_image_endpoint(payload: SceneObjectImagePayload):
+    """Genera un PNG isolato (sfondo trasparente) per un oggetto di scena.
+    Usato sia nell'editor mappe tattiche, sia (cache) durante il combattimento."""
+    provider = _resolve_image_provider()
+    if not provider:
+        return {"image_b64": None, "available": False, "error": "image provider non disponibile"}
+    reset_last_request_tokens()
+    set_active_provider(provider)
+    image_b64 = generate_scene_object_image(
+        payload.name,
+        payload.object_type or "prop",
+        payload.genre or "fantasy",
+        payload.description or "",
+        payload.location_description or "",
+    )
+    return {"image_b64": image_b64, "available": bool(image_b64), "call_tokens": get_last_request_tokens()}
+
 
 @app.get("/game/image-available")
 def image_available():

@@ -3761,6 +3761,121 @@ def generate_tactical_map_image(
         return None
 
 
+def generate_scene_object_image(
+    name: str,
+    object_type: str = "prop",
+    genre: str = "fantasy",
+    description: str = "",
+    location_description: str = "",
+) -> "str | None":
+    """Genera un PNG isolato (sfondo trasparente) di un singolo oggetto di scena.
+
+    Usato per le battle map: ogni scene_object della tactical_map può avere
+    un'immagine top-down trasparente da sovrapporre alla mappa.
+
+    Provider:
+    - OpenAI gpt-image-1 con `background="transparent"` → PNG già trasparente
+    - Gemini 2.5 flash-image → fallback con prompt che chiede sfondo magenta;
+      post-processato in PIL per rendere il magenta trasparente.
+    """
+    _clear_last_image_error()
+    style = _GENRE_TACTICAL_STYLE.get(genre, _GENRE_TACTICAL_STYLE.get("fantasy", ""))
+
+    type_hints = {
+        "cover": "providing solid cover, sturdy and large enough to hide behind",
+        "hazard": "dangerous environmental hazard, glowing, smoking or threatening",
+        "terrain": "natural terrain feature like rocks, roots, debris or rubble",
+        "prop": "decorative or functional scene prop",
+        "interactive": "clearly interactive mechanism: lever, button, control panel, switch",
+        "destructible": "fragile and partially damaged object that can be broken",
+    }
+    type_hint = type_hints.get(object_type, "")
+
+    base_prompt = (
+        f"Top-down birds-eye view of a single isolated '{name}' "
+        f"({type_hint}) for a tabletop RPG battle map. "
+        f"Setting style: {style[:120]}. "
+        f"Context: {(description or '')[:100]}. "
+        f"Style: hand-painted RPG token, soft drop shadows, high detail, no perspective distortion. "
+        f"Centered, fills frame, fully visible. "
+    )
+
+    if _ACTIVE_PROVIDER == "openai":
+        if not OPENAI_API_KEY or not _OPENAI_AVAILABLE:
+            return None
+        try:
+            prompt = base_prompt + (
+                "PURE TRANSPARENT BACKGROUND. No floor, no walls, no scenery — only the object itself."
+            )
+            client = _openai_module.OpenAI(api_key=OPENAI_API_KEY)
+            response = client.images.generate(
+                model=OPENAI_IMAGE_EDIT_MODEL,
+                prompt=prompt,
+                size="1024x1024",
+                quality="medium",
+                output_format="png",
+                background="transparent",
+                n=1,
+            )
+            if getattr(response, "data", None) and getattr(response.data[0], "b64_json", None):
+                _record_image_usage(OPENAI_IMAGE_EDIT_MODEL)
+                return response.data[0].b64_json
+            return None
+        except Exception as e:
+            _set_last_image_error("generate_scene_object_image/openai", e)
+            return None
+
+    # Gemini fallback: prompt con sfondo magenta, poi rendi trasparente via PIL
+    key = GOOGLE_AI_STUDIO_KEY
+    if not key or not _GOOGLE_GENAI_AVAILABLE:
+        return None
+    try:
+        prompt = base_prompt + (
+            "Background: solid uniform magenta color #FF00FF, completely flat, no gradient, no texture. "
+            "Only the object on pure magenta — magenta will be removed in post-processing."
+        )
+        client = google_genai.Client(api_key=key)
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-image",
+            contents=[google_genai_types.Content(parts=[google_genai_types.Part(text=prompt)])],
+            config=google_genai_types.GenerateContentConfig(response_modalities=["IMAGE"]),
+        )
+        raw_b64 = None
+        for part in response.candidates[0].content.parts:
+            if hasattr(part, "inline_data") and part.inline_data:
+                _record_image_usage("gemini-2.5-flash-image")
+                raw_b64 = base64.b64encode(part.inline_data.data).decode("utf-8")
+                break
+        if not raw_b64:
+            return None
+        # Post-process: magenta → trasparente
+        try:
+            from PIL import Image
+            import io as _io
+            img_bytes = base64.b64decode(raw_b64)
+            im = Image.open(_io.BytesIO(img_bytes)).convert("RGBA")
+            pixels = im.load()
+            w, h = im.size
+            for y in range(h):
+                for x in range(w):
+                    r, g, b, a = pixels[x, y]
+                    # Magenta range: alto R, basso G, alto B
+                    if r > 200 and g < 80 and b > 200:
+                        pixels[x, y] = (0, 0, 0, 0)
+                    elif r > 180 and g < 120 and b > 180:
+                        # bordo: alpha parziale
+                        pixels[x, y] = (r, g, b, max(0, a - 180))
+            out = _io.BytesIO()
+            im.save(out, format="PNG")
+            return base64.b64encode(out.getvalue()).decode("utf-8")
+        except Exception as e:
+            print(f"[generate_scene_object_image] PIL post-process fallita: {e}")
+            return raw_b64
+    except Exception as e:
+        _set_last_image_error("generate_scene_object_image/gemini", e)
+        return None
+
+
 def generate_scene_image(
     scene_text: str,
     genre: str,

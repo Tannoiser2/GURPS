@@ -3514,6 +3514,22 @@ function TacticalMapVisualEditor({ tm, actors, onMoveSceneObject, onMoveEnemy })
           {sceneObjs.map((obj, j) => {
             const isDrag = drag?.kind === 'obj' && drag.idx === j;
             const { x, y } = isDrag ? drag : hexCenter(obj.grid_x || 0, obj.grid_y || 0);
+            const tokenR = HEX_R * 0.75;
+            if (obj.image_b64) {
+              // PNG trasparente al posto del placeholder
+              return (
+                <g key={`o-${j}`} onPointerDown={(e) => handleDown('obj', j, e)} style={{ cursor: isDrag ? 'grabbing' : 'grab' }}>
+                  <image
+                    href={`data:image/png;base64,${obj.image_b64}`}
+                    x={x - tokenR} y={y - tokenR}
+                    width={tokenR * 2} height={tokenR * 2}
+                    preserveAspectRatio="xMidYMid meet"
+                    style={{ pointerEvents: 'none' }}
+                  />
+                  <circle cx={x} cy={y} r={tokenR} fill="transparent" stroke="rgba(167,139,250,0.6)" strokeWidth="1" strokeDasharray="2 2" />
+                </g>
+              );
+            }
             return (
               <g key={`o-${j}`} onPointerDown={(e) => handleDown('obj', j, e)} style={{ cursor: isDrag ? 'grabbing' : 'grab' }}>
                 <circle cx={x} cy={y} r={HEX_R * 0.6}
@@ -3801,6 +3817,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [mapState, setMapState] = React.useState(() => JSON.parse(JSON.stringify(def0.map_state || {})));
   const [genTacticalLoc, setGenTacticalLoc] = React.useState(null);
   const [genTacticalError, setGenTacticalError] = React.useState("");
+  const [genSceneObjKey, setGenSceneObjKey] = React.useState(null);
   const [tab, setTab] = React.useState("npcs");
   const [dirty, setDirty] = React.useState(false);
   const [expandedNpc, setExpandedNpc] = React.useState(null);
@@ -4683,22 +4700,69 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                                         Nessun oggetto piazzato. Aggiungi tavoli, leve, statue, casse, leve interattive…
                                       </div>
                                     )}
-                                    {sceneObjs.map((obj, j) => (
-                                      <div key={j} style={{ display: "grid", gridTemplateColumns: "1.4fr 0.9fr 60px 60px 60px 1.4fr auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: j < sceneObjs.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
-                                        <input style={{ ...inputStyle, fontSize: 11 }} value={obj.name || ""} onChange={e => patchSceneObject(i, j, "name", e.target.value)} placeholder="nome" />
-                                        <select style={{ ...selectStyle, fontSize: 11 }} value={obj.type || "cover"} onChange={e => patchSceneObject(i, j, "type", e.target.value)}>
-                                          {["cover", "hazard", "terrain", "prop", "interactive", "destructible"].map(s => <option key={s} value={s}>{s}</option>)}
-                                        </select>
-                                        <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.grid_x ?? 0} onChange={e => patchSceneObject(i, j, "grid_x", parseInt(e.target.value) || 0)} title="x" />
-                                        <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.grid_y ?? 0} onChange={e => patchSceneObject(i, j, "grid_y", parseInt(e.target.value) || 0)} title="y" />
-                                        <input style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.occupancy || "1"} onChange={e => patchSceneObject(i, j, "occupancy", e.target.value)} title="occupazione (es. 1, 2x3)" placeholder="1" />
-                                        <input style={{ ...inputStyle, fontSize: 11 }} value={obj.effect || ""} onChange={e => patchSceneObject(i, j, "effect", e.target.value)} placeholder="cosa fa / descrizione" />
-                                        {delBtn(() => removeSceneObject(i, j), "Rimuovi oggetto")}
-                                      </div>
-                                    ))}
+                                    {sceneObjs.map((obj, j) => {
+                                      const objKey = `${i}.${j}`;
+                                      const isGen = genSceneObjKey === objKey;
+                                      return (
+                                        <div key={j} style={{ display: "grid", gridTemplateColumns: "32px 1.3fr 0.85fr 55px 55px 55px 1.3fr auto auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: j < sceneObjs.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
+                                          {/* Thumbnail PNG (o placeholder viola) */}
+                                          {obj.image_b64 ? (
+                                            <img src={`data:image/png;base64,${obj.image_b64}`} alt={obj.name}
+                                              style={{ width: 30, height: 30, borderRadius: 4, background: "rgba(0,0,0,0.4)", objectFit: "contain" }}
+                                              title={obj.name} />
+                                          ) : (
+                                            <div style={{ width: 30, height: 30, borderRadius: 4, background: "rgba(167,139,250,0.25)", border: "1px dashed rgba(167,139,250,0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: "#c4b5fd" }}>?</div>
+                                          )}
+                                          <input style={{ ...inputStyle, fontSize: 11 }} value={obj.name || ""} onChange={e => patchSceneObject(i, j, "name", e.target.value)} placeholder="nome" />
+                                          <select style={{ ...selectStyle, fontSize: 11 }} value={obj.type || "cover"} onChange={e => patchSceneObject(i, j, "type", e.target.value)}>
+                                            {["cover", "hazard", "terrain", "prop", "interactive", "destructible"].map(s => <option key={s} value={s}>{s}</option>)}
+                                          </select>
+                                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.grid_x ?? 0} onChange={e => patchSceneObject(i, j, "grid_x", parseInt(e.target.value) || 0)} title="x" />
+                                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.grid_y ?? 0} onChange={e => patchSceneObject(i, j, "grid_y", parseInt(e.target.value) || 0)} title="y" />
+                                          <input style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }} value={obj.occupancy || "1"} onChange={e => patchSceneObject(i, j, "occupancy", e.target.value)} title="occupazione (es. 1, 2x3)" placeholder="1" />
+                                          <input style={{ ...inputStyle, fontSize: 11 }} value={obj.effect || ""} onChange={e => patchSceneObject(i, j, "effect", e.target.value)} placeholder="cosa fa / descrizione" />
+                                          {/* Genera/rigenera PNG trasparente */}
+                                          <button
+                                            disabled={isGen || !obj.name}
+                                            onClick={async () => {
+                                              setGenSceneObjKey(objKey);
+                                              try {
+                                                const r = await fetch(`${API_URL_DIRECT}/game/adventure/generate-scene-object-image`, {
+                                                  method: "POST",
+                                                  headers: { "Content-Type": "application/json" },
+                                                  body: JSON.stringify({
+                                                    name: obj.name || "",
+                                                    object_type: obj.type || "prop",
+                                                    genre: def0.genre || adventure?.genre || "detective_classico",
+                                                    description: obj.effect || "",
+                                                    location_description: loc.description || "",
+                                                  }),
+                                                });
+                                                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                                                const data = await r.json();
+                                                if (data.image_b64) patchSceneObject(i, j, "image_b64", data.image_b64);
+                                                else alert(`Generazione fallita${data.error ? `: ${data.error}` : ''}`);
+                                              } catch (e) { alert(`Errore: ${e?.message || e}`); }
+                                              finally { setGenSceneObjKey(null); }
+                                            }}
+                                            title={obj.image_b64 ? "Rigenera PNG trasparente" : "Genera PNG trasparente"}
+                                            style={{
+                                              padding: "4px 8px", borderRadius: 4,
+                                              border: "1px solid rgba(167,139,250,0.4)",
+                                              background: "rgba(167,139,250,0.1)", color: "#c4b5fd",
+                                              fontSize: 10, fontWeight: 700,
+                                              cursor: (isGen || !obj.name) ? "default" : "pointer",
+                                              opacity: (isGen || !obj.name) ? 0.5 : 1,
+                                            }}>
+                                            {isGen ? "✦" : (obj.image_b64 ? "🔄" : "🤖")}
+                                          </button>
+                                          {delBtn(() => removeSceneObject(i, j), "Rimuovi oggetto")}
+                                        </div>
+                                      );
+                                    })}
                                     {sceneObjs.length > 0 && (
                                       <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
-                                        nome · tipo · x · y · occupazione · effetto
+                                        img · nome · tipo · x · y · occupazione · effetto · 🤖 genera PNG · ✕
                                       </div>
                                     )}
                                   </div>
@@ -8665,6 +8729,27 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                 );
               })
             )}
+
+            {/* scene_objects con PNG trasparenti (sopra alla grid, sotto ai token) */}
+            {(tacticalMap?.scene_objects || []).filter(o => o?.image_b64).map((obj, oi) => {
+              const col = Number(obj.grid_x) || 0;
+              const row = Number(obj.grid_y) || 0;
+              if (col >= mapCols || row >= mapRows) return null;
+              const { x, y } = hexCenter(col, row);
+              const r = HEX_SIZE * 0.85;
+              return (
+                <g key={`sobj-${oi}`} style={{ pointerEvents: "auto", cursor: "help" }}>
+                  <title>{`${obj.name || 'oggetto'}${obj.type ? ` (${obj.type})` : ''}${obj.effect ? ' — ' + obj.effect : ''}`}</title>
+                  <image
+                    href={`data:image/png;base64,${obj.image_b64}`}
+                    x={x - r} y={y - r}
+                    width={r * 2} height={r * 2}
+                    preserveAspectRatio="xMidYMid meet"
+                    opacity={0.95}
+                  />
+                </g>
+              );
+            })}
 
             {/* token */}
             {Object.entries(positions).map(([key, pos]) => {
