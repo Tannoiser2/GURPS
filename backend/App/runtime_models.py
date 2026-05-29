@@ -83,6 +83,10 @@ class LocationState(BaseModel):
     # Quando map_state.image_b64 è una bitmap, x/y sono coord clic per spostarsi.
     map_x: int = 0
     map_y: int = 0
+    # Dimensioni opzionali del box location sull'overview (in % della mappa).
+    # 0 = auto-size (default); >0 = box ridimensionato manualmente dall'utente.
+    map_w: int = 0
+    map_h: int = 0
     original_section: str = ""
     is_preserved_from_pdf: bool = False
     inferred_runtime_fields: List[str] = []

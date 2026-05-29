@@ -2129,37 +2129,107 @@ function SetupScreen({ onStart }) {
   async function preGenerateMaps(adventure, mapImageB64 = null) {
     if (!adventure?.adventure_definition) return adventure;
     setMapsLoading(true);
-    setMapsResult(null);
+    setMapsResult({ generated: [], errors: [] });
+    const generated = [];
+    const errors = [];
+    let def = JSON.parse(JSON.stringify(adventure.adventure_definition));
+
     try {
-      const res = await fetch(`${API_URL_DIRECT}/game/adventure/pre-generate-maps`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          adventure_definition: adventure.adventure_definition,
-          map_image_b64: mapImageB64 || null,
-          genre: adventure.genre || adventure.detected_genre || "detective_classico",
-          setting: adventure.adventure_definition?.setting || "",
-          period: adventure.adventure_definition?.period || "",
-        }),
-      }).then(r => r.json());
-      console.log("[preGenerateMaps] response:", { generated: res.generated, errors: res.errors, skipped: res.skipped, provider_used: res.provider_used });
-      setMapsResult({ generated: res.generated || [], errors: res.errors || [], skipped: res.skipped || null, provider: res.provider_used || null });
-      if (res.adventure_definition) {
-        const enrichedDef = res.adventure_definition;
-        const enriched = {
-          ...adventure,
-          ...enrichedDef,
-          adventure_definition: enrichedDef,
-        };
-        setPreloadedAdventure(enriched);
-        setEditorRevision(r => r + 1);
-        return enriched;
+      // 1. Overview map
+      const currentOverview = def.map_state?.image_b64;
+      if (!currentOverview) {
+        if (mapImageB64) {
+          def.map_state = { ...(def.map_state || {}), image_b64: mapImageB64 };
+          generated.push("overview_from_pdf");
+        } else {
+          try {
+            const locs = (def.locations || []).map(l => ({ name: l.name || "" })).filter(l => l.name);
+            const r = await fetch(`${API_URL_DIRECT}/game/adventure/generate-overview-map`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                adventure_title: def.title || "",
+                locations: locs,
+                genre: adventure.genre || adventure.detected_genre || "detective_classico",
+                setting: def.setting || "",
+                period: def.period || "",
+              }),
+            });
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            const data = await r.json();
+            if (data.image_b64) {
+              def.map_state = { ...(def.map_state || {}), image_b64: data.image_b64 };
+              if (data.location_positions) {
+                def.locations = (def.locations || []).map(l => {
+                  const p = data.location_positions[l.name];
+                  if (p) return { ...l, map_x: p.x, map_y: p.y };
+                  return l;
+                });
+              }
+              generated.push("overview_ai");
+            } else {
+              errors.push("overview: nessuna immagine restituita (provider indisponibile?)");
+            }
+          } catch (e) {
+            errors.push(`overview: ${e?.message || e}`);
+            console.error("[preGenerateMaps] overview error:", e);
+          }
+        }
       }
+
+      // 2. Tactical maps per finale/hot_zone
+      const tacticalLocs = (def.locations || []).filter(l =>
+        l?.tactical_map?.enabled &&
+        ["finale", "hot_zone"].includes(l.tactical_map?.role) &&
+        !l.tactical_map?.image_b64
+      );
+      for (const loc of tacticalLocs) {
+        try {
+          const tm = loc.tactical_map || {};
+          const enemyNames = (tm.enemy_positions || []).map(ep => ep.npc_id || "").filter(Boolean);
+          const r = await fetch(`${API_URL_DIRECT}/game/generate-tactical-map-image`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              location_name: loc.name || "",
+              location_description: loc.description || "",
+              genre: adventure.genre || adventure.detected_genre || "detective_classico",
+              environment_type: tm.environment_type || "indoor",
+              scene_narrative: tm.trigger || "",
+              mission_environment: tm.environment_type || "indoor",
+              enemy_names: enemyNames,
+              layout: tm.layout || "room",
+            }),
+          });
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          const data = await r.json();
+          if (data.image_b64) {
+            def.locations = def.locations.map(l => l.id === loc.id ? {
+              ...l,
+              tactical_map: { ...l.tactical_map, image_b64: data.image_b64 }
+            } : l);
+            generated.push(`tactical_${loc.id}`);
+          } else {
+            errors.push(`tactical_${loc.id}: nessuna immagine restituita`);
+          }
+        } catch (e) {
+          errors.push(`tactical_${loc.id}: ${e?.message || e}`);
+          console.error(`[preGenerateMaps] tactical ${loc.id} error:`, e);
+        }
+      }
+
+      const enriched = { ...adventure, ...def, adventure_definition: def };
+      setPreloadedAdventure(enriched);
+      setEditorRevision(r => r + 1);
+      setMapsResult({ generated, errors });
+      console.log("[preGenerateMaps] done:", { generated, errors });
+      return enriched;
     } catch (e) {
-      console.error("[preGenerateMaps] error:", e);
-      setMapsResult({ generated: [], errors: [String(e?.message || e)], skipped: "fetch_error" });
+      console.error("[preGenerateMaps] fatal error:", e);
+      setMapsResult({ generated, errors: [...errors, String(e?.message || e)] });
+    } finally {
+      setMapsLoading(false);
     }
-    finally { setMapsLoading(false); }
     return adventure;
   }
 
@@ -3481,10 +3551,12 @@ function TacticalMapVisualEditor({ tm, actors, onMoveSceneObject, onMoveEnemy })
 }
 
 // ── StrategicMapVisualEditor ──────────────────────────────────────────────
-// Sfondo immagine + pin location trascinabili in coordinate percentuali (0-100).
-function StrategicMapVisualEditor({ image_b64, locations, onMoveLocation }) {
+// Sfondo immagine + pin location trascinabili + connessioni come linee SVG.
+// Coordinate in % (0-100). Resize via maniglia bottom-right.
+function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLocation, onResizeLocation }) {
   const containerRef = React.useRef(null);
-  const [drag, setDrag] = React.useState(null);
+  const [drag, setDrag] = React.useState(null);     // {idx, x, y}
+  const [resize, setResize] = React.useState(null); // {idx, w, h, startX, startY}
 
   function clientToPct(clientX, clientY) {
     const c = containerRef.current;
@@ -3497,22 +3569,67 @@ function StrategicMapVisualEditor({ image_b64, locations, onMoveLocation }) {
     };
   }
 
-  function handleDown(idx, e) {
+  function handlePinDown(idx, e) {
     e.stopPropagation();
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
     const { x, y } = clientToPct(e.clientX, e.clientY);
     setDrag({ idx, x, y });
   }
+  function handleResizeDown(idx, e) {
+    e.stopPropagation();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
+    const loc = locations[idx];
+    setResize({
+      idx,
+      w: Number(loc?.map_w) || 14,
+      h: Number(loc?.map_h) || 8,
+      startX: e.clientX,
+      startY: e.clientY,
+    });
+  }
   function handleMove(e) {
-    if (!drag) return;
-    const { x, y } = clientToPct(e.clientX, e.clientY);
-    setDrag(d => d ? { ...d, x, y } : d);
+    if (drag) {
+      const { x, y } = clientToPct(e.clientX, e.clientY);
+      setDrag(d => d ? { ...d, x, y } : d);
+    } else if (resize) {
+      const c = containerRef.current;
+      if (!c) return;
+      const r = c.getBoundingClientRect();
+      const dxPct = ((e.clientX - resize.startX) / r.width) * 100;
+      const dyPct = ((e.clientY - resize.startY) / r.height) * 100;
+      setResize(rs => rs ? {
+        ...rs,
+        w: Math.max(6, Math.min(50, rs.w + dxPct - (rs._lastDx || 0))),
+        h: Math.max(4, Math.min(40, rs.h + dyPct - (rs._lastDy || 0))),
+        _lastDx: dxPct,
+        _lastDy: dyPct,
+      } : rs);
+    }
   }
   function handleUp() {
-    if (!drag) return;
-    onMoveLocation(drag.idx, Math.round(drag.x), Math.round(drag.y));
-    setDrag(null);
+    if (drag) {
+      onMoveLocation(drag.idx, Math.round(drag.x), Math.round(drag.y));
+      setDrag(null);
+    } else if (resize) {
+      onResizeLocation(resize.idx, Math.round(resize.w), Math.round(resize.h));
+      setResize(null);
+    }
   }
+
+  const locById = {};
+  (locations || []).forEach((l, i) => { if (l?.id) locById[l.id] = { ...l, _idx: i }; });
+
+  function effectivePos(loc, idx) {
+    if (drag?.idx === idx) return { x: drag.x, y: drag.y };
+    return { x: Number(loc.map_x) || 50, y: Number(loc.map_y) || 50 };
+  }
+  function effectiveSize(loc, idx) {
+    if (resize?.idx === idx) return { w: resize.w, h: resize.h };
+    return { w: Number(loc.map_w) || 0, h: Number(loc.map_h) || 0 };
+  }
+
+  const connList = Object.values(connections || {}).filter(c => c?.from && c?.to);
+  const statusColor = { open: "#4ade80", locked: "#facc15", hidden: "rgba(255,255,255,0.25)", trap: "#f87171", one_way: "#a78bfa" };
 
   return (
     <div ref={containerRef}
@@ -3523,13 +3640,50 @@ function StrategicMapVisualEditor({ image_b64, locations, onMoveLocation }) {
     >
       <img src={`data:image/jpeg;base64,${image_b64}`} alt="mappa strategica"
         style={{ width: '100%', display: 'block', borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)' }} />
+      {/* Linee connessioni in SVG overlay */}
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+      >
+        <defs>
+          {Object.entries(statusColor).map(([s, col]) => (
+            <marker key={s} id={`arr-${s}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+              <path d="M0,0 L10,5 L0,10 Z" fill={col} />
+            </marker>
+          ))}
+        </defs>
+        {connList.map((c, i) => {
+          const a = locById[c.from];
+          const b = locById[c.to];
+          if (!a || !b) return null;
+          const pa = effectivePos(a, a._idx);
+          const pb = effectivePos(b, b._idx);
+          const col = statusColor[c.status] || statusColor.open;
+          const dashed = c.discovered === false || c.status === "hidden";
+          return (
+            <line key={i}
+              x1={pa.x} y1={pa.y}
+              x2={pb.x} y2={pb.y}
+              stroke={col}
+              strokeWidth="0.5"
+              strokeDasharray={dashed ? "1.5 1" : "none"}
+              opacity={dashed ? 0.55 : 0.9}
+              markerEnd={c.status === "one_way" ? `url(#arr-${c.status})` : undefined}
+              vectorEffect="non-scaling-stroke"
+              style={{ strokeWidth: 2 }}
+            />
+          );
+        })}
+      </svg>
       {(locations || []).map((loc, i) => {
         const isDrag = drag?.idx === i;
-        const x = isDrag ? drag.x : (Number(loc.map_x) || 50);
-        const y = isDrag ? drag.y : (Number(loc.map_y) || 50);
+        const { x, y } = effectivePos(loc, i);
+        const { w, h } = effectiveSize(loc, i);
+        const isCustomSize = w > 0 && h > 0;
         return (
           <div key={loc.id || i}
-            onPointerDown={(e) => handleDown(i, e)}
+            onPointerDown={(e) => handlePinDown(i, e)}
             style={{
               position: 'absolute',
               left: `${x}%`,
@@ -3538,26 +3692,47 @@ function StrategicMapVisualEditor({ image_b64, locations, onMoveLocation }) {
               cursor: isDrag ? 'grabbing' : 'grab',
               background: 'rgba(96,165,250,0.95)',
               color: '#fff',
-              padding: '5px 11px',
+              padding: isCustomSize ? '4px 6px' : '5px 11px',
               borderRadius: 5,
               fontSize: 11,
               fontWeight: 800,
               border: '2px solid #fff',
               boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
-              whiteSpace: 'nowrap',
-              maxWidth: 160,
+              whiteSpace: isCustomSize ? 'normal' : 'nowrap',
+              maxWidth: isCustomSize ? 'none' : 160,
               overflow: 'hidden',
               textOverflow: 'ellipsis',
+              width: isCustomSize ? `${w}%` : undefined,
+              height: isCustomSize ? `${h}%` : undefined,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textAlign: 'center',
               pointerEvents: 'auto',
             }}
             title={loc.description || loc.name}
           >
             📍 {loc.name || loc.id}
+            {/* Maniglia di resize bottom-right */}
+            <div
+              onPointerDown={(e) => handleResizeDown(i, e)}
+              style={{
+                position: 'absolute',
+                right: -3, bottom: -3,
+                width: 12, height: 12,
+                background: '#fff',
+                border: '1px solid rgba(0,0,0,0.4)',
+                borderRadius: 2,
+                cursor: 'nwse-resize',
+                pointerEvents: 'auto',
+              }}
+              title="Trascina per ridimensionare"
+            />
           </div>
         );
       })}
       <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginTop: 6, textAlign: 'center' }}>
-        Trascina i pin per posizionare le location sulla mappa
+        Trascina i pin per posizionarli · maniglia bianca per ridimensionare · linee = connessioni ({connList.length})
       </div>
     </div>
   );
@@ -4703,7 +4878,12 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                     <StrategicMapVisualEditor
                       image_b64={mapState.image_b64}
                       locations={locations}
+                      connections={mapState.connections || {}}
                       onMoveLocation={(idx, x, y) => moveLocationXY(idx, x, y)}
+                      onResizeLocation={(idx, w, h) => {
+                        setLocations(l => { const n = [...l]; n[idx] = { ...n[idx], map_w: w, map_h: h }; return n; });
+                        setDirty(true);
+                      }}
                     />
                   </div>
                 ) : (
