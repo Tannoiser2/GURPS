@@ -2891,11 +2891,6 @@ function SetupScreen({ onStart }) {
   // ── Step 1.5: revisione tecnica avventura ──
   if (step === "review") {
     const def = preloadedAdventure?.adventure_definition || {};
-    const ractors = def.actors || [];
-    const rclues = def.clues || [];
-    const rthreads = def.story_threads || [];
-    const rlocations = def.locations || [];
-    const rclocks = def.event_clocks || [];
     const sc = doctorReport?.score ?? null;
     const findings = doctorReport?.findings || [];
     const rcriticals = findings.filter(f => f.severity === "error" || f.severity === "critical");
@@ -2903,15 +2898,29 @@ function SetupScreen({ onStart }) {
     const rsuggestions = findings.filter(f => f.severity === "suggestion" || f.severity === "info");
     const scoreColor = sc === null ? "#94a3b8" : sc >= 9 ? "#4ade80" : sc >= 6 ? "#facc15" : "#f87171";
     const scoreLabel = sc === null ? "Analisi in corso…" : sc >= 9 ? "Ottima qualità" : sc >= 6 ? "Qualità discreta" : "Qualità bassa";
+    const footerBtn = (label, onClick, kind = "secondary") => {
+      const styles = {
+        primary: { background: "var(--accent)", color: "#fff", border: "none" },
+        secondary: { background: "transparent", color: "rgba(255,255,255,0.7)", border: "1px solid rgba(255,255,255,0.15)" },
+        disabled: { background: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.3)", border: "none", cursor: "default" },
+      };
+      const st = styles[kind] || styles.secondary;
+      return (
+        <button onClick={onClick} disabled={kind === "disabled"} style={{
+          padding: "10px 24px", borderRadius: 9, fontWeight: 800, fontSize: 13,
+          cursor: kind === "disabled" ? "default" : "pointer", minWidth: 180, ...st,
+        }}>{label}</button>
+      );
+    };
 
     return (
       <div style={{ minHeight: "100vh", background: "#000", display: "flex", flexDirection: "column" }}>
         <img src="/Banner superiore GURPS.png" alt="GURPS" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0, maxHeight: "14vh" }} />
 
-        <div style={{ flex: 1, overflowY: "auto", padding: "20px 16px 100px", maxWidth: 860, margin: "0 auto", width: "100%" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "20px 16px 100px", maxWidth: 960, margin: "0 auto", width: "100%" }}>
 
-          {/* Intestazione avventura */}
-          <div style={{ marginBottom: 18 }}>
+          {/* 1 — Intestazione: titolo + premessa */}
+          <div style={{ marginBottom: 16 }}>
             <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 4 }}>
               Revisione tecnica · {(def.genre || genre || "").toUpperCase()}
             </div>
@@ -2919,37 +2928,15 @@ function SetupScreen({ onStart }) {
               {def.title || preloadedAdventure?.title || "Avventura senza titolo"}
             </div>
             {def.premise && (
-              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, maxWidth: 680 }}>
+              <div style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.6, maxWidth: 760 }}>
                 {def.premise}
               </div>
             )}
           </div>
 
-          {/* Statistiche struttura */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 22 }}>
-            {[
-              ["🎭", "PNG", ractors.length],
-              ["🔍", "Indizi", rclues.length],
-              ["🧵", "Piste", rthreads.length],
-              ["📍", "Location", rlocations.length],
-              ["⏱️", "Clock", rclocks.length],
-            ].map(([icon, label, n]) => (
-              <div key={label} style={{
-                display: "flex", alignItems: "center", gap: 6, padding: "6px 12px",
-                background: "rgba(255,255,255,0.05)", borderRadius: 8,
-                border: "1px solid rgba(255,255,255,0.1)",
-              }}>
-                <span style={{ fontSize: 14 }}>{icon}</span>
-                <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-h)" }}>{n}</span>
-                <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.6 }}>{label}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Doctor report */}
+          {/* 2 — JSON Doctor: score + findings */}
           <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 12, padding: "14px 16px", marginBottom: 18 }}>
-            {/* Score */}
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: findings.length > 0 || sc === null ? 12 : 0 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
                   <span style={{ fontSize: 12, fontWeight: 700, color: scoreColor }}>
@@ -2977,8 +2964,6 @@ function SetupScreen({ onStart }) {
               {doctorEnriching && <span style={{ fontSize: 11, color: "#a78bfa" }}>✦ Analisi in corso…</span>}
               {doctorReport?.source === "enriched" && <span style={{ fontSize: 11, color: "#4ade80" }}>✓ Migliorata</span>}
             </div>
-
-            {/* Findings */}
             {findings.length === 0 && sc !== null && (
               <div style={{ fontSize: 12, color: "#4ade80" }}>✓ Nessun problema trovato</div>
             )}
@@ -3013,36 +2998,30 @@ function SetupScreen({ onStart }) {
             )}
           </div>
 
-        </div>
-
-        {/* Barra azioni fissa in basso */}
-        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.1)", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, zIndex: 200 }}>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => setStep("genre")} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "rgba(255,255,255,0.6)", fontSize: 12, cursor: "pointer" }}>
-              ← Indietro
-            </button>
-            <button onClick={() => setShowAdventureEditor(true)} style={{ padding: "8px 16px", borderRadius: 8, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(124,58,237,0.12)", color: "#a78bfa", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
-              ✏️ Modifica
-            </button>
-            <button onClick={handleDownloadAdventureJson} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.15)", background: "transparent", color: "rgba(255,255,255,0.6)", fontSize: 12, cursor: "pointer" }}>
-              ⬇ Scarica JSON
-            </button>
-          </div>
-          <button
-            onClick={handleReviewApprove}
-            disabled={doctorEnriching}
-            style={{ padding: "10px 28px", borderRadius: 9, border: "none", background: doctorEnriching ? "rgba(255,255,255,0.1)" : "var(--accent)", color: doctorEnriching ? "rgba(255,255,255,0.3)" : "#fff", fontWeight: 900, fontSize: 14, cursor: doctorEnriching ? "default" : "pointer" }}>
-            {doctorEnriching ? "Analisi in corso…" : "Scegli personaggi →"}
-          </button>
-        </div>
-
-        {showAdventureEditor && preloadedAdventure && (
+          {/* 3 — Editor inline (tabs PNG/Indizi/Piste/Clock + Scarica JSON come pulsante extra) */}
           <AdventureEditor
+            inline
             adventure={preloadedAdventure}
-            onSave={async (updated) => { setPreloadedAdventure(updated); setShowAdventureEditor(false); await runDoctorOn(updated); }}
-            onClose={() => setShowAdventureEditor(false)}
+            onSave={(updated) => setPreloadedAdventure(updated)}
+            extraToolbar={
+              <button onClick={handleDownloadAdventureJson} style={{
+                padding: "7px 13px", borderRadius: 6, cursor: "pointer", fontWeight: 700,
+                fontSize: 12, border: "1px solid rgba(255,255,255,0.15)",
+                background: "transparent", color: "rgba(255,255,255,0.7)",
+              }} title="Scarica l'avventura come JSON">⬇ Scarica JSON</button>
+            }
           />
-        )}
+        </div>
+
+        {/* Footer: solo Indietro + Scegli personaggi (stessa forma/dimensione) */}
+        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.1)", padding: "12px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, zIndex: 200 }}>
+          {footerBtn("← Indietro", () => setStep("genre"), "secondary")}
+          {footerBtn(
+            doctorEnriching ? "Analisi in corso…" : "Scegli personaggi →",
+            doctorEnriching ? undefined : handleReviewApprove,
+            doctorEnriching ? "disabled" : "primary"
+          )}
+        </div>
       </div>
     );
   }
@@ -3235,7 +3214,7 @@ function SetupScreen({ onStart }) {
 }
 
 // ─── U6: AdventureEditor ──────────────────────────────────────────────────────
-function AdventureEditor({ adventure, onSave, onClose }) {
+function AdventureEditor({ adventure, onSave, onClose, inline = false, extraToolbar = null }) {
   const def0 = adventure?.adventure_definition || {};
   const [actors, setActors] = React.useState(() => JSON.parse(JSON.stringify(def0.actors || [])));
   const [clocks, setClocks] = React.useState(() => JSON.parse(JSON.stringify(def0.event_clocks || [])));
@@ -3283,6 +3262,16 @@ function AdventureEditor({ adventure, onSave, onClose }) {
     onClose();
   }
 
+  // Inline mode: propaga ogni cambiamento al padre senza chiedere Salva
+  const _firstAutoSave = React.useRef(true);
+  React.useEffect(() => {
+    if (!inline) return;
+    if (_firstAutoSave.current) { _firstAutoSave.current = false; return; }
+    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads };
+    onSave({ ...adventure, adventure_definition: newDef });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inline, actors, clocks, clues, factions, threads]);
+
   // Thread IDs collected from story_threads + clues + revelations for graph and dropdowns
   const threadIds = [...new Set([
     ...threads.map(t => t.id).filter(Boolean),
@@ -3317,6 +3306,27 @@ function AdventureEditor({ adventure, onSave, onClose }) {
   const selectStyle = { ...inputStyle, cursor: "pointer" };
   const textareaStyle = { ...inputStyle, resize: "vertical", minHeight: 52, lineHeight: 1.45 };
 
+  const tabsRow = (
+    <div style={{ display: "flex", gap: 2, padding: "7px 10px", borderBottom: inline ? "none" : "1px solid var(--border)", background: inline ? "transparent" : "rgba(0,0,0,0.18)", flexShrink: 0, flexWrap: "wrap", alignItems: "center" }}>
+      {tabBtn("npcs", `🎭 PNG (${actors.length})`)}
+      {tabBtn("clues", `🔍 Indizi (${clues.length})`)}
+      {tabBtn("piste", `🧵 Piste (${threads.length})`)}
+      {tabBtn("clocks", `⏱️ Clock (${clocks.length})`)}
+      {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
+      {tabBtn("graph", "Grafo")}
+      {extraToolbar && <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>{extraToolbar}</div>}
+    </div>
+  );
+
+  if (inline) {
+    return (
+      <div style={{ background: "var(--code-bg)", borderRadius: 12, border: "1px solid var(--border)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        {tabsRow}
+        <div style={{ padding: "12px 16px" }}>{renderTabContent()}</div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 3000, background: "rgba(0,0,0,0.88)", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px 14px", overflowY: "auto" }}
       onClick={onClose}>
@@ -3336,19 +3346,27 @@ function AdventureEditor({ adventure, onSave, onClose }) {
           <button onClick={onClose} style={{ padding: "7px 10px", borderRadius: 8, border: "1px solid var(--border)", background: "transparent", color: "var(--text)", cursor: "pointer", fontSize: 15 }}>✕</button>
         </div>
 
-        {/* Tabs */}
-        <div style={{ display: "flex", gap: 2, padding: "7px 10px", borderBottom: "1px solid var(--border)", background: "rgba(0,0,0,0.18)", flexShrink: 0 }}>
-          {tabBtn("npcs", `PNG (${actors.length})`)}
-          {tabBtn("clocks", `Clock (${clocks.length})`)}
-          {tabBtn("clues", `Indizi (${clues.length})`)}
-          {tabBtn("piste", `Piste (${threads.length})`)}
-          {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
-          {tabBtn("graph", "Grafo")}
-        </div>
+        {tabsRow}
 
         {/* Content */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "12px 16px" }}>
+        <div style={{ flex: 1, overflowY: "auto", padding: "12px 16px" }}>{renderTabContent()}</div>
 
+        {/* Footer */}
+        <div style={{ padding: "10px 16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0, background: "rgba(0,0,0,0.15)" }}>
+          <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.5 }}>
+            {actors.length} PNG · {clocks.length} clock · {clues.length} indizi · {threads.length} piste{factions.length > 0 ? ` · ${factions.length} fazioni` : ""}
+          </span>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={onClose} style={{ padding: "7px 14px", borderRadius: 7, border: "1px solid var(--border)", background: "transparent", color: "var(--text)", cursor: "pointer", fontSize: 12 }}>Annulla</button>
+            <button onClick={handleSave} style={{ padding: "7px 18px", borderRadius: 7, border: "none", background: "var(--accent)", color: "#fff", fontWeight: 800, fontSize: 13, cursor: "pointer" }}>Salva modifiche</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  function renderTabContent() {
+    return (<>
           {/* ── NPC TAB ── */}
           {tab === "npcs" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -3676,22 +3694,8 @@ function AdventureEditor({ adventure, onSave, onClose }) {
               </div>
             );
           })()}
-
-        </div>
-
-        {/* Footer */}
-        <div style={{ padding: "10px 16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0, background: "rgba(0,0,0,0.15)" }}>
-          <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.5 }}>
-            {actors.length} PNG · {clocks.length} clock · {clues.length} indizi · {threads.length} piste{factions.length > 0 ? ` · ${factions.length} fazioni` : ""}
-          </span>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={onClose} style={{ padding: "7px 14px", borderRadius: 7, border: "1px solid var(--border)", background: "transparent", color: "var(--text)", cursor: "pointer", fontSize: 12 }}>Annulla</button>
-            <button onClick={handleSave} style={{ padding: "7px 18px", borderRadius: 7, border: "none", background: "var(--accent)", color: "#fff", fontWeight: 800, fontSize: 13, cursor: "pointer" }}>Salva modifiche</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    </>);
+  }
 }
 
 // ─── Chat message components ───────────────────────────────────────────────
