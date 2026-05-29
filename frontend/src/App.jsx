@@ -3224,11 +3224,15 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [clues, setClues] = React.useState(() => JSON.parse(JSON.stringify(def0.clues || [])));
   const [factions, setFactions] = React.useState(() => JSON.parse(JSON.stringify(def0.factions || [])));
   const [threads, setThreads] = React.useState(() => JSON.parse(JSON.stringify(def0.story_threads || [])));
+  const [locations, setLocations] = React.useState(() => JSON.parse(JSON.stringify(def0.locations || [])));
+  const [objectives, setObjectives] = React.useState(() => JSON.parse(JSON.stringify(def0.objectives || [])));
+  const [revelations, setRevelations] = React.useState(() => JSON.parse(JSON.stringify(def0.revelations || [])));
   const [tab, setTab] = React.useState("npcs");
   const [dirty, setDirty] = React.useState(false);
   const [expandedNpc, setExpandedNpc] = React.useState(null);
   const [expandedClue, setExpandedClue] = React.useState(null);
   const [expandedThread, setExpandedThread] = React.useState(null);
+  const [expandedLocation, setExpandedLocation] = React.useState(null);
 
   function patchActor(idx, key, val) {
     setActors(a => { const n = [...a]; n[idx] = { ...n[idx], [key]: val }; return n; });
@@ -3258,9 +3262,21 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     });
     setDirty(true);
   }
+  function patchLocation(idx, key, val) {
+    setLocations(l => { const n = [...l]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+  function patchObjective(idx, key, val) {
+    setObjectives(o => { const n = [...o]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+  function patchRevelation(idx, key, val) {
+    setRevelations(r => { const n = [...r]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
 
   function handleSave() {
-    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads };
+    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads, locations, objectives, revelations };
     onSave({ ...adventure, adventure_definition: newDef });
     onClose();
   }
@@ -3270,10 +3286,10 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   React.useEffect(() => {
     if (!inline) return;
     if (_firstAutoSave.current) { _firstAutoSave.current = false; return; }
-    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads };
+    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads, locations, objectives, revelations };
     onSave({ ...adventure, adventure_definition: newDef });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inline, actors, clocks, clues, factions, threads]);
+  }, [inline, actors, clocks, clues, factions, threads, locations, objectives, revelations]);
 
   // Risincronizza lo state interno quando il padre incrementa `revision` (es. dopo doctor enrich)
   // — è il segnale esplicito che def0 è stato modificato da fuori e va ricaricato.
@@ -3285,6 +3301,9 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
     setClues(JSON.parse(JSON.stringify(def0.clues || [])));
     setFactions(JSON.parse(JSON.stringify(def0.factions || [])));
     setThreads(JSON.parse(JSON.stringify(def0.story_threads || [])));
+    setLocations(JSON.parse(JSON.stringify(def0.locations || [])));
+    setObjectives(JSON.parse(JSON.stringify(def0.objectives || [])));
+    setRevelations(JSON.parse(JSON.stringify(def0.revelations || [])));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revision]);
 
@@ -3325,8 +3344,11 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const tabsRow = (
     <div style={{ display: "flex", gap: 2, padding: "7px 10px", borderBottom: inline ? "none" : "1px solid var(--border)", background: inline ? "transparent" : "rgba(0,0,0,0.18)", flexShrink: 0, flexWrap: "wrap", alignItems: "center" }}>
       {tabBtn("npcs", `🎭 PNG (${actors.length})`)}
+      {tabBtn("locations", `📍 Luoghi (${locations.length})`)}
       {tabBtn("clues", `🔍 Indizi (${clues.length})`)}
       {tabBtn("piste", `🧵 Piste (${threads.length})`)}
+      {tabBtn("objectives", `🎯 Obiettivi (${objectives.length})`)}
+      {revelations.length > 0 && tabBtn("revelations", `💡 Rivelazioni (${revelations.length})`)}
       {tabBtn("clocks", `⏱️ Clock (${clocks.length})`)}
       {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
       {tabBtn("graph", "Grafo")}
@@ -3568,6 +3590,157 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                         </div>
                       </div>
                     )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── LOCATIONS TAB ── */}
+          {tab === "locations" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {locations.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun luogo definito.</div>}
+              {locations.map((loc, i) => {
+                const expanded = expandedLocation === i;
+                const statusColor = { hidden: "#94a3b8", unknown: "#94a3b8", known: "#60a5fa", visited: "#4ade80", locked: "#fbbf24", changed: "#a78bfa", compromised: "#f97316", secured: "#34d399", destroyed: "#ef4444" }[loc.status] || "#60a5fa";
+                const accessColor = { open: "#4ade80", unlocked: "#4ade80", locked: "#fbbf24", hidden: "#94a3b8", blocked: "#ef4444", restricted: "#f97316", sealed: "#a78bfa" }[loc.access_state] || "#94a3b8";
+                const featuresStr = Array.isArray(loc.concrete_features) ? loc.concrete_features.join(", ") : (loc.concrete_features || "");
+                const hazardsStr = Array.isArray(loc.hazards) ? loc.hazards.join(", ") : (loc.hazards || "");
+                const exitsStr = Array.isArray(loc.exits) ? loc.exits.join(", ") : (loc.exits || "");
+                return (
+                  <div key={loc.id || i} style={{ borderRadius: 9, border: `1px solid ${statusColor}35`, background: "var(--code-bg)", overflow: "hidden" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "9px 12px", cursor: "pointer" }} onClick={() => setExpandedLocation(expanded ? null : i)}>
+                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: statusColor, flexShrink: 0 }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <span style={{ fontSize: 13, fontWeight: 800, color: "var(--text-h)" }}>{loc.name || "(senza nome)"}</span>
+                        <span style={{ fontSize: 10, color: statusColor, marginLeft: 8, fontWeight: 600 }}>{loc.status}</span>
+                        {loc.access_state && loc.access_state !== "open" && (
+                          <span style={{ fontSize: 10, color: accessColor, marginLeft: 8, fontWeight: 600 }}>🔒 {loc.access_state}</span>
+                        )}
+                        {loc.type && loc.type !== "location" && (
+                          <span style={{ fontSize: 10, color: "#94a3b8", marginLeft: 8 }}>· {loc.type}</span>
+                        )}
+                      </div>
+                      <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>{expanded ? "▲" : "▼"}</span>
+                    </div>
+                    {expanded && (
+                      <div style={{ padding: "0 12px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
+                          {fieldRow("Nome", <input style={inputStyle} value={loc.name || ""} onChange={e => patchLocation(i, "name", e.target.value)} />)}
+                          {fieldRow("Tipo", <input style={inputStyle} value={loc.type || "location"} onChange={e => patchLocation(i, "type", e.target.value)} placeholder="location, room, dungeon..." />)}
+                          {fieldRow("Stato", (
+                            <select style={selectStyle} value={loc.status || "known"} onChange={e => patchLocation(i, "status", e.target.value)}>
+                              {["hidden", "unknown", "known", "visited", "locked", "changed", "compromised", "secured", "destroyed"].map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                          ))}
+                          {fieldRow("Accesso", (
+                            <select style={selectStyle} value={loc.access_state || "open"} onChange={e => patchLocation(i, "access_state", e.target.value)}>
+                              {["open", "locked", "hidden", "blocked", "restricted", "unlocked", "sealed"].map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                          ))}
+                        </div>
+                        {fieldRow("Descrizione", <textarea style={textareaStyle} value={loc.description || ""} onChange={e => patchLocation(i, "description", e.target.value)} />)}
+                        {fieldRow("Identità visiva", <input style={inputStyle} value={loc.visual_identity || ""} onChange={e => patchLocation(i, "visual_identity", e.target.value)} placeholder="luce verde, odore di muffa, parquet scricchiolante..." />)}
+                        {fieldRow("Funzione narrativa", <input style={inputStyle} value={loc.gameplay_function || ""} onChange={e => patchLocation(i, "gameplay_function", e.target.value)} placeholder="indagine, combattimento, riposo..." />)}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
+                          {fieldRow("Elementi concreti (CSV)", <input style={inputStyle} value={featuresStr} onChange={e => patchLocation(i, "concrete_features", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} placeholder="scrivania, finestra, baule" />)}
+                          {fieldRow("Pericoli (CSV)", <input style={inputStyle} value={hazardsStr} onChange={e => patchLocation(i, "hazards", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} placeholder="trappola, gas, fuoco" />)}
+                          {fieldRow("Uscite (CSV)", <input style={inputStyle} value={exitsStr} onChange={e => patchLocation(i, "exits", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} placeholder="nord, corridoio, scala" />)}
+                          {fieldRow("Requisiti di accesso (CSV)", (
+                            <input style={inputStyle}
+                              value={Array.isArray(loc.access_requirements) ? loc.access_requirements.join(", ") : (loc.access_requirements || "")}
+                              onChange={e => patchLocation(i, "access_requirements", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
+                              placeholder="chiave, codice, parola d'ordine" />
+                          ))}
+                        </div>
+                        <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5, display: "flex", gap: 12, flexWrap: "wrap" }}>
+                          {loc.contains_clues?.length > 0 && <span>🔍 Indizi: {loc.contains_clues.join(", ")}</span>}
+                          {loc.contains_actors?.length > 0 && <span>🎭 Attori: {loc.contains_actors.join(", ")}</span>}
+                          {loc.tactical_map && Object.keys(loc.tactical_map).length > 0 && <span style={{ color: "#4ade80" }}>🗺 mappa tattica presente</span>}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── OBJECTIVES TAB ── */}
+          {tab === "objectives" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {objectives.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessun obiettivo definito.</div>}
+              {objectives.map((obj, i) => {
+                const stColor = { hidden: "#94a3b8", inactive: "#94a3b8", available: "#60a5fa", active: "#fbbf24", complete: "#4ade80", failed: "#ef4444" }[obj.status] || "#fbbf24";
+                return (
+                  <div key={obj.id || i} style={{ borderRadius: 9, border: `1px solid ${stColor}35`, background: "var(--code-bg)", padding: "11px 13px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 140px", gap: "8px 16px" }}>
+                      {fieldRow("Etichetta", <input style={inputStyle} value={obj.label || ""} onChange={e => patchObjective(i, "label", e.target.value)} />)}
+                      {fieldRow("Stato", (
+                        <select style={selectStyle} value={obj.status || "active"} onChange={e => patchObjective(i, "status", e.target.value)}>
+                          {["hidden", "inactive", "available", "active", "complete", "failed"].map(s => <option key={s} value={s}>{s}</option>)}
+                        </select>
+                      ))}
+                      <div style={{ gridColumn: "1 / -1" }}>
+                        {fieldRow("Condizioni di successo (una per riga)", (
+                          <textarea style={textareaStyle}
+                            value={Array.isArray(obj.success_conditions) ? obj.success_conditions.join("\n") : (obj.success_conditions || "")}
+                            onChange={e => patchObjective(i, "success_conditions", e.target.value.split("\n").map(s => s.trim()).filter(Boolean))} />
+                        ))}
+                      </div>
+                      <div style={{ gridColumn: "1 / -1" }}>
+                        {fieldRow("Sblocca (ID separati da virgola)", (
+                          <input style={inputStyle}
+                            value={Array.isArray(obj.unlocks) ? obj.unlocks.join(", ") : (obj.unlocks || "")}
+                            onChange={e => patchObjective(i, "unlocks", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── REVELATIONS TAB ── */}
+          {tab === "revelations" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {revelations.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessuna rivelazione definita.</div>}
+              {revelations.map((rev, i) => {
+                const stColor = { hidden: "#94a3b8", seeded: "#a78bfa", available: "#fbbf24", revealed: "#60a5fa", resolved: "#4ade80" }[rev.status] || "#a78bfa";
+                return (
+                  <div key={rev.id || i} style={{ borderRadius: 9, border: `1px solid ${stColor}35`, background: "var(--code-bg)", padding: "11px 13px" }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 140px 140px", gap: "8px 16px" }}>
+                      <div style={{ gridColumn: "1 / -1" }}>
+                        {fieldRow("Dichiarazione (cosa rivela)", <textarea style={textareaStyle} value={rev.statement || ""} onChange={e => patchRevelation(i, "statement", e.target.value)} />)}
+                      </div>
+                      {fieldRow("Pista (thread)", (
+                        <select style={selectStyle} value={rev.thread_id || ""} onChange={e => patchRevelation(i, "thread_id", e.target.value)}>
+                          <option value="">(nessuna)</option>
+                          {threadIds.map(tid => <option key={tid} value={tid}>{tid}</option>)}
+                        </select>
+                      ))}
+                      {fieldRow("Stato", (
+                        <select style={selectStyle} value={rev.status || "hidden"} onChange={e => patchRevelation(i, "status", e.target.value)}>
+                          {["hidden", "seeded", "available", "revealed", "resolved"].map(s => <option key={s} value={s}>{s}</option>)}
+                        </select>
+                      ))}
+                      {fieldRow("Indizi richiesti minimi", (
+                        <input type="number" min={1} max={5} style={{ ...inputStyle, width: 80 }}
+                          value={rev.minimum_independent_kinds || 1}
+                          onChange={e => patchRevelation(i, "minimum_independent_kinds", parseInt(e.target.value) || 1)} />
+                      ))}
+                      <div style={{ gridColumn: "1 / -1" }}>
+                        {fieldRow("Indizi richiesti (ID, separati da virgola)", (
+                          <input style={inputStyle}
+                            value={Array.isArray(rev.required_clues) ? rev.required_clues.join(", ") : (rev.required_clues || "")}
+                            onChange={e => patchRevelation(i, "required_clues", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} />
+                        ))}
+                      </div>
+                      <div style={{ gridColumn: "1 / -1" }}>
+                        {fieldRow("Payoff narrativo", <textarea style={textareaStyle} value={rev.payoff || ""} onChange={e => patchRevelation(i, "payoff", e.target.value)} placeholder="cosa cambia nella storia quando viene rivelata" />)}
+                      </div>
+                    </div>
                   </div>
                 );
               })}
