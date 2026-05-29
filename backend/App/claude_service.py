@@ -4767,14 +4767,14 @@ def _build_create_adventure_prompt(
   "threat_max_turns": 10,
   "has_time_pressure": true,
   "npcs": [
-    {{"id": "npc_1", "name": "Nome specifico", "role": "Ruolo nell'avventura", "description": "Aspetto e prima impressione", "motivation": "Cosa vuole veramente", "secret": "Il suo segreto nascosto", "status": "alive", "location": "Dove si trova inizialmente", "attitude": "neutral|friendly|hostile"}},
-    {{"id": "npc_2", "name": "...", "role": "...", "description": "...", "motivation": "...", "secret": "...", "status": "alive", "location": "...", "attitude": "..."}},
-    "// GENERA {npc_count} NPC TOTALI"
+    {{"id": "npc_1", "name": "Nome specifico", "role": "Ruolo nell'avventura", "description": "Aspetto e prima impressione", "motivation": "Cosa vuole veramente", "secret": "Il suo segreto nascosto", "status": "alive", "location": "Nome leggibile del luogo", "location_id": "id ESATTO di una location qui sotto", "attitude": "neutral|friendly|hostile"}},
+    {{"id": "npc_2", "name": "...", "role": "...", "description": "...", "motivation": "...", "secret": "...", "status": "alive", "location": "...", "location_id": "...", "attitude": "..."}},
+    "// GENERA {npc_count} NPC TOTALI — ogni location_id DEVE corrispondere a un id reale in locations"
   ],
   "clues": [
-    {{"id": "clue_1", "label": "Nome breve indizio", "text": "Descrizione dettagliata", "type": "physical_evidence|testimony|document|behavior|location_detail|contradiction", "thread_id": "T1", "reveals": "Cosa suggerisce", "payoff": "Cosa permette di capire o sbloccare", "location": "Dove/come si trova", "found": false}},
-    {{"id": "clue_2", "label": "...", "text": "...", "type": "...", "thread_id": "T2", "reveals": "...", "payoff": "...", "location": "...", "found": false}},
-    "// GENERA {clue_count} INDIZI TOTALI — varia i tipi"
+    {{"id": "clue_1", "label": "Nome breve indizio", "text": "Descrizione dettagliata", "type": "physical_evidence|testimony|document|behavior|location_detail|contradiction", "thread_id": "T1", "reveals": "Cosa suggerisce", "payoff": "Cosa permette di capire o sbloccare", "location": "Nome leggibile del luogo", "location_id": "id ESATTO di una location qui sotto", "found": false}},
+    {{"id": "clue_2", "label": "...", "text": "...", "type": "...", "thread_id": "T2", "reveals": "...", "payoff": "...", "location": "...", "location_id": "...", "found": false}},
+    "// GENERA {clue_count} INDIZI TOTALI — varia i tipi; ogni location_id DEVE corrispondere a un id reale in locations"
   ],
   "story_threads": [
     {{"id": "T1", "title": "Titolo pista", "question": "Domanda investigativa specifica", "true_answer": "Risposta canonica nascosta", "status": "hidden", "required_clues": ["clue_1", "clue_2"], "minimum_clues_to_deduce": 2, "payoff": "Cosa sblocca questa deduzione", "linked_npcs": ["npc_1"]}},
@@ -4800,8 +4800,9 @@ def _build_create_adventure_prompt(
     {{"id": "area_1_city_b", "location_type": "regional", "name": "Altro insediamento", "description": "...", "parent_location_id": "area_1", "connections_to": ["area_1_city_a", "area_2_city_a"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
     // === LIVELLO LOCALE (taverna, prigione, stanza del boss — parent = location regionale) ===
     // Nota: tactical_map è opzionale — aggiungilo SOLO se combat_potential è true
-    {{"id": "area_1_city_a_loc_1", "location_type": "local", "name": "La Taverna del Cinghiale", "description": "...", "parent_location_id": "area_1_city_a", "connections_to": ["area_1_city_a_loc_2"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
-    {{"id": "area_1_city_a_loc_2", "location_type": "local", "name": "Prigione del Castello", "description": "...", "parent_location_id": "area_1_city_a", "connections_to": ["area_1_city_a_loc_1"], "has_combat_potential": true, "tactical_map": {{"enabled": true, "role": "hot_zone", "layout": "narrow", "features": ["sbarre", "copertura muro"], "hazards": ["buio", "guardie"], "trigger": "quando i PG tentano la fuga"}}}},
+    // Nota: items sono oggetti raccoglibili sul posto (loot) — almeno alcuni locali devono averli
+    {{"id": "area_1_city_a_loc_1", "location_type": "local", "name": "La Taverna del Cinghiale", "description": "...", "parent_location_id": "area_1_city_a", "connections_to": ["area_1_city_a_loc_2"], "has_combat_potential": false, "tactical_map": {{"enabled": false}}, "items": [{{"id": "item_1", "name": "Mappa strappata", "description": "Metà di una mappa con un punto segnato", "use": "rivela un nascondiglio", "value": ""}}]}},
+    {{"id": "area_1_city_a_loc_2", "location_type": "local", "name": "Prigione del Castello", "description": "...", "parent_location_id": "area_1_city_a", "connections_to": ["area_1_city_a_loc_1"], "has_combat_potential": true, "tactical_map": {{"enabled": true, "role": "hot_zone", "layout": "narrow", "features": ["sbarre", "copertura muro"], "hazards": ["buio", "guardie"], "trigger": "quando i PG tentano la fuga"}}, "items": [{{"id": "item_2", "name": "Chiave arrugginita", "description": "Apre una cella sul fondo", "use": "libera un prigioniero", "value": ""}}]}},
     "// GENERA {location_strategic} aree strategiche + {location_regional} + {location_local}"
   ]{extra}
 }}"""
@@ -4832,6 +4833,12 @@ STRUTTURA MAPPA OBBLIGATORIA:
 - Ogni location locale ha connections_to agli altri locali nella stessa regione
 - Gli ID riflettono la gerarchia: area_1 → area_1_city_a → area_1_city_a_loc_1
 - tactical_map va aggiunto SOLO sulle location locali con has_combat_potential: true
+
+POPOLAZIONE DEI LUOGHI (OBBLIGATORIA):
+- Ogni NPC ha location_id = id reale di una location (preferibilmente locale o regionale)
+- Ogni indizio ha location_id = id reale della location dove si trova
+- Distribuisci NPC e indizi su location diverse: i luoghi non devono essere vuoti
+- Aggiungi items (loot) sui locali rilevanti: oggetti concreti raccoglibili
 
 REQUISITI AGGIUNTIVI:
 {additional}
@@ -5262,7 +5269,71 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             loc["tactical_map"] = {**loc["tactical_map"], "enabled": False}
         enriched_locations.append(loc)
     locations = enriched_locations
+
+    # ── POPOLAZIONE: cross-reference location ↔ clue / npc / items ──
+    _loc_ids = {str(l.get("id", "")) for l in locations if isinstance(l, dict) and l.get("id")}
+    _loc_by_name = {str(l.get("name", "")).strip().lower(): str(l.get("id", "")) for l in locations if isinstance(l, dict) and l.get("name")}
+
+    def _resolve_loc_id(explicit_id: str, free_text: str) -> str:
+        """Risolve un location_id valido: usa l'esplicito, altrimenti fuzzy-match dal testo libero."""
+        explicit_id = str(explicit_id or "").strip()
+        if explicit_id in _loc_ids:
+            return explicit_id
+        txt = str(free_text or "").strip().lower()
+        if not txt:
+            return ""
+        if txt in _loc_by_name:
+            return _loc_by_name[txt]
+        # match parziale: il nome della location è contenuto nel testo o viceversa
+        for name, lid in _loc_by_name.items():
+            if name and (name in txt or txt in name):
+                return lid
+        return ""
+
+    # Risolvi location_id su indizi e NPC e costruisci gli indici inversi
+    _clues_by_loc: dict[str, list] = {}
+    for c in enriched_clues:
+        rid = _resolve_loc_id(c.get("location_id"), c.get("location") or c.get("source_location"))
+        c["location_id"] = rid
+        if rid:
+            _clues_by_loc.setdefault(rid, []).append(c.get("id"))
+
+    _npcs_list = [n for n in npcs if isinstance(n, dict)]
+    _actors_by_loc: dict[str, list] = {}
+    for n in _npcs_list:
+        rid = _resolve_loc_id(n.get("location_id"), n.get("location"))
+        n["location_id"] = rid
+        if rid:
+            _actors_by_loc.setdefault(rid, []).append(n.get("id"))
+
+    # Popola contains_clues / contains_actors / items su ogni location
+    for loc in locations:
+        if not isinstance(loc, dict):
+            continue
+        lid = str(loc.get("id", ""))
+        existing_clues = [str(x) for x in (loc.get("contains_clues") or []) if x]
+        existing_actors = [str(x) for x in (loc.get("contains_actors") or []) if x]
+        merged_clues = list(dict.fromkeys(existing_clues + [str(x) for x in _clues_by_loc.get(lid, []) if x]))
+        merged_actors = list(dict.fromkeys(existing_actors + [str(x) for x in _actors_by_loc.get(lid, []) if x]))
+        loc["contains_clues"] = merged_clues
+        loc["contains_actors"] = merged_actors
+        # Normalizza items (loot): garantisci id e name
+        norm_items = []
+        for j, it in enumerate(loc.get("items") or [], start=1):
+            if isinstance(it, dict) and (it.get("name") or it.get("id")):
+                norm_items.append({
+                    "id": str(it.get("id") or f"{lid}_item_{j}"),
+                    "name": _clean_canon_text(it.get("name") or f"Oggetto {j}", limit=80),
+                    "description": _clean_canon_text(it.get("description") or "", limit=160),
+                    "use": _clean_canon_text(it.get("use") or "", limit=120),
+                    "value": str(it.get("value") or ""),
+                })
+            elif isinstance(it, str) and it.strip():
+                norm_items.append({"id": f"{lid}_item_{j}", "name": _clean_canon_text(it, limit=80), "description": "", "use": "", "value": ""})
+        loc["items"] = norm_items
+
     adventure["clues"] = enriched_clues
+    adventure["npcs"] = _npcs_list
     adventure["locations"] = locations
     adventure["story_threads"] = threads
     existing_canon = adventure.get("adventure_canon") if isinstance(adventure.get("adventure_canon"), dict) else {}
@@ -6623,18 +6694,30 @@ def master_turn_with_bible(
                     f"elementi={'; '.join(tactical_map.get('features') or [])}; "
                     f"pericoli={'; '.join(tactical_map.get('hazards') or [])}"
                 )
-            # NPC presenti in questa location
-            npc_here = [n["name"] for n in adventure.get("npcs", []) if
-                        (n.get("location","") or "").lower() in cur_node.get("name","").lower()
-                        or cur_node.get("name","").lower() in (n.get("location","") or "").lower()]
+            _cur_name = cur_node.get("name", "").lower()
+            # Location canonica corrispondente (per items / contains_*)
+            _cur_loc_def = next((l for l in adventure.get("locations", []) if isinstance(l, dict) and str(l.get("id")) == str(cur_node_id)), {})
+            # NPC presenti qui — match per location_id (affidabile), fallback su nome
+            npc_here = [n["name"] for n in adventure.get("npcs", []) if isinstance(n, dict) and (
+                (n.get("location_id") and str(n.get("location_id")) == str(cur_node_id))
+                or (not n.get("location_id") and (n.get("location","") or "").lower() and (
+                    (n.get("location","").lower() in _cur_name) or (_cur_name and _cur_name in n.get("location","").lower())))
+            )]
             if npc_here:
                 current_location += f"\nPNG presenti qui: {', '.join(npc_here)}"
-            # Indizi trovabili qui
+            # Indizi trovabili qui — match per location_id, fallback su nome
             clues_here = [c for c in missing_clues if
-                          cur_node.get("name","").lower()[:6] in (c.get("location","") or "").lower()
-                          or (c.get("location","") or "").lower()[:6] in cur_node.get("name","").lower()]
+                          (c.get("location_id") and str(c.get("location_id")) == str(cur_node_id))
+                          or (not c.get("location_id") and _cur_name and (
+                              _cur_name[:6] in (c.get("location","") or "").lower()
+                              or (c.get("location","") or "").lower()[:6] in _cur_name))]
             if clues_here:
                 current_location += f"\nIndizi trovabili qui: {'; '.join(c['text'] for c in clues_here)}"
+            # Oggetti raccoglibili qui
+            items_here = [it for it in (_cur_loc_def.get("items") or []) if isinstance(it, dict) and it.get("name")]
+            if items_here:
+                current_location += "\nOggetti raccoglibili qui: " + "; ".join(
+                    f"{it['name']}" + (f" ({it.get('use')})" if it.get("use") else "") for it in items_here)
         # Elenco location raggiungibili (per permettere all'AI di compilare new_location_id)
         if nodes:
             reachable_lines = []

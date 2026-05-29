@@ -64,6 +64,7 @@ class LocationState(BaseModel):
     status: Literal["hidden", "unknown", "known", "visited", "locked", "changed", "compromised", "secured", "destroyed"] = "known"
     contains_clues: List[str] = []
     contains_actors: List[str] = []
+    items: List[Dict[str, Any]] = []   # loot/oggetti raccoglibili: {id,name,description,use,value}
     tactical_map: Dict = {}
     access_requirements: List[str] = []
     type: str = "location"

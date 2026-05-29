@@ -5514,6 +5514,24 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                           </div>
                         ))}
 
+                        {/* Oggetti raccoglibili (loot) */}
+                        {fieldRow("Oggetti qui (loot)", (
+                          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                            {(Array.isArray(loc.items) ? loc.items : []).map((it, ii) => (
+                              <div key={it.id || ii} style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                                <input style={{ ...inputStyle, flex: "0 0 35%", fontSize: 10 }} value={it.name || ""} placeholder="nome oggetto"
+                                  onChange={e => { const arr = [...loc.items]; arr[ii] = { ...arr[ii], name: e.target.value }; patchLocation(i, "items", arr); }} />
+                                <input style={{ ...inputStyle, flex: 1, fontSize: 10 }} value={it.use || ""} placeholder="a cosa serve"
+                                  onChange={e => { const arr = [...loc.items]; arr[ii] = { ...arr[ii], use: e.target.value }; patchLocation(i, "items", arr); }} />
+                                <button onClick={() => patchLocation(i, "items", loc.items.filter((_, k) => k !== ii))}
+                                  style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", fontSize: 12 }}>✕</button>
+                              </div>
+                            ))}
+                            <button onClick={() => patchLocation(i, "items", [...(loc.items || []), { id: `${loc.id || "loc"}_item_${(loc.items || []).length + 1}`, name: "", description: "", use: "", value: "" }])}
+                              style={{ padding: "3px 8px", borderRadius: 4, border: "1px solid rgba(74,222,128,0.3)", background: "rgba(74,222,128,0.08)", color: "#86efac", fontSize: 10, cursor: "pointer", alignSelf: "flex-start" }}>+ Aggiungi oggetto</button>
+                          </div>
+                        ))}
+
                         {/* Mappa locale (per sub-locazioni) */}
                         {fieldRow("Mappa locale", (
                           <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
@@ -5546,6 +5564,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                         <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5, display: "flex", gap: 12, flexWrap: "wrap" }}>
                           {loc.contains_clues?.length > 0 && <span>🔍 Indizi: {loc.contains_clues.join(", ")}</span>}
                           {loc.contains_actors?.length > 0 && <span>🎭 Attori: {loc.contains_actors.join(", ")}</span>}
+                          {loc.items?.length > 0 && <span>🎒 Oggetti: {loc.items.length}</span>}
                           {loc.tactical_map && Object.keys(loc.tactical_map).length > 0 && <span style={{ color: "#4ade80" }}>🗺 mappa tattica presente</span>}
                         </div>
 
