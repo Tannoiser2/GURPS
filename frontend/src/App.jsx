@@ -2088,6 +2088,7 @@ function SetupScreen({ onStart }) {
   const [provider, setProvider] = useState("claude");
   const [imageProvider, setImageProvider] = useState("auto");
   const [providersAvail, setProvidersAvail] = useState({ claude: true, openai: false, gemini: false });
+  const [buildVersion, setBuildVersion] = useState("");
   const [pool, setPool] = useState([]);
   const [selected, setSelected] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -2122,6 +2123,9 @@ function SetupScreen({ onStart }) {
       setProvidersAvail(d);
       if (!d.claude && d.openai) setProvider("openai");
       else if (!d.claude && !d.openai && d.gemini) setProvider("gemini");
+    }).catch(() => {});
+    fetch(`${API_URL}/health`).then(r => r.json()).then(d => {
+      if (d.version) setBuildVersion(d.version);
     }).catch(() => {});
   }, []);
 
@@ -2790,7 +2794,7 @@ function SetupScreen({ onStart }) {
             <img
               src={caricaPdfImg}
               alt="Carica PDF"
-              style={{ height: 32, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
+              style={{ height: 38, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"}
             />
@@ -2804,7 +2808,7 @@ function SetupScreen({ onStart }) {
               src={caricaJsonImg}
               alt="Carica JSON avventura"
               title="Carica un JSON avventura e avvia la partita"
-              style={{ height: 32, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
+              style={{ height: 38, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"}
             />
@@ -2821,7 +2825,7 @@ function SetupScreen({ onStart }) {
             <img
               src={jsonDoctorImg}
               alt="JSON Doctor — Analizza qualità"
-              style={{ height: 32, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
+              style={{ height: 38, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
               onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"}
             />
@@ -2857,32 +2861,17 @@ function SetupScreen({ onStart }) {
               }}
             />
           </label>
+          {buildVersion && (
+            <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 0.4, flexShrink: 0, alignSelf: "center" }}>
+              {buildVersion}
+            </span>
+          )}
         </div>
         {(pdfError || jsonError) && (
           <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
             ❌ {pdfError || jsonError}
           </div>
         )}
-
-        {/* ── Bottone test rapido combattimento ── */}
-        <div style={{ textAlign: "center", padding: "4px 0 4px", background: "#0a0a0a", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <button onClick={async () => {
-            const res = await fetch(`${API_URL}/game/debug/start-combat`, { method: "POST" })
-              .then(r => r.json()).catch(() => ({}));
-            if (res.ok) {
-              const minAdv = {
-                id: "test_combat", title: "Test Combattimento", genre: "action",
-                adventure_definition: { id: "test_combat", title: "Test Combattimento", genre: "action",
-                  clues: [], actors: [], story_threads: [], locations: [], event_clocks: [] }
-              };
-              onStart("action", res.players || [], {}, provider, minAdv, imageProvider);
-            }
-          }} style={{
-            padding: "5px 18px", borderRadius: 8, border: "1px solid rgba(239,68,68,0.4)",
-            background: "rgba(239,68,68,0.12)", color: "#f87171",
-            fontSize: 12, fontWeight: 700, cursor: "pointer", letterSpacing: 0.3,
-          }}>⚔ Test rapido combattimento</button>
-        </div>
 
         {/* Doctor report badge */}
         {doctorReport && !doctorEnriching && (
