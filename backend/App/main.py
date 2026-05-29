@@ -160,6 +160,7 @@ game_state: GameState = empty_game_state()
 tactical_map_image_cache: dict[str, str] = {}
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_debug_pdf"
+_DATA_DIR_SESSIONS = Path("/data/sessions")
 
 # ── Props library ─────────────────────────────────────────────────────────────
 _PROPS_LIBRARY_PATH = Path(__file__).resolve().parent / "props_library.json"
@@ -4296,3 +4297,120 @@ def debug_start_combat():
         "activate_combat": True,
         "players": [p.model_dump() for p in game_state.players],
     }
+
+
+# ── Salvataggio / Caricamento sessione ────────────────────────────────────────
+
+class SaveSessionPayload(BaseModel):
+    messages: list[dict] = []  # messaggi chat dal frontend
+
+
+@app.post("/game/session/save")
+def save_session(payload: SaveSessionPayload | None = None):
+    """Salva lo stato completo della partita su disco."""
+    if not game_state.adventure_definition:
+        raise HTTPException(status_code=400, detail="Nessuna partita in corso da salvare.")
+    adv_id = game_state.adventure_definition.id or "partita"
+    title = game_state.adventure_definition.title or "Partita"
+    genre = game_state.adventure_definition.genre or "unknown"
+    save_id = f"{adv_id}_{int(time.time())}"
+    try:
+        gs_dict = game_state.model_dump()
+    except Exception:
+        gs_dict = {}
+    data = {
+        "save_id": save_id,
+        "title": title,
+        "genre": genre,
+        "turn": game_state.turn,
+        "saved_at": datetime.now(timezone.utc).isoformat(),
+        "game_state": gs_dict,
+        "messages": (payload.messages if payload else []),
+    }
+    _DATA_DIR_SESSIONS.mkdir(parents=True, exist_ok=True)
+    with open(_DATA_DIR_SESSIONS / f"{save_id}.json", "w", encoding="utf-8") as _f:
+        json.dump(data, _f, ensure_ascii=False, default=str)
+    return {"save_id": save_id, "title": title, "genre": genre, "turn": game_state.turn, "saved_at": data["saved_at"]}
+
+
+@app.get("/game/session/saves")
+def list_saves():
+    """Elenca i salvataggi disponibili sul disco."""
+    _DATA_DIR_SESSIONS.mkdir(parents=True, exist_ok=True)
+    saves = []
+    for _fp in sorted(_DATA_DIR_SESSIONS.glob("*.json"), key=lambda x: x.stat().st_mtime, reverse=True):
+        try:
+            with open(_fp, encoding="utf-8") as _f:
+                _d = json.load(_f)
+            saves.append({
+                "save_id": _d.get("save_id", _fp.stem),
+                "title": _d.get("title", "Partita"),
+                "genre": _d.get("genre", ""),
+                "turn": _d.get("turn", 0),
+                "saved_at": _d.get("saved_at", ""),
+            })
+        except Exception:
+            continue
+    return {"saves": saves}
+
+
+@app.post("/game/session/load/{save_id}")
+def load_session(save_id: str):
+    """Carica un salvataggio e ripristina lo stato della partita."""
+    global game_state
+    save_path = _DATA_DIR_SESSIONS / f"{save_id}.json"
+    if not save_path.exists():
+        raise HTTPException(status_code=404, detail=f"Salvataggio '{save_id}' non trovato.")
+    with open(save_path, encoding="utf-8") as _f:
+        data = json.load(_f)
+    gs_dict = data.get("game_state") or {}
+    if gs_dict:
+        try:
+            game_state = GameState(**{k: v for k, v in gs_dict.items() if k in GameState.model_fields})
+        except Exception as _e:
+            raise HTTPException(status_code=500, detail=f"Errore ripristino stato: {_e}")
+    return {
+        "save_id": save_id,
+        "title": data.get("title"),
+        "genre": data.get("genre"),
+        "turn": data.get("turn", 0),
+        "messages": data.get("messages", []),
+        "game_state": gs_dict,
+    }
+
+
+@app.delete("/game/session/saves/{save_id}")
+def delete_save(save_id: str):
+    """Elimina un salvataggio."""
+    save_path = _DATA_DIR_SESSIONS / f"{save_id}.json"
+    if save_path.exists():
+        save_path.unlink()
+    return {"deleted": save_id}
+
+
+# ── Usa oggetto consumabile ───────────────────────────────────────────────────
+
+@app.post("/game/player/{player_id}/use-item/{item_id}")
+def use_item(player_id: str, item_id: str):
+    """Consuma un oggetto dall'inventario del PG e applica l'effetto narrativo."""
+    target = next((p for p in game_state.players if str(p.id) == player_id), None)
+    if not target:
+        raise HTTPException(status_code=404, detail=f"Player '{player_id}' non trovato.")
+    item = next(
+        (e for e in (target.equipment or []) if e.id == item_id or e.name == item_id),
+        None,
+    )
+    if not item:
+        raise HTTPException(status_code=404, detail=f"Oggetto '{item_id}' non trovato nell'inventario.")
+    if item.category not in ("consumable", "misc"):
+        return {"error": "Solo i consumabili possono essere usati direttamente."}
+
+    log = f"{target.name} usa {item.name}."
+
+    # Rimuovi una unità (o l'intero stack se qty=1)
+    if item.quantity > 1:
+        item.quantity -= 1
+    else:
+        target.equipment = [e for e in target.equipment if not (e.id == item_id or e.name == item_id)]
+
+    return {"log": log, "players": [p.model_dump() for p in game_state.players]}

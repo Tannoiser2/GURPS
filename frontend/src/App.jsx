@@ -867,6 +867,16 @@ function EquipmentPanel({ player, onPlayersUpdate }) {
     setLoading(false);
   }
 
+  async function handleUseItem(itemId) {
+    setLoading(true); setMsg("");
+    try {
+      const res = await fetch(`${API_URL}/game/player/${player.id}/use-item/${encodeURIComponent(itemId)}`, { method: "POST" }).then(r => r.json());
+      if (res.error) setMsg(`Errore: ${res.error}`);
+      else { setMsg(res.log || "Oggetto usato."); onPlayersUpdate && onPlayersUpdate(res.players); }
+    } catch (_) { setMsg("Errore di rete."); }
+    setLoading(false);
+  }
+
   const weaponActions = actions.filter(a => a.attack_kind);
   const selectedW = weaponList.find(w => w.id === selectedWeaponId);
 
@@ -1008,6 +1018,10 @@ function EquipmentPanel({ player, onPlayersUpdate }) {
               <span style={{ fontSize: 11, color: "var(--text-h)" }}>{it.name}</span>
               {it.quantity > 1 && <span style={{ fontSize: 10, color: "#86efac", fontWeight: 700 }}>×{it.quantity}</span>}
               {it.armor_dr > 0 && <span style={{ fontSize: 10, color: "#67e8f9" }}>DR {it.armor_dr}</span>}
+              {(it.category === "consumable" || it.category === "misc") && (
+                <button onClick={() => handleUseItem(it.id)} disabled={loading} title="Usa oggetto"
+                  style={{ background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.3)", color: "#4ade80", cursor: "pointer", fontSize: 9, padding: "1px 5px", borderRadius: 4, lineHeight: 1 }}>usa</button>
+              )}
               {it.category !== "weapon" && (
                 <button onClick={() => handleRemoveItem(it.id)} title="Rimuovi dall'inventario"
                   style={{ background: "none", border: "none", color: "rgba(255,255,255,0.2)", cursor: "pointer", fontSize: 10, padding: "0 2px", lineHeight: 1 }}>✕</button>
@@ -2118,6 +2132,12 @@ function SetupScreen({ onStart }) {
   const [templatesLoading, setTemplatesLoading] = useState(false);
   const [templateError, setTemplateError] = useState("");
 
+  // ── Salvataggi ──────────────────────────────────────────────────────────────
+  const [showSavesPanel, setShowSavesPanel] = useState(false);
+  const [savesList, setSavesList] = useState([]);
+  const [savesLoading, setSavesLoading] = useState(false);
+  const [loadingSession, setLoadingSession] = useState(false);
+
   // ── Wizard ──────────────────────────────────────────────────────────────────
   const WIZARD_STEPS_ORDER = ["title", "premise", "npcs", "clocks", "clues"];
   const [wizardStepIdx, setWizardStepIdx] = useState(0);
@@ -2482,6 +2502,62 @@ function SetupScreen({ onStart }) {
     } finally {
       setTemplatesLoading(false);
     }
+  }
+
+  // ── Salvataggi ───────────────────────────────────────────────────────────────
+  async function openSavesPanel() {
+    setShowSavesPanel(true);
+    setSavesLoading(true);
+    try {
+      const r = await fetch(`${API_URL_DIRECT}/game/session/saves`).then(r => r.json());
+      setSavesList(r.saves || []);
+    } catch (_) {
+      setSavesList([]);
+    } finally {
+      setSavesLoading(false);
+    }
+  }
+
+  async function handleLoadSession(saveId) {
+    setLoadingSession(true);
+    setJsonError("");
+    try {
+      const r = await fetch(`${API_URL_DIRECT}/game/session/load/${saveId}`, { method: "POST" }).then(r => r.json());
+      if (r.detail || r.error) throw new Error(r.detail || r.error);
+      const gs = r.game_state || {};
+      const def = gs.adventure_definition;
+      if (!def) throw new Error("Stato di gioco incompleto nel salvataggio.");
+      const detectedGenre = normalizeGenreKey(def.genre || "detective_classico", "detective_classico");
+      const adventure = {
+        ...def, id: def.id, runtime_id: def.id,
+        genre: detectedGenre, detected_genre: detectedGenre,
+        adventure_definition: def,
+        runtime_state: gs.adventure_runtime_state || null,
+        from_session_load: true,
+      };
+      setPreloadedAdventure(adventure);
+      setGenre(detectedGenre);
+      setShowSavesPanel(false);
+      // I giocatori vengono ripristinati dal game_state già caricato nel backend
+      // Usiamo /game/state per sincronizzare il pool personaggi
+      setLoading(true);
+      const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
+      const rawPlayers = s?.players || gs.players || [];
+      setPool(rawPlayers);
+      setSelected(rawPlayers.map(p => p.id).slice(0, 4));
+      setLoading(false);
+      // Vai direttamente al team con i giocatori del salvataggio pre-selezionati
+      setStep("team");
+    } catch (e) {
+      setJsonError(e.message || "Impossibile caricare il salvataggio.");
+    } finally {
+      setLoadingSession(false);
+    }
+  }
+
+  async function handleDeleteSave(saveId) {
+    await fetch(`${API_URL_DIRECT}/game/session/saves/${saveId}`, { method: "DELETE" });
+    setSavesList(prev => prev.filter(s => s.save_id !== saveId));
   }
 
   // ── Wizard ───────────────────────────────────────────────────────────────────
@@ -3252,6 +3328,13 @@ function SetupScreen({ onStart }) {
             fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
           }}>🧙 Crea Passo-Passo</button>
 
+          {/* Carica partita salvata */}
+          <button onClick={openSavesPanel} style={{
+            background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.3)",
+            color: "#4ade80", borderRadius: 7, padding: "5px 12px", fontSize: 12,
+            fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
+          }}>📂 Riprendi</button>
+
           {buildVersion && (
             <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 0.4, flexShrink: 0, alignSelf: "center" }}>
               {buildVersion}
@@ -3310,6 +3393,67 @@ function SetupScreen({ onStart }) {
                       <button onClick={() => handleTemplateLoad(tpl.id)} disabled={templatesLoading}
                         style={{ background: "var(--accent)", border: "none", color: "#fff", borderRadius: 8, padding: "8px 18px", fontSize: 13, fontWeight: 600, cursor: "pointer", flexShrink: 0 }}>
                         Carica →
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Saves Panel Modal */}
+        {showSavesPanel && (
+          <div style={{
+            position: "fixed", inset: 0, zIndex: 999,
+            background: "rgba(0,0,0,0.75)", display: "flex", alignItems: "center", justifyContent: "center",
+          }} onClick={e => e.target === e.currentTarget && setShowSavesPanel(false)}>
+            <div style={{
+              background: "#111", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 14,
+              width: "min(560px, 94vw)", maxHeight: "75vh", display: "flex", flexDirection: "column",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.7)",
+            }}>
+              <div style={{ padding: "16px 20px 10px", borderBottom: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: "#4ade80" }}>📂 Riprendi Partita</div>
+                  <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>Salvataggi disponibili sul server</div>
+                </div>
+                <button onClick={() => setShowSavesPanel(false)} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 20 }}>✕</button>
+              </div>
+              <div style={{ overflowY: "auto", padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
+                {savesLoading && <div style={{ textAlign: "center", color: "rgba(255,255,255,0.4)", padding: 24 }}>Caricamento salvataggi...</div>}
+                {!savesLoading && savesList.length === 0 && (
+                  <div style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", padding: 24, fontSize: 13 }}>
+                    Nessun salvataggio trovato.<br />
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.25)" }}>Salva una partita in corso con il bottone 💾 in-game.</span>
+                  </div>
+                )}
+                {!savesLoading && savesList.map(sv => {
+                  const genreMeta = GENRE_META[sv.genre] || {};
+                  const date = sv.saved_at ? new Date(sv.saved_at).toLocaleString("it-IT", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" }) : "?";
+                  return (
+                    <div key={sv.save_id} style={{
+                      background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)",
+                      borderRadius: 10, padding: "10px 14px", display: "flex", gap: 10, alignItems: "center",
+                    }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
+                          <span style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>{sv.title}</span>
+                          <span style={{ fontSize: 10, padding: "1px 7px", borderRadius: 10, background: genreMeta.color ? `${genreMeta.color}20` : "rgba(255,255,255,0.08)", color: genreMeta.color || "#aaa", border: `1px solid ${genreMeta.color || "#aaa"}35` }}>
+                            {genreMeta.label || sv.genre}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)" }}>
+                          Turno {sv.turn} · {date}
+                        </div>
+                      </div>
+                      <button onClick={() => handleLoadSession(sv.save_id)} disabled={loadingSession}
+                        style={{ background: "rgba(74,222,128,0.15)", border: "1px solid rgba(74,222,128,0.35)", color: "#4ade80", borderRadius: 8, padding: "7px 16px", fontSize: 13, fontWeight: 600, cursor: "pointer", flexShrink: 0 }}>
+                        {loadingSession ? "…" : "Carica →"}
+                      </button>
+                      <button onClick={() => handleDeleteSave(sv.save_id)}
+                        style={{ background: "none", border: "none", color: "rgba(248,113,113,0.5)", cursor: "pointer", fontSize: 14, flexShrink: 0 }} title="Elimina salvataggio">
+                        🗑
                       </button>
                     </div>
                   );
@@ -10395,6 +10539,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   const [victory, setVictory] = useState(false);
   const [endReason, setEndReason] = useState("");
   const [personalVictories, setPersonalVictories] = useState({});
+  const [savingSession, setSavingSession] = useState(false);
+  const [saveMsg, setSaveMsg] = useState("");
   const [history, setHistory] = useState([]);
   const [turnId, setTurnId] = useState("");
   const [showPanel, setShowPanel] = useState(!!adventure);
@@ -11173,6 +11319,39 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     finally { setLoading(false); }
   }
 
+  async function handleSaveSession() {
+    setSavingSession(true); setSaveMsg("");
+    try {
+      const msgs = messagesRef?.current || [];
+      const r = await fetch(`${API_URL_DIRECT}/game/session/save`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: msgs }),
+      }).then(r => r.json());
+      if (r.detail || r.error) throw new Error(r.detail || r.error);
+      setSaveMsg(`✅ Salvato al turno ${r.turn}`);
+      setTimeout(() => setSaveMsg(""), 3000);
+    } catch (e) {
+      setSaveMsg(`❌ ${e.message || "Salvataggio fallito"}`);
+      setTimeout(() => setSaveMsg(""), 4000);
+    } finally {
+      setSavingSession(false);
+    }
+  }
+
+  function handleDownloadTranscript() {
+    const msgs = messagesRef?.current || [];
+    const lines = msgs.map(m => {
+      const who = m.role === "master" ? "MASTER" : (m.name || "GIOCATORE");
+      return `[${who}]\n${m.text || m.content || ""}\n`;
+    }).join("\n---\n\n");
+    const title = adventure?.title || adventure?.adventure_definition?.title || "partita";
+    const blob = new Blob([lines], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url;
+    a.download = `${title.replace(/[^a-zA-Z0-9]/g, "_")}_turno${gameStateData.turn || 0}.txt`;
+    a.click(); URL.revokeObjectURL(url);
+  }
+
   async function _sendActionInner(actionText, skill, pid, player, newHistory) {
 
     if (!adventure) throw new Error("Avventura compilata mancante: riavvia dalla schermata di setup.");
@@ -11645,11 +11824,23 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               )}
             </button>
           ))}
+          {/* Salva sessione */}
+          <button onClick={handleSaveSession} disabled={savingSession} title={saveMsg || "Salva partita"} style={{
+            display: "flex", alignItems: "center", gap: 4,
+            padding: "5px 12px", border: "none",
+            borderLeft: "1px solid var(--border)",
+            background: saveMsg?.startsWith("✅") ? "rgba(74,222,128,0.08)" : "none",
+            cursor: "pointer", fontSize: 12, color: saveMsg?.startsWith("✅") ? "#4ade80" : saveMsg?.startsWith("❌") ? "#f87171" : "var(--text)",
+            opacity: savingSession ? 0.5 : 0.7, marginLeft: "auto",
+          }}>
+            <span style={{ fontSize: 11 }}>💾</span>
+            <span style={{ fontWeight: 500 }}>{savingSession ? "…" : saveMsg || "Salva"}</span>
+          </button>
           {/* Bibbia GM — pannello destra */}
           <button onClick={() => setShowPanel(v => !v)} style={{
             display: "flex", alignItems: "center", gap: 5,
             padding: "5px 14px", border: "none",
-            borderLeft: "1px solid var(--border)", marginLeft: "auto",
+            borderLeft: "1px solid var(--border)",
             background: "none", cursor: "pointer", fontSize: 12,
             color: "var(--text)", opacity: 0.45,
           }}>
@@ -11933,6 +12124,82 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
             </div>
           )}
 
+          {/* Indizi trovati */}
+          {(() => {
+            const allClues = adventure?.clues || adventure?.adventure_definition?.clues || [];
+            const foundIds = new Set(gameStateData.clues_found || []);
+            const foundClues = allClues.filter(c => foundIds.has(c.id));
+            const totalClues = allClues.length;
+            if (totalClues === 0) return null;
+            return (
+              <div style={{ maxWidth: 520, margin: "0 auto 18px", textAlign: "left" }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>
+                  🔍 Indizi trovati — {foundClues.length}/{totalClues}
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  {allClues.map(c => {
+                    const found = foundIds.has(c.id);
+                    return (
+                      <span key={c.id} style={{
+                        fontSize: 11, padding: "3px 10px", borderRadius: 20,
+                        background: found ? "rgba(74,222,128,0.12)" : "rgba(255,255,255,0.05)",
+                        border: `1px solid ${found ? "rgba(74,222,128,0.35)" : "rgba(255,255,255,0.1)"}`,
+                        color: found ? "#4ade80" : "rgba(255,255,255,0.3)",
+                        textDecoration: !found ? "line-through" : "none",
+                      }}>{found ? "✓ " : ""}{c.label || c.id}</span>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* NPC outcomes */}
+          {(() => {
+            const npcs = adventure?.actors || adventure?.adventure_definition?.actors || [];
+            const statuses = gameStateData.npc_statuses || {};
+            if (npcs.length === 0) return null;
+            const notable = npcs.filter(n => {
+              const st = statuses[n.id]?.status;
+              return st === "morto" || st === "dead" || st === "fuggito" || st === "missing";
+            });
+            if (notable.length === 0) return null;
+            return (
+              <div style={{ maxWidth: 520, margin: "0 auto 18px", textAlign: "left" }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>
+                  👥 Esiti NPC
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  {notable.map(n => {
+                    const st = statuses[n.id]?.status;
+                    const isDead = st === "morto" || st === "dead";
+                    return (
+                      <div key={n.id} style={{ fontSize: 12, color: isDead ? "#f87171" : "#f59e0b" }}>
+                        {isDead ? "💀" : "🏃"} {n.name} — {isDead ? "eliminato" : "fuggito"}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Statistiche sessione */}
+          <div style={{ maxWidth: 520, margin: "0 auto 20px", display: "flex", gap: 20, justifyContent: "center" }}>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-h)" }}>{gameStateData.turn || 0}</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1 }}>Turni</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-h)" }}>{(gameStateData.clues_found || []).length}</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1 }}>Indizi</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-h)" }}>{(gameStateData.resolved_threads || []).length}</div>
+              <div style={{ fontSize: 10, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: 1 }}>Piste risolte</div>
+            </div>
+          </div>
+
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             {adventure && (
               <button onClick={() => setShowSecrets(true)} style={{
@@ -11940,6 +12207,10 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
                 background: "rgba(245,158,11,0.1)", color: "#f59e0b", fontWeight: 700, fontSize: 14, cursor: "pointer",
               }}>🔓 Rivela segreti</button>
             )}
+            <button onClick={handleDownloadTranscript} style={{
+              padding: "11px 24px", borderRadius: 10, border: "1px solid rgba(99,102,241,0.5)",
+              background: "rgba(99,102,241,0.1)", color: "#a5b4fc", fontWeight: 700, fontSize: 14, cursor: "pointer",
+            }}>📄 Scarica trascrizione</button>
             <button onClick={onRestart} style={{
               padding: "11px 24px", borderRadius: 10, border: "none",
               background: "var(--accent)", color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer",
