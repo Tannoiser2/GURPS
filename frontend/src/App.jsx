@@ -2276,7 +2276,7 @@ function SetupScreen({ onStart }) {
       // Doctor: audit rapido subito, poi fix in background mentre si scelgono i personaggi
       setDoctorReport(null);
       try {
-        const drAudit = await fetch(`${API_URL}/game/adventure/doctor`, {
+        const drAudit = await fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ adventure_definition: definition, enrich: false }),
@@ -2287,7 +2287,7 @@ function SetupScreen({ onStart }) {
         const needsFix = (drAudit.findings || []).some(f => f.severity !== "info");
         if (needsFix) {
           setDoctorEnriching(true);
-          fetch(`${API_URL}/game/adventure/doctor`, {
+          fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ adventure_definition: definition, enrich: true }),
@@ -2346,7 +2346,7 @@ function SetupScreen({ onStart }) {
   async function runDoctorOn(adv) {
     if (!adv?.adventure_definition) return;
     try {
-      const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+      const dr = await fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ adventure_definition: adv.adventure_definition, enrich: false }),
@@ -2361,7 +2361,7 @@ function SetupScreen({ onStart }) {
     if (!preloadedAdventure?.adventure_definition) return;
     setDoctorEnriching(true);
     try {
-      const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+      const dr = await fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ adventure_definition: preloadedAdventure.adventure_definition, enrich: true }),
@@ -2453,7 +2453,7 @@ function SetupScreen({ onStart }) {
     setLoading(true);
     setJsonError("");
     try {
-      const created = await fetch(`${API_URL}/game/adventure/create`, {
+      const created = await fetch(`${API_URL_DIRECT}/game/adventure/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ genre: g, players: [] }),
@@ -2558,7 +2558,7 @@ function SetupScreen({ onStart }) {
           dr: p.dr || 0, items: p.items || [], actions: p.actions || [],
           backstory: p.backstory || "", motivation: p.motivation || "",
         }));
-        const created = await safeFetch(`${API_URL}/game/adventure/create`, {
+        const created = await safeFetch(`${API_URL_DIRECT}/game/adventure/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
@@ -2848,7 +2848,7 @@ function SetupScreen({ onStart }) {
                   if (!preloadedAdventure) {
                     setPreloadedAdventure({ adventure_definition: definition, from_json_load: true });
                   }
-                  const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+                  const dr = await fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ adventure_definition: definition, enrich: false }),
@@ -7017,7 +7017,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
     setLiveDoctorLoading(true);
     setLiveDoctor(null);
     try {
-      const dr = await fetch(`${API_URL}/game/adventure/doctor`, {
+      const dr = await fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ adventure_definition: def, enrich: false }),
