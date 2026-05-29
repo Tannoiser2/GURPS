@@ -9753,6 +9753,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   });
   const [sceneState, setSceneState] = useState(null);
   const [combatEntities, setCombatEntities] = useState([]); // entity combattimento persistenti, non sovrascritte dal fetch
+  const combatEndedShownRef = useRef(false); // evita messaggi "combattimento terminato" duplicati
   const [combatBgImage, setCombatBgImage] = useState(null);
   const [preparedTacticalMaps, setPreparedTacticalMaps] = useState({});
   const preparingTacticalMapsRef = useRef(new Set());
@@ -10468,7 +10469,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
   useEffect(() => {
     if (!gameStateData.in_combat) return;
     const enemies = combatEntities.filter(e => e.type === "enemy");
-    if (enemies.length > 0 && enemies.every(e => (e.hp ?? e.max_hp ?? 1) <= 0)) {
+    if (enemies.length > 0 && enemies.every(e => (e.hp ?? e.max_hp ?? 1) <= 0) && !combatEndedShownRef.current) {
+      combatEndedShownRef.current = true;
       const activePid = players.find(p => p.hp > 0)?.id || activePlayerId || players[0]?.id;
       setGameStateData(prev => ({ ...prev, in_combat: false }));
       setCombatEntities([]);
@@ -10485,7 +10487,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
         { text: "Azione custom", skill: "", skill_level: 0, stat: "", player_id: activePid },
       ]);
     }
-  }, [combatEntities, gameStateData.in_combat, players, activePlayerId]);
+  }, [combatEntities, gameStateData.in_combat, activePlayerId]);
 
   async function sendAction(actionText, skill = "", playerId = null) {
     const pid = playerId || activePlayerId;
@@ -10603,7 +10605,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       const alreadyInCombat = gameStateData.in_combat;
       if ((updates.activate_combat || responseHasCombatScene) && updates.combat_scene?.entities) {
         if (!alreadyInCombat) {
-          // Primo ingresso: inizializza entità a HP pieno
+          // Primo ingresso: inizializza entità a HP pieno e resetta flag fine combattimento
+          combatEndedShownRef.current = false;
           console.log("[GURPS] attivazione combattimento:", updates.combat_scene);
           setCombatEntities(updates.combat_scene.entities);
         } else {
