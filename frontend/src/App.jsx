@@ -3729,6 +3729,12 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
   const [drag, setDrag] = React.useState(null);     // {idx, x, y}
   const [resize, setResize] = React.useState(null); // {idx, w, h, startX, startY}
   const [showLabels, setShowLabels] = React.useState(true);
+  const [activeParentId, setActiveParentId] = React.useState("");
+
+  const visibleLocations = (locations || []).filter(loc => (loc.parent_location_id || "") === activeParentId);
+  const activeBackground = activeParentId === ""
+    ? image_b64
+    : ((locations || []).find(l => l.id === activeParentId)?.local_map_image_b64 || "");
 
   function clientToPct(clientX, clientY) {
     const c = containerRef.current;
@@ -3750,7 +3756,7 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
   function handleResizeDown(idx, e) {
     e.stopPropagation();
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {}
-    const loc = locations[idx];
+    const loc = visibleLocations[idx];
     setResize({
       idx,
       w: Number(loc?.map_w) || 14,
@@ -3790,7 +3796,7 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
 
   const locById = {};
   const locByName = {};
-  (locations || []).forEach((l, i) => {
+  visibleLocations.forEach((l, i) => {
     if (l?.id) locById[l.id] = { ...l, _idx: i };
     if (l?.name) locByName[String(l.name).toLowerCase()] = { ...l, _idx: i };
   });
@@ -3807,7 +3813,7 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
       edges.push({ from: c.from, to: c.to, status: c.status || "open", discovered: c.discovered !== false });
     });
     // 2. Connessioni implicite dalle exits delle location
-    (locations || []).forEach(loc => {
+    visibleLocations.forEach(loc => {
       if (!loc?.id || !Array.isArray(loc.exits)) return;
       loc.exits.forEach(ex => {
         const exLower = String(ex || "").trim().toLowerCase();
@@ -3822,7 +3828,7 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
       });
     });
     return edges;
-  }, [connections, locations]);
+  }, [connections, visibleLocations]);
 
   function effectivePos(loc, idx) {
     if (drag?.idx === idx) return { x: drag.x, y: drag.y };
@@ -3837,7 +3843,16 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
 
   return (
     <div style={{ width: '100%', maxWidth: 800, margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12, marginBottom: 6, fontSize: 11, color: 'rgba(255,255,255,0.65)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 6, fontSize: 11, color: 'rgba(255,255,255,0.65)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {activeParentId !== "" ? (
+            <button onClick={() => setActiveParentId("")} style={{ padding: "3px 8px", borderRadius: 4, border: "1px solid rgba(96,165,250,0.4)", background: "rgba(96,165,250,0.1)", color: "#93c5fd", fontSize: 11, cursor: "pointer" }}>
+              {"⬅ " + ((locations || []).find(l => l.id === activeParentId)?.name || activeParentId)}
+            </button>
+          ) : (
+            <span style={{ color: "rgba(255,255,255,0.55)" }}>🌍 Mappa regionale</span>
+          )}
+        </div>
         <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
           <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} />
           Mostra etichette (off se la mappa ha già nomi disegnati)
@@ -3849,8 +3864,8 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
         onPointerLeave={handleUp}
         style={{ position: 'relative', width: '100%', userSelect: 'none', touchAction: 'none' }}
       >
-        <img src={`data:image/jpeg;base64,${image_b64}`} alt="mappa strategica"
-          style={{ width: '100%', display: 'block', borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)' }} />
+        <img src={activeBackground ? `data:image/jpeg;base64,${activeBackground}` : ""} alt="mappa strategica"
+          style={{ width: '100%', display: 'block', borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)', minHeight: activeBackground ? undefined : 200, background: activeBackground ? undefined : "rgba(0,0,0,0.2)" }} />
         {/* Linee connessioni in SVG overlay */}
         <svg
           viewBox="0 0 100 100"
@@ -3886,7 +3901,7 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
             );
           })}
         </svg>
-        {(locations || []).map((loc, i) => {
+        {visibleLocations.map((loc, i) => {
           const isDrag = drag?.idx === i;
           const { x, y } = effectivePos(loc, i);
           const { w, h } = effectiveSize(loc, i);
@@ -3894,15 +3909,17 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
           // Fog of war: location nascoste/sconosciute = pin più trasparente
           const isHidden = ["hidden", "unknown", "rumored"].includes((loc.status || "").toLowerCase());
           const bg = isHidden ? 'rgba(100,116,139,0.7)' : 'rgba(96,165,250,0.95)';
+          const hasChildren = (locations || []).some(l => l.parent_location_id === loc.id);
           return (
             <div key={loc.id || i}
               onPointerDown={(e) => handlePinDown(i, e)}
+              onDoubleClick={(e) => { if (hasChildren) { e.stopPropagation(); setActiveParentId(loc.id); } }}
               style={{
                 position: 'absolute',
                 left: `${x}%`,
                 top: `${y}%`,
                 transform: 'translate(-50%, -50%)',
-                cursor: isDrag ? 'grabbing' : 'grab',
+                cursor: isDrag ? 'grabbing' : (hasChildren ? 'zoom-in' : 'grab'),
                 background: showLabels ? bg : 'transparent',
                 color: '#fff',
                 padding: showLabels ? (isCustomSize ? '4px 6px' : '5px 11px') : 0,
@@ -3925,10 +3942,10 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
                 opacity: isHidden ? 0.85 : 1,
                 fontStyle: isHidden ? 'italic' : 'normal',
               }}
-              title={`${loc.name}${isHidden ? ' (nascosta)' : ''}${loc.description ? ' — ' + loc.description.slice(0, 80) : ''}`}
+              title={`${loc.name}${isHidden ? ' (nascosta)' : ''}${loc.description ? ' — ' + loc.description.slice(0, 80) : ''}${hasChildren ? ' (doppio click per entrare)' : ''}`}
             >
               {showLabels ? (
-                <>📍 {loc.name || loc.id}{isHidden ? ' ?' : ''}</>
+                <>📍 {loc.name || loc.id}{isHidden ? ' ?' : ''}{hasChildren ? <span style={{ marginLeft: 4, fontSize: 9, opacity: 0.85 }}>▼</span> : null}</>
               ) : (
                 <div style={{ width: 14, height: 14, borderRadius: '50%', background: bg, border: '2px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.6)' }} />
               )}
@@ -4781,6 +4798,47 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                               placeholder="chiave, codice, parola d'ordine" />
                           ))}
                         </div>
+
+                        {/* Location padre (per nesting) */}
+                        {fieldRow("Location padre", (
+                          <select style={selectStyle} value={loc.parent_location_id || ""}
+                            onChange={e => patchLocation(i, "parent_location_id", e.target.value)}>
+                            <option value="">(nessuna — livello root)</option>
+                            {(locations || []).filter((_, li) => li !== i).map(l => (
+                              <option key={l.id} value={l.id}>{l.name || l.id}</option>
+                            ))}
+                          </select>
+                        ))}
+
+                        {/* Mappa locale (per sub-locazioni) */}
+                        {fieldRow("Mappa locale", (
+                          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                            {loc.local_map_image_b64 ? (
+                              <img src={`data:image/jpeg;base64,${loc.local_map_image_b64}`}
+                                style={{ width: 48, height: 32, objectFit: "cover", borderRadius: 4, cursor: "pointer" }}
+                                title="Mappa locale caricata" />
+                            ) : (
+                              <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", fontStyle: "italic" }}>nessuna mappa locale</span>
+                            )}
+                            <label style={{ padding: "4px 8px", borderRadius: 4, border: "1px solid rgba(96,165,250,0.35)", background: "rgba(96,165,250,0.08)", color: "#93c5fd", fontSize: 10, cursor: "pointer" }}>
+                              Carica JPG/PNG
+                              <input type="file" accept="image/*" style={{ display: "none" }} onChange={e => {
+                                const file = e.target.files?.[0]; if (!file) return;
+                                const reader = new FileReader();
+                                reader.onload = ev => {
+                                  const b64 = ev.target.result.split(",")[1];
+                                  patchLocation(i, "local_map_image_b64", b64);
+                                };
+                                reader.readAsDataURL(file);
+                              }} />
+                            </label>
+                            {loc.local_map_image_b64 && (
+                              <button onClick={() => patchLocation(i, "local_map_image_b64", "")}
+                                style={{ padding: "3px 7px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 9, cursor: "pointer" }}>✕</button>
+                            )}
+                          </div>
+                        ))}
+
                         <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5, display: "flex", gap: 12, flexWrap: "wrap" }}>
                           {loc.contains_clues?.length > 0 && <span>🔍 Indizi: {loc.contains_clues.join(", ")}</span>}
                           {loc.contains_actors?.length > 0 && <span>🎭 Attori: {loc.contains_actors.join(", ")}</span>}

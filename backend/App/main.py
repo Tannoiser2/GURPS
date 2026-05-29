@@ -3737,7 +3737,8 @@ def generate_scene_object_image_endpoint(payload: SceneObjectImagePayload):
         _props_library.append(entry)
         _save_props_library()
         return {"image_b64": image_b64, "available": True, "call_tokens": tokens, "saved_prop_id": entry["id"]}
-    return {"image_b64": None, "available": False, "call_tokens": tokens}
+    err = claude_service.LAST_IMAGE_ERROR or "Nessuna immagine restituita dal provider"
+    return {"image_b64": None, "available": False, "call_tokens": tokens, "error": err}
 
 
 # ── Props library endpoints ───────────────────────────────────────────────────

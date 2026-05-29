@@ -87,6 +87,8 @@ class LocationState(BaseModel):
     # 0 = auto-size (default); >0 = box ridimensionato manualmente dall'utente.
     map_w: int = 0
     map_h: int = 0
+    parent_location_id: str = ""      # vuoto = primo livello (root); altrimenti ID del genitore
+    local_map_image_b64: str = ""     # immagine mappa interna (PNG/JPG b64) per sub-locazioni
     original_section: str = ""
     is_preserved_from_pdf: bool = False
     inferred_runtime_fields: List[str] = []
