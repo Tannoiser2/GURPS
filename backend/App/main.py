@@ -3656,6 +3656,7 @@ async def adventure_from_pdf(
 ):
     """Estrae testo dal PDF e genera la bibbia. map_page opzionale: numero pagina (1-based) da usare come mappa."""
     import base64
+    import gc
     try:
         import pdfplumber
         from PIL import Image
@@ -3663,6 +3664,8 @@ async def adventure_from_pdf(
         return {"error": "pdfplumber/Pillow non installato sul server"}
 
     pdf_bytes = await file.read()
+    if len(pdf_bytes) > 5 * 1024 * 1024:
+        return {"error": f"PDF troppo grande ({len(pdf_bytes)//1024//1024} MB). Limite server: 5 MB."}
     raw_text_pages = []
     map_image_b64 = None
 
@@ -3682,12 +3685,13 @@ async def adventure_from_pdf(
         if map_page_idx is not None:
             try:
                 page = pdf.pages[map_page_idx]
-                # Renderizza la pagina come immagine (150 DPI — bilanciato qualità/peso)
-                page_img = page.to_image(resolution=150)
+                # Renderizza la pagina come immagine (110 DPI — risparmia ~45% RAM su Render free tier)
+                page_img = page.to_image(resolution=110)
                 buf = io.BytesIO()
-                page_img.save(buf, format="JPEG", quality=82)
+                page_img.save(buf, format="JPEG", quality=80)
                 map_image_b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
                 print(f"[adventure/from-pdf] mappa estratta da pagina {map_page_idx+1} ({len(map_image_b64)//1024} KB)")
+                del page_img, buf
             except Exception as e:
                 print(f"[adventure/from-pdf] errore estrazione mappa pag {map_page_idx+1}: {e}")
 
@@ -3696,6 +3700,10 @@ async def adventure_from_pdf(
             if t:
                 raw_text_pages.append(t)
 
+    # Libera i byte del PDF dalla RAM appena chiuso pdfplumber
+    del pdf_bytes
+    gc.collect()
+
     pdf_text = "\n\n".join(raw_text_pages).strip()
     if not pdf_text:
         return {"error": "Impossibile estrarre testo dal PDF"}
@@ -3703,6 +3711,8 @@ async def adventure_from_pdf(
     text_pages = [_clean_pdf_text(page) for page in raw_text_pages]
     text_pages = [page for page in text_pages if page.strip()]
     pdf_text = "\n\n".join(text_pages).strip()
+    del raw_text_pages
+    gc.collect()
     print(f"[adventure/from-pdf] estratte {len(text_pages)}/{total_pages} pagine, {raw_chars} caratteri → {len(pdf_text)} dopo pulizia ({100*len(pdf_text)//max(raw_chars,1)}%)")
 
     set_active_provider(provider)
@@ -3789,21 +3799,23 @@ async def adventure_from_pdf(
         return {"error": f"Errore durante la compilazione runtime del PDF: {type(e).__name__}: {str(e)[:260]}"}
     if map_image_b64:
         result["map_image_b64"] = map_image_b64
-    try:
-        result.update(_save_pdf_compilation_json(
-            source_filename=file.filename or "Avventura da PDF",
-            requested_genre=genre,
-            provider=provider,
-            map_page=map_page,
-            total_pages=total_pages,
-            text_pages=text_pages,
-            raw_chars=raw_chars,
-            cleaned_pdf_text=pdf_text,
-            compiled_result=result,
-        ))
-    except Exception as e:
-        result["saved_json_error"] = f"{type(e).__name__}: {str(e)[:220]}"
-        print(f"[adventure/from-pdf] impossibile salvare JSON debug: {result['saved_json_error']}")
+    # Salva JSON di debug solo se esplicitamente abilitato (evita duplicazione RAM su Render free tier)
+    if os.getenv("SAVE_PDF_DEBUG_JSON", "").lower() in ("1", "true", "yes"):
+        try:
+            result.update(_save_pdf_compilation_json(
+                source_filename=file.filename or "Avventura da PDF",
+                requested_genre=genre,
+                provider=provider,
+                map_page=map_page,
+                total_pages=total_pages,
+                text_pages=text_pages,
+                raw_chars=raw_chars,
+                cleaned_pdf_text=pdf_text,
+                compiled_result=result,
+            ))
+        except Exception as e:
+            result["saved_json_error"] = f"{type(e).__name__}: {str(e)[:220]}"
+            print(f"[adventure/from-pdf] impossibile salvare JSON debug: {result['saved_json_error']}")
     return result
 
 
