@@ -2275,7 +2275,7 @@ function SetupScreen({ onStart }) {
       fd.append("genre", genre || "detective_classico");
       fd.append("players", "4");
       fd.append("provider", provider);
-      const res = await fetch(`${API_URL}/game/adventure/from-pdf`, { method: "POST", body: fd });
+      const res = await fetch(`${API_URL_DIRECT}/game/adventure/from-pdf`, { method: "POST", body: fd });
       const data = await res.json();
       if (data.compilation_failed) {
         const gate = data.quality_gate || {};
@@ -2320,8 +2320,12 @@ function SetupScreen({ onStart }) {
           const d = await r.json(); return d.character || p;
         } catch { return p; }
       }));
-      setPool(enriched); setStep("team");
-    } catch (e) { setPdfError(e.message || "Errore caricamento PDF"); }
+      setPool(enriched); setStep("review");
+    } catch (e) {
+      const msg = e.message || "";
+      const isNet = msg === "Load failed" || msg === "Failed to fetch" || msg.includes("NetworkError") || msg.includes("did not match the expected pattern");
+      setPdfError(isNet ? "Impossibile raggiungere il server. Verifica la connessione o riprova tra qualche secondo (il server potrebbe essere in avvio)." : msg || "Errore caricamento PDF");
+    }
     finally { setPdfLoading(false); setLoading(false); }
   }
 
@@ -2368,7 +2372,7 @@ function SetupScreen({ onStart }) {
       setGenre(detectedGenre);
       setPool(contextualPool);
       setSelected([]);
-      setStep("team");
+      setStep("review");
     } catch (e) {
       setJsonError(e.message || "Impossibile generare l'avventura.");
     }
