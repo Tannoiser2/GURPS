@@ -2125,9 +2125,11 @@ function SetupScreen({ onStart }) {
     }).catch(() => {});
   }, []);
 
+  const [mapsResult, setMapsResult] = useState(null);
   async function preGenerateMaps(adventure, mapImageB64 = null) {
     if (!adventure?.adventure_definition) return adventure;
     setMapsLoading(true);
+    setMapsResult(null);
     try {
       const res = await fetch(`${API_URL}/game/adventure/pre-generate-maps`, {
         method: "POST",
@@ -2140,6 +2142,8 @@ function SetupScreen({ onStart }) {
           period: adventure.adventure_definition?.period || "",
         }),
       }).then(r => r.json());
+      console.log("[preGenerateMaps] response:", { generated: res.generated, errors: res.errors, skipped: res.skipped, provider_used: res.provider_used });
+      setMapsResult({ generated: res.generated || [], errors: res.errors || [], skipped: res.skipped || null, provider: res.provider_used || null });
       if (res.adventure_definition) {
         const enrichedDef = res.adventure_definition;
         const enriched = {
@@ -2151,7 +2155,10 @@ function SetupScreen({ onStart }) {
         setEditorRevision(r => r + 1);
         return enriched;
       }
-    } catch (_) {}
+    } catch (e) {
+      console.error("[preGenerateMaps] error:", e);
+      setMapsResult({ generated: [], errors: [String(e?.message || e)], skipped: "fetch_error" });
+    }
     finally { setMapsLoading(false); }
     return adventure;
   }
@@ -3050,6 +3057,70 @@ function SetupScreen({ onStart }) {
               </div>
             )}
           </div>
+
+          {/* 2.5 — Anteprima mappe pre-generate */}
+          {(() => {
+            const overviewImg = def.map_state?.image_b64;
+            const tacticalLocs = (def.locations || []).filter(l => l?.tactical_map?.enabled && (l.tactical_map?.role === "finale" || l.tactical_map?.role === "hot_zone"));
+            const tacticalWithImg = tacticalLocs.filter(l => l.tactical_map?.image_b64);
+            const hasAny = overviewImg || tacticalWithImg.length > 0;
+            return (
+              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 12, padding: "14px 16px", marginBottom: 18 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: hasAny ? 12 : 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: hasAny ? "#4ade80" : "#fde68a" }}>
+                      🗺 Mappe {hasAny ? "pre-generate" : "non ancora generate"}
+                    </span>
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>
+                      Overview {overviewImg ? "✓" : "—"} · Tattiche {tacticalWithImg.length}/{tacticalLocs.length}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => preGenerateMaps(preloadedAdventure)}
+                    disabled={mapsLoading}
+                    style={{ padding: "6px 12px", borderRadius: 6, cursor: mapsLoading ? "default" : "pointer", fontWeight: 700, fontSize: 11, border: "1px solid rgba(96,165,250,0.4)", background: "rgba(96,165,250,0.1)", color: "#93c5fd", opacity: mapsLoading ? 0.5 : 1 }}
+                  >
+                    {mapsLoading ? "Generazione…" : hasAny ? "Rigenera" : "Genera mappe"}
+                  </button>
+                </div>
+                {hasAny && (
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8 }}>
+                    {overviewImg && (
+                      <div style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
+                        <div style={{ fontSize: 9, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>Overview</div>
+                        <img src={`data:image/jpeg;base64,${overviewImg}`} alt="overview" style={{ width: "100%", display: "block", borderRadius: 4 }} />
+                      </div>
+                    )}
+                    {tacticalWithImg.map(loc => (
+                      <div key={loc.id} style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
+                        <div style={{ fontSize: 9, fontWeight: 800, color: loc.tactical_map.role === "finale" ? "#f87171" : "#fde68a", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>
+                          {loc.tactical_map.role === "finale" ? "Finale" : "Hot zone"} · {loc.name}
+                        </div>
+                        <img src={`data:image/jpeg;base64,${loc.tactical_map.image_b64}`} alt={loc.name} style={{ width: "100%", display: "block", borderRadius: 4 }} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {!hasAny && (
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 8 }}>
+                    Le mappe vengono generate al caricamento dell'avventura. Se vedi questo messaggio, la generazione non è avvenuta (provider immagini disabilitato o errore). Clicca <em>Genera mappe</em> per riprovare.
+                  </div>
+                )}
+                {mapsResult && (mapsResult.skipped || (mapsResult.errors || []).length > 0) && (
+                  <div style={{ fontSize: 11, color: "#fca5a5", marginTop: 8, padding: "8px 10px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 6 }}>
+                    {mapsResult.skipped === "no_image_provider" && <div>⚠ Provider immagini non configurato. Imposta <code>image_provider</code> (openai o gemini) prima di generare le mappe.</div>}
+                    {mapsResult.skipped === "fetch_error" && <div>⚠ Errore di rete: {mapsResult.errors?.[0]}</div>}
+                    {(mapsResult.errors || []).filter(e => e).map((e, i) => <div key={i}>⚠ {e}</div>)}
+                  </div>
+                )}
+                {mapsResult && !mapsResult.skipped && (mapsResult.generated || []).length > 0 && (
+                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 6 }}>
+                    Generato: {mapsResult.generated.join(", ")}{mapsResult.provider ? ` (${mapsResult.provider})` : ""}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
 
           {/* 3 — Editor inline (tabs PNG/Indizi/Piste/Clock + Scarica JSON come pulsante extra) */}
           <AdventureEditor

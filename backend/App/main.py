@@ -3486,28 +3486,21 @@ class PreGenerateMapsPayload(BaseModel):
     period: str = ""
 
 @app.post("/game/adventure/pre-generate-maps")
-async def pre_generate_maps(payload: PreGenerateMapsPayload):
+def pre_generate_maps(payload: PreGenerateMapsPayload):
     """Pre-genera mappe all'avvio: overview strategica + tattiche per finale/hot_zone.
 
-    Ritorna l'adventure_definition arricchita con le immagini base64 iniettate.
-    Se la generazione immagini non è disponibile ritorna la definizione invariata.
+    Endpoint sincrono: FastAPI lo esegue automaticamente in thread pool, quindi
+    le chiamate bloccanti alle API immagini non bloccano l'event loop.
     """
     provider = _resolve_image_provider()
+    print(f"[pre-generate-maps] start (provider={provider}, image_provider_setting={getattr(game_state.team_setup, 'image_provider', 'unknown')})")
     if not provider:
         return {"adventure_definition": payload.adventure_definition, "generated": [], "skipped": "no_image_provider"}
-
-    import asyncio
-    import concurrent.futures
 
     definition = {k: (list(v) if isinstance(v, list) else dict(v) if isinstance(v, dict) else v)
                   for k, v in payload.adventure_definition.items()}
     generated: list[str] = []
     errors: list[str] = []
-
-    def _run_sync(fn, *args, **kwargs):
-        """Esegui funzione sincrona bloccante in thread pool."""
-        loop = asyncio.get_event_loop()
-        return loop.run_in_executor(None, lambda: fn(*args, **kwargs))
 
     # ── 1. OVERVIEW STRATEGICA ──────────────────────────────────────────────
     map_state = dict(definition.get("map_state") or {})
@@ -3515,29 +3508,26 @@ async def pre_generate_maps(payload: PreGenerateMapsPayload):
         if payload.map_image_b64:
             map_state["image_b64"] = payload.map_image_b64
             generated.append("overview_from_pdf")
-            print(f"[pre-generate-maps] overview: usata immagine estratta dal PDF")
+            print(f"[pre-generate-maps] overview: usata immagine estratta dal PDF ({len(payload.map_image_b64)//1024} KB)")
         else:
             try:
                 set_active_provider(provider)
                 locations_raw = definition.get("locations") or []
                 loc_names = [l.get("name", "") if isinstance(l, dict) else str(l) for l in locations_raw]
                 loc_names = [n for n in loc_names if n]
-                positions = await _run_sync(
-                    generate_map_positions,
+                positions = generate_map_positions(
                     definition.get("title", ""), loc_names, payload.genre
                 )
-                image_b64 = await _run_sync(
-                    generate_adventure_overview_map,
+                image_b64 = generate_adventure_overview_map(
                     definition.get("title", ""), loc_names, payload.genre,
                     payload.setting or definition.get("setting", ""),
                     payload.period or definition.get("period", ""),
-                    positions,
+                    positions=positions,
                 )
                 if image_b64:
                     map_state["image_b64"] = image_b64
                     generated.append("overview_ai")
                     print(f"[pre-generate-maps] overview AI: {len(image_b64)//1024} KB")
-                    # Aggiorna coordinate geografiche nelle location
                     if positions:
                         locs = definition.get("locations") or []
                         for loc in locs:
@@ -3548,6 +3538,8 @@ async def pre_generate_maps(payload: PreGenerateMapsPayload):
                                 loc["map_x"] = int(positions[name].get("x", loc.get("map_x", 0)))
                                 loc["map_y"] = int(positions[name].get("y", loc.get("map_y", 0)))
                         definition["locations"] = locs
+                else:
+                    print(f"[pre-generate-maps] overview AI: generate_adventure_overview_map ha restituito None")
             except Exception as e:
                 errors.append(f"overview: {e}")
                 print(f"[pre-generate-maps] errore overview: {e}")
@@ -3571,31 +3563,34 @@ async def pre_generate_maps(payload: PreGenerateMapsPayload):
         try:
             set_active_provider(provider)
             enemy_names = [ep.get("actor_id", "") for ep in (tmap.get("enemy_positions") or []) if isinstance(ep, dict)]
-            image_b64 = await _run_sync(
-                generate_tactical_map_image,
+            image_b64 = generate_tactical_map_image(
                 loc.get("name", ""),
                 loc.get("description", ""),
                 payload.genre,
                 tmap.get("environment_type", "indoor"),
-                tmap.get("trigger", ""),          # scene_narrative
-                tmap.get("environment_type", "indoor"),  # mission_environment
-                enemy_names,
-                tmap.get("layout", "room"),
+                scene_narrative=tmap.get("trigger", ""),
+                mission_environment=tmap.get("environment_type", "indoor"),
+                enemy_names=enemy_names,
+                layout=tmap.get("layout", "room"),
             )
             if image_b64:
                 tmap["image_b64"] = image_b64
                 loc["tactical_map"] = tmap
                 generated.append(f"tactical_{loc_id}")
                 print(f"[pre-generate-maps] mappa tattica '{loc_id}' ({role}): {len(image_b64)//1024} KB")
+            else:
+                print(f"[pre-generate-maps] mappa tattica '{loc_id}': generate_tactical_map_image ha restituito None")
         except Exception as e:
             errors.append(f"tactical_{loc_id}: {e}")
             print(f"[pre-generate-maps] errore mappa tattica '{loc_id}': {e}")
 
     definition["locations"] = locations
+    print(f"[pre-generate-maps] done. generated={generated}, errors={errors}")
     return {
         "adventure_definition": definition,
         "generated": generated,
         "errors": errors,
+        "provider_used": provider,
     }
 
 
