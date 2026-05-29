@@ -4658,9 +4658,23 @@ Rispondi SOLO con questo JSON:
         "hazards": ["rischi ambientali"],
         "trigger": "quando si apre il confronto"
       }}
+    }},
+    {{
+      "id": "area_2",
+      "name": "Seconda area principale",
+      "description": "Descrizione breve",
+      "parent_location_id": "",
+      "has_combat_potential": false,
+      "tactical_map": {{"enabled": false}}
     }}
   ]
-}}"""
+}}
+
+REGOLA GERARCHIA LOCATION: organizza le location su 2 livelli usando `parent_location_id`.
+- Livello 0 (root, parent_location_id: ""): 2-3 aree macroscopiche (città, edificio, zona).
+- Livello 1 (sub-zone, parent_location_id = id padre): 2-4 sotto-luoghi per area (quartieri, stanze, punti chiave).
+- Le mappe tattiche (enabled:true) vanno SOLO sulle sub-zone, non sulle aree root.
+- Totale location suggerito: 8-12."""
 
     attempts: list[tuple[str, str]] = [(_ACTIVE_PROVIDER, prompt)]
     fallback_provider = _other_provider()

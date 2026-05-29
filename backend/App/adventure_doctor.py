@@ -434,6 +434,35 @@ def _location_rules(locations: List[Dict], actor_ids_by_loc: Dict[str, List],
                 f"'{name}' dichiara di contenere loot ma non ha item definiti: i giocatori non troveranno nulla di concreto",
                 "Aggiungi items: [...] alla location oppure rimuovi contains_loot se non è rilevante"))
 
+    # Gerarchia: rileva location "orfane" che logicamente appartengono a un'altra
+    loc_names = {l.get("id", ""): l.get("name", "") for l in locations}
+    has_any_parent = any(l.get("parent_location_id") for l in locations)
+    orphans_found = []
+    for loc in locations:
+        if loc.get("parent_location_id"):
+            continue  # già ha un parent
+        lid = loc.get("id", "?")
+        name = loc.get("name", lid)
+        name_lower = name.lower()
+        for other_id, other_name in loc_names.items():
+            if other_id == lid:
+                continue
+            # Se il nome di questa location contiene il nome di un'altra → probabile figlio
+            other_lower = other_name.lower()
+            if len(other_lower) > 3 and other_lower in name_lower and other_id != lid:
+                orphans_found.append(lid)
+                findings.append(Finding("warning", "location", lid,
+                    f"'{name}' sembra trovarsi dentro '{other_name}' ma non ha parent_location_id impostato",
+                    f"Imposta parent_location_id: \"{other_id}\" per inserirla nella gerarchia della mappa"))
+                break
+
+    # Se ci sono molte location senza alcuna gerarchia, suggerisci di organizzarle
+    if len(locations) >= 5 and not has_any_parent:
+        findings.append(Finding("suggestion", "location", "hierarchy",
+            f"L'avventura ha {len(locations)} location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+            "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, "
+            "oppure imposta parent_location_id nell'editor per ogni sotto-location"))
+
     return findings
 
 
@@ -743,6 +772,39 @@ def _enrich_clues(clues: List[Dict], context: str) -> List[Dict]:
         return clues
 
 
+def _enrich_location_hierarchy(locations: List[Dict], context: str) -> List[Dict]:
+    """Chiede all'AI di organizzare le location in una gerarchia a 2 livelli con parent_location_id."""
+    if not locations:
+        return locations
+    loc_list = [{"id": l.get("id"), "name": l.get("name"), "description": (l.get("description") or "")[:80]} for l in locations]
+    prompt = (
+        f"Avventura: {context}\n\n"
+        f"Location attuali:\n{json.dumps(loc_list, ensure_ascii=False, indent=2)}\n\n"
+        "Organizza queste location in una gerarchia a 2 livelli:\n"
+        "- Livello 0 (aree macroscopiche): 2-3 location con parent_location_id: \"\"\n"
+        "- Livello 1 (sub-zone): le restanti, ciascuna con parent_location_id = id dell'area padre logica\n\n"
+        "Se necessario puoi rinominare o accorpare location molto simili.\n"
+        "Restituisci SOLO una lista JSON con TUTTI gli id originali, aggiungendo parent_location_id a ciascuno.\n"
+        "Formato: [{\"id\": \"...\", \"parent_location_id\": \"\"}, ...]\n"
+        "Non aggiungere altri campi."
+    )
+    try:
+        result = _json_from_llm(_llm(prompt, max_tokens=800))
+        if isinstance(result, list):
+            parent_map = {item["id"]: item.get("parent_location_id", "") for item in result if "id" in item}
+            updated = []
+            for loc in locations:
+                lid = loc.get("id")
+                if lid in parent_map:
+                    updated.append({**loc, "parent_location_id": parent_map[lid]})
+                else:
+                    updated.append(loc)
+            return updated
+    except Exception as e:
+        print(f"[doctor] location hierarchy enrichment failed: {e}", file=sys.stderr)
+    return locations
+
+
 def _enrich_locations(locations: List[Dict], context: str) -> List[Dict]:
     """Arricchisce location vuote con description e tactical_map di base."""
     needs = [
@@ -918,7 +980,14 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
 
     # Locations vuote
     if "location" in categories and enriched.get("locations"):
-        enriched["locations"] = _enrich_locations(enriched["locations"], context)
+        locs = enriched["locations"]
+        # Fix gerarchia orfane se nessuna ha parent_location_id oppure ci sono warning orfani
+        orphan_ids = {f.entity_id for f in findings if f.category == "location" and "parent_location_id" in f.fix_hint}
+        has_hierarchy = any(l.get("parent_location_id") for l in locs)
+        if orphan_ids or (len(locs) >= 5 and not has_hierarchy):
+            print("[doctor] reorganizing location hierarchy")
+            locs = _enrich_location_hierarchy(locs, context)
+        enriched["locations"] = _enrich_locations(locs, context)
 
     # Re-score
     new_findings = audit(enriched)
