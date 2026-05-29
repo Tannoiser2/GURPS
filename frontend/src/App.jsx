@@ -5308,7 +5308,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                 {mapsPanel}
 
                 {/* Selezione mappa */}
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
                   <button
                     onClick={() => setSelectedMap("overview")}
                     style={{ padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 700, cursor: "pointer",
@@ -5327,6 +5327,18 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                       {loc.local_map_image_b64 ? "📍" : "○"} {loc.name || loc.id}
                     </button>
                   ))}
+                  <button
+                    onClick={() => {
+                      const newId = `area_${Date.now()}`;
+                      setLocations(l => [...l, { id: newId, name: "Nuova area", description: "", parent_location_id: "", has_combat_potential: false, tactical_map: { enabled: false } }]);
+                      setSelectedMap(newId);
+                      setDirty(true);
+                    }}
+                    style={{ padding: "5px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700, cursor: "pointer",
+                      border: "1px dashed rgba(255,255,255,0.2)", background: "transparent", color: "rgba(255,255,255,0.4)" }}
+                    title="Aggiungi una nuova area root manualmente">
+                    + Area
+                  </button>
                 </div>
 
                 {/* --- PANEL OVERVIEW --- */}
@@ -5494,71 +5506,123 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                 )}
 
                 {/* --- PANEL MAPPA REGIONALE --- */}
-                {selectedRootLoc && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    <div style={{ fontSize: 11, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>
-                      📍 {selectedRootLoc.name}
-                    </div>
-                    {/* Immagine mappa regionale */}
-                    {selectedRootLoc.local_map_image_b64 ? (
-                      <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: 10 }}>
-                        <img src={`data:image/jpeg;base64,${selectedRootLoc.local_map_image_b64}`}
-                          style={{ width: "100%", borderRadius: 6, display: "block" }} alt={selectedRootLoc.name} />
-                        <button onClick={() => patchLocation(locations.indexOf(selectedRootLoc), "local_map_image_b64", "")}
-                          style={{ marginTop: 6, fontSize: 10, color: "#fca5a5", background: "transparent", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 4, padding: "3px 8px", cursor: "pointer" }}>
-                          Rimuovi mappa
+                {selectedRootLoc && (() => {
+                  const rootIdx = locations.indexOf(selectedRootLoc);
+                  return (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                      {/* Header con nome editabile + elimina */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                        <span style={{ fontSize: 10, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>📍</span>
+                        <input style={{ ...inputStyle, fontWeight: 700, fontSize: 13, flex: 1 }}
+                          value={selectedRootLoc.name || ""}
+                          onChange={e => patchLocation(rootIdx, "name", e.target.value)}
+                          placeholder="Nome area" />
+                        <button onClick={() => { setLocations(l => l.filter((_, i) => i !== rootIdx)); setSelectedMap("overview"); setDirty(true); }}
+                          style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>
+                          Elimina area
                         </button>
                       </div>
-                    ) : (
-                      <label style={{ display: "block", padding: "10px 12px", borderRadius: 7, border: "1px dashed rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.04)", textAlign: "center", color: "rgba(255,255,255,0.5)", fontSize: 11, cursor: "pointer" }}>
-                        📷 Carica mappa regionale per {selectedRootLoc.name}
-                        <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async e => {
-                          const f = e.target.files?.[0]; if (!f) return; e.target.value = "";
-                          const reader = new FileReader();
-                          reader.onload = () => {
-                            const b64 = String(reader.result || "").split(",")[1] || "";
-                            patchLocation(locations.indexOf(selectedRootLoc), "local_map_image_b64", b64);
-                          };
-                          reader.readAsDataURL(f);
-                        }} />
-                      </label>
-                    )}
-                    {/* Sub-zone */}
-                    {subLocs.length > 0 && (
+
+                      {/* Editor visuale mappa regionale con sub-zone come pin */}
+                      {selectedRootLoc.local_map_image_b64 ? (
+                        <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "9px 11px" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                            <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>
+                              Editor visuale — {subLocs.length} sub-zona{subLocs.length !== 1 ? "e" : ""}
+                            </span>
+                            <div style={{ display: "flex", gap: 6 }}>
+                              <label style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.08)", color: "#a78bfa", fontSize: 10, cursor: "pointer" }}>
+                                Sostituisci
+                                <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async e => {
+                                  const f = e.target.files?.[0]; if (!f) return; e.target.value = "";
+                                  const reader = new FileReader();
+                                  reader.onload = () => patchLocation(rootIdx, "local_map_image_b64", String(reader.result || "").split(",")[1] || "");
+                                  reader.readAsDataURL(f);
+                                }} />
+                              </label>
+                              <button onClick={() => patchLocation(rootIdx, "local_map_image_b64", "")}
+                                style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>
+                                Rimuovi
+                              </button>
+                            </div>
+                          </div>
+                          <StrategicMapVisualEditor
+                            image_b64={selectedRootLoc.local_map_image_b64}
+                            locations={subLocs}
+                            connections={{}}
+                            onMoveLocation={(subIdx, x, y) => moveLocationXY(locations.indexOf(subLocs[subIdx]), x, y)}
+                            onResizeLocation={(subIdx, w, h) => {
+                              const realIdx = locations.indexOf(subLocs[subIdx]);
+                              setLocations(l => { const n = [...l]; n[realIdx] = { ...n[realIdx], map_w: w, map_h: h }; return n; });
+                              setDirty(true);
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <label style={{ display: "block", padding: "18px 12px", borderRadius: 7, border: "1px dashed rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.04)", textAlign: "center", color: "rgba(255,255,255,0.5)", fontSize: 11, cursor: "pointer" }}>
+                          📷 Carica mappa regionale per «{selectedRootLoc.name}»
+                          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", marginTop: 4 }}>PNG/JPEG — oppure usa il bottone "Genera mappa" nel box in alto</div>
+                          <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async e => {
+                            const f = e.target.files?.[0]; if (!f) return; e.target.value = "";
+                            const reader = new FileReader();
+                            reader.onload = () => patchLocation(rootIdx, "local_map_image_b64", String(reader.result || "").split(",")[1] || "");
+                            reader.readAsDataURL(f);
+                          }} />
+                        </label>
+                      )}
+
+                      {/* Sub-zone: griglia thumbnail + bottone aggiungi */}
                       <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "10px 12px" }}>
-                        <div style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 8 }}>
-                          Sub-zone ({subLocs.length})
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                          <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>
+                            Sub-zone ({subLocs.length})
+                          </span>
+                          <button onClick={() => {
+                            const newId = `${selectedRootLoc.id}_zona_${Date.now()}`;
+                            setLocations(l => [...l, { id: newId, name: "Nuova sub-zona", description: "", parent_location_id: selectedRootLoc.id, has_combat_potential: false, tactical_map: { enabled: false } }]);
+                            setDirty(true);
+                          }} style={{ fontSize: 10, padding: "3px 10px", borderRadius: 4, border: "1px dashed rgba(255,255,255,0.2)", background: "transparent", color: "rgba(255,255,255,0.5)", cursor: "pointer" }}>
+                            + Sub-zona
+                          </button>
                         </div>
-                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 8 }}>
-                          {subLocs.map((sub) => {
-                            return (
-                              <div key={sub.id} style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: 8 }}>
-                                <div style={{ fontSize: 10, fontWeight: 700, color: sub.tactical_map?.enabled ? "#fde68a" : "rgba(255,255,255,0.7)", marginBottom: 4 }}>
-                                  {sub.tactical_map?.enabled ? "⚔ " : ""}{sub.name || sub.id}
+                        {subLocs.length === 0 ? (
+                          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>Nessuna sub-zona — clicca "+ Sub-zona" per aggiungerne una.</div>
+                        ) : (
+                          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 8 }}>
+                            {subLocs.map((sub) => {
+                              const subIdx = locations.indexOf(sub);
+                              return (
+                                <div key={sub.id} style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: 8, position: "relative" }}>
+                                  <input style={{ ...inputStyle, fontSize: 10, fontWeight: 700, marginBottom: 4, color: sub.tactical_map?.enabled ? "#fde68a" : "rgba(255,255,255,0.8)", background: "transparent", border: "none", padding: 0, width: "100%" }}
+                                    value={sub.name || ""}
+                                    onChange={e => patchLocation(subIdx, "name", e.target.value)} />
+                                  {sub.tactical_map?.image_b64 ? (
+                                    <img src={`data:image/jpeg;base64,${sub.tactical_map.image_b64}`}
+                                      style={{ width: "100%", borderRadius: 4, display: "block" }} alt={sub.name} />
+                                  ) : (
+                                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
+                                      {sub.tactical_map?.enabled ? "⚔ tattica non generata" : "solo narrativa"}
+                                    </div>
+                                  )}
+                                  <button onClick={() => { setLocations(l => l.filter((_, i) => i !== subIdx)); setDirty(true); }}
+                                    style={{ position: "absolute", top: 4, right: 4, width: 16, height: 16, borderRadius: 3, border: "none", background: "rgba(239,68,68,0.3)", color: "#fca5a5", fontSize: 9, cursor: "pointer", lineHeight: 1, padding: 0 }}>✕</button>
                                 </div>
-                                {sub.tactical_map?.image_b64 ? (
-                                  <img src={`data:image/jpeg;base64,${sub.tactical_map.image_b64}`}
-                                    style={{ width: "100%", borderRadius: 4, display: "block" }} alt={sub.name} />
-                                ) : (
-                                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
-                                    {sub.tactical_map?.enabled ? "Mappa tattica non generata" : "Solo narrativa"}
-                                  </div>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
-                    )}
-                    {/* Descrizione location root */}
-                    <div>
-                      <label style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>Descrizione area</label>
-                      <textarea rows={3} style={{ ...inputStyle, width: "100%", marginTop: 4 }}
-                        value={selectedRootLoc.description || ""}
-                        onChange={e => patchLocation(locations.indexOf(selectedRootLoc), "description", e.target.value)} />
+
+                      {/* Descrizione area */}
+                      <div>
+                        <label style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>Descrizione area</label>
+                        <textarea rows={2} style={{ ...inputStyle, width: "100%", marginTop: 4 }}
+                          value={selectedRootLoc.description || ""}
+                          onChange={e => patchLocation(rootIdx, "description", e.target.value)} />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  );
+                })()}
               </div>
             );
           })()}
