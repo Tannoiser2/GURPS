@@ -165,7 +165,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v7-hp-plumbing-canonical-log"
+BUILD_VERSION = "v8-sheriff-hostile-fix"
 
 @app.get("/health")
 def health_check():
@@ -2092,7 +2092,7 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
         _merged_npc_rt = dict(_gsd.get("npc_runtime") or {})
         for _aid, _adata in game_state.adventure_runtime_state.actor_runtime.items():
             _existing = dict(_merged_npc_rt.get(_aid) or {})
-            for _k in ("witness_state", "fearful_turns_ignored"):
+            for _k in ("witness_state", "fearful_turns_ignored", "attitude", "fought_players"):
                 if _k in _adata:
                     _existing[_k] = _adata[_k]
             _merged_npc_rt[_aid] = _existing
@@ -2215,15 +2215,22 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
             _fled.append(_antagonist_escaped_name)
             print(f"[antagonist_protection] {_antagonist_escaped_name} è fuggito — finale non ancora sbloccato")
 
+        _survived_fighting = [
+            {"id": _e.id, "name": _e.name}
+            for _e in _combat_entities
+            if _e.type == "enemy" and _e.hp > 0 and getattr(_e, "status", "") != "fuggito"
+        ]
         game_state.last_combat_summary = {
             "eliminated": _eliminated,
             "fled": _fled,
             "surviving_enemies": _alive_enemies,
+            "survived_fighting_players": [sf["name"] for sf in _survived_fighting],
             "player_aftermath": _player_aftermath,
             "antagonist_killed": _antagonist_killed_name,
             "antagonist_escaped": _antagonist_escaped_name,
         }
         # Mark dead enemies in actor_runtime so they don't reappear in narrative
+        # Mark surviving enemies as hostile so narrative can't treat them as neutral
         if game_state.adventure_runtime_state:
             _rt = game_state.adventure_runtime_state
             if _rt.actor_runtime is None:
@@ -2233,6 +2240,18 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
                     _entry = dict(_rt.actor_runtime.get(_e.id) or {})
                     _entry["status"] = "morto"
                     _rt.actor_runtime[_e.id] = _entry
+                elif _e.type == "enemy" and _e.hp > 0 and getattr(_e, "status", "") != "fuggito":
+                    _entry = dict(_rt.actor_runtime.get(_e.id) or {})
+                    _entry["attitude"] = "ostile"
+                    _entry["fought_players"] = True
+                    _rt.actor_runtime[_e.id] = _entry
+                    if game_state.adventure_definition:
+                        for _actor in (game_state.adventure_definition.actors or []):
+                            if _actor.name.lower() in _e.name.lower() or _e.name.lower() in _actor.name.lower():
+                                _aentry = dict(_rt.actor_runtime.get(_actor.id) or {})
+                                _aentry["attitude"] = "ostile"
+                                _aentry["fought_players"] = True
+                                _rt.actor_runtime[_actor.id] = _aentry
             # Mark antagonist as escaped (not dead) in actor_runtime
             if _antagonist_escaped_name and game_state.adventure_definition:
                 for _actor in (game_state.adventure_definition.actors or []):

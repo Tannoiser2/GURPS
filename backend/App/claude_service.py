@@ -4056,6 +4056,12 @@ def _build_combat_context(game_state_data: dict) -> str:
             lines.append(f"  Nemici fuggiti: {', '.join(summary['fled'])}")
         if summary.get("surviving_enemies"):
             lines.append(f"  Nemici ancora presenti/catturati: {', '.join(summary['surviving_enemies'])}")
+        if summary.get("survived_fighting_players"):
+            _sfp_names = ", ".join(summary["survived_fighting_players"])
+            lines.append(f"  ⚠ SOPRAVVISSUTI CHE HANNO COMBATTUTO CONTRO I PG: {_sfp_names}")
+            lines.append("  REGOLA CRITICA: questi PNG hanno appena cercato di uccidere i personaggi.")
+            lines.append("  NON puoi trattarli come neutrali o alleati senza narrare esplicitamente cosa è cambiato.")
+            lines.append("  Usa npc_updates per impostare attitude=ostile per ciascuno, a meno di una resa esplicita.")
         for pa in (summary.get("player_aftermath") or []):
             hl = _health_label(pa.get("hp"), pa.get("max_hp"))
             if hl:
