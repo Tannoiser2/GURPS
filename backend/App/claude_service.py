@@ -1512,6 +1512,17 @@ def _validate_story_canon(result: dict) -> list[dict]:
                 "code": "no_canon_ref",
                 "msg": "nessun indizio in clue_plan cita il canon",
             })
+        # se required_clues >= 2, ogni indizio deve citare una source diversa
+        req = t.get("required_clues")
+        req_int = int(req) if isinstance(req, (int, float)) else (len(req) if isinstance(req, list) else 0)
+        if len(clues) >= 2 and req_int >= 2:
+            _canon_hits = [frozenset(tok for tok in canon_tokens if tok in str(c).lower()) for c in clues]
+            if all(h == _canon_hits[0] and _canon_hits[0] for h in _canon_hits):
+                violations.append({
+                    "where": f"{tid}.clue_plan",
+                    "code": "clue_sources_identical",
+                    "msg": "tutti gli indizi citano gli stessi termini del canon — fonti probabilmente non distinte",
+                })
 
         # on_resolve_effect.payload
         eff = t.get("on_resolve_effect", {}) or {}
@@ -1524,6 +1535,15 @@ def _validate_story_canon(result: dict) -> list[dict]:
                 "code": "no_canon_ref",
                 "msg": f"payload non cita canon: '{_short(payload, 80)}'",
             })
+
+    # Almeno 2 thread devono essere immediatamente risolvibili (senza prerequisiti)
+    root_threads = [t for t in threads if isinstance(t, dict) and not (t.get("parent_thread_ids") or [])]
+    if threads and len(root_threads) < 2:
+        violations.append({
+            "where": "threads.structure",
+            "code": "too_few_root_threads",
+            "msg": f"solo {len(root_threads)} thread senza prerequisiti — i giocatori si bloccherebbero subito (minimo 2 richiesti)",
+        })
 
     return violations
 
@@ -1562,6 +1582,18 @@ def _patch_story_canon_deterministic(result: dict, violations: list[dict]) -> tu
                 old = list(t.get("parent_thread_ids", []) or [])
                 t["parent_thread_ids"] = [p for p in old if p in thread_ids]
                 patches.append({"where": where, "fix": f"rimosso parent invalido (era {old})"})
+                continue
+
+        # too_few_root_threads: libera il primo thread non-finale che ha prerequisiti
+        if code == "too_few_root_threads":
+            non_root = [t for t in threads if isinstance(t, dict) and t.get("parent_thread_ids") and t.get("id") != "T3"]
+            if not non_root:
+                non_root = [t for t in threads if isinstance(t, dict) and t.get("parent_thread_ids")]
+            if non_root:
+                target = non_root[0]
+                old_parents = list(target.get("parent_thread_ids", []))
+                target["parent_thread_ids"] = []
+                patches.append({"where": "threads.structure", "fix": f"liberato {target.get('id')} dai prerequisiti (era {old_parents})"})
                 continue
 
         # payload vuoto: riempi con un nome canonico se disponibile
@@ -1742,9 +1774,9 @@ def generate_story_canon(mission_title: str, mission_objective: str, genre: str,
             '  "hidden_truth_reveal_rule": "rivela la verità quando <indizi/thread specifici> sono stati scoperti",\n'
             '  "win_condition": "Procedura finale concreta: verbo + oggetto + luogo + requisito/costo principale. Max 35 parole. NON alternative.",\n'
             '  "threads": [\n'
-            '    {"id": "T1", "question": "Domanda operativa breve max 12 parole, termina con ?", "purpose": "sblocca luogo/accesso della soluzione", "answer": "Risposta canonica nascosta, concreta", "clue_plan": ["indizio 1 concreto", "indizio 2 concreto"], "reveal_rule": "quando 2 indizi sono stati scoperti, narra la deduzione", "required_clues": 2, "on_resolve_effect": {"type": "unlock_node|remove_blocker|modify_objective|add_action", "payload": "descrizione concreta dell\'effetto"}, "parent_thread_ids": []},\n'
-            '    {"id": "T2", "question": "...", "purpose": "sblocca persona/oggetto/causa utile alla soluzione", "answer": "...", "clue_plan": ["...", "..."], "reveal_rule": "...", "required_clues": 2, "on_resolve_effect": {"type": "...", "payload": "..."}, "parent_thread_ids": []},\n'
-            '    {"id": "T3", "question": "...", "purpose": "sblocca procedura/costo finale", "answer": "...", "clue_plan": ["...", "...", "..."], "reveal_rule": "...", "required_clues": 3, "on_resolve_effect": {"type": "...", "payload": "..."}, "parent_thread_ids": ["T1"]}\n'
+            '    {"id": "T1", "question": "Domanda operativa breve max 12 parole, termina con ?", "purpose": "sblocca luogo/accesso della soluzione", "answer": "Risposta canonica nascosta, concreta", "clue_plan": ["indizio 1 (in LUOGO_CANON)", "indizio 2 (con NPC_CANON)"], "reveal_rule": "quando 2 indizi sono stati scoperti, narra la deduzione", "required_clues": 2, "linked_npcs": ["id_o_nome_npc_citato"], "on_resolve_effect": {"type": "unlock_node|remove_blocker|modify_objective|add_action", "payload": "descrizione concreta dell\'effetto"}, "parent_thread_ids": []},\n'
+            '    {"id": "T2", "question": "...", "purpose": "sblocca persona/oggetto/causa utile alla soluzione", "answer": "...", "clue_plan": ["... (in LUOGO)", "... (con NPC)"], "reveal_rule": "...", "required_clues": 2, "linked_npcs": ["nome_npc"], "on_resolve_effect": {"type": "...", "payload": "..."}, "parent_thread_ids": []},\n'
+            '    {"id": "T3", "question": "...", "purpose": "sblocca procedura/costo finale", "answer": "...", "clue_plan": ["... (luogo A)", "... (con NPC_B)", "... (oggetto C)"], "reveal_rule": "...", "required_clues": 3, "linked_npcs": ["npc_b"], "on_resolve_effect": {"type": "...", "payload": "..."}, "parent_thread_ids": ["T1"]}\n'
             '  ],\n'
             '  "named_entities": ["Nome proprio 1", "Nome proprio 2", "Nome proprio 3"],\n'
             '  "key_entities": [\n'
@@ -1761,9 +1793,10 @@ def generate_story_canon(mission_title: str, mission_objective: str, genre: str,
             "- threads[].question: NON ripetere l'obiettivo della missione come thread\n"
             "- threads[].purpose: obbligatorio. Deve iniziare con 'sblocca' e dire quale pezzo della win_condition rende possibile.\n"
             "- threads[].answer: obbligatoria, concreta, max 18 parole. Deve spiegare la risposta esatta alla domanda.\n"
-            "- threads[].clue_plan: 2-3 indizi concreti, ciascuno collegato a un luogo/PNG/oggetto gia nel canon. Questi sono gli indizi che appariranno durante la storia.\n"
+            "- threads[].clue_plan: 2-3 indizi. FORMATO OBBLIGATORIO: 'descrizione (in LUOGO / con NPC)'. Esempi: 'Lettera firmata (ufficio di Stelmach)', 'Macchia di sangue (cripta, accanto alla vittima)'. VIETATO: indizi senza source specifico (ogni indizio deve citare almeno un luogo o PNG del canon).\n"
+            "- threads[].linked_npcs: OBBLIGATORIO se clue_plan cita PNG. Array con ID o nome del PNG citato in clue_plan. NON lasciare vuoto se un PNG compare negli indizi.\n"
             "- threads[].reveal_rule: 1 frase su quando il narratore puo chiudere la domanda. Deve riferirsi agli indizi, non al caso.\n"
-            "- threads[].required_clues: numero intero tra 1 e 3. Soglia bassa (1) per thread accessori, alta (3) per la verità centrale.\n"
+            "- threads[].required_clues: numero intero tra 1 e 3. Soglia bassa (1) per thread accessori, alta (3) per la verità centrale. Se >= 2, ogni indizio in clue_plan deve avere una source diversa (luogo o PNG diverso).\n"
             "- threads[].on_resolve_effect.type: scegli UNO tra: 'unlock_node' (sblocca un'area gia prevista ma inaccessibile), 'remove_blocker' (rimuove un ostacolo specifico), 'modify_objective' (l'obiettivo finale si specifica meglio), 'add_action' (sblocca un'azione disponibile in altre scene).\n"
             "- threads[].on_resolve_effect.payload: 1 frase concreta che descrive l'effetto. Deve citare un nome proprio o luogo del canon. Es: 'sblocca l\'Ufficio del Direttore Stelmach', 'l\'obiettivo si precisa: recuperare il codice da Stelmach'.\n"
             "- VIETATO creare thread figli o usare payload tipo 'spawna thread'. I thread sono solo questi 3.\n"
@@ -4645,6 +4678,23 @@ def _location_wants_tactical_map(location: dict) -> bool:
     return any(w in trigger for w in ["scontro", "combatt", "agguato", "confronto", "assalto", "fuga sotto pressione"])
 
 
+def _extract_refs_from_clue_plan(clue_plan: list, entities: list, *id_keys: str) -> list:
+    """Extracts entity IDs/names mentioned in clue_plan text. Avoids blindly defaulting to entities[:3]."""
+    if not clue_plan or not entities:
+        return []
+    clue_text = " ".join(str(c) for c in clue_plan).lower()
+    found = []
+    for ent in entities:
+        if not isinstance(ent, dict):
+            continue
+        for key in id_keys:
+            val = ent.get(key) or ""
+            if val and str(val).lower() in clue_text:
+                found.append(str(val))
+                break
+    return found
+
+
 def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> dict:
     """Rende tracciabile una bibbia senza affidarsi a runtime thread liberi."""
     if not isinstance(adventure, dict):
@@ -4782,8 +4832,8 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             "partial_clues": list(raw_thread.get("partial_clues") or []),
             "minimum_clues_to_deduce": minimum,
             "payoff": payoff,
-            "linked_npcs": list(raw_thread.get("linked_npcs") or [n.get("id") or n.get("name") for n in npcs[:3] if isinstance(n, dict)]),
-            "linked_locations": list(raw_thread.get("linked_locations") or [l.get("id") or l.get("name") for l in locations[:3] if isinstance(l, dict)]),
+            "linked_npcs": list(raw_thread.get("linked_npcs") or _extract_refs_from_clue_plan(raw_thread.get("clue_plan") or [], npcs, "id", "name")),
+            "linked_locations": list(raw_thread.get("linked_locations") or _extract_refs_from_clue_plan(raw_thread.get("clue_plan") or [], locations, "id", "name")),
         })
 
     antagonist = next((n for n in npcs if isinstance(n, dict) and any(w in str(n.get("role", "")).lower() for w in ["antagon", "villain", "nemic", "cult", "assassin", "killer"])), None)
