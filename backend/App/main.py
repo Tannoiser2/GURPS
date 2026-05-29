@@ -1142,6 +1142,7 @@ class ImageGenPayload(BaseModel):
 class AdventureCreatePayload(BaseModel):
     genre: str
     players: list[dict]
+    scale: str = "standard"
 
 class AdventureCompilePayload(BaseModel):
     source_type: str = "raw_text"
@@ -1204,7 +1205,7 @@ class MasterTurnBiblePayload(BaseModel):
 @app.post("/game/adventure/create")
 def adventure_create(payload: AdventureCreatePayload):
     """Genera un'avventura, la ricompila nel runtime e la corregge automaticamente col Doctor."""
-    raw = create_adventure(payload.genre, payload.players)
+    raw = create_adventure(payload.genre, payload.players, scale=payload.scale)
     if raw.get("error"):
         return raw
     raw["source_mode"] = "ai_generated"

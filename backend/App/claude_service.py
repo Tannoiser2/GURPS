@@ -4544,6 +4544,121 @@ _GENRE_LABELS = {
     "detective_classico": "noir/detective classico",
 }
 
+_STRUCTURAL_TEMPLATES = {
+    "chain": {
+        "name": "Catena investigativa",
+        "description": "Indagine lineare: ogni indizio sblocca il successivo",
+        "guidance": (
+            "Struttura a catena progressiva. T1 risponde a CHI, T2 a PERCHÉ, T3 (opzionale) a COME. "
+            "Ogni indizio deve avanzare concretamente la comprensione. "
+            "Include almeno 1 falso sospettato con indizi che sembrano accusarlo."
+        ),
+        "extra_json_fields": "",
+    },
+    "web": {
+        "name": "Ragnatela di fazioni",
+        "description": "3 fazioni con obiettivi incompatibili, ognuna sa solo parte della verità",
+        "guidance": (
+            "Ogni fazione ha un'agenda propria e possiede solo UNA parte della verità. "
+            "I PG devono navigare tra tutte e tre senza essere inglobati. "
+            "Almeno 1 NPC per fazione ha secondi fini. "
+            "La verità completa emerge SOLO combinando tutte le fazioni."
+        ),
+        "extra_json_fields": (
+            ',\n  "factions": [\n'
+            '    {"id": "faction_a", "name": "Nome fazione", "agenda": "Cosa vuole ottenere", '
+            '"truth_fragment": "La parte di verità che possiede", "leader_npc_id": "npc_id"}\n'
+            '  ]'
+        ),
+    },
+    "betrayal": {
+        "name": "Arco del tradimento",
+        "description": "Un alleato tradisce a metà avventura, ribaltando tutto",
+        "guidance": (
+            "Il traditore appare affidabile per tutta la prima metà. "
+            "Segnali del tradimento DEVONO essere presenti ma non ovvi — in retrospettiva almeno 2 eventi acquisiranno nuovo significato. "
+            "L'avventura ha due fasi: FASE_1 (traditore è alleato) e FASE_2 (tutto cambia dopo la rivelazione)."
+        ),
+        "extra_json_fields": (
+            '\n  // Il NPC traditore deve avere:\n'
+            '  // "loyalty_arc": {"phase_1_role": "alleato/guida", "betrayal_trigger": "evento che lo smascera", '
+            '"phase_2_role": "antagonista", "real_motivation": "perché ha tradito"}'
+        ),
+    },
+    "race": {
+        "name": "Corsa contro la catastrofe",
+        "description": "Il tempo è il vero antagonista, la catastrofe si avvicina per stadi",
+        "guidance": (
+            "La catastrofe progredisce in STADI CONCRETI e VISIBILI (non solo 'le cose peggiorano'). "
+            "Ogni stadio cambia fisicamente il mondo. "
+            "Alcuni indizi fermano/rallentano la catastrofe, altri spiegano solo la causa. "
+            "I PG devono scegliere cosa fare con il tempo limitato."
+        ),
+        "extra_json_fields": (
+            ',\n  "threat_stages": [\n'
+            '    {"stage": 1, "label": "Primo segnale", "world_change": "Cosa cambia fisicamente nel mondo", "turn_trigger": 3, "clue_to_delay": "clue_id che rallenta questo stadio"},\n'
+            '    {"stage": 2, "label": "Escalation", "world_change": "Cosa peggiora", "turn_trigger": 6, "clue_to_delay": "clue_id"},\n'
+            '    {"stage": 3, "label": "Catastrofe", "world_change": "L\'evento irreversibile", "turn_trigger": 10, "clue_to_delay": null}\n'
+            '  ]'
+        ),
+    },
+    "moral": {
+        "name": "Dilemma etico",
+        "description": "Nessun vero cattivo, ogni finale ha un costo esplicito",
+        "guidance": (
+            "NESSUN personaggio è solo cattivo — tutti hanno ragioni comprensibili. "
+            "La soluzione 'giusta' non esiste: ogni finale salva qualcosa e distrugge qualcos'altro. "
+            "Gli indizi rivelano complessità morale, non semplice colpa. "
+            "I PG devono scegliere tra valori in conflitto."
+        ),
+        "extra_json_fields": (
+            ',\n  "endings": [\n'
+            '    {"id": "end_1", "label": "Nome scelta morale (es: Giustizia)", "condition": "Come si raggiunge", "is_victory": true, "moral_cost": "Cosa si perde o chi soffre", "long_term_consequence": "Conseguenza narrativa a lungo termine"},\n'
+            '    {"id": "end_2", "label": "Altra scelta", "condition": "Come si raggiunge", "is_victory": true, "moral_cost": "Altro costo", "long_term_consequence": "Altra conseguenza"},\n'
+            '    {"id": "end_3", "label": "Fallimento nobile", "condition": "Come succede", "is_victory": false, "moral_cost": "n/a", "long_term_consequence": "..."}\n'
+            '  ]'
+        ),
+    },
+}
+
+_COMPLEXITY_SCALES = {
+    "compact": {
+        "label": "Compatta", "emoji": "🗜",
+        "npc_count": "3-4", "clue_count": "5-6", "thread_count": "2",
+        "twist_count": "1", "location_root": "2", "location_sub": "2-3 per area",
+        "additional_directives": "",
+        "max_tokens": 3500,
+        "clue_slice": 10, "npc_slice": 8, "loc_slice": 10,
+    },
+    "standard": {
+        "label": "Standard", "emoji": "⚖",
+        "npc_count": "5-7", "clue_count": "8-10", "thread_count": "3",
+        "twist_count": "2", "location_root": "2-3", "location_sub": "3-4 per area",
+        "additional_directives": (
+            "- Includi almeno 1 falso indizio che punta al sospetto sbagliato\n"
+            "- Includi almeno 1 subplot secondario (una storia minore che incrocia quella principale)\n"
+            "- 2 colpi di scena distinti"
+        ),
+        "max_tokens": 5000,
+        "clue_slice": 15, "npc_slice": 10, "loc_slice": 15,
+    },
+    "epic": {
+        "label": "Epica", "emoji": "🔥",
+        "npc_count": "7-10", "clue_count": "12-15", "thread_count": "4-5",
+        "twist_count": "3", "location_root": "3-4", "location_sub": "3-5 per area",
+        "additional_directives": (
+            "- Sistema di fazioni (almeno 3 gruppi con agendas esplicite, anche se il template non è 'web')\n"
+            "- Almeno 1 subplot con arco narrativo completo\n"
+            "- 1 dilemma morale con costo esplicito (anche se il template non è 'moral')\n"
+            "- 3 colpi di scena, almeno 1 che ribalta la comprensione degli eventi precedenti\n"
+            "- 2 finali alternativi credibili\n"
+            "- Almeno 3 indizi che sembrano contraddirsi prima di risolversi in modo coerente"
+        ),
+        "max_tokens": 7000,
+        "clue_slice": 20, "npc_slice": 15, "loc_slice": 25,
+    },
+}
+
 _ADVENTURE_ARCHETYPES = [
     {
         "name": "Indagine con traditore interno",
@@ -4620,7 +4735,143 @@ _ADVENTURE_ARCHETYPES = [
 ]
 
 
-def create_adventure(genre: str, players: list[dict]) -> dict:
+def _build_create_adventure_prompt(
+    genre_label: str,
+    party_context: str,
+    archetype: dict,
+    template_key: str,
+    scale_cfg: dict,
+) -> str:
+    """Costruisce il prompt unificato per create_adventure."""
+    template = _STRUCTURAL_TEMPLATES[template_key]
+    extra = template.get("extra_json_fields", "")
+    npc_count = scale_cfg["npc_count"]
+    clue_count = scale_cfg["clue_count"]
+    thread_count = scale_cfg["thread_count"]
+    twist_count = scale_cfg["twist_count"]
+    location_root = scale_cfg["location_root"]
+    location_sub = scale_cfg["location_sub"]
+    additional = scale_cfg["additional_directives"] or "- Struttura pulita e giocabile in poche sessioni"
+
+    json_schema = f"""{{
+  "title": "Titolo avventura specifico e originale",
+  "premise": "Situazione iniziale in medias res (3-4 frasi coinvolgenti)",
+  "hidden_truth": "La verità profonda che i giocatori devono scoprire",
+  "atmosphere": "Tono/atmosfera (es: noir claustrofobico, horror psicologico, avventura epica)",
+  "win_condition": "Come i giocatori vincono in modo concreto",
+  "threat_description": "La minaccia che scala nel tempo",
+  "threat_max_turns": 10,
+  "has_time_pressure": true,
+  "npcs": [
+    {{"id": "npc_1", "name": "Nome specifico", "role": "Ruolo nell'avventura", "description": "Aspetto e prima impressione", "motivation": "Cosa vuole veramente", "secret": "Il suo segreto nascosto", "status": "alive", "location": "Dove si trova inizialmente", "attitude": "neutral|friendly|hostile"}},
+    {{"id": "npc_2", "name": "...", "role": "...", "description": "...", "motivation": "...", "secret": "...", "status": "alive", "location": "...", "attitude": "..."}},
+    "// GENERA {npc_count} NPC TOTALI"
+  ],
+  "clues": [
+    {{"id": "clue_1", "label": "Nome breve indizio", "text": "Descrizione dettagliata", "type": "physical_evidence|testimony|document|behavior|location_detail|contradiction", "thread_id": "T1", "reveals": "Cosa suggerisce", "payoff": "Cosa permette di capire o sbloccare", "location": "Dove/come si trova", "found": false}},
+    {{"id": "clue_2", "label": "...", "text": "...", "type": "...", "thread_id": "T2", "reveals": "...", "payoff": "...", "location": "...", "found": false}},
+    "// GENERA {clue_count} INDIZI TOTALI — varia i tipi"
+  ],
+  "story_threads": [
+    {{"id": "T1", "title": "Titolo pista", "question": "Domanda investigativa specifica", "true_answer": "Risposta canonica nascosta", "status": "hidden", "required_clues": ["clue_1", "clue_2"], "minimum_clues_to_deduce": 2, "payoff": "Cosa sblocca questa deduzione", "linked_npcs": ["npc_1"]}},
+    "// GENERA {thread_count} PISTE"
+  ],
+  "twists": [
+    {{"id": "twist_1", "trigger": "Quando/come si attiva", "effect": "Cosa cambia nella storia", "recontextualizes": "Quale evento precedente viene ribaltato", "used": false}},
+    "// GENERA {twist_count} COLPI DI SCENA"
+  ],
+  "adventure_canon": {{
+    "core_truth": "Verità centrale",
+    "main_antagonist": "Nome antagonista",
+    "false_leads": ["falso sospetto specifico"],
+    "key_locations": ["luogo chiave"],
+    "finale_conditions": ["condizione finale concreta"]
+  }},
+  "locations": [
+    {{"id": "area_1", "name": "Nome area principale", "description": "Descrizione", "parent_location_id": "", "has_combat_potential": false, "tactical_map": {{"enabled": false}}}},
+    {{"id": "area_1_sub_a", "name": "Sub-zona", "description": "...", "parent_location_id": "area_1", "has_combat_potential": true, "tactical_map": {{"enabled": true, "role": "hot_zone", "layout": "room", "features": ["copertura"], "hazards": ["trappola"], "trigger": "quando inizia il confronto"}}}},
+    "// GENERA {location_root} aree root + {location_sub} sub-zone per area"
+  ]{extra}
+}}"""
+
+    return f"""Sei un game designer esperto di GDR narrativi. Crea un'avventura originale, profonda e memorabile in stile {genre_label} per {party_context}.
+
+SCALA: {scale_cfg['emoji']} {scale_cfg['label']}
+TEMPLATE STRUTTURALE: {template['name']}
+{template['guidance']}
+
+ARCHETIPO NARRATIVO OBBLIGATORIO: «{archetype['name']}»
+STRUTTURA: {archetype['structure']}
+MINACCIA SPECIFICA: {archetype['threat']}
+FOCUS INDIZI: {archetype['clue_focus']}
+
+QUANTITÀ OBBLIGATORIE:
+- NPC: {npc_count} (NON di meno)
+- Indizi: {clue_count} (NON di meno)
+- Piste (story_threads): {thread_count}
+- Colpi di scena (twists): {twist_count}
+- Aree principali (root locations): {location_root}
+- Sub-zone per area: {location_sub}
+
+REQUISITI AGGIUNTIVI:
+{additional}
+
+VIETATO:
+- Nomi "Elena", "Marco", "Castello Maledetto", "cripta segreta", "libro antico"
+- Iniziare la premessa con "Un misterioso cliente vi ha assunto" o "Una lettera anonima"
+- NPC tutti neutrali o tutti alleati — servono tensioni tra loro
+- Indizi tutti dello stesso tipo — varia tra prove fisiche, testimonianze, documenti, comportamenti
+
+Rispondi SOLO con il JSON seguente (genera il numero esatto di elementi richiesti, non di meno):
+
+{json_schema}"""
+
+
+def _enrich_epic_adventure(base: dict, genre: str, template_key: str) -> dict:
+    """Seconda chiamata LLM per arricchire le avventure epic con subplot, dilemma morale e twist aggiuntivo."""
+    genre_label = _GENRE_LABELS.get(genre, genre)
+    npc_names = ", ".join(n["name"] for n in base.get("npcs", [])[:5])
+    enrich_prompt = f"""Hai generato questa avventura GURPS in {genre_label}:
+TITOLO: {base.get('title', '')}
+PREMESSA: {str(base.get('premise', ''))[:300]}
+NPC: {npc_names}
+PISTE: {len(base.get('story_threads', []))}
+INDIZI: {len(base.get('clues', []))}
+
+Questa è un'avventura EPICA. Arricchiscila aggiungendo:
+1. Un SUBPLOT secondario: una storia minore con 2-3 NPC propri, 2-3 indizi, che si intreccia con la storia principale
+2. Un DILEMMA MORALE esplicito: qual è il costo della vittoria? Chi soffre anche se i PG vincono?
+3. Un COLPO DI SCENA che ribalta la comprensione di un evento già narrato nella premessa
+
+Rispondi SOLO con questo JSON:
+{{
+  "subplot": {{"title": "...", "description": "...", "key_npc": "...", "connection_to_main": "...", "new_clues": [{{"id": "sub_clue_1", "label": "...", "text": "...", "type": "testimony", "thread_id": "T1", "reveals": "...", "payoff": "...", "location": "...", "found": false}}]}},
+  "moral_dilemma": {{"description": "La scelta impossibile", "option_a": "...", "cost_a": "...", "option_b": "...", "cost_b": "..."}},
+  "additional_twist": {{"id": "twist_epic", "trigger": "...", "effect": "...", "recontextualizes": "...", "used": false}}
+}}"""
+
+    try:
+        raw = _call_text_model(enrich_prompt, max_tokens=2000)
+        enriched = _extract_json_object(raw)
+        if not isinstance(enriched, dict):
+            return base
+        if "subplot" in enriched:
+            base["subplot"] = enriched["subplot"]
+            new_clues = enriched["subplot"].get("new_clues") or []
+            if isinstance(new_clues, list):
+                existing = base.get("clues") or []
+                base["clues"] = existing + new_clues
+        if "moral_dilemma" in enriched:
+            base["moral_dilemma"] = enriched["moral_dilemma"]
+        if "additional_twist" in enriched:
+            existing_twists = base.get("twists") or []
+            base["twists"] = existing_twists + [enriched["additional_twist"]]
+    except Exception as e:
+        print(f"[_enrich_epic_adventure] errore arricchimento: {type(e).__name__}: {e}")
+    return base
+
+
+def create_adventure(genre: str, players: list[dict], scale: str = "standard") -> dict:
     """
     Genera la bibbia strutturata dell'avventura.
     Restituisce un dict con: title, premise, hidden_truth, npcs, clues,
@@ -4638,158 +4889,10 @@ def create_adventure(genre: str, players: list[dict]) -> dict:
         else "un gruppo di 3-4 personaggi che verranno creati DOPO la compilazione, quindi prevedi ruoli utili ma non nominare PG specifici"
     )
 
-    import random
+    scale_cfg = _COMPLEXITY_SCALES.get(scale, _COMPLEXITY_SCALES["standard"])
+    template_key = random.choice(list(_STRUCTURAL_TEMPLATES.keys()))
     archetype = random.choice(_ADVENTURE_ARCHETYPES)
-    archetype_directive = (
-        f"\nARCHETIPO NARRATIVO OBBLIGATORIO: «{archetype['name']}»\n"
-        f"STRUTTURA: {archetype['structure']}\n"
-        f"MINACCIA SPECIFICA: {archetype['threat']}\n"
-        f"FOCUS INDIZI: {archetype['clue_focus']}\n"
-        f"NON usare la struttura generica 'mistero con un antagonista da smascherare'. Adatta questo archetipo al genere {genre_label}.\n"
-    )
-
-    prompt = f"""Sei un game designer esperto di GDR. Crea una avventura originale e coinvolgente
-in stile {genre_label} per {party_context}.
-{archetype_directive}
-
-L'avventura deve avere:
-- Una premessa intrigante che si apre in medias res (NON "un cliente vi assume per..." — già in azione)
-- Una verità nascosta coerente con l'archetipo
-- 3-5 PNG con motivazioni CONCRETE e in conflitto tra loro (non tutti neutrali, non tutti alleati)
-- 5-6 indizi del tipo specificato nell'archetipo (ogni indizio punta a una pista via thread_id)
-- 2 piste investigative (story_threads) con almeno 2-3 indizi ciascuna
-- 1-2 colpi di scena che ribaltano la situazione (non solo "il vero antagonista era X")
-- Una minaccia specifica e urgente (non generica)
-- Nomi, luoghi e tono che riflettono il genere {genre_label} (non nomi generici)
-
-VIETATO: usare i nomi "Elena", "Marco", "Castello Maledetto", "cripta segreta", "libro antico" come default. Inventa nomi specifici e unici.
-VIETATO: iniziare la premessa con "Un misterioso cliente vi ha assunto" o "Una lettera anonima vi chiama".
-
-Rispondi SOLO con questo JSON:
-{{
-  "title": "Titolo avventura",
-  "premise": "Descrizione situazione iniziale (3-4 frasi, in medias res)",
-  "hidden_truth": "La verità che i giocatori devono scoprire",
-  "atmosphere": "Tono/atmosfera dell'avventura (es: noir opprimente, horror psicologico)",
-  "npcs": [
-    {{
-      "id": "npc_1",
-      "name": "Nome",
-      "role": "Ruolo nell'avventura",
-      "description": "Aspetto e prima impressione",
-      "motivation": "Cosa vuole veramente",
-      "secret": "Il suo segreto",
-      "status": "alive",
-      "location": "Dove si trova inizialmente",
-      "attitude": "neutral"
-    }}
-  ],
-  "clues": [
-    {{
-      "id": "clue_1",
-      "label": "Nome breve dell'indizio",
-      "text": "Descrizione dell'indizio",
-      "type": "physical_evidence | testimony | document | behavior | location_detail | contradiction",
-      "thread_id": "T1 | T2 | T3",
-      "reveals": "Cosa suggerisce o rivela",
-      "payoff": "Cosa permette di capire, sbloccare o evitare",
-      "location": "Dove/come si trova",
-      "found": false
-    }}
-  ],
-  "story_threads": [
-    {{
-      "id": "T1",
-      "title": "Titolo pista",
-      "question": "Domanda investigativa",
-      "true_answer": "Risposta canonica nascosta",
-      "status": "hidden",
-      "required_clues": ["clue_1"],
-      "discovered_clues": [],
-      "partial_clues": [],
-      "minimum_clues_to_deduce": 2,
-      "payoff": "Cosa sblocca questa deduzione",
-      "linked_npcs": ["npc_1"],
-      "linked_locations": ["loc_1"]
-    }}
-  ],
-  "adventure_canon": {{
-    "core_truth": "Verità centrale già decisa",
-    "main_antagonist": "Nome antagonista principale",
-    "false_leads": ["falso sospetto o falsa pista"],
-    "key_locations": ["luogo chiave"],
-    "required_clues": ["clue_1"],
-    "optional_events": ["evento opzionale"],
-    "finale_conditions": ["condizione finale concreta"]
-  }},
-  "twists": [
-    {{
-      "id": "twist_1",
-      "trigger": "Quando/come si attiva",
-      "effect": "Cosa cambia nella storia",
-      "used": false
-    }}
-  ],
-  "win_condition": "Come i giocatori vincono",
-  "threat_description": "La minaccia che scala nel tempo",
-  "threat_max_turns": 8,
-  "has_time_pressure": true,
-  "locations": [
-    {{
-      "id": "area_1",
-      "name": "Prima area principale (es. Città, Edificio, Zona)",
-      "description": "Descrizione dell'area",
-      "parent_location_id": "",
-      "has_combat_potential": false,
-      "tactical_map": {{"enabled": false}}
-    }},
-    {{
-      "id": "area_1_zona_a",
-      "name": "Prima sub-zona di area_1 (es. Mercato, Pian terreno, Porto)",
-      "description": "Descrizione della sub-zona",
-      "parent_location_id": "area_1",
-      "has_combat_potential": false,
-      "tactical_map": {{"enabled": false}}
-    }},
-    {{
-      "id": "area_1_zona_b",
-      "name": "Seconda sub-zona di area_1 (es. Castello, Piano superiore, Quartiere)",
-      "description": "Descrizione della sub-zona",
-      "parent_location_id": "area_1",
-      "has_combat_potential": true,
-      "tactical_map": {{
-        "enabled": true,
-        "role": "hot_zone",
-        "layout": "room",
-        "features": ["copertura", "ostacolo"],
-        "hazards": ["buio", "trappola"],
-        "trigger": "quando inizia il confronto"
-      }}
-    }},
-    {{
-      "id": "area_2",
-      "name": "Seconda area principale",
-      "description": "Descrizione dell'area",
-      "parent_location_id": "",
-      "has_combat_potential": false,
-      "tactical_map": {{"enabled": false}}
-    }},
-    {{
-      "id": "area_2_zona_a",
-      "name": "Sub-zona di area_2",
-      "description": "Descrizione",
-      "parent_location_id": "area_2",
-      "has_combat_potential": false,
-      "tactical_map": {{"enabled": false}}
-    }}
-  ]
-}}
-
-REGOLA GERARCHIA LOCATION: organizza sempre le location su 2 livelli.
-- Livello 0 (root, parent_location_id: ""): 2-3 aree macroscopiche (città, edificio, zona).
-- Livello 1 (sub-zone, parent_location_id = id padre): 2-4 sotto-luoghi per area.
-- Le mappe tattiche (enabled:true) vanno SOLO sulle sub-zone, non sulle aree root.
-- Totale location: 8-12 (2-3 root + sotto-zone)."""
+    prompt = _build_create_adventure_prompt(genre_label, party_context, archetype, template_key, scale_cfg)
 
     attempts: list[tuple[str, str]] = [(_ACTIVE_PROVIDER, prompt)]
     fallback_provider = _other_provider()
@@ -4800,14 +4903,17 @@ REGOLA GERARCHIA LOCATION: organizza sempre le location su 2 livelli.
     for provider_name, attempt_prompt in attempts:
         try:
             raw = (
-                _call_text_model(attempt_prompt, max_tokens=4500)
+                _call_text_model(attempt_prompt, max_tokens=scale_cfg["max_tokens"])
                 if provider_name == _ACTIVE_PROVIDER
-                else _call_text_model_with_provider(provider_name, attempt_prompt, max_tokens=4500)
+                else _call_text_model_with_provider(provider_name, attempt_prompt, max_tokens=scale_cfg["max_tokens"])
             )
             if _looks_like_refusal(raw):
                 last_error = "provider_refusal"
                 continue
-            return _normalize_adventure_canon(_extract_json_object(raw), source="generated")
+            result = _normalize_adventure_canon(_extract_json_object(raw), source="generated")
+            if scale == "epic" and not result.get("error"):
+                result = _enrich_epic_adventure(result, genre, template_key)
+            return result
         except Exception as e:
             last_error = f"{type(e).__name__}: {e}"
             print(f"[create_adventure] provider {provider_name} errore: {last_error}")
@@ -4935,9 +5041,9 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
     if not isinstance(adventure, dict):
         return adventure
 
-    clues = list(adventure.get("clues") or [])[:8]
-    npcs = list(adventure.get("npcs") or [])[:8]
-    locations = list(adventure.get("locations") or [])[:6]
+    clues = list(adventure.get("clues") or [])[:20]
+    npcs = list(adventure.get("npcs") or [])[:15]
+    locations = list(adventure.get("locations") or [])[:25]
     genre = adventure.get("detected_genre") or adventure.get("genre") or adventure.get("environment_type") or ""
     title = adventure.get("title", "avventura")
     hidden_truth = adventure.get("hidden_truth", "")

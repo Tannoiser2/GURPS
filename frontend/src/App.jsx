@@ -2099,6 +2099,7 @@ function ImageProviderPicker({ value, onChange, available }) {
 function SetupScreen({ onStart }) {
   const [step, setStep] = useState("genre"); // "genre" | "team"
   const [genre, setGenre] = useState(null);
+  const [adventureScale, setAdventureScale] = useState("standard");
   const [provider, setProvider] = useState("claude");
   const [imageProvider, setImageProvider] = useState("auto");
   const [providersAvail, setProvidersAvail] = useState({ claude: true, openai: false, gemini: false });
@@ -2689,7 +2690,7 @@ function SetupScreen({ onStart }) {
       const created = await fetch(`${API_URL_DIRECT}/game/adventure/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ genre: g, players: [] }),
+        body: JSON.stringify({ genre: g, players: [], scale: adventureScale }),
       }).then(r => r.json());
       if (created.error) throw new Error(created.error);
       const detectedGenre = normalizeGenreKey(
@@ -2795,7 +2796,7 @@ function SetupScreen({ onStart }) {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           signal: controller.signal,
-          body: JSON.stringify({ genre, players: selectedDicts }),
+          body: JSON.stringify({ genre, players: selectedDicts, scale: adventureScale }),
         }).then(r => r.json());
         if (created.error) throw new Error(created.error);
         adventureForStart = created;
@@ -3334,6 +3335,17 @@ function SetupScreen({ onStart }) {
             color: "#4ade80", borderRadius: 7, padding: "5px 12px", fontSize: 12,
             fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
           }}>📂 Riprendi</button>
+
+          <div style={{ display: "flex", gap: 3, flexShrink: 0 }}>
+            {[["compact","🗜","Compatta"],["standard","⚖","Standard"],["epic","🔥","Epica"]].map(([key, emoji, label]) => (
+              <button key={key} onClick={() => setAdventureScale(key)} style={{
+                padding: "4px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer",
+                background: adventureScale === key ? "var(--accent)" : "rgba(255,255,255,0.06)",
+                color: adventureScale === key ? "#fff" : "rgba(255,255,255,0.5)",
+                border: adventureScale === key ? "none" : "1px solid rgba(255,255,255,0.12)",
+              }}>{emoji} {label}</button>
+            ))}
+          </div>
 
           {buildVersion && (
             <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 0.4, flexShrink: 0, alignSelf: "center" }}>
