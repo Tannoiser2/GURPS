@@ -176,12 +176,66 @@ def _load_props_library() -> None:
 
 def _save_props_library() -> None:
     try:
+        # Salva solo le entry generate/caricate via API, non quelle da file PNG
+        to_save = [e for e in _props_library if e.get("source") != "file"]
         _PROPS_LIBRARY_PATH.write_text(
-            json.dumps({"entries": _props_library}, ensure_ascii=False, indent=2),
+            json.dumps({"entries": to_save}, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
     except Exception as e:
         _log.warning("props_library save failed (ephemeral fs): %s", e)
+
+def _load_props_from_files() -> None:
+    """Scansiona Props/ nel repo e aggiunge i PNG alla libreria in memoria.
+
+    I metadati vengono arricchiti dal catalog.json se il nome file coincide
+    con un id nel catalogo. Le entry file non vengono salvate nel JSON
+    (sono già persiste come PNG in git).
+    """
+    props_dir = Path(__file__).resolve().parent.parent.parent / "Props"
+    if not props_dir.exists():
+        return
+    catalog_by_id: dict = {}
+    catalog_path = props_dir / "catalog.json"
+    if catalog_path.exists():
+        try:
+            cat_data = json.loads(catalog_path.read_text(encoding="utf-8"))
+            for item in cat_data.get("items", []):
+                catalog_by_id[item["id"]] = item
+        except Exception:
+            pass
+    existing_ids = {e.get("id") for e in _props_library}
+    loaded = 0
+    for png_path in sorted(props_dir.glob("*.png")):
+        prop_id = png_path.stem
+        if prop_id in existing_ids:
+            continue
+        try:
+            img_b64 = base64.b64encode(png_path.read_bytes()).decode("utf-8")
+            cat = catalog_by_id.get(prop_id, {})
+            name = cat.get("name") or prop_id.replace("_", " ").title()
+            genre = cat.get("genre", ["universal"])
+            if isinstance(genre, list):
+                genre = genre[0] if genre else "universal"
+            entry = {
+                "id": prop_id,
+                "name": name,
+                "object_type": cat.get("object_type", "prop"),
+                "genre": genre,
+                "description": cat.get("description", ""),
+                "tags": cat.get("tags") or list(_tokenize(name))[:12],
+                "image_b64": img_b64,
+                "created_at": datetime.now(timezone.utc).isoformat(),
+                "source": "file",
+                "source_file": png_path.name,
+            }
+            _props_library.append(entry)
+            existing_ids.add(prop_id)
+            loaded += 1
+        except Exception as e:
+            _log.warning("props file load error %s: %s", png_path.name, e)
+    if loaded:
+        _log.info("[props] caricati %d PNG da %s", loaded, props_dir)
 
 def _tokenize(text: str) -> set[str]:
     return set(re.findall(r"\w+", text.lower()))
@@ -214,6 +268,7 @@ def _fuzzy_match_prop(name: str, description: str, object_type: str, threshold: 
     return best_prop if best_score >= threshold else None
 
 _load_props_library()
+_load_props_from_files()
 
 # ── R1: Health check ──────────────────────────────────────────────────────────
 @app.get("/")
