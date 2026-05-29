@@ -2430,12 +2430,15 @@ function SetupScreen({ onStart }) {
       await fetch(`${API_URL}/game/setup`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ genre: detectedGenre, provider, image_provider: imageProvider }) });
       const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
       const rawPool = s?.team_setup?.candidate_pool || [];
-      const enriched = await Promise.all(rawPool.map(async p => {
-        try {
-          const r = await fetch(`${API_URL}/game/enrich-backstory`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ character: p, adventure_context: definition?.premise || definition?.title || "" }) });
-          const d = await r.json(); return d.character || p;
-        } catch { return p; }
-      }));
+      let enriched = rawPool;
+      try {
+        const er = await fetch(`${API_URL}/game/character/enrich-backstory`, {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ characters: rawPool, adventure, genre: detectedGenre }),
+        });
+        const ed = await er.json();
+        if (ed.characters) enriched = ed.characters;
+      } catch (_) {}
       setPool(enriched);
       setLoading(false);
       await preGenerateMaps(adventure, data.map_image_b64 || null);
