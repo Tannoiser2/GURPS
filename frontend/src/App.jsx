@@ -3043,6 +3043,125 @@ function SetupScreen({ onStart }) {
       );
     };
 
+    const _mpOverviewImg = def.map_state?.image_b64;
+    const _mpAllLocs = def.locations || [];
+    const _mpRootLocs = _mpAllLocs.filter(l => !(l.parent_location_id || ""));
+    const _mpRegionalLocs = _mpRootLocs.filter(l => l.local_map_image_b64);
+    const _mpRegionalMissing = _mpRootLocs.filter(l => !l.local_map_image_b64);
+    const _mpTacticalLocs = _mpAllLocs.filter(l => l?.tactical_map?.enabled && (l.tactical_map?.role === "finale" || l.tactical_map?.role === "hot_zone"));
+    const _mpTacticalWithImg = _mpTacticalLocs.filter(l => l.tactical_map?.image_b64);
+    const _mpHasAny = _mpOverviewImg || _mpTacticalWithImg.length > 0 || _mpRegionalLocs.length > 0;
+
+    async function generateRegionalMap(loc) {
+      try {
+        const subLocs = _mpAllLocs.filter(l => l.parent_location_id === loc.id).map(l => ({ name: l.name }));
+        const r = await fetch(`${API_URL_DIRECT}/game/adventure/generate-overview-map`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            adventure_title: loc.name,
+            locations: subLocs.length > 0 ? subLocs : [{ name: loc.name }],
+            genre: preloadedAdventure?.genre || "fantasy",
+            setting: loc.description || "",
+          }),
+        });
+        const data = await r.json();
+        if (data.image_b64) {
+          const updated = {
+            ...preloadedAdventure,
+            adventure_definition: {
+              ...def,
+              locations: def.locations.map(l => l.id === loc.id ? { ...l, local_map_image_b64: data.image_b64 } : l),
+            },
+          };
+          setPreloadedAdventure(updated);
+        }
+      } catch (e) { console.error("[regional map]", e); }
+    }
+
+    const mapsPanelContent = (
+      <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 12, padding: "14px 16px", marginBottom: 4 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: _mpHasAny ? 12 : 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 800, color: _mpHasAny ? "#4ade80" : "#fde68a" }}>
+              🗺 Mappe {_mpHasAny ? "pre-generate" : "non ancora generate"}
+            </span>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>
+              Overview {_mpOverviewImg ? "✓" : "—"} · Regionali {_mpRegionalLocs.length}/{_mpRootLocs.length} · Tattiche {_mpTacticalWithImg.length}/{_mpTacticalLocs.length}
+            </span>
+          </div>
+          <button
+            onClick={() => preGenerateMaps(preloadedAdventure)}
+            disabled={mapsLoading}
+            style={{ padding: "6px 12px", borderRadius: 6, cursor: mapsLoading ? "default" : "pointer", fontWeight: 700, fontSize: 11, border: "1px solid rgba(96,165,250,0.4)", background: "rgba(96,165,250,0.1)", color: "#93c5fd", opacity: mapsLoading ? 0.5 : 1 }}
+          >
+            {mapsLoading ? "Generazione…" : _mpHasAny ? "Rigenera" : "Genera mappe"}
+          </button>
+        </div>
+        {_mpHasAny && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8 }}>
+            {_mpOverviewImg && (
+              <div style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
+                <div style={{ fontSize: 9, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>Overview</div>
+                <img src={`data:image/jpeg;base64,${_mpOverviewImg}`} alt="overview" style={{ width: "100%", display: "block", borderRadius: 4 }} />
+              </div>
+            )}
+            {_mpRegionalLocs.map(loc => (
+              <div key={loc.id} style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
+                <div style={{ fontSize: 9, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>📍 {loc.name}</div>
+                <img src={`data:image/jpeg;base64,${loc.local_map_image_b64}`} alt={loc.name} style={{ width: "100%", display: "block", borderRadius: 4, marginBottom: 4 }} />
+                <button onClick={() => generateRegionalMap(loc)} style={{ width: "100%", fontSize: 9, padding: "2px 0", borderRadius: 3, border: "1px solid rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.08)", color: "#a78bfa", cursor: "pointer" }}>↺ Rigenera</button>
+              </div>
+            ))}
+            {_mpTacticalWithImg.map(loc => (
+              <div key={loc.id} style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
+                <div style={{ fontSize: 9, fontWeight: 800, color: loc.tactical_map.role === "finale" ? "#f87171" : "#fde68a", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>
+                  {loc.tactical_map.role === "finale" ? "Finale" : "Hot zone"} · {loc.name}
+                </div>
+                <img src={`data:image/jpeg;base64,${loc.tactical_map.image_b64}`} alt={loc.name} style={{ width: "100%", display: "block", borderRadius: 4 }} />
+              </div>
+            ))}
+          </div>
+        )}
+        {/* Location root senza mappa regionale */}
+        {_mpRegionalMissing.length > 0 && (
+          <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 6 }}>
+            {_mpRegionalMissing.map(loc => (
+              <div key={loc.id} style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 6, border: "1px dashed rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.05)" }}>
+                <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>📍 {loc.name}</span>
+                <button onClick={() => generateRegionalMap(loc)} style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(167,139,250,0.1)", color: "#a78bfa", cursor: "pointer" }}>+ Genera mappa</button>
+                <label style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.6)", cursor: "pointer" }}>
+                  ↑ Carica
+                  <input type="file" accept="image/*" style={{ display: "none" }} onChange={async e => {
+                    const file = e.target.files[0]; if (!file) return; e.target.value = "";
+                    const b64 = await new Promise(res => { const r = new FileReader(); r.onload = ev => res(ev.target.result.split(",")[1]); r.readAsDataURL(file); });
+                    setPreloadedAdventure(prev => ({ ...prev, adventure_definition: { ...prev.adventure_definition, locations: (prev.adventure_definition.locations || []).map(l => l.id === loc.id ? { ...l, local_map_image_b64: b64 } : l) } }));
+                  }} />
+                </label>
+              </div>
+            ))}
+          </div>
+        )}
+        {!_mpHasAny && (
+          <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 8 }}>
+            Le mappe vengono generate al caricamento dell'avventura. Se vedi questo messaggio, la generazione non è avvenuta (provider immagini disabilitato o errore). Clicca <em>Genera mappe</em> per riprovare.
+          </div>
+        )}
+        {mapsResult && (mapsResult.skipped || (mapsResult.errors || []).length > 0) && (
+          <div style={{ fontSize: 11, color: "#fca5a5", marginTop: 8, padding: "8px 10px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 6 }}>
+            {mapsResult.skipped === "no_image_provider" && <div>⚠ Provider immagini non configurato. Imposta <code>image_provider</code> (openai o gemini) prima di generare le mappe.</div>}
+            {mapsResult.skipped === "fetch_error" && <div>⚠ Errore di rete: {mapsResult.errors?.[0]}</div>}
+            {(mapsResult.errors || []).filter(e => e).map((e, i) => <div key={i}>⚠ {e}</div>)}
+          </div>
+        )}
+        {mapsResult && !mapsResult.skipped && (mapsResult.generated || []).length > 0 && (
+          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 6 }}>
+            Generato: {mapsResult.generated.join(", ")}{mapsResult.provider ? ` (${mapsResult.provider})` : ""}
+          </div>
+        )}
+      </div>
+    );
+
     return (
       <div style={{ minHeight: "100vh", background: "#000", display: "flex", flexDirection: "column" }}>
         <img src="/Banner superiore GURPS.png" alt="GURPS" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0, maxHeight: "14vh" }} />
@@ -3128,136 +3247,13 @@ function SetupScreen({ onStart }) {
             )}
           </div>
 
-          {/* 2.5 — Anteprima mappe pre-generate */}
-          {(() => {
-            const overviewImg = def.map_state?.image_b64;
-            const allLocs = def.locations || [];
-            const rootLocs = allLocs.filter(l => !(l.parent_location_id || ""));
-            const regionalLocs = rootLocs.filter(l => l.local_map_image_b64);
-            const regionalMissing = rootLocs.filter(l => !l.local_map_image_b64);
-            const tacticalLocs = allLocs.filter(l => l?.tactical_map?.enabled && (l.tactical_map?.role === "finale" || l.tactical_map?.role === "hot_zone"));
-            const tacticalWithImg = tacticalLocs.filter(l => l.tactical_map?.image_b64);
-            const hasAny = overviewImg || tacticalWithImg.length > 0 || regionalLocs.length > 0;
-
-            async function generateRegionalMap(loc) {
-              try {
-                const subLocs = allLocs.filter(l => l.parent_location_id === loc.id).map(l => ({ name: l.name }));
-                const r = await fetch(`${API_URL_DIRECT}/game/adventure/generate-overview-map`, {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({
-                    adventure_title: loc.name,
-                    locations: subLocs.length > 0 ? subLocs : [{ name: loc.name }],
-                    genre: preloadedAdventure?.genre || "fantasy",
-                    setting: loc.description || "",
-                  }),
-                });
-                const data = await r.json();
-                if (data.image_b64) {
-                  const updated = {
-                    ...preloadedAdventure,
-                    adventure_definition: {
-                      ...def,
-                      locations: def.locations.map(l => l.id === loc.id ? { ...l, local_map_image_b64: data.image_b64 } : l),
-                    },
-                  };
-                  setPreloadedAdventure(updated);
-                  setEditorRevision(r => r + 1);
-                }
-              } catch (e) { console.error("[regional map]", e); }
-            }
-
-            return (
-              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 12, padding: "14px 16px", marginBottom: 18 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: hasAny ? 12 : 0 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: hasAny ? "#4ade80" : "#fde68a" }}>
-                      🗺 Mappe {hasAny ? "pre-generate" : "non ancora generate"}
-                    </span>
-                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>
-                      Overview {overviewImg ? "✓" : "—"} · Regionali {regionalLocs.length}/{rootLocs.length} · Tattiche {tacticalWithImg.length}/{tacticalLocs.length}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => preGenerateMaps(preloadedAdventure)}
-                    disabled={mapsLoading}
-                    style={{ padding: "6px 12px", borderRadius: 6, cursor: mapsLoading ? "default" : "pointer", fontWeight: 700, fontSize: 11, border: "1px solid rgba(96,165,250,0.4)", background: "rgba(96,165,250,0.1)", color: "#93c5fd", opacity: mapsLoading ? 0.5 : 1 }}
-                  >
-                    {mapsLoading ? "Generazione…" : hasAny ? "Rigenera" : "Genera mappe"}
-                  </button>
-                </div>
-                {hasAny && (
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8 }}>
-                    {overviewImg && (
-                      <div style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
-                        <div style={{ fontSize: 9, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>Overview</div>
-                        <img src={`data:image/jpeg;base64,${overviewImg}`} alt="overview" style={{ width: "100%", display: "block", borderRadius: 4 }} />
-                      </div>
-                    )}
-                    {regionalLocs.map(loc => (
-                      <div key={loc.id} style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
-                        <div style={{ fontSize: 9, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>📍 {loc.name}</div>
-                        <img src={`data:image/jpeg;base64,${loc.local_map_image_b64}`} alt={loc.name} style={{ width: "100%", display: "block", borderRadius: 4, marginBottom: 4 }} />
-                        <button onClick={() => generateRegionalMap(loc)} style={{ width: "100%", fontSize: 9, padding: "2px 0", borderRadius: 3, border: "1px solid rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.08)", color: "#a78bfa", cursor: "pointer" }}>↺ Rigenera</button>
-                      </div>
-                    ))}
-                    {tacticalWithImg.map(loc => (
-                      <div key={loc.id} style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
-                        <div style={{ fontSize: 9, fontWeight: 800, color: loc.tactical_map.role === "finale" ? "#f87171" : "#fde68a", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>
-                          {loc.tactical_map.role === "finale" ? "Finale" : "Hot zone"} · {loc.name}
-                        </div>
-                        <img src={`data:image/jpeg;base64,${loc.tactical_map.image_b64}`} alt={loc.name} style={{ width: "100%", display: "block", borderRadius: 4 }} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {/* Location root senza mappa regionale */}
-                {regionalMissing.length > 0 && (
-                  <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {regionalMissing.map(loc => (
-                      <div key={loc.id} style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 6, border: "1px dashed rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.05)" }}>
-                        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>📍 {loc.name}</span>
-                        <button onClick={() => generateRegionalMap(loc)} style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(167,139,250,0.1)", color: "#a78bfa", cursor: "pointer" }}>+ Genera mappa</button>
-                        <label style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.6)", cursor: "pointer" }}>
-                          ↑ Carica
-                          <input type="file" accept="image/*" style={{ display: "none" }} onChange={async e => {
-                            const file = e.target.files[0]; if (!file) return; e.target.value = "";
-                            const b64 = await new Promise(res => { const r = new FileReader(); r.onload = ev => res(ev.target.result.split(",")[1]); r.readAsDataURL(file); });
-                            setPreloadedAdventure(prev => ({ ...prev, adventure_definition: { ...prev.adventure_definition, locations: (prev.adventure_definition.locations || []).map(l => l.id === loc.id ? { ...l, local_map_image_b64: b64 } : l) } }));
-                            setEditorRevision(r => r + 1);
-                          }} />
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {!hasAny && (
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.5)", marginTop: 8 }}>
-                    Le mappe vengono generate al caricamento dell'avventura. Se vedi questo messaggio, la generazione non è avvenuta (provider immagini disabilitato o errore). Clicca <em>Genera mappe</em> per riprovare.
-                  </div>
-                )}
-                {mapsResult && (mapsResult.skipped || (mapsResult.errors || []).length > 0) && (
-                  <div style={{ fontSize: 11, color: "#fca5a5", marginTop: 8, padding: "8px 10px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: 6 }}>
-                    {mapsResult.skipped === "no_image_provider" && <div>⚠ Provider immagini non configurato. Imposta <code>image_provider</code> (openai o gemini) prima di generare le mappe.</div>}
-                    {mapsResult.skipped === "fetch_error" && <div>⚠ Errore di rete: {mapsResult.errors?.[0]}</div>}
-                    {(mapsResult.errors || []).filter(e => e).map((e, i) => <div key={i}>⚠ {e}</div>)}
-                  </div>
-                )}
-                {mapsResult && !mapsResult.skipped && (mapsResult.generated || []).length > 0 && (
-                  <div style={{ fontSize: 10, color: "rgba(255,255,255,0.4)", marginTop: 6 }}>
-                    Generato: {mapsResult.generated.join(", ")}{mapsResult.provider ? ` (${mapsResult.provider})` : ""}
-                  </div>
-                )}
-              </div>
-            );
-          })()}
-
           {/* 3 — Editor inline (tabs PNG/Indizi/Piste/Clock + Scarica JSON come pulsante extra) */}
           <AdventureEditor
             inline
             revision={editorRevision}
             adventure={preloadedAdventure}
             onSave={(updated) => setPreloadedAdventure(updated)}
+            mapsPanel={mapsPanelContent}
             extraToolbar={
               <button onClick={handleDownloadAdventureJson} style={{
                 padding: "7px 13px", borderRadius: 6, cursor: "pointer", fontWeight: 700,
@@ -4026,7 +4022,7 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
   );
 }
 
-function AdventureEditor({ adventure, onSave, onClose, inline = false, extraToolbar = null, revision = 0 }) {
+function AdventureEditor({ adventure, onSave, onClose, inline = false, extraToolbar = null, mapsPanel = null, revision = 0 }) {
   const def0 = adventure?.adventure_definition || {};
   const [actors, setActors] = React.useState(() => JSON.parse(JSON.stringify(def0.actors || [])));
   const [clocks, setClocks] = React.useState(() => JSON.parse(JSON.stringify(def0.event_clocks || [])));
@@ -4049,6 +4045,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [expandedThread, setExpandedThread] = React.useState(null);
   const [expandedLocation, setExpandedLocation] = React.useState(null);
   const [expandedTacticalMap, setExpandedTacticalMap] = React.useState(null); // location index whose tactical_map is open
+  const [selectedMap, setSelectedMap] = React.useState("overview");
 
   // Pan/zoom del grafo
   const [graphView, setGraphView] = React.useState({ panX: 0, panY: 0, zoom: 1 });
@@ -4455,7 +4452,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
       {tabBtn("objectives", `🎯 Obiettivi (${objectives.length})`)}
       {revelations.length > 0 && tabBtn("revelations", `💡 Rivelazioni (${revelations.length})`)}
       {tabBtn("clocks", `⏱️ Clock (${clocks.length})`)}
-      {tabBtn("strategy", `🗺 Strategia${mapState.connections ? ` (${Object.keys(mapState.connections).length})` : ""}`)}
+      {tabBtn("maps", `🗺 Mappe`)}
       {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
       {tabBtn("graph", "Grafo")}
       {extraToolbar && <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>{extraToolbar}</div>}
@@ -5297,170 +5294,271 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           )}
 
           {/* ── FACTIONS TAB ── */}
-          {/* ── STRATEGY TAB (mappa strategica — usa le location come nodi) ── */}
-          {tab === "strategy" && (() => {
+          {/* ── MAPS TAB (mappa strategica + mappe regionali) ── */}
+          {tab === "maps" && (() => {
             const conns = mapState.connections || {};
             const connIds = Object.keys(conns);
+            const rootLocs = locations.filter(l => !(l.parent_location_id || ""));
+            const selectedRootLoc = rootLocs.find(l => l.id === selectedMap);
+            const subLocs = selectedRootLoc ? locations.filter(l => l.parent_location_id === selectedRootLoc.id) : [];
+
             return (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {/* Meta + key points */}
-                <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "11px 13px" }}>
-                  <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8 }}>Configurazione overview</div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px" }}>
-                    {fieldRow("Tipo di mappa", (
-                      <select style={selectStyle} value={mapState.map_type || "investigation"} onChange={e => patchMapState("map_type", e.target.value)}>
-                        {["investigation", "sandbox", "dungeon", "journey", "pursuit", "crisis", "branching"].map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
-                    ))}
-                    {fieldRow("Tema visivo", (
-                      <input style={inputStyle} value={mapState.theme || ""} onChange={e => patchMapState("theme", e.target.value)} placeholder="es. villaggio nebbioso, stazione orbitale" />
-                    ))}
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px", marginTop: 4 }}>
-                    {fieldRow("Location di partenza", (
-                      <select style={selectStyle} value={mapState.start_location_id || ""} onChange={e => patchMapState("start_location_id", e.target.value)}>
-                        <option value="">(non impostata)</option>
-                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
-                      </select>
-                    ))}
-                    {fieldRow("Location corrente", (
-                      <select style={selectStyle} value={mapState.current_location_id || ""} onChange={e => patchMapState("current_location_id", e.target.value)}>
-                        <option value="">(non impostata)</option>
-                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
-                      </select>
-                    ))}
-                    {fieldRow("Location obiettivo finale", (
-                      <select style={selectStyle} value={mapState.objective_location_id || ""} onChange={e => patchMapState("objective_location_id", e.target.value)}>
-                        <option value="">(non impostata)</option>
-                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
-                      </select>
-                    ))}
-                    {fieldRow("Location estrazione/uscita", (
-                      <select style={selectStyle} value={mapState.extraction_location_id || ""} onChange={e => patchMapState("extraction_location_id", e.target.value)}>
-                        <option value="">(non impostata)</option>
-                        {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
-                      </select>
-                    ))}
-                  </div>
+                {/* Slot pre-generate maps */}
+                {mapsPanel}
+
+                {/* Selezione mappa */}
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                  <button
+                    onClick={() => setSelectedMap("overview")}
+                    style={{ padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 700, cursor: "pointer",
+                      border: selectedMap === "overview" ? "1px solid #60a5fa" : "1px solid rgba(255,255,255,0.15)",
+                      background: selectedMap === "overview" ? "rgba(96,165,250,0.15)" : "rgba(255,255,255,0.04)",
+                      color: selectedMap === "overview" ? "#60a5fa" : "rgba(255,255,255,0.6)" }}>
+                    🗺 Overview
+                  </button>
+                  {rootLocs.map(loc => (
+                    <button key={loc.id}
+                      onClick={() => setSelectedMap(loc.id)}
+                      style={{ padding: "5px 12px", borderRadius: 20, fontSize: 11, fontWeight: 700, cursor: "pointer",
+                        border: selectedMap === loc.id ? "1px solid #a78bfa" : "1px solid rgba(255,255,255,0.15)",
+                        background: selectedMap === loc.id ? "rgba(167,139,250,0.15)" : "rgba(255,255,255,0.04)",
+                        color: selectedMap === loc.id ? "#a78bfa" : "rgba(255,255,255,0.6)" }}>
+                      {loc.local_map_image_b64 ? "📍" : "○"} {loc.name || loc.id}
+                    </button>
+                  ))}
                 </div>
 
-                {/* Editor visuale: overview + pin location trascinabili */}
-                {mapState.image_b64 ? (
-                  <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "9px 11px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                      <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>
-                        Editor visuale ({locations.length} location)
-                      </span>
-                      <button onClick={() => patchMapState("image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
+                {/* --- PANEL OVERVIEW --- */}
+                {selectedMap === "overview" && (
+                  <>
+                    {/* Meta + key points */}
+                    <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "11px 13px" }}>
+                      <div style={{ fontSize: 10, fontWeight: 800, color: "var(--accent)", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 8 }}>Configurazione overview</div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px" }}>
+                        {fieldRow("Tipo di mappa", (
+                          <select style={selectStyle} value={mapState.map_type || "investigation"} onChange={e => patchMapState("map_type", e.target.value)}>
+                            {["investigation", "sandbox", "dungeon", "journey", "pursuit", "crisis", "branching"].map(s => <option key={s} value={s}>{s}</option>)}
+                          </select>
+                        ))}
+                        {fieldRow("Tema visivo", (
+                          <input style={inputStyle} value={mapState.theme || ""} onChange={e => patchMapState("theme", e.target.value)} placeholder="es. villaggio nebbioso, stazione orbitale" />
+                        ))}
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 12px", marginTop: 4 }}>
+                        {fieldRow("Location di partenza", (
+                          <select style={selectStyle} value={mapState.start_location_id || ""} onChange={e => patchMapState("start_location_id", e.target.value)}>
+                            <option value="">(non impostata)</option>
+                            {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
+                          </select>
+                        ))}
+                        {fieldRow("Location corrente", (
+                          <select style={selectStyle} value={mapState.current_location_id || ""} onChange={e => patchMapState("current_location_id", e.target.value)}>
+                            <option value="">(non impostata)</option>
+                            {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
+                          </select>
+                        ))}
+                        {fieldRow("Location obiettivo finale", (
+                          <select style={selectStyle} value={mapState.objective_location_id || ""} onChange={e => patchMapState("objective_location_id", e.target.value)}>
+                            <option value="">(non impostata)</option>
+                            {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
+                          </select>
+                        ))}
+                        {fieldRow("Location estrazione/uscita", (
+                          <select style={selectStyle} value={mapState.extraction_location_id || ""} onChange={e => patchMapState("extraction_location_id", e.target.value)}>
+                            <option value="">(non impostata)</option>
+                            {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
+                          </select>
+                        ))}
+                      </div>
                     </div>
-                    <StrategicMapVisualEditor
-                      image_b64={mapState.image_b64}
-                      locations={locations}
-                      connections={mapState.connections || {}}
-                      onMoveLocation={(idx, x, y) => moveLocationXY(idx, x, y)}
-                      onResizeLocation={(idx, w, h) => {
-                        setLocations(l => { const n = [...l]; n[idx] = { ...n[idx], map_w: w, map_h: h }; return n; });
-                        setDirty(true);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <label style={{ display: "block", padding: "10px 12px", borderRadius: 7, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
-                    📷 Carica immagine overview (PNG/JPEG, max 1.5MB)
-                    <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
-                      const f = e.target.files?.[0];
-                      if (!f) return;
-                      if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
-                      const reader = new FileReader();
-                      reader.onload = () => {
-                        const b64 = String(reader.result || "").split(",")[1] || "";
-                        patchMapState("image_b64", b64);
-                      };
-                      reader.readAsDataURL(f);
-                    }} />
-                  </label>
+
+                    {/* Editor visuale: overview + pin location trascinabili */}
+                    {mapState.image_b64 ? (
+                      <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "9px 11px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                          <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>
+                            Editor visuale ({locations.length} location)
+                          </span>
+                          <button onClick={() => patchMapState("image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
+                        </div>
+                        <StrategicMapVisualEditor
+                          image_b64={mapState.image_b64}
+                          locations={locations}
+                          connections={mapState.connections || {}}
+                          onMoveLocation={(idx, x, y) => moveLocationXY(idx, x, y)}
+                          onResizeLocation={(idx, w, h) => {
+                            setLocations(l => { const n = [...l]; n[idx] = { ...n[idx], map_w: w, map_h: h }; return n; });
+                            setDirty(true);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <label style={{ display: "block", padding: "10px 12px", borderRadius: 7, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
+                        📷 Carica immagine overview (PNG/JPEG, max 1.5MB)
+                        <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
+                          const f = e.target.files?.[0];
+                          if (!f) return;
+                          if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
+                          const reader = new FileReader();
+                          reader.onload = () => {
+                            const b64 = String(reader.result || "").split(",")[1] || "";
+                            patchMapState("image_b64", b64);
+                          };
+                          reader.readAsDataURL(f);
+                        }} />
+                      </label>
+                    )}
+
+                    {/* Tabella coordinate numeriche (fallback per editing preciso) */}
+                    <details style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
+                      <summary style={{ fontSize: 11, fontWeight: 800, color: "#60a5fa", textTransform: "uppercase", letterSpacing: 0.8, cursor: "pointer" }}>
+                        📍 Coordinate numeriche ({locations.length})
+                      </summary>
+                      {locations.length === 0 && (
+                        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic", marginTop: 8 }}>
+                          Aggiungi prima delle location nel tab "📍 Luoghi": appariranno qui automaticamente.
+                        </div>
+                      )}
+                      {locations.map((loc, idx) => (
+                        <div key={loc.id || idx} style={{ display: "grid", gridTemplateColumns: "1.7fr 80px 80px 1fr", gap: 8, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: idx < locations.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-h)" }}>{loc.name || loc.id}</div>
+                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
+                            value={loc.map_x ?? 0}
+                            onChange={e => patchLocation(idx, "map_x", parseInt(e.target.value) || 0)}
+                            title="X% sulla mappa overview (0 = sinistra, 100 = destra)" placeholder="X%" />
+                          <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
+                            value={loc.map_y ?? 0}
+                            onChange={e => patchLocation(idx, "map_y", parseInt(e.target.value) || 0)}
+                            title="Y% sulla mappa overview (0 = alto, 100 = basso)" placeholder="Y%" />
+                          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>
+                            {loc.status || "—"}
+                            {loc.tactical_map?.enabled && <span style={{ color: "#4ade80", marginLeft: 6 }}>· combat</span>}
+                          </span>
+                        </div>
+                      ))}
+                      {locations.length > 0 && (
+                        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 7 }}>
+                          X = posizione orizzontale 0-100% · Y = posizione verticale 0-100% (preferisci drag-and-drop sulla mappa visuale sopra)
+                        </div>
+                      )}
+                    </details>
+
+                    {/* Connessioni tra location */}
+                    <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                        <span style={{ fontSize: 11, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                          ↔ Connessioni ({connIds.length})
+                        </span>
+                        <button onClick={addMapEdge} disabled={locations.length < 2} style={{
+                          padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(167,139,250,0.5)",
+                          background: locations.length < 2 ? "rgba(255,255,255,0.05)" : "rgba(167,139,250,0.1)",
+                          color: locations.length < 2 ? "rgba(255,255,255,0.3)" : "#c4b5fd",
+                          fontSize: 11, fontWeight: 700, cursor: locations.length < 2 ? "default" : "pointer",
+                        }}>+ Aggiungi connessione</button>
+                      </div>
+                      {connIds.length === 0 && (
+                        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
+                          Nessuna connessione. Collega due location per permettere ai PG di spostarsi tra loro.
+                        </div>
+                      )}
+                      {connIds.map(ek => {
+                        const c = conns[ek] || {};
+                        return (
+                          <div key={ek} style={{ display: "grid", gridTemplateColumns: "1.4fr 1.4fr 1fr auto auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: "1px dashed rgba(255,255,255,0.07)" }}>
+                            <select style={{ ...selectStyle, fontSize: 11 }} value={c.from || ""} onChange={e => patchMapEdge(ek, "from", e.target.value)}>
+                              <option value="">(da…)</option>
+                              {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
+                            </select>
+                            <select style={{ ...selectStyle, fontSize: 11 }} value={c.to || ""} onChange={e => patchMapEdge(ek, "to", e.target.value)}>
+                              <option value="">(a…)</option>
+                              {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
+                            </select>
+                            <select style={{ ...selectStyle, fontSize: 11 }} value={c.status || "open"} onChange={e => patchMapEdge(ek, "status", e.target.value)}>
+                              {["open", "locked", "hidden", "trap", "one_way"].map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                            <label style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 10, color: c.discovered ? "#4ade80" : "rgba(255,255,255,0.5)", cursor: "pointer" }}>
+                              <input type="checkbox" checked={c.discovered !== false} onChange={e => patchMapEdge(ek, "discovered", e.target.checked)} /> nota
+                            </label>
+                            {delBtn(() => removeMapEdge(ek), "Rimuovi connessione")}
+                          </div>
+                        );
+                      })}
+                      {connIds.length > 0 && (
+                        <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
+                          location origine · location destinazione · stato · scoperta dai PG (no = nascosta sulla mappa)
+                        </div>
+                      )}
+                    </div>
+                  </>
                 )}
 
-                {/* Tabella coordinate numeriche (fallback per editing preciso) */}
-                <details style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
-                  <summary style={{ fontSize: 11, fontWeight: 800, color: "#60a5fa", textTransform: "uppercase", letterSpacing: 0.8, cursor: "pointer" }}>
-                    📍 Coordinate numeriche ({locations.length})
-                  </summary>
-                  {locations.length === 0 && (
-                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic", marginTop: 8 }}>
-                      Aggiungi prima delle location nel tab "📍 Luoghi": appariranno qui automaticamente.
+                {/* --- PANEL MAPPA REGIONALE --- */}
+                {selectedRootLoc && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      📍 {selectedRootLoc.name}
                     </div>
-                  )}
-                  {locations.map((loc, idx) => (
-                    <div key={loc.id || idx} style={{ display: "grid", gridTemplateColumns: "1.7fr 80px 80px 1fr", gap: 8, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: idx < locations.length - 1 ? "1px dashed rgba(255,255,255,0.07)" : "none" }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-h)" }}>{loc.name || loc.id}</div>
-                      <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
-                        value={loc.map_x ?? 0}
-                        onChange={e => patchLocation(idx, "map_x", parseInt(e.target.value) || 0)}
-                        title="X% sulla mappa overview (0 = sinistra, 100 = destra)" placeholder="X%" />
-                      <input type="number" style={{ ...inputStyle, fontSize: 11, padding: "5px 4px" }}
-                        value={loc.map_y ?? 0}
-                        onChange={e => patchLocation(idx, "map_y", parseInt(e.target.value) || 0)}
-                        title="Y% sulla mappa overview (0 = alto, 100 = basso)" placeholder="Y%" />
-                      <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>
-                        {loc.status || "—"}
-                        {loc.tactical_map?.enabled && <span style={{ color: "#4ade80", marginLeft: 6 }}>· combat</span>}
-                      </span>
-                    </div>
-                  ))}
-                  {locations.length > 0 && (
-                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 7 }}>
-                      X = posizione orizzontale 0-100% · Y = posizione verticale 0-100% (preferisci drag-and-drop sulla mappa visuale sopra)
-                    </div>
-                  )}
-                </details>
-
-                {/* Connessioni tra location */}
-                <div style={{ background: "rgba(0,0,0,0.25)", borderRadius: 9, padding: "11px 13px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.8 }}>
-                      ↔ Connessioni ({connIds.length})
-                    </span>
-                    <button onClick={addMapEdge} disabled={locations.length < 2} style={{
-                      padding: "5px 11px", borderRadius: 5, border: "1px dashed rgba(167,139,250,0.5)",
-                      background: locations.length < 2 ? "rgba(255,255,255,0.05)" : "rgba(167,139,250,0.1)",
-                      color: locations.length < 2 ? "rgba(255,255,255,0.3)" : "#c4b5fd",
-                      fontSize: 11, fontWeight: 700, cursor: locations.length < 2 ? "default" : "pointer",
-                    }}>+ Aggiungi connessione</button>
-                  </div>
-                  {connIds.length === 0 && (
-                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontStyle: "italic" }}>
-                      Nessuna connessione. Collega due location per permettere ai PG di spostarsi tra loro.
-                    </div>
-                  )}
-                  {connIds.map(ek => {
-                    const c = conns[ek] || {};
-                    return (
-                      <div key={ek} style={{ display: "grid", gridTemplateColumns: "1.4fr 1.4fr 1fr auto auto", gap: 6, alignItems: "center", marginTop: 6, paddingBottom: 6, borderBottom: "1px dashed rgba(255,255,255,0.07)" }}>
-                        <select style={{ ...selectStyle, fontSize: 11 }} value={c.from || ""} onChange={e => patchMapEdge(ek, "from", e.target.value)}>
-                          <option value="">(da…)</option>
-                          {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
-                        </select>
-                        <select style={{ ...selectStyle, fontSize: 11 }} value={c.to || ""} onChange={e => patchMapEdge(ek, "to", e.target.value)}>
-                          <option value="">(a…)</option>
-                          {locations.map(l => <option key={l.id} value={l.id}>{l.name || l.id}</option>)}
-                        </select>
-                        <select style={{ ...selectStyle, fontSize: 11 }} value={c.status || "open"} onChange={e => patchMapEdge(ek, "status", e.target.value)}>
-                          {["open", "locked", "hidden", "trap", "one_way"].map(s => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                        <label style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 10, color: c.discovered ? "#4ade80" : "rgba(255,255,255,0.5)", cursor: "pointer" }}>
-                          <input type="checkbox" checked={c.discovered !== false} onChange={e => patchMapEdge(ek, "discovered", e.target.checked)} /> nota
-                        </label>
-                        {delBtn(() => removeMapEdge(ek), "Rimuovi connessione")}
+                    {/* Immagine mappa regionale */}
+                    {selectedRootLoc.local_map_image_b64 ? (
+                      <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: 10 }}>
+                        <img src={`data:image/jpeg;base64,${selectedRootLoc.local_map_image_b64}`}
+                          style={{ width: "100%", borderRadius: 6, display: "block" }} alt={selectedRootLoc.name} />
+                        <button onClick={() => patchLocation(locations.indexOf(selectedRootLoc), "local_map_image_b64", "")}
+                          style={{ marginTop: 6, fontSize: 10, color: "#fca5a5", background: "transparent", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 4, padding: "3px 8px", cursor: "pointer" }}>
+                          Rimuovi mappa
+                        </button>
                       </div>
-                    );
-                  })}
-                  {connIds.length > 0 && (
-                    <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", marginTop: 6 }}>
-                      location origine · location destinazione · stato · scoperta dai PG (no = nascosta sulla mappa)
+                    ) : (
+                      <label style={{ display: "block", padding: "10px 12px", borderRadius: 7, border: "1px dashed rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.04)", textAlign: "center", color: "rgba(255,255,255,0.5)", fontSize: 11, cursor: "pointer" }}>
+                        📷 Carica mappa regionale per {selectedRootLoc.name}
+                        <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async e => {
+                          const f = e.target.files?.[0]; if (!f) return; e.target.value = "";
+                          const reader = new FileReader();
+                          reader.onload = () => {
+                            const b64 = String(reader.result || "").split(",")[1] || "";
+                            patchLocation(locations.indexOf(selectedRootLoc), "local_map_image_b64", b64);
+                          };
+                          reader.readAsDataURL(f);
+                        }} />
+                      </label>
+                    )}
+                    {/* Sub-zone */}
+                    {subLocs.length > 0 && (
+                      <div style={{ background: "var(--code-bg)", borderRadius: 9, padding: "10px 12px" }}>
+                        <div style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 8 }}>
+                          Sub-zone ({subLocs.length})
+                        </div>
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 8 }}>
+                          {subLocs.map((sub) => {
+                            return (
+                              <div key={sub.id} style={{ background: "rgba(0,0,0,0.25)", borderRadius: 7, padding: 8 }}>
+                                <div style={{ fontSize: 10, fontWeight: 700, color: sub.tactical_map?.enabled ? "#fde68a" : "rgba(255,255,255,0.7)", marginBottom: 4 }}>
+                                  {sub.tactical_map?.enabled ? "⚔ " : ""}{sub.name || sub.id}
+                                </div>
+                                {sub.tactical_map?.image_b64 ? (
+                                  <img src={`data:image/jpeg;base64,${sub.tactical_map.image_b64}`}
+                                    style={{ width: "100%", borderRadius: 4, display: "block" }} alt={sub.name} />
+                                ) : (
+                                  <div style={{ fontSize: 9, color: "rgba(255,255,255,0.3)", fontStyle: "italic" }}>
+                                    {sub.tactical_map?.enabled ? "Mappa tattica non generata" : "Solo narrativa"}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    {/* Descrizione location root */}
+                    <div>
+                      <label style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>Descrizione area</label>
+                      <textarea rows={3} style={{ ...inputStyle, width: "100%", marginTop: 4 }}
+                        value={selectedRootLoc.description || ""}
+                        onChange={e => patchLocation(locations.indexOf(selectedRootLoc), "description", e.target.value)} />
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             );
           })()}
