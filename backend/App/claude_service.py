@@ -4544,6 +4544,82 @@ _GENRE_LABELS = {
     "detective_classico": "noir/detective classico",
 }
 
+_ADVENTURE_ARCHETYPES = [
+    {
+        "name": "Indagine con traditore interno",
+        "structure": "Il gruppo deve scoprire chi tra gli alleati o committenti li ha traditi/usati. Il vero antagonista sembra un amico.",
+        "threat": "Il traditore elimina le prove e i testimoni uno a uno prima che il gruppo li raggiunga.",
+        "clue_focus": "comportamenti contraddittori, documenti falsificati, testimonianze che non tornano",
+    },
+    {
+        "name": "Corsa contro il tempo",
+        "structure": "Un evento catastrofico è già in moto. Il gruppo deve trovare il modo di fermarlo prima che sia troppo tardi, non il colpevole.",
+        "threat": "Il timer è fisico: ogni turno senza progresso avvicina il disastro.",
+        "clue_focus": "componenti meccanici/rituali, istruzioni nascoste, codici e chiavi",
+    },
+    {
+        "name": "Infiltrazione e doppio gioco",
+        "structure": "Il gruppo deve fingere di essere qualcosa che non è per penetrare in un'organizzazione ostile e rubare/sabotare/salvare dall'interno.",
+        "threat": "La copertura rischia di saltare — sospetti crescenti, controlli, uno dei membri è già smascherato.",
+        "clue_focus": "identità false, routine dei nemici, debolezze individuali degli avversari",
+    },
+    {
+        "name": "Caccia al mostro/serial killer",
+        "structure": "Un'entità o persona compie atti orribili seguendo un pattern. Il gruppo deve decodificarlo prima dell'attacco finale.",
+        "threat": "Il predatore caccia anche il gruppo una volta che capisce di essere braccato.",
+        "clue_focus": "pattern nelle vittime, simboli ricorrenti, testimoni sopravvissuti, luoghi connessi",
+    },
+    {
+        "name": "Salvataggio in territorio ostile",
+        "structure": "Una persona importante è prigioniera o in pericolo in un luogo controllato dai nemici. Il gruppo deve raggiungerla e portarla in salvo.",
+        "threat": "Il prigioniero verrà eliminato se i nemici sentono pressione — ogni errore accelera l'esecuzione.",
+        "clue_focus": "mappe, guardie, routine, alleati interni, vie di fuga",
+    },
+    {
+        "name": "Colpo/furto con morale ambigua",
+        "structure": "Il gruppo deve sottrarre qualcosa (oggetto, informazione, persona) a qualcuno che ha potere. Il committente non è pulito quanto sembra.",
+        "threat": "Sia il derubato che il committente hanno secondi fini — il gruppo finisce tra due fuochi.",
+        "clue_focus": "piani dell'edificio, alleanze tra fazioni, passato del committente",
+    },
+    {
+        "name": "Cospirazione al vertice",
+        "structure": "Una figura di autorità (nobile, politico, capo religioso) è coinvolta in qualcosa di oscuro. Il gruppo deve raccogliere prove senza essere schiacciato dal potere.",
+        "threat": "La cospirazione ha tentacoli ovunque — chi si fida diventa un rischio, chi sa troppo sparisce.",
+        "clue_focus": "documenti ufficiali falsificati, testimoni intimiditi, finanziamenti occulti",
+    },
+    {
+        "name": "Sopravvivenza e risorse scarse",
+        "structure": "Il gruppo è intrappolato in un luogo ostile (naufragio, bunker, città assediata) e deve sopravvivere raccogliendo risorse e alleanze mentre svela chi ha causato la situazione.",
+        "threat": "Le risorse si esauriscono — ogni decisione sbagliata è una morte lenta.",
+        "clue_focus": "mappe del luogo, risorse nascoste, segreti degli altri sopravvissuti",
+    },
+    {
+        "name": "Profezia/eredità maledetta",
+        "structure": "Qualcosa del passato ritorna: una maledizione, un'eredità contesa, un patto antico che qualcuno vuole revocare. Il gruppo è coinvolto loro malgrado.",
+        "threat": "Il passato si manifesta fisicamente — figure del passato, luoghi che cambiano, verità che distruggono identità.",
+        "clue_focus": "diari antichi, luoghi significativi, discendenti inconsapevoli, oggetti rituali",
+    },
+    {
+        "name": "Fuga e caccia all'innocente",
+        "structure": "Uno dei PG (o una persona che devono proteggere) è accusato ingiustamente di qualcosa di grave. Il gruppo deve scagionarlo trovando il vero colpevole mentre viene braccato.",
+        "threat": "Le autorità stringono il cerchio — ogni ora senza prove è un ora in meno di libertà.",
+        "clue_focus": "alibi, testimoni di parte, il vero movente del colpevole, prove occultate",
+    },
+    {
+        "name": "Scoperta e primo contatto",
+        "structure": "Il gruppo si trova di fronte a qualcosa di completamente nuovo (tecnologia aliena, civiltà nascosta, fenomeno inspiegabile) e deve capirlo prima che altri lo sfruttino.",
+        "threat": "Fazioni rivali vogliono monopolizzare la scoperta — e sono disposte a tutto.",
+        "clue_focus": "artefatti, lingue sconosciute, comportamenti anomali, testimonianze di prima mano",
+    },
+    {
+        "name": "Ribaltamento di lealtà",
+        "structure": "Il gruppo lavora per una fazione ma scopre a metà avventura che sta facendo il gioco del vero cattivo. Deve decidere se tradire il committente o andare fino in fondo.",
+        "threat": "Il committente ha ostaggi, informazioni compromettenti o il controllo dell'unica via d'uscita.",
+        "clue_focus": "contraddizioni nelle istruzioni ricevute, vittime 'collaterali' sospette, vero scopo della missione",
+    },
+]
+
+
 def create_adventure(genre: str, players: list[dict]) -> dict:
     """
     Genera la bibbia strutturata dell'avventura.
@@ -4562,18 +4638,32 @@ def create_adventure(genre: str, players: list[dict]) -> dict:
         else "un gruppo di 3-4 personaggi che verranno creati DOPO la compilazione, quindi prevedi ruoli utili ma non nominare PG specifici"
     )
 
+    import random
+    archetype = random.choice(_ADVENTURE_ARCHETYPES)
+    archetype_directive = (
+        f"\nARCHETIPO NARRATIVO OBBLIGATORIO: «{archetype['name']}»\n"
+        f"STRUTTURA: {archetype['structure']}\n"
+        f"MINACCIA SPECIFICA: {archetype['threat']}\n"
+        f"FOCUS INDIZI: {archetype['clue_focus']}\n"
+        f"NON usare la struttura generica 'mistero con un antagonista da smascherare'. Adatta questo archetipo al genere {genre_label}.\n"
+    )
+
     prompt = f"""Sei un game designer esperto di GDR. Crea una avventura originale e coinvolgente
 in stile {genre_label} per {party_context}.
+{archetype_directive}
 
 L'avventura deve avere:
-- Una premessa intrigante che si apre in medias res
-- Una verità nascosta che i giocatori devono scoprire
-- 4-5 PNG con motivazioni proprie (non sono comparse — ognuno ha un segreto)
-- 5-6 indizi concreti e trovabili (luoghi, oggetti, persone)
-- 2-3 colpi di scena che il Master può attivare in base alle scelte
-- Una condizione di vittoria chiara
-- Una minaccia che scala (es. un killer che colpisce di nuovo, una bomba, un rituale)
-- 3-4 location principali dell'avventura
+- Una premessa intrigante che si apre in medias res (NON "un cliente vi assume per..." — già in azione)
+- Una verità nascosta coerente con l'archetipo
+- 3-5 PNG con motivazioni CONCRETE e in conflitto tra loro (non tutti neutrali, non tutti alleati)
+- 5-6 indizi del tipo specificato nell'archetipo (ogni indizio punta a una pista via thread_id)
+- 2 piste investigative (story_threads) con almeno 2-3 indizi ciascuna
+- 1-2 colpi di scena che ribaltano la situazione (non solo "il vero antagonista era X")
+- Una minaccia specifica e urgente (non generica)
+- Nomi, luoghi e tono che riflettono il genere {genre_label} (non nomi generici)
+
+VIETATO: usare i nomi "Elena", "Marco", "Castello Maledetto", "cripta segreta", "libro antico" come default. Inventa nomi specifici e unici.
+VIETATO: iniziare la premessa con "Un misterioso cliente vi ha assunto" o "Una lettera anonima vi chiama".
 
 Rispondi SOLO con questo JSON:
 {{
