@@ -2177,10 +2177,9 @@ function SetupScreen({ onStart }) {
         }
       }
 
-      // 2. Tactical maps per finale/hot_zone
+      // 2. Tactical maps per ogni location con tactical_map.enabled (non solo finale/hot_zone)
       const tacticalLocs = (def.locations || []).filter(l =>
         l?.tactical_map?.enabled &&
-        ["finale", "hot_zone"].includes(l.tactical_map?.role) &&
         !l.tactical_map?.image_b64
       );
       for (const loc of tacticalLocs) {
@@ -3557,6 +3556,7 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
   const containerRef = React.useRef(null);
   const [drag, setDrag] = React.useState(null);     // {idx, x, y}
   const [resize, setResize] = React.useState(null); // {idx, w, h, startX, startY}
+  const [showLabels, setShowLabels] = React.useState(true);
 
   function clientToPct(clientX, clientY) {
     const c = containerRef.current;
@@ -3617,7 +3617,40 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
   }
 
   const locById = {};
-  (locations || []).forEach((l, i) => { if (l?.id) locById[l.id] = { ...l, _idx: i }; });
+  const locByName = {};
+  (locations || []).forEach((l, i) => {
+    if (l?.id) locById[l.id] = { ...l, _idx: i };
+    if (l?.name) locByName[String(l.name).toLowerCase()] = { ...l, _idx: i };
+  });
+
+  // Deriva connessioni dalle exits (location.exits) e mergele con le esplicite
+  const derivedEdges = React.useMemo(() => {
+    const edges = [];
+    const seen = new Set();
+    // 1. Connessioni esplicite (status, discovered, ecc.)
+    Object.values(connections || {}).forEach(c => {
+      if (!c?.from || !c?.to) return;
+      const key = [c.from, c.to].sort().join("|");
+      seen.add(key);
+      edges.push({ from: c.from, to: c.to, status: c.status || "open", discovered: c.discovered !== false });
+    });
+    // 2. Connessioni implicite dalle exits delle location
+    (locations || []).forEach(loc => {
+      if (!loc?.id || !Array.isArray(loc.exits)) return;
+      loc.exits.forEach(ex => {
+        const exLower = String(ex || "").trim().toLowerCase();
+        if (!exLower) return;
+        let target = locByName[exLower];
+        if (!target) target = locById[ex];   // id diretto
+        if (!target?.id) return;
+        const key = [loc.id, target.id].sort().join("|");
+        if (seen.has(key)) return;
+        seen.add(key);
+        edges.push({ from: loc.id, to: target.id, status: "open", discovered: true, implicit: true });
+      });
+    });
+    return edges;
+  }, [connections, locations]);
 
   function effectivePos(loc, idx) {
     if (drag?.idx === idx) return { x: drag.x, y: drag.y };
@@ -3628,111 +3661,128 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
     return { w: Number(loc.map_w) || 0, h: Number(loc.map_h) || 0 };
   }
 
-  const connList = Object.values(connections || {}).filter(c => c?.from && c?.to);
   const statusColor = { open: "#4ade80", locked: "#facc15", hidden: "rgba(255,255,255,0.25)", trap: "#f87171", one_way: "#a78bfa" };
 
   return (
-    <div ref={containerRef}
-      onPointerMove={handleMove}
-      onPointerUp={handleUp}
-      onPointerLeave={handleUp}
-      style={{ position: 'relative', width: '100%', maxWidth: 800, margin: '0 auto', userSelect: 'none', touchAction: 'none' }}
-    >
-      <img src={`data:image/jpeg;base64,${image_b64}`} alt="mappa strategica"
-        style={{ width: '100%', display: 'block', borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)' }} />
-      {/* Linee connessioni in SVG overlay */}
-      <svg
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+    <div style={{ width: '100%', maxWidth: 800, margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 12, marginBottom: 6, fontSize: 11, color: 'rgba(255,255,255,0.65)' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer' }}>
+          <input type="checkbox" checked={showLabels} onChange={e => setShowLabels(e.target.checked)} />
+          Mostra etichette (off se la mappa ha già nomi disegnati)
+        </label>
+      </div>
+      <div ref={containerRef}
+        onPointerMove={handleMove}
+        onPointerUp={handleUp}
+        onPointerLeave={handleUp}
+        style={{ position: 'relative', width: '100%', userSelect: 'none', touchAction: 'none' }}
       >
-        <defs>
-          {Object.entries(statusColor).map(([s, col]) => (
-            <marker key={s} id={`arr-${s}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto">
-              <path d="M0,0 L10,5 L0,10 Z" fill={col} />
-            </marker>
-          ))}
-        </defs>
-        {connList.map((c, i) => {
-          const a = locById[c.from];
-          const b = locById[c.to];
-          if (!a || !b) return null;
-          const pa = effectivePos(a, a._idx);
-          const pb = effectivePos(b, b._idx);
-          const col = statusColor[c.status] || statusColor.open;
-          const dashed = c.discovered === false || c.status === "hidden";
+        <img src={`data:image/jpeg;base64,${image_b64}`} alt="mappa strategica"
+          style={{ width: '100%', display: 'block', borderRadius: 6, border: '1px solid rgba(255,255,255,0.1)' }} />
+        {/* Linee connessioni in SVG overlay */}
+        <svg
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
+        >
+          <defs>
+            {Object.entries(statusColor).map(([s, col]) => (
+              <marker key={s} id={`arr-${s}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+                <path d="M0,0 L10,5 L0,10 Z" fill={col} />
+              </marker>
+            ))}
+          </defs>
+          {derivedEdges.map((c, i) => {
+            const a = locById[c.from];
+            const b = locById[c.to];
+            if (!a || !b) return null;
+            const pa = effectivePos(a, a._idx);
+            const pb = effectivePos(b, b._idx);
+            const col = statusColor[c.status] || statusColor.open;
+            const dashed = c.discovered === false || c.status === "hidden";
+            return (
+              <line key={i}
+                x1={pa.x} y1={pa.y}
+                x2={pb.x} y2={pb.y}
+                stroke={col}
+                strokeDasharray={dashed ? "1.5 1" : "none"}
+                opacity={c.implicit ? 0.55 : (dashed ? 0.5 : 0.9)}
+                markerEnd={c.status === "one_way" ? `url(#arr-${c.status})` : undefined}
+                vectorEffect="non-scaling-stroke"
+                style={{ strokeWidth: c.implicit ? 1.5 : 2 }}
+              />
+            );
+          })}
+        </svg>
+        {(locations || []).map((loc, i) => {
+          const isDrag = drag?.idx === i;
+          const { x, y } = effectivePos(loc, i);
+          const { w, h } = effectiveSize(loc, i);
+          const isCustomSize = w > 0 && h > 0;
+          // Fog of war: location nascoste/sconosciute = pin più trasparente
+          const isHidden = ["hidden", "unknown", "rumored"].includes((loc.status || "").toLowerCase());
+          const bg = isHidden ? 'rgba(100,116,139,0.7)' : 'rgba(96,165,250,0.95)';
           return (
-            <line key={i}
-              x1={pa.x} y1={pa.y}
-              x2={pb.x} y2={pb.y}
-              stroke={col}
-              strokeWidth="0.5"
-              strokeDasharray={dashed ? "1.5 1" : "none"}
-              opacity={dashed ? 0.55 : 0.9}
-              markerEnd={c.status === "one_way" ? `url(#arr-${c.status})` : undefined}
-              vectorEffect="non-scaling-stroke"
-              style={{ strokeWidth: 2 }}
-            />
-          );
-        })}
-      </svg>
-      {(locations || []).map((loc, i) => {
-        const isDrag = drag?.idx === i;
-        const { x, y } = effectivePos(loc, i);
-        const { w, h } = effectiveSize(loc, i);
-        const isCustomSize = w > 0 && h > 0;
-        return (
-          <div key={loc.id || i}
-            onPointerDown={(e) => handlePinDown(i, e)}
-            style={{
-              position: 'absolute',
-              left: `${x}%`,
-              top: `${y}%`,
-              transform: 'translate(-50%, -50%)',
-              cursor: isDrag ? 'grabbing' : 'grab',
-              background: 'rgba(96,165,250,0.95)',
-              color: '#fff',
-              padding: isCustomSize ? '4px 6px' : '5px 11px',
-              borderRadius: 5,
-              fontSize: 11,
-              fontWeight: 800,
-              border: '2px solid #fff',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
-              whiteSpace: isCustomSize ? 'normal' : 'nowrap',
-              maxWidth: isCustomSize ? 'none' : 160,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              width: isCustomSize ? `${w}%` : undefined,
-              height: isCustomSize ? `${h}%` : undefined,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              textAlign: 'center',
-              pointerEvents: 'auto',
-            }}
-            title={loc.description || loc.name}
-          >
-            📍 {loc.name || loc.id}
-            {/* Maniglia di resize bottom-right */}
-            <div
-              onPointerDown={(e) => handleResizeDown(i, e)}
+            <div key={loc.id || i}
+              onPointerDown={(e) => handlePinDown(i, e)}
               style={{
                 position: 'absolute',
-                right: -3, bottom: -3,
-                width: 12, height: 12,
-                background: '#fff',
-                border: '1px solid rgba(0,0,0,0.4)',
-                borderRadius: 2,
-                cursor: 'nwse-resize',
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+                cursor: isDrag ? 'grabbing' : 'grab',
+                background: showLabels ? bg : 'transparent',
+                color: '#fff',
+                padding: showLabels ? (isCustomSize ? '4px 6px' : '5px 11px') : 0,
+                borderRadius: showLabels ? 5 : '50%',
+                fontSize: 11,
+                fontWeight: 800,
+                border: showLabels ? '2px solid #fff' : 'none',
+                boxShadow: showLabels ? '0 2px 8px rgba(0,0,0,0.5)' : 'none',
+                whiteSpace: isCustomSize ? 'normal' : 'nowrap',
+                maxWidth: isCustomSize ? 'none' : 160,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                width: isCustomSize ? `${w}%` : (showLabels ? undefined : 14),
+                height: isCustomSize ? `${h}%` : (showLabels ? undefined : 14),
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
                 pointerEvents: 'auto',
+                opacity: isHidden ? 0.85 : 1,
+                fontStyle: isHidden ? 'italic' : 'normal',
               }}
-              title="Trascina per ridimensionare"
-            />
-          </div>
-        );
-      })}
+              title={`${loc.name}${isHidden ? ' (nascosta)' : ''}${loc.description ? ' — ' + loc.description.slice(0, 80) : ''}`}
+            >
+              {showLabels ? (
+                <>📍 {loc.name || loc.id}{isHidden ? ' ?' : ''}</>
+              ) : (
+                <div style={{ width: 14, height: 14, borderRadius: '50%', background: bg, border: '2px solid #fff', boxShadow: '0 1px 4px rgba(0,0,0,0.6)' }} />
+              )}
+              {/* Maniglia di resize bottom-right (solo se etichette visibili) */}
+              {showLabels && (
+                <div
+                  onPointerDown={(e) => handleResizeDown(i, e)}
+                  style={{
+                    position: 'absolute',
+                    right: -3, bottom: -3,
+                    width: 12, height: 12,
+                    background: '#fff',
+                    border: '1px solid rgba(0,0,0,0.4)',
+                    borderRadius: 2,
+                    cursor: 'nwse-resize',
+                    pointerEvents: 'auto',
+                  }}
+                  title="Trascina per ridimensionare"
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
       <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginTop: 6, textAlign: 'center' }}>
-        Trascina i pin per posizionarli · maniglia bianca per ridimensionare · linee = connessioni ({connList.length})
+        {derivedEdges.length} connession{derivedEdges.length === 1 ? "e" : "i"} · pin chiari = nascoste · linee piene = note · linee deboli = derivate dalle exits
       </div>
     </div>
   );
@@ -3749,6 +3799,8 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [objectives, setObjectives] = React.useState(() => JSON.parse(JSON.stringify(def0.objectives || [])));
   const [revelations, setRevelations] = React.useState(() => JSON.parse(JSON.stringify(def0.revelations || [])));
   const [mapState, setMapState] = React.useState(() => JSON.parse(JSON.stringify(def0.map_state || {})));
+  const [genTacticalLoc, setGenTacticalLoc] = React.useState(null);
+  const [genTacticalError, setGenTacticalError] = React.useState("");
   const [tab, setTab] = React.useState("npcs");
   const [dirty, setDirty] = React.useState(false);
   const [expandedNpc, setExpandedNpc] = React.useState(null);
@@ -4704,20 +4756,64 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                                       onMoveEnemy={(idx, x, y) => moveEnemyPosXY(i, idx, x, y)}
                                     />
                                     {!tm.image_b64 && (
-                                      <label style={{ display: "block", marginTop: 10, padding: "8px 12px", borderRadius: 6, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
-                                        📷 Carica immagine mappa di sfondo (PNG/JPEG, max 1.5MB)
-                                        <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
-                                          const f = e.target.files?.[0];
-                                          if (!f) return;
-                                          if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
-                                          const reader = new FileReader();
-                                          reader.onload = () => {
-                                            const b64 = String(reader.result || "").split(",")[1] || "";
-                                            patchTacticalMap(i, "image_b64", b64);
-                                          };
-                                          reader.readAsDataURL(f);
-                                        }} />
-                                      </label>
+                                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginTop: 10 }}>
+                                        <button
+                                          disabled={genTacticalLoc === i}
+                                          onClick={async () => {
+                                            setGenTacticalLoc(i);
+                                            setGenTacticalError("");
+                                            try {
+                                              const enemyNames = (tm.enemy_positions || []).map(ep => ep.npc_id || "").filter(Boolean);
+                                              const r = await fetch(`${API_URL_DIRECT}/game/generate-tactical-map-image`, {
+                                                method: "POST",
+                                                headers: { "Content-Type": "application/json" },
+                                                body: JSON.stringify({
+                                                  location_name: loc.name || "",
+                                                  location_description: loc.description || "",
+                                                  genre: def0.genre || adventure?.genre || "detective_classico",
+                                                  environment_type: tm.environment_type || "indoor",
+                                                  scene_narrative: tm.trigger || "",
+                                                  mission_environment: tm.environment_type || "indoor",
+                                                  enemy_names: enemyNames,
+                                                  layout: tm.layout || "room",
+                                                }),
+                                              });
+                                              if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                                              const data = await r.json();
+                                              if (data.image_b64) patchTacticalMap(i, "image_b64", data.image_b64);
+                                              else setGenTacticalError("Nessuna immagine restituita (provider indisponibile?)");
+                                            } catch (e) {
+                                              setGenTacticalError(`${e?.message || e}`);
+                                            } finally { setGenTacticalLoc(null); }
+                                          }}
+                                          style={{
+                                            padding: "8px 12px", borderRadius: 6,
+                                            border: "1px solid rgba(96,165,250,0.4)",
+                                            background: "rgba(96,165,250,0.1)", color: "#93c5fd",
+                                            fontSize: 11, fontWeight: 700,
+                                            cursor: genTacticalLoc === i ? "default" : "pointer",
+                                            opacity: genTacticalLoc === i ? 0.5 : 1,
+                                          }}>
+                                          {genTacticalLoc === i ? "✦ Generazione…" : "🤖 Genera mappa AI"}
+                                        </button>
+                                        <label style={{ display: "block", padding: "8px 12px", borderRadius: 6, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
+                                          📷 Carica PNG/JPEG
+                                          <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
+                                            const f = e.target.files?.[0];
+                                            if (!f) return;
+                                            if (f.size > 1.5 * 1024 * 1024) { alert("Immagine troppo grande, max 1.5MB"); return; }
+                                            const reader = new FileReader();
+                                            reader.onload = () => {
+                                              const b64 = String(reader.result || "").split(",")[1] || "";
+                                              patchTacticalMap(i, "image_b64", b64);
+                                            };
+                                            reader.readAsDataURL(f);
+                                          }} />
+                                        </label>
+                                        {genTacticalError && genTacticalLoc === null && (
+                                          <div style={{ gridColumn: "1 / -1", fontSize: 10, color: "#fca5a5", padding: "6px 8px", background: "rgba(239,68,68,0.08)", borderRadius: 4 }}>⚠ {genTacticalError}</div>
+                                        )}
+                                      </div>
                                     )}
                                   </div>
                                 </div>
