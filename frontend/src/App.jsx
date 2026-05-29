@@ -2101,6 +2101,7 @@ function SetupScreen({ onStart }) {
   const [doctorReport, setDoctorReport] = useState(null); // {score, findings, enriching}
   const [doctorEnriching, setDoctorEnriching] = useState(false);
   const [editorRevision, setEditorRevision] = useState(0); // incrementa quando l'editor deve risincronizzarsi
+  const [mapsLoading, setMapsLoading] = useState(false);
   const [reviewShowInfos, setReviewShowInfos] = useState(false);
   const [hovered, setHovered] = useState(null);
   const [showBuilder, setShowBuilder] = useState(false);
@@ -2123,6 +2124,37 @@ function SetupScreen({ onStart }) {
       else if (!d.claude && !d.openai && d.gemini) setProvider("gemini");
     }).catch(() => {});
   }, []);
+
+  async function preGenerateMaps(adventure, mapImageB64 = null) {
+    if (!adventure?.adventure_definition) return adventure;
+    setMapsLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/game/adventure/pre-generate-maps`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          adventure_definition: adventure.adventure_definition,
+          map_image_b64: mapImageB64 || null,
+          genre: adventure.genre || adventure.detected_genre || "detective_classico",
+          setting: adventure.adventure_definition?.setting || "",
+          period: adventure.adventure_definition?.period || "",
+        }),
+      }).then(r => r.json());
+      if (res.adventure_definition) {
+        const enrichedDef = res.adventure_definition;
+        const enriched = {
+          ...adventure,
+          ...enrichedDef,
+          adventure_definition: enrichedDef,
+        };
+        setPreloadedAdventure(enriched);
+        setEditorRevision(r => r + 1);
+        return enriched;
+      }
+    } catch (_) {}
+    finally { setMapsLoading(false); }
+    return adventure;
+  }
 
   async function handleJsonLoad(file) {
     setJsonLoading(true);
@@ -2216,6 +2248,7 @@ function SetupScreen({ onStart }) {
       setSelected([]);
       setLoading(false);
       setJsonLoading(false);
+      await preGenerateMaps(adventure);
       setStep("review");
     } catch (e) {
       setLoading(false);
@@ -2323,7 +2356,10 @@ function SetupScreen({ onStart }) {
           const d = await r.json(); return d.character || p;
         } catch { return p; }
       }));
-      setPool(enriched); setStep("review");
+      setPool(enriched);
+      setLoading(false);
+      await preGenerateMaps(adventure, data.map_image_b64 || null);
+      setStep("review");
     } catch (e) {
       const msg = e.message || "";
       const isNet = msg === "Load failed" || msg === "Failed to fetch" || msg.includes("NetworkError") || msg.includes("did not match the expected pattern");
@@ -2375,6 +2411,8 @@ function SetupScreen({ onStart }) {
       setGenre(detectedGenre);
       setPool(contextualPool);
       setSelected([]);
+      setLoading(false);
+      await preGenerateMaps(created);
       setStep("review");
     } catch (e) {
       setJsonError(e.message || "Impossibile generare l'avventura.");
@@ -2629,6 +2667,19 @@ function SetupScreen({ onStart }) {
         { at: 800,  pill: "Parsing",     label: "Valido adventure_definition e runtime_state..." },
         { at: 2000, pill: "Setup",       label: "Genero il pool personaggi per il genere rilevato..." },
         { at: 6000, pill: "Backstory",   label: "Contestualizzo i backstory dei personaggi all'avventura..." },
+      ]}
+    />
+  );
+
+  // ── Generazione mappe pre-avventura ──
+  if (mapsLoading) return (
+    <LoadingProgress
+      icon="🗺"
+      title="Generazione mappe in corso..."
+      steps={[
+        { at: 0,      pill: "Overview",   label: "Genero la mappa strategica dell'avventura..." },
+        { at: 15000,  pill: "Tattiche",   label: "Genero le mappe tattiche per i luoghi chiave..." },
+        { at: 40000,  pill: "Dettagli",   label: "Aggiungo posizioni nemici e oggetti di scena..." },
       ]}
     />
   );
@@ -8741,6 +8792,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     if (!node?.id || imageProvider === "none") return;
     if (!node.tactical_map?.enabled && !node.contains_enemy && !node.is_final) return;
     if (preparedTacticalMaps[node.id] || preparingTacticalMapsRef.current.has(node.id)) return;
+    if (node.tactical_map?.image_b64) { setPreparedTacticalMaps(prev => ({ ...prev, [node.id]: node.tactical_map.image_b64 })); return; }
     const payload = buildTacticalMapPayloadForNode(node, enemyNames);
     if (!payload) return;
     preparingTacticalMapsRef.current.add(node.id);
@@ -9129,6 +9181,12 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     const advDef = adventure?.adventure_definition || adventure || {};
     const title = advDef.title || adventure?.title || "";
     if (!title) return;
+    // Usa l'immagine pre-generata se disponibile nell'adventure definition
+    const preGenImage = advDef.map_state?.image_b64;
+    if (preGenImage) {
+      setAdventureMapBackdrop(preGenImage);
+      return;
+    }
     const locations = Object.values(mapState.nodes || {}).map(n => ({ name: n.name || "" })).filter(l => l.name);
     if (locations.length === 0) return;
     const cacheKey = `gurps_map_v1_${title.slice(0, 60)}_${(adventure?.genre || genre || "fantasy")}`;
@@ -9526,6 +9584,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           if (imageProvider === "none" && adventure?.map_image_b64) return adventure.map_image_b64;
           // avvia fetch in background
           const currentNode = mapState?.nodes?.[mapState?.current_node_id];
+          if (currentNode?.tactical_map?.image_b64) return currentNode.tactical_map.image_b64;
           if (currentNode?.id && preparedTacticalMaps[currentNode.id]) return preparedTacticalMaps[currentNode.id];
           const locationName = currentNode?.name || adventure?.locations?.[0]?.name || "Luogo di combattimento";
           const enemyNames = (updates.combat_scene?.entities || [])

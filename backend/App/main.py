@@ -165,7 +165,7 @@ PDF_COMPILATION_EXPORT_DIR = PROJECT_ROOT / "data" / "compiled_adventures" / "_d
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v8-sheriff-hostile-fix"
+BUILD_VERSION = "v9-map-pregen"
 
 @app.get("/health")
 def health_check():
@@ -3476,6 +3476,127 @@ def generate_overview_map(payload: AdventureOverviewMapPayload):
         positions=positions,
     )
     return {"image_b64": image_b64, "location_positions": positions, "call_tokens": get_last_request_tokens()}
+
+
+class PreGenerateMapsPayload(BaseModel):
+    adventure_definition: Dict[str, Any]
+    map_image_b64: Optional[str] = None   # immagine mappa estratta dal PDF (se disponibile)
+    genre: str = "detective_classico"
+    setting: str = ""
+    period: str = ""
+
+@app.post("/game/adventure/pre-generate-maps")
+async def pre_generate_maps(payload: PreGenerateMapsPayload):
+    """Pre-genera mappe all'avvio: overview strategica + tattiche per finale/hot_zone.
+
+    Ritorna l'adventure_definition arricchita con le immagini base64 iniettate.
+    Se la generazione immagini non è disponibile ritorna la definizione invariata.
+    """
+    provider = _resolve_image_provider()
+    if not provider:
+        return {"adventure_definition": payload.adventure_definition, "generated": [], "skipped": "no_image_provider"}
+
+    import asyncio
+    import concurrent.futures
+
+    definition = {k: (list(v) if isinstance(v, list) else dict(v) if isinstance(v, dict) else v)
+                  for k, v in payload.adventure_definition.items()}
+    generated: list[str] = []
+    errors: list[str] = []
+
+    def _run_sync(fn, *args, **kwargs):
+        """Esegui funzione sincrona bloccante in thread pool."""
+        loop = asyncio.get_event_loop()
+        return loop.run_in_executor(None, lambda: fn(*args, **kwargs))
+
+    # ── 1. OVERVIEW STRATEGICA ──────────────────────────────────────────────
+    map_state = dict(definition.get("map_state") or {})
+    if not map_state.get("image_b64"):
+        if payload.map_image_b64:
+            map_state["image_b64"] = payload.map_image_b64
+            generated.append("overview_from_pdf")
+            print(f"[pre-generate-maps] overview: usata immagine estratta dal PDF")
+        else:
+            try:
+                set_active_provider(provider)
+                locations_raw = definition.get("locations") or []
+                loc_names = [l.get("name", "") if isinstance(l, dict) else str(l) for l in locations_raw]
+                loc_names = [n for n in loc_names if n]
+                positions = await _run_sync(
+                    generate_map_positions,
+                    definition.get("title", ""), loc_names, payload.genre
+                )
+                image_b64 = await _run_sync(
+                    generate_adventure_overview_map,
+                    definition.get("title", ""), loc_names, payload.genre,
+                    payload.setting or definition.get("setting", ""),
+                    payload.period or definition.get("period", ""),
+                    positions,
+                )
+                if image_b64:
+                    map_state["image_b64"] = image_b64
+                    generated.append("overview_ai")
+                    print(f"[pre-generate-maps] overview AI: {len(image_b64)//1024} KB")
+                    # Aggiorna coordinate geografiche nelle location
+                    if positions:
+                        locs = definition.get("locations") or []
+                        for loc in locs:
+                            if not isinstance(loc, dict):
+                                continue
+                            name = loc.get("name", "")
+                            if name in positions:
+                                loc["map_x"] = int(positions[name].get("x", loc.get("map_x", 0)))
+                                loc["map_y"] = int(positions[name].get("y", loc.get("map_y", 0)))
+                        definition["locations"] = locs
+            except Exception as e:
+                errors.append(f"overview: {e}")
+                print(f"[pre-generate-maps] errore overview: {e}")
+        definition["map_state"] = map_state
+
+    # ── 2. MAPPE TATTICHE per finale e hot_zone ──────────────────────────────
+    locations = definition.get("locations") or []
+    for loc in locations:
+        if not isinstance(loc, dict):
+            continue
+        tmap = dict(loc.get("tactical_map") or {})
+        if not tmap.get("enabled"):
+            continue
+        role = tmap.get("role", "")
+        if role not in ("finale", "hot_zone"):
+            continue
+        if tmap.get("image_b64"):
+            continue   # già presente
+
+        loc_id = loc.get("id") or loc.get("name", "unknown")
+        try:
+            set_active_provider(provider)
+            enemy_names = [ep.get("actor_id", "") for ep in (tmap.get("enemy_positions") or []) if isinstance(ep, dict)]
+            image_b64 = await _run_sync(
+                generate_tactical_map_image,
+                loc.get("name", ""),
+                loc.get("description", ""),
+                payload.genre,
+                tmap.get("environment_type", "indoor"),
+                tmap.get("trigger", ""),          # scene_narrative
+                tmap.get("environment_type", "indoor"),  # mission_environment
+                enemy_names,
+                tmap.get("layout", "room"),
+            )
+            if image_b64:
+                tmap["image_b64"] = image_b64
+                loc["tactical_map"] = tmap
+                generated.append(f"tactical_{loc_id}")
+                print(f"[pre-generate-maps] mappa tattica '{loc_id}' ({role}): {len(image_b64)//1024} KB")
+        except Exception as e:
+            errors.append(f"tactical_{loc_id}: {e}")
+            print(f"[pre-generate-maps] errore mappa tattica '{loc_id}': {e}")
+
+    definition["locations"] = locations
+    return {
+        "adventure_definition": definition,
+        "generated": generated,
+        "errors": errors,
+    }
 
 
 class TacticalMapPayload(BaseModel):
