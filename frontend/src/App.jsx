@@ -3233,6 +3233,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   const [expandedClue, setExpandedClue] = React.useState(null);
   const [expandedThread, setExpandedThread] = React.useState(null);
   const [expandedLocation, setExpandedLocation] = React.useState(null);
+  const [expandedTacticalMap, setExpandedTacticalMap] = React.useState(null); // location index whose tactical_map is open
 
   // Pan/zoom del grafo
   const [graphView, setGraphView] = React.useState({ panX: 0, panY: 0, zoom: 1 });
@@ -3288,6 +3289,78 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   }
   function patchLocation(idx, key, val) {
     setLocations(l => { const n = [...l]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+  function patchTacticalMap(locIdx, key, val) {
+    setLocations(l => {
+      const n = [...l];
+      n[locIdx] = { ...n[locIdx], tactical_map: { ...(n[locIdx].tactical_map || {}), [key]: val } };
+      return n;
+    });
+    setDirty(true);
+  }
+  function patchSceneObject(locIdx, objIdx, key, val) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      const objs = [...(tm.scene_objects || [])];
+      objs[objIdx] = { ...objs[objIdx], [key]: val };
+      tm.scene_objects = objs;
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
+    setDirty(true);
+  }
+  function addSceneObject(locIdx) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      tm.scene_objects = [...(tm.scene_objects || []), { name: "Nuovo oggetto", type: "cover", grid_x: 0, grid_y: 0, occupancy: "1", description: "", effect: "" }];
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
+    setDirty(true);
+  }
+  function removeSceneObject(locIdx, objIdx) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      tm.scene_objects = (tm.scene_objects || []).filter((_, i) => i !== objIdx);
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
+    setDirty(true);
+  }
+  function patchEnemyPos(locIdx, posIdx, key, val) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      const ps = [...(tm.enemy_positions || [])];
+      ps[posIdx] = { ...ps[posIdx], [key]: val };
+      tm.enemy_positions = ps;
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
+    setDirty(true);
+  }
+  function addEnemyPos(locIdx) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      tm.enemy_positions = [...(tm.enemy_positions || []), { npc_id: "", grid_x: 0, grid_y: 0, hidden: false, ready: true, notes: "" }];
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
+    setDirty(true);
+  }
+  function removeEnemyPos(locIdx, posIdx) {
+    setLocations(l => {
+      const n = [...l];
+      const tm = { ...(n[locIdx].tactical_map || {}) };
+      tm.enemy_positions = (tm.enemy_positions || []).filter((_, i) => i !== posIdx);
+      n[locIdx] = { ...n[locIdx], tactical_map: tm };
+      return n;
+    });
     setDirty(true);
   }
   function patchObjective(idx, key, val) {
@@ -3660,6 +3733,58 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {tab === "piste" && (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {addBtn("Aggiungi pista", addThread)}
+              {(() => {
+                // Calcola piste fantasma: ID referenziati da clue/revelation ma non in story_threads
+                const definedIds = new Set(threads.map(t => t.id).filter(Boolean));
+                const refs = {};
+                for (const c of clues) {
+                  const tid = (c.thread_id || "").trim();
+                  if (tid && !definedIds.has(tid)) (refs[tid] = refs[tid] || []).push(`indizio "${c.label || c.id}"`);
+                }
+                for (const r of (def0.revelations || [])) {
+                  const tid = (r.thread_id || "").trim();
+                  if (tid && !definedIds.has(tid)) (refs[tid] = refs[tid] || []).push(`rivelazione "${(r.statement || r.id || "").slice(0, 30)}"`);
+                }
+                const phantomIds = Object.keys(refs);
+                if (phantomIds.length === 0) return null;
+                return (
+                  <div style={{ background: "rgba(251,191,36,0.08)", border: "1px solid rgba(251,191,36,0.3)", borderRadius: 8, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 7 }}>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: "#fbbf24", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      ⚠ {phantomIds.length} pista{phantomIds.length > 1 ? "e" : ""} fantasma
+                    </div>
+                    <div style={{ fontSize: 11, color: "rgba(255,255,255,0.65)", lineHeight: 1.5 }}>
+                      Queste piste sono citate da indizi o rivelazioni ma non sono definite. Compaiono nel grafo come nodi scollegati e il narratore non può risolverle.
+                    </div>
+                    {phantomIds.map(pid => (
+                      <div key={pid} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 8px", background: "rgba(0,0,0,0.25)", borderRadius: 5 }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 12, fontWeight: 700, color: "#fde68a" }}>{pid}</div>
+                          <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", marginTop: 1 }}>citata da: {refs[pid].join(", ")}</div>
+                        </div>
+                        <button onClick={() => {
+                          // Crea uno stub con l'ID fantasma
+                          setThreads(t => [...t, {
+                            id: pid,
+                            title: pid.replace(/_/g, " "),
+                            question: `Pista da chiarire: ${pid.replace(/_/g, " ")}`,
+                            true_answer: "",
+                            clue_plan: [],
+                            required_clues: [],
+                            status: "hidden",
+                            parent_thread_ids: [],
+                            linked_npcs: [],
+                          }]);
+                          setExpandedThread(threads.length);
+                          setDirty(true);
+                        }} style={{
+                          padding: "5px 11px", borderRadius: 5, border: "1px solid rgba(74,222,128,0.5)",
+                          background: "rgba(74,222,128,0.12)", color: "#4ade80", fontSize: 11, fontWeight: 700, cursor: "pointer",
+                        }}>+ Crea stub</button>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
               {threads.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessuna pista definita.</div>}
               {threads.map((t, i) => {
                 const expanded = expandedThread === i;

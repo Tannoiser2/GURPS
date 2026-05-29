@@ -379,6 +379,7 @@ class AdventureDefinition(_MappingCompatibleBase):
     resources: List[ResourceState] = []
     finale_conditions: List[FinaleCondition] = []
     story_threads: List[Dict[str, Any]] = []
+    map_state: Dict[str, Any] = {}  # mappa strategica template (nodes, edges, current/start/objective/extraction)
     genre_runtime: Dict = {}
     genre_profile: GenreProfile = GenreProfile()
     legacy_adventure: Dict = {}

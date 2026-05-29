@@ -242,9 +242,32 @@ def _clue_rules(clues: List[Dict], thread_ids: Set[str]) -> List[Finding]:
 
 
 def _thread_rules(threads: List[Dict], clue_ids: Set[str],
-                  actors: List[Dict] = None, locations: List[Dict] = None) -> List[Finding]:
+                  actors: List[Dict] = None, locations: List[Dict] = None,
+                  clues: List[Dict] = None, revelations: List[Dict] = None) -> List[Finding]:
     findings = []
     all_thread_ids = _ids(threads)
+
+    # ── Phantom thread references: ID citati da clue/revelation ma mai definiti in story_threads
+    # Sono il motivo principale per cui il grafo mostra "piste vuote scollegate" senza che il
+    # tab Piste le mostri.
+    phantom_ids = set()
+    phantom_sources: Dict[str, List[str]] = {}  # id → ["clue:c_3", "rev:r_1"]
+    for cl in (clues or []):
+        tid = str(cl.get("thread_id") or "").strip()
+        if tid and tid not in all_thread_ids:
+            phantom_ids.add(tid)
+            phantom_sources.setdefault(tid, []).append(f"clue:{cl.get('id', '?')}")
+    for rv in (revelations or []):
+        tid = str(rv.get("thread_id") or "").strip()
+        if tid and tid not in all_thread_ids:
+            phantom_ids.add(tid)
+            phantom_sources.setdefault(tid, []).append(f"revelation:{rv.get('id', '?')}")
+    for pid in sorted(phantom_ids):
+        sources = ", ".join(phantom_sources.get(pid, []))
+        findings.append(Finding("warning", "thread", pid,
+            f"Pista fantasma '{pid}': citata da {sources} ma non definita in story_threads — "
+            f"appare scollegata nel grafo, il narratore non sa come risolverla",
+            f"Crea uno stub di story_threads con id='{pid}', oppure rimuovi il riferimento da {sources}"))
 
     # Build lookup sets for actor names and location names (lower-case)
     _actors = actors or []
@@ -599,6 +622,8 @@ def audit(data: Dict) -> List[Finding]:
         clue_ids,
         actors=data.get("actors", []),
         locations=data.get("locations", []),
+        clues=data.get("clues", []),
+        revelations=data.get("revelations", []),
     ))
     findings.extend(_location_rules(data.get("locations", []), actor_by_loc, clue_by_loc))
     findings.extend(_resource_rules(
@@ -844,6 +869,52 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
     # Clues
     if "clue" in categories and enriched.get("clues"):
         enriched["clues"] = _enrich_clues(enriched["clues"], context)
+
+    # Phantom thread references — crea stub story_threads per ID referenziati ma non definiti
+    existing_thread_ids = {str(t.get("id") or "") for t in (enriched.get("story_threads") or [])}
+    phantom_pids: Dict[str, List[str]] = {}
+    for cl in (enriched.get("clues") or []):
+        tid = str(cl.get("thread_id") or "").strip()
+        if tid and tid not in existing_thread_ids:
+            phantom_pids.setdefault(tid, []).append(str(cl.get("id") or "?"))
+    for rv in (enriched.get("revelations") or []):
+        tid = str(rv.get("thread_id") or "").strip()
+        if tid and tid not in existing_thread_ids:
+            phantom_pids.setdefault(tid, []).append(f"rev:{rv.get('id') or '?'}")
+    if phantom_pids:
+        threads_list = list(enriched.get("story_threads") or [])
+        clue_by_id = {str(c.get("id")): c for c in (enriched.get("clues") or [])}
+        rev_by_id = {str(r.get("id")): r for r in (enriched.get("revelations") or [])}
+        for pid, refs in phantom_pids.items():
+            # Cerca testo evocativo dalla prima clue/revelation collegata
+            label = pid.replace("_", " ").replace("thread", "").strip().capitalize() or pid
+            question = ""
+            for ref in refs:
+                if ref.startswith("rev:"):
+                    rv = rev_by_id.get(ref[4:])
+                    if rv and (rv.get("statement") or rv.get("payoff")):
+                        question = str(rv.get("statement") or rv.get("payoff"))[:120]
+                        break
+                else:
+                    cl = clue_by_id.get(ref)
+                    if cl and (cl.get("label") or cl.get("payoff")):
+                        question = f"Cosa rivela {cl.get('label') or cl.get('id')}?"
+                        break
+            stub = {
+                "id": pid,
+                "title": label,
+                "question": question or f"Pista da chiarire: {label}",
+                "true_answer": "",
+                "clue_plan": [],
+                "required_clues": [],
+                "status": "hidden",
+                "parent_thread_ids": [],
+                "linked_npcs": [],
+                "_recovered_phantom": True,  # marker per debug
+            }
+            threads_list.append(stub)
+        enriched["story_threads"] = threads_list
+        print(f"[doctor] recovered {len(phantom_pids)} phantom thread stub(s): {list(phantom_pids.keys())}")
 
     # Locations vuote
     if "location" in categories and enriched.get("locations"):
