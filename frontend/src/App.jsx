@@ -2581,11 +2581,23 @@ function SetupScreen({ onStart }) {
         } catch (_) {}
       }
       // Ottimizzazione: se l'avventura ha un runtime_id, manda solo quello (body byte vs MB)
-      // Render free tier/Vercel proxy reject body troppo grandi → 500 Internal Server Error
+      // Render free tier/Vercel proxy reject body troppo grandi → 502/500
+      // Rimuoviamo anche tutte le immagini base64 prima di inviare: il backend non le usa
+      // per la narrativa e le recupera dal frontend (aventura rimane in stato locale).
+      function stripImages(obj) {
+        if (!obj || typeof obj !== "object") return obj;
+        if (Array.isArray(obj)) return obj.map(stripImages);
+        const out = {};
+        for (const [k, v] of Object.entries(obj)) {
+          if (k === "image_b64" || k === "map_image_b64" || k === "overview_map_b64" || k === "image_base64") continue;
+          out[k] = stripImages(v);
+        }
+        return out;
+      }
       const selectTeamBody = adventureForStart?.runtime_id
         ? { selected_player_ids: selected, runtime_id: adventureForStart.runtime_id }
-        : { selected_player_ids: selected, adventure_bible: adventureForStart };
-      const stateRes = await safeFetch(`${API_URL}/game/select-team`, {
+        : { selected_player_ids: selected, adventure_bible: stripImages(adventureForStart) };
+      const stateRes = await safeFetch(`${API_URL_DIRECT}/game/select-team`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(selectTeamBody),
