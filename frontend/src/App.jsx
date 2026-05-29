@@ -3131,9 +3131,41 @@ function SetupScreen({ onStart }) {
           {/* 2.5 — Anteprima mappe pre-generate */}
           {(() => {
             const overviewImg = def.map_state?.image_b64;
-            const tacticalLocs = (def.locations || []).filter(l => l?.tactical_map?.enabled && (l.tactical_map?.role === "finale" || l.tactical_map?.role === "hot_zone"));
+            const allLocs = def.locations || [];
+            const rootLocs = allLocs.filter(l => !(l.parent_location_id || ""));
+            const regionalLocs = rootLocs.filter(l => l.local_map_image_b64);
+            const regionalMissing = rootLocs.filter(l => !l.local_map_image_b64);
+            const tacticalLocs = allLocs.filter(l => l?.tactical_map?.enabled && (l.tactical_map?.role === "finale" || l.tactical_map?.role === "hot_zone"));
             const tacticalWithImg = tacticalLocs.filter(l => l.tactical_map?.image_b64);
-            const hasAny = overviewImg || tacticalWithImg.length > 0;
+            const hasAny = overviewImg || tacticalWithImg.length > 0 || regionalLocs.length > 0;
+
+            async function generateRegionalMap(loc) {
+              try {
+                const subLocs = allLocs.filter(l => l.parent_location_id === loc.id).map(l => ({ name: l.name }));
+                const r = await fetch(`${API_URL_DIRECT}/game/adventure/generate-overview-map`, {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    adventure_title: loc.name,
+                    locations: subLocs.length > 0 ? subLocs : [{ name: loc.name }],
+                    genre: preloadedAdventure?.genre || "fantasy",
+                    setting: loc.description || "",
+                  }),
+                });
+                const data = await r.json();
+                if (data.image_b64) {
+                  const updated = {
+                    ...preloadedAdventure,
+                    adventure_definition: {
+                      ...def,
+                      locations: def.locations.map(l => l.id === loc.id ? { ...l, local_map_image_b64: data.image_b64 } : l),
+                    },
+                  };
+                  setPreloadedAdventure(updated);
+                }
+              } catch (e) { console.error("[regional map]", e); }
+            }
+
             return (
               <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 12, padding: "14px 16px", marginBottom: 18 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: hasAny ? 12 : 0 }}>
@@ -3142,7 +3174,7 @@ function SetupScreen({ onStart }) {
                       🗺 Mappe {hasAny ? "pre-generate" : "non ancora generate"}
                     </span>
                     <span style={{ fontSize: 11, color: "rgba(255,255,255,0.5)" }}>
-                      Overview {overviewImg ? "✓" : "—"} · Tattiche {tacticalWithImg.length}/{tacticalLocs.length}
+                      Overview {overviewImg ? "✓" : "—"} · Regionali {regionalLocs.length}/{rootLocs.length} · Tattiche {tacticalWithImg.length}/{tacticalLocs.length}
                     </span>
                   </div>
                   <button
@@ -3161,12 +3193,38 @@ function SetupScreen({ onStart }) {
                         <img src={`data:image/jpeg;base64,${overviewImg}`} alt="overview" style={{ width: "100%", display: "block", borderRadius: 4 }} />
                       </div>
                     )}
+                    {regionalLocs.map(loc => (
+                      <div key={loc.id} style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
+                        <div style={{ fontSize: 9, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>📍 {loc.name}</div>
+                        <img src={`data:image/jpeg;base64,${loc.local_map_image_b64}`} alt={loc.name} style={{ width: "100%", display: "block", borderRadius: 4, marginBottom: 4 }} />
+                        <button onClick={() => generateRegionalMap(loc)} style={{ width: "100%", fontSize: 9, padding: "2px 0", borderRadius: 3, border: "1px solid rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.08)", color: "#a78bfa", cursor: "pointer" }}>↺ Rigenera</button>
+                      </div>
+                    ))}
                     {tacticalWithImg.map(loc => (
                       <div key={loc.id} style={{ background: "var(--code-bg)", borderRadius: 7, padding: 6 }}>
                         <div style={{ fontSize: 9, fontWeight: 800, color: loc.tactical_map.role === "finale" ? "#f87171" : "#fde68a", textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 4 }}>
                           {loc.tactical_map.role === "finale" ? "Finale" : "Hot zone"} · {loc.name}
                         </div>
                         <img src={`data:image/jpeg;base64,${loc.tactical_map.image_b64}`} alt={loc.name} style={{ width: "100%", display: "block", borderRadius: 4 }} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {/* Location root senza mappa regionale */}
+                {regionalMissing.length > 0 && (
+                  <div style={{ marginTop: 10, display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {regionalMissing.map(loc => (
+                      <div key={loc.id} style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 6, border: "1px dashed rgba(167,139,250,0.3)", background: "rgba(167,139,250,0.05)" }}>
+                        <span style={{ fontSize: 10, color: "rgba(255,255,255,0.5)" }}>📍 {loc.name}</span>
+                        <button onClick={() => generateRegionalMap(loc)} style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(167,139,250,0.1)", color: "#a78bfa", cursor: "pointer" }}>+ Genera mappa</button>
+                        <label style={{ fontSize: 9, padding: "2px 6px", borderRadius: 3, border: "1px solid rgba(255,255,255,0.15)", background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.6)", cursor: "pointer" }}>
+                          ↑ Carica
+                          <input type="file" accept="image/*" style={{ display: "none" }} onChange={async e => {
+                            const file = e.target.files[0]; if (!file) return; e.target.value = "";
+                            const b64 = await new Promise(res => { const r = new FileReader(); r.onload = ev => res(ev.target.result.split(",")[1]); r.readAsDataURL(file); });
+                            setPreloadedAdventure(prev => ({ ...prev, adventure_definition: { ...prev.adventure_definition, locations: (prev.adventure_definition.locations || []).map(l => l.id === loc.id ? { ...l, local_map_image_b64: b64 } : l) } }));
+                          }} />
+                        </label>
                       </div>
                     ))}
                   </div>
