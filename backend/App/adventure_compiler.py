@@ -436,16 +436,24 @@ def definition_from_compiler_json(raw: dict, *, source_type: str, title: str = "
     for idx, loc in enumerate(raw.get("locations") or [], start=1):
         if isinstance(loc, str):
             loc = {"name": loc}
+        _loc_type = loc.get("location_type")
+        _explicit_clues = [str(x) for x in (loc.get("contains_clues") or []) if x]
+        _derived_clues = [c.id for c in clues if c.source_location and loc.get("name", "").lower() in c.source_location.lower()]
         locations.append(LocationState(
             id=loc.get("id") or _id("loc", loc.get("name") or "location", idx),
             name=loc.get("name") or "Location",
             description=loc.get("description") or "",
             status=loc.get("status") if loc.get("status") in location_statuses else "known",
             type=loc.get("type") or loc.get("kind") or "location",
+            location_type=_loc_type if _loc_type in {"strategic", "regional", "local"} else "regional",
+            parent_location_id=str(loc.get("parent_location_id") or ""),
+            connections_to=[str(c) for c in (loc.get("connections_to") or []) if c],
+            items=[it for it in (loc.get("items") or []) if isinstance(it, dict)],
             access_state=loc.get("access_state") if loc.get("access_state") in access_states else "open",
             access_requirements=list(loc.get("access_requirements") or []),
             tactical_map=loc.get("tactical_map") or {},
-            contains_clues=[c.id for c in clues if c.source_location and loc.get("name", "").lower() in c.source_location.lower()],
+            contains_clues=list(dict.fromkeys(_explicit_clues + _derived_clues)),
+            contains_actors=[str(x) for x in (loc.get("contains_actors") or []) if x],
             visual_identity=loc.get("visual_identity") or "",
             gameplay_function=loc.get("gameplay_function") or "",
             concrete_features=list(loc.get("concrete_features") or []),
