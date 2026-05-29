@@ -6124,7 +6124,7 @@ function isKnownTacticalNode(node, mapState) {
 
 // ─── Location Graph (mappa strategica) ────────────────────────────────────────
 
-function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, advNpcs, backdropImage, mapPositions }) {
+function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, advNpcs, backdropImage, mapPositions, nodesWithChildren }) {
   const [hoveredId, setHoveredId] = useState(null);
 
   if (!mapState || !mapState.nodes || Object.keys(mapState.nodes).length === 0) {
@@ -6219,6 +6219,7 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
   }
 
   const canMove = (id) => onMove && id !== currentId && (isGM ? true : adjacentSet.has(id));
+  const canDrillIn = (id) => onMove && nodesWithChildren?.has(id);
 
   // Character tokens per node
   const PLAYER_COLORS = ["#a78bfa", "#60a5fa", "#34d399", "#f59e0b", "#f87171", "#c084fc", "#fb7185", "#38bdf8"];
@@ -6354,20 +6355,22 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
             return [a, b];
           })();
 
+          const drillable = canDrillIn(n.id);
+          const clickable = moveable || drillable;
           return (
             <g key={n.id}
-              style={{ cursor: moveable ? "pointer" : "default" }}
+              style={{ cursor: clickable ? "pointer" : "default" }}
               onMouseEnter={() => setHoveredId(n.id)}
               onMouseLeave={() => setHoveredId(null)}
-              onClick={() => moveable && onMove(n.name)}
+              onClick={() => clickable && onMove(n.id, n.name)}
               filter={isCurrent ? "url(#glow)" : "none"}
               opacity={isAdjacent && !isGM ? 0.7 : 1}
             >
               {/* Card — solo bordo se attivo/obiettivo, niente sfondo colorato */}
               <rect x={p.x} y={p.y} width={NODE_W} height={NODE_H} rx={9}
                 fill="none"
-                stroke={hovered && moveable ? "#60a5fa" : (isCurrent || isObj ? borderColor : "transparent")}
-                strokeWidth={isCurrent ? 2.5 : isObj ? 2 : (hovered && moveable ? 1.5 : 0)}
+                stroke={hovered && clickable ? "#60a5fa" : (isCurrent || isObj ? borderColor : "transparent")}
+                strokeWidth={isCurrent ? 2.5 : isObj ? 2 : (hovered && clickable ? 1.5 : 0)}
               />
 
               {/* Status dot + label (no rect, fits text size) */}
@@ -6381,6 +6384,10 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
 
               {/* Move hint top-right */}
               {moveable && <text x={p.x+NODE_W-5} y={p.y+12} fontSize={9} textAnchor="end" fill="#60a5fa" opacity={hovered?1:0.35}>→</text>}
+              {/* Drill-in badge */}
+              {nodesWithChildren?.has(n.id) && (
+                <text x={p.x+NODE_W-8} y={p.y+10} textAnchor="middle" fontSize={9} fill="rgba(167,139,250,0.8)">⤵</text>
+              )}
 
               {/* Location name — quando c'è backdropImage la mappa ha già le etichette
                   generate, sovrapporre testo è ridondante. Mostriamo solo lo status
@@ -6431,10 +6438,10 @@ function LocationGraph({ mapState, isGM, onMove, players, avatars, npcStatuses, 
               })()}
 
               {/* Hover tooltip */}
-              {hovered && moveable && (
+              {hovered && clickable && (
                 <>
-                  <rect x={p.x} y={p.y+NODE_H+3} width={NODE_W} height={15} rx={4} fill="rgba(96,165,250,0.9)" />
-                  <text x={p.x+NODE_W/2} y={p.y+NODE_H+13} textAnchor="middle" fontSize={8} fontWeight="700" fill="#000">Spostati qui</text>
+                  <rect x={p.x} y={p.y+NODE_H+3} width={NODE_W} height={15} rx={4} fill={drillable && !moveable ? "rgba(167,139,250,0.9)" : "rgba(96,165,250,0.9)"} />
+                  <text x={p.x+NODE_W/2} y={p.y+NODE_H+13} textAnchor="middle" fontSize={8} fontWeight="700" fill="#000">{drillable && !moveable ? "Entra →" : "Spostati qui"}</text>
                 </>
               )}
             </g>
@@ -6745,15 +6752,72 @@ function ClocksPanel({ clocks, isGM }) {
   );
 }
 
-function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions, players, avatars, npcStatuses, advNpcs, onClose }) {
+function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions, players, avatars, npcStatuses, advNpcs, onClose, locations, onEnterLocation }) {
   const [pos, setPos] = useState({ x: Math.max(10, window.innerWidth - 640), y: 60 });
   const [size, setSize] = useState({ w: 620, h: 480 });
   const [viewAsPlayer, setViewAsPlayer] = useState(false); // toggle GM/Player view
+  const [activeParentId, setActiveParentId] = useState(""); // drill-down: "" = root
   const effectiveIsGM = isGM && !viewAsPlayer;
   const dragging = useRef(false);
   const dragOff = useRef({ dx: 0, dy: 0 });
   const resizing = useRef(false);
   const resizeStart = useRef({});
+
+  // ── Drill-down logic ──────────────────────────────────────────────────────
+  const allNodes = Object.values(mapState?.nodes || {});
+
+  // Nodes visible at current drill level
+  const visibleNodes = allNodes.filter(n => (n.parent_location_id || "") === activeParentId);
+
+  // Parent node of current sub-level
+  const activeParent = allNodes.find(n => n.id === activeParentId);
+
+  // Background: root → backdrop, sub-level → local_map_image_b64 of parent
+  const activeBackground = activeParentId === ""
+    ? backdropImage
+    : (activeParent?.local_map_image_b64 || backdropImage || "");
+
+  // Positions: root uses mapPositions, sub-level derives from map_x/map_y
+  const activePositions = activeParentId === ""
+    ? mapPositions
+    : Object.fromEntries(
+        visibleNodes.flatMap(n =>
+          (n.map_x !== undefined && n.map_y !== undefined)
+            ? [[n.id, { x: n.map_x, y: n.map_y }], [n.name, { x: n.map_x, y: n.map_y }]]
+            : []
+        )
+      );
+
+  // Set of node ids that have children (for badge + drill-in)
+  const nodesWithChildren = new Set(allNodes.filter(n => n.parent_location_id).map(n => n.parent_location_id));
+
+  // Filtered mapState for current drill level
+  const filteredMapState = {
+    ...mapState,
+    nodes: Object.fromEntries(visibleNodes.map(n => [n.id, n])),
+  };
+
+  // Click handler: drill-in or move
+  function handleNodeClick(nodeId, nodeName) {
+    const hasChildren = allNodes.some(n => n.parent_location_id === nodeId);
+    const hasSubMap = !!allNodes.find(n => n.id === nodeId)?.local_map_image_b64;
+    if (hasChildren || hasSubMap) {
+      setActiveParentId(nodeId);
+      onEnterLocation && onEnterLocation(nodeName);
+    } else {
+      onMove(nodeName);
+    }
+  }
+
+  // Breadcrumb path from root to current level
+  const breadcrumbPath = [];
+  let curr = activeParentId;
+  while (curr) {
+    const node = allNodes.find(n => n.id === curr);
+    if (!node) break;
+    breadcrumbPath.unshift({ id: node.id, name: node.name });
+    curr = node.parent_location_id || "";
+  }
 
   function onTitleMouseDown(e) {
     dragging.current = true;
@@ -6802,7 +6866,20 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions,
         background: "rgba(124,58,237,0.12)",
         flexShrink: 0,
       }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color: "var(--accent, #a78bfa)", flex: 1 }}>🗺 Mappa Avventura</span>
+        {/* Breadcrumb */}
+        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 4, overflow: "hidden" }}>
+          <button onClick={() => setActiveParentId("")} style={{ background: "none", border: "none", color: activeParentId === "" ? "var(--accent, #a78bfa)" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 13, fontWeight: 700, padding: 0 }}>
+            🗺 Mappa
+          </button>
+          {breadcrumbPath.map((crumb, i) => (
+            <React.Fragment key={crumb.id}>
+              <span style={{ color: "rgba(255,255,255,0.3)", fontSize: 11 }}>›</span>
+              <button onClick={() => setActiveParentId(crumb.id)} style={{ background: "none", border: "none", color: i === breadcrumbPath.length - 1 ? "var(--accent, #a78bfa)" : "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 12, fontWeight: 600, padding: 0, maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                {crumb.name}
+              </button>
+            </React.Fragment>
+          ))}
+        </div>
         {isGM && (
           <button onClick={() => setViewAsPlayer(v => !v)}
             title={viewAsPlayer ? "Stai vedendo come Player (FoW attiva) — clicca per tornare GM" : "Vedi come Player con FoW"}
@@ -6823,7 +6900,18 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions,
       </div>
       {/* Map content — no scroll, SVG scales to fit */}
       <div style={{ flex: 1, padding: "6px 8px 4px", minHeight: 200, height: size.h - 48, display: "flex", flexDirection: "column" }}>
-        <LocationGraph mapState={mapState} isGM={effectiveIsGM} onMove={onMove} backdropImage={backdropImage} mapPositions={mapPositions} players={players} avatars={avatars} npcStatuses={npcStatuses} advNpcs={advNpcs} />
+        <LocationGraph
+          mapState={filteredMapState}
+          isGM={effectiveIsGM}
+          onMove={handleNodeClick}
+          backdropImage={activeBackground}
+          mapPositions={activePositions}
+          players={players}
+          avatars={avatars}
+          npcStatuses={npcStatuses}
+          advNpcs={advNpcs}
+          nodesWithChildren={nodesWithChildren}
+        />
       </div>
       {/* Resize handle */}
       <div onMouseDown={onResizeMouseDown} style={{
@@ -11302,6 +11390,8 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           npcStatuses={gameStateData?.npc_statuses}
           advNpcs={adventure?.adventure_definition?.actors || adventure?.adventure_definition?.npcs || []}
           onClose={() => setShowMapPanel(false)}
+          locations={adventure?.adventure_definition?.locations || []}
+          onEnterLocation={(locName) => sendAction("I personaggi si avvicinano ed entrano in " + locName, "", activePlayerId)}
         />
       )}
     </div>
