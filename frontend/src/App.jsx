@@ -3057,10 +3057,12 @@ function AdventureEditor({ adventure, onSave, onClose }) {
   const [clocks, setClocks] = React.useState(() => JSON.parse(JSON.stringify(def0.event_clocks || [])));
   const [clues, setClues] = React.useState(() => JSON.parse(JSON.stringify(def0.clues || [])));
   const [factions, setFactions] = React.useState(() => JSON.parse(JSON.stringify(def0.factions || [])));
+  const [threads, setThreads] = React.useState(() => JSON.parse(JSON.stringify(def0.story_threads || [])));
   const [tab, setTab] = React.useState("npcs");
   const [dirty, setDirty] = React.useState(false);
   const [expandedNpc, setExpandedNpc] = React.useState(null);
   const [expandedClue, setExpandedClue] = React.useState(null);
+  const [expandedThread, setExpandedThread] = React.useState(null);
 
   function patchActor(idx, key, val) {
     setActors(a => { const n = [...a]; n[idx] = { ...n[idx], [key]: val }; return n; });
@@ -3078,15 +3080,28 @@ function AdventureEditor({ adventure, onSave, onClose }) {
     setFactions(f => { const n = [...f]; n[idx] = { ...n[idx], [key]: val }; return n; });
     setDirty(true);
   }
+  function patchThread(idx, key, val) {
+    setThreads(t => { const n = [...t]; n[idx] = { ...n[idx], [key]: val }; return n; });
+    setDirty(true);
+  }
+  function patchThreadEffect(idx, key, val) {
+    setThreads(t => {
+      const n = [...t];
+      n[idx] = { ...n[idx], on_resolve_effect: { ...(n[idx].on_resolve_effect || {}), [key]: val } };
+      return n;
+    });
+    setDirty(true);
+  }
 
   function handleSave() {
-    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions };
+    const newDef = { ...def0, actors, event_clocks: clocks, clues, factions, story_threads: threads };
     onSave({ ...adventure, adventure_definition: newDef });
     onClose();
   }
 
-  // Thread IDs collected from clues + revelations for the graph and dropdowns
+  // Thread IDs collected from story_threads + clues + revelations for graph and dropdowns
   const threadIds = [...new Set([
+    ...threads.map(t => t.id).filter(Boolean),
     ...(def0.revelations || []).map(r => r.thread_id).filter(Boolean),
     ...clues.map(c => c.thread_id).filter(Boolean),
   ])];
@@ -3142,6 +3157,7 @@ function AdventureEditor({ adventure, onSave, onClose }) {
           {tabBtn("npcs", `PNG (${actors.length})`)}
           {tabBtn("clocks", `Clock (${clocks.length})`)}
           {tabBtn("clues", `Indizi (${clues.length})`)}
+          {tabBtn("piste", `Piste (${threads.length})`)}
           {factions.length > 0 && tabBtn("factions", `Fazioni (${factions.length})`)}
           {tabBtn("graph", "Grafo")}
         </div>
@@ -3257,6 +3273,80 @@ function AdventureEditor({ adventure, onSave, onClose }) {
                             </select>
                           ))}
                           {fieldRow("Location", <input style={inputStyle} value={clue.source_location || ""} onChange={e => patchClue(i, "source_location", e.target.value)} />)}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* ── PISTE TAB ── */}
+          {tab === "piste" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {threads.length === 0 && <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 20, fontSize: 13 }}>Nessuna pista definita.</div>}
+              {threads.map((t, i) => {
+                const expanded = expandedThread === i;
+                const statusColor = { hidden: "#94a3b8", active: "#60a5fa", ready_to_deduce: "#fbbf24", resolved: "#4ade80", failed: "#f87171" }[t.status] || "#94a3b8";
+                const clueLines = Array.isArray(t.clue_plan) ? t.clue_plan.join("\n") : (t.clue_plan || "");
+                const parentStr = Array.isArray(t.parent_thread_ids) ? t.parent_thread_ids.join(", ") : (t.parent_thread_ids || "");
+                const npcsStr = Array.isArray(t.linked_npcs) ? t.linked_npcs.join(", ") : (t.linked_npcs || "");
+                return (
+                  <div key={t.id || i} style={{ borderRadius: 9, border: "1px solid rgba(167,139,250,0.3)", background: "var(--code-bg)", overflow: "hidden" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 9, padding: "9px 12px", cursor: "pointer" }} onClick={() => setExpandedThread(expanded ? null : i)}>
+                      <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#a78bfa", flexShrink: 0 }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <span style={{ fontSize: 12, fontWeight: 800, color: "var(--text-h)" }}>{t.question || t.title || t.id || "(pista)"}</span>
+                        <span style={{ fontSize: 10, color: statusColor, marginLeft: 8, fontWeight: 600 }}>{t.status || "hidden"}</span>
+                        {t.parent_thread_ids?.length > 0 && <span style={{ fontSize: 10, color: "#94a3b8", marginLeft: 8 }}>← {t.parent_thread_ids.join(", ")}</span>}
+                      </div>
+                      <span style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>{expanded ? "▲" : "▼"}</span>
+                    </div>
+                    {expanded && (
+                      <div style={{ padding: "0 12px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+                        {fieldRow("Domanda investigativa", <input style={inputStyle} value={t.question || ""} onChange={e => patchThread(i, "question", e.target.value)} placeholder="Dove si trova X? Chi controlla Y?" />)}
+                        {fieldRow("Risposta canonica (GM only)", <textarea style={textareaStyle} value={t.true_answer || t.answer || ""} onChange={e => patchThread(i, "true_answer", e.target.value)} placeholder="La risposta che il Master conosce" />)}
+                        {fieldRow("Clue plan (una riga per indizio, formato: descrizione — in LUOGO / con NPC)", (
+                          <textarea style={{ ...textareaStyle, minHeight: 72 }}
+                            value={clueLines}
+                            onChange={e => patchThread(i, "clue_plan", e.target.value.split("\n").map(s => s.trim()).filter(Boolean))}
+                            placeholder={"Lettera firmata (ufficio di Stelmach)\nMacchia di sangue (cripta, accanto alla vittima)"} />
+                        ))}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
+                          {fieldRow("Indizi richiesti (numero)", (
+                            <input type="number" min={1} max={5} style={{ ...inputStyle, width: 80 }}
+                              value={typeof t.required_clues === "number" ? t.required_clues : (Array.isArray(t.required_clues) ? t.required_clues.length : 2)}
+                              onChange={e => patchThread(i, "required_clues", parseInt(e.target.value) || 1)} />
+                          ))}
+                          {fieldRow("Stato", (
+                            <select style={selectStyle} value={t.status || "hidden"} onChange={e => patchThread(i, "status", e.target.value)}>
+                              {["hidden", "active", "ready_to_deduce", "resolved", "failed"].map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                          ))}
+                          {fieldRow("Prerequisiti (ID piste, separati da virgola)", (
+                            <input style={inputStyle} value={parentStr}
+                              onChange={e => patchThread(i, "parent_thread_ids", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
+                              placeholder="T1, T2" />
+                          ))}
+                          {fieldRow("PNG collegati (ID o nomi, separati da virgola)", (
+                            <input style={inputStyle} value={npcsStr}
+                              onChange={e => patchThread(i, "linked_npcs", e.target.value.split(",").map(s => s.trim()).filter(Boolean))}
+                              placeholder="sceriffo_cole, dottoressa_voss" />
+                          ))}
+                        </div>
+                        {fieldRow("Regola di rivelazione", <textarea style={textareaStyle} value={t.reveal_rule || ""} onChange={e => patchThread(i, "reveal_rule", e.target.value)} placeholder="Quando il narratore può chiudere questa domanda" />)}
+                        <div style={{ display: "grid", gridTemplateColumns: "140px 1fr", gap: "8px 12px" }}>
+                          {fieldRow("Effetto (tipo)", (
+                            <select style={selectStyle} value={(t.on_resolve_effect || {}).type || "modify_objective"} onChange={e => patchThreadEffect(i, "type", e.target.value)}>
+                              {["unlock_node", "remove_blocker", "modify_objective", "add_action"].map(s => <option key={s} value={s}>{s}</option>)}
+                            </select>
+                          ))}
+                          {fieldRow("Effetto (descrizione)", (
+                            <input style={inputStyle} value={(t.on_resolve_effect || {}).payload || ""}
+                              onChange={e => patchThreadEffect(i, "payload", e.target.value)}
+                              placeholder="sblocca l'Archivio di Stelmach" />
+                          ))}
                         </div>
                       </div>
                     )}
@@ -3408,7 +3498,7 @@ function AdventureEditor({ adventure, onSave, onClose }) {
         {/* Footer */}
         <div style={{ padding: "10px 16px", borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0, background: "rgba(0,0,0,0.15)" }}>
           <span style={{ fontSize: 11, color: "var(--text)", opacity: 0.5 }}>
-            {actors.length} PNG · {clocks.length} clock · {clues.length} indizi{factions.length > 0 ? ` · ${factions.length} fazioni` : ""}
+            {actors.length} PNG · {clocks.length} clock · {clues.length} indizi · {threads.length} piste{factions.length > 0 ? ` · ${factions.length} fazioni` : ""}
           </span>
           <div style={{ display: "flex", gap: 8 }}>
             <button onClick={onClose} style={{ padding: "7px 14px", borderRadius: 7, border: "1px solid var(--border)", background: "transparent", color: "var(--text)", cursor: "pointer", fontSize: 12 }}>Annulla</button>
