@@ -343,7 +343,16 @@
         "hazards": [
           "L'eco divino causa visioni disorientanti in chi porta un Pezzo di Voce."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_ally"
+        ],
+        "contains_clues": [
+          "clue_entry"
+        ]
       },
       {
         "id": "loc_node2",
@@ -361,7 +370,17 @@
         "hazards": [
           "La cripta è senza ossigeno magico: le fiamme si spengono e serve incantesimo di luce."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_witness"
+        ],
+        "contains_clues": [
+          "clue_witness",
+          "clue_pressure"
+        ]
       },
       {
         "id": "loc_node3",
@@ -379,7 +398,16 @@
         "hazards": [
           "Le candele nel Salone inseguono i Pezzi di Voce — mostrare la direzione dei PG."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_rival"
+        ],
+        "contains_clues": [
+          "clue_ledger"
+        ]
       },
       {
         "id": "loc_node4",
@@ -397,7 +425,14 @@
         "hazards": [
           "Il sopravvissuto Orlan può avere crisi di panico violente se stimolato troppo brutalmente."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [],
+        "contains_clues": [
+          "clue_trace"
+        ]
       },
       {
         "id": "loc_finale",
@@ -414,7 +449,16 @@
         "hazards": [
           "Leggere il codex ad alta voce prima di avere il Sigillo attira l'Eco verso i PG."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_villain"
+        ],
+        "contains_clues": [
+          "clue_final_key"
+        ]
       }
     ],
     "event_clocks": [

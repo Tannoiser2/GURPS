@@ -523,7 +523,7 @@ def mission_scaling(active_slots: int) -> dict:
 
 _NAMES_BY_GENRE: dict[str, list[str]] = {
     "sci_fi":   ["Kovač", "Yuen", "Okafor", "Reyes", "Nakamura", "Shen", "Vasquez", "Petrov",
-                 "Adeyemi", "Johansson", "Mbeki", "Castillo", "Voss", "Kimura", "Rashid"],
+                 "Adeyemi", "Johansson", "Mbeki", "Castillo", "Eriksson", "Kimura", "Rashid"],
     "fantasy":  ["Aldric", "Mira", "Theron", "Sylvara", "Dorin", "Aelys", "Brann", "Vesper",
                  "Corvin", "Lirien", "Hadast", "Rowena", "Caelum", "Nessa", "Edric"],
     "mystery_horror": ["Carver", "Dupont", "Ashwood", "Marlowe", "Vance", "Sinclair", "Delacroix",
@@ -1179,7 +1179,7 @@ def _pick_story_roles(entities: list[str], premise: str, hidden_truth: str, win_
     cleaned = [e for e in entities if e and not _entity_looks_generic(e)]
     place_keywords = ("deck", "arca", "struttura", "città", "stazione", "laboratorio", "colonia", "omega", "settore", "villa")
     object_keywords = ("codice", "codex", "protocollo", "sigillo", "chiave", "registro", "dossier", "log", "archivio", "manufatto", "emissario", "sonda", "nucleo")
-    actor_keywords = ("custode", "dott", "prof", "ammiraglio", "corporazione", "flotta", "consiglio", "controllore", "helix", "nomura", "voss")
+    actor_keywords = ("custode", "dott", "prof", "ammiraglio", "corporazione", "flotta", "consiglio", "controllore", "helix", "nomura")
 
     place = next((e for e in cleaned if any(k in e.lower() for k in place_keywords)), "") or _title_case_entity(premise.split(".")[0])
     obj = next((e for e in cleaned if any(k in e.lower() for k in object_keywords)), "") or _objective_target_phrase(win_condition)

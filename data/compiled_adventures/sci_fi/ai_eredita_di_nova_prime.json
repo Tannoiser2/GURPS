@@ -343,7 +343,16 @@
         "hazards": [
           "Modifiche climatiche improvvise di ARCA (nebbia densa, abbassamento temperatura) che rendono gli spostamenti difficili."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_ally"
+        ],
+        "contains_clues": [
+          "clue_entry"
+        ]
       },
       {
         "id": "loc_node2",
@@ -361,7 +370,17 @@
         "hazards": [
           "Popolazione coloniale agitata: i PG rischiano di essere arrestati se sembrano simpatizzare con ARCA."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_witness"
+        ],
+        "contains_clues": [
+          "clue_witness",
+          "clue_pressure"
+        ]
       },
       {
         "id": "loc_node3",
@@ -379,7 +398,16 @@
         "hazards": [
           "Il bunker climatico ha protocolli di sicurezza che ARCA può attivare se si sente minacciata."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_rival"
+        ],
+        "contains_clues": [
+          "clue_ledger"
+        ]
       },
       {
         "id": "loc_node4",
@@ -397,7 +425,14 @@
         "hazards": [
           "Le spore nella zona ovest sono irritanti per le vie respiratorie senza mascherina."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [],
+        "contains_clues": [
+          "clue_trace"
+        ]
       },
       {
         "id": "loc_finale",
@@ -414,7 +449,16 @@
         "hazards": [
           "Il team tecnico della Terra può arrivare prima se la compagnia madre accelera i tempi."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_villain"
+        ],
+        "contains_clues": [
+          "clue_final_key"
+        ]
       }
     ],
     "event_clocks": [

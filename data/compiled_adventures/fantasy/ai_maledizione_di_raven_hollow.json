@@ -343,7 +343,16 @@
         "hazards": [
           "Il bosco di notte è davvero pericoloso: cinghiali, terreno instabile e fosse nascoste."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_ally"
+        ],
+        "contains_clues": [
+          "clue_entry"
+        ]
       },
       {
         "id": "loc_node2",
@@ -361,7 +370,17 @@
         "hazards": [
           "Il villaggio può diventare ostile se i PG fanno troppe domande alla famiglia Grenn."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_witness"
+        ],
+        "contains_clues": [
+          "clue_witness",
+          "clue_pressure"
+        ]
       },
       {
         "id": "loc_node3",
@@ -379,7 +398,16 @@
         "hazards": [
           "Il laboratorio ha trappole di allarme che avvertono Nira — lei fuggirà se sente i PG avvicinarsi."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_rival"
+        ],
+        "contains_clues": [
+          "clue_ledger"
+        ]
       },
       {
         "id": "loc_node4",
@@ -397,7 +425,14 @@
         "hazards": [
           "La cripta è parzialmente allagata e il documento è fragile: maneggiarlo senza cura lo danneggia."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [],
+        "contains_clues": [
+          "clue_trace"
+        ]
       },
       {
         "id": "loc_finale",
@@ -414,7 +449,16 @@
         "hazards": [
           "Rivelare troppo presto senza prove genera un linciaggio — del capro espiatorio sbagliato."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_villain"
+        ],
+        "contains_clues": [
+          "clue_final_key"
+        ]
       }
     ],
     "event_clocks": [

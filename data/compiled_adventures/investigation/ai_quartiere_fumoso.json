@@ -684,9 +684,7 @@
         "description": "Il quartiere. Speakeasy nascosti, negozianti che non parlano, bambini che giocano. Doyle pattuglia.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [
-          "actor_doyle"
-        ],
+        "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "location",
@@ -720,7 +718,9 @@
         "description": "Precinct sudicio. Doyle ha il suo ufficio con fascicoli chiusi a chiave.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "actor_doyle"
+        ],
         "tactical_map": {},
         "access_requirements": [],
         "type": "location",
@@ -751,9 +751,7 @@
         "contains_clues": [
           "clue_doyle_payroll"
         ],
-        "contains_actors": [
-          "actor_monahan"
-        ],
+        "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [
           "Infiltrazione — guardie"

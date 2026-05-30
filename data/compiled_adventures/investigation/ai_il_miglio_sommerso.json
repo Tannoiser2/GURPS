@@ -355,7 +355,16 @@
         "hazards": [
           "marea"
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_ally"
+        ],
+        "contains_clues": [
+          "clue_entry"
+        ]
       },
       {
         "id": "loc_node2",
@@ -373,7 +382,17 @@
         "hazards": [
           "sabbie mobili"
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_witness"
+        ],
+        "contains_clues": [
+          "clue_witness",
+          "clue_pressure"
+        ]
       },
       {
         "id": "loc_node3",
@@ -391,7 +410,16 @@
         "hazards": [
           "polizia corrotta"
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_rival"
+        ],
+        "contains_clues": [
+          "clue_ledger"
+        ]
       },
       {
         "id": "loc_node4",
@@ -409,7 +437,14 @@
         "hazards": [
           "galleria instabile"
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [],
+        "contains_clues": [
+          "clue_trace"
+        ]
       },
       {
         "id": "loc_finale",
@@ -426,7 +461,16 @@
         "hazards": [
           "annegamento"
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_villain"
+        ],
+        "contains_clues": [
+          "clue_final_key"
+        ]
       }
     ],
     "event_clocks": [

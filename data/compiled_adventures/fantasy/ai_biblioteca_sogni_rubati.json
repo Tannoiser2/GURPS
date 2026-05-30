@@ -343,7 +343,16 @@
         "hazards": [
           "Portali onirici improvvisi che trascinano i PG nel Registro — serve volontà forte per uscire."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_ally"
+        ],
+        "contains_clues": [
+          "clue_entry"
+        ]
       },
       {
         "id": "loc_node2",
@@ -361,7 +370,17 @@
         "hazards": [
           "Libri che mordono nella sezione proibita se aperti senza i guanti appositi."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_witness"
+        ],
+        "contains_clues": [
+          "clue_witness",
+          "clue_pressure"
+        ]
       },
       {
         "id": "loc_node3",
@@ -379,7 +398,16 @@
         "hazards": [
           "La forma astrale di Vrass può indurre sonno profondo toccando la nuca."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_rival"
+        ],
+        "contains_clues": [
+          "clue_ledger"
+        ]
       },
       {
         "id": "loc_node4",
@@ -397,7 +425,14 @@
         "hazards": [
           "Scale mobili nel piano onirico che cambiano destinazione ad ogni passo."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [],
+        "contains_clues": [
+          "clue_trace"
+        ]
       },
       {
         "id": "loc_finale",
@@ -414,7 +449,16 @@
         "hazards": [
           "Il demone del Vuoto può cancellare un ricordo per round se i PG non hanno protezione onirica."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_villain"
+        ],
+        "contains_clues": [
+          "clue_final_key"
+        ]
       }
     ],
     "event_clocks": [

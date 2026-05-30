@@ -343,7 +343,16 @@
         "hazards": [
           "Gas da miniera nei tunnel abbandonati: rilevabile con fiamma ma letale se inalato."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_ally"
+        ],
+        "contains_clues": [
+          "clue_entry"
+        ]
       },
       {
         "id": "loc_node2",
@@ -361,7 +370,17 @@
         "hazards": [
           "Il calore della Forgia Primordiale causa danni per esposizione prolungata senza protezione."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_witness"
+        ],
+        "contains_clues": [
+          "clue_witness",
+          "clue_pressure"
+        ]
       },
       {
         "id": "loc_node3",
@@ -379,7 +398,16 @@
         "hazards": [
           "Il Guardiano emette un campo di vibrazione che disorienta chi porta metallo non-Stonemarrow."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_rival"
+        ],
+        "contains_clues": [
+          "clue_ledger"
+        ]
       },
       {
         "id": "loc_node4",
@@ -397,7 +425,14 @@
         "hazards": [
           "I tunnel al livello tre hanno strutture instabili: troppo rumore può causare crolli."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [],
+        "contains_clues": [
+          "clue_trace"
+        ]
       },
       {
         "id": "loc_finale",
@@ -414,7 +449,16 @@
         "hazards": [
           "L'amuleto di Cassia può attirare rinforzi del nobile se non viene disattivato in tempo."
         ],
-        "clue_slots": []
+        "clue_slots": [],
+        "location_type": "regional",
+        "status": "unknown",
+        "connections_to": [],
+        "contains_actors": [
+          "actor_villain"
+        ],
+        "contains_clues": [
+          "clue_final_key"
+        ]
       }
     ],
     "event_clocks": [

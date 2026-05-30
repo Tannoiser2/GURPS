@@ -589,8 +589,14 @@
         "name": "Il Salone Principale",
         "description": "Ampia sala con soffitti affrescati, camino monumentale, e grandi finestre sul lago. Divani di velluto rosso e un pianoforte a coda coperto da un telo. L'atmosfera è opprimente nonostante la bellezza",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_1",
+          "npc_4"
+        ],
         "tactical_map": {
           "enabled": false,
           "role": "",
@@ -631,15 +637,23 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 1.0
+        "confidence": 1.0,
+        "location_type": "regional",
+        "connections_to": []
       },
       {
         "id": "loc_2",
         "name": "Studio di Celestine",
         "description": "Stanza circolare nella torre, librerie fino al soffitto, scrivania antica con la lettera incompiuta. Il corpo è stato rimosso ma l'atmosfera è ancora pesante. Profumo di rose appassite e inchiostro",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "tactical_map": {
           "enabled": true,
           "role": "finale",
@@ -698,7 +712,9 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 1.0
+        "confidence": 1.0,
+        "location_type": "regional",
+        "connections_to": []
       }
     ],
     "event_clocks": [
@@ -807,9 +823,9 @@
         "label": "Finale: L'Ultima Lettera d'Amore personaggi svegliano lussuosa",
         "required_threads": [],
         "required_clues": [
-          "clue_ai_1",
-          "clue_ai_2",
-          "clue_ai_3"
+          "clue_1",
+          "clue_2",
+          "clue_3"
         ],
         "status": "locked",
         "depends_on": [

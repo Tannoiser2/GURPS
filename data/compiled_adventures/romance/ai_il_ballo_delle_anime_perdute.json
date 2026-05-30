@@ -141,7 +141,7 @@
         "label": "Il Grimorio di San Valentino",
         "type": "physical_evidence",
         "thread_id": "T1",
-        "source_location": "Biblioteca, scaffale delle poesie romantiche, dietro 'Sonetti d'Amore' di Petrarca",
+        "source_location": "biblioteca_scaffale_delle_poesie_romanti",
         "reveals": "L'esistenza del rituale e i suoi requisiti: tre morti, un ballo continuo, prima dell'alba",
         "payoff": "Permette di identificare chi sono le potenziali vittime e capire che il ballo non può fermarsi",
         "state": "hidden",
@@ -176,7 +176,7 @@
         "label": "Le mani di Celestine",
         "type": "behavior",
         "thread_id": "T2",
-        "source_location": "Biblioteca, osservando Celestine da vicino",
+        "source_location": "biblioteca_osservando_celestine_da_vicin",
         "reveals": "Celestine sta fingendo e è pienamente cosciente",
         "payoff": "Permette di comunicare con lei attraverso un codice (battiti per sì/no) e scoprire che sta cercando di fermare qualcosa",
         "state": "hidden",
@@ -211,7 +211,7 @@
         "label": "Il medaglione di Matthias",
         "type": "physical_evidence",
         "thread_id": "T3",
-        "source_location": "Sulla persona di Lord Adrian, ottenibile con furto o confronto diretto",
+        "source_location": "sulla_persona_di_lord_adrian_ottenibile_",
         "reveals": "Adrian è ossessionato da Matthias e Lucien potrebbe essere suo figlio",
         "payoff": "Rivela la vera motivazione di Adrian e il collegamento di Lucien al rituale",
         "state": "hidden",
@@ -246,7 +246,7 @@
         "label": "I marchi rituali",
         "type": "physical_evidence",
         "thread_id": "T1",
-        "source_location": "Visibile solo se si osservano attentamente gli ospiti o se qualcuno si toglie sciarpe/colletti",
+        "source_location": "visibile_solo_se_si_osservano_attentamen",
         "reveals": "Identifica le tre vittime designate del rituale",
         "payoff": "Permette di proteggere specificamente queste persone e scoprire cosa hanno in comune",
         "state": "hidden",
@@ -281,7 +281,7 @@
         "label": "Lettera d'amore carbonizzata",
         "type": "physical_evidence",
         "thread_id": "T2",
-        "source_location": "Camino della biblioteca, tra le ceneri ancora tiepide",
+        "source_location": "camino_della_biblioteca_tra_le_ceneri_an",
         "reveals": "Celestine voleva fermare qualcosa legato a Matthias e al rituale, e Adrian è coinvolto",
         "payoff": "Collega Celestine al grimorio e rivela che Adrian potrebbe essere l'esecutore attuale",
         "state": "hidden",
@@ -316,7 +316,7 @@
         "label": "Il registro degli ospiti",
         "type": "document",
         "thread_id": "T3",
-        "source_location": "Hall d'ingresso, sul tavolo degli ospiti",
+        "source_location": "hall_d_ingresso_sul_tavolo_degli_ospiti",
         "reveals": "La connessione tra gli ospiti, Matthias e i loro 'tradimenti dell'amore'",
         "payoff": "Spiega perché proprio queste tre persone sono i sacrifici e il legame con il passato",
         "state": "hidden",
@@ -352,7 +352,7 @@
         "id": "actor_ai_1",
         "name": "Officiante del rito",
         "role": "witness",
-        "location_id": "loc_ai_1",
+        "location_id": "biblioteca_scaffale_delle_poesie_romanti",
         "status": "unintroduced",
         "goal": "completare il rito",
         "secret": "conosce il momento esatto del compimento",
@@ -399,7 +399,7 @@
         "id": "actor_ai_2",
         "name": "Testimone del primo segno",
         "role": "ally",
-        "location_id": "loc_ai_2",
+        "location_id": "biblioteca_osservando_celestine_da_vicin",
         "status": "unintroduced",
         "goal": "sopravvivere raccontando cio che ha visto",
         "secret": "ha visto chi ha preparato il cerchio",
@@ -446,7 +446,7 @@
         "id": "actor_ai_3",
         "name": "Custode del componente",
         "role": "antagonist",
-        "location_id": "loc_ai_3",
+        "location_id": "sulla_persona_di_lord_adrian_ottenibile_",
         "status": "unintroduced",
         "goal": "proteggere il componente mancante",
         "secret": "sa quale oggetto puo interrompere il rito",
@@ -493,12 +493,16 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
+        "id": "biblioteca_scaffale_delle_poesie_romanti",
         "name": "Soglia del rito",
         "description": "Soglia del rito: nodo giocabile della struttura ritual_countdown.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "actor_ai_1"
+        ],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
@@ -535,12 +539,16 @@
         "confidence": 0.72
       },
       {
-        "id": "loc_ai_2",
+        "id": "biblioteca_osservando_celestine_da_vicin",
         "name": "Archivio dei segni",
         "description": "Archivio dei segni: nodo giocabile della struttura ritual_countdown.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "actor_ai_2"
+        ],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
@@ -577,12 +585,16 @@
         "confidence": 0.72
       },
       {
-        "id": "loc_ai_3",
+        "id": "sulla_persona_di_lord_adrian_ottenibile_",
         "name": "Camera degli officianti",
         "description": "Camera degli officianti: nodo giocabile della struttura ritual_countdown.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "actor_ai_3"
+        ],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
@@ -619,11 +631,13 @@
         "confidence": 0.72
       },
       {
-        "id": "loc_ai_4",
+        "id": "visibile_solo_se_si_osservano_attentamen",
         "name": "Altare incompleto",
         "description": "Altare incompleto: nodo giocabile della struttura ritual_countdown.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_4"
+        ],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -661,11 +675,13 @@
         "confidence": 0.72
       },
       {
-        "id": "loc_ai_5",
+        "id": "camino_della_biblioteca_tra_le_ceneri_an",
         "name": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo",
         "description": "Cuore del rito: Ballo Anime Perdute notte Gran Ballo: nodo giocabile della struttura ritual_countdown.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_5"
+        ],
         "contains_actors": [],
         "tactical_map": {
           "enabled": true,
@@ -807,9 +823,9 @@
         "label": "Finale: Ballo Anime Perdute notte Gran Ballo",
         "required_threads": [],
         "required_clues": [
-          "clue_ai_1",
-          "clue_ai_2",
-          "clue_ai_3"
+          "clue_1",
+          "clue_2",
+          "clue_3"
         ],
         "status": "locked",
         "depends_on": [
