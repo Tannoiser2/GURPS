@@ -4849,6 +4849,9 @@ VIETATO:
 - NPC tutti neutrali o tutti alleati — servono tensioni tra loro
 - Indizi tutti dello stesso tipo — varia tra prove fisiche, testimonianze, documenti, comportamenti
 - Location senza connections_to (strategiche, regionali e locali devono essere collegate tra loro)
+- ID location generici come "loc_ai_1", "loc_ai_2", "loc_ai_3" — OGNI location deve avere un ID significativo derivato dal nome reale (es: "infermeria_centrale", "bar_sindacato", "sala_server_principale")
+- Usare il nome leggibile del luogo come location_id: il campo location_id di NPC e clue deve contenere l'ID esatto della location nell'array locations, non il nome in italiano
+- ID clue generici come "clue_ai_1" nel campo required_clues delle finale_conditions — usare gli ID reali degli indizi generati (clue_1, clue_2, ecc.)
 
 Rispondi SOLO con il JSON seguente (genera il numero esatto di elementi richiesti, non di meno):
 
@@ -5232,6 +5235,57 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             return "regional"
         return "local"
 
+    # ── RILEVAMENTO E RICOSTRUZIONE DI LOCATION PLACEHOLDER ──────────────────
+    # Se l'AI ha generato loc_ai_1..N con nomi generici invece dei luoghi reali,
+    # ricostruisce le location dai nomi presenti nei campi location/source_location
+    # degli NPC e degli indizi, che l'AI ha spesso compilato correttamente.
+    _PLACEHOLDER_LOC_ID_RE = re.compile(r'^loc_ai_\d+$', re.IGNORECASE)
+    _GENERIC_LOC_NAMES = {
+        "apertura", "nodo indizi", "luogo sociale", "zona calda", "inizio",
+        "fine", "finale", "centro", "accesso", "hub", "nexus", "nodo",
+        "location 1", "location 2", "location 3", "location 4",
+        "area 1", "area 2", "area 3", "area 4",
+    }
+    _all_placeholder = bool(locations) and all(
+        bool(_PLACEHOLDER_LOC_ID_RE.match(str(l.get("id", "")))) or
+        str(l.get("name", "")).strip().lower() in _GENERIC_LOC_NAMES
+        for l in locations if isinstance(l, dict)
+    )
+    if _all_placeholder:
+        def _slugify_loc(text: str) -> str:
+            return re.sub(r'[^a-z0-9]+', '_', text.strip().lower())[:40].strip('_')
+        _ref_loc_names: dict[str, None] = {}
+        for _rn in npcs:
+            if isinstance(_rn, dict):
+                _ln = str(_rn.get("location") or _rn.get("location_id") or "").strip()
+                if _ln and not _PLACEHOLDER_LOC_ID_RE.match(_ln):
+                    _ref_loc_names[_ln] = None
+        for _rc in enriched_clues:
+            _ln = str(_rc.get("source_location") or _rc.get("location") or "").strip()
+            if _ln and not _PLACEHOLDER_LOC_ID_RE.match(_ln):
+                _ref_loc_names[_ln] = None
+        if _ref_loc_names:
+            print(f"[normalize] Placeholder locations rilevate — ricostruendo {len(_ref_loc_names)} location da referenze NPC/clue")
+            locations = [
+                {
+                    "id": _slugify_loc(name),
+                    "name": name,
+                    "description": "",
+                    "location_type": "regional",
+                    "parent_location_id": "",
+                    "connections_to": [],
+                    "has_combat_potential": False,
+                    "tactical_map": {"enabled": False},
+                    "contains_clues": [],
+                    "contains_actors": [],
+                    "items": [],
+                    "status": "unknown",
+                }
+                for name in _ref_loc_names
+            ]
+            # Aggiorna anche _loc_parents con le nuove location
+            _loc_parents = {str(l["id"]): "" for l in locations}
+
     enriched_locations = []
     for i, loc in enumerate(locations):
         if not isinstance(loc, dict):
@@ -5331,6 +5385,26 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             elif isinstance(it, str) and it.strip():
                 norm_items.append({"id": f"{lid}_item_{j}", "name": _clean_canon_text(it, limit=80), "description": "", "use": "", "value": ""})
         loc["items"] = norm_items
+
+    # ── FIX FINALE CONDITIONS: risolvi clue_ai_X → ID reali ─────────────────
+    # Il modello a volte usa clue_ai_1/2/3 come placeholder invece degli ID reali.
+    _real_clue_ids = {c["id"] for c in enriched_clues}
+    _broken_clue_re = re.compile(r'^clue_ai_\d+$', re.IGNORECASE)
+    for _fc in (adventure.get("finale_conditions") or []):
+        if not isinstance(_fc, dict):
+            continue
+        _orig_req = [str(cid) for cid in (_fc.get("required_clues") or [])]
+        _valid_req = [cid for cid in _orig_req if cid in _real_clue_ids]
+        _has_broken = any(_broken_clue_re.match(cid) for cid in _orig_req)
+        if _has_broken and not _valid_req:
+            # Fallback: usa i clue is_required, o i primi 3 indizi disponibili
+            _fallback = [c["id"] for c in enriched_clues if c.get("is_required")][:3]
+            if not _fallback:
+                _fallback = [c["id"] for c in enriched_clues[:3]]
+            _fc["required_clues"] = _fallback
+            print(f"[normalize] finale_conditions '{_fc.get('id')}': clue placeholder rimpiazzati con {_fallback}")
+        elif _valid_req != _orig_req:
+            _fc["required_clues"] = _valid_req
 
     adventure["clues"] = enriched_clues
     adventure["npcs"] = _npcs_list
