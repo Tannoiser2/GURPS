@@ -5239,7 +5239,7 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
     # Se l'AI ha generato loc_ai_1..N con nomi generici invece dei luoghi reali,
     # ricostruisce le location dai nomi presenti nei campi location/source_location
     # degli NPC e degli indizi, che l'AI ha spesso compilato correttamente.
-    _PLACEHOLDER_LOC_ID_RE = re.compile(r'^loc_ai_\d+$', re.IGNORECASE)
+    _PLACEHOLDER_LOC_ID_RE = re.compile(r'^(loc_ai_\d+|loc_start|loc_node\d+|loc_finale|loc_\d+)$', re.IGNORECASE)
     _GENERIC_LOC_NAMES = {
         "apertura", "nodo indizi", "luogo sociale", "zona calda", "inizio",
         "fine", "finale", "centro", "accesso", "hub", "nexus", "nodo",
@@ -5285,6 +5285,22 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             ]
             # Aggiorna anche _loc_parents con le nuove location
             _loc_parents = {str(l["id"]): "" for l in locations}
+        else:
+            # Fallback: i riferimenti usano anch'essi placeholder (es. scheletri loc_start/loc_node).
+            # Non ricostruiamo (la struttura interna è coerente), ma impostiamo i campi mancanti.
+            for _sl in locations:
+                if isinstance(_sl, dict):
+                    if not _sl.get("location_type"):
+                        _sl["location_type"] = "regional"
+                    if not _sl.get("status"):
+                        _sl["status"] = "unknown"
+                    if _sl.get("connections_to") is None:
+                        _sl["connections_to"] = []
+                    if _sl.get("contains_actors") is None:
+                        _sl["contains_actors"] = []
+                    if _sl.get("contains_clues") is None:
+                        _sl["contains_clues"] = []
+            _loc_parents = {str(l.get("id", "")): "" for l in locations if isinstance(l, dict)}
 
     enriched_locations = []
     for i, loc in enumerate(locations):
@@ -5336,6 +5352,9 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
         txt = str(free_text or "").strip().lower()
         if not txt:
             return ""
+        # Il testo libero potrebbe essere esso stesso un ID (es. negli scheletri: source_location="loc_start")
+        if txt in _loc_ids:
+            return txt
         if txt in _loc_by_name:
             return _loc_by_name[txt]
         # match parziale: il nome della location è contenuto nel testo o viceversa
