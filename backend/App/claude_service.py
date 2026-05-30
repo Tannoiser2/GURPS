@@ -1031,6 +1031,12 @@ def _looks_generic(text: str) -> bool:
         "la missione '",
         "la missione \"",
         "impone di agire",
+        # hidden_truth vagi
+        "qualcuno ha orchestrato",
+        "la verità è più oscura",
+        "dietro tutto c'è",
+        "è più di quello che sembra",
+        "nasconde qualcosa di più",
     ]
     return any(fragment in low for fragment in generic_fragments)
 
@@ -4627,7 +4633,7 @@ _COMPLEXITY_SCALES = {
         "npc_count": "3-4", "clue_count": "5-6", "thread_count": "2",
         "twist_count": "1",
         "location_strategic": "2", "location_regional": "2-3 per area strategica", "location_local": "2-3 locali per area regionale",
-        "additional_directives": "",
+        "additional_directives": "- Il colpo di scena ribalta il significato di almeno 1 indizio già trovato, non aggiunge informazioni nuove dal nulla",
         "max_tokens": 3500,
         "clue_slice": 10, "npc_slice": 8, "loc_slice": 10,
     },
@@ -4653,7 +4659,7 @@ _COMPLEXITY_SCALES = {
             "- Sistema di fazioni (almeno 3 gruppi con agendas esplicite, anche se il template non è 'web')\n"
             "- Almeno 1 subplot con arco narrativo completo\n"
             "- 1 dilemma morale con costo esplicito (anche se il template non è 'moral')\n"
-            "- 3 colpi di scena, almeno 1 che ribalta la comprensione degli eventi precedenti\n"
+            "- 3 colpi di scena: il primo ribalta un clue trovato presto (non nell'ultimo atto), il secondo rende un NPC alleato ambiguo, il terzo è il finale che cambia il significato della vittoria\n"
             "- 2 finali alternativi credibili\n"
             "- Almeno 3 indizi che sembrano contraddirsi prima di risolversi in modo coerente"
         ),
@@ -4760,7 +4766,7 @@ def _build_create_adventure_prompt(
     json_schema = f"""{{
   "title": "Titolo avventura specifico e originale",
   "premise": "Situazione iniziale in medias res (3-4 frasi coinvolgenti)",
-  "hidden_truth": "La verità profonda che i giocatori devono scoprire",
+  "hidden_truth": "La verità profonda — deve nominare CHI ha fatto COSA e PERCHÉ con dettagli specifici. VIETATO: frasi vaghe come 'qualcuno ha orchestrato tutto' o 'la verità è più oscura di così'",
   "atmosphere": "Tono/atmosfera (es: noir claustrofobico, horror psicologico, avventura epica)",
   "win_condition": "Come i giocatori vincono in modo concreto",
   "threat_description": "La minaccia che scala nel tempo",
@@ -4781,8 +4787,9 @@ def _build_create_adventure_prompt(
     "// GENERA {thread_count} PISTE"
   ],
   "twists": [
-    {{"id": "twist_1", "trigger": "Quando/come si attiva", "effect": "Cosa cambia nella storia", "recontextualizes": "Quale evento precedente viene ribaltato", "used": false}},
-    "// GENERA {twist_count} COLPI DI SCENA"
+    {{"id": "twist_1", "trigger": "Quando/come si attiva (evento concreto, non generico)", "effect": "Cosa cambia nella storia da quel momento in poi", "recontextualizes": "Spiega CONCRETAMENTE quale evento o clue già visto assume un significato opposto — es: 'La firma sul contratto (clue_3) non è una prova contro Aldric, è la sua firma di vittima'", "subverts_clue": "clue_X", "moral_weight": "Il costo umano della rivelazione — chi soffre, cosa si perde, quale scelta diventa impossibile", "used": false}},
+    {{"id": "twist_2", "trigger": "...", "effect": "...", "recontextualizes": "...", "subverts_clue": "clue_Y", "moral_weight": "...", "used": false}},
+    "// GENERA {twist_count} COLPI DI SCENA — ognuno deve citare un clue_id reale in subverts_clue"
   ],
   "adventure_canon": {{
     "core_truth": "Verità centrale",
@@ -4843,6 +4850,13 @@ POPOLAZIONE DEI LUOGHI (OBBLIGATORIA):
 REQUISITI AGGIUNTIVI:
 {additional}
 
+REGOLE COLPI DI SCENA (OBBLIGATORIE):
+- Ogni twist DEVE compilare "subverts_clue" con l'ID esatto di un clue presente nell'array clues — il twist ribalta il significato di quell'indizio specifico
+- Almeno 1 twist deve rendere un NPC finora alleato moralmente ambiguo, OPPURE rendere l'antagonista comprensibile (non giustificato — comprensibile)
+- "recontextualizes" deve spiegare CONCRETAMENTE cosa cambia: non "tutto cambia" ma "il documento che incolpava X diventa la prova che X era la vittima"
+- "moral_weight" deve indicare un costo reale: chi perde qualcosa, quale scelta diventa impossibile, cosa non può essere disfatto
+- Il twist più forte si attiva scoprendo un clue che sembrava già risolto — non nell'ultimo atto
+
 VIETATO:
 - Nomi "Elena", "Marco", "Castello Maledetto", "cripta segreta", "libro antico"
 - Iniziare la premessa con "Un misterioso cliente vi ha assunto" o "Una lettera anonima"
@@ -4852,6 +4866,8 @@ VIETATO:
 - ID location generici come "loc_ai_1", "loc_ai_2", "loc_ai_3" — OGNI location deve avere un ID significativo derivato dal nome reale (es: "infermeria_centrale", "bar_sindacato", "sala_server_principale")
 - Usare il nome leggibile del luogo come location_id: il campo location_id di NPC e clue deve contenere l'ID esatto della location nell'array locations, non il nome in italiano
 - ID clue generici come "clue_ai_1" nel campo required_clues delle finale_conditions — usare gli ID reali degli indizi generati (clue_1, clue_2, ecc.)
+- Twist che usano: "era tutto un sogno/illusione", "era morto da sempre", "il vero villain era l'IA/il sistema/il computer", antagonista che si rivela buono senza motivazione coerente
+- "hidden_truth" vaga: deve citare nome proprio, azione specifica e motivazione — non "qualcuno ha orchestrato tutto" o "la verità è più oscura di così"
 
 Rispondi SOLO con il JSON seguente (genera il numero esatto di elementi richiesti, non di meno):
 
@@ -4878,7 +4894,7 @@ Rispondi SOLO con questo JSON:
 {{
   "subplot": {{"title": "...", "description": "...", "key_npc": "...", "connection_to_main": "...", "new_clues": [{{"id": "sub_clue_1", "label": "...", "text": "...", "type": "testimony", "thread_id": "T1", "reveals": "...", "payoff": "...", "location": "...", "found": false}}]}},
   "moral_dilemma": {{"description": "La scelta impossibile", "option_a": "...", "cost_a": "...", "option_b": "...", "cost_b": "..."}},
-  "additional_twist": {{"id": "twist_epic", "trigger": "...", "effect": "...", "recontextualizes": "...", "used": false}}
+  "additional_twist": {{"id": "twist_epic", "trigger": "...", "effect": "...", "recontextualizes": "Quale clue o evento precedente cambia significato (cita ID clue specifico)", "subverts_clue": "clue_ID_esistente", "moral_weight": "Il costo umano della rivelazione", "used": false}}
 }}"""
 
     try:
@@ -5424,6 +5440,18 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             print(f"[normalize] finale_conditions '{_fc.get('id')}': clue placeholder rimpiazzati con {_fallback}")
         elif _valid_req != _orig_req:
             _fc["required_clues"] = _valid_req
+
+    # Normalizza i twists: assicura che subverts_clue punti a un clue reale
+    _twist_list = [t for t in (adventure.get("twists") or []) if isinstance(t, dict)]
+    for _tw in _twist_list:
+        _sc = str(_tw.get("subverts_clue") or "").strip()
+        if _sc and _sc not in _real_clue_ids:
+            # Cerca per prefisso (clue_X → clue_1, clue_2…) o fallback al primo clue
+            _fallback_clue = next((c["id"] for c in enriched_clues if _sc in c["id"] or c["id"] in _sc), None)
+            _tw["subverts_clue"] = _fallback_clue or (enriched_clues[0]["id"] if enriched_clues else "")
+        if not _tw.get("moral_weight"):
+            _tw["moral_weight"] = ""
+    adventure["twists"] = _twist_list
 
     adventure["clues"] = enriched_clues
     adventure["npcs"] = _npcs_list
