@@ -1492,3 +1492,153 @@ def extract_clocks_with_llm(
             "confidence": 0.75,
         })
     return clocks or None
+
+
+# ---------------------------------------------------------------------------
+# P7 — Risoluzione semantica NPC → location e clue → source_location
+# ---------------------------------------------------------------------------
+
+_RESOLVE_ACTOR_LOCS_PROMPT = """Sei un compilatore di moduli GDR. Devi mappare ogni NPC alla location dove si trova principalmente nel modulo.
+
+TITOLO AVVENTURA: {title}
+
+LOCATION DISPONIBILI (usa questi ID esatti):
+{loc_list}
+
+NPC DA MAPPARE:
+{actor_list}
+
+Regole:
+- Usa SOLO gli ID location della lista sopra (campo "id")
+- Ogni NPC deve essere assegnato alla location più plausibile in base al suo nome, ruolo e descrizione
+- Se un NPC è mobile o compare in più luoghi, scegli quello principale (dove appare prima o più spesso)
+- Se non puoi determinarlo, assegna alla location più centrale/generica disponibile
+
+Rispondi SOLO con un oggetto JSON: {{"actor_id_1": "location_id", "actor_id_2": "location_id", ...}}
+"""
+
+_RESOLVE_CLUE_LOCS_PROMPT = """Sei un compilatore di moduli GDR. Devi mappare ogni indizio alla location dove si trova nel modulo.
+
+TITOLO AVVENTURA: {title}
+
+LOCATION DISPONIBILI (usa questi ID esatti):
+{loc_list}
+
+INDIZI DA MAPPARE:
+{clue_list}
+
+Regole:
+- Usa SOLO gli ID location della lista sopra (campo "id")
+- Per ogni indizio, scegli la location dove si trova fisicamente o dove viene scoperto
+- Se l'indizio è legato a un personaggio, usane la location
+- Se non puoi determinarlo, assegna alla location più plausibile per contesto
+
+Rispondi SOLO con un oggetto JSON: {{"clue_id_1": "location_id", "clue_id_2": "location_id", ...}}
+"""
+
+
+def resolve_actor_locations_with_llm(
+    text: str,
+    locations: list[dict],
+    actors: list[dict],
+    *,
+    title: str = "",
+) -> dict[str, str] | None:
+    """Secondo passo LLM: mappa NPC → location_id semantico. Ritorna {actor_id: location_id}."""
+    if not _llm_extractors_enabled() or not locations or not actors:
+        return None
+    try:
+        from . import claude_service
+    except Exception:
+        return None
+    if not getattr(claude_service, "_text_provider_available", None) or not claude_service._text_provider_available():
+        return None
+
+    _PLACEHOLDER_RE = __import__("re").compile(r'^(section_\d+|p\d+_room_\d+|room_\d+|loc_\d+|area_\d+)$')
+    broken_actors = [a for a in actors if isinstance(a, dict) and
+                     (not a.get("location_id") or _PLACEHOLDER_RE.match(str(a.get("location_id") or "")))]
+    if not broken_actors:
+        return None
+
+    loc_list = "\n".join(
+        f'- id="{l["id"]}" nome="{l.get("name","")}" tipo={l.get("type","")}'
+        for l in locations if isinstance(l, dict) and l.get("id")
+    )
+    actor_list = "\n".join(
+        f'- id="{a["id"]}" nome="{a.get("name","")}" ruolo="{a.get("role","")}" desc="{str(a.get("description",""))[:80]}"'
+        for a in broken_actors if a.get("id")
+    )
+    if not loc_list or not actor_list:
+        return None
+
+    prompt = _RESOLVE_ACTOR_LOCS_PROMPT.format(
+        title=title or "(senza titolo)",
+        loc_list=loc_list,
+        actor_list=actor_list,
+    )
+    try:
+        raw = claude_service._call_text_model(prompt, max_tokens=800)
+        parsed = claude_service._extract_json_object(raw)
+        if not isinstance(parsed, dict):
+            return None
+        valid_ids = {str(l["id"]) for l in locations if isinstance(l, dict) and l.get("id")}
+        result = {str(k): str(v) for k, v in parsed.items() if str(v) in valid_ids}
+        print(f"[llm_extractors] resolve_actor_locations: {len(result)}/{len(broken_actors)} NPC risolti")
+        return result or None
+    except Exception as exc:
+        print(f"[llm_extractors] resolve_actor_locations fallito: {exc}")
+        return None
+
+
+def resolve_clue_locations_with_llm(
+    text: str,
+    locations: list[dict],
+    clues: list[dict],
+    *,
+    title: str = "",
+) -> dict[str, str] | None:
+    """Secondo passo LLM: mappa clue → source_location_id semantico. Ritorna {clue_id: location_id}."""
+    if not _llm_extractors_enabled() or not locations or not clues:
+        return None
+    try:
+        from . import claude_service
+    except Exception:
+        return None
+    if not getattr(claude_service, "_text_provider_available", None) or not claude_service._text_provider_available():
+        return None
+
+    _PLACEHOLDER_RE = __import__("re").compile(r'^(section_\d+|p\d+_room_\d+|room_\d+|loc_\d+|area_\d+)$')
+    broken_clues = [c for c in clues if isinstance(c, dict) and
+                    (not c.get("source_location") or _PLACEHOLDER_RE.match(str(c.get("source_location") or ""))
+                     or not c.get("location_id") or _PLACEHOLDER_RE.match(str(c.get("location_id") or "")))]
+    if not broken_clues:
+        return None
+
+    loc_list = "\n".join(
+        f'- id="{l["id"]}" nome="{l.get("name","")}"'
+        for l in locations if isinstance(l, dict) and l.get("id")
+    )
+    clue_list = "\n".join(
+        f'- id="{c["id"]}" label="{c.get("label","")}" text="{str(c.get("text",""))[:80]}"'
+        for c in broken_clues if c.get("id")
+    )
+    if not loc_list or not clue_list:
+        return None
+
+    prompt = _RESOLVE_CLUE_LOCS_PROMPT.format(
+        title=title or "(senza titolo)",
+        loc_list=loc_list,
+        clue_list=clue_list,
+    )
+    try:
+        raw = claude_service._call_text_model(prompt, max_tokens=800)
+        parsed = claude_service._extract_json_object(raw)
+        if not isinstance(parsed, dict):
+            return None
+        valid_ids = {str(l["id"]) for l in locations if isinstance(l, dict) and l.get("id")}
+        result = {str(k): str(v) for k, v in parsed.items() if str(v) in valid_ids}
+        print(f"[llm_extractors] resolve_clue_locations: {len(result)}/{len(broken_clues)} clue risolti")
+        return result or None
+    except Exception as exc:
+        print(f"[llm_extractors] resolve_clue_locations fallito: {exc}")
+        return None

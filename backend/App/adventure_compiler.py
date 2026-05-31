@@ -17,6 +17,8 @@ from .llm_extractors import (
     extract_finale_conditions_with_llm,
     extract_location_connections_with_llm,
     extract_locations_with_llm,
+    resolve_actor_locations_with_llm,
+    resolve_clue_locations_with_llm,
     synthesize_narrative_with_llm,
 )
 from .narrative_archetypes import get_archetype
@@ -1078,6 +1080,28 @@ def _compile_pdf_structure_to_runtime(
                 if frm not in exits:
                     exits.append(frm)
                 _raw_locs[ti]["exits"] = exits
+    # P7 — Risoluzione semantica NPC → location e clue → source_location
+    # Secondo passo LLM: mappa gli ID placeholder (section_N, p3_room_N) alle location reali.
+    _final_locs = raw.get("locations") or []
+    if _final_locs:
+        resolved_actor_locs = resolve_actor_locations_with_llm(text, _final_locs, raw.get("npcs") or [], title=title)
+        if resolved_actor_locs:
+            for _npc in (raw.get("npcs") or []):
+                if isinstance(_npc, dict):
+                    _nid = str(_npc.get("id") or "")
+                    if _nid in resolved_actor_locs:
+                        _npc["location_id"] = resolved_actor_locs[_nid]
+                        _npc["location"] = resolved_actor_locs[_nid]
+
+        resolved_clue_locs = resolve_clue_locations_with_llm(text, _final_locs, raw.get("clues") or [], title=title)
+        if resolved_clue_locs:
+            for _clue in (raw.get("clues") or []):
+                if isinstance(_clue, dict):
+                    _cid = str(_clue.get("id") or "")
+                    if _cid in resolved_clue_locs:
+                        _clue["source_location"] = resolved_clue_locs[_cid]
+                        _clue["location_id"] = resolved_clue_locs[_cid]
+
     return compile_from_raw_structure(
         raw,
         source_type="pdf_text",
