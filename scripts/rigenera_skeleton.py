@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
 """
 Rigenera le 20 avventure AI "skeleton" (score 50, location placeholder)
-chiamando il backend su Render e salvando i nuovi JSON al posto degli originali.
+chiamando il backend (locale o su Render) e salvando i nuovi JSON al posto degli originali.
 
 Esegui dalla root del repo GURPS:
-    python3 scripts/rigenera_skeleton.py
+    python3 scripts/rigenera_skeleton.py                           # usa Render
+    python3 scripts/rigenera_skeleton.py --backend http://127.0.0.1:8765  # backend locale
+    python3 scripts/rigenera_skeleton.py --max 5                   # rigenera solo le prime 5
 
 Requisiti:
     pip install requests
 
-Il backend viene chiamato su: https://gurps-f93w.onrender.com
 Le avventure originali vengono salvate in backup/ prima di sovrascriverle.
 """
 
+import argparse
 import json
 import os
 import pathlib
-import re
+import shutil
 import time
 
 import requests
 
-BACKEND = "https://gurps-f93w.onrender.com"
+DEFAULT_BACKEND = "https://gurps-f93w.onrender.com"
 BASE = pathlib.Path("data/compiled_adventures")
 BACKUP = pathlib.Path("data/compiled_adventures/_backup_skeleton")
 
@@ -81,8 +83,8 @@ def _is_skeleton(path: pathlib.Path) -> bool:
         return False
 
 
-def rigenera(path_rel: str, genre: str, scale: str, retry: int = 3) -> dict | None:
-    url = f"{BACKEND}/game/adventure/create"
+def rigenera(path_rel: str, genre: str, scale: str, backend: str, retry: int = 3) -> dict | None:
+    url = f"{backend}/game/adventure/create"
     payload = {"genre": genre, "players": DEFAULT_PLAYERS, "scale": scale}
     for attempt in range(1, retry + 1):
         try:
@@ -121,63 +123,66 @@ def save_adventure(path: pathlib.Path, api_response: dict) -> None:
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--backend", default=DEFAULT_BACKEND,
+                        help="URL del backend (default: Render)")
+    parser.add_argument("--max", type=int, default=0,
+                        help="Numero massimo di avventure da rigenerare (0 = tutte)")
+    args = parser.parse_args()
+
+    BACKEND = args.backend.rstrip("/")
+    MAX = args.max if args.max > 0 else len(SKELETONS)
+
     BACKUP.mkdir(parents=True, exist_ok=True)
+    print(f"Backend: {BACKEND}")
+    print(f"Max avventure: {MAX}")
 
     ok = 0
     fail = 0
 
-    for path_rel, genre, scale in SKELETONS:
+    for path_rel, genre, scale in SKELETONS[:MAX]:
         path = BASE / path_rel
         if not path.exists():
             print(f"[SKIP] {path_rel} — file non trovato")
             continue
 
-        # Rilegge il titolo originale
         try:
             orig = json.loads(path.read_text())
             orig_title = (orig.get("adventure_definition") or {}).get("title", path.stem)
         except Exception:
             orig_title = path.stem
 
-        # Verifica ancora che sia skeleton
         if not _is_skeleton(path):
-            print(f"[SKIP] {path_rel} — non più skeleton (già fixata?)")
+            print(f"[SKIP] {path_rel} — non più skeleton")
             continue
 
         print(f"\n→ {path_rel}")
         print(f"   Titolo originale: {orig_title}")
         print(f"   Genre={genre}  Scale={scale}")
 
-        # Backup
         backup_path = BACKUP / path_rel.replace("/", "_")
-        import shutil
         shutil.copy2(path, backup_path)
 
-        # Chiama il backend
-        result = rigenera(path_rel, genre, scale)
+        result = rigenera(path_rel, genre, scale, backend=BACKEND)
         if result is None:
-            print(f"   ✗ FALLITA — originale ripristinato")
+            print(f"   ✗ FALLITA")
             fail += 1
             continue
 
         new_title = (result.get("adventure_definition") or {}).get("title", "?")
         print(f"   ✓ Nuovo titolo: {new_title}")
-
-        # Salva
         save_adventure(path, result)
         ok += 1
 
-        # Pausa tra richieste per non sovraccaricare Render
-        time.sleep(3)
+        time.sleep(2)
 
     print(f"\n{'='*50}")
     print(f"Completato: {ok} rigenerati, {fail} falliti")
-    print(f"Backup originali in: {BACKUP}/")
-    print()
+    print(f"Backup in: {BACKUP}/")
     if ok > 0:
-        print("Ora committa e pusha:")
+        print("\nComitta e pusha:")
         print("  git add data/compiled_adventures/")
-        print("  git commit -m 'regen: 20 avventure skeleton sostituite con versioni complete'")
+        print(f"  git commit -m 'regen: {ok} avventure skeleton sostituite'")
         print("  git push origin main")
 
 

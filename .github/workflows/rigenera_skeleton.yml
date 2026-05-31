@@ -1,0 +1,76 @@
+name: Rigenera Avventure Skeleton
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_adventures:
+        description: "Quante avventure rigenerare (0 = tutte le 20)"
+        required: false
+        default: "0"
+
+jobs:
+  rigenera:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install anthropic>=0.50 fastapi uvicorn pydantic python-multipart requests
+
+      - name: Install backend dependencies
+        run: |
+          pip install -r requirements.txt || true
+
+      - name: Rigenera avventure via backend locale
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY:    ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          MAX=${{ github.event.inputs.max_adventures }}
+
+          # Avvia il backend in background
+          cd backend
+          uvicorn App.main:app --host 127.0.0.1 --port 8765 --workers 1 &
+          BACKEND_PID=$!
+          cd ..
+
+          # Aspetta che il backend sia pronto
+          echo "Aspetto che il backend sia pronto..."
+          for i in $(seq 1 30); do
+            sleep 3
+            if curl -s http://127.0.0.1:8765/health > /dev/null 2>&1; then
+              echo "Backend pronto dopo ${i}x3 secondi"
+              break
+            fi
+            echo "  tentativo $i/30..."
+          done
+
+          # Esegui lo script puntando al backend locale
+          python3 scripts/rigenera_skeleton.py \
+            --backend http://127.0.0.1:8765 \
+            --max "$MAX"
+
+          kill $BACKEND_PID 2>/dev/null || true
+
+      - name: Commit e push risultati
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/compiled_adventures/
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica da committare"
+          else
+            COUNT=$(git diff --cached --name-only | grep -c "ai_" || true)
+            git commit -m "regen: $COUNT avventure skeleton sostituite con versioni complete [skip ci]"
+            git push origin main
+          fi
