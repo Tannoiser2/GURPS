@@ -1,5 +1,6 @@
 
 import json
+import pathlib
 import random
 import os
 import base64
@@ -4750,6 +4751,7 @@ def _build_create_adventure_prompt(
     archetype: dict,
     template_key: str,
     scale_cfg: dict,
+    narrative_frame: dict | None = None,
 ) -> str:
     """Costruisce il prompt unificato per create_adventure."""
     template = _STRUCTURAL_TEMPLATES[template_key]
@@ -4762,6 +4764,15 @@ def _build_create_adventure_prompt(
     location_regional = scale_cfg["location_regional"]
     location_local = scale_cfg["location_local"]
     additional = scale_cfg["additional_directives"] or "- Struttura pulita e giocabile in poche sessioni"
+
+    frame_hint = ""
+    if narrative_frame:
+        frame_hint = (
+            f"\nDIRETTIVA NARRATIVA:\n"
+            f"- Tono premessa: {narrative_frame['premise_style']}\n"
+            f"- Direzione hidden_truth: {narrative_frame['hidden_truth_style']}\n"
+            f"- Focus thread: {narrative_frame['thread_focus']}\n"
+        )
 
     json_schema = f"""{{
   "title": "Titolo avventura specifico e originale",
@@ -4819,7 +4830,7 @@ def _build_create_adventure_prompt(
 SCALA: {scale_cfg['emoji']} {scale_cfg['label']}
 TEMPLATE STRUTTURALE: {template['name']}
 {template['guidance']}
-
+{frame_hint}
 ARCHETIPO NARRATIVO OBBLIGATORIO: «{archetype['name']}»
 STRUTTURA: {archetype['structure']}
 MINACCIA SPECIFICA: {archetype['threat']}
@@ -4918,6 +4929,77 @@ Rispondi SOLO con questo JSON:
     return base
 
 
+_ARCHETYPE_HISTORY_PATH = pathlib.Path(__file__).resolve().parents[2] / "data" / "archetype_history.json"
+
+
+def _pick_adventure_archetype(genre: str) -> dict:
+    """Sceglie un archetype evitando i 3 usati più di recente per questo genere."""
+    try:
+        history: dict[str, list[str]] = json.loads(_ARCHETYPE_HISTORY_PATH.read_text()) if _ARCHETYPE_HISTORY_PATH.exists() else {}
+    except Exception:
+        history = {}
+    recent = set(history.get(genre, [])[-3:])
+    available = [a for a in _ADVENTURE_ARCHETYPES if a["name"] not in recent] or _ADVENTURE_ARCHETYPES
+    chosen = random.choice(available)
+    # Aggiorna history
+    genre_list = history.get(genre, [])
+    genre_list.append(chosen["name"])
+    history[genre] = genre_list[-10:]  # tieni solo gli ultimi 10
+    try:
+        _ARCHETYPE_HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+        _ARCHETYPE_HISTORY_PATH.write_text(json.dumps(history, ensure_ascii=False, indent=2))
+    except Exception:
+        pass
+    return chosen
+
+
+def _pick_narrative_frame(archetype: dict, genre: str) -> dict:
+    """Seleziona il frame narrativo (_FAMILY_NARRATIVE_FRAMES) più adatto all'archetype e genere."""
+    arch_name = archetype.get("name", "").lower()
+    g = genre.lower().replace("-", "_")
+
+    # Priorità: archetype keywords → genre default → "base"
+    if any(k in arch_name for k in ("traditore", "cospiraz", "ribaltamento")):
+        candidates = ["politico", "investigativo"]
+    elif any(k in arch_name for k in ("mostro", "serial", "caccia", "predator")):
+        candidates = ["selvaggio", "investigativo", "occulto"]
+    elif any(k in arch_name for k in ("infiltraz", "doppio gioco", "colpo", "furto")):
+        candidates = ["assedio", "caccia"]
+    elif any(k in arch_name for k in ("sopravviv", "risorse", "assedio")):
+        candidates = ["frontiera", "assedio"]
+    elif any(k in arch_name for k in ("profezia", "malediz", "eredità")):
+        candidates = ["gotico", "mitico"]
+    elif any(k in arch_name for k in ("scoperta", "primo contatto")):
+        candidates = ["archeologico", "metafisico"]
+    elif any(k in arch_name for k in ("fuga", "innocente", "braccato")):
+        candidates = ["caccia", "investigativo"]
+    elif any(k in arch_name for k in ("salvataggio", "prigioniero")):
+        candidates = ["frontiera", "assedio"]
+    elif any(k in arch_name for k in ("corsa", "tempo")):
+        candidates = ["frontiera", "metafisico"]
+    else:
+        candidates = []
+
+    # Genre default aggiuntivi
+    genre_defaults = {
+        "sci_fi":          ["frontiera", "metafisico", "biohorror", "archeologico"],
+        "fantasy":         ["mitico", "gotico", "selvaggio"],
+        "horror":          ["investigativo", "psicologico", "biohorror"],
+        "mystery_horror":  ["investigativo", "psicologico", "occulto"],
+        "investigation":   ["investigativo", "whodunit", "camera_chiusa"],
+        "action":          ["assedio", "caccia"],
+        "romance":         ["nostalgico", "sociale"],
+        "ww2":             ["resistenza", "fronte"],
+        "detective_classico": ["whodunit", "camera_chiusa"],
+    }
+    all_candidates = candidates + genre_defaults.get(g, []) + ["base"]
+    # Prendi il primo che esiste nel dizionario
+    for key in all_candidates:
+        if key in _FAMILY_NARRATIVE_FRAMES:
+            return _FAMILY_NARRATIVE_FRAMES[key]
+    return _FAMILY_NARRATIVE_FRAMES["base"]
+
+
 def create_adventure(genre: str, players: list[dict], scale: str = "standard") -> dict:
     """
     Genera la bibbia strutturata dell'avventura.
@@ -4938,8 +5020,9 @@ def create_adventure(genre: str, players: list[dict], scale: str = "standard") -
 
     scale_cfg = _COMPLEXITY_SCALES.get(scale, _COMPLEXITY_SCALES["standard"])
     template_key = random.choice(list(_STRUCTURAL_TEMPLATES.keys()))
-    archetype = random.choice(_ADVENTURE_ARCHETYPES)
-    prompt = _build_create_adventure_prompt(genre_label, party_context, archetype, template_key, scale_cfg)
+    archetype = _pick_adventure_archetype(genre)
+    frame = _pick_narrative_frame(archetype, genre)
+    prompt = _build_create_adventure_prompt(genre_label, party_context, archetype, template_key, scale_cfg, frame)
 
     attempts: list[tuple[str, str]] = [(_ACTIVE_PROVIDER, prompt)]
     fallback_provider = _other_provider()
@@ -5224,6 +5307,27 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             "linked_locations": list(raw_thread.get("linked_locations") or _extract_refs_from_clue_plan(raw_thread.get("clue_plan") or [], locations, "id", "name")),
         })
 
+    # ── Bilancia clue per thread: ogni thread deve avere almeno 1 clue ───────
+    _clue_by_thread: dict[str, list[dict]] = {}
+    for _c in enriched_clues:
+        _tid = str(_c.get("thread_id") or "")
+        if _tid:
+            _clue_by_thread.setdefault(_tid, []).append(_c)
+    _valid_thread_ids = {str(t.get("id", "")) for t in threads if isinstance(t, dict)}
+    for _th in threads:
+        if not isinstance(_th, dict):
+            continue
+        _thid = str(_th.get("id", ""))
+        if _thid and _thid not in _clue_by_thread:
+            # Thread senza clue: rubo il clue non-required dal thread più ricco
+            _richest_tid = max(_clue_by_thread, key=lambda k: len(_clue_by_thread[k])) if _clue_by_thread else None
+            if _richest_tid and len(_clue_by_thread[_richest_tid]) > 1:
+                _stolen = next((c for c in _clue_by_thread[_richest_tid] if not c.get("is_required")), None)
+                if _stolen:
+                    _stolen["thread_id"] = _thid
+                    _clue_by_thread.setdefault(_thid, []).append(_stolen)
+                    _clue_by_thread[_richest_tid].remove(_stolen)
+
     antagonist = next((n for n in npcs if isinstance(n, dict) and any(w in str(n.get("role", "")).lower() for w in ["antagon", "villain", "nemic", "cult", "assassin", "killer"])), None)
     required_clues = [c["id"] for c in enriched_clues if c.get("is_required")]
     hot_location_indexes = {
@@ -5356,6 +5460,28 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
         enriched_locations.append(loc)
     locations = enriched_locations
 
+    # ── Auto-connessione location disconnesse ────────────────────────────────
+    # Se location dello stesso parent hanno connections_to vuoto, le colleghi in catena.
+    _loc_by_parent: dict[str, list[dict]] = {}
+    for _lc in locations:
+        if not isinstance(_lc, dict):
+            continue
+        _pid = str(_lc.get("parent_location_id") or "")
+        _loc_by_parent.setdefault(_pid, []).append(_lc)
+
+    for _pid, _siblings in _loc_by_parent.items():
+        # Considera solo i sibling che hanno connections_to vuoto
+        _disconnected = [l for l in _siblings if isinstance(l, dict) and not l.get("connections_to")]
+        if len(_disconnected) < 2:
+            continue
+        # Collega in anello aperto: A→B→C (non ritorno C→A per evitare loop eccessivi)
+        _ids = [str(l["id"]) for l in _disconnected]
+        for _i, _lc in enumerate(_disconnected):
+            _next_id = _ids[_i + 1] if _i + 1 < len(_ids) else None
+            _prev_id = _ids[_i - 1] if _i > 0 else None
+            _new_conns = [x for x in [_prev_id, _next_id] if x]
+            _lc["connections_to"] = _new_conns
+
     # ── POPOLAZIONE: cross-reference location ↔ clue / npc / items ──
     _loc_ids = {str(l.get("id", "")) for l in locations if isinstance(l, dict) and l.get("id")}
     _loc_by_name = {str(l.get("name", "")).strip().lower(): str(l.get("id", "")) for l in locations if isinstance(l, dict) and l.get("name")}
@@ -5453,6 +5579,33 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             _tw["moral_weight"] = ""
     adventure["twists"] = _twist_list
 
+    # ── Clock step auto-fill: almeno 4 step per ogni clock ───────────────────
+    _threat = str(adventure.get("threat_description") or title or "la minaccia avanza")
+    _clock_phases = [
+        "I primi segnali si manifestano — qualcosa non va",
+        f"La situazione si aggrava: {_threat[:60]}",
+        "La pressione diventa insostenibile — il tempo stringe",
+        "Punto di non ritorno: senza intervento immediato tutto è perduto",
+    ]
+    for _ck in (adventure.get("event_clocks") or []):
+        if not isinstance(_ck, dict):
+            continue
+        _steps = _ck.get("steps") or []
+        if not isinstance(_steps, list):
+            _steps = []
+        if len(_steps) < 4:
+            _existing_step_nums = {s.get("step") for s in _steps if isinstance(s, dict)}
+            for _phase_i, _phase_text in enumerate(_clock_phases, start=1):
+                if _phase_i not in _existing_step_nums and len(_steps) < 4:
+                    _steps.append({
+                        "step": _phase_i,
+                        "world_state_change": _phase_text,
+                        "scene_prompt": f"Segnale visibile al turno {_phase_i}",
+                        "possible_player_response": "Investigare, agire, o ignorare a proprio rischio",
+                    })
+            _steps.sort(key=lambda s: s.get("step", 99) if isinstance(s, dict) else 99)
+            _ck["steps"] = _steps
+
     adventure["clues"] = enriched_clues
     adventure["npcs"] = _npcs_list
     adventure["locations"] = locations
@@ -5500,6 +5653,34 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
             "recurrence_priority": "high" if role in {"antagonist", "witness"} else "medium",
             "arc_status": "unintroduced",
         })
+
+    # ── NPC attitude distribution: evita monotonia ───────────────────────────
+    _attitude_counts: dict[str, int] = {}
+    for _npc in _npcs_list:
+        if isinstance(_npc, dict):
+            _att = str(_npc.get("attitude") or "neutral")
+            _attitude_counts[_att] = _attitude_counts.get(_att, 0) + 1
+    _total_npcs = len(_npcs_list)
+    if _total_npcs >= 3:
+        _dominant = max(_attitude_counts, key=_attitude_counts.get) if _attitude_counts else "neutral"
+        if _attitude_counts.get(_dominant, 0) == _total_npcs:
+            # Tutti uguali: forza varietà
+            if _dominant == "neutral":
+                # Rendi il primo NPC non-antagonista sospettoso e l'ultimo ostile
+                for _npc in _npcs_list:
+                    if isinstance(_npc, dict) and _npc.get("attitude") == "neutral":
+                        _npc["attitude"] = "suspicious"
+                        break
+                for _npc in reversed(_npcs_list):
+                    if isinstance(_npc, dict) and _npc.get("attitude") in ("neutral", "suspicious"):
+                        _npc["attitude"] = "hostile"
+                        break
+            elif _dominant in ("hostile", "suspicious"):
+                # Tutti ostili: rendi il primo friendly
+                for _npc in _npcs_list:
+                    if isinstance(_npc, dict):
+                        _npc["attitude"] = "friendly"
+                        break
 
     return adventure
 
