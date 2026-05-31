@@ -1,0 +1,667 @@
+{
+  "meta": {
+    "titolo": "GURPS Adventure Engine — Workflow Completo",
+    "versione": "2026-05",
+    "stack": {
+      "frontend": "React + Vite → Vercel",
+      "backend": "FastAPI + Python → Render.com",
+      "llm": "Claude (Anthropic) + Gemini (Google, fallback)",
+      "storage": "Render ephemeral FS + git repo"
+    }
+  },
+
+  "livelli": [
+    {
+      "id": "L1",
+      "nome": "Frontend",
+      "colore": "#4A90D9",
+      "nodi": [
+        {
+          "id": "FE_APP",
+          "label": "App.jsx",
+          "tipo": "entry",
+          "desc": "Root React — gestisce schermata attiva, stato globale giocatori, avventura corrente",
+          "file": "frontend/src/App.jsx"
+        },
+        {
+          "id": "FE_UPLOAD_PDF",
+          "label": "Carica PDF",
+          "tipo": "ui_action",
+          "desc": "Utente carica PDF → POST /api/game/adventure/from-pdf",
+          "trigger": "input file + form"
+        },
+        {
+          "id": "FE_GEN_AI",
+          "label": "Genera AI",
+          "tipo": "ui_action",
+          "desc": "Utente sceglie genere/scala → POST /api/game/adventure/create",
+          "trigger": "bottone + selezione"
+        },
+        {
+          "id": "FE_GAME_SCREEN",
+          "label": "Schermata di Gioco",
+          "tipo": "ui_screen",
+          "desc": "Mostra narrativa, log, indizi trovati, stato PG, minaccia",
+          "file": "frontend/src/components/GameScreen.jsx"
+        },
+        {
+          "id": "FE_SEND_ACTION",
+          "label": "_sendActionInner()",
+          "tipo": "function",
+          "desc": "POST /api/game/master-turn → riceve risposta → aggiorna res.players, narrative, game_state",
+          "file": "frontend/src/App.jsx"
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "nome": "API Layer (main.py)",
+      "colore": "#7B68EE",
+      "nodi": [
+        {
+          "id": "API_FROM_PDF",
+          "label": "POST /game/adventure/from-pdf",
+          "tipo": "endpoint",
+          "desc": "Riceve PDF + genre. Estrae testo, avvia pipeline PDF, esegue quality gate + doctor",
+          "file": "backend/App/main.py:4067"
+        },
+        {
+          "id": "API_CREATE",
+          "label": "POST /game/adventure/create",
+          "tipo": "endpoint",
+          "desc": "Riceve genre + players + scale. Chiama create_adventure(), compila, esegue doctor",
+          "file": "backend/App/main.py:1216"
+        },
+        {
+          "id": "API_MASTER_TURN",
+          "label": "POST /game/master-turn",
+          "tipo": "endpoint",
+          "desc": "Riceve azione PG, avventura, game_state. Chiama master_turn_with_bible(). Aggiorna canonical_log.",
+          "file": "backend/App/main.py:2176"
+        },
+        {
+          "id": "API_DOCTOR",
+          "label": "POST /game/adventure/doctor",
+          "tipo": "endpoint",
+          "desc": "Audit standalone di una adventure_definition esistente",
+          "file": "backend/App/main.py:1394"
+        },
+        {
+          "id": "API_HEALTH",
+          "label": "GET /health",
+          "tipo": "endpoint",
+          "desc": "Build version, provider attivi, stato chiavi API",
+          "file": "backend/App/main.py"
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "nome": "Pipeline PDF",
+      "colore": "#E67E22",
+      "nodi": [
+        {
+          "id": "PDF_EXTRACT",
+          "label": "pdfplumber → testo grezzo",
+          "tipo": "processing",
+          "desc": "Estrae testo pagina per pagina. Pulisce caratteri spurii con _clean_pdf_text()",
+          "file": "backend/App/main.py:4115"
+        },
+        {
+          "id": "PDF_STRUCTURE",
+          "label": "extract_pdf_structure_from_pages()",
+          "tipo": "processing",
+          "desc": "Heuristic: riconosce stanze, NPC, indizi, clock dal markup testuale del PDF",
+          "file": "backend/App/pdf_structure_extractor.py"
+        },
+        {
+          "id": "PDF_P1_META",
+          "label": "P1 — _apply_llm_metadata()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Rileva genere, tono, archetipo narrativo dall'estratto testuale",
+          "file": "backend/App/adventure_compiler.py:900"
+        },
+        {
+          "id": "PDF_P2_CLUES",
+          "label": "P2 — extract_clues_with_llm()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Estrae indizi strutturati (label, testo, tipo, thread) dal testo PDF",
+          "file": "backend/App/llm_extractors.py:229"
+        },
+        {
+          "id": "PDF_P3_ACTORS",
+          "label": "P3 — enrich_actors_with_llm()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Arricchisce NPC con motivazione, segreto, attitude. Se troppo pochi, estrae da zero.",
+          "file": "backend/App/llm_extractors.py:488"
+        },
+        {
+          "id": "PDF_P4A_GRAPH",
+          "label": "P4a — build_deduction_graph_with_llm()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Costruisce grafo deduttivo: revelation = combinazione di ≥2 clue di tipo diverso",
+          "file": "backend/App/llm_extractors.py"
+        },
+        {
+          "id": "PDF_P4B_CLOCKS",
+          "label": "P4b — extract_clocks_with_llm()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Estrae event_clock con clock_type, resolution_clues, discovery_clue_id",
+          "file": "backend/App/llm_extractors.py"
+        },
+        {
+          "id": "PDF_SHAPE",
+          "label": "build_shape_for_pdf_import()",
+          "tipo": "processing",
+          "desc": "Costruisce il dict raw dell'avventura dalla struttura estratta",
+          "file": "backend/App/runtime_shape_builder.py"
+        },
+        {
+          "id": "PDF_P5A_SYNTH",
+          "label": "P5a — synthesize_narrative_with_llm()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Genera premise, hidden_truth, win_condition coerenti col testo PDF",
+          "file": "backend/App/llm_extractors.py"
+        },
+        {
+          "id": "PDF_P5B_FINALE",
+          "label": "P5b — extract_finale_conditions_with_llm()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Estrae condizioni finale concrete dal testo sorgente",
+          "file": "backend/App/llm_extractors.py"
+        },
+        {
+          "id": "PDF_P6A_LOCS",
+          "label": "P6a — extract_locations_with_llm() [se serve]",
+          "tipo": "llm_call",
+          "llm": true,
+          "condizionale": true,
+          "desc": "SOLO se tutte le location sono generiche (section_N): estrae nomi reali dal testo",
+          "file": "backend/App/llm_extractors.py:1173"
+        },
+        {
+          "id": "PDF_P6B_CONN",
+          "label": "P6b — extract_location_connections_with_llm()",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Estrae collegamenti reali tra location dal testo (es: 'dalla taverna si accede al magazzino')",
+          "file": "backend/App/llm_extractors.py"
+        },
+        {
+          "id": "PDF_P7A_ACTOR_LOC",
+          "label": "P7a — resolve_actor_locations_with_llm() [NUOVO]",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Mappa NPC con location_id placeholder (section_N, p3_room_N) alla location semantica corretta",
+          "file": "backend/App/llm_extractors.py:1496"
+        },
+        {
+          "id": "PDF_P7B_CLUE_LOC",
+          "label": "P7b — resolve_clue_locations_with_llm() [NUOVO]",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Mappa clue con source_location testuale/placeholder all'ID location corretto",
+          "file": "backend/App/llm_extractors.py:1560"
+        },
+        {
+          "id": "PDF_COMPILE_RAW",
+          "label": "compile_from_raw_structure()",
+          "tipo": "processing",
+          "desc": "Converte il dict raw in AdventureDefinition + AdventureRuntimeState strutturati",
+          "file": "backend/App/adventure_compiler.py:884"
+        },
+        {
+          "id": "PDF_QUALITY_GATE",
+          "label": "check_raw_compilation_quality()",
+          "tipo": "gate",
+          "desc": "Verifica location, NPC, clue minimi. Se fallisce → 400 all'utente senza salvare.",
+          "file": "backend/App/adventure_validator.py:281"
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "nome": "Pipeline AI Generation",
+      "colore": "#27AE60",
+      "nodi": [
+        {
+          "id": "AI_ARCHETYPE",
+          "label": "_pick_adventure_archetype(genre) [NUOVO]",
+          "tipo": "processing",
+          "desc": "Sceglie archetipo narrativo evitando i 3 usati più di recente per quel genere (data/archetype_history.json)",
+          "file": "backend/App/claude_service.py"
+        },
+        {
+          "id": "AI_FRAME",
+          "label": "_pick_narrative_frame(archetype, genre) [NUOVO]",
+          "tipo": "processing",
+          "desc": "Seleziona il frame narrativo (_FAMILY_NARRATIVE_FRAMES) più adatto: inietta premise_style, hidden_truth_style, thread_focus nel prompt",
+          "file": "backend/App/claude_service.py"
+        },
+        {
+          "id": "AI_TEMPLATE",
+          "label": "random.choice(_STRUCTURAL_TEMPLATES)",
+          "tipo": "processing",
+          "desc": "Sceglie struttura narrativa: lineare, web, morale, sandbox, caccia, ecc.",
+          "file": "backend/App/claude_service.py"
+        },
+        {
+          "id": "AI_SCALE",
+          "label": "_COMPLEXITY_SCALES[scale]",
+          "tipo": "processing",
+          "desc": "compact / standard / epic: definisce numero NPC, clue, thread, twist, location, max_tokens",
+          "file": "backend/App/claude_service.py:4624"
+        },
+        {
+          "id": "AI_PROMPT",
+          "label": "_build_create_adventure_prompt()",
+          "tipo": "processing",
+          "desc": "Assembla prompt completo con schema JSON, VIETATO, REGOLE COLPI DI SCENA, frame narrativo, archetipo",
+          "file": "backend/App/claude_service.py:4747"
+        },
+        {
+          "id": "AI_LLM1",
+          "label": "LLM Call 1 — Generazione avventura",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Claude genera JSON completo: title, premise, hidden_truth, npcs, clues, twists, locations, story_threads",
+          "max_tokens": "3500–7000 (per scala)"
+        },
+        {
+          "id": "AI_NORMALIZE",
+          "label": "_normalize_adventure_canon()",
+          "tipo": "processing",
+          "desc": "Normalizzazione completa: placeholder detection, slug IDs, cross-ref, FOW, clock, twist, attitude",
+          "file": "backend/App/claude_service.py:5169",
+          "sub_steps": [
+            "placeholder location detection + rebuild da NPC refs",
+            "auto-connessione location disconnesse",
+            "bilanciamento clue per thread",
+            "popola contains_actors / contains_clues",
+            "FOW assignment (strategic=known, regional=unknown, local=hidden)",
+            "clock step auto-fill (min 4 step)",
+            "fix finale_conditions (clue_ai_* → ID reali)",
+            "twist normalizzazione (subverts_clue validato)",
+            "NPC attitude distribution fix",
+            "_looks_generic() check su hidden_truth"
+          ]
+        },
+        {
+          "id": "AI_LLM2_EPIC",
+          "label": "LLM Call 2 — _enrich_epic_adventure() [solo epic]",
+          "tipo": "llm_call",
+          "llm": true,
+          "condizionale": true,
+          "desc": "Solo per scala epic: aggiunge subplot, dilemma morale, twist aggiuntivo con subverts_clue e moral_weight",
+          "file": "backend/App/claude_service.py:4943"
+        }
+      ]
+    },
+    {
+      "id": "L5",
+      "nome": "Compilazione Comune",
+      "colore": "#8E44AD",
+      "nodi": [
+        {
+          "id": "COM_COMPILE",
+          "label": "compile_from_raw_structure()",
+          "tipo": "processing",
+          "desc": "Converte raw dict in AdventureDefinition Pydantic. Applica _repair_actors_from_canon(), normalizza location IDs, assegna slot runtime.",
+          "file": "backend/App/adventure_compiler.py:884"
+        },
+        {
+          "id": "COM_SAVE",
+          "label": "save_runtime()",
+          "tipo": "storage",
+          "desc": "Salva AdventureDefinition + AdventureRuntimeState in runtime store (in-memory + file system ephemero)",
+          "file": "backend/App/adventure_runtime_store.py:123"
+        },
+        {
+          "id": "COM_DOCTOR",
+          "label": "run_doctor()",
+          "tipo": "processing",
+          "desc": "Audit qualità: c1 doctor_score (0-40) + c2 location structure (0-25) + c3 cross-ref (0-20) + c4 content richness (0-15). Genera findings e applica fix automatici.",
+          "file": "backend/App/adventure_doctor.py:1113",
+          "scoring": {
+            "c1_doctor_score": "0-40 — validazione strutturale interna",
+            "c2_location_structure": "0-25 — exits, FOW, contains_actors/clues",
+            "c3_crossref_integrity": "0-20 — NPC/clue location_id risolti",
+            "c4_content_richness": "0-15 — clock steps, thread count, NPC count"
+          }
+        },
+        {
+          "id": "COM_VALIDATE",
+          "label": "validate_adventure_definition()",
+          "tipo": "processing",
+          "desc": "Calcola playable_score (0-100): clock operativi, threshold NPC/clue, obiettivi definiti",
+          "file": "backend/App/adventure_validator.py:123"
+        }
+      ]
+    },
+    {
+      "id": "L6",
+      "nome": "Game Runtime Engine",
+      "colore": "#C0392B",
+      "nodi": [
+        {
+          "id": "RT_MASTER_TURN",
+          "label": "master_turn_with_bible()",
+          "tipo": "entry",
+          "desc": "Turno Master: riceve azione PG, stato completo del gioco, avventura. Orchestratore principale.",
+          "file": "backend/App/claude_service.py:6653"
+        },
+        {
+          "id": "RT_DIRECTOR",
+          "label": "director_prompt_context()",
+          "tipo": "processing",
+          "desc": "Usa Haiku sul canonical_log per produrre: dove sono i PG, ultimo fatto stabilito, NPC presenti",
+          "file": "backend/App/claude_service.py:6609"
+        },
+        {
+          "id": "RT_CLUE_PROG",
+          "label": "Clue Progression Engine",
+          "tipo": "processing",
+          "desc": "3 livelli: HINT (ticks=0→1), PARTIAL REVEAL (ticks=1→2), FULL REVEAL (ticks≥2 + successo). Anti-skip: clues_found richiede ticks≥2 salvo critico.",
+          "file": "backend/App/claude_service.py:6748"
+        },
+        {
+          "id": "RT_NPC_PRESSURE",
+          "label": "NPC Pressure Context",
+          "tipo": "processing",
+          "desc": "Verifica se NPC stanno agendo autonomamente: eliminano prove, creano nuovi indizi, distruggono clue",
+          "file": "backend/App/claude_service.py:6800"
+        },
+        {
+          "id": "RT_THREAT",
+          "label": "Threat Level Tracker",
+          "tipo": "processing",
+          "desc": "Scala da 0 a threat_max_turns. Ogni turno senza progresso aumenta la minaccia.",
+          "file": "backend/App/claude_service.py:6837"
+        },
+        {
+          "id": "RT_TWISTS",
+          "label": "Twist Activation Check",
+          "tipo": "processing",
+          "desc": "Controlla se i trigger dei twist sono soddisfatti. Se sì, twist.used=True e inietta nel contesto.",
+          "file": "backend/App/claude_service.py:6726"
+        },
+        {
+          "id": "RT_BIBLE",
+          "label": "Bible Assembly",
+          "tipo": "processing",
+          "desc": "Assembla il contesto completo per il Master: location corrente, NPC presenti, indizi disponibili/nascosti, thread aperti, minaccia, twists attivi",
+          "file": "backend/App/claude_service.py"
+        },
+        {
+          "id": "RT_LLM_NARRATIVE",
+          "label": "LLM Narrative Call",
+          "tipo": "llm_call",
+          "llm": true,
+          "desc": "Claude genera la risposta narrativa del Master. Include aggiornamenti strutturati: clue_progress, clues_found, npc_updates, clock_updates, threat_increase, finale_check.",
+          "file": "backend/App/claude_service.py"
+        },
+        {
+          "id": "RT_CANONICAL_LOG",
+          "label": "canonical_log_append",
+          "tipo": "storage",
+          "desc": "Appende l'evento canonico al log persistente: chi, cosa, dove, quando. Base per director_context al turno successivo.",
+          "file": "backend/App/main.py:2563"
+        },
+        {
+          "id": "RT_STATE_UPDATE",
+          "label": "State Update + HP enrichment",
+          "tipo": "processing",
+          "desc": "Aggiorna game_state: clues_found, npc_statuses, clocks, threat_level. Arricchisce players dict con hp/max_hp.",
+          "file": "backend/App/main.py:2183"
+        },
+        {
+          "id": "RT_RESPONSE",
+          "label": "Response {narrative, players, game_state}",
+          "tipo": "output",
+          "desc": "Ritorna al frontend: testo narrativo, array players aggiornato, game_state completo"
+        }
+      ]
+    },
+    {
+      "id": "L7",
+      "nome": "Data / Storage",
+      "colore": "#95A5A6",
+      "nodi": [
+        {
+          "id": "DATA_COMPILED",
+          "label": "data/compiled_adventures/",
+          "tipo": "storage",
+          "desc": "JSON avventure compilate (ai_*.json, pdf_*.json). Organizzati per genere.",
+          "path": "data/compiled_adventures/{genre}/{prefix}_{slug}.json"
+        },
+        {
+          "id": "DATA_ARCHETYPE_HIST",
+          "label": "data/archetype_history.json",
+          "tipo": "storage",
+          "desc": "Storico ultimi 10 archetipi usati per genere. Usato da _pick_adventure_archetype() per anti-ripetizione.",
+          "path": "data/archetype_history.json"
+        },
+        {
+          "id": "DATA_PROPS",
+          "label": "backend/App/props_library.json",
+          "tipo": "storage",
+          "desc": "Libreria oggetti (props) per scene. Caricata in memoria all'avvio.",
+          "path": "backend/App/props_library.json"
+        },
+        {
+          "id": "DATA_GURPS_PDF",
+          "label": "GURPS Basic Set PDF",
+          "tipo": "storage",
+          "desc": "GURPS 4th Edition Basic Set. Usato come riferimento regole per il Master.",
+          "path": "GURPS - 4th Edition - Basic Set.pdf"
+        },
+        {
+          "id": "DATA_SESSIONS",
+          "label": "/data/sessions/ (Render ephemeral)",
+          "tipo": "storage",
+          "desc": "Runtime state in-memory + FS ephemero Render. Perso al riavvio.",
+          "path": "/data/sessions/"
+        }
+      ]
+    }
+  ],
+
+  "flussi": [
+    {
+      "id": "FLOW_PDF",
+      "nome": "Flusso compilazione PDF",
+      "colore": "#E67E22",
+      "passi": [
+        "FE_UPLOAD_PDF → API_FROM_PDF",
+        "API_FROM_PDF → PDF_EXTRACT",
+        "PDF_EXTRACT → PDF_STRUCTURE",
+        "PDF_STRUCTURE → PDF_P1_META",
+        "PDF_P1_META → PDF_P2_CLUES",
+        "PDF_P2_CLUES → PDF_P3_ACTORS",
+        "PDF_P3_ACTORS → PDF_P4A_GRAPH",
+        "PDF_P4A_GRAPH → PDF_P4B_CLOCKS",
+        "PDF_P4B_CLOCKS → PDF_SHAPE",
+        "PDF_SHAPE → PDF_P5A_SYNTH",
+        "PDF_P5A_SYNTH → PDF_P5B_FINALE",
+        "PDF_P5B_FINALE → PDF_P6A_LOCS [condizionale: solo se location generiche]",
+        "PDF_P6A_LOCS → PDF_P6B_CONN",
+        "PDF_P6B_CONN → PDF_P7A_ACTOR_LOC [nuovo]",
+        "PDF_P7A_ACTOR_LOC → PDF_P7B_CLUE_LOC [nuovo]",
+        "PDF_P7B_CLUE_LOC → PDF_COMPILE_RAW",
+        "PDF_COMPILE_RAW → PDF_QUALITY_GATE",
+        "PDF_QUALITY_GATE → [pass] COM_SAVE",
+        "PDF_QUALITY_GATE → [fail] errore 400",
+        "COM_SAVE → COM_DOCTOR",
+        "COM_DOCTOR → COM_VALIDATE",
+        "COM_VALIDATE → FE_GAME_SCREEN"
+      ],
+      "llm_calls": 9,
+      "llm_calls_dettaglio": "P1 meta + P2 clues + P3 actors + P4a graph + P4b clocks + P5a synth + P5b finale + P7a actor-locs + P7b clue-locs"
+    },
+    {
+      "id": "FLOW_AI_GEN",
+      "nome": "Flusso generazione AI",
+      "colore": "#27AE60",
+      "passi": [
+        "FE_GEN_AI → API_CREATE",
+        "API_CREATE → AI_ARCHETYPE [anti-repetition]",
+        "AI_ARCHETYPE → AI_FRAME [frame narrativo]",
+        "AI_FRAME → AI_TEMPLATE",
+        "AI_TEMPLATE → AI_SCALE",
+        "AI_SCALE → AI_PROMPT",
+        "AI_PROMPT → AI_LLM1 [generazione bibbia]",
+        "AI_LLM1 → AI_NORMALIZE [normalizzazione completa]",
+        "AI_NORMALIZE → AI_LLM2_EPIC [solo epic]",
+        "AI_LLM2_EPIC → COM_COMPILE",
+        "AI_NORMALIZE → COM_COMPILE [compact/standard]",
+        "COM_COMPILE → COM_SAVE",
+        "COM_SAVE → COM_DOCTOR",
+        "COM_DOCTOR → COM_VALIDATE",
+        "COM_VALIDATE → FE_GAME_SCREEN"
+      ],
+      "llm_calls": "1 (compact/standard) o 2 (epic)",
+      "llm_calls_dettaglio": "LLM1 generazione + LLM2 arricchimento (solo epic)"
+    },
+    {
+      "id": "FLOW_GAME_TURN",
+      "nome": "Flusso turno di gioco",
+      "colore": "#C0392B",
+      "passi": [
+        "FE_GAME_SCREEN → FE_SEND_ACTION [input PG]",
+        "FE_SEND_ACTION → API_MASTER_TURN",
+        "API_MASTER_TURN → RT_MASTER_TURN",
+        "RT_MASTER_TURN → RT_DIRECTOR [canonical_log → contesto direttore]",
+        "RT_MASTER_TURN → RT_CLUE_PROG [calcola hint/partial/full reveal]",
+        "RT_MASTER_TURN → RT_NPC_PRESSURE [azioni autonome NPC]",
+        "RT_MASTER_TURN → RT_THREAT [scala minaccia]",
+        "RT_MASTER_TURN → RT_TWISTS [check trigger attivi]",
+        "RT_MASTER_TURN → RT_BIBLE [assembla contesto completo]",
+        "RT_BIBLE → RT_LLM_NARRATIVE [generazione narrativa]",
+        "RT_LLM_NARRATIVE → RT_CANONICAL_LOG [persiste evento]",
+        "RT_LLM_NARRATIVE → RT_STATE_UPDATE [aggiorna stato]",
+        "RT_STATE_UPDATE → RT_RESPONSE",
+        "RT_RESPONSE → FE_SEND_ACTION [res.players + narrative + game_state]",
+        "FE_SEND_ACTION → FE_GAME_SCREEN [render aggiornato]"
+      ],
+      "llm_calls": "1 per turno",
+      "llm_calls_dettaglio": "1 Haiku (director context) + 1 Sonnet (narrativa master)"
+    }
+  ],
+
+  "moduli_principali": [
+    {
+      "file": "backend/App/main.py",
+      "ruolo": "API router FastAPI — orchestra tutti i flussi",
+      "righe_chiave": "1216 (create), 2176 (master-turn), 4067 (from-pdf)"
+    },
+    {
+      "file": "backend/App/claude_service.py",
+      "ruolo": "Core LLM — generazione avventure, normalizzazione, runtime engine",
+      "righe_chiave": "4921 (create_adventure), 5169 (_normalize_adventure_canon), 6653 (master_turn_with_bible)"
+    },
+    {
+      "file": "backend/App/adventure_compiler.py",
+      "ruolo": "Compilazione raw dict → struttura runtime",
+      "righe_chiave": "884 (compile_from_raw), 960 (_compile_pdf_structure_to_runtime)"
+    },
+    {
+      "file": "backend/App/llm_extractors.py",
+      "ruolo": "Estrattori LLM per pipeline PDF (clue, actor, location, clock, graph, connections, risoluzione semantica)",
+      "righe_chiave": "229 (clues), 488 (actors), 1173 (locations), 1496 (resolve_actor_locs), 1560 (resolve_clue_locs)"
+    },
+    {
+      "file": "backend/App/adventure_doctor.py",
+      "ruolo": "Audit qualità avventura — scoring c1/c2/c3/c4, findings, enrichment",
+      "righe_chiave": "1113 (run_doctor)"
+    },
+    {
+      "file": "backend/App/adventure_validator.py",
+      "ruolo": "Quality gate e playable_score",
+      "righe_chiave": "123 (validate), 281 (check_raw_compilation_quality)"
+    },
+    {
+      "file": "backend/App/adventure_runtime_store.py",
+      "ruolo": "Persistenza runtime state (in-memory + FS)",
+      "righe_chiave": "123 (save_runtime)"
+    },
+    {
+      "file": "backend/App/pdf_structure_extractor.py",
+      "ruolo": "Heuristic parser testo PDF → struttura (stanze, NPC, indizi)",
+      "note": "Non usa LLM — regex e pattern matching"
+    },
+    {
+      "file": "backend/App/runtime_shape_builder.py",
+      "ruolo": "Costruisce shape base avventura da struttura estratta",
+      "note": "Usato sia per PDF che per AI generated"
+    },
+    {
+      "file": "data/compiled_adventures/",
+      "ruolo": "Archivio avventure compilate (74 totali: 32 AI + 42 PDF)",
+      "struttura": "{genre}/ai_{slug}.json o pdf_{slug}.json"
+    }
+  ],
+
+  "miglioramenti_recenti": [
+    {
+      "area": "Generatore AI",
+      "modifica": "_pick_adventure_archetype() con anti-ripetizione",
+      "file": "claude_service.py",
+      "impatto": "Evita lo stesso archetipo nelle ultime 3 avventure per genere"
+    },
+    {
+      "area": "Generatore AI",
+      "modifica": "_pick_narrative_frame() → frame narrativo nel prompt",
+      "file": "claude_service.py",
+      "impatto": "Ogni avventura eredita premise_style e hidden_truth_style dal frame più adatto"
+    },
+    {
+      "area": "Generatore AI",
+      "modifica": "Twist schema: subverts_clue + moral_weight obbligatori",
+      "file": "claude_service.py",
+      "impatto": "Twist ancorati a clue reali, con costo umano esplicito"
+    },
+    {
+      "area": "Normalizzazione",
+      "modifica": "Auto-connessione location disconnesse",
+      "file": "claude_service.py",
+      "impatto": "location isolate in catena A→B→C per parent_location_id"
+    },
+    {
+      "area": "Normalizzazione",
+      "modifica": "Clock step auto-fill (min 4 step)",
+      "file": "claude_service.py",
+      "impatto": "c4 non perde più 5 punti per clock con step insufficienti"
+    },
+    {
+      "area": "Normalizzazione",
+      "modifica": "Bilanciamento clue per thread",
+      "file": "claude_service.py",
+      "impatto": "Ogni thread ha almeno 1 clue assegnato"
+    },
+    {
+      "area": "Normalizzazione",
+      "modifica": "NPC attitude distribution fix",
+      "file": "claude_service.py",
+      "impatto": "Se tutti gli NPC hanno la stessa attitude, introduce varietà automaticamente"
+    },
+    {
+      "area": "Pipeline PDF",
+      "modifica": "P7a resolve_actor_locations_with_llm() + P7b resolve_clue_locations_with_llm()",
+      "file": "llm_extractors.py + adventure_compiler.py",
+      "impatto": "Risolve il c3=0 cronico nei PDF (NPC a section_N → location semantica)"
+    },
+    {
+      "area": "Nomi NPC",
+      "modifica": "'Voss' sostituito con 'Eriksson' nel pool sci_fi",
+      "file": "claude_service.py",
+      "impatto": "Riduce ricorrenza eccessiva dello stesso cognome"
+    }
+  ]
+}
