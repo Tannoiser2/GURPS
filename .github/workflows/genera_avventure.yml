@@ -1,0 +1,108 @@
+name: Genera Avventure (Generi × Scale)
+
+on:
+  workflow_dispatch:
+    inputs:
+      genres:
+        description: "Generi (separati da spazio). Lascia vuoto per tutti."
+        required: false
+        default: "action fantasy horror investigation romance sci_fi"
+      scales:
+        description: "Scale: compact standard epic (separati da spazio)"
+        required: false
+        default: "compact standard epic"
+      count:
+        description: "Avventure per combinazione genere×scala (1 = 18 tot, 2 = 36 tot, ...)"
+        required: false
+        default: "1"
+
+jobs:
+  genera:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa dipendenze di sistema
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q build-essential
+
+      - name: Installa dipendenze Python
+        run: |
+          pip install --upgrade pip
+          pip install anthropic>=0.50 fastapi uvicorn pydantic python-multipart requests aiofiles
+          # dipendenze extra del backend
+          pip install -r requirements.txt 2>/dev/null || true
+        working-directory: backend
+
+      - name: Avvia backend locale
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_API_KEY:    ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          cd backend
+          uvicorn App.main:app --host 127.0.0.1 --port 8765 --workers 1 \
+            --log-level warning &
+          echo "BACKEND_PID=$!" >> $GITHUB_ENV
+          cd ..
+
+          # Attendi che il backend risponda (max 60s)
+          echo "Attendo che il backend sia pronto..."
+          for i in $(seq 1 20); do
+            sleep 3
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8765/health || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "Backend pronto dopo $((i*3))s — status $STATUS"
+              break
+            fi
+            echo "  tentativo $i/20 — status $STATUS"
+          done
+
+          curl -s http://127.0.0.1:8765/health | python3 -m json.tool || true
+
+      - name: Genera avventure
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          GENRES="${{ github.event.inputs.genres }}"
+          SCALES="${{ github.event.inputs.scales }}"
+          COUNT="${{ github.event.inputs.count }}"
+
+          python3 scripts/genera_avventure.py \
+            --backend http://127.0.0.1:8765 \
+            --genres $GENRES \
+            --scales $SCALES \
+            --count "$COUNT"
+
+      - name: Ferma backend
+        if: always()
+        run: |
+          kill "$BACKEND_PID" 2>/dev/null || true
+
+      - name: Commit e push risultati
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/compiled_adventures/
+          git diff --cached --stat
+
+          if git diff --cached --quiet; then
+            echo "Nessuna avventura nuova da committare"
+            exit 0
+          fi
+
+          NEW_COUNT=$(git diff --cached --name-only | grep -c "\.json$" || true)
+          GENRES="${{ github.event.inputs.genres }}"
+          SCALES="${{ github.event.inputs.scales }}"
+
+          git commit -m "gen: $NEW_COUNT avventure nuove ($(echo $GENRES | tr ' ' '/') × $(echo $SCALES | tr ' ' '/')) [skip ci]"
+          git push origin main
