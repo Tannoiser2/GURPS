@@ -5330,17 +5330,6 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
 
     antagonist = next((n for n in npcs if isinstance(n, dict) and any(w in str(n.get("role", "")).lower() for w in ["antagon", "villain", "nemic", "cult", "assassin", "killer"])), None)
     required_clues = [c["id"] for c in enriched_clues if c.get("is_required")]
-    hot_location_indexes = {
-        i for i, loc in enumerate(locations)
-        if isinstance(loc, dict) and _location_wants_tactical_map(loc)
-    }
-    if locations:
-        hot_location_indexes.add(len(locations) - 1)
-    if antagonist and locations:
-        ant_loc = str(antagonist.get("location") or "").lower()
-        for i, loc in enumerate(locations):
-            if isinstance(loc, dict) and ant_loc and (ant_loc in str(loc.get("name", "")).lower() or str(loc.get("name", "")).lower() in ant_loc):
-                hot_location_indexes.add(i)
     # Indice id→parent per inferire location_type dalla profondità
     _loc_parents = {str(l.get("id", "")): str(l.get("parent_location_id") or "") for l in locations if isinstance(l, dict)}
 
@@ -5421,6 +5410,21 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
                     if _sl.get("contains_clues") is None:
                         _sl["contains_clues"] = []
             _loc_parents = {str(l.get("id", "")): "" for l in locations if isinstance(l, dict)}
+
+    # hot_location_indexes va calcolato sulla lista DEFINITIVA di location: la ricostruzione
+    # delle location placeholder qui sopra può cambiarne numero e ordine, quindi calcolarlo
+    # prima (com'era) lasciava la location finale senza tactical_map / has_combat_potential.
+    hot_location_indexes = {
+        i for i, loc in enumerate(locations)
+        if isinstance(loc, dict) and _location_wants_tactical_map(loc)
+    }
+    if locations:
+        hot_location_indexes.add(len(locations) - 1)
+    if antagonist and locations:
+        ant_loc = str(antagonist.get("location") or "").lower()
+        for i, loc in enumerate(locations):
+            if isinstance(loc, dict) and ant_loc and (ant_loc in str(loc.get("name", "")).lower() or str(loc.get("name", "")).lower() in ant_loc):
+                hot_location_indexes.add(i)
 
     enriched_locations = []
     for i, loc in enumerate(locations):
