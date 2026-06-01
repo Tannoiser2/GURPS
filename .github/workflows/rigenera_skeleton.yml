@@ -17,49 +17,94 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Verifica ANTHROPIC_API_KEY
+        run: |
+          if [ -z "${{ secrets.ANTHROPIC_API_KEY }}" ]; then
+            echo "❌ ERRORE: secret ANTHROPIC_API_KEY non configurato."
+            echo "Vai su: Settings → Secrets and variables → Actions → New repository secret"
+            echo "Nome: ANTHROPIC_API_KEY  |  Valore: la tua chiave Anthropic (inizia con sk-ant-api03-...)"
+            exit 1
+          fi
+          echo "✅ ANTHROPIC_API_KEY presente"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Installa dipendenze critiche
         run: |
-          pip install anthropic>=0.50 fastapi uvicorn pydantic python-multipart requests
+          pip install --upgrade pip
 
-      - name: Install backend dependencies
-        run: |
-          pip install -r requirements.txt || true
+          # Pacchetti obbligatori — NON usiamo || true qui
+          pip install \
+            "anthropic>=0.50" \
+            "fastapi>=0.110.0" \
+            "uvicorn[standard]>=0.27.0" \
+            "pydantic>=2.0.0" \
+            "python-multipart>=0.0.9" \
+            "python-dotenv>=1.0.0" \
+            "openai>=1.0.0" \
+            "pdfplumber>=0.10.0" \
+            "Pillow>=10.0.0" \
+            "requests" \
+            "aiofiles"
 
-      - name: Rigenera avventure via backend locale
+          # google-genai è opzionale (il backend gestisce ImportError)
+          pip install "google-genai" || echo "⚠ google-genai non installato (opzionale, continuo)"
+
+      - name: Avvia backend locale
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GOOGLE_API_KEY:    ${{ secrets.GOOGLE_API_KEY }}
         run: |
-          MAX=${{ github.event.inputs.max_adventures }}
-
-          # Avvia il backend in background
           cd backend
-          uvicorn App.main:app --host 127.0.0.1 --port 8765 --workers 1 &
-          BACKEND_PID=$!
+          uvicorn App.main:app --host 127.0.0.1 --port 8765 --workers 1 \
+            --log-level info > /tmp/uvicorn.log 2>&1 &
+          echo "BACKEND_PID=$!" >> $GITHUB_ENV
           cd ..
 
-          # Aspetta che il backend sia pronto
-          echo "Aspetto che il backend sia pronto..."
+          # Attendi che il backend risponda — FAIL se non risponde entro 90s
+          echo "Attendo che il backend sia pronto (max 90s)..."
+          READY=false
           for i in $(seq 1 30); do
             sleep 3
-            if curl -s http://127.0.0.1:8765/health > /dev/null 2>&1; then
-              echo "Backend pronto dopo ${i}x3 secondi"
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8765/health 2>/dev/null || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "✅ Backend pronto dopo $((i*3))s"
+              READY=true
               break
             fi
-            echo "  tentativo $i/30..."
+            echo "  tentativo $i/30 — http $STATUS"
           done
 
-          # Esegui lo script puntando al backend locale
+          if [ "$READY" = "false" ]; then
+            echo "❌ Backend non risponde dopo 90s. Log uvicorn:"
+            cat /tmp/uvicorn.log
+            exit 1
+          fi
+
+          curl -s http://127.0.0.1:8765/health | python3 -m json.tool
+
+      - name: Rigenera avventure skeleton
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          MAX=${{ github.event.inputs.max_adventures }}
+          echo "Rigenero max=$MAX avventure skeleton..."
+
           python3 scripts/rigenera_skeleton.py \
             --backend http://127.0.0.1:8765 \
             --max "$MAX"
 
-          kill $BACKEND_PID 2>/dev/null || true
+      - name: Ferma backend
+        if: always()
+        run: |
+          kill "$BACKEND_PID" 2>/dev/null || true
+          echo "--- Ultimi log uvicorn ---"
+          tail -30 /tmp/uvicorn.log 2>/dev/null || true
 
       - name: Commit e push risultati
         run: |
@@ -68,9 +113,10 @@ jobs:
           git add data/compiled_adventures/
           git diff --cached --stat
           if git diff --cached --quiet; then
-            echo "Nessuna modifica da committare"
+            echo "⚠ Nessuna modifica da committare"
           else
             COUNT=$(git diff --cached --name-only | grep -c "ai_" || true)
             git commit -m "regen: $COUNT avventure skeleton sostituite con versioni complete [skip ci]"
             git push origin main
+            echo "✅ $COUNT avventure committate e pushate su main"
           fi
