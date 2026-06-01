@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       genres:
-        description: "Generi (separati da spazio). Lascia vuoto per tutti."
+        description: "Generi (spazio tra loro). Vuoto = tutti e 6."
         required: false
         default: "action fantasy horror investigation romance sci_fi"
       scales:
-        description: "Scale: compact standard epic (separati da spazio)"
+        description: "Scale: compact standard epic"
         required: false
         default: "compact standard epic"
       count:
-        description: "Avventure per combinazione genere×scala (1 = 18 tot, 2 = 36 tot, ...)"
+        description: "Avventure per combinazione (1 = 18 tot, 2 = 36 tot)"
         required: false
         default: "1"
 
@@ -26,101 +26,52 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Verifica ANTHROPIC_API_KEY
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          if [ -z "${{ secrets.ANTHROPIC_API_KEY }}" ]; then
-            echo "❌ ERRORE: secret ANTHROPIC_API_KEY non configurato."
-            echo "Vai su: Settings → Secrets and variables → Actions → New repository secret"
-            echo "Nome: ANTHROPIC_API_KEY  |  Valore: la tua chiave Anthropic (inizia con sk-ant-api03-...)"
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "❌ Secret ANTHROPIC_API_KEY non configurato nel repo."
+            echo ""
+            echo "Come aggiungerlo:"
+            echo "  GitHub → repo → Settings → Secrets and variables → Actions"
+            echo "  → New repository secret"
+            echo "  Nome:   ANTHROPIC_API_KEY"
+            echo "  Valore: la tua chiave (inizia con sk-ant-api03-...)"
             exit 1
           fi
           echo "✅ ANTHROPIC_API_KEY presente (${#ANTHROPIC_API_KEY} caratteri)"
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Installa dipendenze critiche
+      - name: Installa dipendenze
         run: |
           pip install --upgrade pip
 
-          # Pacchetti obbligatori — NON usiamo || true qui
+          # Dipendenze obbligatorie del backend
           pip install \
             "anthropic>=0.50" \
-            "fastapi>=0.110.0" \
-            "uvicorn[standard]>=0.27.0" \
             "pydantic>=2.0.0" \
-            "python-multipart>=0.0.9" \
             "python-dotenv>=1.0.0" \
             "openai>=1.0.0" \
             "pdfplumber>=0.10.0" \
             "Pillow>=10.0.0" \
-            "requests" \
-            "aiofiles"
+            "fastapi>=0.110.0" \
+            "python-multipart>=0.0.9"
 
-          # google-genai è opzionale (il backend gestisce ImportError)
-          pip install "google-genai" || echo "⚠ google-genai non installato (opzionale, continuo)"
+          # google-genai opzionale (il backend gestisce ImportError)
+          pip install "google-genai" || echo "⚠ google-genai non installato (opzionale)"
 
-      - name: Avvia backend locale
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GOOGLE_API_KEY:    ${{ secrets.GOOGLE_API_KEY }}
-        run: |
-          # Avvia uvicorn dalla cartella backend (cwd per gli import relativi)
-          cd backend
-          uvicorn App.main:app --host 127.0.0.1 --port 8765 --workers 1 \
-            --log-level info > /tmp/uvicorn.log 2>&1 &
-          echo "BACKEND_PID=$!" >> $GITHUB_ENV
-          cd ..
-
-          # Attendi che il backend risponda — FAIL se non risponde entro 90s
-          echo "Attendo che il backend sia pronto (max 90s)..."
-          READY=false
-          for i in $(seq 1 30); do
-            sleep 3
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8765/health 2>/dev/null || echo "000")
-            if [ "$STATUS" = "200" ]; then
-              echo "✅ Backend pronto dopo $((i*3))s"
-              READY=true
-              break
-            fi
-            echo "  tentativo $i/30 — http $STATUS"
-          done
-
-          if [ "$READY" = "false" ]; then
-            echo "❌ Backend non risponde dopo 90s. Log uvicorn:"
-            cat /tmp/uvicorn.log
-            exit 1
-          fi
-
-          curl -s http://127.0.0.1:8765/health | python3 -m json.tool
-
-      - name: Genera avventure
+      - name: Genera avventure (import diretto, senza uvicorn)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          GENRES="${{ github.event.inputs.genres }}"
-          SCALES="${{ github.event.inputs.scales }}"
-          COUNT="${{ github.event.inputs.count }}"
-
-          echo "Generi : $GENRES"
-          echo "Scale  : $SCALES"
-          echo "Count  : $COUNT"
-
-          python3 scripts/genera_avventure.py \
-            --backend http://127.0.0.1:8765 \
-            --genres $GENRES \
-            --scales $SCALES \
-            --count "$COUNT"
-
-      - name: Ferma backend
-        if: always()
-        run: |
-          kill "$BACKEND_PID" 2>/dev/null || true
-          echo "--- Ultimi log uvicorn ---"
-          tail -30 /tmp/uvicorn.log 2>/dev/null || true
+          python3 scripts/genera_direct.py \
+            --genres ${{ github.event.inputs.genres }} \
+            --scales ${{ github.event.inputs.scales }} \
+            --count  ${{ github.event.inputs.count }}
 
       - name: Commit e push risultati
         run: |
@@ -131,14 +82,11 @@ jobs:
           git diff --cached --stat
 
           if git diff --cached --quiet; then
-            echo "⚠ Nessuna avventura nuova da committare"
+            echo "⚠ Nessuna avventura nuova — niente da committare"
             exit 0
           fi
 
-          NEW_COUNT=$(git diff --cached --name-only | grep -c "\.json$" || true)
-          GENRES="${{ github.event.inputs.genres }}"
-          SCALES="${{ github.event.inputs.scales }}"
-
-          git commit -m "gen: $NEW_COUNT avventure nuove ($(echo $GENRES | tr ' ' '/') × $(echo $SCALES | tr ' ' '/')) [skip ci]"
+          NEW=$(git diff --cached --name-only | grep -c "\.json$" || true)
+          git commit -m "gen: $NEW avventure nuove (${{ github.event.inputs.genres }} × ${{ github.event.inputs.scales }}) [skip ci]"
           git push origin main
-          echo "✅ $NEW_COUNT avventure committate e pushate su main"
+          echo "✅ $NEW avventure committate su main"
