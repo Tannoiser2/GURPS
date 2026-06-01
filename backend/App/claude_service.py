@@ -5470,8 +5470,9 @@ def _normalize_adventure_canon(adventure: dict, source: str = "generated") -> di
         _loc_by_parent.setdefault(_pid, []).append(_lc)
 
     for _pid, _siblings in _loc_by_parent.items():
-        # Considera solo i sibling che hanno connections_to vuoto
-        _disconnected = [l for l in _siblings if isinstance(l, dict) and not l.get("connections_to")]
+        # Considera solo i sibling che hanno connections_to vuoto E un id valido
+        # (senza id non sono collegabili; evita un KeyError quando manca la chiave 'id')
+        _disconnected = [l for l in _siblings if isinstance(l, dict) and not l.get("connections_to") and l.get("id")]
         if len(_disconnected) < 2:
             continue
         # Collega in anello aperto: A→B→C (non ritorno C→A per evitare loop eccessivi)
@@ -5817,6 +5818,13 @@ def _validate_master_state_updates(
         if str(clues_by_id[cid].get("thread_id") or "") in valid_thread_ids
     }
 
+    # F3: la progressione indizi avanza di +1 tick per azione (come dichiarato nel prompt).
+    # Prima questo blocco forzava sempre ticks=1 in valore assoluto, rendendo impossibile
+    # raggiungere il partial→payoff (tick=2) via clue_progress nonostante il prompt lo prometta.
+    # Ora avanza di 1 rispetto allo stato corrente; un successo critico (margine>=5) può
+    # portare a tick=2 in un solo turno. Mai oltre 2.
+    _progress_state = game_state_data.get("clue_progress", {}) or {}
+    _is_crit_progress = bool((prerolled or {}).get("critical")) or int((prerolled or {}).get("margin", 0) or 0) >= 5
     valid_progress = []
     for item in su.get("clue_progress", []) or []:
         if not isinstance(item, dict):
@@ -5827,7 +5835,11 @@ def _validate_master_state_updates(
         note = _clean_canon_text(item.get("note") or item.get("text") or "", limit=180)
         if not note:
             note = "La squadra si avvicina a questo indizio canonico."
-        valid_progress.append({"clue_id": cid, "note": note, "ticks": 1})
+        _cur_ticks = int((_progress_state.get(cid, {}) or {}).get("ticks", 0) or 0)
+        _proposed = int(item.get("ticks", _cur_ticks + 1) or (_cur_ticks + 1))
+        _max_step = 2 if _is_crit_progress else 1
+        _new_ticks = min(2, max(_cur_ticks + 1, min(_proposed, _cur_ticks + _max_step)))
+        valid_progress.append({"clue_id": cid, "note": note, "ticks": _new_ticks})
     su["clue_progress"] = valid_progress[:2]
 
     found_now = []
@@ -6686,7 +6698,15 @@ def master_turn_with_bible(
       }
     """
     active = next((p for p in players if p["id"] == active_player_id), players[0])
-    adventure = _normalize_adventure_canon(dict(adventure or {}), source=(adventure or {}).get("adventure_canon", {}).get("source", "runtime_guard"))
+    # F2: la normalizzazione del canone è idempotente ed è già stata applicata in fase di
+    # creazione (source="generated") o import PDF (source="pdf_import"). Rieseguirla a ogni
+    # master-turn è lavoro ridondante e costoso, quindi la lanciamo SOLO se manca del tutto
+    # (avventure legacy o canone non normalizzato che raggiunge il runtime).
+    _canon_source = (adventure or {}).get("adventure_canon", {}).get("source", "")
+    if _canon_source in ("generated", "pdf_import", "pdf"):
+        adventure = dict(adventure or {})
+    else:
+        adventure = _normalize_adventure_canon(dict(adventure or {}), source=_canon_source or "runtime_guard")
     runtime = build_adventure_runtime(adventure, game_state_data)
     runtime_warnings = validate_runtime_integrity(adventure)
     simulation = simulate_world_state(
@@ -7039,10 +7059,6 @@ def master_turn_with_bible(
                 current_location += "\nALTRE LOCATION DISPONIBILI (usa l'id in new_location_id se il gruppo si sposta):\n" + "\n".join(reachable_lines[:12])
 
     # Ultime azioni proposte (per evitare ripetizioni)
-    last_options = []
-    for msg in history[-6:]:
-        if msg["role"] == "master" and "[OPT]" in msg.get("text", ""):
-            pass  # non usato, ma teniamo il riferimento
     player_actions_recent = [m["text"] for m in history[-8:] if m["role"] != "master"]
 
     # ── Variabili pre-calcolate (nessun backslash nelle f-string) ────────────
@@ -7078,24 +7094,23 @@ Verità nascosta (NON rivelare ancora se non è il momento): {adventure.get('hid
 Minaccia: {adventure.get('threat_description', '?')}
 Condizione vittoria: {adventure.get('win_condition', '?')}
 {canon_context}
-{runtime_context}
 
 ═══ NPC CANONICI (roster base) ═══
 {_npc_roster}
 
 ISTRUZIONI:
-2. NARRATIVA (3-5 frasi vivide): descrivi l'esito dell'azione E fai muovere la storia. Inserisci {{{{ROLL}}}} nel punto drammatico.
+1. NARRATIVA (3-5 frasi vivide): descrivi l'esito dell'azione E fai muovere la storia. Inserisci {{{{ROLL}}}} nel punto drammatico.
    - La scena deve CAMBIARE rispetto a quella precedente: nuova informazione, reazione di un PNG, spostamento, escalation.
    - Se il gruppo è fermo sulla stessa situazione da 2+ turni, introduce una svolta: arriva un PNG, scatta una trappola, si apre un passaggio, un alleato tradisce.
    - REGOLA INDIZI (segui la progressione in PROGRESSIONE INDIZI): tick=0→hint atmosferico; tick=1→partial reveal (immediate_information); tick=2/clues_found→payoff completo. Un'azione avanza al massimo 1 tick. Non rivelare il contenuto di un indizio NASCOSTO.
 
-3. OPZIONI (3 proposte per il prossimo turno):
+2. OPZIONI (3 proposte per il prossimo turno):
    - DEVONO essere ancorate alla situazione attuale (location, PNG presenti, indizi appena trovati, minaccia in corso).
    - Almeno una deve spingere verso la condizione di vittoria o rivelare un indizio.
    - Assegna ogni opzione al personaggio più adatto per skill e motivazione.
    - La terza è sempre "Azione custom".
 
-4. SPOSTAMENTO LOCATION: se nella narrativa il gruppo si sposta fisicamente in una nuova location,
+3. SPOSTAMENTO LOCATION: se nella narrativa il gruppo si sposta fisicamente in una nuova location,
    compila "new_location_id" in state_updates con l'id esatto dalla lista ALTRE LOCATION DISPONIBILI.
    Se rimangono nella stessa location, lascia "new_location_id" vuoto ("").
 
@@ -7182,6 +7197,7 @@ NARRATIVE AUTHORITY LIMITS — OBBLIGATORIO:
     # ── User prompt (per-turn: stato dinamico + azione + regole dinamiche) ────
     _user_prompt = f"""{twists_context}
 {director_context}
+{runtime_context}
 
 {locked_context_block}═══ STATO PARTITA (turno {turn}) ═══
 Livello minaccia: {threat_level}/{threat_max} ({threat_pct}%){current_location}
@@ -7326,21 +7342,26 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
         _routing_model = MODEL_NAME  # Sonnet default
     print(f"[L3] tier={_tier} finale={_is_finale} → model={_routing_model}")
 
+    # F5: budget token più ampio per le scene clou (finale, combattimento, tier alto):
+    # narrativa + 3 opzioni + JSON state_updates con combat_scene possono superare 2400 token
+    # e troncare il JSON, facendo fallire l'estrazione e cadere sul fallback generico.
+    _resp_max_tokens = 4000 if (_tier >= 5 or _is_finale or game_state_data.get("in_combat")) else 2400
+
     # L4: retry a 3 livelli — livello 1: stessa call, livello 2: prompt semplificato, livello 3: fallback deterministico
-    def _do_call(sys_p: str, usr_p: str, mdl: str) -> str:
+    def _do_call(sys_p: str, usr_p: str, mdl: str, max_tokens: int = 2400) -> str:
         combined = sys_p + "\n\n" + usr_p
         if _ACTIVE_PROVIDER == "claude" and API_KEY:
             try:
-                return _call_claude_with_cache(sys_p, usr_p, max_tokens=2400, model=mdl)
+                return _call_claude_with_cache(sys_p, usr_p, max_tokens=max_tokens, model=mdl)
             except Exception as _e:
                 print(f"[retry] cache call failed ({_e}), trying standard call")
-                return _call_claude(combined, max_tokens=2400, model=mdl)
-        return _call_text_model(combined, max_tokens=2400)
+                return _call_claude(combined, max_tokens=max_tokens, model=mdl)
+        return _call_text_model(combined, max_tokens=max_tokens)
 
     # Livello 1: chiamata normale
     raw = ""
     try:
-        raw = _do_call(_system_prompt, _user_prompt, _routing_model)
+        raw = _do_call(_system_prompt, _user_prompt, _routing_model, max_tokens=_resp_max_tokens)
     except Exception as _err1:
         print(f"[L4-1] errore chiamata principale: {_err1}")
 

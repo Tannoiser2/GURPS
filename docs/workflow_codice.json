@@ -359,10 +359,10 @@
         },
         {
           "id": "RT_DIRECTOR",
-          "label": "director_prompt_context()",
+          "label": "make_director_decision() + director_prompt_context()",
           "tipo": "processing",
-          "desc": "Usa Haiku sul canonical_log per produrre: dove sono i PG, ultimo fatto stabilito, NPC presenti",
-          "file": "backend/App/claude_service.py:6609"
+          "desc": "make_director_decision traduce la simulazione in una direttiva vincolante (scena, tier escalation, fail_tier); director_prompt_context la formatta nel prompt insieme al canonical_log. NON usa LLM. (Il recap Haiku sul canonical_log è invece generate_session_recap.)",
+          "file": "backend/App/narrative_director.py:39 (make_director_decision), :281 (director_prompt_context)"
         },
         {
           "id": "RT_CLUE_PROG",
@@ -387,10 +387,10 @@
         },
         {
           "id": "RT_TWISTS",
-          "label": "Twist Activation Check",
+          "label": "Twist Offering (inline in master_turn_with_bible)",
           "tipo": "processing",
-          "desc": "Controlla se i trigger dei twist sono soddisfatti. Se sì, twist.used=True e inietta nel contesto.",
-          "file": "backend/App/claude_service.py:6726"
+          "desc": "Quando threat_pct>50, i twist non ancora usati vengono OFFERTI all'AI come opzioni drammatiche. NOTA: attualmente non esiste tracking di twist.used — nessun codice imposta used=True, quindi lo stesso twist viene riproposto ogni turno. Marcatura/attivazione persistente = TODO (F4).",
+          "file": "backend/App/claude_service.py (blocco inline ~6919, dentro master_turn_with_bible)"
         },
         {
           "id": "RT_BIBLE",
@@ -662,6 +662,42 @@
       "modifica": "'Voss' sostituito con 'Eriksson' nel pool sci_fi",
       "file": "claude_service.py",
       "impatto": "Riduce ricorrenza eccessiva dello stesso cognome"
+    },
+    {
+      "area": "GM Narrativo (F1)",
+      "modifica": "runtime_context spostato dal system prompt allo user prompt in master_turn_with_bible",
+      "file": "claude_service.py",
+      "impatto": "Il system prompt torna statico → prompt caching effettivo per turno (meno costo e latenza)"
+    },
+    {
+      "area": "GM Narrativo (F2)",
+      "modifica": "_normalize_adventure_canon non viene più rieseguito a ogni turno se il canone è già normalizzato (source generated/pdf_import)",
+      "file": "claude_service.py",
+      "impatto": "Elimina lavoro ridondante per turno; la funzione è idempotente quindi nessun cambio di comportamento"
+    },
+    {
+      "area": "GM Narrativo (F3)",
+      "modifica": "_validate_master_state_updates: clue_progress avanza di +1 tick (fino a 2 su critico) invece di forzare sempre ticks=1",
+      "file": "claude_service.py",
+      "impatto": "Allinea il validator alla regola di progressione promessa nel prompt; il payoff via clue_progress è ora raggiungibile"
+    },
+    {
+      "area": "GM Narrativo (F5)",
+      "modifica": "max_tokens dinamico (4000) per scene finale/combat/tier alto in master_turn_with_bible",
+      "file": "claude_service.py",
+      "impatto": "Riduce il rischio di JSON troncato e fallback generico nei momenti clou"
+    },
+    {
+      "area": "GM Narrativo (F7)",
+      "modifica": "Numerazione ISTRUZIONI del system prompt corretta (1-4) e rimosso codice morto last_options",
+      "file": "claude_service.py",
+      "impatto": "Pulizia; istruzioni al modello più chiare"
+    },
+    {
+      "area": "GM Narrativo (F4 — TODO)",
+      "modifica": "Tracking dell'attivazione dei twist (used=True) NON ancora implementato",
+      "file": "claude_service.py + main.py + adventure_runtime_store.py",
+      "impatto": "Richiede persistenza cross-modulo: lo stesso twist viene tuttora riproposto ogni turno con threat>50"
     }
   ]
 }
