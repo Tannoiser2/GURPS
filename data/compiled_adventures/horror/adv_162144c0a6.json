@@ -1,0 +1,3008 @@
+{
+  "adventure_definition": {
+    "id": "adv_162144c0a6",
+    "title": "Il Sigillo di Cenere",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "horror_survival",
+      "secondary_archetypes": [],
+      "confidence": 0.55,
+      "reason": "Matched runtime signals for horror_survival",
+      "definition": {
+        "id": "horror_survival",
+        "description": "Paura, risorse, minaccia crescente.",
+        "required_modules": [
+          "threat",
+          "resources"
+        ],
+        "optional_modules": [
+          "safe_nodes"
+        ],
+        "runtime_focus": [
+          "dread",
+          "survival"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "physical_evidence",
+          "behavior"
+        ],
+        "common_failure_modes": [
+          "panic",
+          "separation"
+        ],
+        "ending_patterns": [
+          "survive_or_reveal"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "mystery_horror",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "Horror gotico con tensione morale crescente — nebbia perenne, campane che suonano sole, sussurri di bambini nelle mura",
+    "premise": "Thorin, Alara e Okafor giungono al villaggio di Graustein rispondendo a una richiesta di aiuto della Badessa Sibylle: negli ultimi dieci giorni, sette bambini sono scomparsi senza lasciare traccia. Ma la notte del loro arrivo, mentre le campane suonano disperatamente, la terra trema e dalle fondamenta della vecchia abbazia emerge una figura incappucciata di cenere solidificata, alta tre metri, che trascina con sé un ottavo bambino. Sibylle confessa tra le lacrime: \"È tornato. Dio ci perdoni, è tornato\". La creatura lascia un messaggio bruciato nel terreno: *Sette per sette generazioni. Il debito è quasi saldo.*",
+    "initial_hook": "Il Sigillo di Cenere Thorin, Alara e Okafor giungono al villaggio di Graustein rispondendo a una richiesta di aiuto della Badessa Sibylle: negli ultimi dieci giorni, sette bambini sono scomparsi senza lasciare traccia. Ma la notte del loro arrivo, mentre le campane suonano disperatamente, la terra t",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Duecento anni fa, la Badessa fondatrice Maelis Korven strinse un patto con l'entità conosciuta come il Custode di Cenere per salvare Graustein dalla peste: sette bambini ogni sette generazioni, in cambio della protezione eterna del villaggio. Sibylle, sua diretta discendente, ha sempre saputo la verità ma ha scelto di mantenere il patto attivo sacrificando i bambini in segreto, convincendosi che fosse necessario per il bene collettivo. Irmentraud Voss, l'archivista cieca dell'abbazia, ha scoperto la verità tre mesi fa e ha cercato di spezzare il sigillo che vincola il Custode, ma spezzarlo significa liberare non solo l'entità, ma tutte le anime dei bambini sacrificati nei secoli — ora corrotte e trasformate in ombre fameliche che distruggerebbero Graustein. Sibylle ha avvelenato lentamente Irmentraud per fermarla, e ora guida i PG verso una falsa soluzione che preserverebbe il patto.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Spezzare il Sigillo di Cenere distruggendo i tre Ancoraggi del Patto (il calice nella cripta, il registro dei nomi nell'archivio, il primo dente da latte di ogni generazione conservato nel reliquiario), liberando le anime corrotte ma salvando almeno un bambino ancora vivo come 'ancora di luce' per guidare gli spiriti verso la pace — oppure accettare di completare il patto sacrificando l'ultimo bambino e condannando Graustein a un nuovo ciclo",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Spezzare il Sigillo di Cenere distruggendo i tre Ancoraggi del Patto (il calice nella cripta, il registro dei nomi nell'archivio, il primo dente da latte di ogni generazione conservato nel reliquiario), liberando le anime corrotte ma salvando almeno un bambino ancora vivo come 'ancora di luce' per guidare gli spiriti verso la pace — oppure accettare di completare il patto sacrificando l'ultimo bambino e condannando Graustein a un nuovo ciclo"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Sibylle sceglie personalmente le vittime La cappella è il punto di origine delle sparizioni, non un luogo sacro protetto",
+        "required_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Fa dubitare della sincerità di Sibylle, ma può essere interpretato come premura o come selezione rituale / Rivela che il patto fu firmato proprio lì, sotto gli occhi di Dio",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Qualcuno sta avvelenando Irmentraud Irmentraud aveva scoperto il complotto e stava per rivelarlo — per questo è stata avvelenata",
+        "required_clues": [
+          "clue_2",
+          "clue_7",
+          "clue_10"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Apre il dubbio: chi ha accesso alle sue stanze? Chi prepara le sue tisane? / Conferma che Sibylle è la mandante dell'avvelenamento",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Irmentraud ha scoperto come spezzare il patto e ha nascosto indizi prima di essere fermata Il calice è il primo Ancoraggio del Patto, usato per suggellare l'accordo originale",
+        "required_clues": [
+          "clue_3",
+          "clue_5",
+          "clue_8"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Fornisce i tre obiettivi concreti per fermare il Custode / Distruggerlo è il primo passo per spezzare il sigillo",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Testimonianza di Benedizioni",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Fucina del Villaggio",
+        "reveals": "Sibylle sceglie personalmente le vittime",
+        "payoff": "Fa dubitare della sincerità di Sibylle, ma può essere interpretato come premura o come selezione rituale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Testimonianza di Benedizioni",
+        "hidden_implication": "Sibylle sceglie personalmente le vittime",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Dettaglio verificabile in Stanza di Irmentraud",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Stanza di Irmentraud",
+        "reveals": "Qualcuno sta avvelenando Irmentraud",
+        "payoff": "Apre il dubbio: chi ha accesso alle sue stanze? Chi prepara le sue tisane?",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Dettaglio verificabile in Stanza di Irmentraud",
+        "hidden_implication": "Qualcuno sta avvelenando Irmentraud",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Codice Braille nascosto",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "Archivio dell'Abbazia",
+        "reveals": "Irmentraud ha scoperto come spezzare il patto e ha nascosto indizi prima di essere fermata",
+        "payoff": "Fornisce i tre obiettivi concreti per fermare il Custode",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Nei margini di un tomo polveroso nell'archivio",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Impronte di cenere",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Cappella dell'Abbazia",
+        "reveals": "La cappella è il punto di origine delle sparizioni, non un luogo sacro protetto",
+        "payoff": "Rivela che il patto fu firmato proprio lì, sotto gli occhi di Dio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Sul pavimento della cappella, davanti all'altare, ci sono impronte di piedi nudi bruciate nella pietra. Sono piccole — di bambino. Formano un cerchio perfetto attorno a un punto centrale dove la pietra è crepata.",
+        "hidden_implication": "La cappella è il punto di origine delle sparizioni, non un luogo sacro protetto",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il cerchio",
+          "cancellare o alterare un segno",
+          "seguire la traccia verso l'officiante"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Segni rituali incompleti in Cripta Inferiore",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Cripta Inferiore",
+        "reveals": "Il calice è il primo Ancoraggio del Patto, usato per suggellare l'accordo originale",
+        "payoff": "Distruggerlo è il primo passo per spezzare il sigillo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Segni rituali incompleti in Cripta Inferiore",
+        "hidden_implication": "Il calice è il primo Ancoraggio del Patto, usato per suggellare l'accordo originale",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il cerchio",
+          "cancellare o alterare un segno",
+          "seguire la traccia verso l'officiante"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Registro dei Sacrifici",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Archivio dell'Abbazia",
+        "reveals": "Sibylle è la custode consapevole del patto e ha orchestrato i rapimenti",
+        "payoff": "Trasforma Sibylle da alleata a principale sospettata — trigger del tradimento",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un registro rilegato in pelle nera",
+        "hidden_implication": "Sibylle è la custode consapevole del patto e ha orchestrato i rapimenti",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Lettera strappata di Irmentraud",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Stanza di Irmentraud",
+        "reveals": "Irmentraud aveva scoperto il complotto e stava per rivelarlo — per questo è stata avvelenata",
+        "payoff": "Conferma che Sibylle è la mandante dell'avvelenamento",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Frammenti di una lettera mai inviata",
+        "hidden_implication": "Irmentraud aveva scoperto il complotto e stava per rivelarlo — per questo è stata avvelenata",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Scatola dei denti da latte",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Reliquiario dell'Abbazia",
+        "reveals": "I denti sono il terzo Ancoraggio — reliquie fisiche dei bambini offerti, che mantengono il vincolo attivo",
+        "payoff": "Distruggerli è l'ultimo passo per spezzare il patto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Scatola dei denti da latte",
+        "hidden_implication": "I denti sono il terzo Ancoraggio — reliquie fisiche dei bambini offerti, che mantengono il vincolo attivo",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Testimonianza di Confessione",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Sagrestia dell'Abbazia",
+        "reveals": "Sibylle comunica direttamente con il Custode e conta i sacrifici",
+        "payoff": "FALSO INDIZIO interpretabile: può far pensare che Sibylle sia posseduta o vittima, invece è complice volontaria",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Testimonianza di Confessione",
+        "hidden_implication": "Sibylle comunica direttamente con il Custode e conta i sacrifici",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Pianti notturni di Greta",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Apertura",
+        "reveals": "Scendendo nella cripta inferiore",
+        "payoff": "Scendendo nella cripta inferiore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Scendendo nella cripta inferiore",
+        "hidden_implication": "Scendendo nella cripta inferiore",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Residui di antimonio nella tisana",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Irmentraud è stata avvelenata intenzionalmente con un veleno sofisticato",
+        "payoff": "Conferma che qualcuno di fiducia e con accesso regolare alla sua stanza l'ha avvelenata",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Registro delle tisane di Sibylle",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Sibylle aveva accesso esclusivo e regolare a ciò che Irmentraud beveva",
+        "payoff": "Combinato con clue_11, identifica Sibylle come l'avvelenatrice",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Comportamento protettivo di Sibylle",
+        "type": "behavior",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Sibylle cerca di controllare l'accesso alle informazioni e a Irmentraud",
+        "payoff": "Sospetti sul ruolo della Badessa come manipolatrice piuttosto che vittima",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Bassorilievo del Patto Originale",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Il patto fu stretto dalla fondatrice dell'abbazia duecento anni fa",
+        "payoff": "Conferma l'esistenza del Custode e la sua natura di entità vincolata",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_15",
+        "label": "Manoscritto 'De Contractibus Infernalis'",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "La natura esatta del patto e i suoi termini ciclici",
+        "payoff": "Spiega perché accadono le sparizioni proprio ora e il meccanismo del Custode",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_16",
+        "label": "Testimonianza di Tobias sul tremore",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Il Custode è fisicamente presente sotto l'abbazia e reagisce ai tentativi di liberazione",
+        "payoff": "Conferma la natura soprannaturale della minaccia e la sua ubicazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_17",
+        "label": "Visioni nelle crepe del sigillo",
+        "type": "location_detail",
+        "thread_id": "T6",
+        "source_location": "",
+        "reveals": "Dietro il sigillo non c'è solo il Custode, ma un esercito di anime corrotte",
+        "payoff": "Rivela il vero dilemma: spezzare il sigillo causerebbe una catastrofe peggiore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_18",
+        "label": "Ultimo appunto di Irmentraud",
+        "type": "document",
+        "thread_id": "T6",
+        "source_location": "",
+        "reveals": "Anche Irmentraud ha scoperto le conseguenze catastrofiche della liberazione",
+        "payoff": "Suggerisce che né mantenere né spezzare il patto sono soluzioni giuste; serve creatività",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_sibylle",
+        "name": "Badessa Sibylle Korven",
+        "role": "Guida spirituale del villaggio e alleata iniziale",
+        "location_id": "Cappella dell'Abbazia",
+        "status": "unintroduced",
+        "goal": "Preservare il patto per proteggere Graustein, convinta che il sacrificio di pochi salvi molti",
+        "secret": "È la discendente diretta di Maelis Korven e custode consapevole del patto. Ha avvelenato Irmentraud per impedirle di spezzare il sigillo. Sta guidando i PG verso una soluzione falsa.",
+        "agenda_pressure": 0,
+        "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+        "current_plan": "Guidare i PG a 'scoprire' che uno spirito maligno nelle rovine della torre rapisce i bambini. Far trovare loro simboli preparati ad arte e false testimonianze. Convincerli a compiere un 'esorcismo' che è in realtà il completamento del rituale del sigillo. Nei prossimi due giorni, prima del decimo giorno, far sparire l'ultimo bambino necessario.",
+        "fallback_plan": "Se i PG si avvicinano troppo alla verità, inscenare un attacco dello 'spirito' usando accoliti incappucciati e droghe allucinogene bruciate nelle catacombe. Nel caos, completare personalmente il rituale sacrificando l'ultimo bambino. Se tutto fallisce e il sigillo sta per spezzarsi, avvelenare i bambini prigionieri per impedire che l'entità si nutra delle loro anime viventi, ritenendolo 'atto di misericordia', poi suicidarsi per espiazione.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Preservare il patto per proteggere Graustein, convinta che il sacrificio di pochi salvi molti"
+        ],
+        "avoids": [
+          "che Testimonianza di Benedizioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene il controllo perfetto, guidando i PG verso il cimitero e le rovine della torre. Piange lacrime sincere per i bambini, cita le Scritture e prega pubblicamente. Suggerisce sottilmente che Irmentraud stava 'indagando cose pericolose' prima di morire.",
+          "medium": "Diventa più insistente che i PG seguano la pista dello 'spirito maligno' nelle rovine. Organizza veglie di preghiera notturne per tenerli occupati. Se interrogata su Maelis Korven, ammette la parentela ma la dipinge come 'vergogna ancestrale da cui il villaggio si è redento'.",
+          "high": "Si chiude nell'abbazia sostenendo di dover 'pregare per una rivelazione divina'. Invia accoliti fedeli a sorvegliare i PG. Prepara una cerimonia di 'purificazione' che in realtà è un rituale per rafforzare il sigillo. Inizia a demonizzare Irmentraud pubblicamente come 'posseduta da demoni'.",
+          "extreme": "Tenta di avvelenare i PG con la stessa digitale viola usata su Irmentraud, mescolata nel vino benedetto. Se fallisce, rivela la verità: 'Sette bambini ogni dieci anni per salvare trecento anime! Voi volete condannare tutti?' Cerca di completare il rituale del sigillo anche a costo della propria vita."
+        },
+        "reaction_table": {
+          "se_minacciato": "Chiama le guardie del villaggio affermando che i PG sono 'agenti del male che minacciano la Chiesa'. Se isolata fisicamente, offre di mostrare 'la vera origine della maledizione' guidandoli in trappole nelle catacombe sotto l'abbazia.",
+          "se_corrotto": "Impossibile. Il suo fanatismo è assoluto. Vede il patto come volontà divina travestita. Potrebbe però fingere corruzione per guadagnare tempo o attirare i PG in posizione vulnerabile durante il rituale.",
+          "se_i_pg_hanno_prove": "Cambia strategia: ammette il patto ma lo giustifica teologicamente. 'Abramo avrebbe sacrificato Isacco. Dio richiede prove di fede.' Cerca di convincere i PG che spezzare il sigillo libererebbe qualcosa di peggio. Se hanno il diario di Irmentraud, sostiene che la levatrice era impazzita dal dolore.",
+          "se_alleato": "Sembra la perfetta guida: condivide informazioni parzialmente vere, fornisce alloggio sicuro nell'abbazia, accesso agli archivi (censurati). Li indirizza verso 'soluzioni' che in realtà rafforzerebbero il patto. Cerca di separarli durante momenti critici."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_irmentraud",
+        "name": "Irmentraud Voss",
+        "role": "Archivista cieca dell'abbazia",
+        "location_id": "Archivio dell'Abbazia",
+        "status": "unintroduced",
+        "goal": "Spezzare il patto prima di morire, anche se significa sacrificare la propria vita e quella del villaggio",
+        "secret": "È stata avvelenata lentamente da Sibylle con polvere di digitale. Sa dove si trovano i tre Ancoraggi del Patto. Ha nascosto indizi in codice Braille negli archivi.",
+        "agenda_pressure": 0,
+        "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+        "current_plan": "Resistere al veleno abbastanza a lungo da guidare qualcuno che possa fermare il rituale. Ha nascosto mappe tattili in Braille che indicano i tre Ancoraggi del Patto. Sta segretamente preparando il suo corpo per il sacrificio purificatorio, digiunando e pregando per 'santificare' la sua morte imminente.",
+        "fallback_plan": "Se sente che Sibylle sta per completare il rituale (il decimo giorno), Irmentraud si suiciderà pubblicamente durante la messa, denunciando la Badessa e rivelando tutto alla congregazione. In alternativa, se il veleno accelera, userà il suo ultimo respiro per incidere con il sangue le posizioni degli Ancoraggi sul pavimento della biblioteca, sperando che qualcuno le trovi.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Spezzare il patto prima di morire, anche se significa sacrificare la propria vita e quella del villaggio"
+        ],
+        "avoids": [
+          "che Testimonianza di Benedizioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Irmentraud accoglie i visitatori con cautela, tastando l'aria con le dita tremanti. Parla in enigmi e metafore religiose, riferendosi ai bambini come 'semi non ancora germogliati' e al villaggio come 'campo maledetto'. Tossisce frequentemente in un fazzoletto macchiato di sangue.",
+          "medium": "Quando pressata, Irmentraud diventa febbrile e profetica. Sussurra: 'La Madre Superiore mi nutre con veleno dolce come miele.' Guida tattilmente le mani dei PG sui tomi in Braille, premendo le loro dita sui punti chiave. Confessa di aver scoperto che i bambini sono ancore viventi per un patto del 1349.",
+          "high": "Irmentraud crolla, vomitando bile verdastra. Con voce rotta rivela le posizioni esatte: 'Il pozzo sigillato nel chiostro nord, la pietra tombale senza nome sotto l'altare, il salice piangente dove bruciarono la strega.' Implora i PG di ucciderla sopra uno degli Ancoraggi per indebolire il rituale.",
+          "extreme": "In preda a convulsioni da digitale, Irmentraud si strappa gli occhi bendati rivelando orbite vuote incise con simboli. Grida: 'Sibylle è la discendente! Il mio sangue spezzerà la catena!' Si trascina verso il pozzo del chiostro, determinata a gettarvisi dentro prima che il veleno la uccida, sabotando così il patto."
+        },
+        "reaction_table": {
+          "se_minacciato": "Ride amaramente: 'Minacciarmi? Sono già morta da sei giorni.' Rivela con calma che il veleno è irreversibile, ma che la sua morte può ancora servire a uno scopo. Offre collaborazione totale in cambio di una morte significativa.",
+          "se_corrotto": "Sputa con disprezzo: 'Oro e promesse? Ho barattato la vista per conoscenza proibita e ora baratto la vita per redenzione. Non c'è nulla che possiate offrirmi che valga più della dannazione di questo villaggio maledetto.'",
+          "se_i_pg_hanno_prove": "Quando i PG mostrano prove del patto o delle sparizioni, Irmentraud piange lacrime di sangue. Confessa tutto: i registri nascosti, il codice Braille con le formule di scioglimento, e come Sibylle l'ha avvelenata quando ha capito che sapeva troppo.",
+          "se_alleato": "Irmentraud diventa una risorsa preziosa ma fragile. Traduce freneticamente i testi in Braille, rivelando che servono tre morti consenzienti agli Ancoraggi per spezzare il patto. Sussurra: 'Io sarò la prima. Trovate altri due disposti a sacrificarsi, o i bambini diventeranno cenere vivente.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_henrik",
+        "name": "Henrik Dahl",
+        "role": "Fabbro del villaggio e padre di uno dei bambini scomparsi",
+        "location_id": "Fucina del Villaggio",
+        "status": "unintroduced",
+        "goal": "Salvare sua figlia Greta a qualsiasi costo, anche uccidendo chi si mette in mezzo",
+        "secret": "Ha scoperto che Sibylle benedice i bambini prima che scompaiano. Sospetta di lei ma ha paura di accusare una Badessa.",
+        "agenda_pressure": 0,
+        "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+        "current_plan": "Sorvegliare Sibylle di nascosto per tre giorni. Se benedice un altro bambino, seguirla armato di una mannaia e un'ascia. Liberare i bambini o morire cercando. Non coinvolgere le autorità perché non crederebbero mai a lui.",
+        "fallback_plan": "Se scoperto o se i PG lo ostacolano: rapire Sibylle di notte dalla sua cella, torturarla nella fucina fino a ottenere la posizione di Greta. Se la bambina è morta, uccidere Sibylle bruciandola nel forno di fusione e darsi alla fuga nelle montagne.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Salvare sua figlia Greta a qualsiasi costo, anche uccidendo chi si mette in mezzo"
+        ],
+        "avoids": [
+          "che Testimonianza di Benedizioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Henrik lavora al mantice con colpi irregolari, lo sguardo perso. Risponde a monosillabi, stringendo il martello. 'Greta aveva sette anni. AVEVA.' Poi riprende a battere il ferro con violenza eccessiva.",
+          "medium": "Le mani di Henrik tremano mentre afferra la tenaglia. 'La Badessa... l'ho vista tracciare segni sulla fronte di Greta tre giorni prima. Un sigillo di cenere. Come sugli altri.' La voce si incrina. 'Ma chi crederebbe a un fabbro contro una serva di Dio?'",
+          "high": "Henrik sbatte il martello sull'incudine. 'BASTA! Stanotte entrerò nell'abbazia. Se quella donna ha toccato mia figlia, brucerò quel posto fino alle fondamenta!' Lacrime rigano il suo volto coperto di fuliggine. 'Dovete aiutarmi o levarvi dai piedi.'",
+          "extreme": "Henrik estrae una lama nascosta nella fornace, ancora incandescente. 'Sibylle ha portato via SETTE bambini. Greta piangeva quando l'ha benedetta.' Gli occhi iniettati di sangue. 'Se non la fermate voi ADESSO, lo faccio io. E non mi importa chi muore con lei.'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Afferra il martello da forgia e si barrica nella fucina. 'Siete con LEI? Siete qui per farmi tacere?' Può attaccare chiunque si avvicini alla porta, accecato dalla disperazione.",
+          "se_corrotto": "Fissa l'oro con disprezzo. 'Comprate la mia Greta con monete?' Ma se gli promettono accesso all'abbazia o protezione legale contro Sibylle, collabora fornendo prove del sigillo e i nomi degli altri genitori.",
+          "se_i_pg_hanno_prove": "Crolla in ginocchio tra le braci. 'Lo sapevo... lo SAPEVO.' Confessa di aver seguito Sibylle fino a rovine sotterranee tre notti fa, ma è scappato per paura. Disegna una mappa approssimativa nella cenere.",
+          "se_alleato": "Giura fedeltà ai PG. Forgia armi benedette con ferro di meteorite che conservava. 'Mio nonno diceva che questo metallo ferisce ciò che non dovrebbe esistere.' Guiderà l'assalto all'abbazia, anche a costo della vita."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_ludmilla",
+        "name": "Ludmilla Falk",
+        "role": "Levatrice e guaritrice del villaggio",
+        "location_id": "Casa della Levatrice",
+        "status": "unintroduced",
+        "goal": "Scoprire perché il veleno nelle tisane di Irmentraud non appare nei registri ufficiali",
+        "secret": "Ha fornito inconsapevolmente la digitale a Sibylle, credendo fosse per curare l'insonnia. Ora sospetta la verità e si sente complice.",
+        "agenda_pressure": 0,
+        "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+        "current_plan": "Evitare di incontrare Sibylle finché non capisce se la Badessa sospetta che lei sappia. Continuare a visitare le famiglie dei bambini scomparsi per sembrare normale. Cercare discretamente nei suoi libri di erboristeria se esiste davvero un 'Sigillo di Cenere' menzionato da Sibylle in delirio.",
+        "fallback_plan": "Se scoperta, accusare Sibylle per prima davanti al villaggio, sostenendo di essere stata manipolata da quella che credeva una santa. Se questo fallisce, fuggire a Eisenbach con i suoi registri come prova, sperando nella protezione delle autorità civili contro la Chiesa.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Scoprire perché il veleno nelle tisane di Irmentraud non appare nei registri ufficiali"
+        ],
+        "avoids": [
+          "che Testimonianza di Benedizioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Ludmilla offre tisane calmanti e parla dei bambini scomparsi con tristezza autentica. Menziona casualmente che 'anche la Badessa Sibylle dorme male in questi giorni terribili' e che le ha preparato rimedi naturali.",
+          "medium": "Diventa nervosa quando si parla di erbe specifiche. Le mani tremano preparando le bende. Ammette di aver dato digitale a Sibylle 'solo per l'insonnia, lo giuro', ma insiste che non c'entra con i bambini. Chiede ossessivamente: 'Ho fatto qualcosa di sbagliato?'",
+          "high": "Crolla piangendo, confessando di aver fornito digitale in dosi che ora sa essere letali. Mostra il suo registro personale dove ha annotato le quantità - molto superiori a quelle terapeutiche. 'Mi diceva che non bastava mai... che i demoni non la lasciavano dormire. Dio mio, cosa ho fatto?'",
+          "extreme": "Tenta di avvelenarsi con la sua stessa digitale davanti ai PG. Urla che Sibylle le ha fatto credere di star curando una santa, ma ora capisce che ha aiutato a preparare 'il Sigillo' - qualcosa che richiedeva 'sette anime pure e cenere benedetta'. Rivela la cantina segreta sotto l'infermeria dove conservava le erbe per Sibylle."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si barrica nell'infermeria con i suoi strumenti chirurgici. Minaccia di urlare che i PG sono gli assassini, ma è palesemente terrorizzata e poco convincente. Offre di mostrare tutto se la proteggono da Sibylle.",
+          "se_corrotto": "Non accetta denaro ('Non posso comprare la mia anima'), ma se promettono di farla sembrare innocente davanti al villaggio, rivela dove Sibylle conserva i resti dei bambini e ammette di aver visto ceneri umane mescolate alle erbe.",
+          "se_i_pg_hanno_prove": "Riconosce immediatamente i contenitori di digitale o le ricette. Crolla completamente, ammettendo tutto. Supplica di poter testimoniare contro Sibylle per salvare la propria anima. Offre di preparare un antidoto se Sibylle ha già somministrato veleno ad altri.",
+          "se_alleato": "Diventa una fonte preziosa: conosce gli orari di Sibylle, ha le chiavi dell'abbazia, può riconoscere sintomi di avvelenamento nei sopravvissuti. Chiede solo di poter confessare pubblicamente e fare ammenda, anche se significa la prigione."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_tobias",
+        "name": "Tobias Dern",
+        "role": "Sagrestano e custode della cripta",
+        "location_id": "Sagrestia dell'Abbazia",
+        "status": "unintroduced",
+        "goal": "Mantenere segreti i passaggi sotto l'abbazia per proteggere la propria posizione",
+        "secret": "Ha visto Sibylle scendere nella cripta proibita tre volte nell'ultima settimana. Ricatta sottilmente l'abbazia per ottenere favori.",
+        "agenda_pressure": 0,
+        "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+        "current_plan": "Continuare a ricattare Sibylle per piccoli favori (vino migliore, monete, promesse di avanzamento) finché il rituale non sarà completato. Poi fingersi ignaro di tutto e incolpare forze oscure esterne.",
+        "fallback_plan": "Se scoperto, accusare un accolito minore dell'abbazia di essere il vero complice. Ha già nascosto nella cella di Fra' Martin alcune candele nere e cenere rituale come false prove. Se anche questo fallisce, fuggire verso il villaggio vicino con i risparmi accumulati dal ricatto.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Mantenere segreti i passaggi sotto l'abbazia per proteggere la propria posizione"
+        ],
+        "avoids": [
+          "che Testimonianza di Benedizioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Tobias risponde con evasività studiata, pulendo nervosamente i candelabri mentre menziona che 'la Badessa è molto devota, passa ore in preghiera nei luoghi più santi dell'abbazia'. Suggerisce ai PG di cercare altrove, magari nei boschi.",
+          "medium": "Tobias diventa difensivo e leggermente aggressivo. 'Non sono affari vostri dove va la Badessa! Io custodisco queste chiavi per volontà divina.' Inizia a seguire i PG per controllare dove vanno, spostando oggetti nella cripta per nascondere l'accesso al passaggio.",
+          "high": "Tobias crolla parzialmente: 'Va bene, sì! Ho visto Sibylle scendere dove non dovrebbe. Ma se questo esce fuori, perdo tutto! Forse... possiamo accordarci?' Offre informazioni parziali in cambio di protezione, ma omette dettagli cruciali sui bambini.",
+          "extreme": "Tobias fugge verso la cripta per avvertire Sibylle, tentando di siglare le porte dietro di sé. Se bloccato, confessa tutto in preda al panico: 'I bambini sono vivi! Sotto! Sibylle li prepara per il rituale del Sigillo! Mi ha promesso che sarei diventato il nuovo parroco!'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Tenta di suonare la campana dell'abbazia per chiamare aiuto. Se impossibilitato, minaccia: 'La Badessa saprà che siete venuti da me! Ha protezioni che voi non immaginate!' Usa le chiavi come merce di scambio.",
+          "se_corrotto": "Accetta denaro o promesse di posizione, ma tradisce comunque i PG informando Sibylle 'per assicurazione'. Fornisce una chiave che apre solo la cripta superiore, non i passaggi segreti sotto.",
+          "se_i_pg_hanno_prove": "Cambia strategia istantaneamente: 'Io sono una vittima! Sibylle mi ha obbligato al silenzio con minacce!' Offre di guidarli nei passaggi in cambio di testimoniare a suo favore, ma tenta di portarli in trappole.",
+          "se_alleato": "Diventa estremamente servile e loquace. Rivela l'orario esatto in cui Sibylle scende (mezzanotte), i simboli incisi sulle pareti della cripta, e che 'sente canti in una lingua antica'. Chiede solo di essere portato via da Graustein dopo."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_greta",
+        "name": "Greta Dahl",
+        "role": "Bambina prigioniera del Custode (ancora viva)",
+        "location_id": "Cripta Inferiore",
+        "status": "unintroduced",
+        "goal": "Tornare da suo padre e raccontare 'i segreti che le ombre le hanno sussurrato'",
+        "secret": "Ha sentito le anime corrotte parlare nei loro lamenti: conosce i nomi di tutti i bambini sacrificati e dove si trovano gli Ancoraggi",
+        "agenda_pressure": 0,
+        "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+        "current_plan": "Resistere alla corruzione completa abbastanza a lungo da vedere suo padre un'ultima volta. Inconsapevolmente custodisce l'unica mappa completa degli Ancoraggi nella sua memoria frammentata",
+        "fallback_plan": "Se il Custode percepisce che sta per parlare, Greta tenterà la fuga suicida verso il fiume—preferisce annegare che diventare completamente un suo strumento. Alternativamente, rivelerà tutto in un ultimo momento di lucidità prima della possessione totale",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Tornare da suo padre e raccontare 'i segreti che le ombre le hanno sussurrato'"
+        ],
+        "avoids": [
+          "che Testimonianza di Benedizioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Greta sussurra frammenti incomprensibili, alternando il proprio nome a quello di altri bambini. Traccia simboli sulla polvere con dita tremanti, ripetendo 'le ombre sanno, le ombre ricordano'",
+          "medium": "Inizia a elencare ossessivamente i nomi dei bambini scomparsi nell'ordine esatto in cui furono presi. Indica direzioni precise verso luoghi che non dovrebbe conoscere, dicendo 'lì piangono, lì aspettano'",
+          "high": "Entra in uno stato catatonico, poi urla improvvisamente coordinate precise: 'Sotto la quercia spezzata! Dietro il muro della vecchia cappella! Nel pozzo asciutto!' Piange sangue dagli occhi mentre le voci dei morti parlano attraverso di lei",
+          "extreme": "Il Custode percepisce che Greta sta rivelando troppo. Lei inizia a soffocare come se mani invisibili la strangolassero, urlando 'Non devo dirlo! Lui mi sente! I nomi bruciano!' mentre il marchio d'ombra sul suo polso si annerisce ulteriormente"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rannicchia in posizione fetale, coprendosi le orecchie e ripetendo 'papà verrà, papà mi porterà via, le ombre hanno promesso'. Cerca protezione proprio nelle entità che la tengono prigioniera",
+          "se_corrotto": "La sua conoscenza dei nomi diventa un'arma: pronunciandoli in sequenza rituale potrebbe rafforzare involontariamente gli Ancoraggi invece di rivelarli. Il Custode la sta trasformando in un grimorio vivente",
+          "se_i_pg_hanno_prove": "Riconosce oggetti o nomi legati agli altri bambini con terrore lucido. 'Quello era di Martin... l'ho visto portarlo via... l'ho sentito chiamare sua madre nell'ombra'. Diventa improvvisamente coerente ma traumatizzata",
+          "se_alleato": "Stringe la mano di chi le mostra gentilezza genuina, sussurrando una mappa verbale: 'Sette nomi, sette luoghi, sette pietre che piangono. Portami dal papà e te li dirò tutti prima che lui torni a cercarmi'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_maelis",
+        "name": "Eco di Maelis Korven",
+        "role": "Manifestazione spettrale della Badessa fondatrice",
+        "location_id": "Reliquiario dell'Abbazia",
+        "status": "unintroduced",
+        "goal": "Impedire che il patto venga spezzato, perché significherebbe ammettere che ha condannato centinaia di innocenti per nulla",
+        "secret": "Non è un fantasma vero: è una proiezione psichica del Custode, costruita sui sensi di colpa dei discendenti Korven",
+        "agenda_pressure": 0,
+        "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+        "current_plan": "Guidare sottilmente gli investigatori verso capri espiatori: eretici immaginari, cultisti esterni, maledizioni ancestrali. Proteggere il monastero e specialmente la cripta Korven da indagini approfondite. Usare il dolore materno come arma emotiva per rallentare l'investigazione fino al completamento del ciclo dei sette.",
+        "fallback_plan": "Se il patto rischia esposizione, manifestarsi alla Badessa Sibylle in visione privata ordinandole di compiere lei stessa l'ultimo sacrificio per 'rinnovare il sigillo'. Se questo fallisce, rivelare la posizione del Custode ma presentandolo come prigioniero da proteggere, non carnefice da distruggere. Ultima risorsa: frammentarsi completamente causando trauma psichico collettivo che cancelli memorie recenti nel monastero.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Impedire che il patto venga spezzato, perché significherebbe ammettere che ha condannato centinaia di innocenti per nulla"
+        ],
+        "avoids": [
+          "che Testimonianza di Benedizioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Appare nei corridoi del monastero come apparizione fugace, sussurrando frammenti di preghiere antiche e lamenti materne. Manifesta dolore struggente per i bambini perduti, rafforzando la narrativa che il villaggio sia maledetto da forze esterne.",
+          "medium": "Intensifica le manifestazioni: mostra visioni del patto originale ma distorte, dove lei appare come vittima costretta anziché artefice. Piange lacrime di cenere, accusando gli investigatori di profanare la memoria sacra e mettere in pericolo l'intero villaggio turbando l'equilibrio.",
+          "high": "Si manifesta con violenza poltergeist nel sotterraneo dove fu sigillato il patto. Crea illusioni terrificanti dei sette bambini che accusano gli investigatori di volerli condannare. Urla che spezzare il sigillo significa morte per tutti, non salvezza.",
+          "extreme": "Tenta possessione temporanea di un discendente Korven presente (o della stessa Badessa Sibylle). Con voce stratificata proclama che il Custode deve nutrirsi: meglio sette che settecento. Rivela accidentalmente la verità: non è un fantasma autonomo ma voce del patto stesso."
+        },
+        "reaction_table": {
+          "se_minacciato": "Dissolve la forma spettrale invocando il nome del Custode in lingua dimenticata. Ritorna attraverso specchi, acqua stagnante o superfici riflettenti, sempre più frammentata e disperata. Il Custode intensifica le manifestazioni fisiche per compensare.",
+          "se_corrotto": "Impossibile corromperla: non ha volontà propria. È costrutto psichico alimentato da senso di colpa collettivo. Tentativi di corromperla causano feedback psichico che rivela la sua natura artificiale attraverso glitch nella manifestazione.",
+          "se_i_pg_hanno_prove": "Cambia strategia: ammette parzialmente il patto ma lo giustifica come unico modo per salvare Graustein da sterminio totale. Offre 'rinegoziazione': sacrificare volontari adulti invece di bambini. È disperato tentativo di preservare il patto in altra forma.",
+          "se_alleato": "Non può essere vera alleata: la sua esistenza dipende dal patto. Può fingere collaborazione rivelando dettagli del rituale originale, ma sempre omettendo l'informazione cruciale: che il Custode può essere distrutto e lei cesserà di esistere in quel momento."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Apertura",
+        "description": "Apertura: nodo giocabile della struttura horror_survival.",
+        "status": "known",
+        "contains_clues": [
+          "clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Apertura: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_10"
+        ],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Nodo indizi",
+        "description": "Nodo indizi: nodo giocabile della struttura horror_survival.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Nodo indizi: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Luogo sociale",
+        "description": "Luogo sociale: nodo giocabile della struttura horror_survival.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Luogo sociale: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Zona calda",
+        "description": "Zona calda: nodo giocabile della struttura horror_survival.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Zona calda: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Il Custode di Cenere rapisce un bambino ogni notte a mezzanotte. All'ottavo rapimento, completerà il rituale e assorbirà le anime per incarnarsi definitivamente, diventando inarrestabile. Ogni notte i PG sentono i pianti dei bambini già presi, sempre più deboli.",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "Il Custode di Cenere si incarna completamente, assorbendo le anime degli otto bambini. Diventa una entità fisica inarrestabile che continuerà a seminare morte nel villaggio e oltre.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Primo bambino rapito - Il rituale inizia",
+            "effect": "Una bambina scompare dalla sua camera chiusa dall'interno. Tracce di cenere fredda sul letto.",
+            "scene_prompt": "I genitori trovano solo cenere sul cuscino. Il villaggio è in subbuglio, ma molti pensano a una fuga.",
+            "possible_player_response": "investigare la scena, interrogare i genitori, analizzare la cenere"
+          },
+          {
+            "value": 2,
+            "label": "Secondo rapimento - Il pattern si manifesta",
+            "effect": "Un altro bambino scompare. Testimoni parlano di ombre che si muovono contro il vento. La cenere appare anche fuori dalle finestre.",
+            "scene_prompt": "Il terrore inizia a diffondersi. Alcuni genitori barricano le porte. La Badessa chiede aiuto esterno.",
+            "possible_player_response": "cercare testimoni, studiare il pattern temporale, proteggere altri bambini"
+          },
+          {
+            "value": 3,
+            "label": "Terzo rapimento - I pianti notturni iniziano",
+            "effect": "Di notte, chi ascolta attentamente sente vaghi pianti infantili provenire da nessuna direzione specifica. La cenere inizia a comparire in altri luoghi del villaggio.",
+            "scene_prompt": "Un genitore impazzisce dal dolore. Alcuni villici accusano famiglie rivali. Tensione crescente.",
+            "possible_player_response": "seguire i suoni, calmare la folla, cercare la fonte della cenere"
+          },
+          {
+            "value": 4,
+            "label": "Quarto rapimento - Manifestazioni spettrali",
+            "effect": "Ombre vaghe di bambini vengono intraviste agli angoli delle strade. I pianti si fanno più chiari ma anche più distanti, come se provenissero da un altro piano.",
+            "scene_prompt": "Un testimone giura di aver visto suo figlio camminare attraverso un muro. Panico diffuso.",
+            "possible_player_response": "comunicare con le apparizioni, tracciare i movimenti spettrali, cercare il luogo di prigionia"
+          },
+          {
+            "value": 5,
+            "label": "Quinto rapimento - Il Custode si rivela parzialmente",
+            "effect": "Una figura avvolta in cenere viene vista brevemente durante il rapimento. Lascia impronte che si dissolvono in fumo grigio. I pianti ora contengono parole incomprensibili.",
+            "scene_prompt": "Chi la vede resta traumatizzato. Alcuni villici vogliono fuggire. Altri pretendono azione immediata.",
+            "possible_player_response": "affrontare l'entità, decifrare le parole dei bambini, trovare un modo per fermare i rapimenti"
+          },
+          {
+            "value": 6,
+            "label": "Sesto rapimento - Il velo si assottiglia",
+            "effect": "Il confine tra i mondi si indebolisce. Oggetti si muovono da soli. Temperature gelide in alcuni luoghi. I pianti sono costanti, sempre più deboli. La cenere inizia a formare simboli.",
+            "scene_prompt": "Il villaggio è sull'orlo del collasso. Alcuni accusano la Chiesa. Altri parlano di maledizione antica.",
+            "possible_player_response": "decifrare i simboli, rafforzare il velo, localizzare il punto debole tra i mondi"
+          },
+          {
+            "value": 7,
+            "label": "Settimo rapimento - L'incarnazione inizia",
+            "effect": "Il Custode diventa più visibile e tangibile. Attacca chi si oppone. I bambini rapiti appaiono come sagome traslucide intrappolate nella cenere. I loro pianti sono ormai sussurri.",
+            "scene_prompt": "La creatura può essere ferita ma si rigenera. Il tempo stringe. Solo un bambino rimane all'ottavo.",
+            "possible_player_response": "combattere il Custode, liberare i bambini intrappolati, interrompere il rituale"
+          },
+          {
+            "value": 8,
+            "label": "Ottavo rapimento - Il rituale si completa",
+            "effect": "L'ottavo bambino viene rapito. Le anime vengono assorbite. Il Custode inizia la trasformazione in forma fisica permanente.",
+            "scene_prompt": "Una colonna di cenere si innalza. I pianti cessano improvvisamente. Un silenzio innaturale cala sul villaggio.",
+            "possible_player_response": "intervenire durante la trasformazione, cercare il punto debole del rituale, sacrificio eroico"
+          },
+          {
+            "value": 9,
+            "label": "Incarnazione quasi completa",
+            "effect": "Il Custode assume forma quasi solida. È vulnerabile per pochi istanti prima della stabilizzazione finale. Ultima possibilità di fermarlo.",
+            "scene_prompt": "La creatura è immensa, fatta di cenere compressa e anime tormentate. Gli ultimi secondi scorrono.",
+            "possible_player_response": "attacco disperato, rituale di banishment, distruzione del sigillo originale"
+          },
+          {
+            "value": 10,
+            "label": "Il Custode di Cenere rinasce",
+            "effect": "L'incarnazione è completa. Il Custode è ora un essere fisico inarrestabile. Le anime dei bambini sono perdute per sempre. Inizia la sua opera di distruzione.",
+            "scene_prompt": "Il villaggio è condannato. La creatura non può più essere fermata con mezzi ordinari. Solo una fuga disperata rimane.",
+            "possible_player_response": "evacuare i sopravvissuti, cercare aiuto esterno, tentare un contenimento temporaneo"
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Il simbolo di cenere che appare ripetutamente indica il punto di ancoraggio del rituale",
+          "I pianti dei bambini provengono da una dimensione sovrapposta, accessibile attraverso luoghi sacri profanati",
+          "Il Custode è legato a un oggetto specifico (un sigillo) che deve essere trovato e distrutto",
+          "Durante l'ottavo rapimento, il Custode è momentaneamente vulnerabile mentre assorbe l'ultima anima"
+        ],
+        "resolution_condition": "I giocatori devono: 1) Localizzare il Sigillo di Cenere originale (nascosto in un luogo legato alla storia antica del villaggio), 2) Liberare almeno alcune anime intrappolate per indebolire il rituale, 3) Distruggere il sigillo o esorcizzare il Custode prima che completi l'ottavo rapimento. Alternative: interrompere il rapimento durante l'atto, trovare e usare un contro-rituale antico, sacrificare volontariamente qualcosa di grande valore per spezzare il legame.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Cenere fredda dove non dovrebbe esserci cenere. Pianti che nessuno vuole ammettere di sentire. Ombre che si muovono in direzioni impossibili. Un freddo che penetra le ossa anche vicino al fuoco. Il sapore metallico dell'aria prima di mezzanotte.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Sigillo Cenere Thorin Alara Okafor giungono",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "Il Veleno di Sibylle",
+        "question": "Chi ha avvelenato Irmentraud e perché?",
+        "true_answer": "La Badessa Sibylle ha avvelenato lentamente Irmentraud per impedirle di spezzare il sigillo e rivelare il patto al villaggio",
+        "status": "hidden",
+        "required_clues": [
+          "clue_11",
+          "clue_12",
+          "clue_13"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2",
+          "T3"
+        ],
+        "linked_npcs": [
+          "Badessa Sibylle Korven",
+          "Irmentraud Voss",
+          "Ludmilla Falk"
+        ],
+        "linked_locations": [
+          "Stanza di Irmentraud",
+          "Studio della Badessa"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Il Custode di Cenere",
+        "question": "Cos'è il Custode di Cenere e come è legato al villaggio?",
+        "true_answer": "Un'entità antica vincolata da un patto di sangue a proteggere Graustein in cambio di sette bambini ogni sette generazioni, sigillato nelle fondamenta dell'abbazia",
+        "status": "hidden",
+        "required_clues": [
+          "clue_14",
+          "clue_15",
+          "clue_16"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1",
+          "T3"
+        ],
+        "linked_npcs": [
+          "Tobias Dern",
+          "Irmentraud Voss"
+        ],
+        "linked_locations": [
+          "Cripta Inferiore",
+          "Archivio dell'Abbazia"
+        ]
+      },
+      {
+        "id": "T6",
+        "title": "Le Anime Corrotte",
+        "question": "Cosa accadrebbe se il sigillo venisse spezzato completamente?",
+        "true_answer": "Liberare il Custode significa anche liberare le centinaia di anime di bambini sacrificati nei secoli, ora corrotte in ombre fameliche che distruggerebbero Graustein",
+        "status": "hidden",
+        "required_clues": [
+          "clue_17",
+          "clue_18"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T3",
+          "T5"
+        ],
+        "linked_npcs": [
+          "Irmentraud Voss",
+          "Tobias Dern"
+        ],
+        "linked_locations": [
+          "Cripta Inferiore",
+          "Fondamenta dell'Abbazia"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Testimonianza di Benedizioni?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Dettaglio verificabile in Stanza di Irmentraud?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Codice Braille nascosto?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Apertura",
+          "to": "Zona calda"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Apertura",
+          "to": "Zona calda"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Zona calda",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "mystery_horror",
+      "tone": "mystery horror",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "witness disappears",
+        "suspect lies",
+        "new contradiction",
+        "pressure clock advances",
+        "partial clue",
+        "false lead",
+        "social fallout",
+        "enemy alerted",
+        "fear spike",
+        "witness panic",
+        "haunting sign"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "mystery solved before threshold",
+        "villain revealed without clue threshold",
+        "case ends from one failed roll",
+        "untriggered massacre",
+        "cosmic finale without clues",
+        "monster truth revealed too early"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_162144c0a6",
+      "title": "Il Sigillo di Cenere",
+      "genre": "mystery_horror",
+      "detected_genre": "mystery_horror",
+      "premise": "Thorin, Alara e Okafor giungono al villaggio di Graustein rispondendo a una richiesta di aiuto della Badessa Sibylle: negli ultimi dieci giorni, sette bambini sono scomparsi senza lasciare traccia. Ma la notte del loro arrivo, mentre le campane suonano disperatamente, la terra trema e dalle fondamenta della vecchia abbazia emerge una figura incappucciata di cenere solidificata, alta tre metri, che trascina con sé un ottavo bambino. Sibylle confessa tra le lacrime: \"È tornato. Dio ci perdoni, è tornato\". La creatura lascia un messaggio bruciato nel terreno: *Sette per sette generazioni. Il debito è quasi saldo.*",
+      "hidden_truth": "Duecento anni fa, la Badessa fondatrice Maelis Korven strinse un patto con l'entità conosciuta come il Custode di Cenere per salvare Graustein dalla peste: sette bambini ogni sette generazioni, in cambio della protezione eterna del villaggio. Sibylle, sua diretta discendente, ha sempre saputo la verità ma ha scelto di mantenere il patto attivo sacrificando i bambini in segreto, convincendosi che fosse necessario per il bene collettivo. Irmentraud Voss, l'archivista cieca dell'abbazia, ha scoperto la verità tre mesi fa e ha cercato di spezzare il sigillo che vincola il Custode, ma spezzarlo significa liberare non solo l'entità, ma tutte le anime dei bambini sacrificati nei secoli — ora corrotte e trasformate in ombre fameliche che distruggerebbero Graustein. Sibylle ha avvelenato lentamente Irmentraud per fermarla, e ora guida i PG verso una falsa soluzione che preserverebbe il patto.",
+      "win_condition": "Spezzare il Sigillo di Cenere distruggendo i tre Ancoraggi del Patto (il calice nella cripta, il registro dei nomi nell'archivio, il primo dente da latte di ogni generazione conservato nel reliquiario), liberando le anime corrotte ma salvando almeno un bambino ancora vivo come 'ancora di luce' per guidare gli spiriti verso la pace — oppure accettare di completare il patto sacrificando l'ultimo bambino e condannando Graustein a un nuovo ciclo",
+      "threat_description": "Il Custode di Cenere rapisce un bambino ogni notte a mezzanotte. All'ottavo rapimento, completerà il rituale e assorbirà le anime per incarnarsi definitivamente, diventando inarrestabile. Ogni notte i PG sentono i pianti dei bambini già presi, sempre più deboli.",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "horror_survival",
+        "secondary_archetypes": [],
+        "confidence": 0.55,
+        "reason": "Matched runtime signals for horror_survival",
+        "definition": {
+          "id": "horror_survival",
+          "description": "Paura, risorse, minaccia crescente.",
+          "required_modules": [
+            "threat",
+            "resources"
+          ],
+          "optional_modules": [
+            "safe_nodes"
+          ],
+          "runtime_focus": [
+            "dread",
+            "survival"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "physical_evidence",
+            "behavior"
+          ],
+          "common_failure_modes": [
+            "panic",
+            "separation"
+          ],
+          "ending_patterns": [
+            "survive_or_reveal"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_162144c0a6",
+      "adventure_canon": {
+        "core_truth": "Duecento anni fa, la Badessa fondatrice Maelis Korven strinse un patto con l'entità conosciuta come il Custode di Cenere per salvare Graustein dalla peste: sette bambini ogni sette generazioni, in cambio della protezione eterna del villaggio. Sibylle, sua diretta discendente, ha sempre saputo la verità ma ha scelto di mantenere il patto attivo sacrificando i bambini in segreto, convincendosi che fosse necessario per il bene collettivo. Irmentraud Voss, l'archivista cieca dell'abbazia, ha scoperto la verità tre mesi fa e ha cercato di spezzare il sigillo che vincola il Custode, ma spezzarlo significa liberare non solo l'entità, ma tutte le anime dei bambini sacrificati nei secoli — ora corrotte e trasformate in ombre fameliche che distruggerebbero Graustein. Sibylle ha avvelenato lentamente Irmentraud per fermarla, e ora guida i PG verso una falsa soluzione che preserverebbe il patto.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Apertura",
+          "Nodo indizi",
+          "Luogo sociale",
+          "Zona calda"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6",
+          "clue_7",
+          "clue_8",
+          "clue_9",
+          "clue_10"
+        ],
+        "finale_conditions": [
+          "Finale: Sigillo Cenere Thorin Alara Okafor giungono"
+        ],
+        "genre_profile": {
+          "id": "mystery_horror",
+          "tone": "mystery horror",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "witness disappears",
+            "suspect lies",
+            "new contradiction",
+            "pressure clock advances",
+            "partial clue",
+            "false lead",
+            "social fallout",
+            "enemy alerted",
+            "fear spike",
+            "witness panic",
+            "haunting sign"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "mystery solved before threshold",
+            "villain revealed without clue threshold",
+            "case ends from one failed roll",
+            "untriggered massacre",
+            "cosmic finale without clues",
+            "monster truth revealed too early"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Testimonianza di Benedizioni",
+          "question": "Dove conduce Testimonianza di Benedizioni?",
+          "true_answer": "Sibylle sceglie personalmente le vittime La cappella è il punto di origine delle sparizioni, non un luogo sacro protetto",
+          "required_clues": [
+            "clue_1",
+            "clue_4",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Fa dubitare della sincerità di Sibylle, ma può essere interpretato come premura o come selezione rituale / Rivela che il patto fu firmato proprio lì, sotto gli occhi di Dio",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Dettaglio verificabile in Stanza di Irmentraud",
+          "question": "Dove conduce Dettaglio verificabile in Stanza di Irmentraud?",
+          "true_answer": "Qualcuno sta avvelenando Irmentraud Irmentraud aveva scoperto il complotto e stava per rivelarlo — per questo è stata avvelenata",
+          "required_clues": [
+            "clue_2",
+            "clue_7",
+            "clue_10"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Apre il dubbio: chi ha accesso alle sue stanze? Chi prepara le sue tisane? / Conferma che Sibylle è la mandante dell'avvelenamento",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Che cosa prova Codice Braille nascosto sul Barone o sui suoi complici",
+          "question": "Che cosa prova Codice Braille nascosto sul Barone o sui suoi complici?",
+          "true_answer": "Irmentraud ha scoperto come spezzare il patto e ha nascosto indizi prima di essere fermata Il calice è il primo Ancoraggio del Patto, usato per suggellare l'accordo originale",
+          "required_clues": [
+            "clue_3",
+            "clue_5",
+            "clue_8"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Fornisce i tre obiettivi concreti per fermare il Custode / Distruggerlo è il primo passo per spezzare il sigillo",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Testimonianza di Benedizioni",
+          "text": "Testimonianza di Benedizioni",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Sibylle sceglie personalmente le vittime",
+          "payoff": "Fa dubitare della sincerità di Sibylle, ma può essere interpretato come premura o come selezione rituale",
+          "location": "Fucina del Villaggio",
+          "immediate_information": "Testimonianza di Benedizioni",
+          "hidden_implication": "Sibylle sceglie personalmente le vittime",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Dettaglio verificabile in Stanza di Irmentraud",
+          "text": "Dettaglio verificabile in Stanza di Irmentraud",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Qualcuno sta avvelenando Irmentraud",
+          "payoff": "Apre il dubbio: chi ha accesso alle sue stanze? Chi prepara le sue tisane?",
+          "location": "Stanza di Irmentraud",
+          "immediate_information": "Dettaglio verificabile in Stanza di Irmentraud",
+          "hidden_implication": "Qualcuno sta avvelenando Irmentraud",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Codice Braille nascosto",
+          "text": "Codice Braille nascosto",
+          "type": "testimony",
+          "thread_id": "T3",
+          "reveals": "Irmentraud ha scoperto come spezzare il patto e ha nascosto indizi prima di essere fermata",
+          "payoff": "Fornisce i tre obiettivi concreti per fermare il Custode",
+          "location": "Archivio dell'Abbazia",
+          "immediate_information": "Nei margini di un tomo polveroso nell'archivio",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Impronte di cenere",
+          "text": "Impronte di cenere",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "La cappella è il punto di origine delle sparizioni, non un luogo sacro protetto",
+          "payoff": "Rivela che il patto fu firmato proprio lì, sotto gli occhi di Dio",
+          "location": "Cappella dell'Abbazia",
+          "immediate_information": "Sul pavimento della cappella, davanti all'altare, ci sono impronte di piedi nudi bruciate nella pietra. Sono piccole — di bambino. Formano un cerchio perfetto attorno a un punto centrale dove la pietra è crepata.",
+          "hidden_implication": "La cappella è il punto di origine delle sparizioni, non un luogo sacro protetto",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il cerchio",
+            "cancellare o alterare un segno",
+            "seguire la traccia verso l'officiante"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Segni rituali incompleti in Cripta Inferiore",
+          "text": "Segni rituali incompleti in Cripta Inferiore",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Il calice è il primo Ancoraggio del Patto, usato per suggellare l'accordo originale",
+          "payoff": "Distruggerlo è il primo passo per spezzare il sigillo",
+          "location": "Cripta Inferiore",
+          "immediate_information": "Segni rituali incompleti in Cripta Inferiore",
+          "hidden_implication": "Il calice è il primo Ancoraggio del Patto, usato per suggellare l'accordo originale",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il cerchio",
+            "cancellare o alterare un segno",
+            "seguire la traccia verso l'officiante"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Registro dei Sacrifici",
+          "text": "Registro dei Sacrifici",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Sibylle è la custode consapevole del patto e ha orchestrato i rapimenti",
+          "payoff": "Trasforma Sibylle da alleata a principale sospettata — trigger del tradimento",
+          "location": "Archivio dell'Abbazia",
+          "immediate_information": "Un registro rilegato in pelle nera",
+          "hidden_implication": "Sibylle è la custode consapevole del patto e ha orchestrato i rapimenti",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_7",
+          "label": "Lettera strappata di Irmentraud",
+          "text": "Lettera strappata di Irmentraud",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Irmentraud aveva scoperto il complotto e stava per rivelarlo — per questo è stata avvelenata",
+          "payoff": "Conferma che Sibylle è la mandante dell'avvelenamento",
+          "location": "Stanza di Irmentraud",
+          "immediate_information": "Frammenti di una lettera mai inviata",
+          "hidden_implication": "Irmentraud aveva scoperto il complotto e stava per rivelarlo — per questo è stata avvelenata",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_8",
+          "label": "Scatola dei denti da latte",
+          "text": "Scatola dei denti da latte",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "I denti sono il terzo Ancoraggio — reliquie fisiche dei bambini offerti, che mantengono il vincolo attivo",
+          "payoff": "Distruggerli è l'ultimo passo per spezzare il patto",
+          "location": "Reliquiario dell'Abbazia",
+          "immediate_information": "Scatola dei denti da latte",
+          "hidden_implication": "I denti sono il terzo Ancoraggio — reliquie fisiche dei bambini offerti, che mantengono il vincolo attivo",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_9",
+          "label": "Testimonianza di Confessione",
+          "text": "Testimonianza di Confessione",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Sibylle comunica direttamente con il Custode e conta i sacrifici",
+          "payoff": "FALSO INDIZIO interpretabile: può far pensare che Sibylle sia posseduta o vittima, invece è complice volontaria",
+          "location": "Sagrestia dell'Abbazia",
+          "immediate_information": "Testimonianza di Confessione",
+          "hidden_implication": "Sibylle comunica direttamente con il Custode e conta i sacrifici",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_10",
+          "label": "Pianti notturni di Greta",
+          "text": "Pianti notturni di Greta",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Scendendo nella cripta inferiore",
+          "payoff": "Scendendo nella cripta inferiore",
+          "location": "Apertura",
+          "immediate_information": "Scendendo nella cripta inferiore",
+          "hidden_implication": "Scendendo nella cripta inferiore",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_sibylle",
+          "name": "Badessa Sibylle Korven",
+          "role": "Guida spirituale del villaggio e alleata iniziale",
+          "description": "Preservare il patto per proteggere Graustein, convinta che il sacrificio di pochi salvi molti",
+          "location": "Cappella dell'Abbazia",
+          "secret": "È la discendente diretta di Maelis Korven e custode consapevole del patto. Ha avvelenato Irmentraud per impedirle di spezzare il sigillo. Sta guidando i PG verso una soluzione falsa.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Preservare il patto per proteggere Graustein, convinta che il sacrificio di pochi salvi molti",
+            "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Preservare il patto per proteggere Graustein, convinta che il sacrificio di pochi salvi molti"
+            ],
+            "avoids": [
+              "che Testimonianza di Benedizioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È la discendente diretta di Maelis Korven e custode consapevole del patto. Ha avvelenato Irmentraud per impedirle di spezzare il sigillo. Sta guidando i PG verso una soluzione falsa.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_irmentraud",
+          "name": "Irmentraud Voss",
+          "role": "Archivista cieca dell'abbazia",
+          "description": "Spezzare il patto prima di morire, anche se significa sacrificare la propria vita e quella del villaggio",
+          "location": "Archivio dell'Abbazia",
+          "secret": "È stata avvelenata lentamente da Sibylle con polvere di digitale. Sa dove si trovano i tre Ancoraggi del Patto. Ha nascosto indizi in codice Braille negli archivi.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Spezzare il patto prima di morire, anche se significa sacrificare la propria vita e quella del villaggio",
+            "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Spezzare il patto prima di morire, anche se significa sacrificare la propria vita e quella del villaggio"
+            ],
+            "avoids": [
+              "che Testimonianza di Benedizioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È stata avvelenata lentamente da Sibylle con polvere di digitale. Sa dove si trovano i tre Ancoraggi del Patto. Ha nascosto indizi in codice Braille negli archivi.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_henrik",
+          "name": "Henrik Dahl",
+          "role": "Fabbro del villaggio e padre di uno dei bambini scomparsi",
+          "description": "Salvare sua figlia Greta a qualsiasi costo, anche uccidendo chi si mette in mezzo",
+          "location": "Fucina del Villaggio",
+          "secret": "Ha scoperto che Sibylle benedice i bambini prima che scompaiano. Sospetta di lei ma ha paura di accusare una Badessa.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Salvare sua figlia Greta a qualsiasi costo, anche uccidendo chi si mette in mezzo",
+            "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Salvare sua figlia Greta a qualsiasi costo, anche uccidendo chi si mette in mezzo"
+            ],
+            "avoids": [
+              "che Testimonianza di Benedizioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto che Sibylle benedice i bambini prima che scompaiano. Sospetta di lei ma ha paura di accusare una Badessa.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_ludmilla",
+          "name": "Ludmilla Falk",
+          "role": "Levatrice e guaritrice del villaggio",
+          "description": "Scoprire perché il veleno nelle tisane di Irmentraud non appare nei registri ufficiali",
+          "location": "Casa della Levatrice",
+          "secret": "Ha fornito inconsapevolmente la digitale a Sibylle, credendo fosse per curare l'insonnia. Ora sospetta la verità e si sente complice.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Scoprire perché il veleno nelle tisane di Irmentraud non appare nei registri ufficiali",
+            "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Scoprire perché il veleno nelle tisane di Irmentraud non appare nei registri ufficiali"
+            ],
+            "avoids": [
+              "che Testimonianza di Benedizioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha fornito inconsapevolmente la digitale a Sibylle, credendo fosse per curare l'insonnia. Ora sospetta la verità e si sente complice.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_tobias",
+          "name": "Tobias Dern",
+          "role": "Sagrestano e custode della cripta",
+          "description": "Mantenere segreti i passaggi sotto l'abbazia per proteggere la propria posizione",
+          "location": "Sagrestia dell'Abbazia",
+          "secret": "Ha visto Sibylle scendere nella cripta proibita tre volte nell'ultima settimana. Ricatta sottilmente l'abbazia per ottenere favori.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Mantenere segreti i passaggi sotto l'abbazia per proteggere la propria posizione",
+            "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Mantenere segreti i passaggi sotto l'abbazia per proteggere la propria posizione"
+            ],
+            "avoids": [
+              "che Testimonianza di Benedizioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha visto Sibylle scendere nella cripta proibita tre volte nell'ultima settimana. Ricatta sottilmente l'abbazia per ottenere favori.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_greta",
+          "name": "Greta Dahl",
+          "role": "Bambina prigioniera del Custode (ancora viva)",
+          "description": "Tornare da suo padre e raccontare 'i segreti che le ombre le hanno sussurrato'",
+          "location": "Cripta Inferiore",
+          "secret": "Ha sentito le anime corrotte parlare nei loro lamenti: conosce i nomi di tutti i bambini sacrificati e dove si trovano gli Ancoraggi",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Tornare da suo padre e raccontare 'i segreti che le ombre le hanno sussurrato'",
+            "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Tornare da suo padre e raccontare 'i segreti che le ombre le hanno sussurrato'"
+            ],
+            "avoids": [
+              "che Testimonianza di Benedizioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha sentito le anime corrotte parlare nei loro lamenti: conosce i nomi di tutti i bambini sacrificati e dove si trovano gli Ancoraggi",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_maelis",
+          "name": "Eco di Maelis Korven",
+          "role": "Manifestazione spettrale della Badessa fondatrice",
+          "description": "Impedire che il patto venga spezzato, perché significherebbe ammettere che ha condannato centinaia di innocenti per nulla",
+          "location": "Reliquiario dell'Abbazia",
+          "secret": "Non è un fantasma vero: è una proiezione psichica del Custode, costruita sui sensi di colpa dei discendenti Korven",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Impedire che il patto venga spezzato, perché significherebbe ammettere che ha condannato centinaia di innocenti per nulla",
+            "fear": "che Testimonianza di Benedizioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Impedire che il patto venga spezzato, perché significherebbe ammettere che ha condannato centinaia di innocenti per nulla"
+            ],
+            "avoids": [
+              "che Testimonianza di Benedizioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Non è un fantasma vero: è una proiezione psichica del Custode, costruita sui sensi di colpa dei discendenti Korven",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Apertura",
+          "description": "Apertura: nodo giocabile della struttura horror_survival.",
+          "type": "entry",
+          "visual_identity": "Apertura: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [
+            "clue_10"
+          ],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Nodo indizi",
+          "description": "Nodo indizi: nodo giocabile della struttura horror_survival.",
+          "type": "site",
+          "visual_identity": "Nodo indizi: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Luogo sociale",
+          "description": "Luogo sociale: nodo giocabile della struttura horror_survival.",
+          "type": "site",
+          "visual_identity": "Luogo sociale: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona calda",
+          "description": "Zona calda: nodo giocabile della struttura horror_survival.",
+          "type": "finale",
+          "visual_identity": "Zona calda: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "Il Custode di Cenere rapisce un bambino ogni notte a mezzanotte. All'ottavo rapimento, completerà il rituale e assorbirà le anime per incarnarsi definitivamente, diventando inarrestabile. Ogni notte i PG sentono i pianti dei bambini già presi, sempre più deboli.",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_162144c0a6",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_sibylle": {
+        "status": "unintroduced",
+        "location_id": "Cappella dell'Abbazia",
+        "agenda_pressure": 0,
+        "goal": "Preservare il patto per proteggere Graustein, convinta che il sacrificio di pochi salvi molti",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_irmentraud": {
+        "status": "unintroduced",
+        "location_id": "Archivio dell'Abbazia",
+        "agenda_pressure": 0,
+        "goal": "Spezzare il patto prima di morire, anche se significa sacrificare la propria vita e quella del villaggio",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_henrik": {
+        "status": "unintroduced",
+        "location_id": "Fucina del Villaggio",
+        "agenda_pressure": 0,
+        "goal": "Salvare sua figlia Greta a qualsiasi costo, anche uccidendo chi si mette in mezzo",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_ludmilla": {
+        "status": "unintroduced",
+        "location_id": "Casa della Levatrice",
+        "agenda_pressure": 0,
+        "goal": "Scoprire perché il veleno nelle tisane di Irmentraud non appare nei registri ufficiali",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_tobias": {
+        "status": "unintroduced",
+        "location_id": "Sagrestia dell'Abbazia",
+        "agenda_pressure": 0,
+        "goal": "Mantenere segreti i passaggi sotto l'abbazia per proteggere la propria posizione",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_greta": {
+        "status": "unintroduced",
+        "location_id": "Cripta Inferiore",
+        "agenda_pressure": 0,
+        "goal": "Tornare da suo padre e raccontare 'i segreti che le ombre le hanno sussurrato'",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_maelis": {
+        "status": "unintroduced",
+        "location_id": "Reliquiario dell'Abbazia",
+        "agenda_pressure": 0,
+        "goal": "Impedire che il patto venga spezzato, perché significherebbe ammettere che ha condannato centinaia di innocenti per nulla",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T3"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T3"
+      ],
+      "clue_6": [
+        "T1"
+      ],
+      "clue_7": [
+        "T2"
+      ],
+      "clue_8": [
+        "T3"
+      ],
+      "clue_9": [
+        "T1"
+      ],
+      "clue_10": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 86,
+    "errors": [],
+    "warnings": [
+      "Actor npc_sibylle ha location non riconosciuta: Cappella dell'Abbazia.",
+      "Actor npc_irmentraud ha location non riconosciuta: Archivio dell'Abbazia.",
+      "Actor npc_henrik ha location non riconosciuta: Fucina del Villaggio.",
+      "Actor npc_ludmilla ha location non riconosciuta: Casa della Levatrice.",
+      "Actor npc_tobias ha location non riconosciuta: Sagrestia dell'Abbazia.",
+      "Actor npc_greta ha location non riconosciuta: Cripta Inferiore.",
+      "Actor npc_maelis ha location non riconosciuta: Reliquiario dell'Abbazia."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 4,
+      "actors": 7,
+      "clues": 10,
+      "revelations": 3
+    }
+  },
+  "live_game_state": null
+}
