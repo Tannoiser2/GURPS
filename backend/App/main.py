@@ -2252,6 +2252,9 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
     # già narrati). Il frontend NON lo round-trippa, quindi la fonte è adventure_runtime_state.
     if game_state.adventure_runtime_state and game_state.adventure_runtime_state.canonical_log:
         _gsd["canonical_log"] = list(game_state.adventure_runtime_state.canonical_log)
+    # F4: inietta i twist già attivati così master_turn non li ripropone.
+    if game_state.adventure_runtime_state and game_state.adventure_runtime_state.used_twist_ids:
+        _gsd["used_twist_ids"] = list(game_state.adventure_runtime_state.used_twist_ids)
     # N5: inietta npc_runtime persistente (witness_state + fearful_turns_ignored + status)
     if game_state.adventure_runtime_state and game_state.adventure_runtime_state.actor_runtime:
         _merged_npc_rt = dict(_gsd.get("npc_runtime") or {})
@@ -2638,6 +2641,15 @@ def master_turn_bible_endpoint(payload: MasterTurnBiblePayload, response: Respon
             _touched_witness_ids.add(wid)
         # Esponi il npc_runtime aggiornato nella risposta per sync frontend
         result["npc_runtime"] = {k: dict(v) for k, v in (_art.actor_runtime or {}).items()}
+
+    # F4: persisti l'attivazione di un colpo di scena così non viene riproposto nei turni successivi.
+    _activated_twist = str((result.get("state_updates") or {}).get("activated_twist_id") or "").strip()
+    if _activated_twist and game_state.adventure_runtime_state:
+        _used = list(game_state.adventure_runtime_state.used_twist_ids or [])
+        if _activated_twist not in _used:
+            _used.append(_activated_twist)
+            game_state.adventure_runtime_state.used_twist_ids = _used
+        result["used_twist_ids"] = _used
 
     result["call_tokens"] = get_last_request_tokens()
     result["turn_id"] = _turn_id

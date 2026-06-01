@@ -387,10 +387,10 @@
         },
         {
           "id": "RT_TWISTS",
-          "label": "Twist Offering (inline in master_turn_with_bible)",
+          "label": "Twist Offering + Activation Tracking (inline in master_turn_with_bible)",
           "tipo": "processing",
-          "desc": "Quando threat_pct>50, i twist non ancora usati vengono OFFERTI all'AI come opzioni drammatiche. NOTA: attualmente non esiste tracking di twist.used — nessun codice imposta used=True, quindi lo stesso twist viene riproposto ogni turno. Marcatura/attivazione persistente = TODO (F4).",
-          "file": "backend/App/claude_service.py (blocco inline ~6919, dentro master_turn_with_bible)"
+          "desc": "Quando threat_pct>50, i twist non ancora usati vengono OFFERTI all'AI. Se l'AI ne attiva uno compila state_updates.activated_twist_id; master_turn lo valida (deve essere un twist disponibile) e main.py lo persiste in adventure_runtime_state.used_twist_ids, iniettato ai turni successivi così non viene riproposto. Esclude sia i twist con used=True (canone) sia quelli in used_twist_ids (runtime).",
+          "file": "backend/App/claude_service.py (inline in master_turn_with_bible) + main.py (persistenza) + runtime_models.py (used_twist_ids)"
         },
         {
           "id": "RT_BIBLE",
@@ -694,10 +694,10 @@
       "impatto": "Pulizia; istruzioni al modello più chiare"
     },
     {
-      "area": "GM Narrativo (F4 — TODO)",
-      "modifica": "Tracking dell'attivazione dei twist (used=True) NON ancora implementato",
-      "file": "claude_service.py + main.py + adventure_runtime_store.py",
-      "impatto": "Richiede persistenza cross-modulo: lo stesso twist viene tuttora riproposto ogni turno con threat>50"
+      "area": "GM Narrativo (F4)",
+      "modifica": "Tracking dell'attivazione dei twist: activated_twist_id validato in master_turn e persistito in adventure_runtime_state.used_twist_ids",
+      "file": "claude_service.py + main.py + runtime_models.py",
+      "impatto": "Un twist attivato non viene più riproposto nei turni successivi; offerta dei twist coerente tra i turni"
     }
   ]
 }

@@ -6940,10 +6940,20 @@ def master_turn_with_bible(
             f"{t.get('id')} — {t.get('question')} → sintesi: {t.get('true_answer','')}" for t in ready_threads
         )
 
-    twists_available = [t for t in adventure.get("twists", []) if not t.get("used")]
+    # F4: escludi i twist già usati (flag statico nel canone) E quelli marcati used a runtime
+    # (persistiti in used_twist_ids dal turno in cui sono stati attivati).
+    _used_twist_ids = set(str(x) for x in (game_state_data.get("used_twist_ids") or []))
+    twists_available = [
+        t for t in adventure.get("twists", [])
+        if not t.get("used") and str(t.get("id")) not in _used_twist_ids
+    ]
     twists_context = ""
     if twists_available and threat_pct > 50:
-        twists_context = f"\nColpi di scena disponibili (puoi attivarne uno se drammaticamente appropriato): " + "; ".join(f"[{t['id']}] trigger: {t['trigger']}" for t in twists_available)
+        twists_context = (
+            "\nColpi di scena disponibili (puoi attivarne UNO se drammaticamente appropriato): "
+            + "; ".join(f"[{t['id']}] trigger: {t['trigger']}" for t in twists_available)
+            + "\nSe attivi un colpo di scena in questo turno, metti il suo id esatto in state_updates.activated_twist_id (altrimenti lascialo \"\")."
+        )
 
     # ── Narrative State Validation snapshot ──────────────────────────────────
     # Costruisce un blocco esplicito di ciò che è NOTO vs IGNOTO ai giocatori.
@@ -7297,6 +7307,7 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
     "major_event": null,
     "explicit_trigger": null,
     "finale_condition_met": false,
+    "activated_twist_id": "",
     "allowed_escalation_tier": {director_decision.get("allowed_escalation_tier", 3)},
     "allowed_escalation_types": [],
     "forbidden_escalation_types": []
@@ -7474,6 +7485,10 @@ Rispondi SOLO con JSON puro secondo questo schema minimo:
             if not su.get("end_reason"):
                 su["end_reason"] = f"Il gruppo ha trovato tutti gli indizi necessari e risolto il clock '{resolved['label']}'. L'avventura si conclude con la loro vittoria."
             break
+    # F4: valida l'attivazione del twist — deve essere un id realmente disponibile questo turno.
+    _available_twist_ids = {str(t.get("id")) for t in twists_available if t.get("id")}
+    _activated = str(su.get("activated_twist_id") or "").strip()
+    su["activated_twist_id"] = _activated if _activated in _available_twist_ids else ""
     result["state_updates"] = su
 
     # ── Aggiorna canonical log con eventi di questo turno ─────────────────────
