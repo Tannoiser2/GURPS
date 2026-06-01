@@ -3100,5 +3100,116 @@
       "revelations": 3
     }
   },
-  "live_game_state": null
+  "doctor": {
+    "score": 3.3,
+    "score_after": 2.9,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_1",
+        "message": "NPC 'Conte Galvhar Ossidan': location_id 'Palazzo del Conte, Valcroce' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_2",
+        "message": "NPC 'Madre Superiora Yseldra': location_id 'Santuario delle Tre Lampade, Valcroce' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_3",
+        "message": "NPC 'Ser Torvald Grenn': location_id 'Quartier generale della Guardia, Valcroce' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_4",
+        "message": "NPC 'Falk Emberhand': location_id 'Baracca di Falk, Miniere di Valcroce' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_5",
+        "message": "NPC 'Archivista Miren Coldwell': location_id 'Archivi Cittadini, Valcroce' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_6",
+        "message": "NPC 'Fratello Orin': location_id 'Santuario delle Tre Lampade, Valcroce' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_7",
+        "message": "NPC 'Liora Dreth': location_id 'Locanda del Ferro Vecchio, Valcroce' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Clock 'Heat della sicurezza': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Il clock 'Heat della sicurezza' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_4, clue:clue_5, clue:clue_6, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_4, clue:clue_5, clue:clue_6, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_2, clue:clue_3, clue:clue_7, clue:clue_9, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_2, clue:clue_3, clue:clue_7, clue:clue_9, revelation:T2"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T3",
+        "message": "Pista fantasma 'T3': citata da clue:clue_8, revelation:T3 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T3', oppure rimuovi il riferimento da clue:clue_8, revelation:T3"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 5 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "Il Patto di Cenere e Ferro",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "9 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
 }
