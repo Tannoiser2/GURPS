@@ -1,0 +1,2508 @@
+{
+  "adventure_definition": {
+    "id": "adv_f90ca34b18",
+    "title": "La Fornace della Discordia",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "heist",
+      "secondary_archetypes": [
+        "military_operation",
+        "faction_sandbox",
+        "survival_escape"
+      ],
+      "confidence": 0.75,
+      "reason": "Matched runtime signals for heist",
+      "definition": {
+        "id": "heist",
+        "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+        "required_modules": [
+          "target",
+          "security_layers",
+          "routes"
+        ],
+        "optional_modules": [
+          "heat"
+        ],
+        "runtime_focus": [
+          "route",
+          "security",
+          "resource"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "document",
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "heat_tick",
+          "alarm"
+        ],
+        "ending_patterns": [
+          "extraction"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "heist",
+      "guided_sandbox",
+      "faction_crisis"
+    ],
+    "tone": "Thriller claustrofobico a orologeria, paranoia crescente, tensione tra lealtà professionale e sopravvivenza",
+    "premise": "Siete già dentro. Tre giorni fa vi siete infiltrati nella Compagnia dei Martelli Rossi, la gilda mercenaria che controlla le miniere di ferro del Passo dell'Aquila, fingendovi reclute. Il vostro mandante, il mercante Valdris Kerne, vi ha assunto per sabotare la Fornace Centrale durante la cerimonia di fusione annuale — un colpo che paralizzerebbe la produzione bellica del Ducato per mesi. Ma stamattina hanno trovato il cadavere di un capomastro con il vostro simbolo di riconoscimento nella tasca. Le guardie stanno interrogando tutti. L'uscita è sorvegliata. E la cerimonia inizia tra sei ore.",
+    "initial_hook": "La Fornace della Discordia Siete già dentro. Tre giorni fa vi siete infiltrati nella Compagnia dei Martelli Rossi, la gilda mercenaria che controlla le miniere di ferro del Passo dell'Aquila, fingendovi reclute. Il vostro mandante, il mercante Valdris Kerne, vi ha assunto per sabotare la Fornace Cen",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Valdris Kerne non ha mai voluto sabotare la fornace. Ha usato i PG come diversivo sacrificabile per distogliere le guardie dalla sua vera operazione: suo fratello gemello Torvald, prigioniero nelle celle sotterranee della gilda, custodisce l'unica testimonianza dell'omicidio del Duca di Ferronero compiuto dal Capitano Korvan Hael, comandante dei Martelli Rossi. Kerne vuole liberare Torvald e fuggire con lui prima che Hael lo faccia uccidere. Il cadavere del capomastro è stato piazzato da Kerne stesso per accelerare il panico e svuotare le celle durante l'evacuazione d'emergenza.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire la verità su Valdris Kerne, decidere se completare il sabotaggio (garantendo la fuga nel caos), liberare Torvald Kerne (ottenendo la testimonianza contro Hael), o denunciare tutto e cercare clemenza dalla gilda",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire la verità su Valdris Kerne, decidere se completare il sabotaggio (garantendo la fuga nel caos), liberare Torvald Kerne (ottenendo la testimonianza contro Hael), o denunciare tutto e cercare clemenza dalla gilda"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Valdris Kerne ha piazzato il simbolo su un cadavere già morto per creare il panico e forzare un'evacuazione delle celle, permettendogli di liberare Torvald durante il caos.",
+        "required_clues": [
+          "clue_1",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Capire che qualcuno vuole accelerare le indagini, non fermarle / Rivela che Valdris è complice, non vittima, del caos",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Torvald Kerne, gemello di Valdris, è l'unico testimone dell'omicidio del Duca di Ferronero compiuto da Hael. L'anello sigillo che custodisce è la prova del crimine.",
+        "required_clues": [
+          "clue_2",
+          "clue_3",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Localizzare Torvald e capire perché Hael lo tiene segreto / Conferma che la vera missione non è il sabotaggio",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Simbolo insanguinato sul cadavere",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "Sala degli Interrogatori",
+        "reveals": "Il cadavere è stato spostato e il simbolo piazzato di proposito per incastrare i PG",
+        "payoff": "Capire che qualcuno vuole accelerare le indagini, non fermarle",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Sul corpo del capomastro trovato stamattina c'è un medaglione con il simbolo che Valdris vi ha dato come riconoscimento. Il sangue è fresco",
+        "hidden_implication": "Il cadavere è stato spostato e il simbolo piazzato di proposito per incastrare i PG",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "seguire le impronte",
+          "analizzare la cenere",
+          "proteggersi prima di avanzare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Registro delle celle modificato",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "Celle Sotterranee",
+        "reveals": "Un prigioniero è nascosto dalla burocrazia ufficiale — Torvald Kerne",
+        "payoff": "Localizzare Torvald e capire perché Hael lo tiene segreto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Il registro delle prigioni mostra che la cella 7 è 'vuota per manutenzione' da tre mesi. Ma le sbarre sono lucide da uso recente e c'è un odore di paglia sporca. Qualcuno vive lì, cancellato dai documenti.",
+        "hidden_implication": "Un prigioniero è nascosto dalla burocrazia ufficiale — Torvald Kerne",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Lettere bruciate nello studio di Kerne",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "Sala del Contratto",
+        "reveals": "Valdris conosce il segreto di Torvald e teme Hael",
+        "payoff": "Conferma che la vera missione non è il sabotaggio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nello studio di Valdris Kerne (raggiungibile tramite falsa identità) trovate frammenti bruciati di lettere. Si leggono frasi: '...Torvald deve tacere...' '...testimonianza del Duca...' '...Hael non può sapere",
+        "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+        "unlocks": [
+          "antagonist_pressure",
+          "thread_responsabile"
+        ],
+        "possible_actions": [
+          "verificare la firma",
+          "confrontare gli orari",
+          "interrogare il responsabile dei registri"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Testimonianza di Fyra Dennel Maestra",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Fornace Centrale",
+        "reveals": "Hael ha ucciso il Duca di Ferronero e usa ostaggi per coprirlo",
+        "payoff": "Conferma il crimine di Hael e introduce il tema degli ostaggi morali",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Testimonianza di Fyra Dennel Maestra",
+        "hidden_implication": "Hael ha ucciso il Duca di Ferronero e usa ostaggi per coprirlo",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Comportamento di Valdris durante il panico",
+        "type": "behavior",
+        "thread_id": "T5",
+        "source_location": "Dormitori delle Reclute",
+        "reveals": "Valdris si aspettava il cadavere e ha un obiettivo nelle celle",
+        "payoff": "Rivela che Valdris è complice, non vittima, del caos",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Quando il cadavere viene trovato",
+        "hidden_implication": "Valdris si aspettava il cadavere e ha un obiettivo nelle celle",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Testimonianza di Anello",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "Celle Sotterranee",
+        "reveals": "Torvald era presente all'omicidio del Duca da parte di Hael",
+        "payoff": "Prova definitiva del crimine di Hael e del valore di Torvald come testimone",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Testimonianza di Anello",
+        "hidden_implication": "Torvald era presente all'omicidio del Duca da parte di Hael",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Ordine di isolamento firmato da Hael",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Hael ha paura che Torvald parli con qualcuno",
+        "payoff": "Conferma che Torvald possiede informazioni pericolose per il Capitano",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Catena personale del Duca",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Torvald aveva un rapporto diretto con il Duca",
+        "payoff": "Suggerisce che Torvald era presente quando il Duca è morto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Confessione sussurrata di Torvald",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "La verità sull'omicidio del Duca e il ruolo di Valdris",
+        "payoff": "Rivela l'intera cospirazione e il vero obiettivo di entrambi i fratelli Kerne",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Tracce di lotta nel deposito",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il capomastro è stato ucciso altrove e portato alla fornace",
+        "payoff": "Dimostra che l'omicidio è stato pianificato, non spontaneo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Strumento non appartenente alla gilda",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "L'assassino è un mercante, non un membro dei Martelli Rossi",
+        "payoff": "Collega l'omicidio a Valdris Kerne",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Mappa delle celle nell'alloggio di Valdris",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Valdris aveva pianificato un'incursione nelle celle",
+        "payoff": "Dimostra che il sabotaggio era secondario rispetto a un altro obiettivo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Testimonianza del guardia notturno",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Valdris stava studiando il percorso verso le celle",
+        "payoff": "Conferma che liberare qualcuno dalle celle era parte del piano",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Brandello di tessuto rosso",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il capomastro ha combattuto con qualcuno vestito da mercante che voleva sembrare un soldato",
+        "payoff": "Suggerisce un travestimento o un tentativo di depistaggio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Valdris Kerne",
+        "role": "Mandante traditore",
+        "location_id": "Sala del Contratto",
+        "status": "unintroduced",
+        "goal": "Salvare suo fratello gemello Torvald, unico testimone dell'omicidio del Duca, e fuggire dal Ducato prima che Hael li elimini entrambi",
+        "secret": "Ha piazzato lui il cadavere del capomastro con il simbolo dei PG per creare il panico. Non gli interessa il sabotaggio — vuole solo il caos per liberare Torvald durante l'evacuazione.",
+        "agenda_pressure": 0,
+        "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+        "current_plan": "Tra 6 ore (mezzanotte) Valdris avvelenerà la guardia notturna con radice di mandragora nel vino. Durante i 20 minuti di sonno forzato, aprirà la cella di Torvald con la chiave rubata al Mastro d'Armi e fuggirà per il tunnel di aerazione della galleria 7 che sbuca oltre le mura.",
+        "fallback_plan": "Se il piano principale fallisce: Valdris accusa pubblicamente Hael Nerospina dell'omicidio del Duca davanti a tutti i Martelli Rossi, sperando che il caos risultante permetta a Torvald di essere trasferito in cella 'sicura' - momento in cui orchestrerà un'imboscata durante il trasferimento con mercenari esterni già pagati.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Salvare suo fratello gemello Torvald, unico testimone dell'omicidio del Duca, e fuggire dal Ducato prima che Hael li elimini entrambi"
+        ],
+        "avoids": [
+          "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Valdris mantiene il controllo, fornisce informazioni parziali sui 'sabotatori' e spinge i PG a indagare nelle gallerie profonde dove NON si trova Torvald. Finge preoccupazione per la sicurezza della fornace.",
+          "medium": "Valdris orchestra un secondo 'incidente' (crollo minore, attacco finto) per accelerare l'evacuazione. Accusa pubblicamente un membro dei Martelli Rossi di complicità, seminando paranoia. Offre ricompense per catturare i colpevoli.",
+          "high": "Valdris finge di scoprire che i sabotatori vogliono far esplodere la fornace principale. Ordina evacuazione immediata e nel caos tenta di estrarre Torvald dalle celle sotto l'armeria. Se i PG sono sospetti, li indica come complici.",
+          "extreme": "Valdris sabota DAVVERO la fornace causando un'esplosione parziale. Nel panico totale libera Torvald personalmente, uccidendo eventuali guardie. Se bloccato dai PG, rivela tutto: 'Hael ha ucciso il Duca! Mio fratello l'ha visto! O muore lui o moriamo noi!'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Crolla emotivamente: 'Non capite! Torvald è l'unico che può testimoniare contro Hael Nerospina! Se non lo tiro fuori stanotte, domani troveranno il suo corpo in una galleria!' Offre di dividere la taglia del vero assassino del Duca.",
+          "se_corrotto": "Accetta SOLO se i PG garantiscono l'estrazione sicura di Torvald entro 24 ore. Rivela dove è prigioniero, chi lo custodisce (Sergente Roak, pagato da Hael) e offre 500 monete d'oro più documenti compromettenti su Hael.",
+          "se_i_pg_hanno_prove": "Nega tutto inizialmente ('Prove fabbricate!'), poi propone patto disperato: 'Aiutatemi a salvare Torvald e testimoniamo INSIEME contro Hael davanti al Concilio Ducale. Il vero nemico è lui, non io!'",
+          "se_alleato": "Confessa immediatamente il piano: liberare Torvald durante il cambio guardia notturno, fuggire per il Passaggio del Corvo verso il Principato Libero. Chiede ai PG di creare diversivo nella sala comune alle campane di mezzanotte."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Capitano Korvan Hael",
+        "role": "Antagonista principale",
+        "location_id": "Quartier Generale del Capitano",
+        "status": "unintroduced",
+        "goal": "Mantenere il controllo della gilda e nascondere l'omicidio del Duca, che ha compiuto per impedire la nazionalizzazione delle miniere",
+        "secret": "Ha ucciso il Duca di Ferronero tre mesi fa durante una trattativa segreta. Torvald Kerne, scriba presente, è l'unico testimone sopravvissuto, imprigionato nelle celle.",
+        "agenda_pressure": 0,
+        "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+        "current_plan": "Mantenere Torvald vivo solo finché non confessa pubblicamente che il Duca cadde accidentalmente durante la trattativa. Usa privazione del sonno e minacce alla sua famiglia a Ferronero. Tra 4 giorni terrà un'assemblea della gilda dove presenterà la 'confessione'.",
+        "fallback_plan": "Se scoperto: attivare l'Accordo Cremisi con i contrabbandieri di Vallenera che lo nasconderanno in cambio del controllo temporaneo delle miniere. Ha già preparato documenti falsi come 'Mercante Varos' e 200 monete d'oro sepolte presso il Mulino Abbandonato. Torvald muore 'suicida' nella cella.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Mantenere il controllo della gilda e nascondere l'omicidio del Duca, che ha compiuto per impedire la nazionalizzazione delle miniere"
+        ],
+        "avoids": [
+          "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Sorride bonariamente, offre vino speziato e parla dei 'sacrifici necessari per proteggere i lavoratori dalla burocrazia nobiliare'. Assegna ai PG turni di guardia lontani dalle celle.",
+          "medium": "Diventa brusco e militaresco. 'Siete Martelli Rossi ora, non chierichetti curiosi.' Ordina perquisizioni a sorpresa degli alloggi delle reclute, cercando mandati o simboli nobiliari.",
+          "high": "Convoca i PG nella sua fucina privata, dove 'discutere' circondati da suoi veterani fedeli. Accusa velate: 'Il Duca mandò spie prima di morire... tutte finirono nelle scorie della fornace.'",
+          "extreme": "Ordina l'esecuzione immediata per tradimento. Se i PG fuggono, attiva il protocollo 'Ferro Nero': sigilla le miniere, mobilita tutti i mercenari e fa giustiziare Torvald pubblicamente per eliminare prove."
+        },
+        "reaction_table": {
+          "se_minacciato": "Finge resa mentre attiva discretamente il segnale d'allarme nel pomello della sua spada. Guadagna tempo: 'Parliamone da uomini d'affari' mentre i rinforzi circondano la stanza.",
+          "se_corrotto": "Ride amaramente. 'L'oro non vi salverà da ciò che sapete.' Propone invece di reclutarli veramente: 'Unite le miniere indipendenti sotto i Martelli Rossi. 30% dei profitti, nessuna domanda sul passato.'",
+          "se_i_pg_hanno_prove": "Passa immediatamente al piano di contingenza: incendia l'ala est (dove sono le celle), incolpa sabotatori fedeli al Duca. Nel caos, fugge attraverso il tunnel di scorie verso la base secondaria a Valle Cupa.",
+          "se_alleato": "Non si fida mai completamente, ma usa i PG per eliminare i capitani della gilda che dubitano della versione ufficiale sulla morte del Duca, specialmente Marta Ferroscuro che chiede da mesi un'inchiesta."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Maestra Fyra Dennel",
+        "role": "Falso sospettato / capo fornace",
+        "location_id": "Fornace Centrale",
+        "status": "unintroduced",
+        "goal": "Proteggere i suoi operai e impedire che la Fornace venga sabotata, credendo i PG siano davvero infiltrati nemici",
+        "secret": "Ha scoperto le irregolarità contabili di Hael (vendite di armi a fazioni ribelli), ma teme di denunciarlo perché sua figlia è ostaggio come 'apprendista' nel quartier generale.",
+        "agenda_pressure": 0,
+        "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+        "current_plan": "Continuare a fingere normalità mentre tiene i PG sotto stretta osservazione, documentare ogni loro movimento per presentare un rapporto convincente a Hael che dimostri la sua lealtà, sperando che questo protegga Mira da ritorsioni",
+        "fallback_plan": "Se i PG tentano davvero un sabotaggio, scatenare una colata 'accidentale' di ferro fuso che blocchi le vie di fuga e intrappoli i sabotatori, quindi consegnarli personalmente a Hael come prova definitiva della sua fedeltà alla Compagnia",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere i suoi operai e impedire che la Fornace venga sabotata, credendo i PG siano davvero infiltrati nemici"
+        ],
+        "avoids": [
+          "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Osserva i PG con sospetto crescente durante i turni alla fornace, assegna loro compiti separati per impedire che comunichino, fa domande apparentemente casuali sul loro passato militare",
+          "medium": "Convoca i PG nel suo ufficio con la scusa di un'ispezione, controlla i loro attrezzi cercando prove di sabotaggio, invia un messaggero discreto a Hael per segnalare 'anomalie tra le nuove reclute'",
+          "high": "Ordina ai capofornace fidati di tenere i PG sotto sorveglianza armata, finge un'emergenza tecnica per evacuare la fornace e isolare i sospetti, minaccia di consegnarli alla Guardia del Passo se non confessano",
+          "extreme": "Attiva il protocollo di sicurezza sigillando le porte della fornace con i PG dentro, accusandoli apertamente di essere spie nemiche venute a sabotare la produzione, rivela involontariamente la sua paura per la figlia quando crolla emotivamente"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si barrica dietro gli operai più fedeli, brandisce un martello da forgia ancora rovente, grida che non permetterà a nessuno di distruggere ciò che ha costruito né di portarle via anche la fornace dopo averle preso sua figlia",
+          "se_corrotto": "Rifiuta con sdegno iniziale, ma se i PG offrono un modo concreto per liberare sua figlia Mira da Hael, crolla e confessa tutto: i registri falsi, le armi contrabbandate, la posizione dell'ostaggio nel deposito orientale",
+          "se_i_pg_hanno_prove": "Esamina le prove contro Hael con mani tremanti, piange di sollievo realizzando che i PG non sono nemici ma possibili alleati, offre i suoi registri personali nascosti sotto la pietra della fucina principale se giurano di salvare Mira",
+          "se_alleato": "Fornisce mappe dettagliate del complesso inclusi i tunnel di ventilazione che Hael non conosce, assegna ai PG turni strategici che permettono accesso alle aree riservate, prepara alibi credibili e sabota discretamente le ronde di sorveglianza"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Torvald Kerne",
+        "role": "Testimone chiave / prigioniero",
+        "location_id": "Celle Sotterranee",
+        "status": "unintroduced",
+        "goal": "Sopravvivere e testimoniare contro Hael per vendicare il Duca, a cui era fedele",
+        "secret": "Possiede un anello sigillo del Duca con inciso il verbale cifrato dell'incontro fatale, nascosto sotto una pietra nella sua cella.",
+        "agenda_pressure": 0,
+        "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+        "current_plan": "Resistere agli interrogatori quotidiani di Hael fingendo amnesia da trauma. Sopravvivere fino al cambio di comando della Compagnia previsto tra due settimane, quando spera che qualcuno leale al Duca lo scopra.",
+        "fallback_plan": "Se Hael ordina la sua esecuzione, Torvald è pronto a ingoiare l'anello per impedire che cada nelle mani sbagliate, sperando che qualcuno degno trovi il suo corpo e lo recuperi.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Sopravvivere e testimoniare contro Hael per vendicare il Duca, a cui era fedele"
+        ],
+        "avoids": [
+          "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Torvald risponde con evasività, parlando solo del suo lavoro di contabile nella Compagnia. Nega qualsiasi coinvolgimento con il Duca, temendo spie di Hael tra le guardie.",
+          "medium": "Inizia a sudare e accenna vagamente a 'documenti importanti' e a una 'notte terribile tre mesi fa'. Chiede garanzie concrete sulla sua protezione prima di rivelare altro.",
+          "high": "Crolla nervosamente e sussurra del verbale cifrato nell'anello, ma solo se i PG dimostrano di essere nemici di Hael. Rivela che l'Aquila Nera ha pagato Hael per avvelenare il Duca durante la trattativa mineraria.",
+          "extreme": "Grida disperato i nomi dei mercenari corrotti, l'ubicazione esatta dell'anello (terza pietra a sinistra sotto la branda) e supplica di essere portato via immediatamente perché 'Hael fa sparire i testimoni nelle fornaci'."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si raggomitola tremando, balbettando che preferisce morire qui piuttosto che nelle fornaci. Può rivelare l'anello solo per barattare una morte rapida invece che per fusione.",
+          "se_corrotto": "Rifiuta categoricamente denaro - 'L'oro non compra vendetta'. Accetta solo promesse di protezione e la garanzia di testimoniare pubblicamente contro Hael davanti al Consiglio Ducale.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano simboli ducali o conoscono dettagli della morte del Duca, Torvald piange di sollievo e consegna immediatamente l'anello, collaborando totalmente.",
+          "se_alleato": "Diventa risorsa preziosa: conosce i turni di guardia, quali mercenari sono ancora fedeli al Duca, e dove Hael nasconde i libri contabili falsificati nelle miniere del livello inferiore."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Punto di osservazione",
+        "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Ingresso di servizio",
+        "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Sicurezza interna",
+        "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Bersaglio: Fornace Discordia Siete già dentro",
+        "description": "Bersaglio: Fornace Discordia Siete già dentro: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Bersaglio: Fornace Discordia Siete già dentro: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3",
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Via di estrazione",
+        "description": "Via di estrazione: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Heat della sicurezza",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "Capitano Korvan Hael raggiunge la zona finale",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Allarme interno attivato",
+            "effect": "Le pattuglie raddoppiano nei corridoi principali. I controlli agli ingressi della fornace diventano più severi."
+          },
+          {
+            "value": 2,
+            "label": "Accessi ordinari sospesi",
+            "effect": "Tutti i passaggi regolari verso le sale chiave richiedono ora un lasciapassare firmato. Le chiavi di scorta vengono ritirate."
+          },
+          {
+            "value": 3,
+            "label": "Prova secondaria rimossa",
+            "effect": "Il registro delle ronde viene portato via dall'ufficio del sergente. Un testimone chiave viene scortato in una stanza blindata."
+          },
+          {
+            "value": 4,
+            "label": "Caccia al testimone",
+            "effect": "Gli uomini di Korvan interrogano metodicamente le reclute recenti. Chiunque non abbia un alibi solido viene messo sotto sorveglianza."
+          },
+          {
+            "value": 5,
+            "label": "Percorso laterale sigillato",
+            "effect": "Le condotte di ventilazione vengono sigillate con grate rinforzate. Il tunnel di servizio sotto le forge viene murato."
+          },
+          {
+            "value": 6,
+            "label": "Confronto finale",
+            "effect": "Capitano Korvan Hael in persona raggiunge la zona dell'obiettivo con la sua guardia d'élite. La via di fuga si restringe."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "I giocatori completano l'obiettivo principale prima che il clock si riempia, oppure neutralizzano Korvan Hael o la sua catena di comando, oppure creano un diversivo così grande da resettare le priorità della sicurezza",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Sentite voci concitate provenire dall'ufficio del capitano. Qualcuno sta facendo il vostro nome? I sergenti si scambiano occhiate che non vi piacciono affatto.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Fornace Discordia Siete già dentro",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Perché Torvald Kerne è prigioniero?",
+        "question": "Cosa sa Torvald che lo rende così pericoloso per Korvan Hael?",
+        "true_answer": "Torvald ha assistito all'omicidio del Duca di Ferronero da parte di Hael e può testimoniare contro di lui, distruggendo la sua posizione di potere",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Torvald Kerne",
+          "Capitano Korvan Hael"
+        ],
+        "linked_locations": [
+          "Celle sotterranee"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "Chi ha davvero ucciso il capomastro?",
+        "question": "Il capomastro è stato ucciso durante il sabotaggio o è parte di un piano diverso?",
+        "true_answer": "Valdris Kerne ha ucciso il capomastro e piazzato il cadavere per creare il caos necessario a liberare suo fratello durante l'evacuazione d'emergenza",
+        "status": "hidden",
+        "required_clues": [
+          "clue_1",
+          "clue_5",
+          "clue_10",
+          "clue_11"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Valdris Kerne"
+        ],
+        "linked_locations": [
+          "Fornace Centrale",
+          "Celle sotterranee"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Qual è il vero obiettivo di Valdris?",
+        "question": "Perché Valdris ha assunto i PG per sabotare la fornace?",
+        "true_answer": "Il sabotaggio è solo un diversivo: Valdris vuole che i PG creino abbastanza caos da permettergli di liberare Torvald dalle celle mentre le guardie sono distratte",
+        "status": "hidden",
+        "required_clues": [
+          "clue_5",
+          "clue_12",
+          "clue_13"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Valdris Kerne",
+          "Torvald Kerne"
+        ],
+        "linked_locations": [
+          "Celle sotterranee",
+          "Ingresso di servizio"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Testimonianza di Fyra Dennel Maestra?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Torvald Kerne, gemello di Valdris, è l'unico testimone dell'omicidio del Duca di Ferronero compiuto da Hael. L'anello si",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Via di estrazione",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "fantasy",
+      "tone": "fantasy adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "ambush",
+        "chase",
+        "guardian attack",
+        "curse intensifies"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "sci-fi genre shift",
+        "cosmic apocalypse without trigger"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_f90ca34b18",
+      "title": "La Fornace della Discordia",
+      "genre": "fantasy",
+      "detected_genre": "fantasy",
+      "premise": "Siete già dentro. Tre giorni fa vi siete infiltrati nella Compagnia dei Martelli Rossi, la gilda mercenaria che controlla le miniere di ferro del Passo dell'Aquila, fingendovi reclute. Il vostro mandante, il mercante Valdris Kerne, vi ha assunto per sabotare la Fornace Centrale durante la cerimonia di fusione annuale — un colpo che paralizzerebbe la produzione bellica del Ducato per mesi. Ma stamattina hanno trovato il cadavere di un capomastro con il vostro simbolo di riconoscimento nella tasca. Le guardie stanno interrogando tutti. L'uscita è sorvegliata. E la cerimonia inizia tra sei ore.",
+      "hidden_truth": "Valdris Kerne non ha mai voluto sabotare la fornace. Ha usato i PG come diversivo sacrificabile per distogliere le guardie dalla sua vera operazione: suo fratello gemello Torvald, prigioniero nelle celle sotterranee della gilda, custodisce l'unica testimonianza dell'omicidio del Duca di Ferronero compiuto dal Capitano Korvan Hael, comandante dei Martelli Rossi. Kerne vuole liberare Torvald e fuggire con lui prima che Hael lo faccia uccidere. Il cadavere del capomastro è stato piazzato da Kerne stesso per accelerare il panico e svuotare le celle durante l'evacuazione d'emergenza.",
+      "win_condition": "Scoprire la verità su Valdris Kerne, decidere se completare il sabotaggio (garantendo la fuga nel caos), liberare Torvald Kerne (ottenendo la testimonianza contro Hael), o denunciare tutto e cercare clemenza dalla gilda",
+      "threat_description": "Heat della sicurezza",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "heist",
+        "secondary_archetypes": [
+          "military_operation",
+          "faction_sandbox",
+          "survival_escape"
+        ],
+        "confidence": 0.75,
+        "reason": "Matched runtime signals for heist",
+        "definition": {
+          "id": "heist",
+          "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+          "required_modules": [
+            "target",
+            "security_layers",
+            "routes"
+          ],
+          "optional_modules": [
+            "heat"
+          ],
+          "runtime_focus": [
+            "route",
+            "security",
+            "resource"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "document",
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "heat_tick",
+            "alarm"
+          ],
+          "ending_patterns": [
+            "extraction"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_f90ca34b18",
+      "adventure_canon": {
+        "core_truth": "Valdris Kerne non ha mai voluto sabotare la fornace. Ha usato i PG come diversivo sacrificabile per distogliere le guardie dalla sua vera operazione: suo fratello gemello Torvald, prigioniero nelle celle sotterranee della gilda, custodisce l'unica testimonianza dell'omicidio del Duca di Ferronero compiuto dal Capitano Korvan Hael, comandante dei Martelli Rossi. Kerne vuole liberare Torvald e fuggire con lui prima che Hael lo faccia uccidere. Il cadavere del capomastro è stato piazzato da Kerne stesso per accelerare il panico e svuotare le celle durante l'evacuazione d'emergenza.",
+        "main_antagonist": "Capitano Korvan Hael",
+        "key_locations": [
+          "Punto di osservazione",
+          "Ingresso di servizio",
+          "Sicurezza interna",
+          "Bersaglio: Fornace Discordia Siete già dentro",
+          "Via di estrazione"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Fornace Discordia Siete già dentro"
+        ],
+        "genre_profile": {
+          "id": "fantasy",
+          "tone": "fantasy adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "ambush",
+            "chase",
+            "guardian attack",
+            "curse intensifies"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "sci-fi genre shift",
+            "cosmic apocalypse without trigger"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Simbolo insanguinato sul cadavere",
+          "question": "Dove conduce Simbolo insanguinato sul cadavere?",
+          "true_answer": "Valdris Kerne ha piazzato il simbolo su un cadavere già morto per creare il panico e forzare un'evacuazione delle celle, permettendogli di liberare Torvald durante il caos.",
+          "required_clues": [
+            "clue_1",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Capire che qualcuno vuole accelerare le indagini, non fermarle / Rivela che Valdris è complice, non vittima, del caos",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Come puo essere usato Registro delle celle modificato per ottenere un alleato",
+          "question": "Come puo essere usato Registro delle celle modificato per ottenere un alleato?",
+          "true_answer": "Torvald Kerne, gemello di Valdris, è l'unico testimone dell'omicidio del Duca di Ferronero compiuto da Hael. L'anello sigillo che custodisce è la prova del crimine.",
+          "required_clues": [
+            "clue_2",
+            "clue_3",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Localizzare Torvald e capire perché Hael lo tiene segreto / Conferma che la vera missione non è il sabotaggio",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Simbolo insanguinato sul cadavere",
+          "text": "Simbolo insanguinato sul cadavere",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Il cadavere è stato spostato e il simbolo piazzato di proposito per incastrare i PG",
+          "payoff": "Capire che qualcuno vuole accelerare le indagini, non fermarle",
+          "location": "Sala degli Interrogatori",
+          "immediate_information": "Sul corpo del capomastro trovato stamattina c'è un medaglione con il simbolo che Valdris vi ha dato come riconoscimento. Il sangue è fresco",
+          "hidden_implication": "Il cadavere è stato spostato e il simbolo piazzato di proposito per incastrare i PG",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "seguire le impronte",
+            "analizzare la cenere",
+            "proteggersi prima di avanzare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Registro delle celle modificato",
+          "text": "Registro delle celle modificato",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Un prigioniero è nascosto dalla burocrazia ufficiale — Torvald Kerne",
+          "payoff": "Localizzare Torvald e capire perché Hael lo tiene segreto",
+          "location": "Celle Sotterranee",
+          "immediate_information": "Il registro delle prigioni mostra che la cella 7 è 'vuota per manutenzione' da tre mesi. Ma le sbarre sono lucide da uso recente e c'è un odore di paglia sporca. Qualcuno vive lì, cancellato dai documenti.",
+          "hidden_implication": "Un prigioniero è nascosto dalla burocrazia ufficiale — Torvald Kerne",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Lettere bruciate nello studio di Kerne",
+          "text": "Lettere bruciate nello studio di Kerne",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Valdris conosce il segreto di Torvald e teme Hael",
+          "payoff": "Conferma che la vera missione non è il sabotaggio",
+          "location": "Sala del Contratto",
+          "immediate_information": "Nello studio di Valdris Kerne (raggiungibile tramite falsa identità) trovate frammenti bruciati di lettere. Si leggono frasi: '...Torvald deve tacere...' '...testimonianza del Duca...' '...Hael non può sapere",
+          "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+          "unlocks": [
+            "antagonist_pressure",
+            "thread_responsabile"
+          ],
+          "possible_actions": [
+            "verificare la firma",
+            "confrontare gli orari",
+            "interrogare il responsabile dei registri"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Testimonianza di Fyra Dennel Maestra",
+          "text": "Testimonianza di Fyra Dennel Maestra",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Hael ha ucciso il Duca di Ferronero e usa ostaggi per coprirlo",
+          "payoff": "Conferma il crimine di Hael e introduce il tema degli ostaggi morali",
+          "location": "Fornace Centrale",
+          "immediate_information": "Testimonianza di Fyra Dennel Maestra",
+          "hidden_implication": "Hael ha ucciso il Duca di Ferronero e usa ostaggi per coprirlo",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Comportamento di Valdris durante il panico",
+          "text": "Comportamento di Valdris durante il panico",
+          "type": "behavior",
+          "thread_id": "T1",
+          "reveals": "Valdris si aspettava il cadavere e ha un obiettivo nelle celle",
+          "payoff": "Rivela che Valdris è complice, non vittima, del caos",
+          "location": "Dormitori delle Reclute",
+          "immediate_information": "Quando il cadavere viene trovato",
+          "hidden_implication": "Valdris si aspettava il cadavere e ha un obiettivo nelle celle",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Testimonianza di Anello",
+          "text": "Testimonianza di Anello",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Torvald era presente all'omicidio del Duca da parte di Hael",
+          "payoff": "Prova definitiva del crimine di Hael e del valore di Torvald come testimone",
+          "location": "Celle Sotterranee",
+          "immediate_information": "Testimonianza di Anello",
+          "hidden_implication": "Torvald era presente all'omicidio del Duca da parte di Hael",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Valdris Kerne",
+          "role": "Mandante traditore",
+          "description": "Salvare suo fratello gemello Torvald, unico testimone dell'omicidio del Duca, e fuggire dal Ducato prima che Hael li elimini entrambi",
+          "location": "Sala del Contratto",
+          "secret": "Ha piazzato lui il cadavere del capomastro con il simbolo dei PG per creare il panico. Non gli interessa il sabotaggio — vuole solo il caos per liberare Torvald durante l'evacuazione.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Salvare suo fratello gemello Torvald, unico testimone dell'omicidio del Duca, e fuggire dal Ducato prima che Hael li elimini entrambi",
+            "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Salvare suo fratello gemello Torvald, unico testimone dell'omicidio del Duca, e fuggire dal Ducato prima che Hael li elimini entrambi"
+            ],
+            "avoids": [
+              "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha piazzato lui il cadavere del capomastro con il simbolo dei PG per creare il panico. Non gli interessa il sabotaggio — vuole solo il caos per liberare Torvald durante l'evacuazione.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Capitano Korvan Hael",
+          "role": "Antagonista principale",
+          "description": "Mantenere il controllo della gilda e nascondere l'omicidio del Duca, che ha compiuto per impedire la nazionalizzazione delle miniere",
+          "location": "Quartier Generale del Capitano",
+          "secret": "Ha ucciso il Duca di Ferronero tre mesi fa durante una trattativa segreta. Torvald Kerne, scriba presente, è l'unico testimone sopravvissuto, imprigionato nelle celle.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Mantenere il controllo della gilda e nascondere l'omicidio del Duca, che ha compiuto per impedire la nazionalizzazione delle miniere",
+            "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Mantenere il controllo della gilda e nascondere l'omicidio del Duca, che ha compiuto per impedire la nazionalizzazione delle miniere"
+            ],
+            "avoids": [
+              "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "depista e osserva",
+              "medium": "manda oppositori o chiude un accesso",
+              "high": "distrugge una prova o sposta un ostaggio/testimone",
+              "critical": "fugge verso la zona finale forzando il confronto"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha ucciso il Duca di Ferronero tre mesi fa durante una trattativa segreta. Torvald Kerne, scriba presente, è l'unico testimone sopravvissuto, imprigionato nelle celle.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "high"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Maestra Fyra Dennel",
+          "role": "Falso sospettato / capo fornace",
+          "description": "Proteggere i suoi operai e impedire che la Fornace venga sabotata, credendo i PG siano davvero infiltrati nemici",
+          "location": "Fornace Centrale",
+          "secret": "Ha scoperto le irregolarità contabili di Hael (vendite di armi a fazioni ribelli), ma teme di denunciarlo perché sua figlia è ostaggio come 'apprendista' nel quartier generale.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere i suoi operai e impedire che la Fornace venga sabotata, credendo i PG siano davvero infiltrati nemici",
+            "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere i suoi operai e impedire che la Fornace venga sabotata, credendo i PG siano davvero infiltrati nemici"
+            ],
+            "avoids": [
+              "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto le irregolarità contabili di Hael (vendite di armi a fazioni ribelli), ma teme di denunciarlo perché sua figlia è ostaggio come 'apprendista' nel quartier generale.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Torvald Kerne",
+          "role": "Testimone chiave / prigioniero",
+          "description": "Sopravvivere e testimoniare contro Hael per vendicare il Duca, a cui era fedele",
+          "location": "Celle Sotterranee",
+          "secret": "Possiede un anello sigillo del Duca con inciso il verbale cifrato dell'incontro fatale, nascosto sotto una pietra nella sua cella.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Sopravvivere e testimoniare contro Hael per vendicare il Duca, a cui era fedele",
+            "fear": "che Simbolo insanguinato sul cadavere riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Sopravvivere e testimoniare contro Hael per vendicare il Duca, a cui era fedele"
+            ],
+            "avoids": [
+              "che Simbolo insanguinato sul cadavere riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "esita",
+              "medium": "si nasconde",
+              "high": "cerca protezione dalla squadra",
+              "critical": "scompare lasciando una traccia incompleta"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Possiede un anello sigillo del Duca con inciso il verbale cifrato dell'incontro fatale, nascosto sotto una pietra nella sua cella.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Punto di osservazione",
+          "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+          "type": "entry",
+          "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Ingresso di servizio",
+          "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sicurezza interna",
+          "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Bersaglio: Fornace Discordia Siete già dentro",
+          "description": "Bersaglio: Fornace Discordia Siete già dentro: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Bersaglio: Fornace Discordia Siete già dentro: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Via di estrazione",
+          "description": "Via di estrazione: nodo giocabile della struttura heist.",
+          "type": "finale",
+          "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Heat della sicurezza",
+          "value": 0,
+          "max": 6,
+          "consequence": "Capitano Korvan Hael raggiunge la zona finale",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di Capitano Korvan Hael",
+              "world_state_change": "un testimone viene cercato dagli uomini di Capitano Korvan Hael",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Capitano Korvan Hael.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "Capitano Korvan Hael raggiunge la zona finale",
+              "world_state_change": "Capitano Korvan Hael raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: Capitano Korvan Hael raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di Capitano Korvan Hael",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Capitano Korvan Hael.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "Capitano Korvan Hael raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: Capitano Korvan Hael raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_f90ca34b18",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Sala del Contratto",
+        "agenda_pressure": 0,
+        "goal": "Salvare suo fratello gemello Torvald, unico testimone dell'omicidio del Duca, e fuggire dal Ducato prima che Hael li elimini entrambi",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Quartier Generale del Capitano",
+        "agenda_pressure": 0,
+        "goal": "Mantenere il controllo della gilda e nascondere l'omicidio del Duca, che ha compiuto per impedire la nazionalizzazione delle miniere",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "depista e osserva",
+          "medium": "manda oppositori o chiude un accesso",
+          "high": "distrugge una prova o sposta un ostaggio/testimone",
+          "critical": "fugge verso la zona finale forzando il confronto"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Fornace Centrale",
+        "agenda_pressure": 0,
+        "goal": "Proteggere i suoi operai e impedire che la Fornace venga sabotata, credendo i PG siano davvero infiltrati nemici",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Celle Sotterranee",
+        "agenda_pressure": 0,
+        "goal": "Sopravvivere e testimoniare contro Hael per vendicare il Duca, a cui era fedele",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T2"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 88,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Sala del Contratto.",
+      "Actor npc_2 ha location non riconosciuta: Quartier Generale del Capitano.",
+      "Actor npc_3 ha location non riconosciuta: Fornace Centrale.",
+      "Actor npc_4 ha location non riconosciuta: Celle Sotterranee.",
+      "heist richiede security_layers o pressure_system heat.",
+      "faction_crisis richiede almeno 2 factions."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "doctor": {
+    "score": 5.3,
+    "score_after": 4.7,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_1",
+        "message": "NPC 'Valdris Kerne': location_id 'Sala del Contratto' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_2",
+        "message": "NPC 'Capitano Korvan Hael': location_id 'Quartier Generale del Capitano' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_3",
+        "message": "NPC 'Maestra Fyra Dennel': location_id 'Fornace Centrale' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_4",
+        "message": "NPC 'Torvald Kerne': location_id 'Celle Sotterranee' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Clock 'Heat della sicurezza': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Il clock 'Heat della sicurezza' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_5, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_5, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_2, clue:clue_3, clue:clue_4, clue:clue_6, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_2, clue:clue_3, clue:clue_4, clue:clue_6, revelation:T2"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 5 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "La Fornace della Discordia",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "6 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}
