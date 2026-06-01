@@ -14,6 +14,7 @@ Audit rules coverage:
 """
 
 import json
+import re
 import sys
 from dataclasses import dataclass
 from typing import Any, Dict, List, Set
@@ -748,12 +749,68 @@ def score(findings: List[Finding]) -> float:
 # ─── Enrichment helpers ───────────────────────────────────────────────────────
 
 def _json_from_llm(raw: str) -> Any:
+    raw = (raw or "").strip()
+    # Rimuovi eventuali fence markdown ```json ... ```
     if "```" in raw:
-        parts = raw.split("```")
-        raw = parts[1] if len(parts) > 1 else raw
-        if raw.startswith("json"):
-            raw = raw[4:]
-    return json.loads(raw.strip())
+        m = re.search(r"```(?:json)?\s*\n?([\[{][\s\S]*[\]}])\s*\n?```", raw)
+        if m:
+            raw = m.group(1)
+        else:
+            parts = raw.split("```")
+            raw = parts[1] if len(parts) > 1 else raw
+            if raw.startswith("json"):
+                raw = raw[4:]
+    raw = raw.strip()
+    try:
+        return json.loads(raw)
+    except Exception:
+        pass
+
+    # Recupero JSON troncato (es. max_tokens raggiunto → "Unterminated string"):
+    # chiude le parentesi ancora aperte seguendo lo stack reale, scartando l'ultimo
+    # elemento incompleto. Gestisce sia oggetti {...} sia array [...] di primo livello.
+    candidates = [i for i in (raw.find("{"), raw.find("[")) if i != -1]
+    if not candidates:
+        return json.loads(raw)  # rilancia l'errore originale
+    candidate = raw[min(candidates):]
+    candidate = re.sub(r"```\s*$", "", candidate.strip()).rstrip()
+    # Tronca all'ultimo punto "sicuro" per evitare token a metà
+    last_safe = max(
+        candidate.rfind('",'), candidate.rfind('"\n'),
+        candidate.rfind("],"), candidate.rfind("},"),
+        candidate.rfind('"]'), candidate.rfind('"}'),
+    )
+    if last_safe > 0:
+        candidate = candidate[:last_safe + 1].rstrip().rstrip(",")
+    # Ricostruisci lo stack reale di parentesi aperte ignorando ciò che è in stringa
+    stack: list[str] = []
+    in_string = False
+    escape = False
+    for ch in candidate:
+        if escape:
+            escape = False
+            continue
+        if ch == "\\":
+            escape = True
+            continue
+        if ch == '"':
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch == "{":
+            stack.append("}")
+        elif ch == "[":
+            stack.append("]")
+        elif ch in "}]" and stack and stack[-1] == ch:
+            stack.pop()
+    if in_string:
+        candidate += '"'
+    if stack:
+        candidate += "".join(reversed(stack))
+    parsed = json.loads(candidate)
+    print(f"[doctor] JSON troncato recuperato ({len(raw)} char originali)", file=sys.stderr)
+    return parsed
 
 
 def _enrich_structure_balance(enriched: Dict, findings: List[Finding]) -> Dict:
@@ -880,7 +937,7 @@ REGOLE:
 - Ogni indizio deve essere fisicamente trovabile o dedotto da una situazione concreta"""
 
     try:
-        raw = _llm(prompt, max_tokens=2048)
+        raw = _llm(prompt, max_tokens=4096)
         result = _json_from_llm(raw)
     except Exception as e:
         print(f"[doctor] balance enrichment failed: {e}", file=sys.stderr)
@@ -955,7 +1012,7 @@ def _enrich_npc(actor: Dict, context: str) -> Dict:
         "Sii specifico al personaggio. Niente testo generico."
     )
     try:
-        enrichment = _json_from_llm(_llm(prompt, max_tokens=1024))
+        enrichment = _json_from_llm(_llm(prompt, max_tokens=2048))
         return {**actor, **enrichment, "llm_enriched": True}
     except Exception as e:
         print(f"[doctor] NPC '{name}' enrichment failed: {e}", file=sys.stderr)
@@ -977,7 +1034,7 @@ def _enrich_clocks(clocks: List[Dict], context: str) -> List[Dict]:
         "Restituisci SOLO la lista JSON aggiornata."
     )
     try:
-        enriched = _json_from_llm(_llm(prompt, max_tokens=2048))
+        enriched = _json_from_llm(_llm(prompt, max_tokens=4096))
         if isinstance(enriched, list) and len(enriched) == len(clocks):
             return enriched
     except Exception as e:
@@ -1000,7 +1057,7 @@ def _enrich_clues(clues: List[Dict], context: str) -> List[Dict]:
         "Restituisci SOLO la lista JSON degli stessi indizi con i campi aggiunti."
     )
     try:
-        enriched_list = _json_from_llm(_llm(prompt, max_tokens=2048))
+        enriched_list = _json_from_llm(_llm(prompt, max_tokens=4096))
         enriched_map = {c["id"]: c for c in enriched_list if "id" in c}
         return [enriched_map.get(c.get("id"), c) for c in clues]
     except Exception as e:
@@ -1027,7 +1084,7 @@ def _enrich_location_hierarchy(locations: List[Dict], context: str) -> List[Dict
         "Non aggiungere altri campi né nuovi id."
     )
     try:
-        result = _json_from_llm(_llm(prompt, max_tokens=1100))
+        result = _json_from_llm(_llm(prompt, max_tokens=2048))
         if isinstance(result, list):
             by_id = {item["id"]: item for item in result if "id" in item}
             updated = []
@@ -1068,7 +1125,7 @@ def _enrich_locations(locations: List[Dict], context: str) -> List[Dict]:
         "Restituisci SOLO la lista JSON aggiornata."
     )
     try:
-        enriched_list = _json_from_llm(_llm(prompt, max_tokens=1024))
+        enriched_list = _json_from_llm(_llm(prompt, max_tokens=2048))
         if isinstance(enriched_list, list):
             enriched_map = {loc.get("id"): loc for loc in enriched_list if loc.get("id")}
             return [enriched_map.get(loc.get("id"), loc) for loc in locations]
