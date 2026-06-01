@@ -19,7 +19,9 @@ on:
 jobs:
   genera:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    # Ogni avventura richiede ~4 min di chiamate LLM (di più a scala epic); con commit
+    # incrementale i progressi sono salvati anche se scatta il timeout. Max GitHub: 360 min.
+    timeout-minutes: 330
 
     steps:
       - name: Checkout
@@ -64,9 +66,16 @@ jobs:
           # google-genai opzionale (il backend gestisce ImportError)
           pip install "google-genai" || echo "⚠ google-genai non installato (opzionale)"
 
+      - name: Configura git per commit incrementali
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Genera avventure (import diretto, senza uvicorn)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Commit+push dopo OGNI avventura: nessuna perdita di lavoro in caso di timeout.
+          CI_COMMIT: "1"
         run: |
           python3 scripts/genera_direct.py \
             --genres ${{ github.event.inputs.genres }} \

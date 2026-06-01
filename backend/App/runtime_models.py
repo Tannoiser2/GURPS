@@ -428,3 +428,4 @@ class AdventureRuntimeState(_MappingCompatibleBase):
     engine_log: List[Dict[str, Any]] = []
     destroyed_clue_ids: List[str] = []
     injected_clues: List[Dict[str, Any]] = []
+    used_twist_ids: List[str] = []

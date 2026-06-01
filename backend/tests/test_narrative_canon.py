@@ -1,3 +1,4 @@
+import json
 import unittest
 from unittest.mock import patch
 
@@ -143,12 +144,16 @@ class NarrativeCanonTests(unittest.TestCase):
 
     def test_clock_tick_deterministic_by_outcome(self):
         from App.world_simulator import _compute_clock_tick
+        # _compute_clock_tick governa il threat_level GENERICO: solo i fallimenti lo fanno
+        # avanzare. Il successo parziale è "ce l'hai fatta con complicazioni", non un
+        # fallimento, quindi NON muove il threat (i singoli event_clock avanzano invece su
+        # parziale tramite ticks_per_partial — vedi _per_clock_ticks).
         # Fallimento critico → +2
         self.assertEqual(_compute_clock_tick({"success": False, "margin": -6, "critical": True}), 2)
         # Fallimento semplice → +1
         self.assertEqual(_compute_clock_tick({"success": False, "margin": -2}), 1)
-        # Successo parziale → +1
-        self.assertEqual(_compute_clock_tick({"success": True, "outcome": "successo parziale"}), 1)
+        # Successo parziale → 0 (non è un fallimento)
+        self.assertEqual(_compute_clock_tick({"success": True, "outcome": "successo parziale"}), 0)
         # Successo pieno → 0
         self.assertEqual(_compute_clock_tick({"success": True, "outcome": "successo"}), 0)
 
@@ -196,8 +201,15 @@ class NarrativeCanonTests(unittest.TestCase):
 
     def test_clock_trigger_detected_at_boundary(self):
         adventure = self.sample_adventure()
-        # Threat al massimo meno 1 tick — un fallimento fa scattare il clock
-        game_state_data = {"clues_found": [], "clue_progress": {}, "threat_level": 7}
+        # Il clock 'main_threat' (max 8) usa un contatore proprio nel clock_runtime,
+        # indipendente dal threat_level. Lo portiamo a 7/8: un fallimento (+1 tick) lo fa
+        # scattare a 8/8.
+        game_state_data = {
+            "clues_found": [],
+            "clue_progress": {},
+            "threat_level": 7,
+            "clock_runtime": {"main_threat": {"value": 7}},
+        }
         runtime = build_adventure_runtime(adventure, game_state_data)
         simulation = simulate_world_state(
             runtime,
@@ -488,7 +500,9 @@ class NarrativeCanonTests(unittest.TestCase):
                 "threat_increase": 0,
             },
             adventure=adventure,
-            game_state_data={"clues_found": ["c1", "c2"], "finale_condition_met": True},
+            # turns_played>=6 supera il guard anti-finale-prematuro (_MIN_TURNS_BEFORE_ENDING);
+            # con la condizione finale soddisfatta il finale deve essere permesso.
+            game_state_data={"clues_found": ["c1", "c2"], "finale_condition_met": True, "turns_played": 6},
             prerolled={"success": True, "intent": "social", "non_combat_action": True},
         )
         self.assertTrue(clean["story_over"])
@@ -550,6 +564,58 @@ class NarrativeCanonTests(unittest.TestCase):
         )
         self.assertFalse(clean["story_over"])
         self.assertIn("terminal_event_without_finale_condition", clean["blocked_major_events"])
+
+    def test_twist_activation_tracked_and_validated(self):
+        # F4: master_turn deve tracciare l'attivazione di un twist (activated_twist_id) solo se
+        # punta a un colpo di scena realmente disponibile questo turno, e i twist già usati
+        # (used_twist_ids) non devono più essere attivabili.
+        import App.claude_service as cs
+        adventure = self.sample_adventure()
+        adventure["twists"] = [
+            {"id": "twist_1", "trigger": "quando emerge il sigillo", "effect": "ribalta tutto", "used": False},
+            {"id": "twist_2", "trigger": "quando cade un alleato", "effect": "nuova minaccia", "used": False},
+        ]
+        players = [{"id": 1, "name": "Ranger", "role": "esploratore", "stats": {}, "skills": {"investigare": 12}}]
+        # threat_level 5/8 = 62% > 50% → i twist vengono offerti
+        game_state_data = {"clues_found": [], "clue_progress": {}, "threat_level": 5}
+        prerolled = {
+            "success": True, "skill": "investigare", "outcome": "successo",
+            "rolled": 10, "effective_skill": 12, "margin": 2, "critical": False,
+            "intent": "investigation",
+        }
+
+        def _fake_response(activated_id):
+            return json.dumps({
+                "narrative": "Il ranger nota un dettaglio rivelatore.",
+                "roll": {"rolled": 10, "target": 12, "skill": "investigare",
+                         "skill_name": "investigare", "success": True, "margin": 2, "critical": False},
+                "options": [{"text": "Continua", "skill": "", "skill_level": 0, "stat": "", "player_id": 1}],
+                "state_updates": {
+                    "clue_progress": [], "clues_found": [], "npc_updates": [],
+                    "new_threads": [], "closed_threads": [], "threat_increase": 0,
+                    "activate_combat": False, "combat_scene": None, "combat_over": False,
+                    "story_over": False, "victory": False, "activated_twist_id": activated_id,
+                },
+            })
+
+        # Caso 1: twist valido e disponibile → tracciato
+        with patch.object(cs, "_call_text_model", return_value=_fake_response("twist_1")):
+            result = cs.master_turn_with_bible(
+                "fantasy", players, [], "indago", 1, adventure, dict(game_state_data), prerolled=prerolled)
+        self.assertEqual(result["state_updates"]["activated_twist_id"], "twist_1")
+
+        # Caso 2: id inesistente → ripulito
+        with patch.object(cs, "_call_text_model", return_value=_fake_response("twist_inesistente")):
+            result = cs.master_turn_with_bible(
+                "fantasy", players, [], "indago", 1, adventure, dict(game_state_data), prerolled=prerolled)
+        self.assertEqual(result["state_updates"]["activated_twist_id"], "")
+
+        # Caso 3: twist già usato → non più disponibile → non riattivabile
+        gsd_used = {**game_state_data, "used_twist_ids": ["twist_1"]}
+        with patch.object(cs, "_call_text_model", return_value=_fake_response("twist_1")):
+            result = cs.master_turn_with_bible(
+                "fantasy", players, [], "indago", 1, adventure, gsd_used, prerolled=prerolled)
+        self.assertEqual(result["state_updates"]["activated_twist_id"], "")
 
 
 if __name__ == "__main__":

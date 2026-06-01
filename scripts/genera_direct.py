@@ -15,6 +15,7 @@ import json
 import os
 import pathlib
 import re
+import subprocess
 import sys
 import time
 
@@ -22,6 +23,26 @@ import time
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "backend"))
 
 BASE = pathlib.Path(__file__).resolve().parents[1] / "data" / "compiled_adventures"
+
+
+def _git_commit_push(message: str) -> None:
+    """Commit incrementale: salva i progressi DURANTE la generazione così un eventuale
+    timeout del job CI non fa perdere le avventure già completate. Ri-lanciando il
+    workflow si riprende (i file già esistenti non vengono rigenerati).
+    Attivo solo quando CI_COMMIT=1 (impostato dal workflow); in locale non tocca git."""
+    if os.environ.get("CI_COMMIT") != "1":
+        return
+    try:
+        subprocess.run(["git", "add", str(BASE)], check=False)
+        if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
+            return  # niente di nuovo da committare
+        subprocess.run(["git", "commit", "-m", message], check=False)
+        if subprocess.run(["git", "push", "origin", "main"]).returncode != 0:
+            # rara collisione non-fast-forward: riallinea e ripeti
+            subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=False)
+            subprocess.run(["git", "push", "origin", "main"], check=False)
+    except Exception as e:
+        print(f"  ⚠ commit incrementale fallito (non bloccante): {e}")
 
 ALL_GENRES = ["action", "fantasy", "horror", "investigation", "romance", "sci_fi"]
 ALL_SCALES = ["compact", "standard", "epic"]
@@ -170,6 +191,7 @@ def main():
                     print(f"  ✓ «{title}» → {path.name}  (score {score})")
                     saved_paths.append(str(path))
                     ok += 1
+                    _git_commit_push(f"gen: {path.name} «{title}» score={score} [skip ci]")
 
                 except Exception as e:
                     print(f"  ✗ Eccezione: {type(e).__name__}: {e}\n")

@@ -11,7 +11,9 @@ on:
 jobs:
   rigenera:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # Ogni avventura richiede ~4 min di chiamate LLM; con commit incrementale i progressi
+    # sono comunque salvati anche se il timeout scatta. Cuscinetto ampio (max GitHub: 360 min).
+    timeout-minutes: 300
 
     steps:
       - name: Checkout
@@ -56,9 +58,17 @@ jobs:
           # google-genai opzionale
           pip install "google-genai" || echo "⚠ google-genai non installato (opzionale)"
 
+      - name: Configura git per commit incrementali
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Rigenera avventure skeleton (import diretto, senza uvicorn)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Attiva il commit+push dopo OGNI avventura: se il job va in timeout, il lavoro
+          # fatto è già su main. Ri-lanciare il workflow riprende dalle skeleton rimaste.
+          CI_COMMIT: "1"
         run: |
           python3 scripts/rigenera_skeleton_direct.py \
             --max ${{ github.event.inputs.max_adventures }}
