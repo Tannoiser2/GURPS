@@ -36,10 +36,15 @@ def _git_commit_push(message: str) -> None:
         if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
             return  # niente di nuovo da committare
         subprocess.run(["git", "commit", "-m", message], check=False)
-        if subprocess.run(["git", "push", "origin", "main"]).returncode != 0:
+        push = subprocess.run(["git", "push", "origin", "main"])
+        if push.returncode != 0:
             # rara collisione non-fast-forward: riallinea e ripeti
             subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=False)
-            subprocess.run(["git", "push", "origin", "main"], check=False)
+            push = subprocess.run(["git", "push", "origin", "main"])
+        if push.returncode != 0:
+            print("   ⚠⚠ PUSH FALLITO: avventura salvata su disco ma NON su main. "
+                  "Controlla i permessi del GITHUB_TOKEN (serve contents: write).",
+                  file=sys.stderr)
     except Exception as e:
         print(f"   ⚠ commit incrementale fallito (non bloccante): {e}")
 
