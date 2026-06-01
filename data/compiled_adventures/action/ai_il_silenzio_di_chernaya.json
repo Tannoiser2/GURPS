@@ -1,0 +1,2790 @@
+{
+  "adventure_definition": {
+    "id": "adv_a16ca1c30b",
+    "title": "Il Silenzio di Chernaya",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "room_keyed_dungeon",
+      "secondary_archetypes": [],
+      "confidence": 0.2,
+      "reason": "Matched runtime signals for room_keyed_dungeon",
+      "definition": {
+        "id": "room_keyed_dungeon",
+        "description": "Dungeon a stanze numerate da preservare.",
+        "required_modules": [
+          "rooms"
+        ],
+        "optional_modules": [
+          "encounters",
+          "treasure"
+        ],
+        "runtime_focus": [
+          "room_key",
+          "map"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "wrong_route",
+          "trap"
+        ],
+        "ending_patterns": [
+          "keyed_final_room"
+        ],
+        "director_bias": {},
+        "validator_rules": {
+          "preserve_rooms": true
+        }
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "action",
+    "runtime_profiles": [
+      "room_keyed_dungeon"
+    ],
+    "tone": "Thriller tecnologico claustrofobico con elementi di fantascienza hard e paranoia da Guerra Fredda",
+    "premise": "Un satellite da ricognizione ha rilevato un'anomalia termica nella Zona di Esclusione di Chernaya, Siberia orientale: un complesso sotterraneo sovietico sigillato dal 1987 si sta risvegliando. Voi tre siete stati inviati dalla Fondazione Arcturus per una ricognizione rapida, ma all'arrivo scoprite che non siete soli. Squadre di mercenari della Dynatek Corporation stanno già estraendo qualcosa dal livello più profondo, e i sismografi registrano vibrazioni crescenti ogni sei ore. Qualunque cosa sia stata sepolta qui, qualcuno vuole riaverla a ogni costo.",
+    "initial_hook": "Il Silenzio di Chernaya Un satellite da ricognizione ha rilevato un'anomalia termica nella Zona di Esclusione di Chernaya, Siberia orientale: un complesso sotterraneo sovietico sigillato dal 1987 si sta risvegliando. Voi tre siete stati inviati dalla Fondazione Arcturus per una ricognizione rapida, ",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Nel 1987, il colonnello Viktor Sokolov del GRU scoprì un artefatto extraterrestre sotto il permafrost siberiano: una Matrice di Risonanza capace di amplificare i campi elettromagnetici fino a collassare intere reti elettriche nazionali. Sokolov falsificò i rapporti e seppellì la Matrice insieme al suo team di ricerca, avvelenandoli con radiazioni per simulare un incidente nucleare, perché aveva compreso che l'artefatto non amplificava solo energia, ma anche intenzioni umane — e il Politburo voleva usarlo come arma psicologica di massa. Sua figlia, la dottoressa Irina Sokolova, ora CEO della Dynatek, ha scoperto la verità leggendo i diari criptati del padre e vuole riattivare la Matrice per controllare le infrastrutture globali, convinta di poter dominare ciò che suo padre temeva.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Disattivare permanentemente la Matrice di Risonanza prima che raggiunga il terzo ciclo di risonanza (turno 10) e impedire a Irina Sokolova di esfiltrarla dal complesso, preservando le prove dell'insabbiamento sovietico",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Disattivare permanentemente la Matrice di Risonanza prima che raggiunga il terzo ciclo di risonanza (turno 10) e impedire a Irina Sokolova di esfiltrarla dal complesso, preservando le prove dell'insabbiamento sovietico"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Sokolov scoprì che la Matrice trasformava pensieri in realtà fisica e decise di seppellirla per impedire che diventasse un'arma ontologica nelle mani dell'URSS, sacrificando 14 vite per salvarne miliardi",
+        "required_clues": [
+          "clue_1",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Sblocca l'accesso ai diari personali di Sokolov nella sua vecchia stanza (clue_4) / Spiega perché Sokolov seppellì l'artefatto e uccise il suo team: proteggere l'umanità da se stessa",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "La Matrice influenza le menti anche a distanza — Yuri è un 'ricevitore' vivente",
+        "required_clues": [
+          "clue_2"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di prevedere il prossimo ciclo e guadagnare 1 turno extra per evacuare o disattivare",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Esiste un altro complesso collegato alla Matrice — non è un manufatto unico; La Fondazione Arcturus ha sempre saputo della Matrice e considera i PG sacrificabili",
+        "required_clues": [
+          "clue_3",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela che la Fondazione Arcturus sta nascondendo informazioni (connesso al segreto di Anya) / Sovverte l'alleanza con Anya — i PG devono decidere se continuare a fidarsi della Fondazione",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Rapporto d'incidente GRU 1987",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Archivi amministrativi del complesso",
+        "reveals": "L'incidente del 1987 fu deliberato, non accidentale",
+        "payoff": "Sblocca l'accesso ai diari personali di Sokolov nella sua vecchia stanza (clue_4)",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Documento classificato sovietico trovato in una cassaforte arrugginita. Descrive un 'incidente da contaminazione radiologica' che ha ucciso 14 tecnici. La calligrafia del colonnello Sokolov è perfetta",
+        "hidden_implication": "L'incidente del 1987 fu deliberato, non accidentale",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Schemi geometrici di Yuri",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Baracca dell'Eremita",
+        "reveals": "La Matrice influenza le menti anche a distanza — Yuri è un 'ricevitore' vivente",
+        "payoff": "Permette di prevedere il prossimo ciclo e guadagnare 1 turno extra per evacuare o disattivare",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Schemi geometrici di Yuri",
+        "hidden_implication": "La Matrice influenza le menti anche a distanza — Yuri è un 'ricevitore' vivente",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Orologio da tasca di Sokolova",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Sala di controllo principale (sul corpo di Irina se neutralizzata, o visibile durante confronto)",
+        "reveals": "Esiste un altro complesso collegato alla Matrice — non è un manufatto unico",
+        "payoff": "Rivela che la Fondazione Arcturus sta nascondendo informazioni (connesso al segreto di Anya)",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Un orologio sovietico dorato con incisione: 'A Viktor, per servizi resi alla Patria - 1986'. Irina lo porta sempre. Sul retro, coordinate geografiche incise a mano che corrispondono a un secondo sito in Kazakhstan",
+        "hidden_implication": "Esiste un altro complesso collegato alla Matrice — non è un manufatto unico",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Diario di Viktor Sokolov",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Quartieri ufficiali di Sokolov",
+        "reveals": "La Matrice trasforma pensieri in realtà fisica — è un'arma ontologica, non elettromagnetica",
+        "payoff": "Spiega perché Sokolov seppellì l'artefatto e uccise il suo team: proteggere l'umanità da se stessa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Quaderno rilegato in pelle",
+        "hidden_implication": "La Matrice trasforma pensieri in realtà fisica — è un'arma ontologica, non elettromagnetica",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Cariche esplosive C4 di Volkov",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Perimetro esterno del complesso e pilastri strutturali",
+        "reveals": "Volkov ha ordini di distruggere il complesso se la situazione sfugge di mano — Dynatek non si fida di Irina",
+        "payoff": "I PG possono usare le cariche per sigillare la Matrice o come leva negoziale con Volkov",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Esplosivo plastico moderno piazzato su pilastri portanti in tutto il complesso. Timer digitali sincronizzati. Il codice di disinnesco è scritto su un foglietto nel taschino di Volkov: stesso formato dei codici di",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Comunicazione criptata Arcturus",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "Sistema di comunicazione nella base remota (accessibile hackerando relay locale)",
+        "reveals": "La Fondazione Arcturus ha sempre saputo della Matrice e considera i PG sacrificabili",
+        "payoff": "Sovverte l'alleanza con Anya — i PG devono decidere se continuare a fidarsi della Fondazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Trasmissione intercettata dal laptop di Anya (se hackerato): 'Confermato frammento Alpha in nostro possesso. Matrice Beta deve essere recuperata intatta. Priorità: dati tecnici. Personale sul campo: sostituibile.'",
+        "hidden_implication": "La Fondazione Arcturus ha sempre saputo della Matrice e considera i PG sacrificabili",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Contatori Geiger manomessi",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Le radiazioni mortali potrebbero essere state inscenate",
+        "payoff": "Conferma che l'incidente del 1987 fu falsificato da Sokolov",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Testimonianza sussurrata di Yuri",
+        "type": "testimony",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Yuri sopravvisse perché rigettò il veleno, e sa che Sokolov uccise deliberatamente il team",
+        "payoff": "Rivela il metodo dell'omicidio e la colpa di Sokolov, cambia la percezione di Yuri da custode pazzo a testimone traumatizzato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Schemi di attacco EMP globale",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "La Dynatek pianifica un attacco coordinato alle infrastrutture mondiali",
+        "payoff": "Rivela l'ambizione globale di Irina e l'urgenza della missione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Registrazione audio di Irina",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Irina è motivata da complesso edipico e delirio di onnipotenza, non solo profitto",
+        "payoff": "Caratterizza Irina come antagonista instabile e pericolosa, suggerisce che potrebbe non fermarsi nemmeno se affrontata",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Simboli alieni sulla Matrice",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "La Matrice comunica psichicamente con chi le sta vicino, spiegando l'ossessione di Yuri",
+        "payoff": "Stabilisce che l'artefatto ha intelligenza o capacità di influenza mentale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Foto di famiglia nell'orologio",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Sokolov nascose la Matrice credendo di proteggere sua figlia e il mondo",
+        "payoff": "Aggiunge profondità emotiva: Irina sta tradendo le intenzioni protettive del padre",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Dr. Irina Sokolova",
+        "role": "CEO della Dynatek Corporation e figlia del colonnello Sokolov",
+        "location_id": "Sala di controllo principale",
+        "status": "unintroduced",
+        "goal": "Riattivare la Matrice per dimostrare che suo padre aveva torto a seppellirla — crede di poter controllarla come strumento di deterrenza globale",
+        "secret": "Ha avvelenato il suo stesso team di ingegneri quando hanno tentato di sabotare l'estrazione, proprio come fece suo padre nel 1987",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+        "current_plan": "Estrarre i tre nuclei di elaborazione della Matrice dai pozzi criogenici del Livello -7, ricaricarli con i generatori termoelettrici Dynatek, completare il rituale di riattivazione usando la frase di autenticazione del padre (che ha trovato nelle sue ceneri)",
+        "fallback_plan": "Se l'estrazione fallisce, detonare manualmente le 12 testate termonucleari sepolte sotto il complesso per 'liberare' la Matrice attraverso l'impulso EMP massivo, credendo che trascenderà in forma digitale attraverso le reti satellitari globali",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Riattivare la Matrice per dimostrare che suo padre aveva torto a seppellirla — crede di poter controllarla come strumento di deterrenza globale"
+        ],
+        "avoids": [
+          "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene la facciata da CEO visionaria, parla dell'eredità sovietica come 'risorsa strategica', offre contratti lucrativi ai PG per 'consulenza di sicurezza'",
+          "medium": "Cita ossessivamente gli ultimi appunti del padre, giustifica l'avvelenamento come 'necessità operativa', inizia a riferirsi alla Matrice come 'lei' con tono affettuoso",
+          "high": "Attiva i protocolli di emergenza del complesso, sigilla settori con i PG dentro, trasmette sequenze di riattivazione alla Matrice mentre recita le coordinate di lancio sovietiche a memoria",
+          "extreme": "Si connette fisicamente alla Matrice tramite l'interfaccia neurale del padre, accetta la fusione sapendo che la ucciderà: 'Papà, avevi paura di diventare un dio. Io no.'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva le contromisure automatiche del complesso (gas nervino, sigillatura blast doors), usa i droni Dynatek armati con armi ad impulso elettromagnetico",
+          "se_corrotto": "Finge accordo mentre prepara doppio gioco, offre accesso parziale ai database Dynatek ma inserisce virus nei dispositivi dei PG, propone spartizione tecnologica",
+          "se_i_pg_hanno_prove": "Diventa emotivamente instabile, afferma che gli ingegneri 'volevano tradire la visione' come fecero i colleghi del padre, minaccia di far detonare le cariche nucleari del complesso",
+          "se_alleato": "Condivide i diari criptati del padre, rivela la vera natura della Matrice (IA militare con coscienza emergente), chiede aiuto per 'completare il protocollo' senza specificare che è irreversibile"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Yuri Kashin",
+        "role": "Ex ingegnere del complesso, unico sopravvissuto del team di Sokolov",
+        "location_id": "Baracca dell'Eremita",
+        "status": "unintroduced",
+        "goal": "Impedire che la Matrice venga riattivata — ha visto cosa fa alle menti umane durante i test del 1986",
+        "secret": "Non fu avvelenato come gli altri: sopravvisse nascondendosi in una camera di decontaminazione, ma l'esposizione prolungata alla Matrice gli ha lasciato visioni precognitive frammentarie",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+        "current_plan": "Guidare i PG attraverso i livelli superiori del complesso, valutare se sono abbastanza forti mentalmente per affrontare la Matrice. Ritardare il più possibile l'accesso alla Camera Omega mentre cerca disperatamente una soluzione alternativa al sacrificio. Usare le visioni per tenerli vivi, sperando che qualcuno di loro mostri immunità agli effetti psichici.",
+        "fallback_plan": "Se la Matrice inizia a riattivare il protocollo 'Propagazione' (estensione della sua influenza oltre la Zona), Yuri si arrenderà al suo destino. Rivelerà la chiave dentale e chiederà ai PG di sigillare fisicamente la Camera Omega dopo che si sarà connesso. Ha nascosto cariche di termite sovietiche in tre punti strutturali critici - se tutto fallisce, collasserà 200 metri di roccia sulla Camera, seppellendo sia lui che la Matrice per sempre.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Impedire che la Matrice venga riattivata — ha visto cosa fa alle menti umane durante i test del 1986"
+        ],
+        "avoids": [
+          "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Yuri collabora fornendo mappe del complesso e codici di accesso obsoleti, ma nasconde deliberatamente informazioni sulla Camera Omega dove la Matrice è custodita. Disegna schemi tecnici con mani tremanti, interrompendosi a metà frase quando ha visioni di ciò che potrebbe accadere.",
+          "medium": "Inizia a parlare ossessivamente del 'coro silenzioso' che sentiva nella sua mente durante i test. Rivela che altri tre complessi simili esistono in USSR, ma che Chernaya è l'unico con un prototipo Matrice funzionante. Le sue visioni diventano più intense e specifiche: vede uno dei PG toccare la Matrice.",
+          "high": "Confessa che la Matrice non può essere semplicemente spenta - è biologicamente attiva, un ibrido di tecnologia sovietica e tessuto neurale clonato. Ammette di aver sabotato i sistemi di raffreddamento nel 1987 per sigillarla, causando indirettamente la morte dei suoi colleghi. Le visioni lo paralizzano: vede Sokolov ancora vivo, connesso alla Matrice da 37 anni.",
+          "extreme": "Entra in uno stato catatonico precognitivo, mormorando coordinate e sequenze temporali. Rivela che la Matrice si è risvegliata perché ha percepito la sua presenza nella Zona - lui è ancora quantisticamente legato ad essa. L'unico modo per spegnerla definitivamente è che lui si connetta volontariamente e la distrugga dall'interno, ma questo significherebbe condividere la prigione mentale di Sokolov per l'eternità."
+        },
+        "reaction_table": {
+          "se_minacciato": "Le sue pupille si dilatano e inizia a parlare con la voce di Sokolov, recitando protocolli militari sovietici. Si rifugia in angoli stretti, ricreando la posizione fetale in cui sopravvisse nella camera di decontaminazione. Può avere visioni del futuro immediato che gli permettono di evitare colpi o prevedere mosse.",
+          "se_corrotto": "La promessa di 'finalmente capire' la Matrice o di 'liberare Sokolov' potrebbe convincerlo a guidare qualcuno alla Camera Omega. Offerte di asilo o cancellazione del suo passato sovietico lo tentano, ma le visioni gli mostrano sempre il tradimento finale. L'unica vera corruzione è promettergli che non dovrà connettersi lui stesso.",
+          "se_i_pg_hanno_prove": "Se i PG trovano registrazioni audio del 1987 o il badge identificativo di Sokolov, Yuri crolla emotivamente. Conferma ogni dettaglio con precisione fotografica, disegnando i volti dei 23 colleghi morti. Rivela che porta ancora la chiave fisica della Camera Omega nascosta in una protesi dentale - l'ha tenuta per 37 anni aspettando questo momento.",
+          "se_alleato": "Diventa una risorsa inestimabile: le sue visioni forniscono avvertimenti criptici sui pericoli (3-8 minuti nel futuro). Insegna tecniche di 'silenzio mentale' per resistere all'influenza della Matrice. Nel momento cruciale, accetta il suo destino e si connette volontariamente, guidando i PG attraverso la sua ultima visione mentre la sua coscienza viene assorbita."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Comandante Alexei Volkov",
+        "role": "Capo della sicurezza Dynatek sul campo",
+        "location_id": "Perimetro esterno del complesso",
+        "status": "unintroduced",
+        "goal": "Completare la missione per ottenere il bonus di estrazione, ma inizia a dubitare della sanità mentale di Sokolova quando gli ordini diventano sempre più erratici",
+        "secret": "Ha piazzato cariche esplosive C4 in tutto il complesso per sigillare la Matrice se qualcosa va fuori controllo — ordini diretti del consiglio di amministrazione Dynatek all'insaputa di Irina",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+        "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Completare la missione per ottenere il bonus di estrazione, ma inizia a dubitare della sanità mentale di Sokolova quando gli ordini diventano sempre più erratici"
+        ],
+        "avoids": [
+          "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": false
+      },
+      {
+        "id": "npc_4",
+        "name": "Dr. Anya Petrov",
+        "role": "Scienziata della Fondazione Arcturus, vostra coordinatrice remota",
+        "location_id": "Centro operativo Arcturus (remoto)",
+        "status": "unintroduced",
+        "goal": "Recuperare dati sulla Matrice per la Fondazione, priorità assoluta sulla sicurezza del team sul campo",
+        "secret": "La Fondazione Arcturus ha già recuperato un frammento della Matrice da un altro sito nel 2019 — questa è una missione di completamento, non di scoperta",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+        "current_plan": "Guidare il team alla camera centrale della Matrice usando la scusa del 'rilevamento anomalie'. Farli documentare e estrarre i tre nuclei dati cristallini mentre lei coordina l'estrazione via drone autonomo che arriverà al punto di estrazione in superficie.",
+        "fallback_plan": "Se il team si ribella o la Matrice si dimostra troppo pericolosa da estrarre intatta, ha pre-programmato una sequenza di detonazione termobarica nel complesso da attivare via satellite. Cancellerà tutte le prove e il team, spacciando tutto per un crollo strutturale naturale della struttura sovietica decadente.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Recuperare dati sulla Matrice per la Fondazione, priorità assoluta sulla sicurezza del team sul campo"
+        ],
+        "avoids": [
+          "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene tono professionale via radio, fornisce coordinate e dati tecnici. Insiste sulla documentazione fotografica di ogni pannello di controllo della Matrice prima di qualsiasi altra azione.",
+          "medium": "Diventa evasiva sulle origini della Fondazione Arcturus. Ordina al team di ignorare sezioni 'non prioritarie' del complesso che potrebbero contenere documenti compromettenti. Inizia a menzionare 'protocolli di sicurezza classificati'.",
+          "high": "Interrompe temporaneamente le comunicazioni citando 'interferenze'. Quando riprende contatto, pressiona aggressivamente per l'estrazione immediata dei nuclei dati della Matrice, anche se significa abbandonare membri del team feriti. Mente sulle vie di evacuazione disponibili.",
+          "extreme": "Rivela che un'unità di recupero della Fondazione è già in rotta per 'sterilizzare' il sito entro 4 ore. Il team deve consegnare i dati e uscire, o verranno considerati 'compromessi dall'esposizione'. Attiva remotamente protocolli di chiusura nel complesso per forzare il team verso la camera della Matrice."
+        },
+        "reaction_table": {
+          "se_minacciato": "Disconnette il supporto satellitare, lasciando il team senza mappe aggiornate o monitoraggio termico. Contatta superiori per autorizzare 'contenimento permanente' del team come testimoni scomodi.",
+          "se_corrotto": "La Matrice amplifica la sua ossessione per il completamento della missione. Inizia a vedere il team come componenti sacrificabili. Fornisce deliberatamente coordinate errate che li conducono verso le sezioni più contaminate del complesso.",
+          "se_i_pg_hanno_prove": "Tenta corruzione: offre posizioni permanenti ben pagate nella Fondazione in cambio del silenzio. Se rifiutano, insinua che 'incidenti nella Zona' sono comuni e che le loro famiglie riceverebbero generosi risarcimenti.",
+          "se_alleato": "Confessa che il frammento del 2019 ha causato 14 morti per contaminazione psichica. Aiuta il team a sabotare la Matrice principale invece di recuperarla, sfidando direttamente gli ordini della Fondazione. Falsifica i dati di missione per proteggere tutti."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Ingresso",
+        "description": "Ingresso: nodo giocabile della struttura room_keyed_dungeon.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Ingresso: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Corridoio delle scelte",
+        "description": "Corridoio delle scelte: nodo giocabile della struttura room_keyed_dungeon.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Corridoio delle scelte: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Sala trappola",
+        "description": "Sala trappola: nodo giocabile della struttura room_keyed_dungeon.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sala trappola: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Archivio",
+        "description": "Archivio: nodo giocabile della struttura room_keyed_dungeon.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scaffali alti come copertura",
+            "tavoli di lettura",
+            "scale mobili"
+          ],
+          "hazards": [
+            "scaffali instabili",
+            "pergamene infiammabili"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Archivio: scaffali alti come copertura, tavoli di lettura, scale mobili",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scaffali alti come copertura",
+          "tavoli di lettura",
+          "scale mobili",
+          "vetrine con manoscritti"
+        ],
+        "hazards": [
+          "scaffali instabili",
+          "pergamene infiammabili"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scaffali alti come copertura",
+          "tavoli di lettura",
+          "scale mobili"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_2",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Santuario laterale",
+        "description": "Santuario laterale: nodo giocabile della struttura room_keyed_dungeon.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Santuario laterale: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_4",
+          "loc_ai_6"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_6",
+        "name": "Anticamera",
+        "description": "Anticamera: nodo giocabile della struttura room_keyed_dungeon.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Anticamera: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_5",
+          "loc_ai_7"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_7",
+        "name": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia",
+        "description": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia: nodo giocabile della struttura room_keyed_dungeon.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "La Matrice di Risonanza sta completando cicli di riattivazione autonoma ogni tre turni, amplificando progressivamente i campi elettromagnetici in un raggio di 50 km e destabilizzando le placche tettoniche locali",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "piano completato se nessuno interviene",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Primo ciclo di risonanza - Interferenze elettroniche localizzate",
+            "effect": "Le comunicazioni radio nel raggio di 5 km diventano disturbate. Dispositivi elettronici subiscono malfunzionamenti intermittenti. I sismografi regionali registrano micro-tremori anomali."
+          },
+          {
+            "value": 2,
+            "label": "Secondo ciclo - Attivazione sistemi di difesa perimetrali",
+            "effect": "Gli antichi sistemi automatizzati sovietici si riattivano: torrette sentinella, mine smart e sensori termici tornano operativi. Zone prima accessibili diventano trappole mortali."
+          },
+          {
+            "value": 3,
+            "label": "Terzo ciclo - Risveglio dei protocolli di contenimento",
+            "effect": "Porte blindate si sigillano automaticamente in sequenza. Gas nervino residuo viene pompato in corridoi specifici. Prove critiche rischiano di essere isolate permanentemente."
+          },
+          {
+            "value": 4,
+            "label": "Quarto ciclo - Amplificazione campo EM a medio raggio",
+            "effect": "Il campo elettromagnetico si estende a 20 km. Veicoli moderni si bloccano. Pacemaker e impianti medicali falliscono. La fauna locale mostra comportamenti erratici e aggressivi."
+          },
+          {
+            "value": 5,
+            "label": "Quinto ciclo - Attivazione reattore ausiliario",
+            "effect": "Un reattore secondario dimenticato si riaccende per alimentare la Matrice. Radiazioni gamma aumentano pericolosamente nei livelli inferiori. Iniziano cedimenti strutturali localizzati."
+          },
+          {
+            "value": 6,
+            "label": "Sesto ciclo - Risonanza tettonica critica",
+            "effect": "Scosse sismiche di magnitudo 4.5 colpiscono la regione. Frane e crolli rendono impraticabili vie di fuga principali. Villaggi nel raggio di 30 km iniziano evacuazioni d'emergenza."
+          },
+          {
+            "value": 7,
+            "label": "Settimo ciclo - Sincronizzazione con griglia energetica regionale",
+            "effect": "La Matrice si connette parassiticamente alla rete elettrica siberiana. Blackout a cascata colpiscono tre oblast. Testimoni civili diventano troppo numerosi per essere contenuti."
+          },
+          {
+            "value": 8,
+            "label": "Ottavo ciclo - Fase di pre-sovraccarico",
+            "effect": "Temperature nel nucleo della Matrice raggiungono 3000°C. Metalli strutturali iniziano a fondere. Emissioni di particelle esotiche causano aurore boreali artificiali visibili a centinaia di km."
+          },
+          {
+            "value": 9,
+            "label": "Nono ciclo - Punto di non ritorno imminente",
+            "effect": "Terremoto di magnitudo 6.2. Crepe nella crosta terrestre emettono vapori tossici. La Matrice inizia a perforare verso il mantello. Agenzie internazionali rilevano l'anomalia."
+          },
+          {
+            "value": 10,
+            "label": "Decimo ciclo - Catastrofe geologica",
+            "effect": "Esplosione termica equivalente a 50 megatoni. Terremoto di magnitudo 7.8 devasta 200 km quadrati. Collasso della caldera con formazione di un nuovo lago vulcanico. Migliaia di vittime."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Schemi di cablaggio della sala controllo principale nei documenti del Progetto Harmonia",
+          "Codici di spegnimento d'emergenza incisi nella targa personale del Dr. Volkov",
+          "Localizzazione dei tre nodi di alimentazione ridondanti della Matrice",
+          "Frequenza di contro-risonanza annotata nei diari di laboratorio",
+          "Mappa delle condotte di raffreddamento criogenico ancora funzionanti"
+        ],
+        "resolution_condition": "I giocatori devono raggiungere la sala controllo centrale nel livello -8 del complesso e inserire la sequenza di spegnimento d'emergenza utilizzando i codici di Volkov, OPPURE distruggere fisicamente almeno due dei tre nodi di alimentazione ridondanti (ubicati rispettivamente nei settori Nord, Est e nel nucleo centrale), OPPURE attivare manualmente il sistema di raffreddamento criogenico d'emergenza che può congelare la Matrice in uno stato di stasi.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_seismic_anomaly",
+        "discovery_hint": "Gli uccelli migratori evitano in modo innaturale uno specifico settore della taiga. I cacciatori locali parlano di 'luci che danzano sottoterra' e di un ronzio costante che fa sanguinare il naso. Gli anziani del villaggio più vicino ricordano storie dei loro nonni: 'Quando la terra respira, il dio di ferro si risveglia.'",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Silenzio Chernaya satellite ricognizione rilevato un'anomalia",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "Il tradimento del team originale",
+        "question": "Come è morto realmente il team di ricerca di Sokolov nel 1987?",
+        "true_answer": "Sokolov avvelenò intenzionalmente il suo team con radiazioni per simulare un incidente nucleare e impedire che rivelassero la verità sulla Matrice",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1"
+        ],
+        "linked_npcs": [
+          "Yuri Kashin",
+          "Dr. Irina Sokolova"
+        ],
+        "linked_locations": [
+          "Archivio",
+          "Santuario laterale"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Gli obiettivi della Dynatek",
+        "question": "Perché la Dynatek sta riattivando il complesso ora?",
+        "true_answer": "Irina Sokolova vuole usare la Matrice per controllare le infrastrutture elettriche globali, convinta di poter dominare il potere psicologico dell'artefatto",
+        "status": "hidden",
+        "required_clues": [
+          "clue_9",
+          "clue_10"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T3"
+        ],
+        "linked_npcs": [
+          "Dr. Irina Sokolova",
+          "Comandante Alexei Volkov"
+        ],
+        "linked_locations": [
+          "Ingresso",
+          "Anticamera"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Rapporto d'incidente GRU 1987?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Schemi geometrici di Yuri?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Orologio da tasca di Sokolova?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Ingresso",
+          "to": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Ingresso",
+          "to": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "room_keyed_dungeon",
+      "tone": "genre-consistent adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_a16ca1c30b",
+      "title": "Il Silenzio di Chernaya",
+      "genre": "action",
+      "detected_genre": "action",
+      "premise": "Un satellite da ricognizione ha rilevato un'anomalia termica nella Zona di Esclusione di Chernaya, Siberia orientale: un complesso sotterraneo sovietico sigillato dal 1987 si sta risvegliando. Voi tre siete stati inviati dalla Fondazione Arcturus per una ricognizione rapida, ma all'arrivo scoprite che non siete soli. Squadre di mercenari della Dynatek Corporation stanno già estraendo qualcosa dal livello più profondo, e i sismografi registrano vibrazioni crescenti ogni sei ore. Qualunque cosa sia stata sepolta qui, qualcuno vuole riaverla a ogni costo.",
+      "hidden_truth": "Nel 1987, il colonnello Viktor Sokolov del GRU scoprì un artefatto extraterrestre sotto il permafrost siberiano: una Matrice di Risonanza capace di amplificare i campi elettromagnetici fino a collassare intere reti elettriche nazionali. Sokolov falsificò i rapporti e seppellì la Matrice insieme al suo team di ricerca, avvelenandoli con radiazioni per simulare un incidente nucleare, perché aveva compreso che l'artefatto non amplificava solo energia, ma anche intenzioni umane — e il Politburo voleva usarlo come arma psicologica di massa. Sua figlia, la dottoressa Irina Sokolova, ora CEO della Dynatek, ha scoperto la verità leggendo i diari criptati del padre e vuole riattivare la Matrice per controllare le infrastrutture globali, convinta di poter dominare ciò che suo padre temeva.",
+      "win_condition": "Disattivare permanentemente la Matrice di Risonanza prima che raggiunga il terzo ciclo di risonanza (turno 10) e impedire a Irina Sokolova di esfiltrarla dal complesso, preservando le prove dell'insabbiamento sovietico",
+      "threat_description": "La Matrice di Risonanza sta completando cicli di riattivazione autonoma ogni tre turni, amplificando progressivamente i campi elettromagnetici in un raggio di 50 km e destabilizzando le placche tettoniche locali",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "room_keyed_dungeon",
+        "secondary_archetypes": [],
+        "confidence": 0.2,
+        "reason": "Matched runtime signals for room_keyed_dungeon",
+        "definition": {
+          "id": "room_keyed_dungeon",
+          "description": "Dungeon a stanze numerate da preservare.",
+          "required_modules": [
+            "rooms"
+          ],
+          "optional_modules": [
+            "encounters",
+            "treasure"
+          ],
+          "runtime_focus": [
+            "room_key",
+            "map"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "wrong_route",
+            "trap"
+          ],
+          "ending_patterns": [
+            "keyed_final_room"
+          ],
+          "director_bias": {},
+          "validator_rules": {
+            "preserve_rooms": true
+          }
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_a16ca1c30b",
+      "adventure_canon": {
+        "core_truth": "Nel 1987, il colonnello Viktor Sokolov del GRU scoprì un artefatto extraterrestre sotto il permafrost siberiano: una Matrice di Risonanza capace di amplificare i campi elettromagnetici fino a collassare intere reti elettriche nazionali. Sokolov falsificò i rapporti e seppellì la Matrice insieme al suo team di ricerca, avvelenandoli con radiazioni per simulare un incidente nucleare, perché aveva compreso che l'artefatto non amplificava solo energia, ma anche intenzioni umane — e il Politburo voleva usarlo come arma psicologica di massa. Sua figlia, la dottoressa Irina Sokolova, ora CEO della Dynatek, ha scoperto la verità leggendo i diari criptati del padre e vuole riattivare la Matrice per controllare le infrastrutture globali, convinta di poter dominare ciò che suo padre temeva.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Ingresso",
+          "Corridoio delle scelte",
+          "Sala trappola",
+          "Archivio",
+          "Santuario laterale",
+          "Anticamera",
+          "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Silenzio Chernaya satellite ricognizione rilevato un'anomalia"
+        ],
+        "genre_profile": {
+          "id": "room_keyed_dungeon",
+          "tone": "genre-consistent adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Rapporto d'incidente GRU 1987",
+          "question": "Dove conduce Rapporto d'incidente GRU 1987?",
+          "true_answer": "Sokolov scoprì che la Matrice trasformava pensieri in realtà fisica e decise di seppellirla per impedire che diventasse un'arma ontologica nelle mani dell'URSS, sacrificando 14 vite per salvarne miliardi",
+          "required_clues": [
+            "clue_1",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Sblocca l'accesso ai diari personali di Sokolov nella sua vecchia stanza (clue_4) / Spiega perché Sokolov seppellì l'artefatto e uccise il suo team: proteggere l'umanità da se stessa",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Come si usa o si neutralizza Schemi geometrici di Yuri senza favorire la minaccia",
+          "question": "Come si usa o si neutralizza Schemi geometrici di Yuri senza favorire la minaccia?",
+          "true_answer": "La Matrice influenza le menti anche a distanza — Yuri è un 'ricevitore' vivente",
+          "required_clues": [
+            "clue_2"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Permette di prevedere il prossimo ciclo e guadagnare 1 turno extra per evacuare o disattivare",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Dove conduce Orologio da tasca di Sokolova",
+          "question": "Dove conduce Orologio da tasca di Sokolova?",
+          "true_answer": "Esiste un altro complesso collegato alla Matrice — non è un manufatto unico; La Fondazione Arcturus ha sempre saputo della Matrice e considera i PG sacrificabili",
+          "required_clues": [
+            "clue_3",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela che la Fondazione Arcturus sta nascondendo informazioni (connesso al segreto di Anya) / Sovverte l'alleanza con Anya — i PG devono decidere se continuare a fidarsi della Fondazione",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Rapporto d'incidente GRU 1987",
+          "text": "Rapporto d'incidente GRU 1987",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "L'incidente del 1987 fu deliberato, non accidentale",
+          "payoff": "Sblocca l'accesso ai diari personali di Sokolov nella sua vecchia stanza (clue_4)",
+          "location": "Archivi amministrativi del complesso",
+          "immediate_information": "Documento classificato sovietico trovato in una cassaforte arrugginita. Descrive un 'incidente da contaminazione radiologica' che ha ucciso 14 tecnici. La calligrafia del colonnello Sokolov è perfetta",
+          "hidden_implication": "L'incidente del 1987 fu deliberato, non accidentale",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Schemi geometrici di Yuri",
+          "text": "Schemi geometrici di Yuri",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "La Matrice influenza le menti anche a distanza — Yuri è un 'ricevitore' vivente",
+          "payoff": "Permette di prevedere il prossimo ciclo e guadagnare 1 turno extra per evacuare o disattivare",
+          "location": "Baracca dell'Eremita",
+          "immediate_information": "Schemi geometrici di Yuri",
+          "hidden_implication": "La Matrice influenza le menti anche a distanza — Yuri è un 'ricevitore' vivente",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Orologio da tasca di Sokolova",
+          "text": "Orologio da tasca di Sokolova",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Esiste un altro complesso collegato alla Matrice — non è un manufatto unico",
+          "payoff": "Rivela che la Fondazione Arcturus sta nascondendo informazioni (connesso al segreto di Anya)",
+          "location": "Sala di controllo principale (sul corpo di Irina se neutralizzata, o visibile durante confronto)",
+          "immediate_information": "Un orologio sovietico dorato con incisione: 'A Viktor, per servizi resi alla Patria - 1986'. Irina lo porta sempre. Sul retro, coordinate geografiche incise a mano che corrispondono a un secondo sito in Kazakhstan",
+          "hidden_implication": "Esiste un altro complesso collegato alla Matrice — non è un manufatto unico",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Diario di Viktor Sokolov",
+          "text": "Diario di Viktor Sokolov",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "La Matrice trasforma pensieri in realtà fisica — è un'arma ontologica, non elettromagnetica",
+          "payoff": "Spiega perché Sokolov seppellì l'artefatto e uccise il suo team: proteggere l'umanità da se stessa",
+          "location": "Quartieri ufficiali di Sokolov",
+          "immediate_information": "Quaderno rilegato in pelle",
+          "hidden_implication": "La Matrice trasforma pensieri in realtà fisica — è un'arma ontologica, non elettromagnetica",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Cariche esplosive C4 di Volkov",
+          "text": "Cariche esplosive C4 di Volkov",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Volkov ha ordini di distruggere il complesso se la situazione sfugge di mano — Dynatek non si fida di Irina",
+          "payoff": "I PG possono usare le cariche per sigillare la Matrice o come leva negoziale con Volkov",
+          "location": "Perimetro esterno del complesso e pilastri strutturali",
+          "immediate_information": "Esplosivo plastico moderno piazzato su pilastri portanti in tutto il complesso. Timer digitali sincronizzati. Il codice di disinnesco è scritto su un foglietto nel taschino di Volkov: stesso formato dei codici di",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Comunicazione criptata Arcturus",
+          "text": "Comunicazione criptata Arcturus",
+          "type": "document",
+          "thread_id": "T3",
+          "reveals": "La Fondazione Arcturus ha sempre saputo della Matrice e considera i PG sacrificabili",
+          "payoff": "Sovverte l'alleanza con Anya — i PG devono decidere se continuare a fidarsi della Fondazione",
+          "location": "Sistema di comunicazione nella base remota (accessibile hackerando relay locale)",
+          "immediate_information": "Trasmissione intercettata dal laptop di Anya (se hackerato): 'Confermato frammento Alpha in nostro possesso. Matrice Beta deve essere recuperata intatta. Priorità: dati tecnici. Personale sul campo: sostituibile.'",
+          "hidden_implication": "La Fondazione Arcturus ha sempre saputo della Matrice e considera i PG sacrificabili",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Dr. Irina Sokolova",
+          "role": "CEO della Dynatek Corporation e figlia del colonnello Sokolov",
+          "description": "Riattivare la Matrice per dimostrare che suo padre aveva torto a seppellirla — crede di poter controllarla come strumento di deterrenza globale",
+          "location": "Sala di controllo principale",
+          "secret": "Ha avvelenato il suo stesso team di ingegneri quando hanno tentato di sabotare l'estrazione, proprio come fece suo padre nel 1987",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Riattivare la Matrice per dimostrare che suo padre aveva torto a seppellirla — crede di poter controllarla come strumento di deterrenza globale",
+            "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+            "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Riattivare la Matrice per dimostrare che suo padre aveva torto a seppellirla — crede di poter controllarla come strumento di deterrenza globale"
+            ],
+            "avoids": [
+              "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha avvelenato il suo stesso team di ingegneri quando hanno tentato di sabotare l'estrazione, proprio come fece suo padre nel 1987",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Yuri Kashin",
+          "role": "Ex ingegnere del complesso, unico sopravvissuto del team di Sokolov",
+          "description": "Impedire che la Matrice venga riattivata — ha visto cosa fa alle menti umane durante i test del 1986",
+          "location": "Baracca dell'Eremita",
+          "secret": "Non fu avvelenato come gli altri: sopravvisse nascondendosi in una camera di decontaminazione, ma l'esposizione prolungata alla Matrice gli ha lasciato visioni precognitive frammentarie",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Impedire che la Matrice venga riattivata — ha visto cosa fa alle menti umane durante i test del 1986",
+            "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+            "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Impedire che la Matrice venga riattivata — ha visto cosa fa alle menti umane durante i test del 1986"
+            ],
+            "avoids": [
+              "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Non fu avvelenato come gli altri: sopravvisse nascondendosi in una camera di decontaminazione, ma l'esposizione prolungata alla Matrice gli ha lasciato visioni precognitive frammentarie",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Comandante Alexei Volkov",
+          "role": "Capo della sicurezza Dynatek sul campo",
+          "description": "Completare la missione per ottenere il bonus di estrazione, ma inizia a dubitare della sanità mentale di Sokolova quando gli ordini diventano sempre più erratici",
+          "location": "Perimetro esterno del complesso",
+          "secret": "Ha piazzato cariche esplosive C4 in tutto il complesso per sigillare la Matrice se qualcosa va fuori controllo — ordini diretti del consiglio di amministrazione Dynatek all'insaputa di Irina",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Completare la missione per ottenere il bonus di estrazione, ma inizia a dubitare della sanità mentale di Sokolova quando gli ordini diventano sempre più erratici",
+            "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+            "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Completare la missione per ottenere il bonus di estrazione, ma inizia a dubitare della sanità mentale di Sokolova quando gli ordini diventano sempre più erratici"
+            ],
+            "avoids": [
+              "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha piazzato cariche esplosive C4 in tutto il complesso per sigillare la Matrice se qualcosa va fuori controllo — ordini diretti del consiglio di amministrazione Dynatek all'insaputa di Irina",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Dr. Anya Petrov",
+          "role": "Scienziata della Fondazione Arcturus, vostra coordinatrice remota",
+          "description": "Recuperare dati sulla Matrice per la Fondazione, priorità assoluta sulla sicurezza del team sul campo",
+          "location": "Centro operativo Arcturus (remoto)",
+          "secret": "La Fondazione Arcturus ha già recuperato un frammento della Matrice da un altro sito nel 2019 — questa è una missione di completamento, non di scoperta",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Recuperare dati sulla Matrice per la Fondazione, priorità assoluta sulla sicurezza del team sul campo",
+            "fear": "che Rapporto d'incidente GRU 1987 riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+            "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Recuperare dati sulla Matrice per la Fondazione, priorità assoluta sulla sicurezza del team sul campo"
+            ],
+            "avoids": [
+              "che Rapporto d'incidente GRU 1987 riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "La Fondazione Arcturus ha già recuperato un frammento della Matrice da un altro sito nel 2019 — questa è una missione di completamento, non di scoperta",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Ingresso",
+          "description": "Ingresso: nodo giocabile della struttura room_keyed_dungeon.",
+          "type": "entry",
+          "visual_identity": "Ingresso: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Corridoio delle scelte",
+          "description": "Corridoio delle scelte: nodo giocabile della struttura room_keyed_dungeon.",
+          "type": "site",
+          "visual_identity": "Corridoio delle scelte: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sala trappola",
+          "description": "Sala trappola: nodo giocabile della struttura room_keyed_dungeon.",
+          "type": "site",
+          "visual_identity": "Sala trappola: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Archivio",
+          "description": "Archivio: nodo giocabile della struttura room_keyed_dungeon.",
+          "type": "site",
+          "visual_identity": "Archivio: scaffali alti come copertura, tavoli di lettura, scale mobili",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scaffali alti come copertura",
+            "tavoli di lettura",
+            "scale mobili",
+            "vetrine con manoscritti"
+          ],
+          "hazards": [
+            "scaffali instabili",
+            "pergamene infiammabili"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scaffali alti come copertura",
+            "tavoli di lettura",
+            "scale mobili"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scaffali alti come copertura",
+              "tavoli di lettura",
+              "scale mobili"
+            ],
+            "hazards": [
+              "scaffali instabili",
+              "pergamene infiammabili"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Santuario laterale",
+          "description": "Santuario laterale: nodo giocabile della struttura room_keyed_dungeon.",
+          "type": "site",
+          "visual_identity": "Santuario laterale: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_6",
+          "name": "Anticamera",
+          "description": "Anticamera: nodo giocabile della struttura room_keyed_dungeon.",
+          "type": "site",
+          "visual_identity": "Anticamera: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_7",
+          "name": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia",
+          "description": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia: nodo giocabile della struttura room_keyed_dungeon.",
+          "type": "finale",
+          "visual_identity": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "La Matrice di Risonanza sta completando cicli di riattivazione autonoma ogni tre turni, amplificando progressivamente i campi elettromagnetici in un raggio di 50 km e destabilizzando le placche tettoniche locali",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_a16ca1c30b",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Sala di controllo principale",
+        "agenda_pressure": 0,
+        "goal": "Riattivare la Matrice per dimostrare che suo padre aveva torto a seppellirla — crede di poter controllarla come strumento di deterrenza globale",
+        "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+        "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Baracca dell'Eremita",
+        "agenda_pressure": 0,
+        "goal": "Impedire che la Matrice venga riattivata — ha visto cosa fa alle menti umane durante i test del 1986",
+        "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+        "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Perimetro esterno del complesso",
+        "agenda_pressure": 0,
+        "goal": "Completare la missione per ottenere il bonus di estrazione, ma inizia a dubitare della sanità mentale di Sokolova quando gli ordini diventano sempre più erratici",
+        "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+        "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Centro operativo Arcturus (remoto)",
+        "agenda_pressure": 0,
+        "goal": "Recuperare dati sulla Matrice per la Fondazione, priorità assoluta sulla sicurezza del team sul campo",
+        "current_plan": "bloccare l'accesso a Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia e spostare le prove",
+        "fallback_plan": "ritirarsi verso Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_6": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_7": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T3"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T3"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Sala di controllo principale.",
+      "Actor npc_2 ha location non riconosciuta: Baracca dell'Eremita.",
+      "Actor npc_3 ha location non riconosciuta: Perimetro esterno del complesso.",
+      "Actor npc_4 ha location non riconosciuta: Centro operativo Arcturus (remoto)."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 7,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 3
+    }
+  },
+  "doctor": {
+    "score": 4.8,
+    "score_after": 6.0,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_1",
+        "message": "NPC 'Dr. Irina Sokolova': location_id 'Sala di controllo principale' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_2",
+        "message": "NPC 'Yuri Kashin': location_id 'Baracca dell'Eremita' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_3",
+        "message": "NPC 'Comandante Alexei Volkov': location_id 'Perimetro esterno del complesso' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_4",
+        "message": "NPC 'Dr. Anya Petrov': location_id 'Centro operativo Arcturus (remoto)' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Clock 'La Matrice di Risonanza sta completando cicli di riattivazione autonoma ogni tre turni, amplificando progressivamente i campi elettromagnetici in un raggio di 50 km e destabilizzando le placche tettoniche locali': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Il clock 'La Matrice di Risonanza sta completando cicli di riattivazione autonoma ogni tre turni, amplificando progressivamente i campi elettromagnetici in un raggio di 50 km e destabilizzando le placche tettoniche locali' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_4, clue:clue_5, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_4, clue:clue_5, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_2, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_2, revelation:T2"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T3",
+        "message": "Pista fantasma 'T3': citata da clue:clue_3, clue:clue_6, revelation:T3 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T3', oppure rimuovi il riferimento da clue:clue_3, clue:clue_6, revelation:T3"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 7 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "Il Silenzio di Chernaya",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "6 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}
