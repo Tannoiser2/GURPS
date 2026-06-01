@@ -16,6 +16,9 @@ on:
         required: false
         default: "1"
 
+permissions:
+  contents: write
+
 jobs:
   genera:
     runs-on: ubuntu-latest
