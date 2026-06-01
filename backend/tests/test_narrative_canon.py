@@ -143,12 +143,16 @@ class NarrativeCanonTests(unittest.TestCase):
 
     def test_clock_tick_deterministic_by_outcome(self):
         from App.world_simulator import _compute_clock_tick
+        # _compute_clock_tick governa il threat_level GENERICO: solo i fallimenti lo fanno
+        # avanzare. Il successo parziale è "ce l'hai fatta con complicazioni", non un
+        # fallimento, quindi NON muove il threat (i singoli event_clock avanzano invece su
+        # parziale tramite ticks_per_partial — vedi _per_clock_ticks).
         # Fallimento critico → +2
         self.assertEqual(_compute_clock_tick({"success": False, "margin": -6, "critical": True}), 2)
         # Fallimento semplice → +1
         self.assertEqual(_compute_clock_tick({"success": False, "margin": -2}), 1)
-        # Successo parziale → +1
-        self.assertEqual(_compute_clock_tick({"success": True, "outcome": "successo parziale"}), 1)
+        # Successo parziale → 0 (non è un fallimento)
+        self.assertEqual(_compute_clock_tick({"success": True, "outcome": "successo parziale"}), 0)
         # Successo pieno → 0
         self.assertEqual(_compute_clock_tick({"success": True, "outcome": "successo"}), 0)
 
@@ -196,8 +200,15 @@ class NarrativeCanonTests(unittest.TestCase):
 
     def test_clock_trigger_detected_at_boundary(self):
         adventure = self.sample_adventure()
-        # Threat al massimo meno 1 tick — un fallimento fa scattare il clock
-        game_state_data = {"clues_found": [], "clue_progress": {}, "threat_level": 7}
+        # Il clock 'main_threat' (max 8) usa un contatore proprio nel clock_runtime,
+        # indipendente dal threat_level. Lo portiamo a 7/8: un fallimento (+1 tick) lo fa
+        # scattare a 8/8.
+        game_state_data = {
+            "clues_found": [],
+            "clue_progress": {},
+            "threat_level": 7,
+            "clock_runtime": {"main_threat": {"value": 7}},
+        }
         runtime = build_adventure_runtime(adventure, game_state_data)
         simulation = simulate_world_state(
             runtime,
@@ -488,7 +499,9 @@ class NarrativeCanonTests(unittest.TestCase):
                 "threat_increase": 0,
             },
             adventure=adventure,
-            game_state_data={"clues_found": ["c1", "c2"], "finale_condition_met": True},
+            # turns_played>=6 supera il guard anti-finale-prematuro (_MIN_TURNS_BEFORE_ENDING);
+            # con la condizione finale soddisfatta il finale deve essere permesso.
+            game_state_data={"clues_found": ["c1", "c2"], "finale_condition_met": True, "turns_played": 6},
             prerolled={"success": True, "intent": "social", "non_combat_action": True},
         )
         self.assertTrue(clean["story_over"])
