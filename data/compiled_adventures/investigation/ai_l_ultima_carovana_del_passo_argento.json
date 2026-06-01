@@ -1,0 +1,2456 @@
+{
+  "adventure_definition": {
+    "id": "adv_76e500a04a",
+    "title": "L'Ultima Carovana del Passo Argento",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "faction_sandbox",
+      "secondary_archetypes": [
+        "survival_escape"
+      ],
+      "confidence": 0.7,
+      "reason": "Matched runtime signals for faction_sandbox",
+      "definition": {
+        "id": "faction_sandbox",
+        "description": "Fazioni con obiettivi e reazioni offscreen.",
+        "required_modules": [
+          "factions",
+          "actors"
+        ],
+        "optional_modules": [
+          "clocks"
+        ],
+        "runtime_focus": [
+          "faction_pressure"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "behavior",
+          "testimony"
+        ],
+        "common_failure_modes": [
+          "faction_escalates"
+        ],
+        "ending_patterns": [
+          "balance_shift"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "detective_classico",
+    "runtime_profiles": [
+      "faction_crisis",
+      "survival_escape"
+    ],
+    "tone": "Thriller claustrofobico di sopravvivenza alpina, con tensione morale crescente e disperazione fisica",
+    "premise": "Da tre giorni la Carovana Mercantile del Passo Argento è bloccata in una gola stretta, assediata da valanghe improvvise che hanno chiuso entrambe le vie di fuga. Le scorte d'acqua sono contaminate, il freddo uccide ogni notte, e i mercanti iniziano ad accusarsi a vicenda. Qualcuno ha sabotato i segnali d'allarme che avrebbero dovuto avvertire delle condizioni meteorologiche letali. Nei bauli sigillati della carovana, qualcosa pulsa e emette un calore innaturale: un carico illegale che sta destabilizzando la montagna stessa.",
+    "initial_hook": "L'Ultima Carovana del Passo Argento Da tre giorni la Carovana Mercantile del Passo Argento è bloccata in una gola stretta, assediata da valanghe improvvise che hanno chiuso entrambe le vie di fuga. Le scorte d'acqua sono contaminate, il freddo uccide ogni notte, e i mercanti iniziano ad accusarsi a ",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Capitano Veyra Ossidan, comandante della scorta armata, ha accettato una tangente dalla gilda mercantile di Khor-Tal per trasportare cristalli di Etere Instabile attraverso il passo, ignorando volutamente i rapporti meteorologici che segnalavano rischio valanghe. Ha falsificato i documenti di trasporto e silenziato il cartografo Erwan quando questi ha scoperto la verità. Le vibrazioni dei cristalli hanno innescato le valanghe: Veyra sapeva del rischio ma ha scelto il profitto, e ora deve scegliere se ammettere il tradimento o lasciare morire tutti per salvare la propria reputazione.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Stabilizzare o distruggere i cristalli di Etere prima che inneschino la valanga finale, e decidere il destino di chi ha causato la crisi",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Stabilizzare o distruggere i cristalli di Etere prima che inneschino la valanga finale, e decidere il destino di chi ha causato la crisi"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Capitano Veyra Ossidan ha ricevuto 500 corone da Tholis Var per trasportare carico illegale, ha falsificato documenti e silenziato Erwan che aveva scoperto tutto",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Prova che la tragedia era prevedibile ed evitabile / Conferma il tradimento intenzionale, non un errore",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Cristalli di Etere Instabile trasportati illegalmente da Tholis Var, che emettono vibrazioni sismiche ogni 4 ore, innescando crolli progressivi",
+        "required_clues": [
+          "clue_3",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Identifica la fonte del disastro e collega Tholis al crimine / Identifica il secondo responsabile e rivela la cospirazione",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Rapporto Meteorologico Strappato",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Tenda del Comando",
+        "reveals": "Qualcuno sapeva del pericolo ed è partito comunque, poi ha distrutto le prove",
+        "payoff": "Prova che la tragedia era prevedibile ed evitabile",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Metà di un documento ufficiale della Gilda Cartografi",
+        "hidden_implication": "Qualcuno sapeva del pericolo ed è partito comunque, poi ha distrutto le prove",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Testimonianza Sussurrata di Erwan",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Tenda Infermeria",
+        "reveals": "Veyra ha coperto attivamente gli avvisi e silenziato chi sapeva",
+        "payoff": "Conferma il tradimento intenzionale, non un errore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Il cartografo morente afferra il braccio di un PG: 'Lei... lei sapeva... Veyra ha bruciato... i miei avvisi... Mi hanno picchiato quando... ho provato a parlare col consiglio... Guardate i sigilli... i sigilli sui",
+        "hidden_implication": "Veyra ha coperto attivamente gli avvisi e silenziato chi sapeva",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Cristalli di Etere Pulsanti",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Deposito Bagagli",
+        "reveals": "Il carico è illegale e pericoloso, causa diretta delle vibrazioni sismiche",
+        "payoff": "Identifica la fonte del disastro e collega Tholis al crimine",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nei bauli del mercante Tholis Var: venti cilindri di cristallo azzurro",
+        "hidden_implication": "Il carico è illegale e pericoloso, causa diretta delle vibrazioni sismiche",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Libro Contabile Nascosto",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Tenda del Comando",
+        "reveals": "Prova diretta della tangente e della premeditazione",
+        "payoff": "Inchioda Veyra senza possibilità di negazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Quaderno di cuoio sotto il giaciglio di Veyra: 'Anticipo: 200 corone (Var). Saldo alla consegna: 300. Rischio: alto, ma Erwan è gestibile. Documenti alterati - nessuno verificherà fino a Khor-Tal.' Data: 9 giorni fa.",
+        "hidden_implication": "Prova diretta della tangente e della premeditazione",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Comportamento Nervoso di Tholis",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Deposito Bagagli",
+        "reveals": "Tholis sa cosa contengono i bauli ed è colpevole quanto Veyra",
+        "payoff": "Identifica il secondo responsabile e rivela la cospirazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Il mercante Var continua a controllare ossessivamente i bauli, offre oro ai PG per 'proteggere il carico a tutti i costi'. Quando interrogato sui contenuti, mente: 'Spezie e tessuti, nulla di pericoloso'. Suda freddo.",
+        "hidden_implication": "Tholis sa cosa contengono i bauli ed è colpevole quanto Veyra",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Cenere Fresca nel Braciere",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Tenda del Comando",
+        "reveals": "Veyra ha distrutto prove anche dopo l'inizio della crisi, consapevole della colpa",
+        "payoff": "Dimostra che il cover-up è continuato fino all'ultimo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nel braciere della tenda comando: resti carbonizzati di pergamene. Con cura si recuperano frammenti: '...autorizzazione negata... pericolo pubblico... firma del Maestro Cartografo Erwan...' Bruciati di recente",
+        "hidden_implication": "Veyra ha distrutto prove anche dopo l'inizio della crisi, consapevole della colpa",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "seguire le impronte",
+          "analizzare la cenere",
+          "proteggersi prima di avanzare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Bastone da Comando Insanguinato",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Veyra ha aggredito fisicamente qualcuno di recente",
+        "payoff": "Collega direttamente Veyra alle ferite di Erwan",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Testimonianza Frammentaria di Senja",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Veyra è stata l'ultima persona vista vicino a Erwan prima dell'aggressione",
+        "payoff": "Fornisce una timeline precisa dell'attacco",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Strumenti Cartografici Rotti",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Qualcuno voleva impedire a Erwan di svolgere il suo lavoro",
+        "payoff": "Dimostra premeditazione nel silenziare il cartografo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Conversazione Criptata tra Tholis e Garrek",
+        "type": "behavior",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Esiste un carico nascosto e un mulattiere complice",
+        "payoff": "Identifica un nuovo complice e la posizione dei cristalli",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Diario Personale di Senja",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Senja ha notato comportamenti sospetti ma non ha ancora collegato i fatti",
+        "payoff": "Senja può essere convinta a testimoniare se le si mostrano altre prove",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Imballaggi Marchiati Khor-Tal",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "I cristalli provengono da Khor-Tal e sono stati deliberatamente nascosti",
+        "payoff": "Collega il carico illegale alla gilda e a Tholis",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Contratto Segreto Firmato",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "Esiste un accordo formale tra Tholis, Khor-Tal e Veyra",
+        "payoff": "Prova documentale della tangente e della cospirazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Capitano Veyra Ossidan",
+        "role": "Comandante della scorta armata della carovana",
+        "location_id": "Tenda del Comando",
+        "status": "unintroduced",
+        "goal": "Proteggere la propria carriera e reputazione dopo vent'anni di servizio impeccabile",
+        "secret": "Ha accettato 500 corone d'oro per trasportare il carico illegale, falsificando i documenti di sicurezza e ignorando l'avviso del cartografo",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+        "current_plan": "Mantenere il controllo della situazione fino all'arrivo dei soccorsi (4 giorni). Razionare acqua contaminata lentamente per evitare morti sospette immediate. Trasferire il carico illegale nelle casse contrassegnate 'medicinali d'emergenza'. Preparare il cartografo morto come capro espiatorio postumo.",
+        "fallback_plan": "Se scoperta prima dei soccorsi: inscenare un'aggressione da parte di banditi inesistenti durante la quale i testimoni chiave muoiono 'tragicamente'. Distruggere fisicamente il carico illegale facendolo sembrare perso in una valanga. Fuggire verso il confine meridionale con identità falsa già preparata (documenti cuciti nella fodera della sella) e le 500 corone nascoste nello stivale sinistro.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere la propria carriera e reputazione dopo vent'anni di servizio impeccabile"
+        ],
+        "avoids": [
+          "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un atteggiamento militaresco e professionale, distribuisce razionamenti con efficienza, incolpa la sfortuna e il maltempo. Ispeziona ripetutamente il perimetro per evitare domande sui documenti di carico.",
+          "medium": "Diventa irritabile quando interrogata sulle decisioni logistiche. Accusa il cartografo morto di averla mal consigliata sul percorso. Enfatizza i suoi vent'anni di servizio senza macchia, mostrando medaglie e commendatizie.",
+          "high": "Si chiude nel suo alloggio con la cassa dei documenti falsificati. Minaccia l'arresto militare di chiunque metta in dubbio la sua autorità. Considera di eliminare testimoni scomodi durante la prossima 'valanga'. Brucia selettivamente alcuni registri.",
+          "extreme": "Tenta un colpo di stato interno: raduna i mercenari ancora leali promettendo doppie paghe dal carico illegale. Pianifica di abbandonare i civili e forzare il passo con i soli armati, distruggendo ogni prova. Se accerchiata, si offre come capro espiatorio in cambio dell'immunità."
+        },
+        "reaction_table": {
+          "se_minacciato": "Mano sull'elsa della spada, richiama la guardia d'onore. Recita il codice militare articolo per articolo per intimidire. Se minacciata fisicamente, combatte con ventennale esperienza tattica, usando ostaggi civili come scudi.",
+          "se_corrotto": "Ride amaramente: 'Credete che 500 corone valgano la mia pensione?' Potrebbe collaborare solo se offerto un esilio dorato con documentazione falsa e almeno 2000 corone. Pretende garanzie scritte prima di rivelare il mandante.",
+          "se_i_pg_hanno_prove": "Crolla momentaneamente, poi si ricompone. Tenta di negoziare: darà il mandante (Mercante Tessari della Gilda Settentrionale) in cambio di un processo militare privato invece che pubblico. Rivela dove sono nascoste le 500 corone come buonafede.",
+          "se_alleato": "Estremamente diffidente inizialmente. Se convinta che i PG possono salvarle carriera E vita, rivela tutto: Tessari le promise una carica di Generale dopo 'un ultimo trasporto discreto di spezie rare'. Il carico è in realtà oppio grezzo delle montagne. L'avvelenamento dell'acqua non era previsto."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Erwan il Cartografo",
+        "role": "Navigatore e studioso meteorologico, ora gravemente ferito",
+        "location_id": "Tenda Infermeria",
+        "status": "unintroduced",
+        "goal": "Rivelare la verità prima di morire, ma teme che nessuno gli creda o che Veyra lo zittisca definitivamente",
+        "secret": "Ha scoperto i documenti falsi tre giorni prima della partenza e ha tentato di avvertire il consiglio mercantile, ma Veyra lo ha fatto picchiare e drogare per farlo tacere",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+        "current_plan": "Resistere abbastanza a lungo per far arrivare le prove ai PG senza che Veyra lo scopra. Fingersi più grave di quanto sia per evitare che lei lo interroghi o lo finisca. Nascondere la chiave del baule finché non arriva qualcuno di cui fidarsi.",
+        "fallback_plan": "Se Veyra sospetta che stia parlando, ingoiare la chiave e inscenare un peggioramento fatale. Ha scritto coordinate cruciali tatuate in codice sotto il bendaggio delle costole - se muore, qualcuno che lavi il corpo le troverà.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Rivelare la verità prima di morire, ma teme che nessuno gli creda o che Veyra lo zittisca definitivamente"
+        ],
+        "avoids": [
+          "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Tossisce sangue e borbotta frasi frammentarie sulla mappa, indicando con dita tremanti verso i suoi documenti nascosti sotto la giacca insanguinata. Chiede acqua pulita prima di parlare.",
+          "medium": "Afferra disperatamente il braccio del PG e sussurra che Veyra ha falsificato le carte meteorologiche. Indica le costole rotte e dice 'Lei ha già tentato di uccidermi una volta'. Implora protezione prima di rivelare dove ha nascosto le prove.",
+          "high": "Tra spasmi di dolore, confessa tutto: i documenti falsi, il tentativo di avvertire il consiglio, il pestaggio orchestrato da Veyra tre notti fa. Supplica i PG di recuperare il suo diario sigillato nella seconda carrozza, scomparto segreto sotto il sedile del conducente.",
+          "extreme": "In preda al delirio da febbre, urla che Veyra sapeva delle valanghe, che tutto era pianificato. Con l'ultimo respiro estrae una chiave di ottone dal colletto insanguinato: 'Baule 7... nella carrozza di scorta... mappe vere... lei voleva bloccarci qui... perché?'. Muore prima di finire."
+        },
+        "reaction_table": {
+          "se_minacciato": "Crolla psicologicamente, piange e confessa che ha già perso tutto. 'Uccidetemi voi, tanto Veyra lo farà appena mi riprenderò. Almeno voi potreste essere veloci'. Offre tutto ciò che sa in cambio di una morte pietosa.",
+          "se_corrotto": "Rifiuta denaro con disgusto: 'L'oro non cura costole fracassate né lava la colpa di aver condannato questa carovana'. Accetta solo la promessa di protezione armata fino a quando non avrà testimoniato davanti a tutti.",
+          "se_i_pg_hanno_prove": "Si illumina di speranza febbrile. 'Sapevo che qualcuno avrebbe capito!'. Offre di decifrare i codici meteorologici e rivela il nome del falsario che ha lavorato per Veyra: un certo Malric delle Gilde Nere di Porto Ghiaccio.",
+          "se_alleato": "Diventa collaborativo e metodico nonostante il dolore. Disegna con carbone sulla roccia una mappa della gola, mostrando dove le valanghe sono state probabilmente indotte artificialmente. Condivide il sospetto finale: 'Qualcuno nella carovana doveva morire qui. La domanda è: chi?'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Mercante Tholis Var",
+        "role": "Proprietario del carico illegale e finanziatore della tangente",
+        "location_id": "Deposito Bagagli",
+        "status": "unintroduced",
+        "goal": "Salvare il carico di Etere (vale una fortuna) e scappare prima che qualcuno scopra il suo coinvolgimento",
+        "secret": "Ha pagato Veyra per bypassare i controlli doganali, ma non sapeva che i cristalli fossero così instabili. Ora vuole incolpare solo lei per salvarsi.",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+        "current_plan": "Fingersi vittima inconsapevole di Veyra. Diffondere voci tra i mercanti che la Capitana ha agito di propria iniziativa per arricchirsi. Tentare di recuperare di nascosto parte dei cristalli di Etere più stabili durante la confusione e fuggire appena la valanga viene rimossa, abbandonando il resto del carico.",
+        "fallback_plan": "Se scoperto, dare tutta la colpa a Veyra testimoniando contro di lei e rivelando la rete di contrabbando (sacrificandola per salvarsi). Se impossibile fuggire con l'Etere, distruggere i documenti che lo collegano al carico e cercare clemenza fingendosi un mercante ingenuo truffato. Come ultima risorsa, tentare di corrompere i sopravvissuti chiave o, se braccato, cercare di innescare un'altra valanga per creare caos e fuggire nel disordine.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Salvare il carico di Etere (vale una fortuna) e scappare prima che qualcuno scopra il suo coinvolgimento"
+        ],
+        "avoids": [
+          "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Tholis si mostra generoso e preoccupato, offre risorse dalla sua carovana e chiede con tono paternalistico se qualcuno ha visto comportamenti sospetti da parte delle guardie o della Capitana Veyra.",
+          "medium": "Inizia a sudare visibilmente, diventa nervoso e difensivo. Accenna vagamente a 'irregolarità amministrative comuni nel commercio' e suggerisce che Veyra aveva piena autorità sui controlli. Cerca di corrompere con piccole somme o favori commerciali futuri.",
+          "high": "Crolla parzialmente: ammette di aver pagato Veyra per 'accelerare le pratiche doganali' ma giura di non sapere nulla sui cristalli di Etere instabili. Incolpa direttamente lei, sostenendo che ha sostituito il carico lecito con quello pericoloso all'insaputa sua. Offre l'intero suo patrimonio liquido per essere lasciato andare.",
+          "extreme": "Panico totale. Tenta di fuggire fisicamente o di aggredire chi lo accusa. Se bloccato, confessa tutto singhiozzando: il carico illegale, la tangente, ma insiste ossessivamente che Veyra non gli aveva detto dei rischi di valanga. Propone di testimoniare contro di lei in cambio di immunità, rivelando dettagli sui suoi contatti criminali."
+        },
+        "reaction_table": {
+          "se_minacciato": "Retrocede immediatamente, alza le mani in segno di resa e cerca di negoziare. Offre denaro, quote del carico legale, o informazioni parziali su Veyra. Se la minaccia è fisica, diventa codardo e piagnucoloso.",
+          "se_corrotto": "Accetta immediatamente se sente che può salvarsi. Offre il doppio della somma proposta, accesso ai suoi contatti commerciali nelle città principali, o una percentuale permanente sui suoi traffici futuri. Diventa servile e adulatorio.",
+          "se_i_pg_hanno_prove": "Cambia strategia: non nega più, ma presenta se stesso come vittima di Veyra. Mostra documenti falsificati che indicano un carico diverso, sostiene di essere stato ingannato. Cerca disperatamente un accordo che lo faccia apparire ingenuo piuttosto che colpevole.",
+          "se_alleato": "Diventa estremamente collaborativo ma sempre manipolativo. Condivide informazioni su Veyra e i suoi contatti, ma omette sistematicamente il suo ruolo centrale. Propone piani per 'risolvere la situazione' che sempre lo vedono allontanarsi con almeno parte del carico di Etere."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Senja, Guardia Cadetta",
+        "role": "Giovane soldato della scorta, fedele a Veyra ma sempre più sospettosa",
+        "location_id": "Posto di Guardia Orientale",
+        "status": "unintroduced",
+        "goal": "Capire cosa è successo veramente e fare la cosa giusta, anche se significa tradire il suo mentore",
+        "secret": "Ha visto Veyra bruciare dei documenti la notte prima della partenza, ma non ha osato chiedere spiegazioni",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+        "current_plan": "Fingere normalità e lealtà a Veyra mentre osserva di nascosto ogni sua mossa, cercando di capire se i suoi sospetti sono fondati. Evitare di essere lasciata sola con il mentore per paura di essere interrogata.",
+        "fallback_plan": "Se Veyra scopre i suoi dubbi, giurarle fedeltà eterna e incolpare i PG di averla manipolata. Se la situazione degenera, fuggire durante la notte verso il passo più vicino, anche a rischio di valanghe, portando con sé il frammento di documento come prova per scagionarsi.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Capire cosa è successo veramente e fare la cosa giusta, anche se significa tradire il suo mentore"
+        ],
+        "avoids": [
+          "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un atteggiamento professionale e marziale, rispondendo con frasi brevi e formali. Evita lo sguardo quando si parla di Veyra, stringendo inconsciamente l'elsa della spada.",
+          "medium": "Inizia a contraddirsi sui dettagli della partenza. Ammette di aver visto 'qualcosa di strano' ma minimizza. Chiede continuamente 'cosa dovrei fare?' mostrando conflitto interiore tra dovere e coscienza.",
+          "high": "Crolla emotivamente, confessando di aver visto Veyra bruciare documenti nel braciere. Rivela che il suo mentore le ha ordinato di mentire sulla rotta scelta. Piange dicendo 'mi ha cresciuta come una figlia, ma la gente sta morendo'.",
+          "extreme": "Tradisce completamente Veyra, offrendo di testimoniare contro di lei. Recupera un frammento di documento carbonizzato che ha segretamente conservato. Supplica i PG di proteggerla dalla vendetta del suo ex-mentore."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si irrigidisce in posizione difensiva, mano sull'arma. Risponde con rabbia: 'Ho giurato di proteggere questa carovana, non di tradirla!' Ma il suo sguardo tradisce paura e dubbio.",
+          "se_corrotto": "Rifiuta con sdegno iniziale, ma se offerto rifugio o protezione da Veyra invece che denaro, vacilla visibilmente. Sussurra: 'Potete davvero tenermi al sicuro da lei?'",
+          "se_i_pg_hanno_prove": "Il suo volto impallidisce riconoscendo elementi che confermano i suoi sospetti. Chiede di vedere le prove con mani tremanti. Dopo averle esaminate, mormora: 'Quindi avevo ragione... tutto questo tempo...'",
+          "se_alleato": "Si aggrappa ai PG come ancora di salvezza morale. Offre accesso alla tenda di Veyra durante i turni di guardia. Rivela che il suo mentore ha una borsa di cuoio che controlla ossessivamente e che tiene sempre con sé."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Piazza neutrale",
+        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Sede fazione A",
+        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_4",
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Sede fazione B",
+        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Mercato delle informazioni",
+        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Luogo del confronto",
+        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "I cristalli emettono vibrazioni sismiche ogni 4 ore, destabilizzando ulteriormente la montagna. Ogni turno senza progressi aumenta il rischio di valanga totale che seppellirà la carovana.",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "piano completato se nessuno interviene",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Prime vibrazioni rilevabili",
+            "effect": "Tremori leggeri ogni 4 ore. Animali da soma irrequieti. Piccole crepe appaiono nelle pareti rocciose.",
+            "event": "allarme interno attivato",
+            "world_state_change": "allarme interno attivato",
+            "scene_prompt": "Mostra in scena: allarme interno attivato.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 4,
+            "label": "Crolli secondari iniziano",
+            "effect": "Caduta di sassi dalle pareti. Una via laterale viene ostruita. Il passaggio si restringe ulteriormente.",
+            "event": "accessi ordinari sospesi",
+            "world_state_change": "accessi ordinari sospesi",
+            "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 6,
+            "label": "Risonanza intensificata",
+            "effect": "I cristalli brillano visibilmente. Le vibrazioni diventano udibili. Tracce e prove sepolte da detriti.",
+            "event": "prova secondaria rimossa dalla scena",
+            "world_state_change": "prova secondaria rimossa dalla scena",
+            "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 8,
+            "label": "Instabilità critica",
+            "effect": "Valanghe minori colpiscono i carri esterni. Testimoni chiave in pericolo. Frane continue.",
+            "event": "un testimone viene cercato dagli uomini di la minaccia",
+            "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+            "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 10,
+            "label": "Collasso totale imminente",
+            "effect": "La montagna emette un rombo profondo. Crepacci si aprono. Valanga catastrofica tra pochi minuti.",
+            "event": "piano completato se nessuno interviene",
+            "world_state_change": "piano completato se nessuno interviene",
+            "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Localizzare i cristalli nascosti nelle pareti rocciose",
+          "Identificare il metodo per neutralizzare le vibrazioni soniche",
+          "Scoprire chi ha piazzato i cristalli e perché"
+        ],
+        "resolution_condition": "I giocatori devono localizzare e distruggere/neutralizzare i cristalli risonanti, oppure creare una contro-frequenza che annulli le vibrazioni sismiche prima che il clock raggiunga 10",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_crystal_hum",
+        "discovery_hint": "Un ronzio sottile pervade la gola montana, quasi impercettibile ma costante. Gli animali girano la testa verso le pareti rocciose come se ascoltassero qualcosa",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: L'Ultima Carovana Passo Argento tre giorni",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Il Silenziamento del Cartografo",
+        "question": "Come è stato ridotto al silenzio Erwan e chi lo ha fatto?",
+        "true_answer": "Veyra ha aggredito Erwan nella sua tenda quando il cartografo ha minacciato di rivelare il carico illegale e i rapporti falsificati, causandogli gravi ferite alla testa",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1"
+        ],
+        "linked_npcs": [
+          "Capitano Veyra Ossidan",
+          "Erwan il Cartografo",
+          "Senja, Guardia Cadetta"
+        ],
+        "linked_locations": [
+          "Sede fazione A"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "La Rete di Complicità",
+        "question": "Chi altri nella carovana è consapevole del carico illegale?",
+        "true_answer": "Tholis Var ha corrotto Veyra e un mulattiere di nome Garrek che ha caricato i cristalli; Senja ha visto qualcosa ma non ha ancora compreso la portata del complotto",
+        "status": "hidden",
+        "required_clues": [
+          "clue_10",
+          "clue_11"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Mercante Tholis Var",
+          "Capitano Veyra Ossidan",
+          "Senja, Guardia Cadetta"
+        ],
+        "linked_locations": [
+          "Mercato delle informazioni",
+          "Sede fazione B"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Rapporto Meteorologico Strappato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Cristalli di Etere Pulsanti?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Piazza neutrale",
+          "to": "Luogo del confronto"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Piazza neutrale",
+          "to": "Luogo del confronto"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Luogo del confronto",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "detective_classico",
+      "tone": "classic detective",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "resource loss",
+        "route blocked",
+        "hunter gains distance",
+        "injury",
+        "weather worsens",
+        "safe node compromised",
+        "pressure increase",
+        "suspect lies",
+        "alibi pressure",
+        "evidence contested"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "instant death without direct lethal risk",
+        "escape impossible from one failure",
+        "entire map destroyed without clock",
+        "massacre from one roll",
+        "villain revealed without evidence"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 3
+    },
+    "legacy_adventure": {
+      "id": "adv_76e500a04a",
+      "title": "L'Ultima Carovana del Passo Argento",
+      "genre": "detective_classico",
+      "detected_genre": "detective_classico",
+      "premise": "Da tre giorni la Carovana Mercantile del Passo Argento è bloccata in una gola stretta, assediata da valanghe improvvise che hanno chiuso entrambe le vie di fuga. Le scorte d'acqua sono contaminate, il freddo uccide ogni notte, e i mercanti iniziano ad accusarsi a vicenda. Qualcuno ha sabotato i segnali d'allarme che avrebbero dovuto avvertire delle condizioni meteorologiche letali. Nei bauli sigillati della carovana, qualcosa pulsa e emette un calore innaturale: un carico illegale che sta destabilizzando la montagna stessa.",
+      "hidden_truth": "Capitano Veyra Ossidan, comandante della scorta armata, ha accettato una tangente dalla gilda mercantile di Khor-Tal per trasportare cristalli di Etere Instabile attraverso il passo, ignorando volutamente i rapporti meteorologici che segnalavano rischio valanghe. Ha falsificato i documenti di trasporto e silenziato il cartografo Erwan quando questi ha scoperto la verità. Le vibrazioni dei cristalli hanno innescato le valanghe: Veyra sapeva del rischio ma ha scelto il profitto, e ora deve scegliere se ammettere il tradimento o lasciare morire tutti per salvare la propria reputazione.",
+      "win_condition": "Stabilizzare o distruggere i cristalli di Etere prima che inneschino la valanga finale, e decidere il destino di chi ha causato la crisi",
+      "threat_description": "I cristalli emettono vibrazioni sismiche ogni 4 ore, destabilizzando ulteriormente la montagna. Ogni turno senza progressi aumenta il rischio di valanga totale che seppellirà la carovana.",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "faction_sandbox",
+        "secondary_archetypes": [
+          "survival_escape"
+        ],
+        "confidence": 0.7,
+        "reason": "Matched runtime signals for faction_sandbox",
+        "definition": {
+          "id": "faction_sandbox",
+          "description": "Fazioni con obiettivi e reazioni offscreen.",
+          "required_modules": [
+            "factions",
+            "actors"
+          ],
+          "optional_modules": [
+            "clocks"
+          ],
+          "runtime_focus": [
+            "faction_pressure"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "behavior",
+            "testimony"
+          ],
+          "common_failure_modes": [
+            "faction_escalates"
+          ],
+          "ending_patterns": [
+            "balance_shift"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_76e500a04a",
+      "adventure_canon": {
+        "core_truth": "Capitano Veyra Ossidan, comandante della scorta armata, ha accettato una tangente dalla gilda mercantile di Khor-Tal per trasportare cristalli di Etere Instabile attraverso il passo, ignorando volutamente i rapporti meteorologici che segnalavano rischio valanghe. Ha falsificato i documenti di trasporto e silenziato il cartografo Erwan quando questi ha scoperto la verità. Le vibrazioni dei cristalli hanno innescato le valanghe: Veyra sapeva del rischio ma ha scelto il profitto, e ora deve scegliere se ammettere il tradimento o lasciare morire tutti per salvare la propria reputazione.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Piazza neutrale",
+          "Sede fazione A",
+          "Sede fazione B",
+          "Mercato delle informazioni",
+          "Luogo del confronto"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: L'Ultima Carovana Passo Argento tre giorni"
+        ],
+        "genre_profile": {
+          "id": "detective_classico",
+          "tone": "classic detective",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "resource loss",
+            "route blocked",
+            "hunter gains distance",
+            "injury",
+            "weather worsens",
+            "safe node compromised",
+            "pressure increase",
+            "suspect lies",
+            "alibi pressure",
+            "evidence contested"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "instant death without direct lethal risk",
+            "escape impossible from one failure",
+            "entire map destroyed without clock",
+            "massacre from one roll",
+            "villain revealed without evidence"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 3
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Che cosa dimostrano Rapporto Meteorologico Strappato e Testimonianza Sussurrata di Erwan",
+          "question": "Che cosa dimostrano Rapporto Meteorologico Strappato e Testimonianza Sussurrata di Erwan?",
+          "true_answer": "Capitano Veyra Ossidan ha ricevuto 500 corone da Tholis Var per trasportare carico illegale, ha falsificato documenti e silenziato Erwan che aveva scoperto tutto",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Prova che la tragedia era prevedibile ed evitabile / Conferma il tradimento intenzionale, non un errore",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Cristalli di Etere Pulsanti",
+          "question": "Dove conduce Cristalli di Etere Pulsanti?",
+          "true_answer": "Cristalli di Etere Instabile trasportati illegalmente da Tholis Var, che emettono vibrazioni sismiche ogni 4 ore, innescando crolli progressivi",
+          "required_clues": [
+            "clue_3",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Identifica la fonte del disastro e collega Tholis al crimine / Identifica il secondo responsabile e rivela la cospirazione",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Rapporto Meteorologico Strappato",
+          "text": "Rapporto Meteorologico Strappato",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Qualcuno sapeva del pericolo ed è partito comunque, poi ha distrutto le prove",
+          "payoff": "Prova che la tragedia era prevedibile ed evitabile",
+          "location": "Tenda del Comando",
+          "immediate_information": "Metà di un documento ufficiale della Gilda Cartografi",
+          "hidden_implication": "Qualcuno sapeva del pericolo ed è partito comunque, poi ha distrutto le prove",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Testimonianza Sussurrata di Erwan",
+          "text": "Testimonianza Sussurrata di Erwan",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Veyra ha coperto attivamente gli avvisi e silenziato chi sapeva",
+          "payoff": "Conferma il tradimento intenzionale, non un errore",
+          "location": "Tenda Infermeria",
+          "immediate_information": "Il cartografo morente afferra il braccio di un PG: 'Lei... lei sapeva... Veyra ha bruciato... i miei avvisi... Mi hanno picchiato quando... ho provato a parlare col consiglio... Guardate i sigilli... i sigilli sui",
+          "hidden_implication": "Veyra ha coperto attivamente gli avvisi e silenziato chi sapeva",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Cristalli di Etere Pulsanti",
+          "text": "Cristalli di Etere Pulsanti",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Il carico è illegale e pericoloso, causa diretta delle vibrazioni sismiche",
+          "payoff": "Identifica la fonte del disastro e collega Tholis al crimine",
+          "location": "Deposito Bagagli",
+          "immediate_information": "Nei bauli del mercante Tholis Var: venti cilindri di cristallo azzurro",
+          "hidden_implication": "Il carico è illegale e pericoloso, causa diretta delle vibrazioni sismiche",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Libro Contabile Nascosto",
+          "text": "Libro Contabile Nascosto",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Prova diretta della tangente e della premeditazione",
+          "payoff": "Inchioda Veyra senza possibilità di negazione",
+          "location": "Tenda del Comando",
+          "immediate_information": "Quaderno di cuoio sotto il giaciglio di Veyra: 'Anticipo: 200 corone (Var). Saldo alla consegna: 300. Rischio: alto, ma Erwan è gestibile. Documenti alterati - nessuno verificherà fino a Khor-Tal.' Data: 9 giorni fa.",
+          "hidden_implication": "Prova diretta della tangente e della premeditazione",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Comportamento Nervoso di Tholis",
+          "text": "Comportamento Nervoso di Tholis",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Tholis sa cosa contengono i bauli ed è colpevole quanto Veyra",
+          "payoff": "Identifica il secondo responsabile e rivela la cospirazione",
+          "location": "Deposito Bagagli",
+          "immediate_information": "Il mercante Var continua a controllare ossessivamente i bauli, offre oro ai PG per 'proteggere il carico a tutti i costi'. Quando interrogato sui contenuti, mente: 'Spezie e tessuti, nulla di pericoloso'. Suda freddo.",
+          "hidden_implication": "Tholis sa cosa contengono i bauli ed è colpevole quanto Veyra",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Cenere Fresca nel Braciere",
+          "text": "Cenere Fresca nel Braciere",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Veyra ha distrutto prove anche dopo l'inizio della crisi, consapevole della colpa",
+          "payoff": "Dimostra che il cover-up è continuato fino all'ultimo",
+          "location": "Tenda del Comando",
+          "immediate_information": "Nel braciere della tenda comando: resti carbonizzati di pergamene. Con cura si recuperano frammenti: '...autorizzazione negata... pericolo pubblico... firma del Maestro Cartografo Erwan...' Bruciati di recente",
+          "hidden_implication": "Veyra ha distrutto prove anche dopo l'inizio della crisi, consapevole della colpa",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "seguire le impronte",
+            "analizzare la cenere",
+            "proteggersi prima di avanzare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Capitano Veyra Ossidan",
+          "role": "Comandante della scorta armata della carovana",
+          "description": "Proteggere la propria carriera e reputazione dopo vent'anni di servizio impeccabile",
+          "location": "Tenda del Comando",
+          "secret": "Ha accettato 500 corone d'oro per trasportare il carico illegale, falsificando i documenti di sicurezza e ignorando l'avviso del cartografo",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere la propria carriera e reputazione dopo vent'anni di servizio impeccabile",
+            "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere la propria carriera e reputazione dopo vent'anni di servizio impeccabile"
+            ],
+            "avoids": [
+              "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha accettato 500 corone d'oro per trasportare il carico illegale, falsificando i documenti di sicurezza e ignorando l'avviso del cartografo",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Erwan il Cartografo",
+          "role": "Navigatore e studioso meteorologico, ora gravemente ferito",
+          "description": "Rivelare la verità prima di morire, ma teme che nessuno gli creda o che Veyra lo zittisca definitivamente",
+          "location": "Tenda Infermeria",
+          "secret": "Ha scoperto i documenti falsi tre giorni prima della partenza e ha tentato di avvertire il consiglio mercantile, ma Veyra lo ha fatto picchiare e drogare per farlo tacere",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Rivelare la verità prima di morire, ma teme che nessuno gli creda o che Veyra lo zittisca definitivamente",
+            "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Rivelare la verità prima di morire, ma teme che nessuno gli creda o che Veyra lo zittisca definitivamente"
+            ],
+            "avoids": [
+              "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto i documenti falsi tre giorni prima della partenza e ha tentato di avvertire il consiglio mercantile, ma Veyra lo ha fatto picchiare e drogare per farlo tacere",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Mercante Tholis Var",
+          "role": "Proprietario del carico illegale e finanziatore della tangente",
+          "description": "Salvare il carico di Etere (vale una fortuna) e scappare prima che qualcuno scopra il suo coinvolgimento",
+          "location": "Deposito Bagagli",
+          "secret": "Ha pagato Veyra per bypassare i controlli doganali, ma non sapeva che i cristalli fossero così instabili. Ora vuole incolpare solo lei per salvarsi.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Salvare il carico di Etere (vale una fortuna) e scappare prima che qualcuno scopra il suo coinvolgimento",
+            "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Salvare il carico di Etere (vale una fortuna) e scappare prima che qualcuno scopra il suo coinvolgimento"
+            ],
+            "avoids": [
+              "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha pagato Veyra per bypassare i controlli doganali, ma non sapeva che i cristalli fossero così instabili. Ora vuole incolpare solo lei per salvarsi.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Senja, Guardia Cadetta",
+          "role": "Giovane soldato della scorta, fedele a Veyra ma sempre più sospettosa",
+          "description": "Capire cosa è successo veramente e fare la cosa giusta, anche se significa tradire il suo mentore",
+          "location": "Posto di Guardia Orientale",
+          "secret": "Ha visto Veyra bruciare dei documenti la notte prima della partenza, ma non ha osato chiedere spiegazioni",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Capire cosa è successo veramente e fare la cosa giusta, anche se significa tradire il suo mentore",
+            "fear": "che Rapporto Meteorologico Strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Capire cosa è successo veramente e fare la cosa giusta, anche se significa tradire il suo mentore"
+            ],
+            "avoids": [
+              "che Rapporto Meteorologico Strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha visto Veyra bruciare dei documenti la notte prima della partenza, ma non ha osato chiedere spiegazioni",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Piazza neutrale",
+          "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+          "type": "entry",
+          "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Sede fazione A",
+          "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sede fazione B",
+          "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Mercato delle informazioni",
+          "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Luogo del confronto",
+          "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
+          "type": "finale",
+          "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "I cristalli emettono vibrazioni sismiche ogni 4 ore, destabilizzando ulteriormente la montagna. Ogni turno senza progressi aumenta il rischio di valanga totale che seppellirà la carovana.",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_76e500a04a",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Tenda del Comando",
+        "agenda_pressure": 0,
+        "goal": "Proteggere la propria carriera e reputazione dopo vent'anni di servizio impeccabile",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Tenda Infermeria",
+        "agenda_pressure": 0,
+        "goal": "Rivelare la verità prima di morire, ma teme che nessuno gli creda o che Veyra lo zittisca definitivamente",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Deposito Bagagli",
+        "agenda_pressure": 0,
+        "goal": "Salvare il carico di Etere (vale una fortuna) e scappare prima che qualcuno scopra il suo coinvolgimento",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Posto di Guardia Orientale",
+        "agenda_pressure": 0,
+        "goal": "Capire cosa è successo veramente e fare la cosa giusta, anche se significa tradire il suo mentore",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T1"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 90,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Tenda del Comando.",
+      "Actor npc_2 ha location non riconosciuta: Tenda Infermeria.",
+      "Actor npc_3 ha location non riconosciuta: Deposito Bagagli.",
+      "Actor npc_4 ha location non riconosciuta: Posto di Guardia Orientale.",
+      "faction_crisis richiede almeno 2 factions."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "doctor": {
+    "score": 5.3,
+    "score_after": 6.0,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_1",
+        "message": "NPC 'Capitano Veyra Ossidan': location_id 'Tenda del Comando' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_2",
+        "message": "NPC 'Erwan il Cartografo': location_id 'Tenda Infermeria' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_3",
+        "message": "NPC 'Mercante Tholis Var': location_id 'Deposito Bagagli' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_4",
+        "message": "NPC 'Senja, Guardia Cadetta': location_id 'Posto di Guardia Orientale' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Clock 'I cristalli emettono vibrazioni sismiche ogni 4 ore, destabilizzando ulteriormente la montagna. Ogni turno senza progressi aumenta il rischio di valanga totale che seppellirà la carovana.': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Il clock 'I cristalli emettono vibrazioni sismiche ogni 4 ore, destabilizzando ulteriormente la montagna. Ogni turno senza progressi aumenta il rischio di valanga totale che seppellirà la carovana.' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_2, clue:clue_4, clue:clue_6, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_2, clue:clue_4, clue:clue_6, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_3, clue:clue_5, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_3, clue:clue_5, revelation:T2"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 5 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "L'Ultima Carovana del Passo Argento",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "6 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}
