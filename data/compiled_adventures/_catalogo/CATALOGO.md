@@ -2,19 +2,18 @@
 
 > Vista generata da `tools/build_adventure_catalog.py` — symlink ai file reali in `data/compiled_adventures/`. **Non** modificare a mano: rilancia lo script.
 
-**Totale:** 107 avventure · **Punteggio medio (giocabili):** 83/100 · **Rotte:** 0 · **Non giocabili:** 4
+**Totale:** 106 avventure · **Punteggio medio (giocabili):** 83/100 · **Rotte:** 0 · **Non giocabili:** 4
 
-**Per fonte:** AI 68 · PDF 39  
-**Per tema:** Azione 16 · Fantasy 29 · Horror 24 · Investigazione 12 · Romance 8 · Fantascienza 18
+**Per fonte:** AI 67 · PDF 39  
+**Per tema:** Azione 15 · Fantasy 29 · Horror 24 · Investigazione 12 · Romance 8 · Fantascienza 18
 
 **Legenda codice:** `TEMA-FONTE-PUNTEGGIO` — TEMA: FAN/HOR/SCI/INV/ACT/ROM/STO · FONTE: PDF/AI/GEN · PUNTEGGIO: playable_score (NA = assente)
 
-## Azione (16)
+## Azione (15)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
 | `ACT-AI-92` | Il Negoziatore Scomparso | AI | 92 | 🟢 | `action/adv_46974103d4.json` |
-| `ACT-AI-92` | Il Patto di Cenere | AI | 92 | 🟢 | `action/adv_07d312067d.json` |
 | `ACT-AI-92` | Il Silenzio di Chernaya | AI | 92 | 🟢 | `action/adv_a16ca1c30b.json` |
 | `ACT-AI-92` | La Sala Senza Uscita | AI | 92 | 🟢 | `action/adv_59b5c50280.json` |
 | `ACT-AI-92` | Operazione Cenere Fredda | AI | 92 | 🟢 | `action/adv_670be24083.json` |

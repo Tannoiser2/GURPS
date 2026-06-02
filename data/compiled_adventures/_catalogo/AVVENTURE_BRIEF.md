@@ -1,11 +1,11 @@
 # 🎴 Schede avventure — flavor & prompt immagine
 
-> 107 avventure. Per ognuna: flavor text e un prompt pronto da incollare in ChatGPT/Gemini per generare l'immagine di presentazione.
+> 106 avventure. Per ognuna: flavor text e un prompt pronto da incollare in ChatGPT/Gemini per generare l'immagine di presentazione.
 
 > Generato da `tools/build_adventure_briefs.py`.
 
 
-## Azione (16)
+## Azione (15)
 
 ### Ambasciata sotto Assedio
 *Beirut, 1983. L'ambasciata italiana viene presa d'assedio da un gruppo armato (Fronte di Liberazione del Cedro) che chiede il rilascio di 5 prigionieri politici in Siria. 23 ostaggi, tra cui l'ambasciatore.*
@@ -24,12 +24,6 @@
 
 **Prompt immagine:**
 > Crea un'immagine di copertina per l'avventura «Il Negoziatore Scomparso». Stile: illustrazione action cinematografica, dinamica e ad alta tensione. Scena: Siete stati convocati come osservatori neutrali alla firma di un trattato storico tra il Sindacato Portuale di Korsova e l'amministrazione della città. Dopo decenni di tensioni, finalmente la pace. Ambientazione principale: Nodo indizi. Atmosfera: Thriller politico urbano, grigio portuale, tensione da guerra fredda tra palazzi di cemento e gru arrugginite. Inquadratura cinematografica verticale, luce drammatica, altissimo dettaglio. Nessun testo, logo o scritta nell'immagine.
-
-### Il Patto di Cenere
-*Siete stati convocati come osservatori neutrali alla firma di un trattato storico tra il Sindacato Portuale di Korsova e l'amministrazione della città. Dopo decenni di tensioni, finalmente la pace. Ma stamattina il negoziatore principale del Sindacato, Viktor Havel, non si è presentato.*
-
-**Prompt immagine:**
-> Crea un'immagine di copertina per l'avventura «Il Patto di Cenere». Stile: illustrazione action cinematografica, dinamica e ad alta tensione. Scena: Siete stati convocati come osservatori neutrali alla firma di un trattato storico tra il Sindacato Portuale di Korsova e l'amministrazione della città. Dopo decenni di tensioni, finalmente la pace. Ambientazione principale: Nodo indizi. Atmosfera: Thriller politico urbano, grigio portuale, tensione da guerra fredda tra palazzi di cemento e gru arrugginite. Inquadratura cinematografica verticale, luce drammatica, altissimo dettaglio. Nessun testo, logo o scritta nell'immagine.
 
 ### Il Silenzio di Chernaya
 *Un satellite da ricognizione ha rilevato un'anomalia termica nella Zona di Esclusione di Chernaya, Siberia orientale: un complesso sotterraneo sovietico sigillato dal 1987 si sta risvegliando. Voi tre siete stati inviati dalla Fondazione Arcturus per una ricognizione rapida, ma all'arrivo scoprite che non siete soli.*
