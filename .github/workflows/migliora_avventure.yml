@@ -1,0 +1,95 @@
+name: Migliora Avventure (Doctor)
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "'all' oppure un percorso (es: fantasy/pdf_lupo_di_kosmar.json)"
+        required: false
+        default: "all"
+      genre:
+        description: "Filtro genere quando target=all (vuoto = tutti)"
+        required: false
+        default: ""
+      max:
+        description: "Numero massimo di avventure (0 = tutte)"
+        required: false
+        default: "0"
+      skip_above:
+        description: "Salta quelle già con score >= questo valore (0 = non saltare)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write
+
+jobs:
+  migliora:
+    runs-on: ubuntu-latest
+    # L'arricchimento fa più chiamate LLM per avventura; con commit incrementale i
+    # progressi restano salvati anche se scatta il timeout. Cuscinetto ampio.
+    timeout-minutes: 300
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verifica ANTHROPIC_API_KEY
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "❌ Secret ANTHROPIC_API_KEY non configurato nel repo."
+            exit 1
+          fi
+          echo "✅ ANTHROPIC_API_KEY presente (${#ANTHROPIC_API_KEY} caratteri)"
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa dipendenze
+        run: |
+          pip install --upgrade pip
+          pip install \
+            "anthropic>=0.50" \
+            "pydantic>=2.0.0" \
+            "python-dotenv>=1.0.0" \
+            "openai>=1.0.0" \
+            "pdfplumber>=0.10.0" \
+            "Pillow>=10.0.0" \
+            "fastapi>=0.110.0" \
+            "python-multipart>=0.0.9"
+          pip install "google-genai" || echo "⚠ google-genai non installato (opzionale)"
+
+      - name: Configura git per commit incrementali
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Arricchisci avventure (doctor, import diretto)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CI_COMMIT: "1"
+        run: |
+          python3 scripts/migliora_avventura_direct.py \
+            --target "${{ github.event.inputs.target }}" \
+            --genre  "${{ github.event.inputs.genre }}" \
+            --max    "${{ github.event.inputs.max }}" \
+            --skip-above "${{ github.event.inputs.skip_above }}"
+
+      - name: Commit e push risultati
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/compiled_adventures/
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo "⚠ Nessuna modifica da committare"
+          else
+            COUNT=$(git diff --cached --name-only | grep -c "\.json" || true)
+            git commit -m "improve: $COUNT avventure arricchite via doctor [skip ci]"
+            git push origin main
+            echo "✅ $COUNT avventure committate su main"
+          fi
