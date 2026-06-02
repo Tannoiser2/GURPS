@@ -17548,7 +17548,7 @@
         "id": "llm_clue_1",
         "label": "Segnale di soccorso del Dr. O'Flaherty dalla Banneker",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T1",
         "source_location": "interior_doomsday_machine",
         "reveals": "Una Doomsday Machine, arma planetaria vista una sola volta anni prima, è attiva e minaccia la nave Banneker",
         "payoff": "I PG devono decidere se deviare dalla missione diplomatica per salvare la Banneker e affrontare la minaccia",
@@ -17584,7 +17584,7 @@
         "id": "llm_clue_2",
         "label": "Spinrad disabilitata alla deriva verso lo spazio Gorn",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T2",
         "source_location": "ectair_iv",
         "reveals": "La Spinrad è una delle due sole opzioni disponibili per procurarsi un nucleo a curvatura da far esplodere nella Doomsday Machine",
         "payoff": "I PG devono scegliere se tentare di recuperare la Spinrad nonostante le complicazioni diplomatiche",
@@ -17620,7 +17620,7 @@
         "id": "llm_clue_3",
         "label": "Incrociatore Klingon K'mpec in avvicinamento a Ectair",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T3",
         "source_location": "interior_doomsday_machine",
         "reveals": "Il K'mpec è la seconda opzione per ottenere un nucleo a curvatura, ma richiederà negoziazione, inganno o intimidazione",
         "payoff": "I PG devono decidere se e come convincere i Klingon a sacrificare la loro nave",
@@ -17656,7 +17656,7 @@
         "id": "llm_clue_4",
         "label": "Velocità di avanzamento della Doomsday Machine",
         "type": "forensic",
-        "thread_id": "T13",
+        "thread_id": "T4",
         "source_location": "interior_doomsday_machine",
         "reveals": "C'è un limite temporale preciso: solo 5 giorni per fermare la macchina prima che raggiunga 1.5 milioni di abitanti",
         "payoff": "I PG devono pianificare ogni azione considerando il timer di 5 giorni",
@@ -17692,7 +17692,7 @@
         "id": "llm_clue_5",
         "label": "Unico metodo noto per fermare la Doomsday Machine",
         "type": "document",
-        "thread_id": "T13",
+        "thread_id": "T5",
         "source_location": "interior_doomsday_machine",
         "reveals": "Esiste un precedente storico: Kirk fermò una Doomsday Machine con questa tattica",
         "payoff": "I PG devono decidere se fidarsi del metodo di Kirk o cercare alternative",
@@ -17728,7 +17728,7 @@
         "id": "llm_clue_6",
         "label": "Dr. O'Flaherty nasconde un artefatto",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T6",
         "source_location": "interior_doomsday_machine",
         "reveals": "O'Flaherty possiede conoscenze o tecnologie che non ha rivelato immediatamente sulla Doomsday Machine",
         "payoff": "Ottenere l'artefatto permette ai PG di pianificare una missione all'interno della macchina",
@@ -17764,7 +17764,7 @@
         "id": "llm_clue_7",
         "label": "Disputa commerciale Gorn-Ectair dopo l'incidente",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T7",
         "source_location": "interior_doomsday_machine",
         "reveals": "Gli oligarchi stanno già conducendo una guerra economica segreta contro i Gorn",
         "payoff": "I PG devono gestire gli oligarchi come potenziali ostacoli nelle trattative con i Gorn",
@@ -17800,7 +17800,7 @@
         "id": "llm_clue_8",
         "label": "Perdita di ricchezza degli oligarchi per il danno alla Spinrad",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T8",
         "source_location": "interior_doomsday_machine",
         "reveals": "Gli oligarchi hanno motivazioni economiche personali nel conflitto, non solo politiche",
         "payoff": "I PG possono usare incentivi economici o promesse di compensazione nelle negoziazioni",
@@ -17836,7 +17836,7 @@
         "id": "llm_clue_9",
         "label": "Nessuna nave singola è abbastanza potente",
         "type": "forensic",
-        "thread_id": "T13",
+        "thread_id": "T9",
         "source_location": "interior_doomsday_machine",
         "reveals": "Il piano originale di Kirk non sarà sufficiente; serve una soluzione più complessa o creativa",
         "payoff": "I PG devono esplorare l'interno della Doomsday Machine o sviluppare tattiche alternative",
@@ -17872,7 +17872,7 @@
         "id": "llm_clue_10",
         "label": "Capacità di curvatura massima della Renown",
         "type": "forensic",
-        "thread_id": "T13",
+        "thread_id": "T10",
         "source_location": "interior_doomsday_machine",
         "reveals": "La Renown è più veloce della Doomsday Machine ma non di molto, limitando le opzioni tattiche",
         "payoff": "I PG devono pianificare percorsi ottimali e decidere quali deviazioni possono permettersi",
@@ -17903,198 +17903,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Registri scientifici della Banneker",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "La Banneker non era in missione di routine ma cercava specificamente artefatti antichi",
-        "payoff": "Collega la presenza di O'Flaherty all'artefatto nascosto e suggerisce capacità di occultamento",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Testimonianza di Mozin Phar",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "O'Flaherty ha recuperato fisicamente qualcosa di prezioso e lo ha nascosto deliberatamente",
-        "payoff": "Conferma l'esistenza dell'artefatto e la sua posizione approssimativa sulla Banneker",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Trasmissioni intercettate da Ectair IV",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Gli oligarchi hanno diffuso informazioni sull'artefatto per ottenere protezione militare",
-        "payoff": "Spiega perché multiple fazioni stanno convergendo simultaneamente su Ectair",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Comportamento del comandante del K'mpec",
-        "type": "testimony",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "I Klingon hanno ricevuto intelligence su qualcosa di estremamente prezioso a Ectair",
-        "payoff": "Conferma che l'informazione sull'artefatto è stata diffusa a multiple potenze",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Schemi tecnici dell'artefatto",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "L'artefatto permette occultamento temporaneo ma limitato nel tempo",
-        "payoff": "Definisce le capacità tecniche dell'artefatto e i suoi limiti operativi",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Scansioni della Doomsday Machine",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Esiste un punto di ingresso potenziale nella Doomsday Machine durante i cicli energetici",
-        "payoff": "Fornisce il metodo tattico per utilizzare l'artefatto e penetrare nella struttura",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Testimonianza sulla Spinrad",
-        "type": "testimony",
-        "thread_id": "T2",
-        "source_location": "",
-        "reveals": "L'incidente della Spinrad non è casuale ma legato ad attività illegali",
-        "payoff": "Aggiunge complessità alla disputa commerciale e motivazioni nascoste",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Analisi tattica della NCC-1870",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Gli attacchi esterni convenzionali sono completamente inefficaci",
-        "payoff": "Stabilisce definitivamente che serve un approccio alternativo dall'interno",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -18415,7 +18223,6 @@
         "contains_actors": [
           "p20_npc_1"
         ],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -18449,19 +18256,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ectair_iv",
-        "location_type": "regional",
-        "connections_to": [
-          "spinrad",
-          "uss_banneker",
-          "klingon_kmpec",
-          "doomsday_machine"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18476,7 +18270,6 @@
           "llm_clue_2"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -18510,16 +18303,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "blue_straggler_star"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18532,7 +18315,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -18563,17 +18345,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "blue_straggler_star",
-        "location_type": "regional",
-        "connections_to": [
-          "uss_renown",
-          "doomsday_machine"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18586,7 +18357,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -18617,18 +18387,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "blue_straggler_star",
-        "location_type": "regional",
-        "connections_to": [
-          "uss_renown",
-          "uss_banneker",
-          "interior_doomsday_machine"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18641,7 +18399,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -18672,16 +18429,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ectair_iv",
-        "location_type": "regional",
-        "connections_to": [
-          "uss_renown"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18694,7 +18441,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -18725,16 +18471,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ectair_iv",
-        "location_type": "regional",
-        "connections_to": [
-          "uss_renown"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18747,7 +18483,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -18777,16 +18512,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "ectair_iv"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18814,7 +18539,6 @@
           "p14_npc_2",
           "p20_npc_2"
         ],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -18845,14 +18569,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "doomsday_machine",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -18870,29 +18586,19 @@
         "on_complete": "La Doomsday Machine raggiunge Ectair IV e inizia a distruggere il pianeta. I 1.5 milioni di abitanti non possono essere evacuati in tempo. Sconfitta totale.",
         "steps": [
           {
-            "value": 1,
-            "label": "Attivazione rilevata",
-            "effect": "La Doomsday Machine si allontana dalla stella blue straggler e si dirige verso Ectair a Warp 7. Interferenze subspaziali intensificano."
+            "step": 1,
+            "world_state_change": "La Doomsday Machine si allontana dalla stella blue straggler e si dirige verso Ectair",
+            "scene_prompt": "I sensori rilevano che l'antica arma ha cambiato rotta e viaggia a Warp 7 verso lo spazio abitato"
           },
           {
-            "value": 2,
-            "label": "Rotta confermata",
-            "effect": "La macchina è a 3 giorni da Ectair. Le trasmissioni dei sistemi stellari vicini riportano avvistamenti dell'arma. Inizia il panico nelle colonie periferiche."
+            "step": 2,
+            "world_state_change": "La macchina è a 3 giorni da Ectair - le comunicazioni del panico iniziano a diffondersi",
+            "scene_prompt": "Le trasmissioni dei sistemi stellari vicini riportano avvistamenti dell'arma planetaria"
           },
           {
-            "value": 3,
-            "label": "Avvicinamento critico",
-            "effect": "La macchina è a 36 ore da Ectair. I sensori lunghi del pianeta la individuano. Le trasmissioni civili diventano caotiche."
-          },
-          {
-            "value": 4,
-            "label": "Panico di massa",
-            "effect": "La macchina è visibile dai telescopi di Ectair. Gli oligarchi inviano richieste disperate di aiuto su tutti i canali. Iniziano tentativi di evacuazione disorganizzati."
-          },
-          {
-            "value": 5,
-            "label": "Arrivo imminente",
-            "effect": "La Doomsday Machine entra nel sistema di Ectair. Le sue fauci si aprono. Non c'è più tempo per salvare il pianeta."
+            "step": 4,
+            "world_state_change": "La macchina è visibile dai telescopi di Ectair - inizia il panico di massa",
+            "scene_prompt": "Gli oligarchi di Ectair inviano richieste disperate di aiuto su tutti i canali"
           }
         ],
         "clock_type": "terminal_defeat",
@@ -18900,13 +18606,13 @@
           "llm_clue_5",
           "llm_clue_9"
         ],
-        "resolution_condition": "Far detonare un nucleo di curvatura attivo nella bocca della macchina usando la Spinrad o il K'mpec come nave kamikaze pilotata a distanza. Richiede coordinazione tecnica perfetta e sacrificio di una nave.",
+        "resolution_condition": "I giocatori devono far detonare un nucleo di curvatura nella bocca della macchina, usando la Spinrad o l'incrociatore Klingon K'mpec",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_1",
-        "discovery_hint": "Anomale fluttuazioni nel tessuto subspaziale e misteriose interruzioni nelle comunicazioni a lungo raggio provenienti dalla regione della stella morente",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Interferenze subspaziali anomale provenienti dalla regione della stella blue straggler",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 0,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -18920,39 +18626,19 @@
         "label": "La Spinrad entra nello spazio Gorn",
         "value": 0,
         "max_value": 6,
-        "consequence": "La Spinrad disabilitata deriva oltre il confine Gorn. I Gorn la rivendicano come proprietà salvata, rendendo impossibile usarla per fermare la Doomsday Machine senza creare un incidente diplomatico o iniziare un conflitto.",
+        "consequence": "La Spinrad disabilitata deriva oltre il confine Gorn. I Gorn la rivendicano come proprietà salvata, rendendo impossibile usarla per fermare la Doomsday Machine senza creare un incidente diplomatico o ",
         "active": true,
-        "on_complete": "La Spinrad disabilitata deriva oltre il confine Gorn. I Gorn la rivendicano come proprietà salvata, rendendo impossibile usarla per fermare la Doomsday Machine senza creare un incidente diplomatico o iniziare un conflitto.",
+        "on_complete": "La Spinrad disabilitata deriva oltre il confine Gorn. I Gorn la rivendicano come proprietà salvata, rendendo impossibile usarla per fermare la Doomsday Machine senza creare un incidente diplomatico o ",
         "steps": [
           {
-            "value": 1,
-            "label": "Deriva incontrollata",
-            "effect": "La Spinrad disabilitata inizia a derivare verso il confine Gorn. L'equipaggio invia deboli segnali di soccorso automatici."
+            "step": 3,
+            "world_state_change": "La Spinrad si avvicina pericolosamente al confine - navi Gorn iniziano a monitorarla",
+            "scene_prompt": "I sensori rilevano pattuglie Gorn che si avvicinano alla nave alla deriva"
           },
           {
-            "value": 2,
-            "label": "Interesse Gorn",
-            "effect": "Pattuglie Gorn rilevano la nave alla deriva e iniziano ad avvicinarsi cautamente per investigare."
-          },
-          {
-            "value": 3,
-            "label": "Zona contesa",
-            "effect": "La Spinrad si avvicina pericolosamente al confine. Navi Gorn la monitorano attivamente e trasmettono richieste di identificazione."
-          },
-          {
-            "value": 4,
-            "label": "Avvertimenti territoriali",
-            "effect": "La Spinrad è a meno di un'ora dal confine. I Gorn trasmettono avvertimenti formali che qualsiasi intrusione sarà considerata violazione territoriale."
-          },
-          {
-            "value": 5,
-            "label": "Oltre il confine",
-            "effect": "La Spinrad attraversa il confine Gorn. Una nave da guerra Gorn si posiziona tra la Spinrad e lo spazio federale."
-          },
-          {
-            "value": 6,
-            "label": "Rivendicazione formale",
-            "effect": "I Gorn dichiarano la Spinrad 'proprietà salvata' secondo il diritto Gorn. Il recupero richiederebbe azione militare o concessioni diplomatiche."
+            "step": 5,
+            "world_state_change": "La Spinrad è a meno di un'ora dal confine - i Gorn trasmettono avvertimenti territoriali",
+            "scene_prompt": "Le comunicazioni Gorn avvertono che qualsiasi nave che entri nel loro spazio sarà considerata ostile"
           }
         ],
         "clock_type": "escalation",
@@ -18960,13 +18646,13 @@
           "llm_clue_2",
           "llm_clue_10"
         ],
-        "resolution_condition": "Raggiungere la Spinrad prima che attraversi il confine e rimorchiarla via, oppure negoziare con i Gorn il diritto di salvataggio prima che la rivendichino formalmente. In alternativa, recuperare solo il nucleo di curvatura con trasporto.",
+        "resolution_condition": "I giocatori raggiungono la Spinrad prima che attraversi il confine Gorn e la rimorchiano o ne recuperano il nucleo di curvatura",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_2",
-        "discovery_hint": "Deboli segnali di soccorso automatici captati dalla zona di confine, accompagnati da chiacchiericcio militare Gorn criptato",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Rapporti di una nave di lusso alla deriva nella zona di confine",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 1,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -18980,55 +18666,25 @@
         "label": "Il K'mpec raggiunge Ectair IV",
         "value": 0,
         "max_value": 7,
-        "consequence": "L'incrociatore Klingon K'mpec arriva a Ectair e il suo veterano capitano inizia a interferire con le operazioni della Renown, complicando la situazione diplomatica e rendendo più difficile ottenere la cooperazione necessaria.",
+        "consequence": "L'incrociatore Klingon K'mpec arriva a Ectair e il suo veterano capitano inizia a interferire con le operazioni della Renown, complicando la situazione diplomatica e rendendo più difficile ottenere la",
         "active": true,
-        "on_complete": "L'incrociatore Klingon K'mpec arriva a Ectair e il suo veterano capitano inizia a interferire con le operazioni della Renown, complicando la situazione diplomatica e rendendo più difficile ottenere la cooperazione necessaria.",
+        "on_complete": "L'incrociatore Klingon K'mpec arriva a Ectair e il suo veterano capitano inizia a interferire con le operazioni della Renown, complicando la situazione diplomatica e rendendo più difficile ottenere la",
         "steps": [
           {
-            "value": 1,
-            "label": "Rilevamento a lungo raggio",
-            "effect": "Firme di propulsione Klingon rilevate nel quadrante. Il K'mpec è in viaggio verso Ectair a massima velocità."
-          },
-          {
-            "value": 2,
-            "label": "Intercettazione comunicazioni",
-            "effect": "Comunicazioni criptate Klingon indicano interesse per la 'situazione Gorn'. Il K'mpec accelera."
-          },
-          {
-            "value": 3,
-            "label": "Entrata nel sistema",
-            "effect": "Il K'mpec entra nel sistema stellare di Ectair. Le sue armi sono cariche, gli scudi alzati."
-          },
-          {
-            "value": 4,
-            "label": "Contatto diretto",
-            "effect": "Il capitano Klingon apre un canale con la Renown e Ectair, chiedendo spiegazioni sulla presenza della Federazione e denunciando l'aggressione Gorn."
-          },
-          {
-            "value": 5,
-            "label": "Posizionamento tattico",
-            "effect": "Il K'mpec assume posizione di blocco orbitale, sfidando l'autorità della Federazione nella mediazione."
-          },
-          {
-            "value": 6,
-            "label": "Escalation verbale",
-            "effect": "Il capitano Klingon accusa la Federazione di debolezza e minaccia azione unilaterale contro i Gorn."
-          },
-          {
-            "value": 7,
-            "label": "Interferenza attiva",
-            "effect": "Il K'mpec inizia pattugliamenti aggressivi, sfidando qualsiasi nave si avvicini ad Ectair. La situazione diplomatica diventa esplosiva."
+            "step": 4,
+            "world_state_change": "Il K'mpec è abbastanza vicino da comunicare direttamente con Ectair e la Renown",
+            "scene_prompt": "Il capitano Klingon apre un canale e chiede spiegazioni sulla presenza della Federazione"
           }
         ],
         "clock_type": "escalation",
         "resolution_clues": [],
-        "resolution_condition": "L'arrivo del K'mpec è inevitabile, ma i giocatori possono mitigarlo: stabilire comunicazione anticipata, dimostrare competenza nella gestione della crisi, o convincere i Klingon a unirsi contro la minaccia della Doomsday Machine appena scoperta.",
+        "resolution_condition": "Clock inevitabile - i giocatori devono gestire diplomaticamente l'arrivo dei Klingon",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_3",
-        "discovery_hint": "Echi subspaziali di motori a curvatura Klingon e crescente traffico criptato su frequenze dell'Impero nel quadrante",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Firme di propulsione Klingon rilevate nel quadrante",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 1,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -19070,153 +18726,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Il vero scopo della Banneker",
-        "question": "Perché la Banneker si trovava in quella zona di spazio e cosa stava realmente cercando il Dr. O'Flaherty?",
-        "true_answer": "La Banneker era una missione di ricerca scientifica segreta per studiare artefatti antichi capaci di controllare o disattivare la Doomsday Machine. O'Flaherty ha trovato l'artefatto prima che la nave fosse danneggiata.",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_1",
-          "llm_clue_6"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "MOZIN PHAR"
-        ],
-        "linked_locations": [
-          "USS Banneker"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "La convergenza delle fazioni",
-        "question": "Perché tutte le fazioni (Gorn, Klingon, Federazione) stanno convergendo su Ectair IV nello stesso momento?",
-        "true_answer": "Gli oligarchi di Ectair hanno diffuso informazioni frammentarie sull'artefatto per attirare aiuto contro la Doomsday Machine, ma hanno innescato una corsa tra le potenze per impossessarsene.",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_3",
-          "llm_clue_7"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "BYRON VONSINGH"
-        ],
-        "linked_locations": [
-          "Ectair IV",
-          "K'mpec (Incrociatore Klingon)"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Il piano suicida",
-        "question": "Come si può utilizzare l'artefatto per fermare la Doomsday Machine se nessuna nave può avvicinarsi abbastanza?",
-        "true_answer": "L'artefatto crea un campo di occultamento che permette a una nave di penetrare all'interno della Doomsday Machine attraverso la sua apertura frontale, dove si può sabotare il nucleo energetico, ma richiede il sacrificio della nave.",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "llm_clue_5",
-          "llm_clue_9"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [
-          "T11"
-        ],
-        "linked_npcs": [],
-        "linked_locations": [
-          "Doomsday Machine",
-          "USS Banneker"
-        ]
-      },
-      {
-        "id": "T2",
-        "title": "T2",
-        "question": "Cosa è realmente accaduto alla nave di lusso Spinrad e chi aveva interesse a disabilitarla?",
-        "true_answer": "La Spinrad non è stata attaccata dai Gorn per ragioni commerciali: il suo disabilitamento è legato al carico segreto che trasportava o a passeggeri specifici che qualcuno voleva impedire raggiungessero Ectair IV, complicando la disputa con motivazioni nascoste di spionaggio o contrabbando",
-        "collected_clue_ids": [
-          "nuovo_clue_7"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_artefatto",
-        "title": "T artefatto",
-        "question": "Cosa nasconde davvero O'Flaherty e perché è così importante per fermare la minaccia?",
-        "true_answer": "O'Flaherty ha recuperato e nascosto un artefatto contenente dati completi sulla tecnologia della Doomsday Machine, incluse le sue vulnerabilità strutturali e i sistemi di controllo: questi dati sono l'unica chiave per distruggerla prima che raggiunga sistemi abitati",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_alleanza",
-        "title": "T alleanza",
-        "question": "La Renown può affrontare da sola la Doomsday Machine o serve una coalizione?",
-        "true_answer": "Nessuna singola nave, nemmeno la Renown, possiede la potenza di fuoco sufficiente per fermare la Doomsday Machine: solo un'alleanza tattica coordinata tra Federazione, Klingon e possibilmente Gorn può generare la forza necessaria per distruggerla",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_oligarchi",
-        "title": "T oligarchi",
-        "question": "Gli oligarchi di Ectair IV stanno davvero collaborando agli sforzi di salvataggio?",
-        "true_answer": "Alcuni oligarchi di Ectair IV stanno segretamente sabotando le comunicazioni e gli sforzi di coordinamento, sperando che la crisi elimini i loro rivali commerciali e permetta loro di consolidare il potere economico durante la ricostruzione post-emergenza",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_spinrad",
-        "title": "T spinrad",
-        "question": "Quale minaccia politica rappresenta la Spinrad alla deriva nel territorio Gorn?",
-        "true_answer": "La Spinrad sta derivando verso lo spazio Gorn e potrebbe essere interpretata come provocazione della Federazione: se i Gorn la recuperano o la distruggono prima della Renown, la disputa commerciale si trasformerà in conflitto aperto, rendendo impossibile la cooperazione necessaria contro la Doomsday Machine",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_ricerca",
-        "title": "T ricerca",
-        "question": "Qual era il vero scopo della ricerca di O'Flaherty sulla stella blue straggler?",
-        "true_answer": "La ricerca di O'Flaherty sulla blue straggler era una copertura per una missione segreta di recupero: stava cercando e ha trovato un relitto antico contenente tecnologia della Doomsday Machine, nascondendo la scoperta anche ai suoi superiori per ragioni sconosciute",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_timing",
-        "title": "T timing",
-        "question": "C'è abbastanza tempo per evacuare Ectair IV prima dell'arrivo della Doomsday Machine?",
-        "true_answer": "I calcoli mostrano che la Doomsday Machine raggiungerà Ectair IV in meno di 48 ore: non c'è tempo sufficiente per evacuare miliardi di abitanti, quindi l'unica opzione praticabile è intercettarla e distruggerla lungo la sua rotta attuale prima che entri nel sistema",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -26817,8 +26327,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 3.8
+    }
   },
   "live_game_state": null
 }
