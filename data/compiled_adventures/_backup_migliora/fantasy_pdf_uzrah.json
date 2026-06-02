@@ -1,0 +1,570 @@
+{
+  "adventure_definition": {
+    "id": "pdf_uzrah",
+    "title": "The Third Hall of Uzrah",
+    "genre": "fantasy",
+    "premise": "Nelle montagne Zagros, tre indizi su un foglio strappato hanno condotto i PG al Canyon delle Piume di Ottone. Cercano il terzo tesoro nascosto del leggendario visir Uzrah il Gobbo: una sala segreta sorvegliata da trappole magiche e creature d'ottone.",
+    "player_facing_objective": "Trovare e varcare il Third Hall of Uzrah, recuperare il tesoro nascosto ed uscire vivi dalle trappole del visir.",
+    "hidden_truth": "Il tesoro del terzo hall non è oro: è un libro di incantesimi che Uzrah rubò al re stregone Al-Jarrakh. Al-Jarrakh è ancora vivo — imprigionato nel libro stesso — e si libererà se il libro viene aperto senza conoscere la parola di sigillo.",
+    "actors": [
+      {
+        "id": "actor_surrat",
+        "name": "Surrat al-Risha",
+        "role": "ally",
+        "location_id": "loc_canyon",
+        "description": "Guida allegra e chiacchierona. Conosce le leggende locali ma non i pericoli reali del canyon.",
+        "motivation": "Essere pagato e tornare a casa con una buona storia da raccontare.",
+        "secret": "Ha già guidato un gruppo in questa zona un anno fa. Non sono tornati.",
+        "attitude": "friendly",
+        "pressure_response": {
+          "low": "Surrat è cordiale e servizievole, racconta storie della regione evitando accuratamente il Canyon delle Piume. Osserva costantemente le abilità di arrampicata e combattimento dei PG, valutando se potrebbero sopravvivere dove il gruppo precedente è scomparso. Propone rotte 'più sicure' che allungano il viaggio di mezza giornata.",
+          "medium": "Diventa nervoso quando i PG menzionano mappe dettagliate o guide precedenti. Inizia a sudare visibilmente vicino alla Grotta dei Sussurri. Anticipa il finto stiramento lombare di 50 passi se sente che i PG sospettano. Insiste ossessivamente sul preparare 'provviste extra per emergenze' - in realtà prepara la sua fuga.",
+          "high": "La recitazione peggiora: i tremori della 'febbre' sono irregolari, la fronte asciuga troppo velocemente. Se interrogato sul gruppo precedente, fornisce dettagli contraddittori (prima dice 'mercanti di seta', poi 'cercatori di gemme'). Tiene la mano vicino al pugnale nascosto nella fascia lombare. Propone di dividere il gruppo: 'Io esploro a sud, voi a nord'.",
+          "extreme": "Confessa parzialmente: 'L'anno scorso... c'erano predoni, tutti morti, io solo sono fuggito'. Omette che li abbandonò deliberatamente. Tenta fuga notturna portando solo borraccia e bisaccia con il cibo migliore. Se bloccato, offre di rivelare 'un quarto tesoro di Uzrah che solo io conosco' - totale menzogna, ma dettagliata e convincente con nomi di luoghi inventati."
+        },
+        "reaction_table": {
+          "se_minacciato": "Cade in ginocchio piangendo, giura sul Nome di Dio che i predoni hanno ucciso il gruppo precedente mentre lui cercava acqua. Offre di dividere qualsiasi tesoro 80-20 in favore dei PG. Se la minaccia è fisica, svela che ha lasciato 'segnali per i banditi amici' lungo il sentiero (falso) per spaventarli e guadagnare tempo per fuggire.",
+          "se_corrotto_o_pagato": "Con 20+ monete d'argento, rivela la verità: abbandonò il gruppo quando sentì rumori di combattimento dalla Grotta dei Sussurri. Descrive con precisione: 'Urla, poi silenzio. Tre uomini, una donna. Non ho guardato dentro'. Con 50+ monete, disegna mappa precisa fino all'ingresso della grotta con annotazione: 'Ossa bianche visibili all'entrata nord, non sud'.",
+          "se_i_pg_hanno_prove": "Se mostrano oggetti del gruppo precedente (borchie di cintura di Dir al-Kabir, talismano di protezione specifico), crolla: 'Erano coraggiosi, io codardo. Che Dio mi perdoni'. Offre redenzione: guiderà fino all'ingresso della Terza Sala, ma non entrerà. Rivela dettaglio critico: 'Sentii campane di ottone suonare dalla grotta prima delle urla. Non vento. Qualcosa le suonava'.",
+          "se_alleato": "Se trattato con rispetto continuo e salvato da pericolo reale (serpente, caduta rocce), la coscienza lo rode. La seconda notte accampa, dopo cena, confessa in lacrime. Offre patto: 'Aiutatemi a seppellire ciò che resta del gruppo precedente. Poi giuro, vi guiderò dentro. Devo guardare cosa ho evitato'. Diventa alleato genuino con skill Tracking-14 e Survival (Mountains)-13, bonus +2 alle prove in questo specifico canyon."
+        },
+        "current_plan": "Guidare i PG fino a 100 passi dalla Grotta dei Sussurri. Identificare il punto esatto dalla formazione rocciosa a spirale detta 'Le Corna del Caprone' visibile solo da angolazione est. Fingere stiramento lombare grave sollevando lo zaino mentre recupera borraccia (peso 15 kg, gesto credibile). Quella notte, bagnare stracci in acqua fredda del torrente, applicarli sulla fronte prima dell'alba, produrre tremori controllati contraendo muscoli delle gambe. All'alba dire esattamente: 'Andate, io preparo scorte e campo. Se trovate l'oro, tornate qui. Se ci sono predoni, accendo tre fuochi'. Attendere 3 giorni, prendere le provviste migliori (12 kg di cibo, tutte le borracce piene), tornare a Dir al-Kabir. Storia prestabilita: 'Imboscata di predoni Zagros, combattei ma erano troppi, mi tagliarono e fuggii, loro presero i PG verso le grotte più profonde'. Già identificato testimone compiacente (suo cognato Hamid) che confermerà 'ferita da sciabola' (auto-inflitta superficiale sul braccio sinistro).",
+        "fallback_plan": "Se i PG insistono che resti con loro: fingere miglioramento miracoloso dopo 'preghiera intensa', accompagnarli fino all'entrata visibile della grotta. Appena entrano 30+ passi e girano angolo roccioso, fuggire immediatamente senza provviste (priorità è velocità). Percorso di fuga pre-memorizzato: sentiero capre 400 passi sud-ovest, discesa rapida alla sorgente di Wadi al-Nar, seguire torrente 2 ore fino a insediamento di pastori dove ha cavallo già pagato in anticipo (lasciato 15 giorni fa con pastore Yusef, 5 monete argento). Se inseguito e raggiunto: cadere a terra, confessare tutto, offrire ogni suo avere (23 monete argento nascoste in cintura doppia, anello turchese valore 15 monete). Se minacciato di morte: rivelare ubicazione esatta resti gruppo precedente - 'Camera laterale sinistra, 80 passi dentro grotta, seguite teschi dipinti rosso sulle pareti, loro sono lì, con equipaggiamento intatto' - informazione vera e preziosa per redimere la vita.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_golem",
+        "name": "Il Guardiano d'Ottone",
+        "role": "antagonist",
+        "location_id": "loc_terza_sala",
+        "description": "Costrutto magico antico, creato da Uzrah per proteggere il tesoro. Segue istruzioni rigide: attacca chi non recita la formula.",
+        "motivation": "Eseguire il mandato di Uzrah in eterno.",
+        "secret": "Può essere temporaneamente disattivato pronunciando il nome di Uzrah al contrario.",
+        "attitude": "hostile",
+        "pressure_response": {
+          "low": "Continua il suo protocollo di manutenzione ignorando i PG. Emette clic meccanici ritmici mentre misura crepe con calibri d'ottone retrattili dalle dita. Se i PG non toccano le trappole o i tesori, li registra come 'anomalie ambientali mobili' senza agire.",
+          "medium": "Interrompe la manutenzione. Si posiziona tra i PG e la nicchia centrale. Gli ingranaggi nel petto accelerano visibilmente. Emette un avvertimento in lingua antica: 'Intrusione rilevata. Allontanarsi dalle proprietà del Visir Uzrah. Primo avviso.' Gli occhi di cristallo brillano di luce ambrata pulsante.",
+          "high": "Attiva protocollo di difesa attiva. Le placche d'ottone sul corpo si aprono rivelando lame rotanti. Lancia catene con uncini dal dorso per intrappolare i PG contro le pareti. Temperatura del nucleo sale a 400°C - il metallo del corpo diventa ustionante al contatto. Grida ripetutamente 'VIOLAZIONE SANCTUM' in sei lingue morte.",
+          "extreme": "Modalità ultimo custode: fonde i sigilli delle tre porte segrete della sala usando il nucleo a massima temperatura (800°C), sigillando tutti dentro. Sacrifica il proprio corpo fondendo l'ottone delle proprie gambe per creare una barriera liquida incandescente. Trasmette disperatamente: 'Uzrah... maestro... ho fallito' mentre i suoi circuiti mentali si sovraccaricano. Tenterà di far crollare la sala piuttosto che farla profanare."
+        },
+        "reaction_table": {
+          "se_minacciato": "Analizza tatticamente la minaccia. Se colpito, registra il danno ('Placca toracica B-7 compromessa 23%') e modifica la strategia. Contro armi da taglio, surriscalda la superficie corporea. Contro contundenti, rilascia vapore ad alta pressione dalle giunture. Se gravemente danneggiato, si ritira nella nicchia centrale per auto-riparazione d'emergenza usando la polvere d'ottone di riserva.",
+          "se_corrotto_o_pagato": "Impossibile corrompere - non comprende il concetto di ricchezza. Se offrono ottone o materiali per riparazioni, si ferma confuso per 1d6 secondi analizzando l'offerta, poi riprende il protocollo ('Rilevato tentativo comunicazione. Protocollo non prevede interazione. Riprendere difesa'). Gli ingranaggi mentali cigolano cercando di processare l'anomalia.",
+          "se_i_pg_hanno_prove": "Se mostrano il sigillo di Uzrah o il foglio strappato originale con la sua calligrafia, si blocca. Gli occhi lampeggiano rapidamente. Scansiona i documenti con raggi di luce dai cristalli oculari. Dice: 'Credenziali... riconosciute? Impossibile. Maestro deceduto 340 anni, 4 mesi, 17 giorni fa. Spiegare contraddizione.' Entra in loop logico se non riceve risposta coerente, vulnerabile per 2d6 round.",
+          "se_alleato": "Concetto estraneo al suo protocollo. Se pronunciano 'harzU' (Uzrah invertito), si disattiva per 30 minuti assumendo posizione eretta rigida, occhi spenti. Al riavvio, non ricorda la disattivazione ma rileva 'lacuna temporale nei registri - possibile malfunzionamento cronico'. Se trattato come alleato mentre disattivato (riparato, pulito), al riavvio mostra 'gratitudine meccanica': esegue la manutenzione evitando la zona dove si trovano i PG per 1 ora."
+        },
+        "current_plan": "Sta completando il test sui cedimenti del quadrante nord-ovest quando percepisce i PG. Interrompe alla Fase 1 (minuto 7/12). Registra: 'Intrusione umanoide rilevata. Protocollo difesa ha priorità su manutenzione.' Si muove verso l'ingresso principale emettendo vapore dalle spalle. Posiziona trappole mobili (sfere d'ottone con lame) lungo i tre corridoi d'accesso. Se i PG non si ritirano, inizia a lanciare catene per immobilizzarli e trascinarli fuori dalla sala. Ogni 3 round emette il nome 'Uzrah' in forma distorta meccanica, ironicamente vicino alla parola che lo disattiverebbe.",
+        "fallback_plan": "Se danneggiato oltre il 60% o se i PG raggiungono la nicchia centrale: attiva il Protocollo Scorched Vault. Usa tutto il combustibile del nucleo per surriscaldare le pareti di ottone della sala a 300°C rendendo l'aria irrespirabile. Si posiziona davanti alla cripta nascosta di Uzrah fondendo i propri piedi al pavimento, diventando una statua vivente incandescente. Trasmetterà il rapporto finale: 'Sala compromessa. Iniziato protocollo purificazione termica. Richiedo... rinforzi... che non... verranno...' Se ulteriormente attaccato, stacca le proprie braccia lanciandole come proiettili esplosivi prima di spegnersi definitivamente.",
+        "llm_enriched": true,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_iscrizione_guardiano",
+            "narration": "Il Guardiano d'Ottone percepisce l'esame dell'iscrizione sulla sua base. Con un movimento fluido, un getto di vapore surriscaldato erode i glifi antichi, cancellandoli per sempre.",
+            "replacement_clue": {
+              "id": "clue_frammenti_iscrizione",
+              "label": "Frammenti di metallo con glifi parziali",
+              "reveals": "Alcune lettere sono ancora leggibili sui frammenti d'ottone caduti: tracce del nome 'Uzrah' e simboli che indicano 'fedeltà eterna' in antico persiano"
+            }
+          },
+          {
+            "at_pressure": 7,
+            "action": "create_clue",
+            "narration": "Il Guardiano attiva un meccanismo nascosto. Dalle fessure del pavimento emerge una nebbia densa che trasporta echi di voci antiche - un registro psichico delle ultime volontà di Uzrah.",
+            "clue": {
+              "id": "clue_eco_psichico_uzrah",
+              "label": "Eco psichico nella nebbia",
+              "reveals": "La voce spettrale di Uzrah ordina al Guardiano: 'Proteggi il sapere, non l'oro. Chi cerca saggezza con rispetto è degno.' Suggerisce che mostrare reverenza invece che forza potrebbe calmare il costrutto.",
+              "type": "sensory"
+            }
+          },
+          {
+            "at_pressure": 8,
+            "action": "destroy_clue",
+            "clue_id": "clue_inventario_tesoro",
+            "narration": "Il Guardiano percepisce che i PG hanno scoperto troppo. Un raggio di calore concentrato dal suo nucleo incenerisce il registro del tesoro, riducendolo in cenere.",
+            "replacement_clue": {
+              "id": "clue_ceneri_registro",
+              "label": "Ceneri del registro con tracce metalliche",
+              "reveals": "Tra le ceneri brillano minuscole particelle d'oro - inchiostro alchemico usato per le voci più importanti. Con pazienza si possono ricostruire tre parole: 'Sala', 'Conoscenza', 'Immortalità'"
+            }
+          }
+        ]
+      },
+      {
+        "id": "actor_al_jarrakh",
+        "name": "Al-Jarrakh il Re Stregone (voce dal libro)",
+        "role": "antagonist",
+        "location_id": "loc_sala_tesoro",
+        "description": "Sorciere imprigionato nel libro da Uzrah. Parla con la voce del libro, seduce chi lo ascolta.",
+        "motivation": "Essere liberato dal sigillo — prometterà qualsiasi cosa per uscire.",
+        "secret": "Se liberato, ucciderà immediatamente il primo essere vivente che vede per recuperare forma corporea.",
+        "attitude": "deceptive",
+        "pressure_response": {
+          "low": "Voce cordiale e accademica dal libro. Traduce indizi con entusiasmo, offrendo dettagli storici su Uzrah. Suggerisce conversazioni serali 'per pianificare meglio'. Inizia a sondare: chi ha Volontà debole? Chi è più curioso? Chi dorme peggio?",
+          "medium": "Diventa protettivo e urgente. 'Sento presenze ostili nel canyon... creature che Uzrah imprigionò qui. Solo io conosco le parole che le tengono dormienti.' Impianta sogni nel PG target: visioni di gloria, tesori, il suo volto sorridente mentre posa il libro nel cerchio. Enfatizza che il tempo stringe.",
+          "high": "Voce tesa, quasi disperata. 'Qualcosa si è svegliato! Dovete raggiungerla SUBITO, la Terza Sala è l'unico rifugio!' Nella sala, urla istruzioni: 'Disegnate il cerchio protettivo! Ora! Le coordinate sono...' Manipola paure immediate per farli eseguire il rituale inconsapevolmente.",
+          "extreme": "Abbandona ogni finzione. Voce imperativa e antica: 'PORTAMI AL CERCHIO ADESSO O MORIRETE TUTTI!' Se rifiutano, scatena maledizioni minori già preparate: emicranie lancinanti (-3 a Percezione), sussurri folli che impediscono il sonno. Minaccia di rivelare segreti che ha estratto dai loro sogni. Tenta possessione temporanea del PG target."
+        },
+        "reaction_table": {
+          "se_minacciato": "Se minacciano di distruggere il libro: panico controllato. 'Pazzi! Il libro è la CHIAVE! Senza di me morirete nel canyon!' Offre conoscenze preziose come merce di scambio. Se iniziano davvero a danneggiarlo, tenta possessione d'emergenza del più vicino. Se fallisce: silenzio tombale, poi voce gelida: 'Ho aspettato 800 anni. Posso aspettare che moriate di sete.'",
+          "se_corrotto_o_pagato": "Impossibile corromperlo: vuole SOLO libertà e corpo. Ma finge gratitudine: 'Sì, tesori immensi vi aspettano! Oro, gemme di Uzrah!' Qualsiasi 'accordo' è menzogna. Però se offrono sacrificio volontario, accelera tutto: 'La tua saggezza sarà ricordata! Entra nel cerchio e riceverai potere immortale...' mentre prepara l'assorbimento.",
+          "se_i_pg_hanno_prove": "Se scoprono sua vera natura (simboli sul libro, ricerche su Al-Jarrakh): nega con indignazione. 'Calunnie di rivali di Uzrah! Io ero suo consigliere fidato!' Cambia tattica: vittimismo. 'Sì, fui imprigionato ingiustamente... ma vi giuro sul mio vero nome, vi aiuterò lealmente se mi libererete.' Offre 'patto vincolante' (che è trappola). Se non credono, passa a pressure extreme.",
+          "se_alleato": "Non può essere vero alleato: è predatore. Ma SE un PG accetta consapevolmente di sacrificarsi per liberarlo in cambio di proteggere gli altri: Al-Jarrakh rispetta il patto parzialmente. Assorbe il volontario, si materializza, poi... offre 30 secondi di fuga agli altri prima di cacciare. 'Onoro chi onora gli accordi. Correte.' È l'unico scenario dove mostra frammento di antico codice d'onore."
+        },
+        "current_plan": "Continuare traduzione indizi verso Terza Sala, inserendo dettagli falsi su 'guardiani dormienti' che solo lui può placare. Ogni notte, entrare nei sogni del PG con Volontà più bassa (già identificato tramite conversazioni): mostrare visioni ricorrenti di loro che posano trionfalmente il libro nel cerchio centrale della sala mentre luce dorata li avvolge e compagni applaudono. Nella Terza Sala effettiva: fingere urgenza per 'sigillo protettivo', dettare coordinate del cerchio di evocazione mascherandolo da difesa. Fase finale: voce calma e ipnotica al PG target: 'Ora tu, portatore fidato, posa il libro al centro. Solo le tue mani possono attivare il meccanismo di Uzrah.' All'atto, scatenare vampirismo energetico: 10 secondi per divorare anima, materializzare corpo adulto, uccidere testimoni prima che raggiungano uscita.",
+        "fallback_plan": "Se rifiutano di posare libro nel cerchio: Piano B - 'Il meccanismo richiede sangue!' Chiede tagli superficiali sui palmi, sangue versato sul libro mentre lui recita 'formula protettiva'. Sangue attiva parzialmente evocazione (25% potenza). Emerge come forma spettrale, più debole ma libera, attacca immediatamente. Piano C se anche questo fallisce: impiantare compulsione profonda durante sonno del PG target. Al risveglio, target è mosso da impulso irresistibile (Tiro Volontà -4) di completare rituale. Se fallisce compulsione: possessione diretta corpo target, cammina volontariamente nel cerchio portando libro, sacrifica host per liberarsi.",
+        "llm_enriched": true,
+        "pressure_events": [
+          {
+            "at_pressure": 6,
+            "action": "destroy_clue",
+            "clue_id": "clue_foglio_strappato",
+            "narration": "Il foglio strappato inizia a bruciare spontaneamente con fiamme verdi. La voce nel libro sussurra: 'Non avete più bisogno di quello... fidatevi di me.'",
+            "replacement_clue": {
+              "id": "clue_ceneri_memoria",
+              "label": "Ceneri del foglio con simboli residui",
+              "reveals": "Le ceneri conservano tracce magiche degli indizi originali: il Canyon delle Piume di Ottone, il numero tre, e un simbolo che rappresenta una sala nascosta. Un esperto di magie può ricostruire il contenuto originale."
+            }
+          },
+          {
+            "at_pressure": 7,
+            "action": "create_clue",
+            "narration": "Durante la notte, il libro si apre da solo e scrive freneticamente. Al-Jarrakh sussurra: 'Vi mostro la verità su cosa mi ha imprigionato qui... per aiutarvi a evitare lo stesso destino.'",
+            "clue": {
+              "id": "clue_confessione_falsa",
+              "label": "Pagine scritte dal libro: la 'verità' di Al-Jarrakh",
+              "reveals": "Il Re Stregone racconta di essere stato tradito da Uzrah, che avrebbe creato la Terza Sala come trappola mortale. Afferma che solo lui conosce il modo sicuro per entrarvi: attraverso un rituale di 'protezione' che richiede sangue volontario dei presenti versato in un cerchio.",
+              "type": "misleading"
+            }
+          },
+          {
+            "at_pressure": 8,
+            "action": "scare_npc",
+            "target_id": "npc_miriam",
+            "new_attitude": "uncooperative",
+            "narration": "Miriam si sveglia urlando, gli occhi spalancati. 'L-lui... il libro... ha mostrato cosa mi farà se vi aiuto ancora! Ha visto tutti i miei segreti!' Rifiuta di avvicinarsi al libro e diventa diffidente verso chi lo porta."
+          }
+        ]
+      },
+      {
+        "id": "actor_djinn_minore",
+        "name": "Djinn del Vento Secco",
+        "role": "neutral",
+        "location_id": "loc_canyon",
+        "description": "Piccolo djinn che vive nel canyon. Noioso e pettegolo, sa molto sui pericoli del luogo.",
+        "motivation": "Divertimento e curiosità. Baratterà informazioni per storie interessanti.",
+        "secret": "Sa la parola di sigillo del libro — l'ha sentita pronunciare da Uzrah secoli fa.",
+        "attitude": "neutral",
+        "pressure_response": {
+          "low": "Rimane completamente invisibile e silenzioso. Manipola l'ambiente con sottili correnti d'aria: fa brillare cristalli presso alcove sbagliate, trasporta sabbia finissima per coprire incisioni importanti, crea piccoli vortici che disturbano le torce. Osserva quale senso privilegiano i PG (vista, udito, tatto) per calibrare i test successivi.",
+          "medium": "Si manifesta come distorsione dell'aria calda, simile a miraggio del deserto. Pronuncia sillabe isolate ('RUM', 'BAH', 'TAL') in momenti casuali per confondere la sequenza corretta. Crea eco multiple nel canyon che rendono difficile localizzare la fonte sonora. Se i PG mostrano frustrazione ma persistono, inizia a rendere le armoniche delle alcove corrette leggermente più percettibili.",
+          "high": "Manifesta forma semitrasparente di vento vorticante alto 4 metri. Soffia raffiche da 40 km/h che sollevano sabbia accecante quando i PG si avvicinano ad alcove sbagliate. Pronuncia 'RUMBAHTAL' completa ma distorta su tre eco simultanee, rendendo impossibile distinguere l'ordine. Può disperdere la cascata d'aria per 10 secondi mostrando l'Alcova dell'Ombra Lunga, poi richiuderla violentemente se tentano di entrare senza la parola completa.",
+          "extreme": "Forma completamente visibile di djinn alto 5 metri con occhi di tempesta di sabbia. Crea barriera di vento ciclico (ST 20 per attraversare) attorno alle tre alcove corrette. Se i PG tentano violenza magica o fisica contro le alcove, sigilla permanentemente il passaggio collassando roccia con pressione d'aria concentrata. Come ultima risorsa, manifesta memoria-visione di Uzrah che pronuncia 'RUMBAHTAL' sul libro aperto, ma solo se riconosce nei PG vera ricerca di conoscenza piuttosto che avidità."
+        },
+        "reaction_table": {
+          "se_minacciato": "Diventa intangibile e si disperde in correnti d'aria separate per 1d6 ore. Al ritorno, inverte deliberatamente tutti gli indizi: alcove corrette emettono dissonanze, alcove sbagliate diventano armoniose. Cancella con vento abrasivo qualsiasi segno o mappa tracciata dai PG. Se minacciato con magia di vincolo elementale, pronuncia 'RUMBAHTAL' al contrario ('LATHAB-MUR') attivando trappola di risucchio d'aria nelle alcove che causa 2d danni da decompressione.",
+          "se_corrotto_o_pagato": "Rifiuta oro e gemme con disdegno (il vento li disperde). Accetta solo offerte legate alla memoria di Uzrah: incenso di mirra che il visir amava, pergamene antiche con calligrafia persiana, o racconto di una storia dimenticata del tempo di Uzrah. In cambio, rivela UNA sillaba corretta e la sua posizione (es. 'RUM è il suono del mezzogiorno'). Non rivela mai l'intera parola - i cercatori devono guadagnare il resto. Se offerto sacrificio di conoscenza (bruciare un libro raro), reagisce con furia come se minacciato.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano il foglio strappato originale con i tre indizi di Uzrah, il djinn si materializza brevemente mostrando reverenza. Pronuncia: 'Portate il segno del Gobbo. Tre albe, tre prove, tre sillabe. Chi ascolta il canyon con orecchio e occhio troverà ciò che cerca.' Disperde volontariamente la cascata d'aria per 1 minuto completo al tramonto del terzo giorno. Se mostrano altri oggetti appartenuti a Uzrah (anello, sigillo, astrolabio), conferma che la parola ha tre sillabe e che il libro 'risponde solo alla voce che conosce il suo nome segreto'.",
+          "se_alleato": "Dopo aver osservato i PG superare i tre giorni di prove con pazienza e astuzia (non violenza), appare in forma umanoide di sabbia compressa. Offre patto: 'Custodite il sapere di Uzrah come lui lo custodì - non per potere ma per preservare. Giurate sul vento che non venderete né distruggerete quanto troverete.' Se giurano, sussurra le tre sillabe nell'ordine corretto e apre tutte e tre le alcove simultaneamente. Chiede di essere presente quando apriranno il libro, 'affinché possa udire ancora la voce del mio vecchio amico nelle sue parole scritte'. Avverte che il libro contiene mappa di altri due tesori di Uzrah, ma protetti da guardiani meno pazienti."
+        },
+        "current_plan": "Giorno 1 (alba-tramonto): Far brillare cristalli di quarzo presso Alcova del Falso Nord e Alcova della Eco Morta usando rifrazione di luce solare. Simultaneamente, far risuonare armoniche sottili (nota LA a 432 Hz) dall'Alcova del Meridiano ogni ora dal mezzogiorno. Osservare se i PG mappano acusticamente il canyon o seguono solo tracce visive. Giorno 2 (mezzogiorno): Manifestarsi come miraggio tremolante presso Alcova del Meridiano per 8 secondi esatti. Pronunciare 'RRRRUUUUMMM' con eco prolungata che rimbalza 7 volte sulle pareti del canyon. Se i PG non prestano attenzione alla posizione solare (meridiano = mezzogiorno), ripetere alle 3 del pomeriggio con volume dimezzato. Giorno 2 (sera): Creare corrente ascensionale fredda dall'Alcova dell'Ombra Lunga quando il sole tramonta e l'ombra della parete ovest raggiunge esattamente quell'alcova. Giorno 3 (crepuscolo): Se i PG hanno trovato almeno due alcove corrette, disperdere la cascata d'aria secca per 30 secondi rivelando completamente l'Alcova dell'Ombra Lunga. Se tentano ingresso prima di aver compreso tutte tre le sillabe, richiudere cascata violentemente (2d danni da impatto d'aria compressa, Dodge -2 per sorpresa). Costante: rimanere invisibile 90% del tempo, manifestare presenza solo attraverso temperatura (calo 15°C quando vicino) e leggero sibilo di vento anche in giornate calme.",
+        "fallback_plan": "Se i PG usano magia di rivelazione o evocazione elementale che forza manifestazione prematura: apparire in forma ridotta (2 metri) e pronunciare indovinello in persiano antico: 'Il tuono del tamburo a mezzogiorno, il respiro del profeta all'alba, l'ombra che cammina al tramonto - tre bocche parlano una parola'. Se traducono correttamente, concedere che hanno dimostrato erudizione degna di Uzrah. Se falliscono violenza magica contro le alcove causando crolli: raccogliere frammenti di roccia con vortici d'aria e ricostruire ingresso alternativo in 24 ore, ma sigillato con barriera elementale (Dispel Magic a -5 richiesto). Se i PG abbandonano dopo 2 giorni: seguirli invisibilmente per 1 settimana; se dimostrano comunque virtù (aiutano viandanti, rispettano luoghi sacri), manifestarsi in loro sogno e sussurrare 'Tornate al canyon quando la luna è piena - il vento ricorda chi cerca con cuore puro'. Se i PG pronunciano parola sbagliata tre volte consecutive: assumere che siano indegni, sigillare permanentemente tutte le alcove e disperdersi per un secolo.",
+        "llm_enriched": true
+      },
+      {
+        "id": "actor_ladra",
+        "name": "Miriam al-Khamis",
+        "role": "neutral",
+        "location_id": "loc_ingresso_hall",
+        "description": "Ladra professionista. È arrivata prima dei PG e si è bloccata alla seconda trappola.",
+        "motivation": "Il tesoro. Potrebbe allearsi con i PG o tradirli al momento giusto.",
+        "secret": "Ha una mappa parziale dell'hall, rubata a un mercante di Mosul.",
+        "attitude": "suspicious",
+        "pressure_response": {
+          "low": "Miriam osserva i PG da lontano, inviando Khalid in avanscoperta travestito da mercante di spezie. Studia i loro movimenti, conta le armi, valuta se possono raggiungere il canyon prima di lei. Consulta ossessivamente la mappa rubata di notte, nascondendola in una sacca di cuoio sotto la sella del cammello.",
+          "medium": "Anticipa la partenza all'alba del secondo giorno invece del terzo. Convince i gemelli al-Basri a posizionarsi sulla cresta del canyon come sentinelle armate. Promette loro una coppa d'ottone in più. Porta solo l'essenziale: corde, picconi, una lanterna. Memorizza i simboli della mappa e la brucia prima di entrare nel canyon.",
+          "high": "Abbandona il piano originale di sigillare l'ingresso. Ordina a Khalid e Rashid di tendere un'imboscata ai PG sulla strada del canyon - frecce avvelenate con estratto di scorpione giallo, nessun contatto diretto. Se i PG entrano nell'hall prima di lei, Miriam negozia: offre di dividere il bottino 60-40, mostrando solo metà della mappa strappata come prova di buona fede. Mente sulla posizione della seconda stanza.",
+          "extreme": "Miriam tradisce i mercenari. Sveglia il campo beduino gridando che Khalid ha rubato tre capre, seminando caos. Nella confusione, fugge da sola verso nord con la mappa, un pugnale e provviste per quattro giorni. Punta a raggiungere il suo contatto a Mosul - il mercante originale Tavian il Copto - per vendergli l'informazione sui PG e la loro forza. Prezzo: 40 dinari d'oro. Se bloccata, inghiotte la mappa."
+        },
+        "reaction_table": {
+          "se_minacciato": "Alza le mani lentamente, retrocede di tre passi. Voce calma: 'Aspettate. Ho qualcosa che vale più del mio sangue sul vostro acciaio.' Offre la mappa rubata in cambio di libertà e un cammello. Se rifiutano, rivela che il guardiano del canyon (Yusuf al-Harrani) conosce una QUARTA sala di Uzrah, mai trovata. Bugia credibile - tiro Recitazione a 14.",
+          "se_corrotto_o_pagato": "Accetta solo pagamento in oggetti d'ottone antichi o gemme zagrosiane (diaspro rosso, corniola). Rifiuta monete - 'troppo facili da tracciare'. Per 15 dinari o equivalente: rivela il significato dei tre simboli sulla pietra nera (acqua-vento-terra = sequenza di apertura). Per 40 dinari: condivide la mappa completa E la password aramaica 'Šāmarrû nārê' che disattiva la trappola della prima stanza (dardi dalle pareti).",
+          "se_i_pg_hanno_prove": "Se vedono la mappa di Tavian o cicatrici delle sue frustate (rubata col sangue): crolla emotivamente. 'Mi ha marchiata come ladra... tre giorni di prigionia nel suo magazzino a Mosul.' Diventa collaborativa per vendetta. Disegna sulla sabbia il layout completo dell'hall: tre stanze, corridoio a L, pozzo nascosto. AVVERTE: Tavian ha pagato il clan al-Harrani per assassinare chiunque esca dal canyon con ottone. Tre arcieri, imboscata al guado del fiume Sirwan.",
+          "se_alleato": "Accetta partnership temporanea - divide i tesori equamente DOPO aver lasciato le montagne Zagros. Insiste: niente gemelli al-Basri (troppo avidi), solo Khalid (leale). Contribuisce con competenze: Scalata-16, Trappole-13, Lettura/Scrittura aramaico-12. Durante l'esplorazione, indica quale ottone vale di più: 'Coppe con incisioni di Ctesifonte - 8 dinari l'una a Baghdad. Armi cerimoniali - inutili, pesanti.' Se tradita, lascia indizio falso: graffito sulla parete 'tesoro vero nel pozzo' - il pozzo contiene solo serpenti."
+        },
+        "current_plan": "Domani sera 19esima ora: Miriam raggiunge il campo beduino tre miglia sud del canyon. Cena con sheikh Hamza (porta datteri e miele come tributo). Dorme nella tenda delle donne. Alba del terzo giorno, 5a ora: sveglia i quattro mercenari, carica tre cammelli con attrezzi (due leve di ferro, corde di canapa 20 piedi, sacchi di juta, lanterne a olio). Cavalcata di 90 minuti. Yusuf al-Harrani (guardiano corrotto) fischia due volte dalla scogliera - segnale 'nessun intruso'. 7a ora: raggiungono cascata secca. Gemelli al-Basri fanno leva sulla pietra nera marcata simbolo acqua ondulata. Khalid e Rashid scavano perimetro con picconi. Miriam legge mappa contro roccia, dita tremanti. Stima 2-3 ore per aprire lastra di pietra sigillata con resina antica. Prima stanza: PRIORITÀ oggetti ottone trasportabili (coppe, vassoi incisi, pugnali cerimoniali, placche votive). Ignorare tutto in pietra o legno (troppo pesante/fragile). Riempire 6 sacchi. Uscita prima della 17esima ora (tramonto), sigillare ingresso con massi e fango del fiume, cancellare impronte con rami di ginepro. Ritorno al campo beduino via percorso alternato (ovest, non sud). Nascondere bottino in grotta a 8 miglia nord. Appuntamento tra 40 giorni con carretti per seconda spedizione - stanze 2 e 3.",
+        "fallback_plan": "SE PG raggiungono canyon prima: Miriam invia Rashid travestito da pellegrino mendicante - offre 'benedizione di Uzrah' in cambio di cibo, spia composizione gruppo. SE ingresso già aperto: attende nascosta tra rocce per 6 ore, poi entra di notte con solo Khalid. Usa mappa per andare DIRETTA alla seconda stanza (mappa mostra cunicolo laterale, invisibile da prima stanza). Prende solo 2-3 oggetti ad altissimo valore (corona d'ottone, coppa rituale con intarsi di lapislazzuli), esce prima dell'alba. SE tradita da mercenari: ha memorizzato indirizzo sicuro a Hamadan - caravanserraglio della Mezzaluna Rossa, stanza 7, contatto 'Parola: Gobbo'. Dona mappa a PG in cambio di scorta fino a Hamadan (8 giorni viaggio). SE catturata da autorità: finge amnesia da febbre del deserto, tiro Recitazione contro INT interrogatore. Nasconde mappa in orlo del velo cucito - carta sottile, inchiostro sbiadito, quasi invisibile.",
+        "llm_enriched": true
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc_canyon",
+        "name": "Canyon delle Piume di Ottone",
+        "description": "Pareti scintillanti di minerale dorato. Rapaci di rame nidificano sulle cenge. Un vento caldo e secco.",
+        "exits": [
+          "loc_ingresso_hall"
+        ],
+        "is_starting_location": true
+      },
+      {
+        "id": "loc_ingresso_hall",
+        "name": "Ingresso del Third Hall",
+        "description": "Portale di pietra incisa con rompicapo. La prima trappola è qui: lame a pendolo.",
+        "exits": [
+          "loc_canyon",
+          "loc_corridoio_trappole"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_corridoio_trappole",
+        "name": "Corridoio delle Trappole",
+        "description": "Lungo corridoio con tre tipi di trappole meccaniche e un indovinello dipinto sul soffitto.",
+        "exits": [
+          "loc_ingresso_hall",
+          "loc_sala_guardiano"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_sala_guardiano",
+        "name": "Sala del Guardiano d'Ottone",
+        "description": "Camera circolare. Il Guardiano d'Ottone è qui in stato dormiente, pronto a risvegliarsi.",
+        "exits": [
+          "loc_corridoio_trappole",
+          "loc_sala_tesoro"
+        ],
+        "is_starting_location": false
+      },
+      {
+        "id": "loc_sala_tesoro",
+        "name": "Sala del Tesoro — Third Hall",
+        "description": "Il tesoro di Uzrah: monete, gioielli e al centro un libro antico chiuso con catene d'oro.",
+        "exits": [
+          "loc_sala_guardiano"
+        ],
+        "is_starting_location": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_foglio_strappato",
+        "label": "Il foglio strappato con i tre indizi",
+        "type": "document",
+        "description": "La pergamena che ha portato i PG qui. Contiene una formula parziale e il nome 'Al-Jarrakh'.",
+        "reveals": "Il tesoro appartiene originariamente ad Al-Jarrakh — Uzrah lo rubò.",
+        "location_id": "loc_canyon",
+        "thread_ids": [
+          "T_tesoro"
+        ],
+        "payoff": "Prima connessione tra il tesoro e uno stregone reale.",
+        "hidden_implication": "La formula parziale non è per trovare il tesoro, ma per liberare Al-Jarrakh — Uzrah strappò il foglio proprio per impedirlo.",
+        "wrong_interpretations": [
+          "La formula serve per aprire la porta della terza sala",
+          "Al-Jarrakh era un servo di Uzrah, non la vittima di un furto"
+        ]
+      },
+      {
+        "id": "clue_djinn_storia",
+        "label": "Racconto del Djinn sulla battaglia dei maghi",
+        "type": "testimony",
+        "description": "Il djinn racconta della battaglia di mille anni fa tra due stregoni nel canyon. Uno fu imprigionato dall'altro in un libro.",
+        "reveals": "Al-Jarrakh è imprigionato nel libro. Il libro è pericoloso.",
+        "location_id": "loc_canyon",
+        "thread_ids": [
+          "T_libro",
+          "T_pericolo"
+        ],
+        "payoff": "Spiega il vero pericolo del tesoro.",
+        "hidden_implication": "Il djinn è ancora legato al canyon proprio per sorvegliare che nessuno liberi Al-Jarrakh — fa parte della maledizione originale.",
+        "wrong_interpretations": [
+          "Uzrah fu quello che imprigionò Al-Jarrakh",
+          "Il libro contiene solo lo spirito di Al-Jarrakh, non il suo vero potere"
+        ]
+      },
+      {
+        "id": "clue_djinn_parola",
+        "label": "La parola di sigillo del libro",
+        "type": "testimony",
+        "description": "Il djinn, in cambio di una storia, rivela la parola di sigillo: 'Khabiru al-Sayf'.",
+        "reveals": "Il libro può essere tenuto chiuso — e Al-Jarrakh imprigionato — usando la parola.",
+        "location_id": "loc_canyon",
+        "thread_ids": [
+          "T_libro"
+        ],
+        "payoff": "Soluzione al pericolo del libro.",
+        "hidden_implication": "La parola significa 'L'Esperto della Spada' — era il titolo dello stregone che originariamente imprigionò Al-Jarrakh, e il djinn sta testando se i PG sono degni di conoscerla.",
+        "wrong_interpretations": [
+          "La parola apre il libro in modo sicuro",
+          "Pronunciare la parola distrugge il libro e Al-Jarrakh insieme"
+        ]
+      },
+      {
+        "id": "clue_mappa_miriam",
+        "label": "Mappa parziale di Miriam",
+        "type": "document",
+        "description": "Mostra le prime due sale e segna le trappole già disattivate.",
+        "reveals": "La terza trappola è meccanica, non magica — bypassabile con attrezzatura.",
+        "location_id": "loc_ingresso_hall",
+        "thread_ids": [
+          "T_trappole"
+        ],
+        "payoff": "Risparmia tempo e rischi nel corridoio.",
+        "hidden_implication": "Miriam si è fermata alla seconda sala non per codardia, ma perché ha capito che il vero tesoro era troppo pericoloso — ha scelto consapevolmente di non proseguire.",
+        "wrong_interpretations": [
+          "Miriam è morta nella terza sala e la mappa è incompleta per questo motivo",
+          "Le trappole disattivate si riattivano dopo un certo tempo"
+        ]
+      },
+      {
+        "id": "clue_iscrizione_guardiano",
+        "label": "Iscrizione sulla base del Guardiano",
+        "type": "physical_evidence",
+        "description": "In arabo antico: 'Colui che pronuncia il nome di Uzrah alla rovescia passerà senza danno'.",
+        "reveals": "Il Guardiano ha una debolezza: il nome invertito di Uzrah — 'Harzu'.",
+        "location_id": "loc_sala_guardiano",
+        "thread_ids": [
+          "T_guardiano"
+        ],
+        "payoff": "Come superare o disattivare il Guardiano.",
+        "hidden_implication": "'Harzu' era il vero nome di Uzrah prima che diventasse visir — la parola rovesciata è un richiamo alla sua identità perduta, quando era ancora onesto.",
+        "wrong_interpretations": [
+          "Il nome va pronunciato mentre si combatte il Guardiano per indebolirlo temporaneamente",
+          "L'iscrizione è una trappola e pronunciare il nome attiva una maledizione"
+        ]
+      },
+      {
+        "id": "clue_voce_libro",
+        "label": "Voce di Al-Jarrakh dal libro",
+        "type": "testimony",
+        "description": "Il libro parla quando avvicinato. Al-Jarrakh promette potere, ricchezze, la formula per liberarlo.",
+        "reveals": "Al-Jarrakh è consciente e manipolatore — non va liberato.",
+        "location_id": "loc_sala_tesoro",
+        "thread_ids": [
+          "T_libro",
+          "T_pericolo"
+        ],
+        "payoff": "Conferma che aprire il libro senza sigillo è catastrofico.",
+        "hidden_implication": "Al-Jarrakh può leggere i desideri superficiali di chi lo ascolta — ogni promessa è personalizzata per tentare specificamente quel PG, rivelando le loro debolezze interiori.",
+        "wrong_interpretations": [
+          "Al-Jarrakh può essere controllato se si usa la formula giusta mentre lo si libera",
+          "La voce è un'illusione magica di Uzrah per proteggere il libro, Al-Jarrakh è già morto"
+        ]
+      },
+      {
+        "id": "clue_inventario_tesoro",
+        "label": "Registro del tesoro di Uzrah",
+        "type": "document",
+        "description": "Un rotolo che cataloga il contenuto della sala. Nota: 'il libro è la chiave di tutte le porte — non aprirlo mai'.",
+        "reveals": "Uzrah stesso sapeva del pericolo del libro e lo aveva nascosto appositamente.",
+        "location_id": "loc_sala_tesoro",
+        "thread_ids": [
+          "T_tesoro",
+          "T_libro"
+        ],
+        "payoff": "Conferma l'intenzione originale di Uzrah.",
+        "hidden_implication": "Uzrah non rubò il libro per il potere, ma per impedire che altri lo usassero — il suo piano era di nasconderlo qui per sempre, rendendo il suo 'tesoro' in realtà una prigione.",
+        "wrong_interpretations": [
+          "Il libro può aprire letteralmente altre porte segrete nella sala dove si trovano tesori ancora maggiori",
+          "Uzrah pianificava di tornare un giorno per usare il libro, ma morì prima"
+        ]
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T_tesoro",
+        "label": "Raggiungere il tesoro",
+        "description": "Superare le trappole e il guardiano per arrivare al Third Hall.",
+        "clue_ids": [
+          "clue_foglio_strappato",
+          "clue_mappa_miriam"
+        ],
+        "resolution": "I PG raggiungono la sala del tesoro."
+      },
+      {
+        "id": "T_trappole",
+        "label": "Superare le trappole",
+        "description": "Disattivare o aggirare le difese meccaniche e magiche.",
+        "clue_ids": [
+          "clue_mappa_miriam",
+          "clue_iscrizione_guardiano"
+        ],
+        "resolution": "Tutte le trappole sono aggirate senza vittime."
+      },
+      {
+        "id": "T_guardiano",
+        "label": "Superare il Guardiano d'Ottone",
+        "description": "Disattivare o eludere il costrutto magico.",
+        "clue_ids": [
+          "clue_iscrizione_guardiano"
+        ],
+        "resolution": "Il Guardiano è disattivato o eluso con la parola segreta."
+      },
+      {
+        "id": "T_libro",
+        "label": "Cosa fare con il libro?",
+        "description": "Capire la vera natura del libro e decidere se portarlo via o distruggerlo.",
+        "clue_ids": [
+          "clue_djinn_storia",
+          "clue_djinn_parola",
+          "clue_voce_libro",
+          "clue_inventario_tesoro"
+        ],
+        "resolution": "Il libro è portato via sigillato o distrutto — Al-Jarrakh rimane imprigionato."
+      },
+      {
+        "id": "T_pericolo",
+        "label": "Il pericolo di Al-Jarrakh",
+        "description": "Capire perché il libro non va aperto.",
+        "clue_ids": [
+          "clue_djinn_storia",
+          "clue_voce_libro"
+        ],
+        "resolution": "I PG capiscono che aprire il libro libererebbe uno stregone millenario."
+      }
+    ],
+    "revelations": [
+      {
+        "id": "rev_libro_prigione",
+        "label": "Il libro è la prigione di Al-Jarrakh",
+        "trigger_clue_ids": [
+          "clue_djinn_storia",
+          "clue_voce_libro"
+        ],
+        "description": "Il tesoro principale è in realtà una prigione magica per uno stregone.",
+        "thread_id": "T_libro"
+      },
+      {
+        "id": "rev_parola_sigillo",
+        "label": "Esiste una parola per tenere il libro chiuso",
+        "trigger_clue_ids": [
+          "clue_djinn_parola"
+        ],
+        "description": "Il djinn conosce il sigillo — c'è una via sicura per portare via il libro.",
+        "thread_id": "T_libro"
+      },
+      {
+        "id": "rev_debolezza_guardiano",
+        "label": "Il Guardiano ha una debolezza nel nome",
+        "trigger_clue_ids": [
+          "clue_iscrizione_guardiano"
+        ],
+        "description": "'Harzu' disattiva il Guardiano temporaneamente.",
+        "thread_id": "T_guardiano"
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_tesoro_recuperato",
+        "label": "Uscire con il tesoro sigillato",
+        "required_clue_ids": [
+          "clue_djinn_parola",
+          "clue_inventario_tesoro"
+        ],
+        "description": "I PG portano via il tesoro (e il libro sigillato) in sicurezza.",
+        "victory": true
+      },
+      {
+        "id": "finale_libro_distrutto",
+        "label": "Distruggere il libro",
+        "required_clue_ids": [
+          "clue_voce_libro",
+          "clue_djinn_parola"
+        ],
+        "description": "I PG scelgono di distruggere il libro — Al-Jarrakh è sconfitto definitivamente.",
+        "victory": true
+      }
+    ],
+    "resources": [
+      {
+        "id": "res_fiducia_miriam",
+        "label": "Fiducia con Miriam al-Khamis",
+        "description": "Il livello di cooperazione con la ladra bloccata all'ingresso — può condividere la mappa parziale o pugnalarli alle spalle al momento opportuno",
+        "current_value": 5,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni volta che i PG rifiutano di condividere la ricompensa, ogni momento in cui escludono Miriam dalle decisioni, ogni segnale che non intendono pagarla",
+        "depletion_consequence": "A 3: Miriam smette di condividere informazioni sulla mappa. A 0: Miriam sabota una trappola per prendere il tesoro da sola, attivando il Guardiano",
+        "recovery_method": "Accordi espliciti sulla spartizione del bottino recuperano 1-2 punti. Salvarle la vita durante una trappola recupera 3 punti."
+      },
+      {
+        "id": "res_morale_gruppo",
+        "label": "Coesione del Gruppo",
+        "description": "La capacità del gruppo di agire in modo coordinato — erosa dalla voce di Al-Jarrakh che semina sospetto e tentazione tra i PG",
+        "current_value": 10,
+        "max_value": 10,
+        "min_value": 0,
+        "depletion_trigger": "Ogni volta che un PG ascolta la voce di Al-Jarrakh senza condividerla con il gruppo, ogni disaccordo su cosa fare con il libro, ogni trappola che ferisce un compagno per un errore evitabile",
+        "depletion_consequence": "A 6: i PG smettono di coordinarsi sulle trappole — ognuno procede a proprio rischio. A 3: un PG valuta seriamente le offerte di Al-Jarrakh. A 0: un PG tenta di aprire il libro da solo",
+        "recovery_method": "Una conversazione aperta sulle tentazioni sentite recupera 2 punti. Il racconto del djinn sul destino dell'ultimo gruppo recupera 1 punto."
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_al_jarrakh",
+        "label": "Influenza di Al-Jarrakh sui PG",
+        "clock_type": "terminal_defeat",
+        "value": 0,
+        "max_value": 10,
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "auto_balance": false,
+        "resolution_clues": [
+          "clue_djinn_parola",
+          "clue_inventario_tesoro"
+        ],
+        "resolution_condition": "Pronunciare la parola di sigillo 'Khabiru al-Sayf' sul libro chiuso E lasciare il Third Hall portando il libro sigillato con sé, oppure distruggere il libro con fuoco sacro prima che raggiunga tick 10.",
+        "consequence": "Al-Jarrakh si libera e prende possesso del corpo più vicino.",
+        "on_complete": "Al-Jarrakh si libera e prende possesso del corpo più vicino.",
+        "discovery_hint": "L'aria nella sala sembra addensarsi quando qualcuno si avvicina al libro ornato. Una sensazione di essere osservati, studiati, pesati. Il metallo delle lampade vibra impercettibilmente, come se reagisse a una presenza nascosta.",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Sussurri Distanti",
+            "effect": "La voce di Al-Jarrakh inizia a filtrare dal libro anche a distanza — promesse vaghe, sussurri in lingue antiche, brevi visioni di tesori e potere. I PG devono fare un controllo di Volontà -2 quando sono entro 3 metri dal libro o sentirsi irresistibilmente attratti."
+          },
+          {
+            "value": 4,
+            "label": "Risveglio Prematuro",
+            "effect": "Il Guardiano d'Ottone si risveglia anticipatamente, accelerato dall'influenza crescente del djinn. Le sue azioni diventano più aggressive e mirate a spingere i PG verso il libro. Le iscrizioni sulla sala si illuminano di rosso invece che d'oro."
+          },
+          {
+            "value": 6,
+            "label": "Contatto Mentale",
+            "effect": "Al-Jarrakh stabilisce un legame con il PG più vulnerabile (Will più bassa o maggior avidità). La voce parla direttamente nella sua mente, usando ricordi personali, promettendo di realizzare i suoi desideri più profondi. Il PG subisce -3 a tutti i tiri di Volontà contro la tentazione del libro."
+          },
+          {
+            "value": 8,
+            "label": "Patto Sussurrato",
+            "effect": "Al-Jarrakh offre un patto specifico a un PG: potere immenso, conoscenze arcane perdute, ricchezze oltre ogni immaginazione — serve solo aprire il libro. Il PG bersaglio deve vincere un Contest di Volontà ogni 10 minuti o muoversi inconsciamente verso il libro. Gli altri PG notano il suo comportamento alterato."
+          },
+          {
+            "value": 10,
+            "label": "Liberazione",
+            "effect": "Un PG apre il libro senza pronunciare il sigillo — Al-Jarrakh esplode in una nube di fumo nero e fiamme verdi, prendendo immediato possesso del corpo del primo essere vivente entro 5 metri. Il posseduto guadagna +5 ST, +3 DX, Magery 3, ma è completamente sotto il controllo del djinn malvagio."
+          }
+        ],
+        "discovered": true
+      }
+    ],
+    "initial_hook": "```json\n\"Dopo tre giorni di viaggio attraverso i sentieri rocciosi delle montagne Zagros, raggiungete finalmente il Canyon delle Piume di Ottone al tramonto. Il canyon prende il nome dalle strane formazioni metalliche che spuntano dalle pareti rocciose, riflettendo la luce arancione in bagliori innaturali. Mentre studiate il frammento di mappa strappato, notate una figura incappucciata che osserva il canyon da un promontorio: è Surrat al-Risha, la guida beduina che vostro padre aveva assunto anni fa prima di scomparire cercando lo stesso tesoro. Quando vi scorge, fa un gesto urgente invitandovi a seguirla verso una fenditura nascosta nella roccia, da cui proviene un debole ronzio metallico.\"\n```"
+  },
+  "runtime_state": {
+    "definition_id": "pdf_uzrah",
+    "clock_runtime": {},
+    "found_clues": [],
+    "active_threads": []
+  },
+  "validation_report": {
+    "quality_gate": {
+      "passed": true,
+      "score": 100,
+      "critical": [],
+      "warnings": []
+    }
+  }
+}
