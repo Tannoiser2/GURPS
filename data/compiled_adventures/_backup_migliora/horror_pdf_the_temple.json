@@ -7121,7 +7121,7 @@
         "id": "llm_clue_1",
         "label": "Radiazione termica anomala dal sito di U-29",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T1",
         "source_location": "SS West Gambo",
         "reveals": "Il relitto di U-29 non è un semplice naufragio storico, ma emette energia anomala che richiede indagine",
         "payoff": "Giustifica l'equipaggiamento speciale e prepara i PG a scoperte oltre il normale",
@@ -7157,7 +7157,7 @@
         "id": "llm_clue_2",
         "label": "Manometri danneggiati nel batiscafo",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T2",
         "source_location": "SS West Gambo",
         "reveals": "Qualcuno o qualcosa ha sabotato l'equipaggiamento prima della missione",
         "payoff": "Introduce un elemento di sabotaggio/cospirazione e crea tensione iniziale",
@@ -7229,7 +7229,7 @@
         "id": "llm_clue_4",
         "label": "Pagina del diario di Jorg",
         "type": "document",
-        "thread_id": "T11",
+        "thread_id": "T4",
         "source_location": "Jorg",
         "reveals": "Jorg ha documentato informazioni cruciali sulla sua esperienza o scoperte",
         "payoff": "Fornisce indizi scritti diretti sulla minaccia o sul tempio",
@@ -7265,7 +7265,7 @@
         "id": "llm_clue_5",
         "label": "Codice d'invasione di Heinrich",
         "type": "document",
-        "thread_id": "T12",
+        "thread_id": "T5",
         "source_location": "Jorg",
         "reveals": "Esiste un'area o sistema protetto che Heinrich aveva pianificato di infiltrare o accedere",
         "payoff": "Permette ai PG di accedere ad aree altrimenti inaccessibili",
@@ -7301,7 +7301,7 @@
         "id": "llm_clue_6",
         "label": "Apparizione del secondo tempio nelle Azzorre",
         "type": "scene_observation",
-        "thread_id": "T13",
+        "thread_id": "T6",
         "source_location": "Gloon",
         "reveals": "Il risveglio di Gloon crea uno spostamento dimensionale che manifesta strutture in luoghi diversi",
         "payoff": "Espande la minaccia oltre il sito di immersione e coinvolge civili",
@@ -7337,7 +7337,7 @@
         "id": "llm_clue_7",
         "label": "Riapparizione di Karl Heinrich dopo vent'anni",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T7",
         "source_location": "Gloon",
         "reveals": "Heinrich è sopravvissuto in qualche forma per vent'anni ed è ora controllato dall'entità Gloon",
         "payoff": "Heinrich diventa un antagonista principale e fonte di informazioni distorte",
@@ -7409,7 +7409,7 @@
         "id": "llm_clue_9",
         "label": "Equipaggiamento speciale: Fomenko Radio Bathyscope",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T9",
         "source_location": "SS West Gambo",
         "reveals": "Il governo ha fornito tecnologia sperimentale specificamente per misurare l'anomalia energetica",
         "payoff": "Fornisce ai PG uno strumento per rilevare e monitorare l'energia di Gloon",
@@ -7445,7 +7445,7 @@
         "id": "llm_clue_10",
         "label": "Tute da immersione con respiratori a gas misti",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T10",
         "source_location": "SS West Gambo",
         "reveals": "La spedizione è preparata per esplorazione esterna del batiscafo in acque profonde",
         "payoff": "Permette ai PG di entrare nel tempio o nel relitto di U-29",
@@ -7548,174 +7548,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Uniformi tedesche lacerate sul fondale",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "L'equipaggio non è morto nell'affondamento ma ha subito una trasformazione fisica",
-        "payoff": "Collega la scomparsa dell'equipaggio alle creature bentiche avvistate",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Registro di bordo dell'U-29",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Heinrich portò deliberatamente l'equipaggio al tempio seguendo un richiamo",
-        "payoff": "Stabilisce che Heinrich conosceva già l'esistenza del tempio nel 1917",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Telegramma cifrato dell'Ahnenerbe",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "L'Ahnenerbe ha un progetto attivo chiamato 'Dio della Carne' e una base nelle Azzorre",
-        "payoff": "Rivela l'esistenza del secondo tempio prima che si manifesti",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Tatuaggio rituale sul corpo di Heinrich",
-        "type": "behavior",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Heinrich è stato marchiato da Gloon ed è legato biologicamente all'entità",
-        "payoff": "Spiega perché Heinrich è sopravvissuto vent'anni e può controllare parzialmente le creature",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Iscrizioni in R'lyehiano sul tempio",
-        "type": "location_detail",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Gloon esiste simultaneamente in due manifestazioni dimensionali collegate",
-        "payoff": "Fornisce il metodo teorico per sigillare l'entità",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Schema strutturale nei calcoli di Rose",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "I due templi sono strutturalmente identici e connessi",
-        "payoff": "Permette di pianificare un'azione coordinata su entrambi i siti",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Cariche demolitive nel carico di Heinrich",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Heinrich pianifica di distruggere un tempio per amplificare il potere dell'altro",
-        "payoff": "I PG devono procurarsi esplosivi aggiuntivi o sabotare il piano di Heinrich",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -7729,8 +7561,8 @@
         "secret": "Sa che il governo sospetta che l'U-29 fosse un U-boot sperimentale, ma non ha rivelato ai civili tutti i dettagli della missione governativa",
         "agenda_pressure": 0,
         "fear": "Che la spedizione fallisca e la sua reputazione professionale venga compromessa",
-        "current_plan": "Coordinare le immersioni mantenendo il controllo sui dati raccolti, trasmettere letture termiche a Washington ogni 6 ore, impedire che informazioni sensibili trapelino ai civili a bordo",
-        "fallback_plan": "Se la situazione degenera o viene scoperto qualcosa di troppo anomalo, attivare il protocollo di quarantena, sigillare il sito con cariche di profondità e classificare l'intera operazione",
+        "current_plan": "Completare le letture termiche mantenendo i civili all'oscuro della vera natura militare della missione. Recuperare il registro di bordo dell'U-29 e qualsiasi equipaggiamento sperimentale. Inviare rapporti codificati quotidiani a Washington via radio della West Gambo.",
+        "fallback_plan": "Se la situazione diventa incontrollabile (scoperte troppo anomale, intervento straniero, o ammutinamento dei PG), ha ordini di scuttare l'intero sito con cariche di profondità dalla West Gambo, cancellando ogni traccia. Ha una seconda busta sigillata con 'ordini di emergenza' da aprire solo in caso di 'minaccia esistenziale'.",
         "resources": [
           "accessi",
           "contatti",
@@ -7752,16 +7584,16 @@
           "Divulgazione di informazioni classificate"
         ],
         "pressure_response": {
-          "low": "Mantiene un'aria professionale e cordiale, enfatizzando l'importanza scientifica della missione e mostrando entusiasmo per le letture termiche anomale",
-          "medium": "Diventa evasivo sulle specifiche governative, devia domande scomode parlando di 'sicurezza nazionale' e 'protocolli classificati', inizia a sudare leggermente",
-          "high": "Ammette parzialmente che l'U-29 trasportava 'qualcosa di insolito' ma sostiene di non saperne i dettagli, si isola in cabina per 'consultare Washington via radio'",
-          "extreme": "Crolla nervosamente rivelando che il governo teme che l'U-29 abbia scoperto qualcosa sul fondo oceanico - qualcosa di antico che genera calore - e che questa spedizione è anche un'operazione di recupero militare mascherata"
+          "low": "Rimane cordiale e professionale, enfatizzando l'importanza scientifica della missione. Offre compensi generosi e rassicurazioni sulla sicurezza. Minimizza eventuali anomalie come 'fenomeni geologici interessanti'.",
+          "medium": "Diventa più autoritario, richiamando contratti firmati e obblighi verso il governo. Accenna vagamente a 'questioni di sicurezza nazionale' senza rivelare dettagli. Inizia a monitorare più da vicino le attività dei PG.",
+          "high": "Confessa parzialmente: ammette che l'U-29 trasportava 'equipaggiamento sperimentale' tedesco che il governo vuole recuperare prima di altre nazioni. Minaccia conseguenze legali se i PG abbandonano. Diventa nervoso e controllante.",
+          "extreme": "Crolla sotto pressione rivelando che il governo teme che l'U-29 abbia scoperto qualcosa sul fondo oceanico - qualcosa che genera il calore anomalo. Ammette di avere ordini di recuperare tutto a ogni costo, anche usando la forza se necessario. Potrebbe tentare di sequestrare prove o sigillare aree della nave."
         },
         "reaction_table": {
-          "se_minacciato": "Minaccia di far abortire la missione e di coinvolgere la Guardia Costiera, ma è un bluff - ha troppo da perdere se fallisce",
-          "se_corrotto": "Può essere convinto a condividere dati classificati in cambio di silenzio sulla vera natura della missione, ma diventa paranoico e controllante",
-          "se_i_pg_hanno_prove": "Tenta prima di confiscare materiale 'per ragioni di sicurezza nazionale', poi negozia un accordo di riservatezza con clausole legali intimidatorie",
-          "se_alleato": "Condivide mappe batimetriche dettagliate e rapporti tecnici riservati, ammette di aver paura di cosa potrebbero trovare veramente laggiù"
+          "se_minacciato": "Cerca rinforzi tra l'equipaggio fedele al governo. Tenta di isolare chi lo minaccia. In extremis, invia messaggi radio in codice chiedendo intervento governativo, rischiando di rivelare la posizione ad 'altri interessati'.",
+          "se_corrotto": "Difficile da corrompere direttamente, ma può essere convinto che 'certe scoperte sono troppo pericolose per il governo'. Potrebbe aiutare a nascondere prove in cambio di campioni scientifici e garanzie che nulla di militarmente sensibile verrà rivelato.",
+          "se_i_pg_hanno_prove": "Entra in modalità controllo danni. Offre di 'classificare' la scoperta con i PG come consulenti governativi ben pagati. Se rifiutano, passa a intimidazione legale. Come ultima risorsa, potrebbe tentare di distruggere prove compromettenti.",
+          "se_alleato": "Diventa collaborativo e condivide mappe governative classificate della zona. Rivela che altri governi (sovietici? britannici?) potrebbero essere interessati al sito. Offre protezione governativa e accesso a risorse tecniche superiori per la spedizione."
         },
         "pressure_events": [],
         "relationships": [
@@ -7793,8 +7625,8 @@
         "secret": "È scomparso nel 1917 ed è stato sotto l'influenza di Gloon per vent'anni. Non è più completamente umano e serve il dio mostruoso",
         "agenda_pressure": 0,
         "fear": "Che Gloon lo abbandoni o che qualcuno distrugga il tempio prima del risveglio completo",
-        "current_plan": "Infiltrarsi nella spedizione della West Gambo come consulente o sopravvissuto casuale. Guidare la nave verso le coordinate esatte del tempio sommerso dove Gloon attende.",
-        "fallback_plan": "Se scoperto prematuramente, sabotare la nave per forzare l'evacuazione vicino al sito. I naufraghi saranno vulnerabili all'influenza degli abissi e più facili da convertire.",
+        "current_plan": "Condurre la spedizione esattamente sopra il tempio sommerso di Gloon, quindi sabotare la West Gambo durante un'immersione. I sopravvissuti annegheranno e rinasceranno come servi ibridi nelle rovine sottomarine.",
+        "fallback_plan": "Se scoperto prematuramente, attivare il segnale acustico che richiama sciami di creature marine mutate. Affondare la nave con esplosivi nascosti nella sala macchine, quindi fuggire verso una colonia sottomarina di ibridi già stabilita presso le rovine dell'U-29.",
         "resources": [
           "accessi",
           "contatti",
@@ -7816,16 +7648,16 @@
           "Essere separato dall'influenza di Gloon"
         ],
         "pressure_response": {
-          "low": "Osserva i PG con cortesia glaciale, offrendo aiuto nautico e conoscenze storiche sull'U-29. Studia le loro debolezze psicologiche e spirituali.",
-          "medium": "Inizia a sussurrare profezie inquietanti, mostra conoscenze impossibili sugli abissi. Gli occhi brillano di un bagliore verdastro nelle ombre.",
-          "high": "La sua pelle assume sfumature ittiche, rivela frammenti della verità su Gloon. Tenta di separare il gruppo portando i più deboli verso il tempio sommerso.",
-          "extreme": "Si trasforma parzialmente mostrando branchie e squame. Invoca creature abissali e cerca di trascinare fisicamente i PG nelle profondità per il 'battesimo' di Gloon."
+          "low": "Heinrich osserva i PG con curiosità morbosa, offrendosi di guidarli verso le 'meraviglie sommerse' con un sorriso che non raggiunge i suoi occhi vitrei. Parla dell'U-29 come di una 'benedizione', non una tragedia.",
+          "medium": "Inizia a recitare frammenti di liturgie in una lingua pre-umana, gli occhi che brillano di fosforescenza verde. Le branchie malamente nascoste sotto il colletto pulsano visibilmente. Invita i PG a 'unirsi all'equipaggio eterno'.",
+          "high": "Emette un richiamo ultrasonico che disturba strumenti e menti, mentre la sua pelle assume squame traslucide. Convoca seguaci ibridi nascosti nell'equipaggio della West Gambo, rivelando che la spedizione era una trappola sin dall'inizio.",
+          "extreme": "Si getta in mare trasformandosi completamente in una creatura anfibia mostruosa, dirigendosi verso le rovine sommerse per risvegliare Gloon. Attiva cariche esplosive nascoste nella West Gambo per trascinare tutti nelle profondità come sacrifici."
         },
         "reaction_table": {
-          "se_minacciato": "Ride con voce che riecheggia innaturalmente, si ritira in mare aperto dove è più forte. Può respirare sott'acqua indefinitamente.",
-          "se_corrotto": "Non può essere corrotto - è già oltre l'umanità. Finge cooperazione per avvicinare le vittime al tempio di Gloon.",
-          "se_i_pg_hanno_prove": "Accetta con calma sovrannaturale: 'La verità vi renderà liberi... liberi di vedere Gloon in tutta la sua gloria.' Accelera i suoi piani di conversione.",
-          "se_alleato": "Impossibile vera alleanza. Manipola la fiducia per condurre i PG a esperienze che frantumino la loro sanità e li rendano ricettivi a Gloon."
+          "se_minacciato": "Ride con voce gorgogliante, sostenendo che la morte fisica è irrilevante per chi serve Gloon. Tenta di ferire i PG per 'battezzarli' con il proprio sangue nero e mutageno.",
+          "se_corrotto": "Già completamente corrotto. Tenta di corrompere a sua volta i PG mostrando visioni del regno di Gloon e promettendo immortalità nelle profondità abissali come 'custodi del tempio'.",
+          "se_i_pg_hanno_prove": "Diventa frenetico nel distruggere qualsiasi prova che colleghi il governo tedesco al culto. Le prove della sua trasformazione lo rendono più aggressivo - non può permettere che il mondo scopra Gloon prematuramente.",
+          "se_alleato": "Impossibile come vero alleato. Se i PG fingono interesse per Gloon, li conduce personalmente al relitto dell'U-29 per la 'cerimonia di trasformazione' nelle acque radioattive sopra il tempio sommerso."
         },
         "pressure_events": [],
         "relationships": [
@@ -7854,11 +7686,11 @@
         "location_id": "section_3",
         "status": "unintroduced",
         "goal": "Completare il risveglio e infettare l'Atlantico con un ciclo orribile di riproduzione attraverso creature bentiche",
-        "secret": "Gloon non è un'entità unica ma la fase larvale collettiva di qualcosa di immensamente più grande e antico che giace dormiente nelle profondità hadali - distruggere questa manifestazione invierà un segnale di pericolo che potrebbe accelerare il risveglio del progenitore",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Essere sigillato nuovamente o distrutto prima di completare la trasformazione dimensionale",
-        "current_plan": "Completare la metamorfosi finale nell'utero-tempio creato dalla fusione di U-29 e formazioni coralline anomale, poi rilasciare la prima generazione di larve che trasformeranno la fauna atlantica in vettori reproductive in espansione esponenziale",
-        "fallback_plan": "Se disturbato prima del risveglio completo, trasferire la coscienza-sciame in una creatura bentonica infettata e migrare verso la Fossa Portoricana, lasciando l'U-29 come trappola esplosiva di spore dormienti",
+        "current_plan": "Utilizzare il risveglio per stabilizzare lo spostamento dimensionale e trasformare i seguaci in vettori di infezione",
+        "fallback_plan": "Ritirarsi nel tempio principale e attendere in stasi fino a un nuovo tentativo di risveglio",
         "resources": [
           "accessi",
           "contatti",
@@ -7880,16 +7712,16 @@
           "Interferenze durante la fase critica del risveglio"
         ],
         "pressure_response": {
-          "low": "Rimane dormiente nelle profondità del relitto, emanando solo pulsazioni termiche e chiamate subsoniche per attirare vita marina verso la zona di incubazione",
-          "medium": "Accelera la mutazione delle creature bentiche già infettate, creando guardie mostruose che pattugliano il perimetro dell'U-29 e attaccano qualsiasi intruso con voracità innaturale",
-          "high": "Estende pseudopodi di carne necrotica attraverso gli scafi corrosi, fondendosi con i cadaveri dei marinai tedeschi per creare servi ambulanti che trascinano i PG verso le sue fauci reproductive",
-          "extreme": "Si strappa dalla crisalide prematuramente, emergendo come massa informe di tentacoli ovipositore e bocche lamprey, disperdendo migliaia di larve nell'oceano anche a costo della propria integrità fisica"
+          "low": "Intensifica l'influenza psichica sui seguaci, accelera le trasformazioni minori",
+          "medium": "Manifesta visioni e allucinazioni per terrorizzare gli intrusi, corrompe nuovi seguaci",
+          "high": "Emerge parzialmente dal tempio, attacca direttamente con appendici e poteri corruttivi",
+          "critical": "Manifesta completamente la propria forma fisica, scatena un'onda di corruzione che trasforma istantaneamente ogni essere vivente nelle vicinanze"
         },
         "reaction_table": {
-          "se_minacciato": "Rilascia una nube di spore paralizzanti attraverso le condotte dell'U-29 mentre richiama ogni creatura infettata nel raggio di un miglio marino come sciame difensivo",
-          "se_corrotto": "Non applicabile - Gloon è corruzione primordiale incarnata, immune a influenze esterne; tentativi mistici rimbalzano causando mutazioni in chi li tenta",
-          "se_i_pg_hanno_prove": "Intensifica l'emissione termica per disturbare strumentazione e cancellare tracce organiche, sacrificando creature-sentinella per recuperare o distruggere campioni biologici",
-          "se_alleato": "Impossibile - non possiede intelligenza negoziale, solo un impulso riproduttivo древнее della ragione umana; percepisce ogni essere vivente solo come incubatore o nutriente"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [
@@ -7913,11 +7745,11 @@
         "location_id": "section_4",
         "status": "unintroduced",
         "goal": "Garantire la sicurezza medica del team di spedizione e documentare eventuali anomalie biologiche",
-        "secret": "Ha certificato come 'morte naturale' il decesso sospetto di un paziente durante la guerra per proteggere un chirurgo ubriaco; da allora compensa con rigore fanatico, terrorizzata che la sua unica menzogna professionale venga scoperta",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Che qualcuno della spedizione subisca danni gravi senza possibilità di cure adeguate",
-        "current_plan": "Raccogliere campioni biologici dal relitto dell'U-29, documentare ogni anomalia fisiologica nei membri del team, mantenere tutti in vita abbastanza a lungo per completare la documentazione scientifica",
-        "fallback_plan": "Se la situazione degenera, garantire la propria sopravvivenza preservando il diario medico e almeno un campione per l'Università di Edimburgo, anche a costo di abbandonare pazienti compromessi",
+        "current_plan": "Raccogliere campioni biologici dall'area del relitto per analisi approfondite. Stabilire una baseline medica di tutto l'equipaggio per rilevare precocemente qualsiasi contaminazione. Documentare la correlazione tra esposizione alle radiazioni e alterazioni fisiologiche.",
+        "fallback_plan": "Se la situazione degenera, Rose ha nascosto flaconi di cloroformio e un revolver Webley nell'infermeria. Piano B: sedare i contagiati, sigillare l'infermeria, trasmettere via radio coordinate e sintomi prima di affondare deliberatamente la West Gambo per contenere la minaccia.",
         "resources": [
           "accessi",
           "contatti",
@@ -7939,16 +7771,16 @@
           "Ignorare sintomi preoccupanti nei membri del team"
         ],
         "pressure_response": {
-          "low": "Mantiene un distacco professionale, annota meticolosamente ogni osservazione nel suo diario medico, offre assistenza con gesti misurati e sguardo analitico",
-          "medium": "Inizia a razionalizzare l'irrazionale con terminologia scientifica, aumenta le dosi di sedativi disponibili, controlla ossessivamente le proprie pupille allo specchio",
-          "high": "Parla di 'campioni viventi' riferendosi ai membri del team, nasconde siringhe preparate nelle tasche del camice, sussurra formule chimiche come preghiere",
-          "extreme": "Tenta di preservare 'esemplari' iniettando formaldeide o soluzioni saline, convinta che solo lei possa documentare la trasformazione per la scienza, che i corpi devono rimanere intatti per l'autopsia"
+          "low": "Rose documenta metodicamente ogni anomalia, mantenendo un distacco professionale. Controlla costantemente le condizioni fisiche dell'equipaggio, annotando parametri vitali e sintomi insoliti sul suo diario medico.",
+          "medium": "Inizia a manifestare nervosismo quando le anomalie biologiche superano ogni spiegazione razionale. Insiste per quarantene preventive e somministra sedativi a chi mostra segni di stress acuto. Chiede ripetutamente di tornare in superficie.",
+          "high": "Rose diventa ossessionata dal contenimento. Propone di sigillare intere sezioni della nave, rifiuta di trattare chi è stato 'contaminato' troppo a lungo. Le sue mani tremano mentre prepara siringhe di morfina 'per ogni evenienza'.",
+          "extreme": "Barricata nell'infermeria, Rose ha preparato un cocktail letale di farmaci. Convinta che l'unica cura sia impedire che qualsiasi cosa a bordo raggiunga la terraferma, è pronta a uccidere per misericordia chiunque mostri segni di 'infezione'."
         },
         "reaction_table": {
-          "se_minacciato": "Si ritrae dietro la sua borsa medica, offre collaborazione citando il giuramento di Ippocrate, cerca di sedare l'aggressore con pretesti clinici",
-          "se_corrotto": "Interpreta le visioni come sintomi neurologici da documentare, inizia a sperimentare su se stessa 'per controllo scientifico', registra tutto con calligrafia sempre più instabile",
-          "se_i_pg_hanno_prove": "Esige di esaminare personalmente ogni evidenza 'per escludere contaminazione', propone quarantena immediata, suggerisce che potrebbe trattarsi di isteria collettiva",
-          "se_alleato": "Fornisce morfina e bende con efficienza silenziosa, condivide osservazioni cliniche preziose, ammette sottovoce di aver visto cose che nessun manuale medico spiega"
+          "se_minacciato": "Usa il suo status di medico per manipolare: finge emergenze mediche, somministra placebo o sedativi leggeri per controllare chi la minaccia. In extremis, ha accesso a scalpelli e sostanze tossiche.",
+          "se_corrotto": "L'esposizione prolungata alle anomalie la convince che certe 'evoluzioni' siano inevitabili. Inizia esperimenti non autorizzati su campioni biologici, nascondendo i risultati più inquietanti. Parla di 'adattamento necessario'.",
+          "se_i_pg_hanno_prove": "Collabora pienamente, fornendo analisi mediche dettagliate. Propone protocolli di decontaminazione e offre il suo sangue per test comparativi. Rivela di aver notato mutazioni cellulari minori in alcuni membri dell'equipaggio.",
+          "se_alleato": "Diventa la coscienza morale del gruppo. Cura ferite ignorando i pericoli, condivide le sue ipotesi sulle radiazioni termiche come possibile agente mutageno. Tiene un secondo diario cifrato per sua sorella a Boston, caso non tornasse."
         },
         "pressure_events": [],
         "relationships": [
@@ -7977,11 +7809,11 @@
         "location_id": "section_5",
         "status": "unintroduced",
         "goal": "Assicurare il successo operativo della missione subacquea usando la sua esperienza marittima e militare",
-        "secret": "Ha riconosciuto immediatamente il numero di matricola dell'U-29 nei documenti della missione: è il sommergibile che silurò la SS Hestia nel marzo 1917, uccidendo suo fratello minore Patrick. Ha manipolato le tabelle di decompressione e i rapporti di sicurezza per rendere le immersioni più pericolose.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Fallire nel suo dovere e causare la perdita di vite per incompetenza",
-        "current_plan": "Supervisionare le immersioni mantenendo il controllo sulle operazioni, sabotare sottilmente i parametri di sicurezza per massimizzare i rischi dell'esplorazione dell'U-29",
-        "fallback_plan": "Se scoperto, tentare un'immersione solitaria suicida verso il relitto per confrontarsi direttamente con i fantasmi del suo passato",
+        "current_plan": "Coordinare l'immersione al relitto mantenendo segrete le vere direttive governative. Documentare ogni anomalia termica. Recuperare materiali dall'U-29 prima che altri team internazionali raggiungano il sito.",
+        "fallback_plan": "Se la missione viene compromessa, affondare la West Gambo sopra il relitto per sigillare il sito. Ha già posizionato cariche di dinamite nella stiva. Testimonierà che fu un incidente causato dalle radiazioni anomale.",
         "resources": [
           "accessi",
           "contatti",
@@ -8003,16 +7835,16 @@
           "Ordini che mettono inutilmente a rischio il personale"
         ],
         "pressure_response": {
-          "low": "Mantiene un contegno professionale da veterano, controlla metodicamente l'equipaggiamento subacqueo e coordina le operazioni di immersione con precisione militare",
-          "medium": "Diventa brusco e autoritario, interrompe le discussioni tecniche con ordini diretti, inizia a controllare ossessivamente cronometri e cavi di sicurezza",
-          "high": "Si aggrappa alle procedure navali come un'ancora di salvezza, rifiuta qualsiasi deviazione dal piano, stringe ripetutamente il suo vecchio fischietto da nostromo",
-          "extreme": "Crolla psicologicamente rivelando flashback dell'U-29 che silurò la sua nave nel 1917, confessa di aver riconosciuto il numero di matricola e di aver sabotato i parametri di sicurezza dell'immersione per vendetta"
+          "low": "Mantiene rigida disciplina militare, organizza turni di guardia e ispezioni dell'equipaggiamento subacqueo. Controlla ossessivamente carte nautiche e coordinate dell'U-29.",
+          "medium": "Diventa irascibile con l'equipaggio civile, cita regolamenti navali obsoleti. Beve rum di nascosto nella cabina. Racconta episodi traumatici della Grande Guerra che coinvolgono sommergibili affondati.",
+          "high": "Ha allucinazioni uditive di SOS in codice Morse proveniente dal relitto. Insiste che l'U-29 stia ancora trasmettendo. Vuole immergersi immediatamente anche con mare mosso, minaccia di ammutinamento se il capitano rifiuta.",
+          "extreme": "Convince parte dell'equipaggio che l'U-29 contenga armi segrete tedesche che devono essere recuperate a ogni costo. Tenta di sabotare le comunicazioni radio per impedire l'interruzione della missione. Prepara attrezzatura per immersione suicida notturna."
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia dietro protocolli marittimi e catena di comando, può fisicamente bloccare l'accesso ai portelloni di immersione",
-          "se_corrotto": "Immune alla corruzione materiale, ma vulnerabile a chi promette di aiutarlo a 'chiudere i conti' con il passato",
-          "se_i_pg_hanno_prove": "Ammette tutto con dignità militare, chiede solo di completare l'ultima immersione per vedere coi propri occhi cosa è successo all'U-29",
-          "se_alleato": "Leale fino alla morte, condivide intuizioni tattiche cruciali e rivela le vere specifiche tecniche del relitto che ha studiato ossessivamente per vent'anni"
+          "se_minacciato": "Si barrica nella sala macchine con una chiave inglese, citando l'articolo 184 del codice marittimo. Minaccia di danneggiare il compressore dell'aria se non gli permettono di completare la missione.",
+          "se_corrotto": "Le radiazioni termiche stanno influenzando la sua mente. Sogna una città sommersa vicino all'U-29. Ha trovato uno strano idolo di pietra tra le reti da pesca giorni prima, lo tiene nascosto nel suo borsone.",
+          "se_i_pg_hanno_prove": "Ammette di aver ricevuto ordini segreti dal governo: recuperare il diario di bordo dell'U-29 a qualsiasi costo. Il sommergibile non affondò per cause belliche. L'equipaggio scoprì qualcosa sul fondale oceanico.",
+          "se_alleato": "Condivide mappe annotate che mostrano altre anomalie termiche nell'area. Rivela che tre precedenti spedizioni di recupero non sono mai tornate. Offre la sua pistola d'ordinanza e addestra i PG alle procedure di emergenza subacquea."
         },
         "pressure_events": [],
         "relationships": [
@@ -8049,8 +7881,8 @@
         "secret": "Ha usato influenze e fondi personali per assicurarsi un posto nella spedizione, spingendo fuori altri candidati più qualificati",
         "agenda_pressure": 0,
         "fear": "Che la spedizione fallisca senza risultati pubblicabili, rovinando la sua carriera e reputazione",
-        "current_plan": "Documentare l'U-29 come prova dell'esistenza di fenomeni geologici inesplorati, pubblicare su riviste internazionali prima del ritorno, stabilirsi come massima autorità sulla scoperta",
-        "fallback_plan": "Se la spedizione fallisce o le scoperte sono troppo incredibili per essere credute, screditare gli altri membri presentandosi come l'unico scienziato rigoroso del gruppo, pubblicare comunque 'confutando' teorie altrui",
+        "current_plan": "Documentare ossessivamente ogni dettaglio dell'U-29 con fotografie e campioni, preparando una relazione dettagliata che oscuri il contributo degli altri membri. Vuole essere il primo a pubblicare qualsiasi scoperta, specialmente riguardo alle anomalie termiche.",
+        "fallback_plan": "Se la spedizione fallisce o le sue malefatte vengono esposte, pianifica di accusare gli altri membri di incompetenza e sabotaggio. Ha già preparato bozze di lettere alle università e alla stampa che scaricano la colpa altrove, tenendo copie di ogni transazione finanziaria come 'prova' del suo investimento personale.",
         "resources": [
           "accessi",
           "contatti",
@@ -8072,16 +7904,16 @@
           "Situazioni di pericolo fisico che richiedano azione diretta da parte sua"
         ],
         "pressure_response": {
-          "low": "Prende appunti meticolosi, fotografa ossessivamente ogni dettaglio, cita continuamente precedenti storici per affermare la sua autorevolezza",
-          "medium": "Diventa difensivo riguardo le sue qualifiche, minimizza gli errori di valutazione, insiste per essere presente a ogni scoperta importante anche quando è d'intralcio",
-          "high": "Falsifica dati o osservazioni per renderli più sensazionali, sabota sottilmente i contributi altrui alla spedizione, considera di appropriarsi di reperti chiave",
-          "extreme": "Disposto a mettere in pericolo la spedizione pur di tornare con 'la scoperta del secolo', pronto ad abbandonare gli altri se necessario per salvare se stesso e i suoi appunti"
+          "low": "Mantiene un atteggiamento professionale e autoritario, citando le sue credenziali e i rischi che ha corso personalmente per finanziare la spedizione. Enfatizza l'importanza storica della missione.",
+          "medium": "Diventa difensivo riguardo alle decisioni prese, accenna vagamente a 'difficoltà burocratiche' che ha dovuto superare. Cerca di spostare l'attenzione sui risultati della spedizione piuttosto che sui metodi di selezione del team.",
+          "high": "Ammette di aver fatto pressioni per essere incluso, ma giustifica le sue azioni come necessarie per 'salvare' una missione che altrimenti sarebbe stata affidata a incompetenti. Inizia a mostrare paranoia che qualcuno voglia rubargli il merito della scoperta.",
+          "extreme": "Crolla emotivamente rivelando di aver ipotecato la proprietà di famiglia e falsificato referenze. Diventa ossessivo riguardo al recupero di prove dall'U-29, disposto a mettere a rischio la sicurezza della spedizione pur di tornare con qualcosa che giustifichi i suoi sacrifici."
         },
         "reaction_table": {
-          "se_minacciato": "Si appella alle sue connessioni politiche, minaccia di rovinare la reputazione degli oppositori negli ambienti accademici romani, finge crisi cardiache o malesseri",
-          "se_corrotto": "Offre co-paternità delle pubblicazioni, promette raccomandazioni universitarie, condivide contatti con ministeri e musei del regime",
-          "se_i_pg_hanno_prove": "Tenta prima la negazione indignata, poi cerca un accordo per 'il bene della scienza italiana', infine crolla ammettendo la sua inadeguatezza",
-          "se_alleato": "Generoso con crediti accademici e riconoscimenti pubblici, ma deve sempre essere lui il primo nome, il volto della scoperta"
+          "se_minacciato": "Tenta di usare la sua posizione come finanziatore per intimidire, minacciando di tagliare fondi o rovinare reputazioni. Se questo fallisce, cerca disperatamente alleanze con altri membri dell'equipaggio offrendo compensi futuri.",
+          "se_corrotto": "Inizialmente resistente per orgoglio accademico, ma vulnerabile a offerte che garantiscano pubblicazioni sotto il suo nome o posizioni universitarie prestigiose. Particolarmente suscettibile a promesse di riconoscimento internazionale.",
+          "se_i_pg_hanno_prove": "Tenta prima la negazione, poi offre di condividere i crediti della scoperta in cambio del silenzio. Come ultima risorsa, potrebbe sabotare documentazione per nascondere le proprie malefatte, anche a costo di compromettere i dati scientifici della missione.",
+          "se_alleato": "Diventa leale ma possessivo, insistendo che ogni scoperta venga accuratamente documentata con il suo nome in primo piano. Condivide informazioni sui suoi contatti finanziari e accademici che potrebbero aver interessi nascosti nella spedizione."
         },
         "pressure_events": [],
         "relationships": [
@@ -8113,8 +7945,8 @@
         "secret": "Ha già delle ipotesi non pubblicate su fenomeni geologici sottomarini anomali in quest'area, che potrebbero rivoluzionare l'oceanografia",
         "agenda_pressure": 0,
         "fear": "Che il suo mal di schiena peggiori durante la missione impedendogli di completare le misurazioni critiche",
-        "current_plan": "Completare una mappatura tridimensionale completa delle emissioni termiche per pubblicare una monografia che dimostri l'esistenza di vulcanismo sottomarino 'intelligente' o reattivo.",
-        "fallback_plan": "Se le autorità tentano di confiscare i dati, ha preparato copie cifrate da inviare simultaneamente a università in Svizzera, Svezia e Stati Uniti per garantirsi priorità scientifica.",
+        "current_plan": "Mappare completamente il campo termico usando il Radio Bathyscope mentre la nave è in posizione, poi convincere il capitano a effettuare immersioni esplorative sul punto di massima emissione termica vicino al relitto dell'U-29",
+        "fallback_plan": "Se gli viene impedito di completare le misurazioni ufficiali, sabotare discretamente l'ancora della nave per farla derivare verso il 'punto zero' termico, permettendogli di effettuare letture non autorizzate durante la notte",
         "resources": [
           "accessi",
           "contatti",
@@ -8136,16 +7968,16 @@
           "Conflitti diretti con Volpetti che potrebbero compromettere la spedizione"
         ],
         "pressure_response": {
-          "low": "Collabora entusiasticamente, condividendo dati e letture del Bathyscope. Propone immersioni aggiuntive per raccogliere più campioni termici.",
-          "medium": "Diventa ossessivo con le misurazioni, rimanendo sveglio per notti intere a calibrare gli strumenti. Inizia a nascondere i dati più anomali temendo di essere ridicolizzato.",
-          "high": "Rifiuta di lasciare il Bathyscope incustodito. Accusa gli altri di sabotaggio quando le letture contraddicono le sue teorie. Parla di 'camere magmatiche viventi'.",
-          "extreme": "Tenta un'immersione non autorizzata per raggiungere la fonte delle radiazioni. Sostiene che l'U-29 non è affondato ma 'richiamato' da qualcosa sotto il fondale."
+          "low": "Condivide entusiasta i dati del Radio Bathyscope, mostrando grafici delle anomalie termiche e invitando i PG a osservare le letture strumentali in tempo reale",
+          "medium": "Diventa ossessivo con le misurazioni, insiste per scendere più in profondità ignorando protocolli di sicurezza, mormora calcoli sulla densità termica incompatibili con la geologia nota",
+          "high": "Confessa l'esistenza di sue mappe private che mostrano una struttura geometrica sul fondale in quest'area, scoperta durante spedizioni precedenti ma mai dichiarata ufficialmente",
+          "extreme": "Rivela che le radiazioni termiche corrispondono esattamente alle sue previsioni teoriche su una civiltà pre-diluviana tecnologicamente avanzata, e che il governo lo sa - per questo lo hanno mandato qui"
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica nella sala strumenti con il Bathyscope. Offre di condividere le 'vere letture' in cambio di protezione e riconoscimento scientifico.",
-          "se_corrotto": "Impossibile corromperlo con denaro, ma vulnerabile a promesse di pubblicazione su riviste prestigiose o accesso a tecnologie di misurazione più avanzate.",
-          "se_i_pg_hanno_prove": "Crolla emotivamente se i dati contraddicono le sue teorie. Alternativamente, diventa fanatico alleato se confermano fenomeni impossibili, spingendo per esplorazioni sempre più pericolose.",
-          "se_alleato": "Fornisce interpretazioni scientifiche precise delle anomalie. Il suo Bathyscope può rivelare pattern nelle radiazioni che suggeriscono strutture artificiali sul fondale."
+          "se_minacciato": "Si barrica nella sala strumenti con il Radio Bathyscope, minacciando di distruggere tutti i dati raccolti se non può completare le misurazioni dell'intera griglia dell'area",
+          "se_corrotto": "Impossibile corromperlo con denaro, ma offerte di pubblicazione scientifica garantita o accesso a spedizioni future lo rendono malleabile e disposto a falsificare rapporti ufficiali",
+          "se_i_pg_hanno_prove": "Ammette di aver manipolato le coordinate della spedizione per includere un 'punto zero' termico che aveva triangolato tre anni fa, supplica di poter prelevare almeno un campione dalla fonte",
+          "se_alleato": "Condivide i suoi quaderni privati con schemi di quella che chiama 'architettura termodinamica impossibile', chiede aiuto per recuperare qualsiasi manufatto che possa provare le sue teorie eretiche"
         },
         "pressure_events": [],
         "relationships": [
@@ -8177,8 +8009,8 @@
         "secret": "Ha percepito qualcosa di profondamente sbagliato nell'equipaggiamento prima della partenza ma non ha prove concrete per fermarlo",
         "agenda_pressure": 0,
         "fear": "Che qualcuno muoia a causa di un guasto tecnico che avrebbe potuto prevenire",
-        "current_plan": "Accompagnare i batiscafi mantenendo comunicazione radio costante, documentare ogni anomalia per giustificare un eventuale ordine di risalita d'emergenza, prepararsi ad attivare i protocolli di recupero al primo segno di pericolo",
-        "fallback_plan": "Se la situazione degenera, tagliare deliberatamente le comunicazioni per forzare la risalita immediata secondo protocollo, quindi affrontare le conseguenze disciplinari pur di salvare l'equipaggio",
+        "current_plan": "Monitorare ogni immersione rimanendo in contatto radio continuo, documentare tutte le anomalie tecniche e biologiche, avere sempre pronto un protocollo di recupero d'emergenza con le pompe già innescate",
+        "fallback_plan": "Se perde il contatto con i batiscafi per più di 3 minuti, attiva immediatamente il recupero. Se l'equipaggio si oppone, taglia l'alimentazione ai winch e fa emergere forzatamente i sommergibili usando le bombole di aria compressa d'emergenza, anche se questo significa danneggiare permanentemente l'equipaggiamento",
         "resources": [
           "accessi",
           "contatti",
@@ -8200,16 +8032,16 @@
           "Situazioni dove deve scegliere quale equipaggio salvare per primo"
         ],
         "pressure_response": {
-          "low": "Controlla ossessivamente le liste di sicurezza, insiste per verificare ogni connessione dei batiscafi prima dell'immersione, propone protocolli di emergenza ridondanti",
-          "medium": "Si oppone apertamente a manovre rischiose, minaccia di segnalare violazioni alla capitaneria, rivela di aver notato anomalie nell'equipaggiamento senza spiegare perché ha taciuto",
-          "high": "Tenta di sabotare l'immersione 'per ragioni di sicurezza', confessa i suoi presentimenti ma senza prove concrete, diventa paralizzata dall'ansia se ignorata",
-          "extreme": "Crolla psicologicamente rivelando che sua sorella morì in un'immersione simile nel '34, supplica i PG di abortire la missione, potrebbe tentare di distruggere i comandi del batiscafo"
+          "low": "Sara controlla ossessivamente le letture dei sonar e mantiene comunicazione radio costante con entrambi i batiscafi, annotando ogni minima anomalia nel registro di bordo",
+          "medium": "Inizia a condividere i suoi dubbi sull'equipaggiamento con il capitano, mostrando discrepanze nei manuali di manutenzione e temperature anomale nei circuiti elettrici dei batiscafi",
+          "high": "Ordina il richiamo immediato dei sommergibili ignorando le proteste degli ufficiali, pronta a sabotare personalmente i winch se necessario per impedire ulteriori immersioni",
+          "extreme": "Confessa di aver trovato segni di manomissione nei regolatori di pressione tre giorni prima della partenza, accusa apertamente qualcuno a bordo di voler causare un 'incidente' e si barrica nella sala radio"
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia nei regolamenti e nelle procedure, documenta tutto meticolosamente per scaricare responsabilità, chiede aiuto via radio al comando",
-          "se_corrotto": "Rifiuta con disgusto qualsiasi compromesso sulla sicurezza, ma potrebbe cedere se le viene garantito un protocollo d'emergenza infallibile o un'assicurazione scritta",
-          "se_i_pg_hanno_prove": "Collabora immediatamente fornendo ogni dettaglio sui suoi sospetti: vibrazioni anomale nei cavi, odore metallico strano nei respiratori, segni di manomissione",
-          "se_alleato": "Diventa la guardia angelo del gruppo, anticipa i pericoli, condivide la sua intuizione quasi preveggente per le anomalie tecniche, sacrificherebbe la missione per salvare vite"
+          "se_minacciato": "Si ritira nella sala macchine dove conosce ogni valvola e condotto, usa la sua autorità tecnica per mettere l'equipaggio contro chi la minaccia, rivelando pubblicamente ogni anomalia che ha documentato",
+          "se_corrotto": "Finge di accettare ma documenta tutto, lascia messaggi cifrati nel registro navale che solo un altro ingegnere potrebbe decodificare, sabota sottilmente l'operazione rallentando i tempi di immersione",
+          "se_i_pg_hanno_prove": "Ammette di aver trovato limature metalliche nei giunti di pressione e cavi di comunicazione pre-tagliati e risaldati, rivela che il precedente ingegnere si è dimesso improvvisamente una settimana prima",
+          "se_alleato": "Condivide i suoi schemi annotati dell'equipaggiamento, insegna ai PG i segnali di emergenza non ufficiali, prepara kit di sopravvivenza extra e installa un trasmettitore di emergenza personale in ogni batiscafo"
         },
         "pressure_events": [],
         "relationships": [
@@ -8243,11 +8075,11 @@
         "location_id": "section_9",
         "status": "unintroduced",
         "goal": "Dimostrare il suo valore come meccanico mantenendo la SS West Gambo e i batiscafi perfettamente funzionanti",
-        "secret": "Durante la Guerra, un suo errore di manutenzione su un cargo mercantile causò un'avaria che costò la vita a tre marinai. Fu coperto dai superiori ma la colpa lo divora. Vede questa missione come espiazione e non può permettersi un altro fallimento.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Che un suo errore meccanico causi un disastro, confermando che la Marina aveva ragione a rifiutarlo",
-        "current_plan": "Eseguire manutenzione preventiva maniacale su ogni sistema della West Gambo e dei batiscafi, documentando tutto per dimostrare la sua competenza impeccabile.",
-        "fallback_plan": "Se qualcosa si guasta, trovare un capro espiatorio tra l'equipaggio che ha 'interferito' col suo lavoro, preservando così la sua reputazione professionale.",
+        "current_plan": "Monitorare ogni parametro meccanico durante le immersioni, documentare ogni anomalia per dimostrare la propria competenza. Mantenere la West Gambo operativa a ogni costo per impressionare i superiori.",
+        "fallback_plan": "Se i sistemi cominciano a cedere veramente, convincere il capitano a interrompere la missione usando dati tecnici irrefutabili. Se ignorato, disabilitare i batiscafi 'per manutenzione d'emergenza' e trasmettere SOS sostenendo che la nave è in pericolo meccanico.",
         "resources": [
           "accessi",
           "contatti",
@@ -8269,16 +8101,16 @@
           "Situazioni dove la sua miopia con occhiali diventa un handicap critico"
         ],
         "pressure_response": {
-          "low": "Fischietta mentre lavora, spiega con entusiasmo ogni ingranaggio e valvola. Offre caffè bollente dalla sua thermos personale e racconta aneddoti sui motori che ha riparato.",
-          "medium": "Diventa ossessivo con le verifiche tecniche, controlla e ricontrolla ogni giunto. Suda copiosamente e mormora calcoli tra sé. Insiste per accompagnare ogni immersione 'per sicurezza'.",
-          "high": "Si rifiuta di lasciare la sala macchine. Accusa gli altri di sabotare il suo lavoro. Dorme accanto ai motori con una chiave inglese stretta in mano. Vede segni di malfunzionamento ovunque.",
-          "extreme": "Minaccia di disabilitare i batiscafi piuttosto che lasciarli fallire e rovinare la sua reputazione. Convinto che 'qualcosa' stia interferendo con i macchinari. Barrica la sala macchine dall'interno."
+          "low": "Ulysses ispeziona ossessivamente ogni valvola e giunto del batiscafo, annotando parametri su un taccuino unto di grasso. Canticchia nervosamente mentre lavora.",
+          "medium": "Inizia a vedere anomalie meccaniche dove non ce ne sono. Sveglia i PG di notte insistendo che 'i motori emettono vibrazioni sbagliate' vicino al relitto dell'U-29.",
+          "high": "Si rifiuta di certificare l'idoneità dei batiscafi per immersioni profonde. Barrica la sala macchine sostenendo che 'qualcosa sotto l'acqua sta interferendo con i sistemi idraulici'.",
+          "extreme": "Sabota deliberatamente le pompe di zavorra per impedire ulteriori immersioni. Urla che 'le radiazioni stanno corrompendo il metallo, lo sentite gemere?' mentre stringe una chiave inglese come un'arma."
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia tra i suoi macchinari, usando la conoscenza tecnica come scudo. Potrebbe sabotare sottilmente l'equipaggiamento per rendersi indispensabile.",
-          "se_corrotto": "Impossibile corromperlo con denaro, ma lusinghe sulla sua competenza tecnica o promesse di riconoscimento professionale lo rendono manipolabile.",
-          "se_i_pg_hanno_prove": "Se dimostrano competenza meccanica, diventa loro devoto alleato. Se mostrano negligenza tecnica, li tratta con disprezzo mal celato.",
-          "se_alleato": "Condivide ogni dettaglio tecnico, lavora notti intere senza lamentarsi. Diventa protettivo verso l'equipaggiamento e chi lo rispetta."
+          "se_minacciato": "Si rifugia nella sala macchine dove conosce ogni angolo. Usa vapore e strumenti pesanti per difendersi. 'Nessuno tocca le mie macchine!'",
+          "se_corrotto": "Non accetta denaro, ma la promessa di accesso a tecnologia avanzata o riconoscimento dalla Marina lo tenta. Vuole che il suo nome sia nei rapporti ufficiali.",
+          "se_i_pg_hanno_prove": "Esamina personalmente ogni evidenza di malfunzionamenti. Se le prove sono tecniche, collabora apertamente. Se suggeriscono fenomeni inspiegabili, diventa diffidente ma curioso.",
+          "se_alleato": "Modifica di nascosto l'equipaggiamento dei PG per renderlo più affidabile. Condivide osservazioni tecniche cruciali: 'I manometri impazziscono quando siamo sopra il relitto. Non è normale.'"
         },
         "pressure_events": [],
         "relationships": [
@@ -8312,7 +8144,6 @@
           "llm_clue_12"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -8348,16 +8179,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "azores_island"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8370,7 +8191,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -8404,16 +8224,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ss_west_gambo",
-        "location_type": "regional",
-        "connections_to": [
-          "u29_wreck"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8426,7 +8236,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -8456,17 +8265,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ss_west_gambo",
-        "location_type": "regional",
-        "connections_to": [
-          "bathysphere",
-          "underwater_temple"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8479,7 +8277,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -8510,14 +8307,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ss_west_gambo",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8530,7 +8319,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -8561,14 +8349,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "azores_island",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8581,7 +8361,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -8612,16 +8391,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "ss_west_gambo"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8765,168 +8534,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Cosa è successo all'equipaggio dell'U-29?",
-        "question": "Quale destino hanno subito i marinai tedeschi del sommergibile nel 1917?",
-        "true_answer": "L'equipaggio è stato corrotto da Gloon e trasformato in creature bentiche che custodiscono il tempio da vent'anni",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_8"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Captain Karl Heinrich"
-        ],
-        "linked_locations": [
-          "Relitto dell'U-29",
-          "The Temple"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Perché il governo tedesco è interessato al sito?",
-        "question": "Qual è il vero obiettivo dell'Ahnenerbe e di Heinrich nel ritornare al tempio?",
-        "true_answer": "L'Ahnenerbe cerca di controllare Gloon come arma biologica per il Terzo Reich, Heinrich è tornato per completare questo rituale",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_3",
-          "nuovo_clue_3",
-          "nuovo_clue_4"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Captain Karl Heinrich"
-        ],
-        "linked_locations": [
-          "SS West Gambo",
-          "Tempio nelle Azzorre"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Come fermare il risveglio di Gloon?",
-        "question": "Esiste un modo per impedire lo shift dimensionale e neutralizzare l'entità?",
-        "true_answer": "Il tempio ha un meccanismo di sigillo che richiede la distruzione simultanea dei pilastri runati in entrambe le manifestazioni dimensionali",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "nuovo_clue_7"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [
-          "T11",
-          "T12"
-        ],
-        "linked_npcs": [
-          "Rose MacBride",
-          "Bobby Corcoran"
-        ],
-        "linked_locations": [
-          "The Temple",
-          "Tempio nelle Azzorre"
-        ]
-      },
-      {
-        "id": "T3",
-        "title": "T3",
-        "question": "Quali collegamenti aveva Heinrich con organizzazioni occulte tedesche e quale era il vero scopo della missione dell'U-29?",
-        "true_answer": "La lista contatti di Heinrich rivela stretti legami con l'Ahnenerbe, l'organizzazione nazista dedicata alla ricerca esoterica e archeologica. L'U-29 non era in missione militare standard: Heinrich e i suoi superiori stavano cercando deliberatamente qualcosa di natura occulta sul fondale atlantico, seguendo antiche mappe o profezie legate a civiltà perdute.",
-        "collected_clue_ids": [
-          "llm_clue_3"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Cosa è successo ai sopravvissuti dell'U-29 e quale minaccia rappresentano?",
-        "true_answer": "I sopravvissuti dell'U-29, esposti all'influenza di Gloon, hanno subito una trasformazione biologica orrenda che li ha mutati in creature bentiche adattate agli abissi. Questo processo di corruzione è contagioso e attivo: se Gloon non viene fermato, l'infezione si diffonderà, trasformando l'equipaggio della West Gambo e potenzialmente raggiungendo la terraferma.",
-        "collected_clue_ids": [
-          "llm_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_relitto",
-        "title": "T relitto",
-        "question": "Qual è la vera condizione dell'U-29 e perché emette radiazioni termiche anomale?",
-        "true_answer": "Contrariamente ai rapporti ufficiali che lo davano per distrutto, l'U-29 giace praticamente intatto sul fondale atlantico. Le radiazioni termiche anomale che emette non sono di origine meccanica o nucleare, ma provengono da energie arcane legate alla sua vicinanza al tempio sottomarino e all'entità Gloon: il sommergibile è diventato un faro che segnala il risveglio dell'abisso.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_missione_occulta",
-        "title": "T missione occulta",
-        "question": "La scomparsa dell'U-29 nel 1917 fu davvero accidentale?",
-        "true_answer": "No. Heinrich e l'Ahnenerbe stavano seguendo deliberatamente coordinate precise verso una zona dell'Atlantico ricca di leggende su città sommerse. La missione dell'U-29 era una spedizione archeologica occulta mascherata da pattuglia militare, mirata a localizzare e accedere a rovine antidiluviane che le ricerche esoteriche naziste avevano identificato come fonti di potere primordiale.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_gloon_risveglio",
-        "title": "T gloon risveglio",
-        "question": "Cosa si trova realmente nel tempio sottomarino e quale connessione ha con le anomalie rilevate?",
-        "true_answer": "Il tempio è la prigione millenaria di Gloon, un'entità primordiale preumana di immenso potere. Il suo risveglio graduale, iniziato quando l'U-29 violò i sigilli nel 1917, genera manifestazioni sincroniche: le radiazioni termiche in superficie sono solo l'eco di energie ctonie che si propagano dagli abissi. Ogni disturbo del tempio accelera il risveglio completo di Gloon.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_heinrich_corruzione",
-        "title": "T heinrich corruzione",
-        "question": "Che fine ha fatto Karl Heinrich e che ruolo gioca negli eventi attuali?",
-        "true_answer": "Heinrich non morì nel 1917: è sopravvissuto vent'anni negli abissi, completamente trasformato dalla comunione con Gloon. Ora è più che umano e meno che umano, un araldo dell'entità con la capacità di corrompere biologicamente altri esseri viventi tramite tocco, sguardo o presenza prolungata. È tornato come agente attivo del risveglio di Gloon, determinato a completare ciò che iniziò due decenni prima.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_cospirazione",
-        "title": "T cospirazione",
-        "question": "Perché la spedizione della West Gambo disponeva di equipaggiamento così specializzato per esplorazioni profonde?",
-        "true_answer": "L'equipaggiamento non era progettato per studiare un semplice relitto bellico: qualcuno tra gli organizzatori della spedizione sapeva dell'esistenza del tempio. Le campane da immersione avanzate, le attrezzature fotografiche speciali e gli strumenti di rilevamento erano destinati fin dall'inizio all'esplorazione di strutture archeologiche sommerse. Rimane da scoprire chi possedeva questa conoscenza occulta e quali sono i loro veri obiettivi.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_sabotaggio",
-        "title": "T sabotaggio",
-        "question": "Chi ha sabotato i manometri delle campane da immersione e perché?",
-        "true_answer": "Il sabotaggio dei manometri era un atto deliberato per interrompere le comunicazioni precise tra superficie e abissi, rendendo impossibile coordinare evacuazioni o segnalare pericoli. Questo indica la presenza di un traditore a bordo della West Gambo: qualcuno che vuole isolare i PG sul fondale, impedire testimoni scomodi o garantire che l'esplorazione del tempio proceda senza interferenze esterne. Il sabotatore potrebbe essere un agente dell'Ahnenerbe, un cultista di Gloon, o qualcuno con motivazioni ancora più oscure.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -12756,8 +12364,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
