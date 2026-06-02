@@ -8792,7 +8792,7 @@
         "id": "llm_clue_4",
         "label": "Aggressione a un noble e la sua promessa sposa",
         "type": "document",
-        "thread_id": "T13",
+        "thread_id": "T4",
         "source_location": "Part 1: Welcome to Tredroy",
         "reveals": "L'aggressione al nobile è il crimine che ha reso Carac ricercato pubblicamente",
         "payoff": "Interrogare le vittime può rivelare dettagli sull'aspetto di Carac e sui suoi complici",
@@ -9111,246 +9111,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Pagamenti in monete d'argento antico",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Carac è pagato da qualcuno interessato al Principe Ivor",
-        "payoff": "Collega le attività di Carac al culto necromantico",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Appuntamenti scritti in codice",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Le consegne seguono un calendario rituale preciso",
-        "payoff": "Permette di prevedere la prossima consegna e tendere un'imboscata",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Mappa della necropoli antica",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il tunnel punta specificamente alla tomba di Ivor",
-        "payoff": "Rivela l'obiettivo finale dell'Ordine dei Piangenti",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Libro di necromanzia del Culto",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "L'Ordine dei Piangenti pratica necromanzia regale",
-        "payoff": "Conferma il piano di resurrezione e fornisce dettagli sul rituale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Testimonianza dell'araldo dell'arena",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Rathar ha incontrato la Donna Servitrice prima di morire",
-        "payoff": "Collega la morte di Rathar all'Ordine dei Piangenti",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Note investigative di Rathar",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Rathar stava indagando sull'Ordine dei Piangenti",
-        "payoff": "Spiega perché è stato eliminato e fornisce indizi sulle attività del culto",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Testimonianza di Arsalan sui contatti di Carac",
-        "type": "testimony",
-        "thread_id": "T1",
-        "source_location": "",
-        "reveals": "Carac ha un contatto femminile misterioso legato ai cicli lunari",
-        "payoff": "Identifica la Donna Servitrice come intermediaria e collega alle consegne notturne",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Segni di scavo recente sotto il palazzo",
-        "type": "location_detail",
-        "thread_id": "T8",
-        "source_location": "",
-        "reveals": "Il tunnel origina sotto il palazzo dell'Emiro",
-        "payoff": "Fornisce un punto d'accesso alternativo e conferma l'uso degli artefatti",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_9",
-        "label": "Comportamento evasivo della Donna Servitrice",
-        "type": "behavior",
-        "thread_id": "T5",
-        "source_location": "",
-        "reveals": "La donna è coinvolta in attività illecite ed è membro del culto",
-        "payoff": "Giustifica seguirla o interrogarla più approfonditamente",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_10",
-        "label": "Graffiti di gang a Deadman's Row",
-        "type": "location_detail",
-        "thread_id": "T6",
-        "source_location": "",
-        "reveals": "Anche i criminali locali sanno che Carac lavora per un culto",
-        "payoff": "Conferma il soprannome dell'Ordine dei Piangenti e la loro base operativa",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -9364,8 +9124,8 @@
         "secret": "Non sa di lavorare per un culto della morte che sta scavando sotto il palazzo dell'Emiro per risvegliare un antico tiranno. Crede siano solo consegne di contrabbando ordinarie.",
         "agenda_pressure": 0,
         "fear": "Essere catturato dalle autorità per l'assalto al nobile e alla sua promessa sposa",
-        "current_plan": "Completare le ultime tre consegne di manufatti lunagranati al ponte vecchio questa settimana, incassare l'argento e fuggire da Tredroy via nave mercantile diretta a sud. Evitare le guardie dormendo in magazzini diversi ogni notte.",
-        "fallback_plan": "Se scoperto, usare il tunnel segreto sotto la conceria del Porto Vecchio per raggiungere le fogne e da lì le catacombe antiche che sbucano fuori città. Ha nascosto provviste e un pugnale in tre nascondigli d'emergenza lungo il percorso.",
+        "current_plan": "Rimanere nascosto nella conceria fino al tramonto, poi raggiungere la casa del vasaio Meren nella Città dei Templi per ritirare il prossimo pacco. Consegnarlo al ponte del Lamento Nero verso mezzanotte, ricevere le 4 monete d'argento, tornare prima dell'alba.",
+        "fallback_plan": "Se scoperto o braccato: rubare un cavallo dalle stalle del caravanserraglio orientale e fuggire verso Keth-Morah oltre il confine, dove ha un cugino contrabbandiere. Bruciare tutto nella conceria che possa collegarlo alle consegne. In alternativa, nascondersi nelle fogne sotto il Quartiere Vecchio per 3-4 giorni finché le ricerche non si calmano.",
         "resources": [
           "accessi",
           "contatti",
@@ -9387,16 +9147,16 @@
           "Tradire i suoi complici rimasti"
         ],
         "pressure_response": {
-          "low": "Carac nega tutto con calma disarmante, offrendo alibi preparati e nomi falsi. Fa battute sarcastiche sui nobili e sulla giustizia. Osserva attentamente chi lo interroga cercando debolezze.",
-          "medium": "Diventa nervoso e difensivo. Ammette di fare consegne notturne ma giura che è solo contrabbando di seta e spezie. Offre di fare nomi di altri piccoli criminali per distogliere l'attenzione. Inizia a sudare quando si parla del ponte o del palazzo.",
-          "high": "Crolla parzialmente. Confessa le consegne al ponte vecchio per un incappucciato che paga in argento lunare. Descrive i manufatti strani - pietre che brillano di luce fredda, pergamene con sigilli rossi. Implora protezione, ammette di aver visto ombre che non dovrebbero esistere vicino al ponte.",
-          "extreme": "Terrorizzato, rivela tutto: i percorsi sotterranei che ha scoperto per caso, i canti strani sotto il palazzo dell'Emiro di notte, i suoi sospetti che i suoi datori di lavoro non siano mercanti ma qualcosa di molto peggiore. Offre di guidare i PG ai luoghi di consegna se lo proteggono dalla forca E da chi lo ha assunto."
+          "low": "Evita i PG, cambia percorsi notturni, usa i tetti e i vicoli che conosce bene. Continua le consegne ma con maggiore cautela, arrivando al ponte da direzioni diverse ogni notte.",
+          "medium": "Si barrica nel suo nascondiglio nella Città Bassa (una vecchia conceria abbandonata). Minaccia di rivelare i nomi dei nobili che comprano i suoi manufatti rubati se la guardia lo stringe troppo. Considera di fuggire oltre il confine orientale.",
+          "high": "Prende in ostaggio qualcuno (preferibilmente un mercante o un bambino) per negoziare un salvacondotto. Rivela parzialmente la rete di consegne al ponte, ma solo per sviare l'attenzione da sé. Chiede aiuto al suo contatto incappucciato promettendo doppia fedeltà.",
+          "extreme": "Tenta una fuga suicida attraverso il Mercato delle Tre Bandiere durante l'ora di punta, seminando il panico. Se catturato, offre di portare i PG al ponte e mostrare l'intera operazione in cambio della vita, tradendo completamente i suoi datori di lavoro senza sapere chi siano realmente."
         },
         "reaction_table": {
-          "se_minacciato": "Fugge verso i tetti del quartiere portuale dove conosce ogni passaggio. Combatte solo se accantonato, usando sporco (sabbia negli occhi, calci bassi). Può barattare informazioni in cambio della vita.",
-          "se_corrotto": "Accetta denaro ma è diffidente - troppi lo hanno tradito. Risponde meglio a promesse concrete (lasciapassare, cancellazione della taglia). Offre mezze verità finché non si fida davvero.",
-          "se_i_pg_hanno_prove": "Si irrigidisce e valuta le opzioni. Se le prove lo legano alle consegne notturne, cerca di capovolgere la situazione: 'Volete me o volete sapere cosa stanno DAVVERO muovendo sotto questa città?' Fa leva sulla minaccia più grande.",
-          "se_alleato": "Diventa risorsa preziosa: conosce i vicoli, i contatti criminali, i movimenti della guardia. Ma è paranoico - controlla sempre le vie di fuga e nasconde informazioni 'di riserva' caso i PG lo tradiscano. Leale solo finché conviene."
+          "se_minacciato": "Reagisce con violenza istintiva - estrae il suo pugnale ricurvo e mira alle gambe per fuggire, non per uccidere. Urla che è stato incastrato, che il nobile ha aggredito prima lui.",
+          "se_corrotto": "Accetta denaro solo se superiore a 50 monete d'oro (quanto guadagnerebbe in un mese di consegne). Chiede garanzie scritte di immunità. Offre informazioni parziali: dove prende i pacchi, ma non chi glieli dà né cosa contengono esattamente.",
+          "se_i_pg_hanno_prove": "Crolla nervosamente, si morde le unghie. Ammette le consegne al ponte ma giura di non sapere cosa trasporta - 'pacchi avvolti in tela cerata, pesanti come pietra'. Supplica di non essere consegnato alla giustizia dell'Emiro, preferisce quella delle altre due nazioni.",
+          "se_alleato": "Diventa servile e informatore. Porta i PG a osservare il ponte di notte (senza avvicinarsi troppo). Descrive il suo contatto: figura incappucciata, voce femminile?, odore di incenso e terra bagnata. Si offre di infiltrare una consegna falsa se lo proteggono."
         },
         "pressure_events": [],
         "relationships": [
@@ -9433,8 +9193,8 @@
         "secret": "Era coinvolto nel traffico di manufatti magici lunagranate per il culto",
         "agenda_pressure": 0,
         "fear": "che Consegne notturne di Carac al ponte dell'Emiro riveli il suo ruolo",
-        "current_plan": "Continuare a ricevere manufatti lunagranati dalle rotte di contrabbando attraverso i combattimenti nell'arena come copertura, consegnandoli al contatto del culto ogni luna nuova nel magazzino 7 del porto.",
-        "fallback_plan": "Se scoperto, incolpare tutto su Marvek il Tatuato, suo ex socio gladiatore ora scomparso, fingendo di essere stata una vittima ignara. In extremis, fuggire a Kelmar oltre il confine usando l'identità falsa di mercante di vini 'Othren Grisk'.",
+        "current_plan": "Continuare a gestire l'arena come facciata legittima mentre usa i combattenti e gli spettatori come corrieri inconsapevoli di manufatti lunagranate. Sfruttare il caos della caccia a Carac per intensificare le spedizioni verso il culto.",
+        "fallback_plan": "Se scoperto, incolpare tutto su un combattente dell'arena già morto, fingendosi vittima del culto. In extremis, attivare i suoi contatti alle frontiere delle tre nazioni per sparire con un'identità falsa come mercante di bestiame.",
         "resources": [
           "accessi",
           "contatti",
@@ -9450,16 +9210,16 @@
           "che Consegne notturne di Carac al ponte dell'Emiro riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Mantiene un tono affabile e professionale, offrendo lavori ben pagati nell'arena o come 'scorta' per carichi speciali. Evita qualsiasi riferimento ai lunagranati.",
-          "medium": "Diventa evasivo e irritabile. Minaccia di far intervenire i suoi contatti tra le guardie cittadine. Offre denaro o favori per chiudere la questione.",
-          "high": "Tenta di eliminare i PG usando i suoi gladiatori più fedeli o denunciandoli falsamente alle autorità per possesso di manufatti lunagranati rubati.",
-          "extreme": "Fugge da Tredroy attraverso i tunnel del contrabbando sotto l'arena, lasciando che il culto si occupi dei PG. Brucia prove e tradisce eventuali complici."
+          "low": "Rathar si mostra affabile e disponibile, offrendo ai PG lavori secondari nell'arena o come corrieri per 'mercanzia delicata'. Parla di Tredroy come di un luogo di opportunità per chi non fa troppe domande.",
+          "medium": "Rathar diventa evasivo riguardo ai suoi traffici. Invia scagnozzi a sorvegliare i PG e fa sparire prove compromettenti. Offre grosse somme per comprare il loro silenzio o distrarli con false piste su Carac il Rovo.",
+          "high": "Rathar attiva i suoi contatti nel culto lunagranate per minacciare i PG. Organizza 'incidenti' nell'arena o agguati nei vicoli del mercato nero. Cerca disperatamente di incastrarli per crimini che non hanno commesso.",
+          "extreme": "Rathar fugge da Tredroy usando i tunnel di contrabbando sotto la città, portando con sé i manufatti lunagranate più preziosi. Lascia che i suoi uomini affrontino i PG mentre lui cerca rifugio presso il culto oltre confine, sacrificando la sua rete a Tredroy."
         },
         "reaction_table": {
-          "se_minacciato": "Chiama i suoi gladiatori come 'sicurezza'. Se è solo, cerca di guadagnare tempo fingendo cooperazione mentre attiva segnali d'emergenza nascosti.",
-          "se_corrotto": "Accetta se la somma supera il suo guadagno dal culto (almeno 500 monete d'oro). Tradirà comunque i PG al culto se il prezzo sale ulteriormente.",
-          "se_i_pg_hanno_prove": "Tenta disperatamente un accordo: rivelerà chi nel culto lo ricatta (il nome di un 'Sacerdote della Luna Nera') in cambio di fuga sicura.",
-          "se_alleato": "Fornisce accesso ai tunnel sotto l'arena e informazioni sui movimenti del culto. Tradirà i PG se scopre che sono ricercati o se il culto minaccia la sua famiglia."
+          "se_minacciato": "Fa appello alla sua reputazione di uomo d'affari rispettabile. Se accerchiato, offre un combattimento d'arena truccato dove i PG possono 'vincere' grosse somme in cambio del loro silenzio sui lunagranate.",
+          "se_corrotto": "Accetta volentieri, offrendo una quota sui profitti del contrabbando e accesso alle fosse dell'arena per allenamento privato. Propone ai PG di eliminare un rivale del culto presentandolo come criminale comune.",
+          "se_i_pg_hanno_prove": "Tenta prima di distruggerle tramite un incendio 'accidentale'. Se fallisce, propone di tradire il culto lunagranate rivelando la posizione del loro santuario nascosto, in cambio di immunità e di mantenere i profitti dell'arena.",
+          "se_alleato": "Coinvolge i PG nei suoi traffici, usando l'arena come copertura per far circolare i manufatti lunagranate. Condivide informazioni su Carac il Rovo, sapendo che la caccia all'uomo distrae le guardie dalle sue attività illecite."
         },
         "pressure_events": [],
         "relationships": [
@@ -9486,8 +9246,8 @@
         "secret": "Detiene informazioni chiave sulle consegne di Carac all'Emir's Bridge",
         "agenda_pressure": 0,
         "fear": "Essere catturato insieme a Carac e subire le stesse conseguenze legali",
-        "current_plan": "Completare le prossime tre consegne all'Emir's Bridge questa settimana per guadagnare abbastanza da pagare i debiti di gioco accumulati alla taverna Il Cinghiale d'Oro",
-        "fallback_plan": "Se Carac viene catturato o le consegne vengono scoperte, scappare verso il quartiere dei tessitori dove suo cugino gestisce una tintoria e può nasconderlo finché le acque si calmano",
+        "current_plan": "Completare la consegna prevista per domani notte all'Emir's Bridge, intascare i 15 scudi d'argento promessi da Carac e poi sparire dalla circolazione per qualche settimana",
+        "fallback_plan": "Se scoperto o se Carac viene catturato, accusare Carac di averlo ricattato e costretto, rivelare tutto alle autorità in cambio di immunità e fuggire verso il quartiere mercantile dove ha un cugino oste",
         "resources": [
           "accessi",
           "contatti",
@@ -9509,16 +9269,16 @@
           "Perdere la sua reputazione di velocità e affidabilità"
         ],
         "pressure_response": {
-          "low": "Risponde con battute nervose e devia le domande, facendo l'ignorante sulle consegne notturne. Si offre di portare i PG a bere qualcosa per cambiare discorso.",
-          "medium": "Ammette di aver fatto qualche consegna per Carac, ma minimizza: 'Solo pacchi, roba da niente, giuro!' Cerca di scaricare tutto su Carac dicendo di essere stato ingannato.",
-          "high": "Crolla e rivela il punto di consegna all'Emir's Bridge, ma supplica i PG di non dire a Carac che ha parlato. Offre di spartire i suoi guadagni del contrabbando in cambio di protezione.",
-          "extreme": "Tradisce completamente Carac rivelando orari, contenuti delle consegne e nomi dei ricettatori. Si offre di testimoniare contro di lui pur di salvarsi la pelle, terrorizzato dalle conseguenze."
+          "low": "Arsalan si mostra disponibile e chiacchierone, vantandosi delle sue 'conoscenze giuste' a Tredroy e dei soldi facili che si possono fare con i giri notturni",
+          "medium": "Inizia a sudare e balbettare, ammettendo di aver fatto qualche consegna per Carac ma minimizzando il suo coinvolgimento: 'Solo pacchi, io non guardo dentro, giuro!'",
+          "high": "Crolla nervosamente e rivela il punto di incontro all'Emir's Bridge, specificando che Carac incontra sempre qualcuno incappucciato ogni tre notti sotto il terzo arco",
+          "extreme": "Piangendo, tradisce completamente Carac rivelando l'intero sistema di segnali luminosi usato per le consegne e offre di fare da esca in cambio della propria libertà"
         },
         "reaction_table": {
-          "se_minacciato": "Si rannicchia e balbetta che è solo un fattorino, che non sa niente di importante. Piagnucola che ha famiglia da sfamare.",
-          "se_corrotto": "Gli occhi gli si illuminano all'idea di denaro facile. Inizia a 'ricordare' dettagli utili sulle rotte e gli orari, contrattando sul prezzo delle informazioni.",
-          "se_i_pg_hanno_prove": "Diventa pallido e sudato. Cerca disperatamente di negoziare, offrendosi come informatore continuativo in cambio del silenzio.",
-          "se_alleato": "Diventa eccessivamente amichevole e loquace, rivelando più del necessario sulle operazioni di Carac per impressionare i PG e sentirsi importante."
+          "se_minacciato": "Si rannicchia e offre immediatamente informazioni parziali, cercando di salvare la pelle senza tradire completamente Carac per paura di ritorsioni future",
+          "se_corrotto": "Accetta denaro con occhi avidi, rivelando orari e luoghi delle consegne ma omettendo dettagli sul destinatario finale per preservare future opportunità di guadagno",
+          "se_i_pg_hanno_prove": "Nega disperatamente finché non viene mostrato qualcosa di concreto, poi ammette tutto cercando di dipingersi come vittima costretta da Carac",
+          "se_alleato": "Scambia informazioni volentieri se i PG promettono di proteggerlo dalle guardie e da eventuali vendette di Carac, chiedendo anche una percentuale del bottino recuperato"
         },
         "pressure_events": [],
         "relationships": [
@@ -9545,8 +9305,8 @@
         "secret": "È un membro dell'Ordine dei Piangenti, un culto della morte che cerca di risvegliare il Principe Ivor. Il portale sotto il ponte conduce a un tunnel che attraversa Tredroy verso le catacombe.",
         "agenda_pressure": 0,
         "fear": "Che il tunnel e le operazioni del culto dell'Ordine dei Piangenti vengano scoperti prima di trovare la tomba",
-        "current_plan": "Ricevere le tre casse di manufatti lunagranati dal contrabbandiere al magazzino del porto est dopo il tramonto. Trasportarle una alla volta attraverso il portale nascosto sotto il Ponte delle Tre Corone, consegnandole al fratello Velus negli scavi sotto il palazzo ducale.",
-        "fallback_plan": "Se scoperta o inseguita, abbandonare le casse e raggiungere il portale per avvisare Velus di sospendere gli scavi. In caso estremo, attivare il sigillo di sangue che fa crollare l'ingresso del tunnel, anche a costo di rimanere intrappolata.",
+        "current_plan": "Ricevere le tre casse di manufatti lunagranati dal contrabbandiere al molo orientale dopo il tramonto, trasportarle fingendosi serva che porta provviste, accedere al portale sommerso sotto il Ponte delle Tre Corone e consegnarle al mago Tertius nelle catacombe",
+        "fallback_plan": "Se intercettata, abbandonare le casse e fuggire attraverso il sistema fognario verso il santuario segreto dei Piangenti nella Cripta Vecchia, dove può avvisare il culto e organizzare il recupero dei manufatti in un secondo momento usando altri membri dormienti nella servitù cittadina",
         "resources": [
           "accessi",
           "contatti",
@@ -9568,16 +9328,16 @@
           "Che Carac venga catturato e interrogato prima del completamento degli scavi"
         ],
         "pressure_response": {
-          "low": "Mantiene un contegno servile e dimesso, evita il contatto visivo. Risponde con monosillabi e si affanna a sembrare utile e insignificante. Continua a controllare nervosamente l'orologio da tasca argentato.",
-          "medium": "Diventa evasiva e balbetta, inventando scuse sul dover servire altri padroni. Si torce le mani ossute e accenna sorrisi innaturali. Cerca di allontanarsi verso il ponte, sostenendo di dover recuperare provviste urgenti.",
-          "high": "Gli occhi le si fanno vitrei e la voce assume un tono monocorde, quasi in trance. Mormora frammenti di litanie funebri in una lingua antica. Stringe convulsamente il medaglione a forma di luna piangente nascosto sotto la blusa.",
-          "extreme": "Si lacera la pelle del polso con l'unghia del pollice, tracciando il sigillo di Ivor nel sangue. Invoca i morti sepolti sotto Tredroy perché si destino e puniscano i profanatori. Tenta di raggiungere il portale costi quel che costi, anche a costo della propria vita."
+          "low": "Mantiene il suo ruolo di serva obbediente, deviando domande sulle casse con \"Porto solo ciò che mi viene ordinato, messere\" e preparando vie di fuga verso il portale sotto il ponte",
+          "medium": "Inizia a fingere panico e confusione, versando lacrime false e invocando la protezione dei nobili che serve, mentre nasconde discretamente simboli lunari sul suo corpo",
+          "high": "Tenta di fuggire verso il portale sotto il ponte, urlando che i PG sono aggressori e chiamando le guardie cittadine come diversivo per la sua fuga",
+          "extreme": "Rompe una fiala di veleno lunagranato per creare una nube tossica, poi si getta nel canale per raggiungere il portale sommerso, preferendo annegare piuttosto che rivelare la posizione del tunnel verso le catacombe"
         },
         "reaction_table": {
-          "se_minacciato": "Finge un collasso isterico, poi tenta la fuga verso il ponte. Se bloccata, offre informazioni false sui manufatti lunagranati, dicendo che sono destinati a un mercante di antiquariato rispettabile.",
-          "se_corrotto": "Accetta denaro con mani tremanti, ma lo usa come distrazione. Promette informazioni sul vero nascondiglio di Carac se la lasciano andare, poi scompare nel primo vicolo utile dirigendosi ai tunnel.",
-          "se_i_pg_hanno_prove": "Crolla psicologicamente e confessa parzialmente: ammette di lavorare per 'cultisti della luna' ma giura di essere solo una corriere, non una vera iniziata. Supplica pietà per suo figlio malato (una bugia).",
-          "se_alleato": "Riconosce nei PG potenziali 'eletti' e tenta cauta conversione: parla del Principe Ivor come liberatore che porterà giustizia ai dimenticati. Offre di mostrare 'meraviglie sotto la città' se la seguono."
+          "se_minacciato": "Invoca i suoi doveri verso i nobili e minaccia rappresaglie legali, ma inizia silenziosamente a pregare il Principe Ivor in lingua antica, attivando tatuaggi nascosti che brillano di luce lunare",
+          "se_corrotto": "Finge di accettare denaro ma lo usa per identificare i PG come \"mercenari senza onore\" alle autorità, mentre avvisa il mago del culto tramite un uccello messaggero notturno",
+          "se_i_pg_hanno_prove": "Ammette di trasportare \"reliquie religiose\" per un \"gruppo di studiosi\", sostiene che il tunnel è solo una via di pellegrinaggio segreta, offre di portare i PG dal \"sacerdote\" (in realtà in un'imboscata)",
+          "se_alleato": "Propone ai PG di unirsi alla \"vera causa\": il risveglio del Principe Ivor porterà ordine a Tredroy e vendetta contro i nobili corrotti, offre accesso ai manufatti lunagranati come potere"
         },
         "pressure_events": [],
         "relationships": [
@@ -9609,8 +9369,8 @@
         "secret": "Il suo sarcofago è nascosto nelle catacombe antiche e il culto sta per trovarlo",
         "agenda_pressure": 0,
         "fear": "Rimanere sepolto e dimenticato per sempre nelle catacombe",
-        "current_plan": "Guidare telepaticamente l'Ordine dei Piangenti attraverso i tre strati di sigilli runnici che sigillano le catacombe profonde, usando sangue nobile come chiave finale per spezzare l'ultimo incantesimo di contenimento",
-        "fallback_plan": "Se il risveglio completo fallisce, trasferire la propria essenza in un cultista preparato come vessel temporaneo, per poi orchestrare un rituale di massa durante l'eclissi lunare che avverrà tra tre mesi",
+        "current_plan": "I Piangenti completano il Rituale delle Cinque Lacrime: sangue di nobile (ottenuto tramite Carac), terra consacrata dai tre regni, ceneri di giudice giusto, lacrima di vedova sincera, e osso di traditore. Il risveglio avverrà durante la congiunzione lunare in tre notti.",
+        "fallback_plan": "Se il rituale fallisce, Ivor possiederà spiritualmente il nobile più potente di Tredroy attraverso un antico anello maledetto che i Piangenti hanno già fatto recapitare come 'dono diplomatico'. Ricostruirà il suo potere lentamente dall'interno del governo cittadino.",
         "resources": [
           "accessi",
           "contatti",
@@ -9631,16 +9391,16 @@
           "Che i suoi nemici storici scoprano la sua posizione"
         ],
         "pressure_response": {
-          "low": "Resta dormiente nel suo sarcofago, mentre i suoi sogni filtrano attraverso le mura antiche come sussurri velenosi che influenzano i membri dell'Ordine",
-          "medium": "Il suo spirito si manifesta in visioni ai cultisti più devoti, guidandoli verso le ultime barriere magiche che lo imprigionano e accelerando il rituale",
-          "high": "Si risveglia parzialmente: la sua coscienza possiede temporaneamente i sacerdoti dell'Ordine, parlando con voce cavernosa attraverso le loro bocche insanguinate",
-          "extreme": "Emerge completamente dal sarcofago come signore non-morto, con armatura corrosa fusa alla carne mummificata, pronto a radunare un esercito di ombre per riprendere la conquista"
+          "low": "I Piangenti accelerano gli scavi nelle catacombe, sacrificando discrezione per velocità. Strani sogni afflggono sensitivi e chierici in città.",
+          "medium": "Il culto attira l'attenzione su Carac il Rovo come capro espiatorio perfetto. Ivor proietta visioni dalla sua prigionia, corrompendo membri della guardia cittadina.",
+          "high": "I Piangenti aprono forzatamente il sarcofago anche senza completare il rituale. Ivor emerge parzialmente risvegliato, assetato di sangue reale per completare la rigenerazione.",
+          "extreme": "Ivor si risveglia incompletamente, possedendo il corpo del sommo sacerdote dei Piangenti. Lancia un attacco disperato al quartiere nobile per divorare essenze vitali."
         },
         "reaction_table": {
-          "se_minacciato": "Invia visioni terrificanti ai PG nei loro sogni, mostrando le conquiste passate e manipolando i loro peggiori timori; ordina ai cultisti di eliminarli a qualsiasi costo",
-          "se_corrotto": "Impossibile corromperlo - lui è la corruzione incarnata; ma potrebbe tentare di corrompere i PG promettendo potere immortale se lo serviranno come generali",
-          "se_i_pg_hanno_prove": "Ordina all'Ordine di scatenare caos a Tredroy per distrarre le autorità, usando Carac il Rovo come capro espiatorio per crimini rituali più gravi",
-          "se_alleato": "Farebbe false promesse di condivisione del potere, ma tradirebbe immediatamente: considera tutti gli esseri viventi come futuri sudditi o cadaveri"
+          "se_minacciato": "Ordina ai Piangenti di collassare le gallerie delle catacombe, seppellendo prove e inseguitori. Maledice i PG con marchi spirituali che attirano non-morti.",
+          "se_corrotto": "Promette conoscenze proibite sulle Guerre dell'Eclissi e il segreto per prolungare la vita. Chiede solo 'una goccia del sangue di chi governa' come pegno.",
+          "se_i_pg_hanno_prove": "I Piangenti scatenano attacchi terroristici simultanei ai tre consolati per creare caos. Ivor sussurra bugie dalle ombre, accusando fazioni rivali del culto.",
+          "se_alleato": "Offre ai PG posizioni di comando nel nuovo regno che edificherà. Rivela la posizione di antichi arsenali e tesori sepolti come prova di buona fede."
         },
         "pressure_events": [],
         "relationships": [],
@@ -9661,8 +9421,8 @@
         "secret": "Sta usando gli artefatti lunagranati contrabbandati da Carac per demolire sezioni delle catacombe. Ha scavato nella direzione sbagliata per settimane ma ha recentemente capito l'errore.",
         "agenda_pressure": 0,
         "fear": "Che i suoi scavi vengano scoperti prima di completare l'excavazione e risvegliare il Principe Ivor",
-        "current_plan": "Continuare gli scavi notturni nella direzione corretta appena individuata, usando piccole cariche di lunagrana per evitare attenzioni. Raggiungere il sarcofago prima del Festival della Luna Calante.",
-        "fallback_plan": "Se scoperto, incolpare Carac del contrabbando e degli scavi, presentandosi come investigatore dell'Emiro. In extremis, sigillare l'ingresso delle catacombe con un crollo e tornare con una squadra completa dell'Ordine.",
+        "current_plan": "Usare gli ultimi tre artefatti lunagranati per demolire la parete est del livello inferiore, dove antichi glifi indicano la camera funeraria principale. Completare l'accesso entro la prossima luna piena.",
+        "fallback_plan": "Se scoperto prima del recupero, innescare un crollo totale delle catacombe sigillando il sarcofago per secoli, negandolo a tutti. Fuggire attraverso i tunnel dei contrabbandieri verso il quartiere portuale, poi incolpare Carac dell'intero schema.",
         "resources": [
           "accessi",
           "contatti",
@@ -9684,16 +9444,16 @@
           "Il crollo prematuro dei tunnel prima di trovare il sarcofago"
         ],
         "pressure_response": {
-          "low": "Continua gli scavi notturni, facendo passare i crolli per cedimenti strutturali naturali. Paga informatori tra i lavoratori del palazzo per monitorare le indagini dell'Emiro.",
-          "medium": "Accelera le demolizioni usando dosi massicce di lunagrana, rischiando esplosioni più evidenti. Inizia a eliminare testimoni scomodi tra gli operai delle catacombe.",
-          "high": "Tenta di incastrare Carac o i PG per i crolli, dirigendo le autorità verso di loro. Prepara un ultimo scavo disperato nella nuova direzione, anche a costo di far crollare parte del palazzo.",
-          "extreme": "Sfonda direttamente verso il sarcofago con tutta la lunagrana rimasta, accettando di morire nel crollo pur di raggiungere l'obiettivo. Rivela la sua vera identità e missione all'Ordine prima del sacrificio finale."
+          "low": "Continua gli scavi notturni metodicamente, usando gli artefatti lunagranati con parsimonia. Invia apprendisti a mappare le nuove sezioni scoperte e a cercare simboli funerari regali.",
+          "medium": "Accelera le demolizioni usando più artefatti contemporaneamente, rischiando crolli e attirando l'attenzione delle guardie dell'Emiro. Inizia a eliminare testimoni scomodi tra i contrabbandieri.",
+          "high": "Abbandona ogni cautela e fa detonare un'intera sezione delle catacombe, causando cedimenti strutturali nel palazzo soprastante. Prepara un rituale di risveglio parziale per localizzare il Principe tramite necromanzia.",
+          "extreme": "Apre deliberatamente il sarcofago sul posto appena trovato, anche se incompletamente preparato. Tenta di animare il Principe Ivor come non-morto servitore piuttosto che rischiare di perderlo."
         },
         "reaction_table": {
-          "se_minacciato": "Nega tutto con calma glaciale, poi tenta di corromperli. Se fallisce, li fa seguire da assassini dell'Ordine 'per sicurezza'.",
-          "se_corrotto": "Accetta solo se i PG gli forniscono mappe accurate delle catacombe o aiuto concreto negli scavi. Non tradisce mai l'Ordine.",
-          "se_i_pg_hanno_prove": "Propone uno scambio: la sua conoscenza sulla Luna di Spine in cambio del loro silenzio fino al completamento della missione.",
-          "se_alleato": "Condivide informazioni parziali sul sarcofago, ma non rivela mai il vero scopo dell'Ordine per i resti del Principe Ivor."
+          "se_minacciato": "Chiama guardie corrotte dell'Ordine sostenendo che i PG sono profanatori di tombe. Usa un artefatto lunagranato per far crollare tunnel e intrappolarli sottoterra con lui.",
+          "se_corrotto": "Finge di accettare denaro, poi conduce i corruttori in una sezione instabile delle catacombe per farli morire in un crollo 'accidentale'. L'Ordine non condivide i morti.",
+          "se_i_pg_hanno_prove": "Accusa pubblicamente Carac di essere il vero mandante degli scavi illegali, presentando documenti falsificati. Offre di 'collaborare' conducendo i PG verso trappole preistoriche nelle catacombe.",
+          "se_alleato": "Rivela la vera ubicazione del sarcofago e propone un patto: aiuto per aprirlo in cambio di accesso ai segreti funebri del Principe. Nasconde che il risveglio causerà una piaga necrotica."
         },
         "pressure_events": [],
         "relationships": [
@@ -9727,7 +9487,6 @@
           "llm_clue_4"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -9762,14 +9521,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9782,7 +9533,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -9812,18 +9562,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tredroy",
-        "location_type": "regional",
-        "connections_to": [
-          "city_arena",
-          "emirs_bridge",
-          "mercenaries_guild"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9836,7 +9574,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -9867,17 +9604,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tredroy",
-        "location_type": "regional",
-        "connections_to": [
-          "deadmans_row",
-          "emirs_palace"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9894,7 +9620,6 @@
           "llm_clue_8"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -9929,18 +9654,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tredroy",
-        "location_type": "regional",
-        "connections_to": [
-          "deadmans_row",
-          "blueshoal_river",
-          "secret_tunnel"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9953,7 +9666,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -9983,17 +9695,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tredroy",
-        "location_type": "regional",
-        "connections_to": [
-          "city_arena",
-          "palace_catacombs"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10006,7 +9707,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -10036,16 +9736,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "emirs_bridge",
-        "location_type": "local",
-        "connections_to": [
-          "palace_catacombs"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10058,7 +9748,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -10088,16 +9777,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "emirs_palace",
-        "location_type": "local",
-        "connections_to": [
-          "secret_tunnel"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10110,7 +9789,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -10140,16 +9818,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tredroy",
-        "location_type": "regional",
-        "connections_to": [
-          "emirs_bridge"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10162,7 +9830,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -10192,16 +9859,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tredroy",
-        "location_type": "regional",
-        "connections_to": [
-          "deadmans_row"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10290,270 +9947,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Chi è veramente il mandante di Carac?",
-        "question": "Chi ha assoldato Carac per rubare artefatti di lunagranite e perché?",
-        "true_answer": "L'Ordine dei Piangenti, tramite la Donna Servitrice, per scavare il tunnel verso la tomba del Principe Ivor",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_1",
-          "llm_clue_3",
-          "llm_clue_5"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Carac the Thorn",
-          "Unusual Servant Woman"
-        ],
-        "linked_locations": [
-          "Emir's Bridge",
-          "Secret Tunnel"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Qual è il vero obiettivo del tunnel?",
-        "question": "Cosa cerca l'Ordine dei Piangenti scavando sotto Tredroy?",
-        "true_answer": "Raggiungere la tomba segreta del Principe Ivor per riportarlo in vita usando rituali necromantici",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_8",
-          "llm_clue_9",
-          "llm_clue_10"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [
-          "T11"
-        ],
-        "linked_npcs": [
-          "Prince Ivor",
-          "Unusual Servant Woman"
-        ],
-        "linked_locations": [
-          "Secret Tunnel",
-          "Emir's Palace"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Perché Rathar Trygg doveva morire?",
-        "question": "Chi ha orchestrato la morte di Rathar Trygg e per quale motivo?",
-        "true_answer": "L'Ordine dei Piangenti lo ha eliminato perché stava indagando sulle attività sospette vicino al ponte dell'Emiro",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "llm_clue_2",
-          "llm_clue_7"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Rathar Trygg",
-          "Arsalan",
-          "Unusual Servant Woman"
-        ],
-        "linked_locations": [
-          "City Arena",
-          "Emir's Bridge"
-        ]
-      },
-      {
-        "id": "T1",
-        "title": "T1",
-        "question": "Dove e quando avvengono le consegne notturne di Carac e chi è il suo intermediario?",
-        "true_answer": "Carac consegna gli artefatti lunagranite al Ponte dell'Emiro durante la notte. La Donna Servitrice agisce come intermediaria tra lui e i cultisti, ricevendo le consegne e trasportandole nel tunnel sotterraneo.",
-        "collected_clue_ids": [
-          "llm_clue_1",
-          "nuovo_clue_7"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T2",
-        "title": "T2",
-        "question": "La morte di Rathar Trygg nell'arena è stata davvero un incidente?",
-        "true_answer": "No. Rathar Trygg fu assassinato nell'arena per nascondere il suo coinvolgimento nel contrabbando di artefatti lunagranite per il culto. La sua morte è direttamente collegata alle operazioni del culto della morte.",
-        "collected_clue_ids": [
-          "llm_clue_2"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T3",
-        "title": "T3",
-        "question": "Cosa sono gli artefatti lunagranite che Carac sta contrabbandando e a cosa servono?",
-        "true_answer": "Gli artefatti lunagranite sono esplosivi magici estremamente potenti. Il culto li sta usando per demolire le pareti delle catacombe sotto il palazzo dell'Emiro, cercando di raggiungere la tomba del Principe Ivor.",
-        "collected_clue_ids": [
-          "llm_clue_3"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T5",
-        "title": "T5",
-        "question": "Dove conduce il comportamento sospetto della Donna Servitrice?",
-        "true_answer": "La Donna Servitrice usa un portale segreto vicino al Ponte dell'Emiro per accedere a un tunnel sotterraneo. Seguendola o interrogandola si scopre l'entrata alla rete di tunnel del culto che attraversa Tredroy.",
-        "collected_clue_ids": [
-          "llm_clue_5",
-          "nuovo_clue_9"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T6",
-        "title": "T6",
-        "question": "Cosa possono scoprire i PG indagando su Deadman's Row, il quartiere da cui proviene Carac?",
-        "true_answer": "A Deadman's Row si trovano graffiti e informatori che rivelano che Carac lavora per l'Ordine dei Piangenti, il culto della morte che ha la sua base operativa nel quartiere povero. I vicoli nascondono anche nascondigli usati da Carac.",
-        "collected_clue_ids": [
-          "llm_clue_6",
-          "nuovo_clue_10"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T7",
-        "title": "T7",
-        "question": "Cosa sa Arsalan al-Bir sulle attività di Carac?",
-        "true_answer": "Arsalan al-Bir è un intermediario che conosce i dettagli delle operazioni di contrabbando di Carac, inclusi gli orari precisi e i luoghi delle consegne notturne al Ponte dell'Emiro, oltre a informazioni sul culto.",
-        "collected_clue_ids": [
-          "llm_clue_7"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Dove conducono i tunnel sotto il Ponte dell'Emiro?",
-        "true_answer": "Il tunnel attraversa mezza Tredroy ed è stato recentemente scavato fino a raggiungere le catacombe sotto il palazzo dell'Emiro. I segni di scavo recente mostrano che i cultisti stanno usando gli esplosivi lunagranite per demolire le antiche mura.",
-        "collected_clue_ids": [
-          "llm_clue_8",
-          "nuovo_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T9",
-        "title": "T9",
-        "question": "Chi è il Principe Ivor e perché il culto lo cerca?",
-        "true_answer": "Il Principe Ivor fu un tiranno che regnò sei secoli fa. Il culto sta cercando il suo sarcofago nelle catacombe per resuscitarlo e riportarlo al potere su Tredroy attraverso rituali necromantici.",
-        "collected_clue_ids": [
-          "llm_clue_9"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T10",
-        "title": "T10",
-        "question": "Quanto tempo rimane prima che il culto raggiunga il suo obiettivo?",
-        "true_answer": "Il mago del culto ha scavato nella direzione sbagliata, ma ora ha corretto la rotta. La prossima consegna di esplosivi lunagranite permetterà ai cultisti di raggiungere finalmente il sarcofago del Principe Ivor. Il tempo è essenziale.",
-        "collected_clue_ids": [
-          "llm_clue_10"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_operazione_culto",
-        "title": "T operazione culto",
-        "question": "Qual è la vera natura delle attività criminali di Carac il Rovo?",
-        "true_answer": "Carac sta contrabbandando artefatti lunagranite per conto dell'Ordine dei Piangenti, un culto della morte che sta scavando una rete di tunnel sotto il Ponte dell'Emiro usando gli esplosivi magici.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_scavi_catacombe",
-        "title": "T scavi catacombe",
-        "question": "Qual è l'obiettivo finale degli scavi sotterranei del culto?",
-        "true_answer": "Il culto sta usando gli esplosivi lunagranite per demolire sistematicamente le antiche catacombe sigillate sotto il palazzo dell'Emiro, cercando di raggiungere una camera sepolcrale specifica nascosta nelle profondità.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_morte_rathar",
-        "title": "T morte rathar",
-        "question": "Qual era il ruolo di Rathar Trygg in questa cospirazione?",
-        "true_answer": "Rathar Trygg fu il primo a reclutare Carac per il contrabbando di artefatti lunagranite. La sua morte nell'arena non fu accidentale ma un assassinio orchestrato dal culto per eliminare un testimone scomodo delle loro operazioni.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_resurrezione_ivor",
-        "title": "T resurrezione ivor",
-        "question": "Quale minaccia rappresenta veramente il piano del culto per Tredroy?",
-        "true_answer": "Il culto cerca la tomba del Principe Ivor nelle catacombe per resuscitarlo e riportarlo al potere",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_intermediario_arsalan",
-        "title": "T intermediario arsalan",
-        "question": "Cosa si nasconde dietro: T intermediario arsalan?",
-        "true_answer": "Arsalan al-Bir è un intermediario che conosce i dettagli delle operazioni di Carac e può rivelare il piano del culto",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_motivazione_carac",
-        "title": "T motivazione carac",
-        "question": "Cosa si nasconde dietro: T motivazione carac?",
-        "true_answer": "Carac continua le consegne nonostante la taglia perché è motivato dal dolore per Rathar e dalla lealtà, non dall'avidità",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -14989,8 +14383,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
