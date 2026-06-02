@@ -11542,6 +11542,174 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
+      },
+      {
+        "id": "nuovo_clue_1",
+        "label": "Abiti cerimoniali di Richard Reve",
+        "type": "physical_evidence",
+        "thread_id": "T11",
+        "source_location": "",
+        "reveals": "Richard non è trattato come un ostaggio ma come un partecipante a una cerimonia",
+        "payoff": "Contraddice la narrativa ufficiale dello scambio come azione militare",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_2",
+        "label": "Testimonianza di WHERE THE MOUNTAIN CRIES",
+        "type": "testimony",
+        "thread_id": "T11",
+        "source_location": "",
+        "reveals": "Richard è lì volontariamente e sta compiendo un rituale con scadenza temporale",
+        "payoff": "Conferma che non si tratta di un rapimento ma di partecipazione volontaria",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_3",
+        "label": "Registro delle cerimonie nelle Catacombe",
+        "type": "document",
+        "thread_id": "T11",
+        "source_location": "",
+        "reveals": "Esiste una tradizione di prove rituali e Richard è solo l'ultimo partecipante",
+        "payoff": "Rivela la natura del Secret Citadel come sede di rituali romantici ripetuti nel tempo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_4",
+        "label": "Iscrizioni sulle tre statue",
+        "type": "location_detail",
+        "thread_id": "T12",
+        "source_location": "",
+        "reveals": "Le statue non sono decorative ma indicatori per un percorso rituale",
+        "payoff": "Permette di individuare le tre location dove si svolgono le prove",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_5",
+        "label": "Comportamento competitivo dei ruffiani",
+        "type": "behavior",
+        "thread_id": "T12",
+        "source_location": "",
+        "reveals": "Esistono altri partecipanti al contest che stanno cercando le stesse prove",
+        "payoff": "Introduce competizione temporale e conferma natura romantica del contest",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_6",
+        "label": "Ordini scritti del governatore Hill",
+        "type": "document",
+        "thread_id": "T13",
+        "source_location": "",
+        "reveals": "Hill sa che Richard non è un ostaggio e vuole nascondere la verità",
+        "payoff": "Spiega la fretta e i crimini vaghi: Hill ha bisogno di operatori sacrificabili",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_7",
+        "label": "Conversazione udita a Fort Charles",
+        "type": "testimony",
+        "thread_id": "T13",
+        "source_location": "",
+        "reveals": "Lo scandalo è romantico/sessuale e Hill teme ripercussioni personali",
+        "payoff": "Fornisce motivazione personale di Hill e conferma la natura volontaria e scandalosa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
       }
     ],
     "actors": [
@@ -11661,6 +11829,7 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
+        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -11691,6 +11860,16 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [
+          "loc_fort_charles"
+        ],
+        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -11705,6 +11884,7 @@
         "contains_actors": [
           "p8_npc_2"
         ],
+        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -11736,6 +11916,16 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [
+          "loc_nevis_beach"
+        ],
+        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -11748,6 +11938,7 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
+        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -11777,6 +11968,16 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_nevis_beach",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_secret_citadel"
+        ],
+        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -11800,6 +12001,7 @@
         "contains_actors": [
           "p8_npc_1"
         ],
+        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -11830,6 +12032,16 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_nevis_beach",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_mount_misery"
+        ],
+        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -11842,6 +12054,7 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
+        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -11871,6 +12084,14 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_secret_citadel",
+        "location_type": "local",
+        "connections_to": [],
+        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -11886,6 +12107,7 @@
           "llm_clue_2"
         ],
         "contains_actors": [],
+        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -11919,6 +12141,14 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_nevis_beach",
+        "location_type": "local",
+        "connections_to": [],
+        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -12023,7 +12253,277 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [],
+    "story_threads": [
+      {
+        "id": "T11",
+        "title": "Perché i francesi tengono un nobile inglese bendato?",
+        "question": "Quale segreto nasconde la permanenza di Richard Reve presso Mount Misery?",
+        "true_answer": "Richard Reve sta completando un rituale romantico scandaloso nel Secret Citadel, tenuto bendato per tre prove cerimoniali, non è un vero ostaggio",
+        "status": "hidden",
+        "required_clues": [
+          "nuovo_clue_1",
+          "nuovo_clue_2",
+          "nuovo_clue_3"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T4",
+          "T5",
+          "T8"
+        ],
+        "linked_npcs": [
+          "WHERE THE MOUNTAIN CRIES",
+          "FOR DIAMONDS"
+        ],
+        "linked_locations": [
+          "Mount Misery",
+          "The Secret Citadel"
+        ]
+      },
+      {
+        "id": "T12",
+        "title": "Cosa cercano veramente i ruffiani presso le statue?",
+        "question": "Qual è il significato delle tre statue vicino a Mount Misery?",
+        "true_answer": "Le tre statue rappresentano le Tre Prove che Richard Reve deve completare per vincere il contest romantico, e marcano i luoghi rituali",
+        "status": "hidden",
+        "required_clues": [
+          "nuovo_clue_4",
+          "nuovo_clue_5"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T5",
+          "T6",
+          "T7"
+        ],
+        "linked_npcs": [
+          "WHERE THE MOUNTAIN CRIES",
+          "FOR DIAMONDS"
+        ],
+        "linked_locations": [
+          "Mount Misery",
+          "The Secret Citadel"
+        ]
+      },
+      {
+        "id": "T13",
+        "title": "Perché il governatore Hill vuole davvero questo scambio?",
+        "question": "Quale motivazione nascosta ha il governatore Hill per forzare lo scambio di ostaggi?",
+        "true_answer": "Hill vuole evitare lo scandalo politico che emergerebbe se si scoprisse che un nobile inglese partecipa volontariamente a un rituale romantico scandaloso con i francesi",
+        "status": "hidden",
+        "required_clues": [
+          "nuovo_clue_6",
+          "nuovo_clue_7"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T8",
+          "T9"
+        ],
+        "linked_npcs": [],
+        "linked_locations": [
+          "Fort Charles",
+          "Nevis Beach"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "La Drunken Hangman può essere riparata in tempo per lo scambio di ostaggi o rappresenta un pericolo?",
+        "true_answer": "La nave ha subito danni strutturali gravi nel naufragio e richiede almeno una settimana di riparazioni presso il cantiere di Nevis, ma lo scambio è previsto tra tre giorni",
+        "collected_clue_ids": [
+          "llm_clue_1"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Perché i francesi hanno rimosso il cannone dalla nave e cosa significa per la missione?",
+        "true_answer": "I francesi hanno confiscato il cannone come trofeo di guerra dopo la cattura, lasciando i PG senza potere di fuoco per intimidire durante la negoziazione",
+        "collected_clue_ids": [
+          "llm_clue_2"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Chi è veramente John Tibbets e perché la sua reputazione è importante?",
+        "true_answer": "Tibbets è un torturatore noto e odiato sia dai francesi che dagli inglesi, colpevole di atrocità durante l'assedio di St. Kitts, rendendo il suo salvataggio politicamente scomodo",
+        "collected_clue_ids": [
+          "llm_clue_3"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T4",
+        "title": "T4",
+        "question": "Perché Richard Reve è bendato nel mezzo dello scambio e cosa sta succedendo?",
+        "true_answer": "Reve è stato catturato mentre completava una prova segreta per il Citadel, e i francesi lo tengono bendato per impedirgli di rivelare la posizione di un sito importante",
+        "collected_clue_ids": [
+          "llm_clue_4"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T5",
+        "title": "T5",
+        "question": "Cosa sono le Tre Prove di Richard Reve e perché sono rilevanti?",
+        "true_answer": "Le Tre Prove sono sfide rituali che Reve deve completare per guadagnare l'accesso al Citadel delle Sirene e il diritto di corteggiare una delle Cinque Diamanti, nobili ereditiere",
+        "collected_clue_ids": [
+          "llm_clue_5"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T6",
+        "title": "T6",
+        "question": "Cosa rappresentano le tre statue vicino a Mount Misery?",
+        "true_answer": "Le statue sono marcatori antichi che indicano i luoghi dove devono essere completate le Tre Prove di Reve: coraggio, astuzia e sacrificio",
+        "collected_clue_ids": [
+          "llm_clue_6"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T7",
+        "title": "T7",
+        "question": "Chi sono i ruffiani competitivi e perché cercano le statue?",
+        "true_answer": "Sono agenti di altri nobili pretendenti che vogliono sabotare le prove di Reve distruggendo o spostando le statue per impedirgli di entrare nel Citadel",
+        "collected_clue_ids": [
+          "llm_clue_7"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T8",
+        "title": "T8",
+        "question": "Qual è il vero scopo del Citadel delle Sirene?",
+        "true_answer": "Il Citadel è una società segreta dove nobili europei organizzano competizioni romantiche scandalose per conquistare le Cinque Diamanti, ereditiere di immense fortune coloniali",
+        "collected_clue_ids": [
+          "llm_clue_8"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T9",
+        "title": "T9",
+        "question": "L'arresto dei PG per crimini vaghi è legale e può essere contestato?",
+        "true_answer": "Hill ha abusato della sua autorità arrestando i PG senza prove formali, una coercizione illegale che può essere usata come leva politica contro di lui se documentata",
+        "collected_clue_ids": [
+          "llm_clue_9"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T10",
+        "title": "T10",
+        "question": "Come ha influenzato la caduta di St. Kitts nell'agosto 1689 la situazione politica attuale?",
+        "true_answer": "La conquista francese di St. Kitts ha creato tensioni tra britannici sconfitti, irlandesi collaborazionisti e francesi occupanti, con tutti i gruppi che cercano vantaggi strategici attraverso alleanze segrete",
+        "collected_clue_ids": [
+          "llm_clue_10"
+        ],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T_citadel_purpose",
+        "title": "T citadel purpose",
+        "question": "Perché il Citadel delle Sirene è così importante e cosa protegge realmente?",
+        "true_answer": "Il Citadel non è un sito militare ma un'esclusiva sede di competizione romantica dove nobili europei competono in prove elaborate per conquistare le Cinque Diamanti e le loro fortune",
+        "collected_clue_ids": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T_reve_quest",
+        "title": "T reve quest",
+        "question": "Qual è la vera missione di Richard Reve a Nevis?",
+        "true_answer": "Reve è un nobile britannico sotto esame per entrare nel Citadel, e le Tre Prove sono prerequisiti obbligatori che deve completare per guadagnare il diritto di corteggiare una delle Diamanti",
+        "collected_clue_ids": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T_statue_hunt",
+        "title": "T statue hunt",
+        "question": "Perché così tanti cercano le statue e cosa rivelano?",
+        "true_answer": "Le statue presso Mount Misery sono marker delle prove di ammissione al Citadel, e altri nobili le cercano per sabotare i competitori e garantirsi l'accesso esclusivo alle ereditiere",
+        "collected_clue_ids": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T_tibbets_value",
+        "title": "T tibbets value",
+        "question": "Perché nessuno sembra interessato a salvare John Tibbets?",
+        "true_answer": "Tibbets ha una reputazione così infame come torturatore brutale che sia i francesi che gli inglesi preferirebbero vederlo morto, rendendo il suo valore di scambio praticamente nullo nonostante il suo rango",
+        "collected_clue_ids": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T_political_game",
+        "title": "T political game",
+        "question": "Come sfrutta il Citadel la situazione politica post-St. Kitts?",
+        "true_answer": "La caduta di St. Kitts ha creato un vuoto di potere che il Citadel sfrutta per orchestrare alleanze matrimoniali strategiche",
+        "collected_clue_ids": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T_hill_revenge",
+        "title": "T hill revenge",
+        "question": "Cosa si nasconde dietro: T hill revenge?",
+        "true_answer": "La Drunken Hangman fu catturata dai francesi e privata del cannone, simbolo della disfatta britannica che Hill vuole vendicare",
+        "collected_clue_ids": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -16945,7 +17445,8 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    }
+    },
+    "doctor_score": 0.0
   },
   "live_game_state": null
 }
