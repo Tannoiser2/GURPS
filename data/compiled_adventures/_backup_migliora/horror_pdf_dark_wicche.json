@@ -8607,7 +8607,7 @@
         "id": "llm_clue_1",
         "label": "Incendio doloso alla casa di Jakob",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T1",
         "source_location": "A Profane Inferno",
         "reveals": "La morte di Jakob non è un incidente, ma un omicidio deliberato orchestrato con precisione temporale",
         "payoff": "I PG capiscono che devono proteggere il Vescovo, prossimo bersaglio della cospirazione",
@@ -8679,7 +8679,7 @@
         "id": "llm_clue_3",
         "label": "Avvertimento del Fiery Man sul traditore",
         "type": "testimony",
-        "thread_id": "T2",
+        "thread_id": "T3",
         "source_location": "The Fiery Man",
         "reveals": "Esiste un complotto interno alla corte del Vescovo che facilita i piani della strega",
         "payoff": "I PG devono identificare il traditore prima che possa consegnare il Vescovo alla strega",
@@ -8715,7 +8715,7 @@
         "id": "llm_clue_4",
         "label": "Tentativo di furto del cadavere a Gerbrunn",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T4",
         "source_location": "Corpse Theft",
         "reveals": "Esiste un culto demoniaco attivo nella regione che vuole il corpo di Jakob per scopi rituali",
         "payoff": "I PG scoprono la località del Black Keep e il legame tra villani e culto demoniaco",
@@ -8751,7 +8751,7 @@
         "id": "llm_clue_5",
         "label": "Otilie: dalla magia popolare al culto di Lucifero",
         "type": "document",
-        "thread_id": "T13",
+        "thread_id": "T5",
         "source_location": "Black Tobe's Black Keep",
         "reveals": "La strega ha una motivazione personale di vendetta per la strage della sua famiglia durante la rivolta",
         "payoff": "I PG possono usare la storia di Otilie per negoziare o capire i suoi prossimi bersagli",
@@ -8895,7 +8895,7 @@
         "id": "llm_clue_9",
         "label": "Devastazione emotiva del Vescovo",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T9",
         "source_location": "Audience with Bishop Gerhard",
         "reveals": "Il Vescovo è emotivamente compromesso e incapace di proteggere se stesso o prendere decisioni razionali",
         "payoff": "I PG devono agire autonomamente senza supporto dell'autorità vescovile",
@@ -8931,7 +8931,7 @@
         "id": "llm_clue_10",
         "label": "Il forte abbandonato vicino al fiume",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T10",
         "source_location": "Black Tobe's Black Keep",
         "reveals": "Esiste una base operativa fortificata per il culto demoniaco, utilizzabile per rituali",
         "payoff": "I PG possono attaccare il forte per distruggere il culto e trovare prove della cospirazione",
@@ -8998,246 +8998,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Tracce di lotta nella camera da letto di Jakob",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Jakob non è morto nell'incendio ma è stato ucciso prima; l'assassino ha riportato una ferita",
-        "payoff": "Permette di cercare una guardia o persona con ferita recente; scarta l'ipotesi della morte accidentale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Testimone a Gerbrunn vede Vick agitato",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Vick era ferito recentemente e mostrava segni di stress psicologico",
-        "payoff": "Collega Vick alla scena del crimine; fornisce pretesto per interrogarlo o ispezionare la sua mano",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Simboli occulti sotto la cenere",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "La morte di Jakob aveva uno scopo rituale, non era solo un omicidio",
-        "payoff": "Introduce l'elemento occulto; con conoscenze magiche si capisce che è una preparazione per un rituale maggiore",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Grimorio nascosto nella fortezza abbandonata",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il corpo di Jakob è la componente chiave per uccidere il Vescovo Gerhard attraverso magia nera",
-        "payoff": "Svela l'obiettivo finale della cospirazione; spiega perché vogliono portare il corpo a Würzburg",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Padre Adam possiede una borsa d'oro sospetta",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Padre Adam è stato pagato generosamente e recentemente da qualcuno con accesso alle finanze vescovili o della città",
-        "payoff": "Prova la corruzione del prete; interrogato duramente potrebbe rivelare chi lo ha pagato",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Messaggio cifrato intercettato",
-        "type": "document",
-        "thread_id": "T2",
-        "source_location": "",
-        "reveals": "Wilhelm Geyer von Giebelstadt è stato manipolato; esiste una cospirazione più ampia guidata da qualcuno identificato come 'O'",
-        "payoff": "Collega l'ordine ufficiale alla cospirazione; identifica le iniziali di Otilie e Vick",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Incontro segreto testimoniato a Bergtheim",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Vick e padre Adam sono collegati; la loro collaborazione non è volontaria da parte del prete",
-        "payoff": "Identifica il rapporto gerarchico; padre Adam interrogato potrebbe crollare e tradire Vick",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Vick porta un amuleto di protezione oscura",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Vick è protetto magicamente da qualcuno con competenze stregonesche; non agisce da solo",
-        "payoff": "Collega Vick a Otilie (se si sa della sua natura di strega); l'amuleto può essere usato per rintracciarla magicamente",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_9",
-        "label": "Registro delle guardie alterato",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Vick ha un complice che ha coperto la sua assenza; aveva accesso ai documenti ufficiali",
-        "payoff": "Distrugge l'alibi di Vick; indica un complice nell'amministrazione vescovile",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_10",
-        "label": "Otilie vista nei Boschi Oscuri",
-        "type": "testimony",
-        "thread_id": "T5",
-        "source_location": "",
-        "reveals": "Otilie ha una base operativa nei Boschi Oscuri dove pratica la sua magia",
-        "payoff": "Permette di localizzare il nascondiglio di Otilie; conferma la sua sopravvivenza e attività",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -9251,8 +9011,8 @@
         "secret": "È una devota adoratrice di Lucifero che ha ottenuto oscuri poteri. Controlla sia Vick che il prete Adam tramite seduzione e corruzione.",
         "agenda_pressure": 0,
         "fear": "Che il suo piano venga scoperto prima che possa completare il sacrificio del vescovo",
-        "current_plan": "Continuare a fingere di essere una semplice levatrice mentre orchestra l'avvicinamento del Vescovo Gerhard al villaggio per il funerale del figlio. Durante la cerimonia funebre, Adam lo condurrà nella vecchia cappella dove Otilie completerà il rituale di sacrificio.",
-        "fallback_plan": "Se scoperta, incolpare completamente Adam e Vick come complici di Jakob in pratiche eretiche che lei stava investigando. Ha preparato false prove nella loro abitazione. In extremis, fuggire nel bosco al cerchio di pietre dove il velo tra i mondi è sottile e invocare l'intervento diretto dei suoi padroni oscuri.",
+        "current_plan": "Continuare a depistare le indagini sull'omicidio di Jakob mentre prepara il grande rituale. Nella notte del solstizio, Adam attirerà il Vescovo Gerhard in una 'confessione urgente' presso le rovine della vecchia chiesa. Lì Otilie lo sacrificherà sull'altare profanato, offrendo il sangue del prelato corrotto a Lucifero.",
+        "fallback_plan": "Se il rituale principale è compromesso: rapire Margarethe (sorella del Vescovo) come sacrificio alternativo per ferirlo spiritualmente. Se scoperta troppo presto: incolpare tutto su Vick (il 'vero adoratore del diavolo') mentre lei fugge sotto falsa identità per ritentare la vendetta altrove. Se braccata senza scampo: suicidarsi ritualmente maledicendo l'intera diocesi con pestilenza e morte, trasformando la sua anima in un'entità vendicativa.",
         "resources": [
           "accessi",
           "contatti",
@@ -9274,16 +9034,16 @@
           "Confronto diretto prima di aver completato il rituale"
         ],
         "pressure_response": {
-          "low": "Mantiene perfettamente la maschera della devota levatrice del villaggio, offrendo aiuto ai PG con erbe e rimedi. Osserva attentamente chi indaga e cosa hanno scoperto.",
-          "medium": "Usa Vick per intimidire testimoni scomodi o Adam per depistare le indagini. Inizia a seminare sospetti su altri abitanti del villaggio. Se interrogata direttamente, piange e si dichiara inorridita dagli eventi.",
-          "high": "Tenta di sedurre o corrompere uno dei PG più vulnerabili. Ordina a Vick di eliminare testimoni chiave facendoli sembrare incidenti. Celebra rituali notturni per invocare protezione demoniaca.",
-          "extreme": "Tenta di sacrificare prematuramente il Vescovo o uno dei PG in un rituale disperato. Se braccata, invoca il suo padrone oscuro per una trasformazione finale, rivelando completamente la sua natura corrotta. Preferisce morire maledicendo piuttosto che confessare."
+          "low": "Otilie si presenta come vedova innocente e devota. Piange per Jakob, offre ospitalità ai PG, li distrae con pettegolezzi sul Vescovo e sua sorella Margarethe. Sussurra dubbi su altri sospetti.",
+          "medium": "Usa i suoi poteri per seminare incubi e visioni disturbanti tra i PG. Manipola Adam affinché li depisti verso falsi colpevoli. Seduce o corrompe il PG più debole moralmente. Vick intensifica le minacce fisiche.",
+          "high": "Accelera il piano: tenta di attirare il Vescovo in trappola prima del previsto. Ordina a Vick di eliminare testimoni chiave o appiccare altri incendi. Usa maledizioni oscure per causare 'incidenti' ai PG più pericolosi. Adam diffonde panico religioso.",
+          "extreme": "Rivela parzialmente la sua natura, accusando i PG di stregoneria davanti alla folla. Invoca entità demoniache minori per attaccare direttamente. Se tutto fallisce, tenta il sacrificio immediato del Vescovo anche in condizioni non ottimali, preferendo morire nel rituale piuttosto che fallire la vendetta."
         },
         "reaction_table": {
-          "se_minacciato": "Finge vulnerabilità femminile e piange, accusando i PG di perseguitarla ingiustamente. Se sola, sussurra maledizioni in latino corrotto e i suoi occhi lampeggiano di un bagliore innaturale.",
-          "se_corrotto": "Finge di cedere ma studia il corruttore per capire come rivolgere la situazione a suo vantaggio. Potrebbe fingere una confessione parziale incolpando solo Vick.",
-          "se_i_pg_hanno_prove": "Cerca di distruggerle tramite incendio o furto notturno. Se impossibile, attiva il piano di fuga: accusare Adam di tutto e scomparire nella foresta dove ha preparato un rifugio rituale.",
-          "se_alleato": "Usa la fiducia per avvelenare lentamente, manipolare sogni con incubi demoniaci, o trasformare l'alleato in un sacrificio sostitutivo per il Vescovo."
+          "se_minacciato": "Piange e supplica, facendo appello alla sua fragilità femminile. Dietro le quinte ordina l'eliminazione della minaccia. Se confrontata apertamente, maledice chi la minaccia con lingue morte mentre Vick interviene fisicamente.",
+          "se_corrotto": "Finge di accettare, promettendo qualsiasi cosa. Usa l'occasione per capire debolezze del corruttore e incorporarlo nei suoi piani, trasformandolo in burattino attraverso lussuria o avidità. Gli farà portare il Vescovo nella trappola.",
+          "se_i_pg_hanno_prove": "Prima tenta di distruggerle (furto, incendio). Se impossibile, scredita i PG attraverso Adam che denuncia prove come 'false reliquie demoniache'. Orchestrare scandalo sessuale o eretico contro i PG. Sacrificare Adam o Vick come capri espiatori se necessario.",
+          "se_alleato": "Convince l'alleato di condividere la sua 'giusta vendetta' contro la corruzione ecclesiastica. Lo inizia gradualmente ai suoi riti, facendogli compiere piccoli atti blasfemi fino a comprometterlo completamente. Lo userà come esca o componente sacrificale."
         },
         "pressure_events": [],
         "relationships": [
@@ -9320,8 +9080,8 @@
         "secret": "È il figlio illegittimo del Vescovo Gerhard, posizione che lo rende vulnerabile politicamente.",
         "agenda_pressure": 0,
         "fear": "Che la sua illegittimità venga usata contro di lui per minare la sua autorità",
-        "current_plan": "Amministrare Würzburg così perfettamente da costringere suo padre a riconoscerlo pubblicamente, accumulando documenti che provino la sua indispensabilità",
-        "fallback_plan": "Se scoperto o delegittimato, fuggire con i fondi amministrativi verso le città imperiali libere dove acquistare una falsa identità nobiliare",
+        "current_plan": "Consolidare il proprio potere amministrativo a Würzburg dimostrando eccellenza nella governance, nella speranza che il padre lo riconosca pubblicamente o almeno garantisca la sua posizione a vita",
+        "fallback_plan": "Se la sua illegittimità viene esposta pubblicamente, fuggire con documenti e denaro verso territori lontani dalla giurisdizione paterna, possibilmente verso principati protestanti dove lo scandalo cattolico conterebbe meno",
         "resources": [
           "accessi",
           "contatti",
@@ -9343,16 +9103,16 @@
           "Nuove insurrezioni o disordini in città"
         ],
         "pressure_response": {
-          "low": "Difende con orgoglio la sua amministrazione di Würzburg, mostrando registri impeccabili e citando le riforme che ha implementato per conto del padre",
-          "medium": "Diventa nervoso quando si menziona la sua nascita, cambia discorso bruscamente e insiste sulla sua lealtà al vescovo e alla Chiesa",
-          "high": "Confessa amaramente di non essere mai stato abbastanza per suo padre nonostante i sacrifici, rivelando rancore verso i figli legittimi della nobiltà",
-          "extreme": "Crolla psicologicamente, ammettendo di aver cercato di comprare false lettere di nobiltà e di aver minacciato chiunque conoscesse il suo segreto"
+          "low": "Jakob mostra sicurezza aristocratica, parla con l'autorità di chi ha il vescovo alle spalle, minimizza qualsiasi accusa come invidia di chi vuole screditare la sua amministrazione efficiente",
+          "medium": "Diventa difensivo riguardo la sua legittimità, fa vaghi riferimenti a 'protezioni potenti' e inizia a insinuare che chi lo attacca sfida implicitamente il Vescovo Gerhard stesso",
+          "high": "Minaccia apertamente ritorsioni ecclesiastiche, rivela documenti che provano la sua parentela col vescovo, offre denaro o posizioni per far sparire il problema",
+          "extreme": "Crolla psicologicamente ammettendo di vivere nel terrore costante di essere ripudiato, supplica che la sua identità non venga resa pubblica perché significherebbe la rovina sia sua che del padre"
         },
         "reaction_table": {
-          "se_minacciato": "Tenta prima di corrompere con posizioni amministrative, poi minaccia rappresaglie usando l'autorità del vescovo suo padre",
-          "se_corrotto": "Rifiuta con sdegno iniziale, ma cede se promesso riconoscimento sociale o garanzie sulla sua posizione futura",
-          "se_i_pg_hanno_prove": "Nega disperatamente, poi cerca di negoziare il silenzio offrendo informazioni su corruzione nella diocesi",
-          "se_alleato": "Diventa leale fino alla morte, condivide intelligence amministrativa e usa i suoi contatti per proteggere i PG dalle gerarchie ecclesiastiche"
+          "se_minacciato": "Si rifugia immediatamente nella residenza vescovile, fa convocare la guardia ecclesiastica, invia messaggeri urgenti al padre chiedendo protezione e consiglio",
+          "se_corrotto": "Accetta solo se la corruzione garantisce silenzio assoluto sulla sua nascita illegittima; offre favori amministrativi, esenzioni fiscali, accesso privilegiato al vescovo",
+          "se_i_pg_hanno_prove": "Cerca disperatamente di negoziare, offre tutto ciò che possiede pur di evitare lo scandalo pubblico che distruggerebbe il vescovo; considera anche l'omicidio come ultima risorsa",
+          "se_alleato": "Diventa leale fino alla morte, usa la sua posizione per favorire gli alleati con contratti, protezione legale, informazioni riservate dal palazzo vescovile"
         },
         "pressure_events": [],
         "relationships": [
@@ -9389,8 +9149,8 @@
         "secret": "Ha personalmente massacrato intere famiglie durante la repressione, inclusa quella di Otilie, con estrema brutalità.",
         "agenda_pressure": 0,
         "fear": "Che la sua lealtà al vescovo venga messa in dubbio o che nuove rivolte lo facciano apparire debole",
-        "current_plan": "Spremere Würzburg fino all'ultima moneta attraverso tasse punitive, mentre identifica ed elimina sistematicamente chiunque abbia partecipato all'insurrezione o ne conservi memoria.",
-        "fallback_plan": "Se scoperto per il massacro di Otilie, incolpare soldati mercenari 'indisciplinati' e fuggire sotto protezione vescovile, dove nessuna autorità cittadina può toccarlo.",
+        "current_plan": "Completare la riscossione delle riparazioni da Würzburg con metodi sempre più brutali, utilizzando la morte di Jakob come pretesto per aumentare le tasse punitive. Simultaneamente, eliminare ogni testimone che potrebbe collegarlo al massacro della famiglia di Otilie, incluso chiunque indaghi troppo approfonditamente sulla morte di Jakob.",
+        "fallback_plan": "Se l'indagine si avvicina pericolosamente alla verità, Wilhelm pianifica di inscenare una 'nuova insurrezione' incendiando quartieri di Würzburg e massacrando abitanti, incolpando i 'ribelli' per la morte di Jakob e per gli omicidi che lui stesso ha commesso. Questo caos permetterebbe di eliminare testimoni scomodi e giustificare una repressione ancora più feroce, consolidando il suo potere.",
         "resources": [
           "accessi",
           "contatti",
@@ -9412,16 +9172,16 @@
           "Perdere il favore e la fiducia del Vescovo Gerhard"
         ],
         "pressure_response": {
-          "low": "Risponde con cortesia glaciale e sorrisi che non raggiungono gli occhi. Offre vino e ospitalità, ma documenta ogni parola detta per futuri rapporti al vescovo.",
-          "medium": "Diventa sprezzante e minaccioso, ricordando ai PG che la legge vescovile è assoluta. Cita precedenti di ribelli impiccati e famiglie distrutte come 'esempio necessario'.",
-          "high": "Convoca la sua scorta armata e accusa i PG di simpatizzare coi ribelli. Minaccia arresto immediato e confisca dei beni. Gli tremano le mani mentre stringe l'elsa della spada.",
-          "extreme": "Attacca senza preavviso, urlando che i traditori vanno sterminati come Otilie e la sua famiglia. Nel furore omicida rivela dettagli che solo l'assassino potrebbe conoscere."
+          "low": "Wilhelm ascolta con cortese distacco le domande dei PG, offrendo vino speziato e risposte evasive. Sottolinea continuamente la legittimità della sua missione per conto del vescovo e menziona casualmente i nomi di nobili potenti che lo sostengono.",
+          "medium": "Il tono si fa gelido. Wilhelm convoca le sue guardie nella stanza e inizia a catalogare ad alta voce i nomi dei PG, le loro famiglie, le loro proprietà. 'Sarebbe tragico se un'altra insurrezione richiedesse ulteriori... misure preventive.' La mano si posa sull'elsa della spada.",
+          "high": "Wilhelm abbandona ogni finzione diplomatica. Ordina l'arresto immediato dei PG per 'ostruzione alla giustizia episcopale' e 'simpatia verso i ribelli'. Se resistono, comanda ai suoi uomini di usare la stessa brutalità che riservò alle famiglie durante la repressione - 'nessun testimone, come sempre'.",
+          "extreme": "Completamente fuori controllo, Wilhelm impugna personalmente la spada e attacca con furia cieca, urlando giustificazioni deliranti per i massacri commessi. 'Dovevano pagare! TUTTI dovevano pagare!' Cerca di incendiare l'edificio con i PG dentro, replicando il suo modus operandi. Se messo alle strette, tenta il suicidio piuttosto che affrontare il processo."
         },
         "reaction_table": {
-          "se_minacciato": "Fa arrestare i PG con accuse inventate, o tenta di farli 'scomparire' durante un trasferimento notturno se le prove contro di lui sono deboli.",
-          "se_corrotto": "Rifiuta con sdegno ogni tentativo diretto, ma potrebbe accettare 'donazioni al vescovado' in cambio di documenti alterati o testimonianze compiacenti.",
-          "se_i_pg_hanno_prove": "Tenta prima di screditarle come falsificazioni eretiche, poi cerca disperatamente di fuggire verso le terre vescovili dove ha immunità totale.",
-          "se_alleato": "Offre accesso agli archivi vescovili e protezione armata, ma manipola sottilmente l'indagine per incolpare elementi 'sovversivi' della città."
+          "se_minacciato": "Reagisce con violenza immediata e sproporzionata, come farebbe un soldato abituato a reprimere opposizioni. Minaccia ritorsioni non solo contro i PG ma contro le loro famiglie intere, descrivendo con agghiacciante precisione cosa fece durante la repressione.",
+          "se_corrotto": "Rifiuta con sdegno qualsiasi tangente in denaro - 'non sono un mercante' - ma potrebbe essere lusingato da promesse di terre o titoli maggiori. Tuttavia rimane diffidente: chi corrompe può anche tradire. Chiede 'prove di lealtà' che coinvolgano atti violenti contro i ribelli superstiti.",
+          "se_i_pg_hanno_prove": "Inizialmente nega tutto con arroganza, poi passa a giustificare i massacri come 'necessità militare'. Se le prove sono schiaccianti, tenta di scappare verso territori controllati dal vescovo o, in alternativa, organizza un'imboscata letale ai PG per eliminare i testimoni - esattamente come fece con la famiglia di Otilie.",
+          "se_alleato": "Wilhelm tratta gli alleati come subordinati militari, pretendendo obbedienza assoluta. Condivide liberamente i dettagli delle sue 'operazioni punitive', credendoli giusti. Potrebbe coinvolgerli in ulteriori atrocità per 'testarli' e renderli complici, assicurandosi così il loro silenzio."
         },
         "pressure_events": [],
         "relationships": [
@@ -9458,8 +9218,8 @@
         "secret": "Jakob è suo figlio illegittimo, fatto che potrebbe essere usato contro di lui politicamente.",
         "agenda_pressure": 0,
         "fear": "Che suo figlio Jakob venga ucciso o che perda il controllo del vescovato a causa della sua età",
-        "current_plan": "Dirigere l'indagine verso colpevoli convenienti (eretici, streghe, nemici politici) mentre recupera o distrugge prove del legame con Jakob",
-        "fallback_plan": "Se il segreto emerge, affermare che Jakob era figlio di un peccato giovanile per cui ha già fatto penitenza, trasformando lo scandalo in dimostrazione di umiltà cristiana",
+        "current_plan": "Utilizzare l'indagine sulla morte di Jakob per identificare e schiacciare i suoi oppositori politici a Würzburg, facendo apparire l'omicidio come parte di una cospirazione anti-ecclesiastica. Mantenere segreta la paternità mentre punisce pubblicamente i responsabili per ristabilire l'autorità vescovile.",
+        "fallback_plan": "Se la paternità di Jakob viene rivelata, affermare che fu un 'momento di debolezza giovanile prima dell'ordinazione' e usare alleati a Roma per minimizzare lo scandalo. Incolpare una nobildonna morta da tempo. Se la situazione diventa insostenibile, ritirarsi strategicamente in un monastero fortificato mentre i suoi alleati lavorano per la sua riabilitazione, lasciando il Capitano Ulrich a eliminare testimoni scomodi.",
         "resources": [
           "accessi",
           "contatti",
@@ -9481,16 +9241,16 @@
           "Apparire debole o senile a causa della sua età avanzata"
         ],
         "pressure_response": {
-          "low": "Offre generose ricompense e benedizioni ecclesiastiche, mantenendo un'aria paterna e preoccupata per la giustizia",
-          "medium": "Diventa imperioso e minaccioso, ricorda ai PG che ostacolano un'indagine vescovile e potrebbero essere accusati di eresia",
-          "high": "Invia i suoi sgherri armati per intimidire o far sparire prove compromettenti, mentre pubblicamente piange il povero Jakob come 'fedele servitore'",
-          "extreme": "Accusa i PG stessi dell'omicidio o di stregoneria, mobilitando l'Inquisizione e il braccio secolare per eliminarli"
+          "low": "Gerhard mantiene un'apparenza di dolore paterno contenuto, offrendo ricompense generose per la cattura degli assassini. Enfatizza pubblicamente che Jakob era un 'fedele servitore della diocesi' piuttosto che riconoscere il legame di sangue.",
+          "medium": "Il Vescovo inizia a eliminare testimoni scomodi che conoscevano la vera parentela. Convoca i PG privatamente nelle sue stanze, oscillando tra minacce velate ('La Chiesa ha memoria lunga') e offerte di benefici ecclesiastici se dimenticano certi dettagli.",
+          "high": "Gerhard accusa pubblicamente eretici e streghe di aver ucciso Jakob per colpire la Chiesa. Organizza un processo-farsa, manipolando prove per incolpare nemici politici. Ordina al suo braccio armato, il Capitano Ulrich, di 'gestire' i PG se diventano troppo pericolosi.",
+          "extreme": "Il Vescovo dichiara i PG complici degli assassini e li scomunica, mettendo una taglia sulle loro teste. Se necessario, avvelena o fa assassinare chiunque possa testimoniare sulla paternità di Jakob, inclusi eventuali altri figli illegittimi. Brucia documenti compromettenti negli archivi diocesani."
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica nel palazzo vescovile circondato da guardie, preparando scomuniche e mandati d'arresto preventivi",
-          "se_corrotto": "Offre terre, titoli ecclesiastici minori o perdono per crimini passati in cambio di silenzio o prove falsificate",
-          "se_i_pg_hanno_prove": "Tenta prima il ricatto emotivo ('Jakob era come un figlio per me'), poi negozia una versione controllata della verità da diffondere",
-          "se_alleato": "Condivide informazioni sui nemici politici che potrebbero aver orchestrato l'omicidio, promette protezione ecclesiastica duratura"
+          "se_minacciato": "Convoca immediatamente la guardia vescovile e i suoi informatori. Se la minaccia è pubblica, usa la sua autorità ecclesiastica per far arrestare i responsabili con l'accusa di lesa maestà. Se privata, negozia cinicamente offrendo terre o posizioni nella diocesi.",
+          "se_corrotto": "Finge scandalo morale ma ascolta attentamente. Accetta tangenti solo attraverso intermediari fidati (il suo segretario, Pater Anselm) e preferisce accordi che eliminino problemi piuttosto che pagamenti in denaro. Richiede garanzie scritte compromettenti anche da chi lo corrompe.",
+          "se_i_pg_hanno_prove": "Tenta prima di acquistare o rubare le prove tramite il Capitano Ulrich. Se fallisce, cerca un accordo: riconosce discretamente il contributo dei PG all'indagine e li compensa lautamente in cambio del silenzio. Come ultima risorsa, li fa accusare di falsificazione e stregoneria.",
+          "se_alleato": "Offre ai PG posizioni come 'investigatori diocesani', con accesso agli archivi e protezione ecclesiastica. Condivide informazioni sui suoi nemici politici (il Consiglio Cittadino, famiglie nobili rivali) che potrebbero aver ordinato l'omicidio. Li usa come strumenti per consolidare il suo potere."
         },
         "pressure_events": [],
         "relationships": [],
@@ -9511,8 +9271,8 @@
         "secret": "È l'amante della strega e complice nel suo piano, darà il segnale per rapire il vescovo dopo la morte di Jakob",
         "agenda_pressure": 0,
         "fear": "che Incendio doloso alla casa di Jakob riveli il suo ruolo",
-        "current_plan": "Mantenere la copertura come servitore fedele mentre osserva i progressi dell'investigazione. Informare Otilie di ogni scoperta dei PG. Attendere il momento giusto dopo i funerali di Jakob per dare il segnale concordato (una lanterna rossa alla finestra est) che permetterà ad Otilie di rapire il vescovo addolorato e vulnerabile.",
-        "fallback_plan": "Se scoperto prima del rapimento, fuggire dal palazzo e raggiungere Otilie nel suo rifugio nella foresta di Steigerwald. Se catturato, resistere agli interrogatori il più possibile per dare tempo alla strega di completare il rituale. In caso estremo, suicidarsi con veleno nascosto in un anello piuttosto che tradire Otilie.",
+        "current_plan": "Attendere che i PG concludano l'investigazione su Jakob. Durante i riti funebri, quando il vescovo sarà vulnerabile e distratto dal dolore, segnalare a Otilie con un fuoco specifico sul campanile. I cultisti attaccheranno durante la processione notturna.",
+        "fallback_plan": "Se i PG si avvicinano troppo alla verità prima dei funerali, Vick attirerà personalmente il vescovo in una trappola fingendo di aver scoperto il vero assassino di Jakob nei boschi. Lì Otilie e i cultisti attendono per il rapimento rituale.",
         "resources": [
           "accessi",
           "contatti",
@@ -9528,16 +9288,16 @@
           "che Incendio doloso alla casa di Jakob riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Appare cooperativo e zelante nel servire il vescovo, offre prontamente informazioni sulla routine di Jakob e sulla sicurezza del palazzo vescovile. Tradisce nervosismo solo quando si menziona la stregoneria.",
-          "medium": "Diventa difensivo e sudaticcio. Cerca di deviare i sospetti verso altri servitori o verso vagabondi. Inizia a inventare dettagli contraddittori sulla notte dell'omicidio. Chiede ripetutamente quando potrà andarsene.",
-          "high": "Crolla parzialmente: ammette di aver visto Jakob quella notte, ma giura di non averlo ucciso. Rivela dettagli che solo il complice potrebbe sapere. Minaccia velatamente i PG: 'Non sapete con chi avete a che fare. Ci sono forze che non comprendete.'",
-          "extreme": "Tenta disperatamente di fuggire o attacca in preda al panico. Se catturato, confessa tra le lacrime il suo ruolo nell'incendio ma protegge ancora Otilie, chiamandola solo 'la donna che mi ha salvato'. Implora pietà, rivelando dove avverrà il rapimento del vescovo."
+          "low": "Vick mantiene un'aria addolorata e fedele, esprimendo shock per l'omicidio di Jakob. Offre aiuto nell'investigazione suggerendo piste false che allontanano dai boschi dove opera Otilie.",
+          "medium": "Diventa nervoso e difensivo, cerca di accelerare i funerali e spinge il vescovo a lasciare la regione 'per sicurezza'. Inizia a seminare dubbi sugli altri servitori e sui nemici politici del vescovo.",
+          "high": "Si comporta in modo erratico, sparisce per ore con scuse vaghe. Tenta di intimidire o eliminare testimoni scomodi. Propone con urgenza un ritiro spirituale del vescovo in un monastero isolato (trappola).",
+          "extreme": "Tenta di avvelenare o sabotare i PG. Se scoperto, fugge verso il nascondiglio di Otilie nei boschi gridando avvertimenti. In alternativa, cerca di pugnalare il vescovo in un momento di caos per completare comunque la missione."
         },
         "reaction_table": {
-          "se_minacciato": "Si appella alla sua posizione di fiducia presso il vescovo. Se minacciato fisicamente, invoca protezioni mistiche balbettando formule che Otilie gli ha insegnato (inefficaci).",
-          "se_corrotto": "Tentato dall'oro, ma terrorizzato da Otilie. Accetta denaro ma fornisce informazioni false o parziali. Può essere davvero comprato solo se i PG gli offrono protezione credibile dalla strega.",
-          "se_i_pg_hanno_prove": "Nega tutto finché possibile, poi cerca un capro espiatorio (altri servitori, nemici del vescovo). Solo prove schiaccianti (testimoni, oggetti personali sulla scena) lo fanno cedere.",
-          "se_alleato": "Impossibile renderlo vero alleato finché è sotto l'influenza di Otilie. Può fingere collaborazione per riferire tutto alla strega, conducendo i PG in trappola."
+          "se_minacciato": "Piange e giura fedeltà al vescovo da vent'anni, accusa i PG di cercare un capro espiatorio. Se incalzato fisicamente, invoca il nome di Otilie come protezione mistica, rivelando involontariamente la connessione.",
+          "se_corrotto": "Accetta denaro ma lo vede come opportunità per ingannare i PG. Fornisce 'confessioni' false incolpando rivali del vescovo. Userà l'oro per finanziare la fuga con Otilie dopo il rapimento.",
+          "se_i_pg_hanno_prove": "Crolla emotivamente e confessa l'amore per Otilie, ritraendola come vittima perseguitata dalla Chiesa. Supplica i PG di lasciarli fuggire insieme, offrendo di tradire i piani della strega in cambio della libertà.",
+          "se_alleato": "Impossibile: la sua devozione a Otilie è assoluta. Fingerà alleanza solo per sabotare i PG dall'interno, avvelenando provviste o mandando messaggi segreti alla strega tramite corvi addestrati."
         },
         "pressure_events": [],
         "relationships": [],
@@ -9558,8 +9318,8 @@
         "secret": "Ha giurato fedeltà alla strega ed è un traditore nella cerchia del vescovo",
         "agenda_pressure": 0,
         "fear": "che Incendio doloso alla casa di Jakob riveli il suo ruolo",
-        "current_plan": "Orchestrare l'eliminazione di altri eredi legittimi del vescovo mentre alimenta il panico sulla strega, presentandosi come l'unico in grado di proteggere la diocesi dal male",
-        "fallback_plan": "Se scoperto, accusare il vescovo stesso di stregoneria e impurità (per via del figlio illegittimo), scatenando una rivolta popolare guidata segretamente dalla strega per prendere il potere nel caos",
+        "current_plan": "Assicurarsi che l'indagine sulla morte di Jakob si concluda rapidamente incolpando vagabondi o eretici anonimi. Consolidare la sua posizione come consigliere fidato del vescovo Gerhard nel suo momento di dolore, preparando il terreno per la successione con l'appoggio occulto della strega.",
+        "fallback_plan": "Se scoperto, rivelare pubblicamente che il vescovo Gerhard ha un figlio illegittimo (Jakob), screditandolo davanti alla Chiesa. Usare il caos risultante per fuggire con documenti compromettenti e unirsi apertamente al coven della strega, portando con sé segreti preziosi sulla diocesi da offrire in sacrificio.",
         "resources": [
           "accessi",
           "contatti",
@@ -9575,16 +9335,16 @@
           "che Incendio doloso alla casa di Jakob riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Appare collaborativo e devoto, offre preghiere per Jakob e si propone come consigliere fidato per l'indagine. Suggerisce piste false che allontanano dai suoi veri alleati.",
-          "medium": "Diventa nervoso e inizia a sudare, toccandosi ossessivamente il crocifisso. Accusa altri membri della corte vescovile, insinuando che la strega abbia complici ovunque per seminare paranoia.",
-          "high": "Crolla parzialmente, ammette di aver visto la strega ma sostiene di averla respinta. Implora pietà citando le Scritture, mentre cerca disperatamente di fuggire o mandare messaggi nascosti.",
-          "extreme": "Invoca la protezione della strega in latino storpiato, rivelando marchi occulti nascosti sotto la talare. Tenta di uccidere i testimoni più pericolosi o si suicida per non tradire la sua padrona."
+          "low": "Finge devota preoccupazione per la morte di Jakob, offre aiuto nelle indagini citando frequentemente le Scritture e la volontà divina. Suggerisce discretamente che Jakob fosse coinvolto in pratiche peccaminose che potrebbero aver causato la sua rovina.",
+          "medium": "Inizia a seminare sospetti su altri membri della cerchia vescovile, specialmente su chi potrebbe impedirgli la successione. Diventa nervoso quando interrogato sulle sue visite notturne fuori città, giustificandole come pellegrinaggi penitenziali.",
+          "high": "Cerca di convincere il vescovo Gerhard che i PG stessi potrebbero essere eretici o stregoni. Tenta di far sparire prove compromettenti, magari inscenando un altro 'incidente'. Invia messaggi cifrati alla strega chiedendo intervento urgente.",
+          "extreme": "Fugge nottetempo verso il luogo di raduno della strega per chiedere protezione magica. Se braccato, tenta di evocare maledizioni apprese dalla strega contro i PG. In ultima istanza, cerca di trascinare il vescovo Gerhard con sé nell'eresia pur di salvarsi."
         },
         "reaction_table": {
-          "se_minacciato": "Usa la sua posizione ecclesiastica come scudo, minaccia scomunica e accuse di eresia contro chi osa interrogarlo troppo da vicino",
-          "se_corrotto": "Finge interesse ma riferisce tutto alla strega, usando l'occasione per identificare chi può essere manipolato o eliminato",
-          "se_i_pg_hanno_prove": "Tenta di distruggere le prove con incendi 'accidentali' o fa ricadere la colpa su un capro espiatorio già preparato tra i servitori",
-          "se_alleato": "Chiede di testimoniare al suo fianco durante un esorcismo pubblico, pianificando in realtà di far uccidere i PG dalla strega durante il rituale"
+          "se_minacciato": "Si rifugia dietro la sua posizione ecclesiastica e minaccia scomunica. Se inefficace, accusa i PG di eresia davanti al tribunale vescovile, usando falsi testimoni già corrotti.",
+          "se_corrotto": "Accetta denaro ma tradisce immediatamente, usando le prove della corruzione per screditare i PG come eretici che tentano di comprare la Chiesa. Riferisce tutto alla strega per guadagnare ulteriore favore.",
+          "se_i_pg_hanno_prove": "Tenta prima di distruggere le prove con un furto o incendio. Se impossibile, incolpa un capro espiatorio (un servitore, un mendicante) sostenendo di essere stato ingannato da demoni che hanno assunto sembianze umane.",
+          "se_alleato": "Usa l'alleanza per spiare i PG e riferire ogni loro mossa alla strega. Offre informazioni parzialmente vere mescolate a menzogne per deviare le indagini verso innocenti o vicoli ciechi nella foresta di Franconia."
         },
         "pressure_events": [],
         "relationships": [],
@@ -9602,11 +9362,11 @@
         "location_id": "section_7",
         "status": "unintroduced",
         "goal": "Salvare Jakob e la sua amica dall'incendio",
-        "secret": "Quella notte Jakob le aveva consegnato una piccola cassetta di legno, facendole giurare di nasconderla e non aprirla mai. Kirstyn l'ha sepolta nel bosco vicino al mulino abbandonato. La cassetta contiene lettere che provano il coinvolgimento del Vescovo Gerhard in traffici di reliquie false e simonia.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che Incendio doloso alla casa di Jakob riveli il suo ruolo",
-        "current_plan": "Nascondersi presso sua zia in un villaggio vicino finché la situazione non si calma, sperando che nessuno scopra che era con Jakob quella notte.",
-        "fallback_plan": "Se scoperta o minacciata seriamente, è pronta a fuggire verso sud fino a Norimberga, dove ha una cugina. In caso estremo, potrebbe cercare asilo in un convento usando ciò che sa come merce di scambio.",
+        "current_plan": "Mantenere il silenzio sulla presenza di Margarethe per proteggere la reputazione della ragazza e la propria, sperando che l'indagine si concluda rapidamente come 'incidente'. Evitare qualsiasi connessione con figure ecclesiastiche potenti.",
+        "fallback_plan": "Se pressata eccessivamente, accusare vaghi 'forestieri' o 'streghe' dell'incendio per deviare l'attenzione. In caso estremo, fuggire dal villaggio presso parenti in Baviera prima che il Vescovo o i suoi uomini scoprano quanto sa realmente.",
         "resources": [
           "accessi",
           "contatti",
@@ -9622,16 +9382,16 @@
           "che Incendio doloso alla casa di Jakob riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Kirstyn risponde con voce tremante, asciugandosi continuamente le mani sul grembiule annerito. Racconta dell'incendio con frasi spezzate, ma omette dettagli cruciali su cosa stesse facendo davvero a casa di Jakob quella notte.",
-          "medium": "Scoppia in singhiozzi disperati, supplicando i PG di crederle. Ammette di aver visto Jakob vivo dopo l'inizio dell'incendio, ma insiste di non sapere chi abbia appiccato il fuoco. Il suo sguardo fugge verso la porta, come cercasse una via di fuga.",
-          "high": "Crolla in ginocchio, confessando tra le lacrime che Jakob era ancora vivo quando è fuggita. Rivela di aver sentito voci di uomini all'esterno prima dell'incendio, ma giura di non riconoscerle. Le sue mani tremano incontrollabilmente.",
-          "extreme": "Urla istericamente che il Vescovo Gerhard sapeva tutto dell'incontro quella notte. Confessa che Jakob le aveva mostrato lettere compromettenti del padre e che qualcuno doveva averli spiati. Implora protezione, terrorizzata che chi ha ucciso Jakob verrà anche per lei."
+          "low": "Kirstyn risponde con voce tremante, descrivendo le fiamme che divoravano la casa. Menziona di aver visto Jakob correre verso l'interno gridando un nome femminile, ma omette deliberatamente chi fosse con lui quella notte.",
+          "medium": "Scoppia in lacrime incontrollabili, confessando di aver visto una figura incappucciata allontanarsi prima dell'incendio. Ammette di aver esitato ad entrare per paura, ma continua a nascondere l'identità della donna che era con Jakob.",
+          "high": "Crolla psicologicamente, rivelando che c'era Margarethe (figlia di un mercante rispettabile) con Jakob. Confessa di aver sentito urla femminili dall'interno ma di essere fuggita per il terrore. Supplica i PG di non rivelare che lei sapeva e non ha fatto nulla.",
+          "extreme": "In preda al panico totale, ammette di aver riconosciuto il mantello della figura incappucciata - apparteneva a Bruder Matthias, il confessore del Vescovo. Rivela che Jakob le aveva confidato di temere per la sua vita a causa di 'segreti del padre'. Implora protezione, convinta che anche lei sia ora in pericolo."
         },
         "reaction_table": {
-          "se_minacciato": "Si rannicchia e diventa incoerente, balbettando preghiere alla Madonna. Potrebbe svenire o fuggire in preda al panico se pressata troppo brutalmente.",
-          "se_corrotto": "Accetta denaro o promesse di protezione con gratitudine disperata. Rivelerà dettagli su cosa Jakob le aveva confidato quella sera riguardo i nemici di suo padre.",
-          "se_i_pg_hanno_prove": "Cede immediatamente se mostrate tracce che la collocano sulla scena. Ammette la sua presenza e tutto ciò che ha visto, pur di non essere accusata di complicità nell'omicidio.",
-          "se_alleato": "Se trattata con gentilezza e rassicurata, diventa una fonte preziosa. Descrive dettagli dell'incendio, degli oggetti che Jakob custodiva, e delle minacce velate che aveva ricevuto nelle settimane precedenti."
+          "se_minacciato": "Si chiude completamente nel mutismo o fugge terrorizzata, potenzialmente cercando rifugio presso la chiesa o nascondendosi dai PG. Potrebbe diffondere voci che i PG sono complici degli assassini.",
+          "se_corrotto": "Accetta denaro solo se accompagnato da promesse concrete di protezione. Rivela progressivamente dettagli su Margarethe e sui movimenti sospetti di Bruder Matthias nei giorni precedenti, ma esige essere portata via dalla Franconia.",
+          "se_i_pg_hanno_prove": "Se mostrate prove dell'incendio doloso o testimonianze su Margarethe, Kirstyn cede rapidamente. Conferma tutto ciò che sa, compresi dettagli sul rapporto segreto tra Jakob e Margarethe, e strani visitatori notturni alla casa di Jakob.",
+          "se_alleato": "Diventa collaborativa se i PG dimostrano genuina intenzione di fare giustizia per Jakob. Li guida discretamente verso la locanda dove Margarethe era solita incontrare Jakob, e rivela che Jakob aveva nascosto 'scritture compromettenti' sotto le assi del pavimento della cantina."
         },
         "pressure_events": [],
         "relationships": [],
@@ -9649,11 +9409,11 @@
         "location_id": "section_8",
         "status": "unintroduced",
         "goal": "Non specificata nel testo (probabilmente legata alla possessione)",
-        "secret": "Dorothea era l'amante segreta di Jakob. L'entità la possedette durante un rituale d'amore proibito che lei compì in preda alla disperazione. Fu lei, posseduta, a incendiare la casa, ma parte di lei ricorda e soffre tremendamente per questo.",
+        "secret": "È posseduta da forze oscure",
         "agenda_pressure": 0,
         "fear": "che Incendio doloso alla casa di Jakob riveli il suo ruolo",
-        "current_plan": "Rimanere nascosta tra i devoti che pregano per Jakob, fingendosi una pia donna sconvolta. L'entità cerca un nuovo ospite più forte tra i presenti, preferibilmente qualcuno vicino al Vescovo.",
-        "fallback_plan": "Se scoperta, accusare pubblicamente il Vescovo Gerhard di aver fatto un patto demoniaco per concepire Jakob, scatenando il caos. Nell'isteria generale, l'entità può passare in un altro corpo durante il tumulto.",
+        "current_plan": "Attraverso Dorothea posseduta, l'entità cerca di completare un rituale oscuro iniziato con l'omicidio di Jakob (figlio del vescovo = sangue consacrato). Deve eliminare testimoni, recuperare oggetti rituali dalla casa bruciata, e profanare un luogo sacro specifico della diocesi durante la prossima notte senza luna.",
+        "fallback_plan": "Se scoperta, l'entità tenterà di saltare in un nuovo ospite tra i presenti durante un confronto drammatico (esorcismo, interrogatorio violento). In alternativa, sacrificherà completamente Dorothea in un atto finale di violenza spettacolare (autoimmolazione, suicidio rituale) per maledire i PG e il vescovo Gerhard, lasciando il mistero irrisolto e la corruzione latente.",
         "resources": [
           "accessi",
           "contatti",
@@ -9669,16 +9429,16 @@
           "che Incendio doloso alla casa di Jakob riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Dorothea mantiene un comportamento devoto e composto, recita preghiere sussurrate e tiene lo sguardo basso. Occasionalmente la sua mano trema leggermente o i suoi occhi si fissano nel vuoto.",
-          "medium": "Inizia a parlare in terza persona di sé stessa, alternando momenti di lucidità a frasi in latino arcaico che non dovrebbe conoscere. La sua voce diventa più profonda, quasi maschile.",
-          "high": "Gli occhi le diventano completamente neri per alcuni secondi. Ride in modo innaturale e rivela dettagli sulla morte di Jakob che solo l'assassino potrebbe sapere, per poi negare di aver parlato.",
-          "extreme": "L'entità che la possiede prende completamente il controllo. Parla con voce gutturale in lingue morte, manifesta forza sovrumana e cerca di uccidere i testimoni. Solo un esorcismo può fermarla."
+          "low": "Dorothea appare come una donna devota e timorata di Dio, forse leggermente distante o assente. Partecipa alle funzioni religiose con fervore inusuale, mormorando preghiere in latino maccheronico. Nega qualsiasi coinvolgimento nella morte di Jakob con tono offeso.",
+          "medium": "Inizia a mostrare segni di dissociazione: sguardo vitreo, pause innaturali nel parlare, improvvisi scatti d'ira seguiti da contrizione. Potrebbe essere trovata in luoghi strani di notte. Le sue preghiere suonano blasfeme se ascoltate attentamente. Accusa altri innocenti con veemenza crescente.",
+          "high": "La possessione emerge palesemente: parla con voce non sua, conosce dettagli impossibili sulla morte di Jakob, mostra forza sovrumana. Alterna momenti di lucidità terrorizzata (\"Cosa ho fatto? Non ricordo!\") a manifestazioni demoniache. Tenta di fuggire o attaccare chi la interroga. Lascia segni occulti ovunque passi.",
+          "extreme": "Possessione totale: l'entità che la controlla si manifesta apertamente, rivelando di aver orchestrato l'omicidio di Jakob attraverso Dorothea. Potrebbe tentare un rituale finale per aprire un varco o possedere altri presenti. Dorothea stessa è ormai un guscio vuoto, vittima quanto carnefice, e potrebbe supplicare di essere uccisa nei rari istanti di consapevolezza."
         },
         "reaction_table": {
-          "se_minacciato": "L'entità la protegge: oggetti volano, candele si spengono, Dorothea sparisce nella confusione con velocità innaturale",
-          "se_corrotto": "Promette conoscenze proibite e potere oscuro in cambio di sangue innocente e protezione. L'entità vuole diffondersi ad altri ospiti",
-          "se_i_pg_hanno_prove": "Tenta il suicidio per eliminare il testimone (il suo corpo) oppure accusa i PG di stregoneria, manipolando la folla superstiziosa",
-          "se_alleato": "Finge pentimento e chiede aiuto per liberarsi, ma è una trappola: conduce i PG in luoghi isolati dove l'entità può manifestarsi pienamente"
+          "se_minacciato": "L'entità dentro di lei risponde con minacce in lingue morte, causando fenomeni poltergeist attorno a lei. Dorothea fisica potrebbe svenire o avere convulsioni violente, lasciando segni di graffi autoindotti sul corpo.",
+          "se_corrotto": "L'entità accoglie con gioia chi mostra debolezza morale, tentando di trascinarlo in un patto. Offre conoscenze proibite o potere in cambio di aiuto per completare un rituale oscuro. Dorothea potrebbe promettere false confessioni che incriminano altri.",
+          "se_i_pg_hanno_prove": "Tenta disperatamente di distruggere le prove con fuoco o acqua santa (ironicamente). L'entità potrebbe usarla per testimoniare il falso con dettagli convincenti, sfruttando la possessione per controllare completamente memoria e parole. Nei momenti lucidi, Dorothea conferma tutto piangendo.",
+          "se_alleato": "Se qualcuno la crede vittima innocente, l'entità usa questa fiducia per manipolarlo: chiede di essere portata in luoghi sacri (per profanarli), supplica aiuto per 'liberarsi' mentre in realtà cerca di coinvolgere l'alleato nel rituale. Dorothea genuinamente cerca salvezza spirituale, creando confusione."
         },
         "pressure_events": [],
         "relationships": [],
@@ -9696,11 +9456,11 @@
         "location_id": "section_9",
         "status": "unintroduced",
         "goal": "Avvertire i PG del tradimento",
-        "secret": "Non è morto nell'incendio doloso iniziale: è stato il cancelliere Lothar a rinchiuderlo dentro mentre tentava di salvare Jakob già morto, condannandolo a bruciare vivo. Conosce ogni dettaglio della congiura perché ha ascoltato Lothar vantarsene credendolo già morto.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che Incendio doloso alla casa di Jakob riveli il suo ruolo",
-        "current_plan": "Manifestarsi ripetutamente ai PG attraverso fonti di fuoco, guidandoli gradualmente verso la verità: che il Vescovo Gerhard ha fatto assassinare Jakob per impedirgli di rivelare lo scandalo della vendita di reliquie false e l'appropriazione di fondi destinati ai poveri",
-        "fallback_plan": "Se i PG ignorano i suoi avvertimenti o si alleano con il vescovo, incendiare la cattedrale durante la messa solenne per costringere Gerhard a confessare pubblicamente prima di morire tra le fiamme",
+        "current_plan": "Manifestarsi ripetutamente ai PG attraverso visioni nel fuoco, rivelando gradualmente frammenti della verità: chi ordinò l'incendio, perché Jakob doveva morire, e quale segreto del Vescovo Jakob aveva scoperto.",
+        "fallback_plan": "Se i PG ignorano i suoi avvertimenti, consumarsi completamente nell'incendiare la residenza del traditore durante una funzione religiosa, sacrificando la propria esistenza spettrale per esporre pubblicamente la colpa attraverso un ultimo atto di vendetta infuocata.",
         "resources": [
           "accessi",
           "contatti",
@@ -9716,16 +9476,16 @@
           "che Incendio doloso alla casa di Jakob riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Appare come un bagliore tremolante tra le fiamme di un focolare o una candela, sussurrando frammenti d'avvertimento: 'Traditore... vicino a voi... il vescovo mente...'",
-          "medium": "Si manifesta completamente avvolto nelle fiamme, indicando con dito accusatore verso nord (direzione della diocesi), gridando: 'Gerhard ha ucciso suo figlio! Non cercate streghe, cercate l'assassino in abiti porpora!'",
-          "high": "Brucia violentemente incendiando oggetti intorno ai PG, tracciando nel fuoco simboli e nomi: quello del vescovo, quello del suo cancelliere Lothar, date e luoghi dei loro incontri segreti",
-          "extreme": "Tenta di possedere uno dei PG per parlare direttamente attraverso la sua bocca, rivelando dove Gerhard ha nascosto il testamento che Jakob aveva scritto, quello che avrebbe esposto la corruzione episcopale"
+          "low": "L'Uomo Infuocato appare brevemente nelle fiamme di candele o fuochi, sussurrando frammenti del nome del traditore. Scompare se qualcuno si avvicina troppo.",
+          "medium": "Si manifesta completamente avvolto nelle fiamme, urlando 'IL VESCOVO SA! GUARDA CHI PORTA LA CROCE D'ARGENTO!' prima di dissolversi in cenere fumante che brucia chi la tocca.",
+          "high": "Appare disperato nelle braci della casa di Jakob, afferrando i PG con mani ardenti. Brucia sulla loro pelle il volto del traditore o un simbolo che lo identifica, causando ustioni permanenti.",
+          "extreme": "Si scaglia contro il traditore in una furia di fiamme spettrali durante il confronto finale, incendiando tutto intorno nel tentativo di consumare il colpevole insieme a sé stesso."
         },
         "reaction_table": {
-          "se_minacciato": "Si ritira nelle fiamme più vicine, riapparendo solo quando i PG sono soli e vulnerabili, più disperato e violento",
-          "se_corrotto": "Non può essere corrotto - è uno spirito tormentato che cerca solo giustizia per Jakob e vendetta contro Gerhard",
-          "se_i_pg_hanno_prove": "Si calma visibilmente, le fiamme si fanno dorate invece che rosse, guida i PG verso l'ultima prova mancante: il coltello benedetto usato per uccidere Jakob",
-          "se_alleato": "Protegge i PG dalle guardie episcopali usando il fuoco come distrazione, illumina passaggi segreti nella residenza vescovile bruciando ragnatele antiche"
+          "se_minacciato": "Le fiamme che lo compongono divampano violentemente, incendiando l'ambiente circostante in preda al panico. Cerca di fuggire attraverso ogni fonte di fuoco disponibile.",
+          "se_corrotto": "Non può essere corrotto - è vincolato dall'ossessione di rivelare il tradimento. Offerte materiali lo fanno infuriare, scatenando incendi incontrollati.",
+          "se_i_pg_hanno_prove": "Si calma parzialmente, le fiamme si riducono a un bagliore tremolante. Indica con dita carbonizzate dove trovare l'ultima prova mancante - qualcosa che bruciò con lui nella casa.",
+          "se_alleato": "Manifesta la sua forma meno terrificante, guidando i PG con piccole fiamme danzanti. Può incendiare documenti compromettenti o bloccare passaggi con muri di fuoco per proteggerli."
         },
         "pressure_events": [],
         "relationships": [],
@@ -9746,7 +9506,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -9777,16 +9536,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_bergtheim"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9799,7 +9548,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -9829,14 +9577,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_wurzburg",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9849,7 +9589,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -9879,17 +9618,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_wurzburg",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_road_to_bergtheim",
-          "loc_abandoned_keep_river"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9902,7 +9630,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -9932,16 +9659,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_wurzburg",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_gerbrunn"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -9954,7 +9671,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -9984,16 +9700,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_wurzburg"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10006,7 +9712,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -10036,14 +9741,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10056,7 +9753,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -10086,14 +9782,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_wurzburg",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10106,7 +9794,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -10137,16 +9824,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_wurzburg",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_gerbrunn"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10280,214 +9957,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Chi ha ucciso Jakob?",
-        "question": "Chi è il responsabile materiale dell'omicidio e incendio doloso?",
-        "true_answer": "Vick di Volksmanhagen ha eseguito l'omicidio su ordine di Otilie, appiccando l'incendio per coprire le tracce rituali",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_6"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Vick of Volksmanhagen",
-          "Otilie",
-          "Jakob"
-        ],
-        "linked_locations": [
-          "Manor House di Jakob"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Qual è il vero obiettivo della cospirazione?",
-        "question": "Perché i cospiratori vogliono il corpo di Jakob a Würzburg?",
-        "true_answer": "Il corpo di Jakob deve essere usato come componente rituale per un sacrificio che permetterà a Otilie di uccidere il Vescovo Gerhard, usando il sangue del figlio contro il padre",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_4",
-          "nuovo_clue_5",
-          "llm_clue_8"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T11"
-        ],
-        "linked_npcs": [
-          "Otilie",
-          "Bishop Gerhard",
-          "Jakob",
-          "Adam di Osnabrück"
-        ],
-        "linked_locations": [
-          "Würzburg",
-          "Fortezza Abbandonata presso il Fiume"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Come sono collegati i cospiratori?",
-        "question": "Qual è la catena di comando tra Otilie, Vick e gli altri complici?",
-        "true_answer": "Otilie ha reclutato Vick promettendogli vendetta contro il Vescovo per la morte della sua famiglia nella rivolta; Vick ha poi corrotto padre Adam con oro e minacce",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_7",
-          "nuovo_clue_8",
-          "llm_clue_7"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Otilie",
-          "Vick of Volksmanhagen",
-          "Adam di Osnabrück"
-        ],
-        "linked_locations": [
-          "Boschi Oscuri",
-          "Würzburg",
-          "Bergtheim"
-        ]
-      },
-      {
-        "id": "T2",
-        "title": "T2",
-        "question": "Chi sta cercando di impedire che il corpo di Jakob raggiunga il Vescovo e perché?",
-        "true_answer": "Un traditore all'interno della cerchia del Vescovo sta coordinando attacchi durante il trasporto del corpo. Il traditore è Vick di Volksmanhagen, che lavora per la strega Otilie per sabotare la missione e mantenere il Vescovo vulnerabile.",
-        "collected_clue_ids": [
-          "llm_clue_2",
-          "llm_clue_3",
-          "nuovo_clue_6"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T6",
-        "title": "T6",
-        "question": "Chi è la spia nella guardia del Vescovo e quali sono i suoi veri obiettivi?",
-        "true_answer": "Vick di Volksmanhagen è la spia infiltrata nella guardia del Vescovo. È l'amante corrotto della strega Otilie e deve segnalarle il momento giusto per rapire il Vescovo Gerhard e consegnarlo per il sacrificio rituale.",
-        "collected_clue_ids": [
-          "llm_clue_6"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T7",
-        "title": "T7",
-        "question": "Quale membro del clero è corrotto e quale ruolo gioca nella cospirazione?",
-        "true_answer": "Adam di Osnabrück, il prete, è stato convertito al culto di Lucifero dalla strega Otilie. È destinato a diventare il successore corrotto del Vescovo dopo che Gerhard sarà eliminato, garantendo il controllo del culto sulla diocesi.",
-        "collected_clue_ids": [
-          "llm_clue_7"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Qual è il piano immediato della strega e come può essere fermato?",
-        "true_answer": "Otilie pianifica di rapire il Vescovo Gerhard non appena Vick le darà il segnale che è vulnerabile. I PG devono neutralizzare Vick e proteggere il Vescovo prima che il rapimento avvenga, altrimenti sarà portato al forte abbandonato per il sacrificio.",
-        "collected_clue_ids": [
-          "llm_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T5",
-        "title": "T5",
-        "question": "Dove si nasconde la strega e cosa rivelano gli avvistamenti nei Boschi Oscuri?",
-        "true_answer": "Otilie si nasconde nei Boschi Oscuri, dove è stata vista. Il suo nascondiglio è collegato al forte abbandonato vicino al fiume, che funge da base operativa per il culto e luogo designato per il sacrificio rituale del Vescovo.",
-        "collected_clue_ids": [
-          "nuovo_clue_10"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_piano_strega",
-        "title": "T piano strega",
-        "question": "Chi ha veramente orchestrato l'assassinio di Jakob e qual era lo scopo finale?",
-        "true_answer": "Otilie, la strega dei Boschi Oscuri, ha orchestrato l'assassinio di Jakob. Il suo obiettivo non era semplicemente uccidere il figlio illegittimo, ma devastare emotivamente il Vescovo Gerhard per renderlo psicologicamente vulnerabile e spiritualmente debole prima di rapirlo e sacrificarlo a Lucifero.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_talpa",
-        "title": "T talpa",
-        "question": "Chi è il collegamento tra la strega e la corte del Vescovo?",
-        "true_answer": "Vick di Volksmanhagen è l'amante corrotto di Otilie e la talpa infiltrata all'interno della guardia personale del Vescovo. Fornisce informazioni cruciali alla strega e attende il momento giusto per facilitare il rapimento del Vescovo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_successore_corrotto",
-        "title": "T successore corrotto",
-        "question": "Chi è destinato a prendere il posto del Vescovo e quali sono le sue vere lealtà?",
-        "true_answer": "Adam di Osnabrück, apparentemente un prete devoto, è stato segretamente convertito al culto di Lucifero. È stato scelto da Otilie per diventare il successore del Vescovo Gerhard, assicurando che il potere ecclesiastico della regione passi nelle mani del culto demoniaco.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_lealta_giebelstadt",
-        "title": "T lealta giebelstadt",
-        "question": "Giebelstadt è coinvolto nella cospirazione o è un alleato fidato?",
-        "true_answer": "Giebelstadt è innocente e ignaro della cospirazione. Ha ordinato il trasporto del corpo di Jakob al Vescovo per legittime ragioni di sicurezza e protocollo, non sapendo che questo gioca nelle mani dei cospiratori che vogliono usare il trauma emotivo del Vescovo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_luogo_rituale",
-        "title": "T luogo rituale",
-        "question": "Dove il culto pianifica di compiere il sacrificio finale?",
-        "true_answer": "Il forte abbandonato vicino al fiume è la base operativa segreta del culto di Otilie. È lì che la strega pianifica di portare il Vescovo Gerhard per il sacrificio rituale finale a Lucifero, completando il suo piano di corruzione spirituale della diocesi.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rituale_emotivo",
-        "title": "T rituale emotivo",
-        "question": "Perché l'assassinio di Jakob era necessario per i piani della strega?",
-        "true_answer": "La morte di Jakob non è fine a sé stessa, ma parte integrante del rituale. Otilie ha bisogno che il Vescovo Gerhard sia emotivamente distrutto dal dolore per la perdita del figlio: questa devastazione psicologica indebolisce le sue difese spirituali, rendendo il suo sacrificio a Lucifero più potente e significativo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -14993,8 +14463,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
