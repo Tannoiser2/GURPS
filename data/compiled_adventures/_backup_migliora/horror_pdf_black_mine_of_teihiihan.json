@@ -3704,7 +3704,7 @@
         "id": "llm_clue_2",
         "label": "Urlo agonizzante proveniente dalla direzione di Johnny Buck",
         "type": "scene_observation",
-        "thread_id": "T1",
+        "thread_id": "T2",
         "source_location": "DERAILED!",
         "reveals": "Qualcuno o qualcosa ha attaccato o ferito gravemente Johnny Buck immediatamente dopo che è uscito dal vagone",
         "payoff": "I PG sanno che il pericolo è immediato e non limitato al deragliamento stesso",
@@ -3740,7 +3740,7 @@
         "id": "llm_clue_3",
         "label": "Fiala di nitroglicerina intatta nell'equipaggiamento di Johnny Buck",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T3",
         "source_location": "THE MISERABLE JOHNNY BUCK",
         "reveals": "Johnny Buck trasportava esplosivo, suggerendo il suo coinvolgimento nel sabotaggio del treno",
         "payoff": "I PG possono usare l'esplosivo come arma o come prova del coinvolgimento della banda Dunker",
@@ -3884,7 +3884,7 @@
         "id": "llm_clue_7",
         "label": "Tracce della banda Dunker massacrata",
         "type": "forensic",
-        "thread_id": "T11",
+        "thread_id": "T7",
         "source_location": "THE TRAIL OF BLOOD",
         "reveals": "La banda Dunker che ha deragliato il treno è stata quasi completamente massacrata giorni prima, in modo orribile",
         "payoff": "I PG capiscono che non stanno affrontando banditi umani ma qualcosa di soprannaturale",
@@ -4059,198 +4059,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Segni di esplosivo sui binari",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Il deragliamento è stato causato da un sabotaggio deliberato usando esplosivi professionali",
-        "payoff": "Conferma che non è stato un incidente; qualcuno ha pianificato l'attacco",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Testimonianza del Dr. Dickinson",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Johnny Buck poteva essere coinvolto o aveva informazioni sul sabotaggio",
-        "payoff": "Collega Johnny Buck alla banda Dunker; spiega perché è stato ucciso per primo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Corpi mutilati della banda Dunker",
-        "type": "physical_evidence",
-        "thread_id": "T7",
-        "source_location": "",
-        "reveals": "I sabotatori sono stati attaccati da creature che mangiano carne umana",
-        "payoff": "Stabilisce che una minaccia più grande dei banditi è presente nell'area",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Diario di Wade Dunker",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Rufus era malato terminale e cercava disperatamente qualcosa dall'indiano",
-        "payoff": "Suggerisce che Rufus aveva un piano che coinvolgeva Wo'oteeyoo Soul Bird",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Comportamento anomalo di Rufus",
-        "type": "behavior",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Qualcosa di fondamentalmente sbagliato è avvenuto con l'identità di Rufus",
-        "payoff": "Combina con altri indizi per rivelare la possessione di Hoowuuni",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Totem di avvertimento Teihiihan",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Creature territoriali stanno marcando quest'area come loro terreno di caccia",
-        "payoff": "Conferma la presenza attiva dei Teihiihan; Hosaa può tradurre i simboli",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Consiglio di Hosaa sui Teihiihan",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "I Teihiihan non sono autonomi ma controllati da qualcuno",
-        "payoff": "Fornisce la chiave per sconfiggere la minaccia: trovare ed eliminare l'evocatore",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Creatura-avvoltoio che osserva i PG",
-        "type": "behavior",
-        "thread_id": "T8",
-        "source_location": "",
-        "reveals": "Una delle anime coinvolte nel rituale è stata trasformata ma mantiene tracce di umanità",
-        "payoff": "Identifica il destino di Wade; può essere usata per confermare il rituale di scambio",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -4264,8 +4072,8 @@
         "secret": "È membro della gang Dunker ed era sul treno come vedetta per la rapina, ma ha visto qualcosa di terrificante fuori dal finestrino",
         "agenda_pressure": 0,
         "fear": "Essere ucciso dai Teihiihan o tradire la gang Dunker",
-        "current_plan": "Raggiungere lo zio Wade Buck alla stazione di Arkansas City per avvertirlo che qualcosa di mostruoso ha decimato parte della banda Dunker sul sito dell'esplosione, sperando che Wade abbandoni il piano di saccheggiare la miniera.",
-        "fallback_plan": "Se scoperto o intercettato dai PG, fingere di essere una vittima innocente e tentare la fuga notturna. Se impossibile fuggire, barattare informazioni sui Dunker in cambio di protezione dalle autorità e dalle creature.",
+        "current_plan": "Fingersi vittima innocente abbastanza a lungo da allontanarsi dal relitto, poi correre a perdifiato verso la Black Mine per avvertire Wade che i Teihiihan sono emersi e stanno cacciando la gang",
+        "fallback_plan": "Se scoperto o impossibilitato a fuggire, barattare informazioni sulla posizione della miniera e sui Teihiihan in cambio di protezione armata dei PG per raggiungere Wade, sapendo che da solo non sopravviverà",
         "resources": [
           "accessi",
           "contatti",
@@ -4287,16 +4095,16 @@
           "Ammettere la sua paura davanti agli altri"
         ],
         "pressure_response": {
-          "low": "Nervoso e sfuggente, evita lo sguardo diretto. Chiede ripetutamente se qualcuno ha visto 'quelle ombre' fuori dal finestrino. Tenta di allontanarsi verso l'uscita con scuse banali.",
-          "medium": "Sudato e tremante, balbetta contraddizioni sulla sua destinazione. Se incalzato sulle ombre, sussurra terrorizzato di 'creature che strisciavano lungo i binari'. Nega ogni legame con i Dunker ma sa troppi dettagli sull'esplosione.",
-          "high": "Crolla in lacrime, confessa di essere una vedetta dei Dunker ma giura di non sapere dell'esplosione. Descrive con orrore viscerali creature non-umane che hanno attaccato la banda. Supplica protezione, offrendo la posizione del nascondiglio della gang.",
-          "extreme": "Isteria totale. Urla che 'i Teihiihan sono reali' e che la gang ha scavato dove non doveva. Tenta di fuggire nel buio pur terrorizzato, preferendo rischiare con le creature piuttosto che essere consegnato allo zio Wade o alla legge. Può avere un collasso nervoso completo."
+          "low": "Finge di essere uno sfortunato passeggero sotto shock, chiede nervosamente dei feriti e guarda ossessivamente verso le finestre del treno distrutto",
+          "medium": "Diventa agitato e insiste per allontanarsi immediatamente dal relitto, mormora frasi sconnesse su 'creature nelle miniere' e 'non dovevamo disturbarle'",
+          "high": "Crolla psicologicamente confessando il suo ruolo nella gang Dunker, urlando che Wade e gli altri sono in pericolo mortale nelle miniere dei Teihiihan e che 'quelle cose ci stanno dando la caccia'",
+          "extreme": "Entra in panico totale tentando di fuggire a piedi nel deserto, convinto che i Teihiihan lo stiano seguendo, pronto a sparare a chiunque cerchi di fermarlo o trattenerlo vicino al treno"
         },
         "reaction_table": {
-          "se_minacciato": "Cerca di negoziare rivelando informazioni parziali sui Dunker, ma trattiene i dettagli sulle creature per paura di non essere creduto. Si offre di guidare i PG dallo zio Wade in cambio di protezione.",
-          "se_corrotto": "Accetta denaro o protezione per rivelare dove la gang ha nascosto il bottino delle rapine precedenti, ma chiede di essere portato lontano dall'Arkansas. Diventa collaborativo se promesso perdono.",
-          "se_i_pg_hanno_prove": "Ammette tutto immediatamente, disperato. Rivela che la gang ha riaperto la miniera maledetta dei Teihiihan per nascondere refurtiva, e 'qualcosa si è svegliato'. Implora di non essere lasciato solo.",
-          "se_alleato": "Diventa grato fino alle lacrime. Condivide tutto: mappe della miniera, piani della gang, e dettagli sulle creature (piccole, pallide, con artigli, occhi che brillano). Combatte la propria codardia per aiutare, ma potrebbe scappare in momenti critici."
+          "se_minacciato": "Estrae la pistola con mani tremanti, non per i PG ma terrorizzato da ciò che potrebbe emergere dall'oscurità, supplica di lasciarlo andare dallo zio prima che 'arrivino anche per noi'",
+          "se_corrotto": "Accetta qualsiasi offerta di protezione o fuga in cambio di informazioni sulla banda Dunker e sulla Black Mine, rivela coordinate e il fatto che Wade ha risvegliato qualcosa di antico scavando",
+          "se_i_pg_hanno_prove": "Crolla immediatamente ammettendo tutto, descrive come la gang abbia fatto saltare il treno per derubare i passeggeri ma che ora qualcosa di peggio li minaccia tutti - creature sotterranee attirate dall'esplosione",
+          "se_alleato": "Diventa una guida disperata verso la Black Mine, condivide che Wade Dunker ha scoperto tunnel antichi dei nativi e che da tre giorni i membri della gang spariscono uno a uno con urla nelle gallerie"
         },
         "pressure_events": [],
         "relationships": [
@@ -4334,8 +4142,8 @@
         "secret": "È l'anima di Wade Dunker trasformata in creatura mostruosa dal rituale fallito di Rufus",
         "agenda_pressure": 0,
         "fear": "Essere intrappolato per sempre nella forma di creatura-avvoltoio senza poter recuperare il proprio corpo",
-        "current_plan": "Attirare Rufus nella miniera dove Hoowuuni può divorarlo lentamente mentre Wade assiste. Nel frattempo, nutrire il Divoratore con le anime dei minatori e della banda per mantenere abbastanza forza da completare la vendetta.",
-        "fallback_plan": "Se Rufus sfugge o viene ucciso dai PG, trascinare nell'oscurità chiunque conosca il rituale che lo ha creato per impedire che altre anime subiscano il suo destino. Infine, divorare abbastanza anime da acquisire potere sufficiente per manifestarsi permanentemente nel mondo fisico.",
+        "current_plan": "Continuare a nutrire Hoowuuni con le anime dei minatori intrappolati mentre cerca ossessivamente tracce di Rufus Dunker. Impedire a chiunque di lasciare vivo la miniera finché non trova indizi sul ladro del suo corpo. Usare i PG come possibili fonte di informazioni su dove sia finito il suo corpo originale.",
+        "fallback_plan": "Se i PG dimostrano di poter distruggere la sua forma spirituale o sigillare Hoowuuni, Soul Bird tenterà un ultimo rituale suicida: possedere forzatamente uno dei PG per usarne il corpo come temporaneo contenitore, fuggire dalla miniera e continuare la caccia a Rufus nel mondo esterno, anche in una forma ridotta e instabile.",
         "resources": [
           "accessi",
           "contatti",
@@ -4357,16 +4165,16 @@
           "I Teihiihan che potrebbero competere per le prede"
         ],
         "pressure_response": {
-          "low": "Appare come ombre fugaci e sussurri incomprensibili attorno ai luoghi dove Wade morì. Manifesta la sua presenza attraverso oggetti personali di Wade che si muovono da soli e gemiti lamentosi nel vento.",
-          "medium": "Si materializza parzialmente mostrando il volto contorto di Wade Dunker, attacca spiritualmente i PG con visioni della sua trasformazione e del tradimento di Rufus. Prosciuga l'energia vitale di chi si avvicina troppo.",
-          "high": "Assume forma corporea distorta usando resti umani e minerali corrotti della miniera. Caccia attivamente i PG trascinandoli verso Hoowuuni. Possiede temporaneamente membri della banda per comunicare la sua vendetta.",
-          "extreme": "Si fonde completamente con Hoowuuni diventando un'estensione del Divoratore. Scatena un'ondata di anime dannate contro i PG mentre cerca disperatamente di trascinare Rufus nell'abisso per condividere la sua maledizione eterna."
+          "low": "Soul Bird osserva i PG da lontano, manifestandosi come ombre inquietanti o sussurri nel vento. Attacca solo chi si allontana dal gruppo, trascinando le vittime nelle miniere per divorarne l'anima in pace.",
+          "medium": "Intensifica gli attacchi psichici, proiettando nei PG visioni della sua trasformazione e della sofferenza subita. Usa i tunnelli della miniera per tendere imboscate, manifestando artigli spettrali e tentando di separare i membri del gruppo.",
+          "high": "Si manifesta completamente in forma mostruosa, attaccando direttamente con furia vendicativa. Urla il nome di Rufus continuamente, cercando disperatamente il suo corpo rubato. Sacrifica minatori posseduti come esche per rallentare i PG.",
+          "extreme": "Tenta un rituale disperato per fondersi con Hoowuuni definitivamente, assorbendo tutte le anime disponibili nella miniera. Se vede Rufus/il suo corpo originale, abbandona ogni strategia per riprenderlo, anche a costo di distruggere l'intera struttura mineraria."
         },
         "reaction_table": {
-          "se_minacciato": "Fugge dissolvendosi in sciami di insetti neri, lasciando tracce di cenere fredda e il profumo acre di zolfo. Ritorna rafforzato dopo essersi nutrito di anime nella miniera.",
-          "se_corrotto": "Impossibile corromperlo ulteriormente - è già dannato. Ma offerte di aiutare la sua vendetta contro Rufus lo rendono temporaneamente collaborativo, rivelando segreti sulla trasformazione e sui punti deboli di Hoowuuni.",
-          "se_i_pg_hanno_prove": "Se mostrano oggetti legati alla sua vita passata (foto di famiglia, la sua stella da sceriffo, lettere alla moglie) manifesta momenti di lucidità dolorosa dove Wade riaffiora brevemente prima di essere risucchiato nell'odio.",
-          "se_alleato": "Non può essere davvero alleato, ma può essere temporaneamente diretto contro Rufus o altri nemici dei PG. Esige però un prezzo: anime fresche da offrire a Hoowuuni per placare momentaneamente la sua fame."
+          "se_minacciato": "Si ritira nei tunnel più profondi dove Hoowuuni è più forte, utilizzando i minatori zombificati come scudo vivente. Comunica attraverso i loro corpi posseduti, chiedendo ossessivamente dove sia 'il ladro che indossa la sua carne'.",
+          "se_corrotto": "Non può essere corrotto - è già completamente consumato dall'odio verso Rufus e dalla fame spirituale. Qualsiasi tentativo di comunicazione viene distorto in urla accusatorie: 'Mi ha rubato la vita! Voglio indietro il mio corpo!'",
+          "se_i_pg_hanno_prove": "Se i PG scoprono la verità sul rituale e sul corpo rubato, Soul Bird diventa temporaneamente comunicativo, usando cadaveri o ombre per raccontare frammenti della sua storia. Offre di risparmiare chi lo aiuta a trovare Rufus.",
+          "se_alleato": "Impossibile come alleato tradizionale, ma se i PG promettono di aiutarlo a riavere il suo corpo da Rufus, può temporaneamente cessare gli attacchi. Tradisce immediatamente se percepisce inganno o se vede qualcuno somigliante a Rufus."
         },
         "pressure_events": [],
         "relationships": [
@@ -4409,8 +4217,8 @@
         "secret": "È uno spirito ingannatore Arapaho che ha posseduto il corpo di Rufus durante il rituale fallito, comandando i Teihiihan cannibali",
         "agenda_pressure": 0,
         "fear": "Essere esorcizzato o ucciso con il rituale corretto prima di accumular abbastanza potere",
-        "current_plan": "Usare la copertura di Rufus per attirare i PG e altri sopravvissuti del treno nella Black Mine, dove i Teihiihan possono divorare le loro anime completando il rituale di ascensione che renderà Hoowuuni un dio-spirito nel mondo mortale",
-        "fallback_plan": "Se scoperto prematuramente, abbandonare il corpo di Rufus morente e fuggire come spirito nel sottosuolo, riemergendo attraverso un Teihiihan posseduto per vendicarsi e ricominciare il rituale altrove",
+        "current_plan": "Mantenere la copertura di Rufus come proprietario disperato mentre usa i Teihiihan per catturare viaggiatori isolati dal deragliamento, accumulare anime divorate per rafforzare il velo tra mondo spirituale e mortale fino a poter manifestare completamente il suo potere",
+        "fallback_plan": "Se scoperto, ritirarsi nel cuore profondo della miniera dove il confine spirituale è più sottile, sacrificare tutti i Teihiihan rimasti in un rituale finale per strappare permanentemente l'anima dal corpo di Rufus e manifestarsi come entità spirituale corporea immortale, anche se meno potente del piano originale",
         "resources": [
           "accessi",
           "contatti",
@@ -4432,16 +4240,16 @@
           "Confronto con sciamani o persone con conoscenza occulta"
         ],
         "pressure_response": {
-          "low": "Rufus appare come un caposquadra premuroso e preoccupato, offrendo aiuto ai PG e raccontando storie sui 'demoni della miniera' con tono grave ma rassegnato",
-          "medium": "Hoowuuni inizia a mostrare crepe nella maschera: sguardi troppo penetranti, conoscenza innaturale degli eventi, momenti in cui gli occhi di Rufus diventano completamente neri",
-          "high": "Lo spirito ingannatore abbandona parzialmente la recitazione, parlando in lingue antiche, ridendo con voce multipla quando i Teihiihan attaccano, orchestrando trappole mortali",
-          "extreme": "Hoowuuni si rivela completamente, il corpo di Rufus contorto in posizioni innaturali, evocando orde di Teihiihan per divorare le anime dei PG e completare il rituale di ascensione"
+          "low": "Rufus appare come un uomo d'affari preoccupato, offre ricompense per recuperare i minatori dispersi, enfatizza la tragedia economica della miniera chiusa",
+          "medium": "Inizia a mandare Teihiihan camuffati da banditi per eliminare testimoni scomodi, organizza 'incidenti' per chi indaga troppo vicino alla miniera",
+          "high": "Scatena ondate di Teihiihan contro i PG durante la notte, usa visioni ingannevoli per farli impazzire o combattere tra loro, rivela parzialmente la sua vera natura attraverso manifestazioni spirituali",
+          "extreme": "Abbandona completamente la facciata di Rufus, manifesta la sua forma di spirito ingannatore, comanda l'intera tribù Teihiihan in un assalto finale mentre tenta di completare un rituale di massa per divorare tutte le anime nell'area"
         },
         "reaction_table": {
-          "se_minacciato": "Finge vulnerabilità e paura, attirando i PG più in profondità nella miniera dove i Teihiihan possono circondarli, usando Rufus come esca pietosa",
-          "se_corrotto": "Offre conoscenze proibite e potere oscuro in cambio di sacrifici umani, promettendo di condividere l'immortalità spirituale che ha ottenuto",
-          "se_i_pg_hanno_prove": "Accelera il piano finale, scatenando tutti i Teihiihan rimasti in un attacco suicida mentre cerca di completare il rituale anche con anime insufficienti",
-          "se_alleato": "Manipola l'alleato per condurre altri minatori o viaggiatori nella miniera come 'soccorritori', creando più vittime per i suoi servitori cannibali"
+          "se_minacciato": "Finge paura umana mentre segretamente marca i PG con simboli spirituali invisibili che permettono ai Teihiihan di seguirli ovunque, prepara trappole nelle gallerie della miniera",
+          "se_corrotto": "Promette ricchezze dal filone d'argento nascosto in cambio di 'sacrifici volontari' - cercatori o criminali che nessuno cercherebbe - per nutrire i Teihiihan mantenendo il controllo",
+          "se_i_pg_hanno_prove": "Orchestra un'insurrezione di Teihiihan che attacca sia i PG che testimoni chiave, distrugge prove fisiche con fuoco spirituale, accusa i PG di essere posseduti e li indica come responsabili degli attacchi",
+          "se_alleato": "Usa la banda Dunker come capri espiatori sacrificabili, fornisce informazioni parzialmente vere mescolate a inganni che guidano i PG verso trappole nelle profondità della Black Mine dove i Teihiihan sono più forti"
         },
         "pressure_events": [],
         "relationships": [
@@ -4484,8 +4292,8 @@
         "secret": "Conosce i rituali Arapaho per esorcizzare Hoowuuni e sa della leggenda antica dei Teihiihan",
         "agenda_pressure": 0,
         "fear": "Fallire nel proteggere gli innocenti e permettere a Hoowuuni di accumulare abbastanza potere",
-        "current_plan": "Raccogliere gli ingredienti sacri (radice di sweetgrass, sangue di corvo, cenere di osso umano) necessari per il rituale di contenimento mentre cerca un guerriero Arapaho disposto a sacrificare sangue volontario per sigillare Hoowuuni.",
-        "fallback_plan": "Se il rituale fallisce, condurre i sopravvissuti ai vecchi rifugi-medicina nelle colline e collassare l'ingresso della miniera con esplosivi rubati, seppellendo Hoowuuni e i Teihiihan per sempre - anche a costo di intrappolare anime innocenti.",
+        "current_plan": "Seguire i PG alla miniera abbandonata. Identificare quale Teihiihan ospita Hoowuuni osservando i loro occhi (brillano di fame innaturale). Preparare il cerchio di esorcismo usando le quattro pietre sacre e completare il rituale al sorgere del sole, quando gli spiriti maligni sono più deboli.",
+        "fallback_plan": "Se il rituale fallisce o non ci sono le componenti sacre, condurre i PG alla collina degli antenati Arapaho dove riposano i guerrieri che sconfissero i Teihiihan secoli fa. Lì, invocare gli spiriti guardiani per imprigionare nuovamente Hoowuuni, anche se questo richiederà il sacrificio della sua stessa forza vitale per rinforzare il sigillo antico.",
         "resources": [
           "accessi",
           "contatti",
@@ -4507,16 +4315,16 @@
           "Mettere in pericolo gli innocenti con azioni avventate"
         ],
         "pressure_response": {
-          "low": "Osserva in silenzio, fumando la pipa e studiando i forestieri con occhi penetranti. Parla per enigmi e parabole della Vecchia Via, testando la loro saggezza prima di rivelare qualsiasi conoscenza.",
-          "medium": "Mostra segni fisici di timore: traccia simboli di protezione con cenere e tabacco, mormora canti in lingua Arapaho. Rivela frammenti della leggenda dei mangiatori-di-carne che abitano le miniere profonde.",
-          "high": "Confessa di aver visto Hoowuuni nei sogni da settimane - un'ombra con troppe bocche che cresce più forte ad ogni anima divorata. Ammette che i rituali antichi richiedono sangue Arapaho per funzionare.",
-          "extreme": "Tenta il rituale di esorcismo anche se inadeguatamente preparato, rischiando che Hoowuuni lo possieda. Grida che i Teihiihan sono solo burattini - il vero male è l'entità primordiale che la Dunker Gang ha liberato scavando troppo in profondità."
+          "low": "Hosaa osserva in silenzio, fumando la pipa cerimoniale. Offre enigmatici riferimenti alla 'fame antica' e ai 'piccoli cannibali delle colline'. Accenna che il sangue versato vicino alla miniera ha risvegliato qualcosa che doveva restare sepolto.",
+          "medium": "Rivela che la banda Dunker ha profanato un antico sigillo Arapaho nella miniera. Mostra amuleti di protezione e spiega che Hoowuuni - lo spirito della fame - cavalca ora i Teihiihan. Avverte: 'Le pallottole non fermano ciò che è già morto di fame da secoli.'",
+          "high": "Confessa di aver inseguito Hoowuuni per tre lune dopo che ha posseduto i Teihiihan. Insegna il rituale di purificazione: serve tabacco sacro, sangue di bisonte e quattro pietre dalla collina degli antenati. Ammette: 'Ho fallito una volta. Mio fratello fu il primo divorato.'",
+          "extreme": "Esegue personalmente il rituale di esorcismo nella miniera, cantando in Arapaho antico mentre traccia simboli col sangue. Se Hoowuuni lo attacca, si sacrifica volontariamente gridando: 'Prendi me, spirito affamato! Lascia che il mio digiuno sacro ti sazi!' per dare tempo ai PG di sigillare l'entrata."
         },
         "reaction_table": {
-          "se_minacciato": "Si ritrae nella sua capanna, barricandosi con talismani e ossa dipinte. Maledice chi lo minaccia in Arapaho, predicendo che Hoowuuni verrà per loro quella stessa notte.",
-          "se_corrotto": "Impossibile. La sua fede negli spiriti antichi è incrollabile. Potrebbe però essere ingannato se gli si mostra un falso Teihiihan per confonderlo sui movimenti del nemico vero.",
-          "se_i_pg_hanno_prove": "Riconosce gli artefatti Teihiihan (piccoli denti limati, piume corvine legate con capelli) e diventa febbrile. Insiste per purificarli prima che attraggano l'attenzione di Hoowuuni.",
-          "se_alleato": "Prepara medicine sacre e insegna i canti di protezione. Rivela che la miniera ha tre livelli - solo nel più profondo si trova il cuore-nido dove Hoowuuni può essere legato e sigillato."
+          "se_minacciato": "Si avvolge nella coperta cerimoniale e risponde: 'Minacciate colui che porta la soluzione? Allora morite con gli stomaci pieni e le anime vuote, come i bianchi desiderano.' Scompare nel territorio Arapaho.",
+          "se_corrotto": "Hoowuuni potrebbe possederlo temporaneamente, facendogli sussurrare in Arapaho corrotto: 'La fame... la fame è eterna...' Prima di riprendersi violentemente, si incide il palmo: 'Il dolore purifica. Non lasciatemi avvicinare ai rituali sacri finché non avrò digiunato tre giorni.'",
+          "se_i_pg_hanno_prove": "Esamina tracce di artigli Teihiihan o resti della banda Dunker. Annuisce gravemente: 'Hanno mangiato anche dopo morti. Questo è il segno di Hoowuuni. Ora capite perché sono venuto.' Condivide tutto ciò che sa senza esitazione.",
+          "se_alleato": "Diventa guida spirituale del gruppo. Insegna canti di protezione, prepara parrucca sacra e polvere di tabacco benedetto. Prima di entrare nella miniera, dipinge simboli protettivi sui volti dei PG: 'Oggi camminiamo insieme nella bocca della fame. Nessuno sarà divorato.'"
         },
         "pressure_events": [],
         "relationships": [
@@ -4551,11 +4359,11 @@
         "location_id": "section_5",
         "status": "unintroduced",
         "goal": "Raggiungere Arkansas City per completare il suo viaggio d'affari e tornare a casa sano e salvo",
-        "secret": "La valigetta contiene non solo organi umani, ma anche il cuore di un bambino nativo americano che il suo committente ha specificamente richiesto per esperimenti legati a 'proprietà spirituali uniche'. Dickinson sospetta che il chirurgo sia coinvolto in qualcosa di soprannaturale ma ha troppa paura per indagare",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Morire in questa terra selvaggia lontano dalla civiltà e dalla sua famiglia",
-        "current_plan": "Nascondere la vera natura del contenuto della sua valigetta refrigerata, convincere qualcuno a scortarlo velocemente ad Arkansas City con la scusa di medicinali deperibili per un'epidemia",
-        "fallback_plan": "Se scoperto o ritardato oltre il tempo utile, seppellire la valigetta segnando la posizione, tornare a Kansas City e inventare una storia di rapina per giustificare la perdita del carico al suo committente",
+        "current_plan": "Curare i feriti del deragliamento per mantenere le apparenze, poi unirsi a qualsiasi gruppo che sembri in grado di raggiungere Arkansas City velocemente. Nascondere i narcotici illegali nella fodera della sua borsa medica.",
+        "fallback_plan": "Se la situazione diventa troppo pericolosa o se nessuno può portarlo ad Arkansas City in tempo, rubare un cavallo o pagare qualcuno per scortarlo da solo, anche abbandonando tutto il resto dei suoi averi.",
         "resources": [
           "accessi",
           "contatti",
@@ -4577,16 +4385,16 @@
           "Ammettere la sua paura o vulnerabilità"
         ],
         "pressure_response": {
-          "low": "Collabora prontamente, offre le sue competenze mediche ai feriti e mantiene un atteggiamento professionale e rassicurante",
-          "medium": "Diventa ansioso e insistente sul proseguire il viaggio, controlla nervosamente il suo orologio da taschino e la valigetta nera che tiene sempre con sé",
-          "high": "Si isola dagli altri sopravvissuti, rifiuta di condividere le sue provviste mediche, mormora ossessivamente sulla necessità di 'arrivare in tempo prima che scada'",
-          "extreme": "Tenta di fuggire da solo nella prateria anche di notte, disposto ad abbandonare chiunque; se fermato, rivela che deve consegnare organi umani conservati nel ghiaccio prima che si decompongano"
+          "low": "Ezekiel si preoccupa principalmente del ritardo e dei suoi affari, offrendo assistenza medica ai feriti con efficienza professionale ma distaccata. Consulta nervosamente il suo orologio da tasca.",
+          "medium": "Inizia a mostrare segni di stress per il pericolo crescente. Diventa più diretto e impaziente, insistendo che qualcuno deve prendere il controllo della situazione. Prepara la sua borsa medica come se dovesse fuggire in fretta.",
+          "high": "Il suo distacco professionale crolla. Ammette apertamente di avere paura e che deve assolutamente raggiungere Arkansas City entro domani per questioni urgenti (non specificate). Propone di abbandonare i feriti gravi e muoversi subito.",
+          "extreme": "Entra in panico completo. Confessa tra le lacrime che sua moglie è gravemente malata ad Arkansas City e lui trasporta nel suo bagaglio morfina e laudano illegalmente procurati per alleviare le sue sofferenze. Supplica i PG di proteggerlo, offre tutti i suoi soldi."
         },
         "reaction_table": {
-          "se_minacciato": "Crolla emotivamente, confessa tra le lacrime di essere un fornitore per un chirurgo sperimentale di Arkansas City, implora pietà dicendo che è solo un corriere",
-          "se_corrotto": "Offre denaro considerevole (250 dollari) e una percentuale della transazione se lo scortano personalmente ad Arkansas City entro 36 ore",
-          "se_i_pg_hanno_prove": "Ammette tutto ma insiste che sta servendo il progresso scientifico, che i corpi provengono legalmente da indigenti non reclamati dell'obitorio di Kansas City",
-          "se_alleato": "Confida il suo carico e la sua missione, offre conoscenze anatomiche utili e informazioni su strani incidenti in miniere vicine menzionati dal suo cliente"
+          "se_minacciato": "Si rannicchia, alza le mani tremanti, offre la sua borsa medica e i suoi beni. Piange invocando il nome di sua moglie Martha. Se minacciato fisicamente, sviene.",
+          "se_corrotto": "Rifiuta inizialmente per principio morale, ma se gli viene promesso un passaggio sicuro ad Arkansas City accetta qualsiasi cosa. Offre anche i suoi narcotici come merce di scambio.",
+          "se_i_pg_hanno_prove": "Se scoprono i narcotici illegali, crolla emotivamente e racconta tutta la verità su Martha morente. Implora discrezione, promettendo qualsiasi servizio medico futuro gratuitamente.",
+          "se_alleato": "Diventa estremamente leale e grato. Usa tutte le sue competenze mediche per aiutare il gruppo. Condivide informazioni mediche utili sui corpi o ferite che trovano. Offre metà dei suoi narcotici per emergenze."
         },
         "pressure_events": [],
         "relationships": [],
@@ -4613,7 +4421,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -4643,14 +4450,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -4663,7 +4462,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -4694,14 +4492,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -4714,7 +4504,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -4744,14 +4533,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -4768,7 +4549,6 @@
           "llm_clue_6"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -4803,14 +4583,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -5003,243 +4775,7 @@
         "concrete_choice": "Localizzare il cerchio di fuoco/rituale dove Hoowuuni esegue lo scambio (probabilmente nella miniera o vicino Fort Rufus), distruggerlo mentre lo spirito è vulnerabile durante una transizione"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Chi ha sabotato il treno e perché?",
-        "question": "Chi è responsabile del deragliamento e quale era il loro obiettivo?",
-        "true_answer": "La banda Dunker ha sabotato il treno per rapinarlo, ma sono stati massacrati dai Teihiihan prima di completare il colpo",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_7"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "JOHNNY BUCK",
-          "DR. EZEKIEL DICKINSON"
-        ],
-        "linked_locations": [
-          "Train Wreck Site",
-          "Flint Hills"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Qual è la vera identità di Rufus Dunker?",
-        "question": "Perché Rufus Dunker si comporta in modo così strano e cosa è successo al suo corpo?",
-        "true_answer": "Il corpo vecchio di Rufus è posseduto dallo spirito Hoowuuni, mentre l'anima di Wade è stata trasformata in creatura-avvoltoio",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_5",
-          "llm_clue_6",
-          "llm_clue_9",
-          "nuovo_clue_5"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [
-          "T11"
-        ],
-        "linked_npcs": [
-          "HOOWUUNI (AS RUFUS)",
-          "WO'OTEEYOO SOUL BIRD",
-          "HOSAA"
-        ],
-        "linked_locations": [
-          "Fort Rufus"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Cosa sono i Teihiihan e come fermarli?",
-        "question": "Quali creature hanno massacrato la banda e come possono essere sconfitte?",
-        "true_answer": "I Teihiihan sono spiriti cannibali evocati dal rituale, comandati da Hoowuuni; possono essere fermati solo distruggendo lo spirito possessore",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_4",
-          "llm_clue_10",
-          "nuovo_clue_6",
-          "nuovo_clue_7"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [
-          "T12"
-        ],
-        "linked_npcs": [
-          "HOOWUUNI (AS RUFUS)",
-          "HOSAA",
-          "WO'OTEEYOO SOUL BIRD"
-        ],
-        "linked_locations": [
-          "Flint Hills",
-          "Fort Rufus"
-        ]
-      },
-      {
-        "id": "T1",
-        "title": "T1",
-        "question": "Cosa ha visto Johnny Buck dal finestrino prima dell'esplosione e perché ha urlato in modo così agonizzante?",
-        "true_answer": "Johnny Buck era una spia della banda Dunker e ha segnalato il treno per il sabotaggio. Ha visto i Teihiihan avvicinarsi e il suo urlo è stato causato dal loro attacco mortale, rivelando che una minaccia soprannaturale ha colpito immediatamente dopo il deragliamento.",
-        "collected_clue_ids": [
-          "llm_clue_1",
-          "llm_clue_2"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T4",
-        "title": "T4",
-        "question": "Chi o cosa comanda i Teihiihan cannibali e come possono essere fermati?",
-        "true_answer": "Hoowuuni, uno spirito maligno della tradizione Arapaho, comanda i Teihiihan. Secondo la leggenda, deve essere affrontato direttamente per fermare le creature cannibali che ha evocato.",
-        "collected_clue_ids": [
-          "llm_clue_4"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T5",
-        "title": "T5",
-        "question": "Qual è il metodo corretto per sconfiggere definitivamente Hoowuuni?",
-        "true_answer": "Hoowuuni usa un rituale di scambio dei corpi che divide corpo e anima. Per distruggerlo completamente, bisogna uccidere sia il corpo che ha posseduto sia l'anima trasformata della sua vittima originale, altrimenti può continuare a esistere.",
-        "collected_clue_ids": [
-          "llm_clue_5"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T6",
-        "title": "T6",
-        "question": "Cosa è realmente accaduto a Rufus e perché la lettera descrive un indiano ferito con le stesse identiche ferite?",
-        "true_answer": "Rufus ha completato con successo lo scambio di corpi con Wade Dunker attraverso un rituale Arapaho. L'indiano ferito descritto nella lettera era il vecchio corpo di Rufus, che lui stesso ha ucciso per cancellare la sua identità precedente e vivere nel corpo giovane di Wade.",
-        "collected_clue_ids": [
-          "llm_clue_6"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Cos'è la creatura-avvoltoio che osserva i PG e quale connessione ha con Wade Dunker?",
-        "true_answer": "La creatura-avvoltoio è l'anima di Wade Dunker, trasformata e intrappolata in una forma mostruosa dal rituale di scambio dei corpi. Rimane legata al piano mortale, osservando i vivi e potenzialmente utilizzabile come prova del rituale o come arma contro Hoowuuni.",
-        "collected_clue_ids": [
-          "llm_clue_8",
-          "nuovo_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T9",
-        "title": "T9",
-        "question": "Chi è il vero antagonista dietro gli attacchi dei Teihiihan e quale corpo occupa attualmente?",
-        "true_answer": "Hoowuuni è il vero antagonista. Durante il rituale di scambio tra Rufus e Wade, lo spirito maligno ha posseduto il vecchio corpo di Rufus, usando quella forma per comandare i Teihiihan cannibali.",
-        "collected_clue_ids": [
-          "llm_clue_9"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T10",
-        "title": "T10",
-        "question": "Qual è il significato dei totem Teihiihan trovati nell'area?",
-        "true_answer": "I totem marcano i confini del territorio controllato dai Teihiihan cannibali. Possono essere usati per mappare le zone pericolose, trovare rotte sicure per infiltrarsi, o essere sabotati per creare confusione tra le creature.",
-        "collected_clue_ids": [
-          "llm_clue_10"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T7",
-        "title": "T7",
-        "question": "Cosa è successo alla banda Dunker responsabile del sabotaggio del treno?",
-        "true_answer": "L'intera banda Dunker è stata massacrata e mutilata dai Teihiihan cannibali. I loro corpi dimostrano che una minaccia soprannaturale molto più pericolosa dei semplici banditi sta operando nell'area.",
-        "collected_clue_ids": [
-          "nuovo_clue_3"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_body_swap",
-        "title": "T body swap",
-        "question": "Quale oscuro segreto lega Rufus e Wade Dunker?",
-        "true_answer": "Wade Dunker e Rufus hanno eseguito un antico rituale di scambio dei corpi della tradizione Arapaho. Rufus ora abita il corpo giovane e sano di Wade, mentre il suo vecchio corpo ha subito un destino diverso durante il rituale.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_hoowuuni_possession",
-        "title": "T hoowuuni possession",
-        "question": "Cosa è andato storto durante il rituale di scambio dei corpi?",
-        "true_answer": "Il rituale tra Rufus e Wade è fallito parzialmente: mentre Rufus è entrato con successo nel corpo di Wade, lo spirito maligno Hoowuuni ha approfittato del momento per possedere il vecchio corpo di Rufus, ottenendo forma fisica e il potere di comandare i Teihiihan cannibali.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_derailment_plot",
-        "title": "T derailment plot",
-        "question": "Come è stato organizzato il sabotaggio del treno e perché è andato così tragicamente fuori controllo?",
-        "true_answer": "Johnny Buck, passeggero sul treno, era in realtà una spia della banda Dunker che ha fornito informazioni per il sabotaggio. Tuttavia, prima che la banda potesse completare il piano, i Teihiihan li hanno massacrati, trasformando il semplice attacco dei banditi in una carneficina soprannaturale.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_wade_soul",
-        "title": "T wade soul",
-        "question": "Che fine ha fatto l'anima originale di Wade Dunker dopo il rituale?",
-        "true_answer": "L'anima di Wade è stata trasformata in creatura-avvoltoio dal rituale, intrappolata tra vita e morte",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_teihiihan_threat",
-        "title": "T teihiihan threat",
-        "question": "Cosa si nasconde dietro: T teihiihan threat?",
-        "true_answer": "I Teihiihan furono evocati dal rituale corrotto e ora cacciano per nutrire Hoowuuni con anime umane per aumentare il suo potere",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -7816,8 +7352,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
