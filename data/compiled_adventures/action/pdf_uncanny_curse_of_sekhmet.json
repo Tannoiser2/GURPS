@@ -11000,7 +11000,7 @@
         "id": "llm_clue_1",
         "label": "Satchel of Stolen Lire Worth Half a Million Dollars",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T1",
         "source_location": "A Precarious Start THE HANDLEY PAGE W.8F",
         "reveals": "Skeet Skitshaw has appena rubato una fortuna da banche italiane ed è in fuga con il bottino a bordo",
         "payoff": "I PG possono sequestrare il bottino per la ricompensa o usarlo come leva nelle negoziazioni",
@@ -11108,7 +11108,7 @@
         "id": "llm_clue_4",
         "label": "Professor Danieli's Kidnapping by Count Malefik",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T4",
         "source_location": "Dinner Interrupted",
         "reveals": "Il Conte Malefik ha rapito il professore Danieli per ottenere informazioni sui suoi manoscritti medievali",
         "payoff": "Il rapimento crea un'urgenza morale e una missione parallela alla caccia di Skeet",
@@ -11180,7 +11180,7 @@
         "id": "llm_clue_6",
         "label": "Testament of Vipers' Financial Ruin",
         "type": "document",
-        "thread_id": "T13",
+        "thread_id": "T6",
         "source_location": "THE DESPERATION OF VIPERS",
         "reveals": "I Vipers sono disperati e pericolosi perché completamente senza fondi dopo perdite catastrofiche recenti",
         "payoff": "La loro situazione finanziaria spiega l'aggressività e crea opportunità per corromperli o dividerli",
@@ -11216,7 +11216,7 @@
         "id": "llm_clue_7",
         "label": "Archaeological Dig at Leontopolis Points to Tomb Location",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T7",
         "source_location": "Calcata Vecchia",
         "reveals": "Il sito archeologico di Leontopolis contiene un documento o artefatto che indica dove si trova realmente la tomba",
         "payoff": "Leontopolis diventa la destinazione intermedia cruciale prima di raggiungere la tomba vera",
@@ -11252,7 +11252,7 @@
         "id": "llm_clue_8",
         "label": "Anglo-Egyptian Treaty and British Withdrawal from Egypt",
         "type": "document",
-        "thread_id": "T12",
+        "thread_id": "T8",
         "source_location": "THE DESPERATION OF VIPERS",
         "reveals": "Il ritiro britannico crea un vuoto di potere che i Vipers vogliono sfruttare usando l'Egitto come base operativa",
         "payoff": "Il contesto politico spiega perché i Vipers operano in Egitto e limita le risorse disponibili ai PG",
@@ -11288,7 +11288,7 @@
         "id": "llm_clue_9",
         "label": "German Archaeologist and Treasure Hunters at Meidum Pyramid",
         "type": "scene_observation",
-        "thread_id": "T13",
+        "thread_id": "T9",
         "source_location": "Entering Calcata Vecchia",
         "reveals": "Una terza fazione tedesca sta già scavando alla piramide di Meidum, complicando la ricerca della tomba",
         "payoff": "I PG devono affrontare competizione da una fazione inaspettata oltre ai Vipers",
@@ -11391,246 +11391,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Telegram from Count Malefik to Skitshaw",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Skitshaw is not acting alone but following orders from someone in Egypt",
-        "payoff": "Links Skitshaw's robberies to Count Malefik's Egyptian operation",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Occult Symbols on Stolen Banknotes",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "The stolen money was marked for a specific occult purpose",
-        "payoff": "Establishes direct connection between the robberies and Count Malefik's mystical agenda",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Professor Danieli's Research Notes",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "The Professor discovered something specific and dangerous within the tomb",
-        "payoff": "Reveals why Count Malefik needs the Professor alive - only he can locate the exact ritual chamber",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Eyewitness Account from Betty Sage",
-        "type": "testimony",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Count Malefik needs specific ritual knowledge, not just the tomb location",
-        "payoff": "Explains the kidnapping motive and the urgency of rescuing the Professor",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Sons of the Vipers' Expedition Supplies",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "The Sons of the Vipers have their own independent operation to raid the tomb",
-        "payoff": "Reveals a third faction competing for the tomb's treasures",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Georgie Feldsman's Intelligence Report",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "The Vipers' financial desperation is driving them to extreme measures",
-        "payoff": "Establishes motive for the Sons of the Vipers' involvement and their timeline pressure",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "German Archaeologist's Warning",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Count Malefik's cult has been actively searching and marking locations",
-        "payoff": "Provides physical trail to follow and confirms Count Malefik's occult involvement",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Medieval Manuscript Missing Pages",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Someone removed the information about how to activate or control the curse",
-        "payoff": "Suggests Count Malefik already has partial knowledge and needs the Professor to complete it",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_9",
-        "label": "Mirella Danieli's Plea for Help",
-        "type": "testimony",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Professor Danieli was specifically targeted because of his curse research",
-        "payoff": "Establishes Count Malefik's long-term interest in the Professor's specific expertise",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_10",
-        "label": "Financial Records in Stolen Satchel",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Skitshaw has been on someone's payroll throughout his crimes",
-        "payoff": "Proves Skitshaw is a hired operative, not an independent criminal",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -11644,8 +11404,8 @@
         "secret": "Has connections to various underworld figures and sometimes transports questionable cargo for extra money",
         "agenda_pressure": 0,
         "fear": "Being caught in criminal activities or losing his pilot's license",
-        "current_plan": "Continuare a pilotare voli turistici legittimi mentre occasionalmente trasporta contrabbando o criminali in fuga per supplementare le entrate, evitando di sapere troppo sui suoi clienti loschi",
-        "fallback_plan": "Se scoperto, accusare Skitshaw di averlo costretto con minacce, poi fuggire in Svizzera con i risparmi nascosti e ricominciare come pilota charter sotto falso nome",
+        "current_plan": "Continuare a gestire il suo servizio di taxi aereo legittimo mentre accetta occasionali lavori lucrosi dal sottobosco criminale, evitando di sapere troppo sui suoi clienti più loschi",
+        "fallback_plan": "Se scoperto dalle autorità, abbandonare l'Italia con il suo aereo dirigendosi verso il Nord Africa dove ha contatti a Tangeri che possono nasconderlo finché le acque si calmano",
         "resources": [
           "accessi",
           "contatti",
@@ -11667,16 +11427,16 @@
           "Situations where his plane could be confiscated"
         ],
         "pressure_response": {
-          "low": "Georgie chiacchiera amabilmente di modelli di aeroplani, rotte italiane e aneddoti di volo, mantenendo un'aria professionale e affabile da pilota esperto",
-          "medium": "Diventa nervoso e evasivo quando si parla di certi voli notturni o passeggeri particolari, cambia discorso parlando ossessivamente di specifiche tecniche del suo aereo",
-          "high": "Suda visibilmente, controlla ripetutamente l'orologio e menziona 'impegni urgenti'. Potrebbe fare nomi vaghi di 'certi clienti che non gradiscono domande' per intimidire",
-          "extreme": "Crolla ammettendo di trasportare 'pacchi' per Skitshaw e la sua banda, piangendo che aveva bisogno di soldi per riparare il suo aereo e che 'quelli ti ammazzano se parli'"
+          "low": "Georgie chiacchiera allegramente di motori aeronautici e rotte mediterranee, offrendosi di portare i personaggi ovunque in Italia per una tariffa ragionevole",
+          "medium": "Diventa nervoso e evasivo quando si menzionano certi passeggeri o carichi, cambia argomento parlando dei rischi del volo e della necessità di discrezione nel suo lavoro",
+          "high": "Ammette sotto pressione di aver trasportato 'certi individui' e pacchi senza fare domande, ma giura di non sapere nulla di Skeet Skitshaw o della maledizione - era solo lavoro",
+          "extreme": "Crolla e rivela di aver fatto volare un americano misterioso verso il sud Italia tre settimane fa con una cassa antica, confessa i nomi dei suoi contatti nella malavita che organizzano i trasporti clandestini"
         },
         "reaction_table": {
-          "se_minacciato": "Si appella alla sua reputazione di pilota onesto, offre un volo gratis come risarcimento, poi tenta di contattare i suoi 'amici' della malavita per farsi proteggere",
-          "se_corrotto": "Accetta tangenti sostanziose (almeno 500 lire) per rivelare dettagli su voli sospetti, destinazioni di Skitshaw, o per 'dimenticare' certi passeggeri durante controlli",
-          "se_i_pg_hanno_prove": "Crolla rapidamente, offrendo piena collaborazione in cambio di immunità. Rivelerà nascondigli, contatti e rotte usate dalla banda in cambio di protezione",
-          "se_alleato": "Fornisce trasporto aereo affidabile, informazioni sui movimenti della malavita italiana, e segnala quando Skitshaw o i suoi uomini prenotano voli"
+          "se_minacciato": "Cerca di scappare verso il suo aereo, minaccia di chiamare 'certi amici' che non gradirebbero interferenze, può offrire informazioni parziali per salvarsi",
+          "se_corrotto": "Accetta denaro contante per rivelare dettagli su voli recenti sospetti, può offrire passaggi non registrati o introdurre i PG ai suoi contatti nel mercato nero italiano",
+          "se_i_pg_hanno_prove": "Si arrende rapidamente di fronte a prove concrete, baratta informazioni complete sui suoi traffici in cambio di immunità o di essere lasciato fuori dalla faccenda",
+          "se_alleato": "Diventa un prezioso asset aereo, fornisce trasporto rapido attraverso l'Italia, usa i suoi contatti malavitosi per ottenere informazioni su Skitshaw e sugli artefatti rubati"
         },
         "pressure_events": [],
         "relationships": [
@@ -11709,8 +11469,8 @@
         "secret": "Plans to use his European robbery money to fund a criminal empire back in Chicago",
         "agenda_pressure": 0,
         "fear": "Being sent back to prison or killed by the PCs pursuing him",
-        "current_plan": "Imbarcarsi sul piroscafo 'SS Saturnia' da Genova verso New York usando documenti falsi come 'Morton Caldwell, commerciante di antiquariato'. I soldi sono nascosti in casse di finte repliche egizie.",
-        "fallback_plan": "Se il porto è sorvegliato, attraversare le Alpi verso la Svizzera con guide contrabbandieri che conosce. Nascondere il bottino in una banca svizzera e tornare in America 'pulito', recuperando i soldi in seguito tramite intermediari.",
+        "current_plan": "Completare l'ultimo colpo a una banca di Firenze, trasferire tutto il denaro in diamanti facilmente trasportabili attraverso un ricettatore veneziano, poi imbarcarsi su un cargo diretto a Marsiglia con documenti da marinaio",
+        "fallback_plan": "Se il piano del cargo fallisce, raggiungere il Vaticano e chiedere asilo ecclesiastico temporaneo corrompendo cardinali corrotti, poi fuggire nascosto in un convoglio diplomatico verso la Svizzera dove ha un conto segreto",
         "resources": [
           "accessi",
           "contatti",
@@ -11732,16 +11492,16 @@
           "Losing his stolen bank money"
         ],
         "pressure_response": {
-          "low": "Skeet mantiene un profilo basso, vestito elegantemente e mescolandosi con i turisti americani benestanti. Paga generosamente per silenzi e false identità.",
-          "medium": "Inizia a muoversi freneticamente tra città italiane (Roma, Venezia, Napoli), lasciando false piste. Contatta contrabbandieri per accelerare la fuga via mare verso il Nord Africa.",
-          "high": "Abbandona la valigia con i soldi rubati in un deposito ferroviario e crea un diversivo violento - rapina spettacolare in banca italiana per confondere inseguitori sulla sua vera identità.",
-          "extreme": "Prende ostaggi in un museo o hotel di lusso, pretendendo salvacondotto. Minaccia di far saltare antichità egizie rubate se non ottiene libero passaggio verso Chicago via transatlantico."
+          "low": "Skeet mantiene un profilo basso, si traveste da turista americano benestante, paga tangenti ai funzionari locali e si sposta tra hotel di lusso usando documenti falsi",
+          "medium": "Abbandona la sua identità fasulla, contatta contrabbandieri italiani per organizzare una fuga via mare verso la Spagna, nasconde il denaro rubato in depositi separati come polizza assicurativa",
+          "high": "Prende ostaggi civili se accantonato, minaccia di far saltare la sua cassetta di sicurezza con il denaro se qualcuno si avvicina troppo, cerca disperatamente un aereo privato corrompendo piloti e criminali locali",
+          "extreme": "Ingaggia una sparatoria finale stile Chicago, usa bombe fumogene e granate che ha contrabbandato dall'America, è disposto a suicidarsi piuttosto che tornare in prigione dove ha giurato vendetta contro i secondini"
         },
         "reaction_table": {
-          "se_minacciato": "Reagisce con violenza improvvisa - Skeet è famoso per sparatorie spettacolari. Usa civili come scudi umani e la sua Thompson nascosta in custodia per violino.",
-          "se_corrotto": "Finge di accettare, offrendo una percentuale del bottino, ma prepara un'imboscata. Lascia sacchi pieni di lire contraffatte come pagamento falso.",
-          "se_i_pg_hanno_prove": "Tenta di distruggere le prove con incendi o furto. Se impossibile, cerca di screditare i PG con la polizia italiana corrotta che ha già comprato.",
-          "se_alleato": "Diventa pericolosamente amichevole, raccontando storie di Chicago e Al Capone. Pianifica segretamente di tradire l'alleato alla prima occasione utile per coprire la sua fuga."
+          "se_minacciato": "Ride nervosamente mostrando il suo gold tooth distintivo, fa battute sarcastiche in slang di Chicago, poi estrae la sua Tommy Gun nascosta e inizia a sparare mentre cerca copertura",
+          "se_corrotto": "Ascolta con interesse calcolato, offre una percentuale del 15% del bottino europeo se lo lasciano scappare, propone di rivelare la posizione di altri fuggitivi più pericolosi come diversivo",
+          "se_i_pg_hanno_prove": "Diventa paranoico che i suoi ex complici di Chicago lo abbiano tradito, accusa i PG di lavorare per gang rivali, cerca di distruggere le prove fisiche o uccidere i testimoni immediatamente",
+          "se_alleato": "Si fida solo fino a un certo punto, condivide informazioni sui suoi contatti contrabbandieri italiani ma mente sulla vera ubicazione del denaro, tradisce l'alleato non appena vede una via di fuga migliore"
         },
         "pressure_events": [],
         "relationships": [
@@ -11774,8 +11534,8 @@
         "secret": "Knows her father possesses rare medieval manuscripts valuable enough to attract dangerous criminals",
         "agenda_pressure": 0,
         "fear": "That the Vipers will kill her father if she doesn't find help quickly",
-        "current_plan": "Pagare i PG per infiltrarsi nella fortezza di Malefik sul Lago di Como entro 48 ore, recuperare il padre vivo prima che i Vipers completino l'interrogatorio sui manoscritti",
-        "fallback_plan": "Se il salvataggio diretto fallisce, negoziare con Malefik offrendo i manoscritti autentici in cambio del padre, poi tradire Malefik rivelando ai PG il vero nascondiglio della Chiave di Sekhmet per permettere un secondo assalto",
+        "current_plan": "Ingaggiare avventurieri capaci per infiltrarsi nella base di Malefik nei Balcani, recuperare suo padre vivo e distruggere i manoscritti prima che completino il rituale di Sekhmet",
+        "fallback_plan": "Se il salvataggio fallisce, negoziare direttamente con Malefik consegnando i manoscritti autentici in cambio di suo padre, poi assumere cacciatori professionisti per eliminare il Conte prima che usi i testi",
         "resources": [
           "accessi",
           "contatti",
@@ -11797,16 +11557,16 @@
           "Any delay that could cost her father's life"
         ],
         "pressure_response": {
-          "low": "Mirella mantiene la compostezza aristocratica, offrendo generose ricompense e informazioni parziali sui manoscritti medievali del padre, senza rivelare il loro vero valore",
-          "medium": "Confessa che i manoscritti contengono formule alchemiche che Malefik vuole per i Vipers, offre accesso agli archivi di famiglia e contatti nell'underground veneziano",
-          "high": "Rivela disperata che suo padre ha nascosto la 'Chiave di Sekhmet' tra i manoscritti, un artefatto che Malefik userà per un rituale entro la luna piena, accetta di accompagnare i PG nella fortezza",
-          "extreme": "Crolla emotivamente ammettendo di aver involontariamente rivelato la posizione del padre a un agente dei Vipers travestito da studioso, si offre come esca per infiltrarsi tra i servitori di Malefik"
+          "low": "Rimane composta e determinata, offrendo ricompense monetarie generose e appellandosi all'onore degli avventurieri per salvare suo padre dalle grinfie di Malefik",
+          "medium": "Rivela con riluttanza che suo padre custodisce manoscritti medievali rarissimi che Malefik vuole per rituali occulti legati a Sekhmet, aumentando il compenso",
+          "high": "Confessa disperata che i Vipers hanno dato un ultimatum di 48 ore e che suo padre ha nascosto la chiave per decifrare i manoscritti in un luogo noto solo a lei",
+          "extreme": "Crolla emotivamente rivelando che Malefik le ha mostrato un dito mozzato di suo padre come prova, offrendosi di consegnare personalmente i manoscritti in cambio del suo rilascio"
         },
         "reaction_table": {
-          "se_minacciato": "Si ritira orgogliosamente dietro le sue connessioni nobiliari veneziane, minaccia di chiamare la polizia o il consolato, ma cede rapidamente se mostrano prove del pericolo imminente per il padre",
-          "se_corrotto": "Offende profondamente il suo onore familiare, rifiuta con sdegno, ma potrebbe cedere se la corruzione è mascherata come 'donazione' per salvare opere d'arte insieme al padre",
-          "se_i_pg_hanno_prove": "Riconosce immediatamente simboli o riferimenti ai Vipers, diventa collaborativa fornendo mappe della tenuta di Malefik e nomi di guardie corruttibili che conosce dall'alta società",
-          "se_alleato": "Diventa fiduciosa e determinata, condivide il diario cifrato del padre con riferimenti ai manoscritti, organizza rifornimenti e contatti fidati tra antiquari e gondolieri veneziani"
+          "se_minacciato": "Si irrigidisce con orgoglio aristocratico veneziano, minacciando di rivolgersi alle autorità italiane e all'Interpol, ma cede rapidamente se menzionano suo padre",
+          "se_corrotto": "Rifiuta sdegnata qualsiasi tentativo di estorsione, ma può essere persuasa a condividere informazioni sui manoscritti se promettono protezione per entrambi",
+          "se_i_pg_hanno_prove": "Se dimostrano di conoscere l'ubicazione della fortezza di Malefik o hanno intercettato comunicazioni dei Vipers, collabora pienamente rivelando dettagli sulla maledizione di Sekhmet",
+          "se_alleato": "Diventa fiduciosa e devota, fornendo mappe della tenuta paterna, contatti nel mercato antiquario veneziano e accesso ai suoi fondi personali per equipaggiamento"
         },
         "pressure_events": [],
         "relationships": [
@@ -11844,8 +11604,8 @@
         "secret": "The Testament of Vipers is completely broke after the Manchuria invasion and Swiss vault heist",
         "agenda_pressure": 0,
         "fear": "Failing Count Malefik and losing their only chance to restore the Testament's fortune",
-        "current_plan": "Mantenere il professore vivo abbastanza a lungo perché riveli l'ubicazione del vero Testamento di Sekhmet - l'ultima speranza del Conte per risollevare le finanze della setta attraverso un manufatto vendibile",
-        "fallback_plan": "Se il professore muore o i PG attaccano, recuperare i suoi appunti e diari dalla suite dell'hotel. In extremis, rapire Skeet Skitshaw per chiedere riscatto alle autorità americane - un piano rozzo da disperati",
+        "current_plan": "Mantenere il perimetro attorno all'interrogatorio del professore fino a quando Malefik ottiene informazioni sulla reliquia di Sekhmet, nascondendo la crisi finanziaria dell'organizzazione che li rende incapaci di operazioni prolungate",
+        "fallback_plan": "Se l'operazione fallisce, incolpare Malefik della disfatta e usare il caos per saccheggiare risorse residue prima che il Testamento dei Serpenti imploda completamente. Veterani chiave pianificano di vendere segreti organizzativi a rivali per sopravvivenza personale",
         "resources": [
           "accessi",
           "contatti",
@@ -11867,16 +11627,16 @@
           "Failure that would doom the Testament's Egyptian ambitions"
         ],
         "pressure_response": {
-          "low": "Pattuglie regolari nei corridoi del covo egiziano, controlli di routine sugli accessi. I cultisti mantengono la copertura come semplici 'studiosi di egittologia'",
-          "medium": "Raddoppiano le guardie intorno alla sala dove il Conte interroga il professore. Attivano trappole meccaniche nelle catacombe e posizionano cecchini sui tetti del quartiere",
-          "high": "Tentano di spostare il professore in un rifugio secondario sul Nilo. Bruciano documenti compromettenti sul fallimento finanziario. Alcuni membri cercano di fuggire con i pochi fondi rimasti",
-          "extreme": "Eseguono l'ordine di eliminare il professore per cancellare le prove. Tentano un attentato suicida contro i PG usando le ultime risorse esplosive. Il Conte abbandona i cultisti al loro destino"
+          "low": "I Figli dei Serpenti sorvegliano l'operazione con routine militare, pattugliando il perimetro del nascondiglio di Conte Malefik mentre il professore viene interrogato. Minacciano verbalmente gli intrusi con arroganza da organizzazione potente.",
+          "medium": "Attivano trappole preparate e lanciano gas lacrimogeni per rallentare gli intrusi. Alcuni membri cercano di proteggere i documenti compromettenti sulla bancarotta dell'organizzazione, bruciando archivi finanziari prima che vengano scoperti.",
+          "high": "Combattono disperatamente sapendo che se falliscono Malefik scoprirà la loro situazione finanziaria disastrosa. Alcuni traditori offrono informazioni sul Testamento dei Serpenti in cambio di denaro contante, rivelando la vulnerabilità dell'organizzazione.",
+          "extreme": "Il comandante dei Figli tenta di negoziare la resa offrendo Malefik come capro espiatorio, rivelando che il Testamento è tecnicamente insolvente dopo i disastri in Manciuria e Svizzera. Alcuni fuggono con oggetti di valore rubati per salvarsi individualmente."
         },
         "reaction_table": {
-          "se_minacciato": "Fingono di arrendersi per tendere un'imboscata nelle strette vie del Cairo. Usano ostaggi civili come scudi umani, approfittando della mentalità da 'eroi' dei PG",
-          "se_corrotto": "Ridono amaramente: 'Con cosa ci corrompete? Siamo già in bancarotta!' Ma alcuni membri disillusi potrebbero tradire rivelando i nascondigli segreti del Conte in cambio di passaggio sicuro",
-          "se_i_pg_hanno_prove": "Tentano disperatamente di recuperare o distruggere le prove del fallimento finanziario - è l'unica leva che il Conte ha ancora sui membri rimasti. Senza il mito della ricchezza, la setta si dissolve",
-          "se_alleato": "Impossibile. Sono fanatici bruciati che hanno perso tutto in Manciuria. L'unica alleanza possibile è con singoli membri disertori che vogliono salvare la pelle prima del crollo totale"
+          "se_minacciato": "Rispondono con forza eccessiva per nascondere debolezza, ma veterani nervosi potrebbero arrendersi se confrontati con evidenza della bancarotta organizzativa",
+          "se_corrotto": "Membri disillusi accettano tangenti sostanziose, specialmente se sanno che il Testamento non può più pagarli. Alcuni vendono informazioni su Malefik per denaro immediato",
+          "se_i_pg_hanno_prove": "Se scoprono che i PG sanno della bancarotta, tentano di eliminare testimoni o fuggire prima che Malefik scopra il loro fallimento nel mantenere segretezza",
+          "se_alleato": "Impossibile alleanza reale, ma membri disertori potrebbero fornire intelligence su Malefik in cambio di protezione dalle conseguenze del collasso finanziario del Testamento"
         },
         "pressure_events": [],
         "relationships": [
@@ -11909,8 +11669,8 @@
         "secret": "The Testament is completely bankrupt after losing their fortune in Manchuria and a Swiss vault heist by Irish thieves",
         "agenda_pressure": 0,
         "fear": "The Testament of Vipers will collapse without funds, losing their chance to control Egypt after British withdrawal",
-        "current_plan": "Infiltrare un suo agente travestito da assistente accademico nella cerchia del Professor Danieli per fotografare segretamente le pagine del manoscritto medievale che indicano la tomba di Hatshepsut",
-        "fallback_plan": "Se il manoscritto è inaccessibile, corrompere un funzionario del British Museum per ottenere le coordinate approssimative della Valle dei Re dove Danieli ha fatto ricerche, poi scavare sistematicamente usando i Testament come manodopera forzata",
+        "current_plan": "Decifrare il manoscritto medievale di Danieli infiltrando un falsario esperto di lingue antiche nel team archeologico, quindi organizzare una spedizione segreta notturna per svuotare la tomba prima che le autorità egiziane ne vengano a conoscenza",
+        "fallback_plan": "Se impossibile ottenere il manoscritto, rapire il Professor Danieli e portarlo in una fortezza isolata nel deserto libico dove sarà torturato finché non rivela ogni dettaglio sulla tomba, quindi eliminarlo e inscenare la scoperta come propria",
         "resources": [
           "accessi",
           "contatti",
@@ -11932,16 +11692,16 @@
           "The Testament's bankruptcy becoming known to rivals"
         ],
         "pressure_response": {
-          "low": "Offre ai PG una partnership nel recupero dei carri d'oro, promettendo una quota del tesoro se lo aiutano a decifrare il manoscritto di Danieli",
-          "medium": "Invia i suoi scagnozzi a rubare il manoscritto medievale direttamente da Danieli, organizzando un'irruzione notturna al museo o alla sua residenza",
-          "high": "Rapisce il Professor Danieli e lo tortura personalmente per estorcergli la traduzione del manoscritto, minacciando di distruggere i suoi preziosi reperti archeologici uno ad uno",
-          "extreme": "Dà fuoco agli archivi universitari dove Danieli conserva le sue ricerche, tentando di eliminare chiunque altro possa decifrare il manoscritto, poi organizza una spedizione disperata in Egitto basandosi su frammenti parziali"
+          "low": "Invia mercenari travestiti da beduini per rubare il manoscritto durante gli scavi, offrendo al contempo generose donazioni al museo del Professor Danieli per ottenere accesso alle sue ricerche",
+          "medium": "Rapisce l'assistente del professore e organizza un 'incidente' al sito archeologico, facendo crollare parte degli scavi per costringere Danieli a cercare protezione (e finanziamenti) da lui",
+          "high": "Invoca pubblicamente la maledizione di Sekhmet per screditare Danieli come pazzo, mentre i suoi uomini inscenano 'manifestazioni soprannaturali' e attacchi di culti egiziani fanatici per impossessarsi del manoscritto con la forza",
+          "extreme": "Rivela disperatamente la bancarotta del Testament in cambio di immunità, tradisce i suoi complici e tenta di vendere le informazioni parziali sui quaranta carri d'oro a collezionisti del mercato nero per salvare almeno qualcosa"
         },
         "reaction_table": {
-          "se_minacciato": "Finge sottomissione aristocratica mentre segretamente ordina ai Testament di sabotare la spedizione dei PG in Egitto, piantando serpenti velenosi nei loro accampamenti",
-          "se_corrotto": "Accetta solo se riceve il manoscritto originale più coordinate precise della tomba, ma tradisce immediatamente sigillando i PG dentro la tomba di Hatshepsut per prendersi tutti i quaranta carri",
-          "se_i_pg_hanno_prove": "Nega tutto accusando i PG di essere agenti bolscevichi che vogliono screditare la nobiltà europea, usando i suoi contatti diplomatici per farli arrestare dalle autorità egiziane",
-          "se_alleato": "Usa i Testament come forza d'assalto per eliminare le guardie della tomba, poi cerca di avvelenare i PG durante il banchetto celebrativo al Cairo per non dividere il tesoro"
+          "se_minacciato": "Assume Skeet Skitshaw come sicario per eliminare i testimoni, promettendo una fuga garantita in Sudamerica con i proventi dei carri d'oro, mentre brucia ogni documento che collega il Testament al fallimento",
+          "se_corrotto": "Finge di accettare partnership per localizzare la tomba insieme, ma pianifica di far accusare i corruttori del furto del manoscritto e della profanazione della tomba, usando la loro avidità contro di loro",
+          "se_i_pg_hanno_prove": "Attiva la rete dormiente del Testament in Europa per far sparire le prove, ricattando funzionari con vecchi segreti dell'organizzazione e inscenando la propria morte in un incendio al castello",
+          "se_alleato": "Propone di spartire equamente i quaranta carri d'oro dopo averli recuperati, ma prepara trappole mortali nella tomba stessa per eliminare gli 'alleati' una volta localizzato il tesoro"
         },
         "pressure_events": [],
         "relationships": [
@@ -11979,8 +11739,8 @@
         "secret": "Sanno che il ritiro britannico lascerà un vuoto di potere che gruppi mercenari cercheranno di sfruttare",
         "agenda_pressure": 0,
         "fear": "Essere coinvolti in conflitti locali che compromettano il ritiro ordinato",
-        "current_plan": "Completare il ritiro scaglionato secondo tabella di marcia, mantenendo ordine pubblico minimale nelle zone sotto controllo britannico fino all'ultimo momento, proteggendo principalmente installazioni chiave del Canale.",
-        "fallback_plan": "Se la situazione degenera in violenza o caos prima del ritiro completo, ripiegare verso Port Said consolidando le posizioni difensive, evacuare personale non essenziale via mare, e lasciare che egiziani e mercenari si contendano il resto.",
+        "current_plan": "Completare il ritiro dall'Egitto secondo il calendario politico, proteggendo le truppe durante il ripiegamento e impedendo che incidenti diplomatici compromettano il processo",
+        "fallback_plan": "Se la situazione degenera con scontri tra bande mercenarie, evacuare rapidamente tutto il personale britannico via mare da Port Said, abbandonando equipaggiamento non essenziale e lasciando che gli egiziani gestiscano il caos",
         "resources": [
           "accessi",
           "contatti",
@@ -12002,16 +11762,16 @@
           "Perdite tra le truppe durante il periodo di transizione"
         ],
         "pressure_response": {
-          "low": "Rispondono con cortesia professionale ma mantengono le distanze, citando ordini superiori e protocolli militari. Offrono indicazioni generiche ma nessuna informazione sensibile.",
-          "medium": "Diventano più rigidi e sospettosi, controllano documenti e credenziali ripetutamente. Alcuni soldati veterani lasciano trapelare preoccupazioni sul futuro instabile del Canale dopo il ritiro.",
-          "high": "Attivano posti di blocco improvvisati e perquisizioni. Un sergente nervoso ammette di aver notato mercenari europei che mappano posizioni strategiche lungo il Canale nelle ultime settimane.",
-          "extreme": "Dichiarano stato d'emergenza nella loro zona di competenza. Il comandante, pressato, rivela che hanno ordini di non interferire con certi gruppi privati legati a contratti petroliferi britannici."
+          "low": "Pattugliamenti di routine lungo il canale, controlli standard sui documenti dei visitatori. Atteggiamento professionale ma distratto, pensando già al rimpatrio",
+          "medium": "Aumentano i controlli armati, stabiliscono posti di blocco improvvisi. Interrogatori più aggressivi di chiunque sembri sospetto o legato a mercenari",
+          "high": "Dichiarano il coprifuoco nelle zone critiche del canale. Perquisizioni casa per casa nei villaggi vicini. Arrestano preventivamente chiunque abbia contatti con gruppi paramilitari",
+          "extreme": "Chiudono completamente l'accesso al canale. Sparano a vista contro intrusi armati. Richiedono rinforzi da Alessandria per contenere la situazione prima del ritiro definitivo"
         },
         "reaction_table": {
-          "se_minacciato": "Si chiudono a riccio invocando la catena di comando. Arrestano chi rappresenta una minaccia diretta, ma sono riluttanti ad escalation che possano complicare il già delicato ritiro.",
-          "se_corrotto": "I soldati semplici rifiutano sdegnati, ma un quartermaster disilluso potrebbe vendere informazioni su movimenti di truppe e mappe delle zone che saranno abbandonate per prima.",
-          "se_i_pg_hanno_prove": "Se mostrate prove di attività criminali che minacciano cittadini britannici o interessi della Corona, un capitano idealista fornirà scorta armata e accesso a rapporti d'intelligence sul traffico illegale.",
-          "se_alleato": "Condividono té e razioni, lamentandosi del ritiro precipitoso. Rivelano che certi ufficiali hanno ricevuto offerte lucrose da compagnie private per 'consulenze' dopo il congedo."
+          "se_minacciato": "Rispondono con forza schiacciante, chiamano rinforzi immediati. Non possono permettersi incidenti che rallentino il ritiro ordinato",
+          "se_corrotto": "Ufficiali inferiori potrebbero accettare tangenti per 'non vedere' certi movimenti, specialmente se sanno che tra poche settimane non sarà più affar loro",
+          "se_i_pg_hanno_prove": "Se i PG dimostrano che mercenari minacciano asset britannici durante il ritiro, collaborano fornendo scorte armate e intelligence sui movimenti sospetti",
+          "se_alleato": "Condividono mappe aggiornate delle posizioni militari, avvertono sui gruppi mercenari già identificati (Skitshaw incluso), offrono trasporto militare sicuro attraverso zone pericolose"
         },
         "pressure_events": [],
         "relationships": [
@@ -12044,8 +11804,8 @@
         "secret": "Sta operando senza autorizzazione ufficiale tedesca, rubando tesori per arricchirsi personalmente più che per il Reich",
         "agenda_pressure": 0,
         "fear": "Che i nazisti scoprano le sue operazioni illegali e la richiamino in Germania",
-        "current_plan": "Concentrare gli scavi notturni nella mastaba 17 dove i suoi informatori beduini hanno segnalato geroglifici riferiti a Hetshepsut, corrompere il guardiano locale Rashid per distogliere l'attenzione dalle proprie attività, trasportare i reperti già trovati (canopi e gioielli) al magazzino segreto nel quartiere copto del Cairo prima della settimana prossima",
-        "fallback_plan": "Se scoperta, attivare l'identità di copertura come archeologa del Museo Etnologico di Amburgo e sostenere di essere in missione ufficiale mostrando documenti falsificati, se questo fallisce abbandonare tutto tranne i tre reperti più preziosi (la maschera funeraria d'oro, il papiro intatto, lo scarabeo di lapislazzuli) nascosti nella cintura sotto i vestiti e fuggire via Suez verso Aden fingendosi rifugiata ebrea tedesca",
+        "current_plan": "Mantenere la facciata di scavi ufficiali tedeschi a Meidum mentre svuota sistematicamente la mastaba di Hetshepsut di notte, spedendo casse etichettate come 'campioni geologici' verso depositi privati ad Alessandria",
+        "fallback_plan": "Se scoperta, incolpare il suo assistente egiziano Rashid di aver organizzato il traffico illegale all'insaputa sua, presentarsi come vittima ingenua e negoziare l'immunità in cambio della restituzione parziale dei reperti meno vendibili",
         "resources": [
           "accessi",
           "contatti",
@@ -12067,16 +11827,16 @@
           "Che la sua disobbedienza raggiunga Berlino"
         ],
         "pressure_response": {
-          "low": "Margrit osserva i PG con sospetto professionale, offre collaborazione superficiale scambiando informazioni false o fuorvianti sugli scavi, cerca di capire quanto sanno della vera ubicazione della tomba",
-          "medium": "Assume archeologi e beduini locali per sabotare gli scavi dei PG, diffonde voci che i PG stanno profanando siti sacri per screditarli presso le autorità egiziane, accelera i propri scavi notturni rischiando crolli",
-          "high": "Usa i suoi contatti con mercenari tedeschi disertori per tendere imboscate nelle mastaba, inscena un furto ai danni dei PG incolpandoli presso le autorità britanniche del Cairo, tenta di far crollare intere sezioni di scavo dove operano i rivali",
-          "extreme": "Rapisce un membro della spedizione dei PG per usarlo come ostaggio e scambio con reperti già trovati, minaccia di far esplodere l'ingresso della tomba di Hetshepsut piuttosto che lasciarlo ai PG, contatta agenti del Reich rivelando la propria posizione pur di avere supporto armato"
+          "low": "Margrit mantiene un'apparenza professionale da archeologa tedesca, citando autorizzazioni ministeriali inesistenti e mostrando documenti falsificati con sigilli del Reich",
+          "medium": "Aumenta il ritmo degli scavi notturni a Meidum, corrompendo i lavoratori locali per sabotare rivali e nascondere reperti nei suoi alloggi privati al Cairo",
+          "high": "Organizza un 'incidente' agli scavi - un crollo pianificato o un attacco di banditi assoldati - per eliminare testimoni e accusare i PG di violazione delle leggi egiziane",
+          "extreme": "Tenta di fuggire in Sudan con i manufatti più preziosi già trafugati, abbandonando la squadra tedesca e lasciando che Berlin creda che i PG abbiano rubato tutto"
         },
         "reaction_table": {
-          "se_minacciato": "Finge sottomissione mentre nasconde i reperti più preziosi in cache segrete nel deserto, offre di spartire il bottino 60-40 a suo favore, prepara documenti falsi per accusare i PG di contrabbando",
-          "se_corrotto": "Accetta denaro ma tradisce comunque l'accordo appena possibile, fornisce mappe accurate in cambio di una percentuale sulle vendite al mercato nero, propone una falsa partnership per scoprire i contatti dei PG con i collezionisti",
-          "se_i_pg_hanno_prove": "Cerca disperatamente di recuperare le prove offrendosi come informatrice contro altri trafficanti, minaccia di coinvolgere i PG nel suo traffico illecito se la espongono, tenta la fuga immediata verso Alessandria con i reperti più trasportabili",
-          "se_alleato": "Condivide informazioni su trappole e passaggi segreti nelle mastaba, rivela la presenza di altri tombaroli italiani nella zona di Meidum, organizza trasporto sicuro dei reperti attraverso la sua rete clandestina fino al Cairo"
+          "se_minacciato": "Invoca l'immunità diplomatica tedesca e minaccia ritorsioni del consolato, mentre segretamente contatta mercenari beduini per intimidire o eliminare la minaccia",
+          "se_corrotto": "Finge interesse, offre una piccola quota dei reperti comuni, ma continua a nascondere i pezzi veramente preziosi destinati al mercato nero svizzero",
+          "se_i_pg_hanno_prove": "Cerca di sedurre/ricattare chi ha le prove, oppure orchestra un furto per recuperarle; ultima risorsa: accusare i PG di essere spie britanniche che vogliono screditare la Germania",
+          "se_alleato": "Utilizza i PG come copertura involontaria per i suoi scavi illegali, inviandoli verso tombe secondarie mentre lei svuota quella di Hetshepsut di nascosto"
         },
         "pressure_events": [],
         "relationships": [
@@ -12114,7 +11874,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -12144,16 +11903,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_calcata"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -12170,7 +11919,6 @@
           "llm_clue_11"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -12204,17 +11952,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_imperial_airlines_plane",
-          "loc_leontopolis"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -12227,7 +11964,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -12257,17 +11993,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_calcata",
-          "loc_pyramid_meidum"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -12280,7 +12005,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -12311,16 +12035,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_leontopolis",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_tomb_hetshepsut"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -12333,7 +12047,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -12364,14 +12077,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_pyramid_meidum",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -12513,206 +12218,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "The Connection Between Skitshaw and Count Malefik",
-        "question": "Why is a Chicago bank robber working with an occult villain in Egypt?",
-        "true_answer": "Count Malefik financed Skitshaw's European robberies in exchange for funding the search for Hetshepsut's tomb, which contains artifacts of dark power",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_2"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T2",
-          "T4"
-        ],
-        "linked_npcs": [
-          "Skeet Skitshaw",
-          "Count Malefik"
-        ],
-        "linked_locations": [
-          "Imperial Airlines Civilian Airliner",
-          "Leontopolis (City of Lions)"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "The True Purpose of Professor Danieli's Kidnapping",
-        "question": "What does Count Malefik need from Professor Danieli?",
-        "true_answer": "Professor Danieli can read the medieval manuscript and knows the exact ritual location within Hetshepsut's tomb where the Curse of Sekhmet can be activated",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T3",
-          "T4"
-        ],
-        "linked_npcs": [
-          "Professor Danieli",
-          "Count Malefik",
-          "Mirella Danieli"
-        ],
-        "linked_locations": [
-          "Calcata",
-          "Tomb of Hetshepsut"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "The Sons of the Vipers' Revenge Plan",
-        "question": "How do the Sons of the Vipers plan to recover their lost fortune?",
-        "true_answer": "The Sons of the Vipers plan to steal the forty golden chariots from Hetshepsut's tomb to rebuild their treasury after the Irish thieves' heist",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "llm_clue_5",
-          "llm_clue_10"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T5",
-          "T6",
-          "T10"
-        ],
-        "linked_npcs": [
-          "Sons of the Vipers"
-        ],
-        "linked_locations": [
-          "Tomb of Hetshepsut",
-          "Leontopolis (City of Lions)"
-        ]
-      },
-      {
-        "id": "T2",
-        "title": "T2",
-        "question": "Cosa rivela Skeet Skitshaw's Four European Bank Robberies?",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T3",
-        "title": "T3",
-        "question": "Cosa rivela Medieval Manuscript Describing Hetshepsut's Tomb Location?",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T5",
-        "title": "T5",
-        "question": "Cosa rivela Forty Golden Chariots in Hetshepsut's Tomb?",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T10",
-        "title": "T10",
-        "question": "Cosa rivela Irish Thieves' Heist of Vipers' Swiss Vault?",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_vipers_motive",
-        "title": "T vipers motive",
-        "question": "The Testament of Vipers is bankrupt and desperately needs Hetshepsut's tomb treasure to fund their political operations ",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_kidnapping_purpose",
-        "title": "T kidnapping purpose",
-        "question": "Count Malefik kidnapped Professor Danieli to steal his medieval manuscript revealing Hetshepsut's tomb location at Leont",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_opening_connection",
-        "title": "T opening connection",
-        "question": "Skeet Skitshaw's European bank robbery spree funded his escape to Rome, where his plane crash near Calcata initiated the",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_vipers_downfall",
-        "title": "T vipers downfall",
-        "question": "The Irish thieves' vault heist bankrupted the Testament of Vipers, creating their desperate timeline before British with",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_tomb_nature",
-        "title": "T tomb nature",
-        "question": "Hetshepsut's tomb at Meidum contains forty golden chariots worth millions, but also harbors an unnatural supernatural cu",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_final_convergence",
-        "title": "T final convergence",
-        "question": "Multiple factions converge at Meidum pyramid: the Vipers seeking funds, German archaeologists seeking treasure, and the ",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -17863,8 +17369,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }

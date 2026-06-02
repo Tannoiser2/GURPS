@@ -1004,16 +1004,27 @@ def _enrich_npc(actor: Dict, context: str) -> Dict:
     name = actor.get("name", actor.get("id"))
     prompt = (
         f"Avventura: {context}\n\nNPC: {name} — ruolo: {actor.get('role')} "
-        f"— obiettivo: {actor.get('goal')} — segreto: {actor.get('secret')}\n\n"
+        f"— obiettivo: {actor.get('goal')} — segreto: {actor.get('secret')}\n"
+        f"— descrizione attuale: {(str(actor.get('description') or '—'))[:200]}\n\n"
         "Genera SOLO questo JSON (non altri campi):\n"
         '{"pressure_response": {"low": "...", "medium": "...", "high": "...", "extreme": "..."},'
         '"reaction_table": {"se_minacciato": "...", "se_corrotto": "...", "se_i_pg_hanno_prove": "...", "se_alleato": "..."},'
-        '"current_plan": "...", "fallback_plan": "..."}\n'
-        "Sii specifico al personaggio. Niente testo generico."
+        '"current_plan": "...", "fallback_plan": "...",'
+        '"description": "ritratto vivido in 2-3 frasi (aspetto, modi, voce)",'
+        '"motivation": "cosa muove il personaggio nel profondo",'
+        '"secret": "un segreto o tensione interna sfruttabile in gioco"}\n'
+        "Sii specifico al personaggio. Niente testo generico. Stessa lingua dell'avventura."
     )
     try:
         enrichment = _json_from_llm(_llm(prompt, max_tokens=2048))
-        return {**actor, **enrichment, "llm_enriched": True}
+        merged = {**actor, **enrichment, "llm_enriched": True}
+        # Non sovrascrivere il testo narrativo già ricco: applica i campi
+        # description/motivation/secret generati solo dove l'originale manca o è
+        # troppo scarno (< 40 caratteri).
+        for fld in ("description", "motivation", "secret"):
+            if len(str(actor.get(fld) or "").strip()) >= 40:
+                merged[fld] = actor[fld]
+        return merged
     except Exception as e:
         print(f"[doctor] NPC '{name}' enrichment failed: {e}", file=sys.stderr)
         return actor
@@ -1167,6 +1178,107 @@ def _estimate_session_length(definition: Dict) -> str:
         return "5+ ore"
 
 
+def _recover_phantom_threads(enriched: Dict, phantom_pids: Dict[str, List[str]]) -> int:
+    """Trasforma i riferimenti a piste fantasma in story_threads REALI (in-place).
+
+    Invece di creare stub vuoti — che peggiorano il punteggio perché privi di
+    true_answer e indizi — collega gli indizi che già citano la pista
+    (``collected_clue_ids``), deriva una ``true_answer`` dalle revelation o dai
+    payoff degli indizi e, se l'LLM è disponibile, sintetizza domanda e risposta
+    coerenti. Ritorna il numero di piste recuperate."""
+    threads_list = list(enriched.get("story_threads") or [])
+    clue_by_id = {str(c.get("id")): c for c in (enriched.get("clues") or [])}
+    rev_by_id = {str(r.get("id")): r for r in (enriched.get("revelations") or [])}
+
+    drafts: Dict[str, Dict] = {}
+    for pid, refs in phantom_pids.items():
+        clue_ids = [r for r in refs if not r.startswith("rev:") and r != "?"]
+        rev_ids = [r[4:] for r in refs if r.startswith("rev:")]
+
+        # true_answer deterministica: prima dalle revelation, poi dai payoff/reveals
+        answer_bits: List[str] = []
+        for rid in rev_ids:
+            rv = rev_by_id.get(rid) or {}
+            txt = rv.get("statement") or rv.get("payoff") or rv.get("text")
+            if txt:
+                answer_bits.append(str(txt))
+        if not answer_bits:
+            for cid in clue_ids:
+                cl = clue_by_id.get(cid) or {}
+                txt = cl.get("payoff") or cl.get("reveals")
+                if txt:
+                    answer_bits.append(str(txt))
+        true_answer = " ".join(answer_bits).strip()[:400]
+
+        # PNG collegati, raccolti dagli indizi che citano la pista
+        linked_npcs: List[str] = []
+        for cid in clue_ids:
+            cl = clue_by_id.get(cid) or {}
+            for n in (cl.get("linked_npcs") or []):
+                if n and n not in linked_npcs:
+                    linked_npcs.append(n)
+            nid = cl.get("npc_id")
+            if nid and nid not in linked_npcs:
+                linked_npcs.append(nid)
+
+        label = pid.replace("_", " ").replace("thread", "").strip().capitalize() or pid
+        first_clue = next((clue_by_id.get(c) for c in clue_ids if clue_by_id.get(c)), None)
+        if first_clue and first_clue.get("label"):
+            question = f"Cosa lega «{first_clue.get('label')}» alla verità dell'avventura?"
+        else:
+            question = f"Cosa si nasconde dietro: {label}?"
+
+        drafts[pid] = {
+            "id": pid,
+            "title": label,
+            "question": question,
+            "true_answer": true_answer,
+            # collected_clue_ids soddisfa il controllo "pista senza indizi" senza
+            # innescare i warning sul clue_plan vago (che richiede testo con source).
+            "collected_clue_ids": clue_ids,
+            "status": "hidden",
+            "parent_thread_ids": [],
+            "linked_npcs": linked_npcs,
+            "_recovered_phantom": True,
+        }
+
+    # Rifinitura LLM (facoltativa, in un'unica chiamata): domanda + true_answer coerenti
+    try:
+        context = (f"{enriched.get('title','')} — {enriched.get('genre','')} — "
+                   f"{(enriched.get('premise') or '')[:200]}")
+        lines = []
+        for pid, d in drafts.items():
+            clue_txt = "; ".join(
+                str((clue_by_id.get(c) or {}).get("label")
+                    or (clue_by_id.get(c) or {}).get("text") or c)[:80]
+                for c in d["collected_clue_ids"][:4]
+            ) or "(nessun indizio)"
+            lines.append(f'- id="{pid}" indizi=[{clue_txt}] risposta_grezza="{d["true_answer"][:160]}"')
+        prompt = (
+            f"Avventura: {context}\n\n"
+            "Per ogni pista investigativa qui sotto, scrivi una DOMANDA chiara (cosa devono "
+            "scoprire i giocatori) e una TRUE_ANSWER coerente (la verità nascosta che il "
+            "Master conosce), basandoti sugli indizi elencati. Stessa lingua dell'avventura.\n\n"
+            + "\n".join(lines)
+            + '\n\nRispondi SOLO con questo JSON: {"piste": [{"id": "...", "question": "...", '
+              '"true_answer": "..."}]}'
+        )
+        out = _json_from_llm(_llm(prompt, max_tokens=1536))
+        for item in (out.get("piste") if isinstance(out, dict) else out) or []:
+            pid = str(item.get("id") or "")
+            if pid in drafts:
+                if item.get("question"):
+                    drafts[pid]["question"] = str(item["question"])
+                if item.get("true_answer"):
+                    drafts[pid]["true_answer"] = str(item["true_answer"])
+    except Exception as e:
+        print(f"[doctor] phantom thread LLM polish skipped: {e}", file=sys.stderr)
+
+    threads_list.extend(drafts.values())
+    enriched["story_threads"] = threads_list
+    return len(drafts)
+
+
 def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
     """
     Audit (and optionally enrich) an adventure definition.
@@ -1252,39 +1364,8 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
         if tid and tid not in existing_thread_ids:
             phantom_pids.setdefault(tid, []).append(f"rev:{rv.get('id') or '?'}")
     if phantom_pids:
-        threads_list = list(enriched.get("story_threads") or [])
-        clue_by_id = {str(c.get("id")): c for c in (enriched.get("clues") or [])}
-        rev_by_id = {str(r.get("id")): r for r in (enriched.get("revelations") or [])}
-        for pid, refs in phantom_pids.items():
-            # Cerca testo evocativo dalla prima clue/revelation collegata
-            label = pid.replace("_", " ").replace("thread", "").strip().capitalize() or pid
-            question = ""
-            for ref in refs:
-                if ref.startswith("rev:"):
-                    rv = rev_by_id.get(ref[4:])
-                    if rv and (rv.get("statement") or rv.get("payoff")):
-                        question = str(rv.get("statement") or rv.get("payoff"))[:120]
-                        break
-                else:
-                    cl = clue_by_id.get(ref)
-                    if cl and (cl.get("label") or cl.get("payoff")):
-                        question = f"Cosa rivela {cl.get('label') or cl.get('id')}?"
-                        break
-            stub = {
-                "id": pid,
-                "title": label,
-                "question": question or f"Pista da chiarire: {label}",
-                "true_answer": "",
-                "clue_plan": [],
-                "required_clues": [],
-                "status": "hidden",
-                "parent_thread_ids": [],
-                "linked_npcs": [],
-                "_recovered_phantom": True,  # marker per debug
-            }
-            threads_list.append(stub)
-        enriched["story_threads"] = threads_list
-        print(f"[doctor] recovered {len(phantom_pids)} phantom thread stub(s): {list(phantom_pids.keys())}")
+        n = _recover_phantom_threads(enriched, phantom_pids)
+        print(f"[doctor] recovered {n} phantom thread(s) with real links: {list(phantom_pids.keys())}")
 
     # Locations vuote
     if "location" in categories and enriched.get("locations"):
