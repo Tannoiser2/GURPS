@@ -1,0 +1,3171 @@
+{
+  "adventure_definition": {
+    "id": "adv_7b24ff879a",
+    "title": "Le Ossa del Leviatano",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "survival_escape",
+      "secondary_archetypes": [],
+      "confidence": 0.65,
+      "reason": "Matched runtime signals for survival_escape",
+      "definition": {
+        "id": "survival_escape",
+        "description": "Fuga, risorse, percorsi sicuri e zone pericolose.",
+        "required_modules": [
+          "routes",
+          "resources"
+        ],
+        "optional_modules": [
+          "safe_nodes"
+        ],
+        "runtime_focus": [
+          "route",
+          "resource"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "resource_loss",
+          "route_blocked"
+        ],
+        "ending_patterns": [
+          "escape"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "detective_classico",
+    "runtime_profiles": [
+      "survival_escape"
+    ],
+    "tone": "Thriller claustrofobico con elementi body-horror — tensione paranoica in ambiente industriale isolato, orrore della sperimentazione umana",
+    "premise": "Il relitto della nave-archivio Leviatano è riemerso dopo trent'anni dal fondale oceanico, ancora sigillato. Al suo interno: i dossier completi del programma Specchio Nero, l'iniziativa governativa che modificava geneticamente gli orfani di guerra. Voi tre fate parte della squadra di recupero inviata dalla Fondazione Verità, organizzazione che da decenni cerca prove del programma. Ma quando arrivate all'isola-cantiere dove il relitto è stato trainato, trovate il personale scientifico massacrato. Qualcun altro è già qui. E sta cancellando ogni traccia.",
+    "initial_hook": "Le Ossa del Leviatano Il relitto della nave-archivio Leviatano è riemerso dopo trent'anni dal fondale oceanico, ancora sigillato. Al suo interno: i dossier completi del programma Specchio Nero, l'iniziativa governativa che modificava geneticamente gli orfani di guerra. Voi tre fate parte della squad",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Il Dottor Kael Voss, responsabile scientifico della Fondazione Verità e coordinatore della missione, è in realtà il Soggetto Zero del programma Specchio Nero: il primo bambino modificato con successo. Ha orchestrato il recupero del Leviatano non per esporre il programma, ma per distruggere gli unici documenti che provano la sua vera identità e per eliminare i testimoni. La Fondazione stessa è stata infiltrata da ex-membri del programma che vogliono mantenere il segreto. Voss ha sabotato le comunicazioni e assoldato un team mercenario per sterminare chiunque si trovi sull'isola, inclusi i PG, non appena avrà messo in sicurezza i dossier che lo riguardano.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Trasmettere i dati del Leviatano al mondo esterno prima che Voss li distrugga, sopravvivere all'assalto mercenario, e decidere se esporre pubblicamente l'identità di Voss (condannandolo) o offrirgli una via di fuga in cambio della verità completa",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Trasmettere i dati del Leviatano al mondo esterno prima che Voss li distrugga, sopravvivere all'assalto mercenario, e decidere se esporre pubblicamente l'identità di Voss (condannandolo) o offrirgli una via di fuga in cambio della verità completa"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Qualcuno della spedizione ha sabotato le comunicazioni PRIMA dell'attacco Qualcuno ha avuto accesso anticipato al Leviatano",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Stabilisce che c'è un traditore interno con accesso privilegiato / Indica chi è entrato per primo e cosa stava cercando",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Voss non è nella lista delle vittime; qualcuno cercava di catturare specifici membri dello staff I mercenari sono stati assoldati dalla Fondazione Verità stessa",
+        "required_clues": [
+          "clue_4",
+          "clue_8",
+          "clue_9"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Identifica chi è protetto e chi è bersaglio prioritario / Rivela l'infiltrazione della Fondazione e il tradimento dall'interno",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Il Soggetto Zero è ancora vivo e ha la stessa cicatrice distintiva di Voss Esiste un backup dei dati; qualcuno tra i presenti è un ex-soggetto del programma",
+        "required_clues": [
+          "clue_5",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela l'identità del traditore e la sua motivazione profonda / Fornisce accesso ai dati completi e indica come identificare gli ex-soggetti (cicatrici specifiche)",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Verbale di sabotaggio comunicazioni",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Centro di comando del cantiere",
+        "reveals": "Qualcuno della spedizione ha sabotato le comunicazioni PRIMA dell'attacco",
+        "payoff": "Stabilisce che c'è un traditore interno con accesso privilegiato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Rapporto tecnico che mostra come le antenne satellitari del cantiere siano state disabilitate",
+        "hidden_implication": "Qualcuno della spedizione ha sabotato le comunicazioni PRIMA dell'attacco",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Registrazione di sicurezza frammentata",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Sala di controllo sicurezza del cantiere",
+        "reveals": "Qualcuno ha avuto accesso anticipato al Leviatano",
+        "payoff": "Indica chi è entrato per primo e cosa stava cercando",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Video dai server di backup che mostra una figura in camice (corporatura simile a Voss) entrare nella sala server del Leviatano 20 minuti prima dell'arrivo ufficiale della squadra. La figura estrae qualcosa",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "Sala di controllo sicurezza del cantiere"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Testimonianza di Indra sul massacro",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Baraccamento tecnici",
+        "reveals": "I mercenari ricevevano ordini in tempo reale da qualcuno con voce 'professionale/medica'",
+        "payoff": "Collega i mercenari a una figura autoritaria presente sul posto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Indra racconta tra i singhiozzi: 'Sono arrivati dal mare",
+        "hidden_implication": "I mercenari ricevevano ordini in tempo reale da qualcuno con voce 'professionale/medica'",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Lista target dei mercenari",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Perimetro esterno del cantiere",
+        "reveals": "Voss non è nella lista delle vittime; qualcuno cercava di catturare specifici membri dello staff",
+        "payoff": "Identifica chi è protetto e chi è bersaglio prioritario",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Documento recuperato dal corpo di un mercenario ucciso da Torvald. Lista di nomi con foto: tutto il personale scientifico",
+        "hidden_implication": "Voss non è nella lista delle vittime; qualcuno cercava di catturare specifici membri dello staff",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Dossier Soggetto Zero",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "Sala server del Leviatano",
+        "reveals": "Il Soggetto Zero è ancora vivo e ha la stessa cicatrice distintiva di Voss",
+        "payoff": "Rivela l'identità del traditore e la sua motivazione profonda",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Cartella classificata trovata nella sala server del Leviatano. Contiene foto di un bambino di circa 8 anni con una cicatrice verticale dietro l'orecchio sinistro",
+        "hidden_implication": "Il Soggetto Zero è ancora vivo e ha la stessa cicatrice distintiva di Voss",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Diario personale della dott.ssa Okonkwo",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "Sala server del Leviatano",
+        "reveals": "Esiste un backup dei dati; qualcuno tra i presenti è un ex-soggetto del programma",
+        "payoff": "Fornisce accesso ai dati completi e indica come identificare gli ex-soggetti (cicatrici specifiche)",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Taccuino trovato nella tasca del cadavere di Okonkwo. Ultima pagina scritta in fretta: 'Se state leggendo questo",
+        "hidden_implication": "Esiste un backup dei dati; qualcuno tra i presenti è un ex-soggetto del programma",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Comportamento anomalo di Voss",
+        "type": "behavior",
+        "thread_id": "T1",
+        "source_location": "Centro di comando del cantiere",
+        "reveals": "Voss mostra conoscenza sospetta e mancanza di empatia innaturale",
+        "payoff": "Rafforza i sospetti quando combinato con altri indizi",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "I PG notano che Voss non ha mai chiesto dello stato delle vittime. Quando Indra ha menzionato i morti",
+        "hidden_implication": "Voss mostra conoscenza sospetta e mancanza di empatia innaturale",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Contratto mercenario firmato",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Alloggi dei mercenari (cantiere)",
+        "reveals": "I mercenari sono stati assoldati dalla Fondazione Verità stessa",
+        "payoff": "Rivela l'infiltrazione della Fondazione e il tradimento dall'interno",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Busta sigillata trovata nell'alloggio di Mantide. Contiene il contratto: 'Eliminazione testimoni",
+        "hidden_implication": "I mercenari sono stati assoldati dalla Fondazione Verità stessa",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Testimonianza di Yuki",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Condotti di ventilazione del cantiere",
+        "reveals": "FALSA PISTA — Torvald sembra sospetto",
+        "payoff": "Devia i sospetti su Torvald finché non si scopre la verità (clue_10)",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Testimonianza di Yuki",
+        "hidden_implication": "FALSA PISTA — Torvald sembra sospetto",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Rapporto segreto di Torvald",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Punto di partenza",
+        "reveals": "Torvald è innocente — stava cercando la verità, non nascondendola",
+        "payoff": "Smonta la falsa pista e rivela che Torvald è un alleato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Documento nascosto negli alloggi di Torvald: un rapporto investigativo privato che accusa il governo di aver affondato deliberatamente il Leviatano 30 anni fa",
+        "hidden_implication": "Torvald è innocente — stava cercando la verità, non nascondendola",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "pedinare il sospetto",
+          "confrontarlo con discrezione",
+          "controllare dove si e diretto"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Inventario archivio incompleto",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Qualcuno ha già rimosso documenti specifici dall'archivio",
+        "payoff": "Conferma che Voss ha già agito per nascondere prove, non solo la propria identità",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Ceneri nel bruciatore di emergenza",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Documenti del programma sono stati distrutti molto recentemente, prima dell'arrivo ufficiale del team",
+        "payoff": "Prova che qualcuno ha avuto accesso anticipato al relitto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Log di accesso notturno di Torvald",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Torvald ha permesso a qualcuno (probabilmente Voss) di accedere al Leviatano in segreto",
+        "payoff": "Collega Torvald alla cospirazione e conferma l'accesso anticipato di Voss",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Struttura proprietaria della Fondazione",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "I dirigenti della Fondazione hanno profili biografici sospettosamente compatibili con i Soggetti Specchio Nero",
+        "payoff": "Rivela che l'intera operazione è orchestrata da ex-cavie del programma",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_15",
+        "label": "Direttiva interna della Fondazione",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "La missione è un'operazione di insabbiamento dall'inizio, con l'eliminazione dei testimoni pianificata",
+        "payoff": "Conferma che i PG sono obiettivi designati, non colleghi",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_16",
+        "label": "Prove di modifiche genetiche in Voss",
+        "type": "behavior",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Voss presenta le stesse modifiche genetiche descritte nel dossier del Soggetto Zero",
+        "payoff": "Prova fisica diretta che Voss è il Soggetto Zero",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_17",
+        "label": "Mappa tattica dei mercenari",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "I mercenari hanno ordini di proteggere Voss mentre eliminano tutti gli altri",
+        "payoff": "Conferma che Voss è il mandante e l'unico destinato a sopravvivere",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_18",
+        "label": "Ultimo messaggio vocale di Okonkwo",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Okonkwo aveva identificato Voss come il Soggetto Zero prima di morire",
+        "payoff": "Testimonianza diretta che conferma l'identità di Voss e il suo movente",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Dottor Kael Voss",
+        "role": "Coordinatore scientifico della missione (IL TRADITORE)",
+        "location_id": "Centro di comando del cantiere",
+        "status": "unintroduced",
+        "goal": "Distruggere ogni prova del programma Specchio Nero che lo identifica come Soggetto Zero",
+        "secret": "È il primo successo del programma, dotato di memoria eidetica e resistenza al dolore. Ha fondato la Fondazione Verità per controllare chi cerca la verità su Specchio Nero",
+        "agenda_pressure": 0,
+        "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+        "current_plan": "Raggiungere la sala server centrale prima della squadra usando percorsi di servizio memorizzati trent'anni fa. Cancellare fisicamente i cristalli di memoria contenenti dossier Soggetto Zero. Se impossibile, contaminare l'area con mercurio organico dai vecchi sistemi di raffreddamento, rendendo il recupero letale.",
+        "fallback_plan": "Se scoperto: innescare esplosione mirata che affonda nuovamente solo la sezione archivi, sacrificando 2-3 membri della spedizione come 'tragico incidente'. Usare le ore di ossigeno residue per recupero in superficie, poi sfruttare influenza Fondazione Verità per insabbiare. Se catturato vivo: fingere amnesia post-traumatica, citare memoria eidetica come 'allucinazione da narcosi da azoto'.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Distruggere ogni prova del programma Specchio Nero che lo identifica come Soggetto Zero"
+        ],
+        "avoids": [
+          "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mostra curiosità scientifica genuina, offre risorse della Fondazione Verità per 'preservare documenti storici'. Propone protocolli di sicurezza che rallentano l'accesso ai file più compromettenti.",
+          "medium": "Sviluppa improvvisi sintomi da decompressione che richiedono evacuazione immediata. Menziona casualmente che alcuni settori del Leviatano mostrano 'instabilità strutturale critica'. Ricorda ogni dettaglio delle conversazioni per identificare chi sospetta.",
+          "high": "Sabota i sistemi di respirazione in sezioni specifiche. Usa la memoria eidetica per falsificare documenti in tempo reale, sostituendo file originali. Accusa altri membri della spedizione citando 'incongruenze nei loro background' con precisione inquietante.",
+          "extreme": "Innesca l'autodistruzione del Leviatano programmata trent'anni fa (lui stesso l'aveva progettata). Rivela capacità sovrumane: resiste a ferite mortali, recita a memoria interi protocolli Specchio Nero per dimostrare che 'il programma deve rimanere segreto'. Si barrica nella sala server per cancellare Soggetto Zero dai database."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva la sua rete di 'ex-pazienti' Specchio Nero infiltrati nella spedizione. Usa dolore autoinflitto senza reagire per intimidire. Cita conversazioni private parola per parola per dimostrare che 'sa tutto'.",
+          "se_corrotto": "Finge interesse, offre accesso controllato ad archivi Fondazione Verità. In realtà raccoglie prove contro il corruttore per eliminarlo successivamente. Memorizza ogni promessa per usarla come ricatto.",
+          "se_i_pg_hanno_prove": "Ammette parzialmente: 'Sì, fui nel programma. Per questo ho fondato la Fondazione - per proteggere le vittime'. Propone distruzione controllata: 'Questi file rovineranno vite innocenti'. Tenta furto notturno delle prove usando condotti d'aerazione che solo lui ricorda perfettamente.",
+          "se_alleato": "Diventa indispensabile: ricorda layout completo del Leviatano, codici d'accesso, procedure d'emergenza. Guida deliberatamente lontano dai server contenenti i file Soggetto Zero. Costruisce dipendenza della squadra dalle sue capacità."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Indra Halim",
+        "role": "Tecnico di recupero, sopravvissuta al massacro",
+        "location_id": "Baraccamento tecnici",
+        "status": "unintroduced",
+        "goal": "Sopravvivere e capire chi ha ucciso i suoi colleghi",
+        "secret": "Ha visto uno dei mercenari ricevere ordini via radio da qualcuno con 'voce calma, come un dottore'. Non ha ancora collegato a Voss",
+        "agenda_pressure": 0,
+        "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+        "current_plan": "Completare il recupero ufficiale dei dati pubblici del Leviatano, consegnare il minimo indispensabile agli sponsor corporativi. Tenere nascosti i backup personali finché non capisce chi può fidarsi. Testimoniare sul massacro solo se garantita protezione testimoni di livello militare.",
+        "fallback_plan": "Se si sente in pericolo immediato: attivare il protocollo di allagamento d'emergenza nella sezione archivi del Leviatano, distruggendo i dati fisici. Usare il mini-sommergibile di evacuazione nascosto nel hangar sommerso per raggiungere la piattaforma di estrazione petrolifera abbandonata a 40km, dove ha preparato un rifugio d'emergenza con scorte e contanti. Poi scomparire nelle colonie oceaniche sotto falsa identità.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Sopravvivere e capire chi ha ucciso i suoi colleghi"
+        ],
+        "avoids": [
+          "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Collabora meccanicamente, risponde alle domande tecniche sul recupero con competenza professionale. Evita di parlare del massacro, cambia discorso quando può. Fuma nervosamente, controlla ossessivamente le uscite di sicurezza.",
+          "medium": "Inizia a tremare ricordando i dettagli. Descrive i corpi dei colleghi con precisione angosciante. Menziona la voce radio 'calma, clinica' che ha sentito, ma la attribuisce genericamente ai mercenari. Chiede protezione, vuole sapere se anche lei è un bersaglio.",
+          "high": "Crolla emotivamente. Confessa di essersi nascosta nei condotti di ventilazione per sei ore mentre i mercenari 'pulivano metodicamente ogni sezione'. Rivela dettagli della voce radio: 'Parlava di contenimento, sterilizzazione del sito. Come un medico che ordina una procedura'. Implora di essere portata via.",
+          "extreme": "Panico totale. Urla che 'quella voce era troppo calma per essere un soldato, dava ordini come diagnosi'. Se i PG menzionano Voss o lei vede una sua foto, ha un attacco di panico riconoscendo il timbro vocale. Si barrica, minaccia di farsi esplodere insieme ai backup dei dati del Leviatano se non garantiscono la sua estrazione immediata."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si chiude completamente. Mente sulle sue credenziali di accesso ai sistemi del Leviatano. Se la minaccia è fisica, tenta di fuggire verso le zone allagate del relitto dove solo lei conosce i passaggi sicuri.",
+          "se_corrotto": "Inizialmente rifiuta con indignazione ('I miei amici sono morti!'). Con offerte superiori a 500k o garanzia di nuova identità, vacilla. Propone di falsificare i log di recupero per nascondere file specifici, ma vuole sapere PERCHÉ prima di tradire la memoria dei colleghi.",
+          "se_i_pg_hanno_prove": "Se mostrano evidenza del coinvolgimento di Voss o collegamenti Specchio Nero-massacro, diventa alleata feroce. Offre accesso ai backup personali che ha nascosto in una camera stagna. Vuole giustizia, non denaro. 'Quella voce... quel bastardo ha ordinato tutto come se fossimo ratti di laboratorio.'",
+          "se_alleato": "Diventa risorsa preziosa: conosce ogni centimetro del Leviatano, ha copie criptate di manifesti di carico mai dichiarati. Rivela che il capitano aveva un protocollo di autodistruzione che non si è attivato - 'qualcuno lo ha disabilitato dall'interno prima dell'affondamento'. Aiuta a ricostruire la timeline del disastro."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Capitano Nils Torvald",
+        "role": "Ex-ufficiale della marina, ora capo sicurezza del cantiere",
+        "location_id": "Torre di guardia principale",
+        "status": "unintroduced",
+        "goal": "Proteggere ciò che resta del suo equipaggio (i tecnici sopravvissuti)",
+        "secret": "Trent'anni fa era sul convoglio che scortava il Leviatano quando affondò. Ha sempre sospettato che non fosse un incidente. Sta indagando di nascosto",
+        "agenda_pressure": 0,
+        "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+        "current_plan": "Mappare ogni centimetro del relitto prima che arrivino gli 'ispettori governativi' previsti tra 72 ore. Confrontare i danni dello scafo con le sue fotografie subacquee scattate illegalmente due settimane fa. Identificare chi nel cantiere riferisce a esterni - ha già individuato due sospetti.",
+        "fallback_plan": "Se scopre chi causò l'affondamento prima che la situazione gli sfugga di mano: far 'incagliare' il relitto contro gli scogli durante un trasferimento simulato, distruggendo le prove compromettenti ma salvando quelle che incastrano i colpevoli. Incolpare una tempesta. Ha già falsificato i bollettini meteo necessari.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere ciò che resta del suo equipaggio (i tecnici sopravvissuti)"
+        ],
+        "avoids": [
+          "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Risponde con professionalità militare, enfatizza i protocolli di sicurezza del cantiere. Devia domande sul passato citando 'procedure classificate' e 'trauma da naufragio'. Osserva attentamente chi fa domande scomode.",
+          "medium": "Diventa difensivo riguardo al suo equipaggio del convoglio. Ammette di aver visto 'cose strane' quella notte: luci sotto la superficie, comunicazioni disturbate. Nega categoricamente negligenze. Mostra cicatrici da ustioni chimiche sul braccio sinistro.",
+          "high": "Crolla parzialmente: confessa di aver trovato nei registri del cantiere lo stesso tipo di interferenze radar documentate la notte dell'affondamento. Rivela che tre membri del suo vecchio equipaggio sono morti in 'incidenti' negli ultimi sei mesi. Chiede protezione in cambio di coordinate precise.",
+          "extreme": "Porta i PG nel suo ufficio blindato. Apre una cassaforte: dentro ci sono registrazioni audio originali del convoglio e una mappa oceanografica con una seconda posizione marcata in rosso - 'Qui c'era qualcos'altro quella notte, qualcosa che ci aspettava'. Rivela che il Leviatano trasportava non solo archivi, ma campioni biologici di Specchio Nero."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva silenziosamente un protocollo di emergenza che sigilla il relitto e evacua il cantiere. Distrugge le sue prove personali. Si barrica con uomini fidati: 'Se devo affondare di nuovo, stavolta porto tutti con me'.",
+          "se_corrotto": "Finge di accettare, ma marca discretamente il denaro con traccianti del cantiere. Fornisce informazioni parzialmente vere mescolate a false piste. Segnala immediatamente i corruttori alle sue fonti nella Marina, credendoli parte della cospirazione originale.",
+          "se_i_pg_hanno_prove": "Riconosce immediatamente documenti autentici dal sistema di archiviazione del Leviatano. Si irrigidisce: 'Dove li avete trovati? Il relitto è sigillato da stamattina'. Propone alleanza immediata ma pretende di vedere TUTTE le prove prima di condividere le sue.",
+          "se_alleato": "Fornisce accesso notturno al relitto attraverso un'entrata di servizio non registrata. Condivide i nomi codice dei quattro membri del suo equipaggio ancora vivi. Ammette: 'Ho passato trent'anni a preparare questo momento. Ho imparato a leggere i sonar come un sensitivo legge le carte'."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Zhen 'Mantide' Qiao",
+        "role": "Comandante del team mercenario",
+        "location_id": "Perimetro esterno del cantiere",
+        "status": "unintroduced",
+        "goal": "Completare il contratto: eliminare testimoni, recuperare documenti specifici per il cliente (Voss)",
+        "secret": "È anche lei una sopravvissuta di Specchio Nero (Soggetto Sedici). Lavora per Voss perché lui le ha promesso i dati per rintracciare gli altri soggetti ancora vivi",
+        "agenda_pressure": 0,
+        "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+        "current_plan": "Fase 1: Il team infiltra il Leviatano attraverso lo scafo di poppa (punto debole strutturale). Fase 2: Mantide va direttamente all'Archivio Centrale mentre il team crea perimetro difensivo. Fase 3: Recupera SOLO i file dei Soggetti 1-30 e i nomi dei ricercatori senior. Fase 4: Incendia tutto il resto con termite. Fase 5: Elimina testimoni (inclusi membri del team che hanno visto troppo). Fase 6: Consegna a Voss solo ciò che ha contrattato, tiene per sé le coordinate degli altri soggetti.",
+        "fallback_plan": "Se il recupero completo fallisce: piazza cariche esplosive sui supporti strutturali del relitto per riaffondarlo permanentemente (Voss preferisce distruzione totale al rischio che altri acquisiscano i dati). Se la sua identità viene esposta: elimina immediatamente il collegamento con Voss, assume nuova identità dalla rete di coperture (ha sei passaporti preparati). Piano estremo: se catturata viva, ha un impianto dermico al polso sinistro contenente neurotossina ad azione rapida - preferirebbe la morte al ritorno in un laboratorio.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Completare il contratto: eliminare testimoni, recuperare documenti specifici per il cliente (Voss)"
+        ],
+        "avoids": [
+          "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene il controllo tattico completo. Osserva i PG con distacco professionale, catalogando armamento e pattern comportamentali. Comunica ordini al team via segnali manuali silenziosi. Se interrogata, fornisce risposte minimali e tecniche.",
+          "medium": "Inizia a mostrare segni di riconoscimento se i PG menzionano Specchio Nero. Stringimento impercettibile della mascella. Diventa più aggressiva tatticamente per concludere rapidamente. Isola uno dei suoi uomini come possibile capro espiatorio se necessario.",
+          "high": "Se i PG trovano documenti che menzionano 'Soggetto Sedici' o foto d'archivio che la ritraggono bambina, la sua facciata crolla parzialmente. Potrebbe eliminare membri del proprio team per proteggere il segreto. Cerca disperatamente di negoziare l'accesso ai database prima della distruzione.",
+          "extreme": "Abbandona completamente la missione di Voss se i PG possono dimostrarle dove sono gli altri sopravvissuti. Voltafaccia improvviso: elimina il contatto di Voss e offre alleanza temporanea. Alternativa: se accerchiata senza via d'uscita, attiva protocollo suicida piuttosto che essere catturata e studiata nuovamente."
+        },
+        "reaction_table": {
+          "se_minacciato": "Tattiche di soppressione immediate. Granate fumogene, riposizionamento del team in formazione 'tenaglia spezzata'. Non cerca lo scontro frontale ma l'eliminazione metodica. Se ferita, mostra tolleranza al dolore innaturale (eredità di Specchio Nero).",
+          "se_corrotto": "Impossibile corromperla con denaro. UNICA leva: informazioni sugli altri soggetti (Uno, Quattro, Ventitré ancora vivi secondo i suoi dati). Se i PG offrono coordinate o nomi veri, esita visibilmente. Chiede prova fisica prima di considerare tradimento.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano il suo dossier originale (nome: Lin Qiao, età ingresso programma: 7 anni), crolla la copertura emotiva. Tenta prima di distruggere le prove, poi di acquisirle. Disposta a lasciare testimoni vivi in cambio della totale distruzione del suo file.",
+          "se_alleato": "Alleanza fragile e utilitaristica. Condivide solo tattiche, mai motivazioni. Insiste nel maneggiare personalmente tutti i documenti recuperati. Se tradita, la vendetta è totale e creativa: usa le informazioni raccolte sui PG per smantellare le loro vite metodicamente."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_5",
+        "name": "Dott.ssa Aya Okonkwo",
+        "role": "Archivista capo del Leviatano (morta, ma lascia tracce cruciali)",
+        "location_id": "Sala server del Leviatano",
+        "status": "dead",
+        "goal": "(da viva) Assicurarsi che la verità emergesse anche se il Leviatano fosse stato compromesso",
+        "secret": "Nei suoi ultimi minuti ha caricato una copia criptata dei dossier su un server remoto. La chiave di decrittazione è nascosta nel suo diario personale",
+        "agenda_pressure": 0,
+        "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+        "current_plan": "Anche da morta, il piano di Okonkwo continua: i suoi protocolli automatici stanno lentamente riattivando i sistemi del Leviatano, sincronizzando l'upload dei dati verso il server remoto. Tra 72 ore la trasmissione sarà completa e irreversibile",
+        "fallback_plan": "Se la trasmissione venisse interrotta, i dossier cartacei nascosti nelle intercapedini dello scafo contengono indizi sufficienti per ricostruire manualmente almeno il 60% di Specchio Nero. Inoltre, Okonkwo aveva addestrato segretamente tre membri dell'equipaggio come 'archivi viventi' tramite mnemonici avanzati",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "(da viva) Assicurarsi che la verità emergesse anche se il Leviatano fosse stato compromesso"
+        ],
+        "avoids": [
+          "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Le tracce della Dott.ssa Okonkwo emergono gradualmente: annotazioni nei margini dei dossier, un sistema di catalogazione irregolare che nasconde priorità personali, riferimenti criptici nel registro di bordo a 'backup esterni non autorizzati'",
+          "medium": "Il suo diario personale rivela paranoia crescente: pagine strappate, codici scritti con inchiostro simpatico, mappe delle correnti oceaniche con coordinate segnate. Registrazioni audio mostrano conversazioni notturne con qualcuno via comunicatore quantistico criptato",
+          "high": "Emerge la rete di failsafe che Okonkwo aveva costruito: file nascosti nei sistemi di supporto vitale, microcapsule di dati sigillate nella struttura dello scafo, un protocollo di trasmissione automatica attivabile solo con la sua impronta biometrica (conservata in laboratorio)",
+          "extreme": "L'ultimo messaggio olografico pre-registrato si attiva: Okonkwo appare, ferita, spiegando che ha frammentato la chiave di decrittazione in sette parti nascoste nelle menti dei sopravvissuti tramite ipnosi subliminale durante le sessioni psicologiche obbligatorie. Solo riunendoli si può accedere alla verità completa"
+        },
+        "reaction_table": {
+          "se_minacciato": "I sistemi di sicurezza che Okonkwo aveva programmato si attivano: sigillatura di compartimenti, rilascio di nebbia cognitiva, attivazione di droni archivisti che tentano di evacuare i dossier più sensibili verso capsule di espulsione",
+          "se_corrotto": "Chiunque tenti di alterare i suoi file attiva un worm digitale che diffonde copie criptate a tutti i terminali della nave e trasmette un segnale di soccorso quantistico verso destinatari sconosciuti",
+          "se_i_pg_hanno_prove": "Il diario rivela coordinate precise e nomi in codice: 'Sentinella Nordica', 'Archivio Cenere', 'Progetto Orfeo'. Ogni voce corrisponde a testimoni chiave di Specchio Nero che Okonkwo aveva contattato segretamente",
+          "se_alleato": "Messaggi postumi guidano i PG attraverso prove di fiducia: risolvere enigmi che solo chi condivide i suoi valori può decifrare, accedere a depositi segreti tramite passphrase etiche, rivelare alleati nascosti nella catena di comando governativa"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_6",
+        "name": "Lior Ashkenazi",
+        "role": "Giornalista investigativo embedded con la squadra di recupero",
+        "location_id": "Ponte principale del Leviatano",
+        "status": "unintroduced",
+        "goal": "Ottenere la storia del secolo e vincere il premio giornalistico che gli è sempre sfuggito",
+        "secret": "È stato contattato anonimamente da qualcuno (Voss) che gli ha 'suggerito' di unirsi alla spedizione. Non sa di essere una pedina per rendere credibile la 'tragedia accidentale' che Voss sta orchestrando",
+        "agenda_pressure": 0,
+        "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+        "current_plan": "Documentare ogni aspetto del recupero Leviatano, ottenere accesso ai dossier Specchio Nero prima che vengano classificati nuovamente. Intervistare tutti i membri della spedizione. Pubblicare inchiesta monumentale che finalmente gli vale il riconoscimento meritato. Ignaro di essere stato scelto come vittima credibile per l'incidente pianificato da Voss.",
+        "fallback_plan": "Se scopre di essere una pedina: trasformare se stesso nella storia. Trasmissione live costante, dead man's switch con documentazione completa già nelle mani di tre testate internazionali. Testimonianza protetta in cambio di immunità. Se necessario: accusare pubblicamente Voss e l'intera operazione, costringendo intervento di autorità superiori e attenzione mediatica mondiale che rende impossibile l'insabbiamento.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Ottenere la storia del secolo e vincere il premio giornalistico che gli è sempre sfuggito"
+        ],
+        "avoids": [
+          "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Lior documenta tutto con entusiasmo professionale, facendo domande incalzanti e registrando ogni dettaglio. Cita precedenti Pulitzer per inchieste su scandali governativi, mostrando badge stampa e credenziali impeccabili. Insiste per avere accesso completo 'per trasparenza pubblica'.",
+          "medium": "Diventa difensivo riguardo la sua presenza, mostrando le email di invito anonime che lo hanno portato qui. Inizia a sospettare di essere stato manipolato. Propone alleanza coi PG: 'Se qualcuno mi vuole qui come testimone di qualcosa, dobbiamo scoprire cosa prima che accada'. Tiene backup nascosti di tutto il materiale raccolto.",
+          "high": "Realizza di essere l'agnello sacrificale - il giornalista morto 'accidentalmente' renderebbe credibile qualsiasi cover-up. Panico controllato: trasmette file criptati al suo editor via satellite d'emergenza, attiva tracker personale. Rivela ai PG tutto ciò che sa sul contatto anonimo, cercando disperatamente protezione. 'Non sono suicida, qualunque cosa dicano dopo'.",
+          "extreme": "Barricato in sala comunicazioni, trasmette LIVE tutto ciò che sta accadendo. 'Il mondo sta guardando, NON POTETE più insabbiare!' Minaccia di rivelare anche dettagli sensibili sul programma Specchio Nero già scoperti. Se bloccato: attiva dead man's switch che rilascerà tutto il materiale al New York Times e Guardian. Armato con fumogeni e razzi di segnalazione."
+        },
+        "reaction_table": {
+          "se_minacciato": "Registra segretamente ogni interazione, invia metadati geolocalizzati ogni 15 minuti. Finge cooperazione mentre cerca vie di fuga. Se minaccia è Voss o suoi uomini: capisce immediatamente di essere la vittima designata, cerca alleanza disperata coi PG o altri membri equipaggio.",
+          "se_corrotto": "Rifiuta categoricamente denaro o favori: 'Ho passato vent'anni a costruire reputazione, non la vendo per Specchio Nero o chiunque altro'. Ma può essere convinto a ritardare pubblicazione in cambio di accesso esclusivo completo e interviste protette. Vuole LA storia, non UNA storia.",
+          "se_i_pg_hanno_prove": "Si elettrizza: 'Questo è dinamite pura'. Offre piattaforma mediatica globale in cambio di esclusiva. Negozia duramente termini di pubblicazione. Se prove coinvolgono Voss: 'Sapevo che quel bastardo mi aveva attirato qui per un motivo'. Diventa alleato prezioso ma espone tutti a maggior pericolo.",
+          "se_alleato": "Risorsa investigativa eccellente: ha contatti in agenzie internazionali, accesso a database giornalistici, esperienza in leak governativi. Condivide info sul contatto anonimo (dettagli tecnici email, pattern linguistici). Promette protezione mediatica: 'Se collaborate, la vostra versione esce per prima. Sarete whistleblower, non criminali'."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_7",
+        "name": "Yuki 'Ingranaggio' Sato",
+        "role": "Ingegnere di sistema, unico altro sopravvissuto oltre Indra",
+        "location_id": "Condotti di ventilazione del cantiere",
+        "status": "unintroduced",
+        "goal": "Restare nascosto fino all'arrivo dei soccorsi",
+        "secret": "Ha visto Voss entrare nella sala server del Leviatano PRIMA che arrivassero i mercenari. Non capisce cosa significhi, ma ha paura a dirlo",
+        "agenda_pressure": 0,
+        "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+        "current_plan": "Restare nascosto nel labirinto di condotti di manutenzione del ponte inferiore. Evitare Voss e Indra. Aspettare soccorsi ufficiali, poi consegnare i log solo alle autorità. Ha preparato una capsula di emergenza con beacon criptato come ultima via di fuga",
+        "fallback_plan": "Se Voss o forze ostili lo trovano: attivare la sequenza di autodistruzione parziale del settore server (codici rubati durante l'evacuazione originale), usare l'esplosione come diversivo per raggiungere la capsula. Se catturato: fingere amnesia da trauma, sperare che i log nascosti vengano trovati da altri",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Restare nascosto fino all'arrivo dei soccorsi"
+        ],
+        "avoids": [
+          "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Risponde con monosillabi nervosi, evita il contatto visivo. Si nasconde dietro terminali e lamiere, controlla ossessivamente i suoi strumenti di sopravvivenza. Mente sulla sua posizione durante l'attacco: 'Ero nel vano cargo, non ho visto niente'",
+          "medium": "Le mani tremano visibilmente mentre ripara circuiti. Mormora 'Voss era già dentro... ma è impossibile, vero?' come per convincere se stesso. Inizia a dare dettagli contraddittori: prima dice di essere arrivato dopo, poi che ha sentito rumori dalla sala server",
+          "high": "Crolla psicologicamente: 'Ho visto Voss uscire dalla sala server 47 minuti PRIMA che i mercenari facessero breccia! I log di accesso lo dimostrano, ma lui dice che è entrato dopo! Come ha fatto?' Chiede protezione, vuole un accordo scritto prima di testimoniare",
+          "extreme": "Paranoia totale: 'Voss non è quello che dice! Ha disattivato i protocolli di sicurezza DALL'INTERNO! I mercenari sapevano esattamente dove colpire!' Minaccia di distruggere i backup dei log di accesso che ha nascosto nel suo impianto cibernetico se non lo portano via immediatamente"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si barrica nella sala macchine inferiore, usa EMP improvvisati per tenere lontani. Grida: 'Vi faccio saltare i condensatori primari! Affondiamo tutti!' Disposto a sabotare i sistemi di galleggiamento",
+          "se_corrotto": "Esita, poi: 'Voglio immunità totale e nuovo impianto neurale... quello che ho visto mi costa il sonno'. Accetta crediti, ma chiede estrazione immediata dal relitto. Cancellerà i log SE gli garantiscono identità nuova",
+          "se_i_pg_hanno_prove": "Sollievo misto a terrore: 'Quindi non sono pazzo... Voss ERA già dentro'. Rivela dove ha nascosto il backup completo dei timestamp: microcapsule nei tubi di raffreddamento del settore C. Ammette di aver paura che Voss sia coinvolto nel programma Specchio Nero stesso",
+          "se_alleato": "Diventa risorsa preziosa: mostra percorsi nascosti nel relitto, accessi ai server sigillati. Confessa: 'Ho tracciato l'ultima trasmissione di Voss prima dell'attacco... andava verso coordinate militari classificate'. Offre di decrittare i file se lo proteggono da Voss"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Punto di partenza",
+        "description": "Punto di partenza: nodo giocabile della struttura survival_escape.",
+        "status": "known",
+        "contains_clues": [
+          "clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Punto di partenza: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_10"
+        ],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Percorso rapido",
+        "description": "Percorso rapido: nodo giocabile della struttura survival_escape.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Percorso rapido: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Nodo sicuro",
+        "description": "Nodo sicuro: nodo giocabile della struttura survival_escape.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Nodo sicuro: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Zona pericolosa",
+        "description": "Zona pericolosa: nodo giocabile della struttura survival_escape.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Zona pericolosa: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_2",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Uscita contestata",
+        "description": "Uscita contestata: nodo giocabile della struttura survival_escape.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Uscita contestata: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Chiusura delle vie di fuga",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "la minaccia raggiunge la zona finale",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Allarme interno attivato",
+            "effect": "I sistemi di sicurezza del Leviatano si riattivano autonomamente. Luci di emergenza pulsano nei corridoi allagati. Le prime bulkhead iniziano a sigillarsi."
+          },
+          {
+            "value": 2,
+            "label": "Accessi ordinari sospesi",
+            "effect": "Le vie d'accesso standard al relitto vengono monitorate da droni sottomarini. Il personale non autorizzato viene respinto. Serve credenziali di livello superiore o percorsi alternativi."
+          },
+          {
+            "value": 3,
+            "label": "Prova secondaria compromessa",
+            "effect": "Un deposito contenente backup dei dossier viene allagato deliberatamente. Documenti cartacei si dissolvono nell'acqua salata. Restano solo le copie digitali criptate nel nucleo centrale."
+          },
+          {
+            "value": 4,
+            "label": "Testimone sotto pressione",
+            "effect": "Un ex-tecnico del Leviatano scompare. La sua abitazione è stata perquisita. Chi lo cerca non lascia tracce ufficiali ma segni inconfondibili di interrogatori professionali."
+          },
+          {
+            "value": 5,
+            "label": "Percorso laterale sigillato",
+            "effect": "Il condotto di servizio che bypassa il nucleo dati viene saldato dall'interno. L'unica via rimasta passa attraverso la sala server principale, ora sorvegliata."
+          },
+          {
+            "value": 6,
+            "label": "Confronto inevitabile",
+            "effect": "Gli agenti raggiungono il cuore del Leviatano contemporaneamente ai giocatori. Le bulkhead si sigillano alle loro spalle. Non c'è più fuga, solo risoluzione."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "I giocatori devono estrarre i dossier dal nucleo centrale prima che venga raggiunto, oppure scoprire chi ha ordinato il recupero e neutralizzare l'operazione alla fonte rivelando pubblicamente i contenuti di Specchio Nero.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Le comunicazioni radio attorno al sito del relitto sono criptate con protocolli militari obsoleti. Qualcuno sta coordinando un'operazione silenziosa, e ha fretta.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Ossa Leviatano relitto nave-archivio Leviatano riemerso",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "Dove sono finiti gli altri dossier?",
+        "question": "Quali altri documenti del programma Specchio Nero sono stati rimossi dal Leviatano e da chi?",
+        "true_answer": "Voss ha già estratto e distrutto i dossier dei Soggetti 1-7 durante una ricognizione segreta notturna, conservando solo il proprio per cancellarne le tracce identificative prima della distruzione finale",
+        "status": "hidden",
+        "required_clues": [
+          "clue_11",
+          "clue_12",
+          "clue_13"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T3"
+        ],
+        "linked_npcs": [
+          "Dottor Kael Voss",
+          "Capitano Nils Torvald"
+        ],
+        "linked_locations": [
+          "Leviatano",
+          "Zona pericolosa"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Perché la Fondazione Verità ha finanziato il recupero?",
+        "question": "Qual è il vero scopo della Fondazione Verità nel recuperare il Leviatano?",
+        "true_answer": "La Fondazione è controllata da una cellula di ex-Soggetti Specchio Nero (ora adulti influenti) che volevano distruggere le prove della loro alterazione genetica per proteggere le loro carriere e identità pubbliche",
+        "status": "hidden",
+        "required_clues": [
+          "clue_14",
+          "clue_15"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Dottor Kael Voss"
+        ],
+        "linked_locations": [
+          "Punto di partenza"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Verbale di sabotaggio comunicazioni?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Lista target dei mercenari?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Dossier Soggetto Zero?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Punto di partenza",
+          "to": "Uscita contestata"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Punto di partenza",
+          "to": "Uscita contestata"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Uscita contestata",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "detective_classico",
+      "tone": "classic detective",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "resource loss",
+        "route blocked",
+        "hunter gains distance",
+        "injury",
+        "weather worsens",
+        "safe node compromised",
+        "pressure increase",
+        "suspect lies",
+        "alibi pressure",
+        "evidence contested"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "instant death without direct lethal risk",
+        "escape impossible from one failure",
+        "entire map destroyed without clock",
+        "massacre from one roll",
+        "villain revealed without evidence"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 3
+    },
+    "legacy_adventure": {
+      "id": "adv_7b24ff879a",
+      "title": "Le Ossa del Leviatano",
+      "genre": "detective_classico",
+      "detected_genre": "detective_classico",
+      "premise": "Il relitto della nave-archivio Leviatano è riemerso dopo trent'anni dal fondale oceanico, ancora sigillato. Al suo interno: i dossier completi del programma Specchio Nero, l'iniziativa governativa che modificava geneticamente gli orfani di guerra. Voi tre fate parte della squadra di recupero inviata dalla Fondazione Verità, organizzazione che da decenni cerca prove del programma. Ma quando arrivate all'isola-cantiere dove il relitto è stato trainato, trovate il personale scientifico massacrato. Qualcun altro è già qui. E sta cancellando ogni traccia.",
+      "hidden_truth": "Il Dottor Kael Voss, responsabile scientifico della Fondazione Verità e coordinatore della missione, è in realtà il Soggetto Zero del programma Specchio Nero: il primo bambino modificato con successo. Ha orchestrato il recupero del Leviatano non per esporre il programma, ma per distruggere gli unici documenti che provano la sua vera identità e per eliminare i testimoni. La Fondazione stessa è stata infiltrata da ex-membri del programma che vogliono mantenere il segreto. Voss ha sabotato le comunicazioni e assoldato un team mercenario per sterminare chiunque si trovi sull'isola, inclusi i PG, non appena avrà messo in sicurezza i dossier che lo riguardano.",
+      "win_condition": "Trasmettere i dati del Leviatano al mondo esterno prima che Voss li distrugga, sopravvivere all'assalto mercenario, e decidere se esporre pubblicamente l'identità di Voss (condannandolo) o offrirgli una via di fuga in cambio della verità completa",
+      "threat_description": "Chiusura delle vie di fuga",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "survival_escape",
+        "secondary_archetypes": [],
+        "confidence": 0.65,
+        "reason": "Matched runtime signals for survival_escape",
+        "definition": {
+          "id": "survival_escape",
+          "description": "Fuga, risorse, percorsi sicuri e zone pericolose.",
+          "required_modules": [
+            "routes",
+            "resources"
+          ],
+          "optional_modules": [
+            "safe_nodes"
+          ],
+          "runtime_focus": [
+            "route",
+            "resource"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "resource_loss",
+            "route_blocked"
+          ],
+          "ending_patterns": [
+            "escape"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_7b24ff879a",
+      "adventure_canon": {
+        "core_truth": "Il Dottor Kael Voss, responsabile scientifico della Fondazione Verità e coordinatore della missione, è in realtà il Soggetto Zero del programma Specchio Nero: il primo bambino modificato con successo. Ha orchestrato il recupero del Leviatano non per esporre il programma, ma per distruggere gli unici documenti che provano la sua vera identità e per eliminare i testimoni. La Fondazione stessa è stata infiltrata da ex-membri del programma che vogliono mantenere il segreto. Voss ha sabotato le comunicazioni e assoldato un team mercenario per sterminare chiunque si trovi sull'isola, inclusi i PG, non appena avrà messo in sicurezza i dossier che lo riguardano.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Punto di partenza",
+          "Percorso rapido",
+          "Nodo sicuro",
+          "Zona pericolosa",
+          "Uscita contestata"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6",
+          "clue_7",
+          "clue_8",
+          "clue_9",
+          "clue_10"
+        ],
+        "finale_conditions": [
+          "Finale: Ossa Leviatano relitto nave-archivio Leviatano riemerso"
+        ],
+        "genre_profile": {
+          "id": "detective_classico",
+          "tone": "classic detective",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "resource loss",
+            "route blocked",
+            "hunter gains distance",
+            "injury",
+            "weather worsens",
+            "safe node compromised",
+            "pressure increase",
+            "suspect lies",
+            "alibi pressure",
+            "evidence contested"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "instant death without direct lethal risk",
+            "escape impossible from one failure",
+            "entire map destroyed without clock",
+            "massacre from one roll",
+            "villain revealed without evidence"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 3
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Verbale di sabotaggio comunicazioni",
+          "question": "Dove conduce Verbale di sabotaggio comunicazioni?",
+          "true_answer": "Qualcuno della spedizione ha sabotato le comunicazioni PRIMA dell'attacco Qualcuno ha avuto accesso anticipato al Leviatano",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_3"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Stabilisce che c'è un traditore interno con accesso privilegiato / Indica chi è entrato per primo e cosa stava cercando",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Come puo essere usato Lista target dei mercenari per ottenere un alleato",
+          "question": "Come puo essere usato Lista target dei mercenari per ottenere un alleato?",
+          "true_answer": "Voss non è nella lista delle vittime; qualcuno cercava di catturare specifici membri dello staff I mercenari sono stati assoldati dalla Fondazione Verità stessa",
+          "required_clues": [
+            "clue_4",
+            "clue_8",
+            "clue_9"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Identifica chi è protetto e chi è bersaglio prioritario / Rivela l'infiltrazione della Fondazione e il tradimento dall'interno",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Dove conduce Dossier Soggetto Zero",
+          "question": "Dove conduce Dossier Soggetto Zero?",
+          "true_answer": "Il Soggetto Zero è ancora vivo e ha la stessa cicatrice distintiva di Voss Esiste un backup dei dati; qualcuno tra i presenti è un ex-soggetto del programma",
+          "required_clues": [
+            "clue_5",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela l'identità del traditore e la sua motivazione profonda / Fornisce accesso ai dati completi e indica come identificare gli ex-soggetti (cicatrici specifiche)",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Verbale di sabotaggio comunicazioni",
+          "text": "Verbale di sabotaggio comunicazioni",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Qualcuno della spedizione ha sabotato le comunicazioni PRIMA dell'attacco",
+          "payoff": "Stabilisce che c'è un traditore interno con accesso privilegiato",
+          "location": "Centro di comando del cantiere",
+          "immediate_information": "Rapporto tecnico che mostra come le antenne satellitari del cantiere siano state disabilitate",
+          "hidden_implication": "Qualcuno della spedizione ha sabotato le comunicazioni PRIMA dell'attacco",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Registrazione di sicurezza frammentata",
+          "text": "Registrazione di sicurezza frammentata",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Qualcuno ha avuto accesso anticipato al Leviatano",
+          "payoff": "Indica chi è entrato per primo e cosa stava cercando",
+          "location": "Sala di controllo sicurezza del cantiere",
+          "immediate_information": "Video dai server di backup che mostra una figura in camice (corporatura simile a Voss) entrare nella sala server del Leviatano 20 minuti prima dell'arrivo ufficiale della squadra. La figura estrae qualcosa",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "Sala di controllo sicurezza del cantiere"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Testimonianza di Indra sul massacro",
+          "text": "Testimonianza di Indra sul massacro",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "I mercenari ricevevano ordini in tempo reale da qualcuno con voce 'professionale/medica'",
+          "payoff": "Collega i mercenari a una figura autoritaria presente sul posto",
+          "location": "Baraccamento tecnici",
+          "immediate_information": "Indra racconta tra i singhiozzi: 'Sono arrivati dal mare",
+          "hidden_implication": "I mercenari ricevevano ordini in tempo reale da qualcuno con voce 'professionale/medica'",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Lista target dei mercenari",
+          "text": "Lista target dei mercenari",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Voss non è nella lista delle vittime; qualcuno cercava di catturare specifici membri dello staff",
+          "payoff": "Identifica chi è protetto e chi è bersaglio prioritario",
+          "location": "Perimetro esterno del cantiere",
+          "immediate_information": "Documento recuperato dal corpo di un mercenario ucciso da Torvald. Lista di nomi con foto: tutto il personale scientifico",
+          "hidden_implication": "Voss non è nella lista delle vittime; qualcuno cercava di catturare specifici membri dello staff",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Dossier Soggetto Zero",
+          "text": "Dossier Soggetto Zero",
+          "type": "document",
+          "thread_id": "T3",
+          "reveals": "Il Soggetto Zero è ancora vivo e ha la stessa cicatrice distintiva di Voss",
+          "payoff": "Rivela l'identità del traditore e la sua motivazione profonda",
+          "location": "Sala server del Leviatano",
+          "immediate_information": "Cartella classificata trovata nella sala server del Leviatano. Contiene foto di un bambino di circa 8 anni con una cicatrice verticale dietro l'orecchio sinistro",
+          "hidden_implication": "Il Soggetto Zero è ancora vivo e ha la stessa cicatrice distintiva di Voss",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Diario personale della dott.ssa Okonkwo",
+          "text": "Diario personale della dott.ssa Okonkwo",
+          "type": "document",
+          "thread_id": "T3",
+          "reveals": "Esiste un backup dei dati; qualcuno tra i presenti è un ex-soggetto del programma",
+          "payoff": "Fornisce accesso ai dati completi e indica come identificare gli ex-soggetti (cicatrici specifiche)",
+          "location": "Sala server del Leviatano",
+          "immediate_information": "Taccuino trovato nella tasca del cadavere di Okonkwo. Ultima pagina scritta in fretta: 'Se state leggendo questo",
+          "hidden_implication": "Esiste un backup dei dati; qualcuno tra i presenti è un ex-soggetto del programma",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_7",
+          "label": "Comportamento anomalo di Voss",
+          "text": "Comportamento anomalo di Voss",
+          "type": "behavior",
+          "thread_id": "T1",
+          "reveals": "Voss mostra conoscenza sospetta e mancanza di empatia innaturale",
+          "payoff": "Rafforza i sospetti quando combinato con altri indizi",
+          "location": "Centro di comando del cantiere",
+          "immediate_information": "I PG notano che Voss non ha mai chiesto dello stato delle vittime. Quando Indra ha menzionato i morti",
+          "hidden_implication": "Voss mostra conoscenza sospetta e mancanza di empatia innaturale",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_8",
+          "label": "Contratto mercenario firmato",
+          "text": "Contratto mercenario firmato",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "I mercenari sono stati assoldati dalla Fondazione Verità stessa",
+          "payoff": "Rivela l'infiltrazione della Fondazione e il tradimento dall'interno",
+          "location": "Alloggi dei mercenari (cantiere)",
+          "immediate_information": "Busta sigillata trovata nell'alloggio di Mantide. Contiene il contratto: 'Eliminazione testimoni",
+          "hidden_implication": "I mercenari sono stati assoldati dalla Fondazione Verità stessa",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_9",
+          "label": "Testimonianza di Yuki",
+          "text": "Testimonianza di Yuki",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "FALSA PISTA — Torvald sembra sospetto",
+          "payoff": "Devia i sospetti su Torvald finché non si scopre la verità (clue_10)",
+          "location": "Condotti di ventilazione del cantiere",
+          "immediate_information": "Testimonianza di Yuki",
+          "hidden_implication": "FALSA PISTA — Torvald sembra sospetto",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_10",
+          "label": "Rapporto segreto di Torvald",
+          "text": "Rapporto segreto di Torvald",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Torvald è innocente — stava cercando la verità, non nascondendola",
+          "payoff": "Smonta la falsa pista e rivela che Torvald è un alleato",
+          "location": "Punto di partenza",
+          "immediate_information": "Documento nascosto negli alloggi di Torvald: un rapporto investigativo privato che accusa il governo di aver affondato deliberatamente il Leviatano 30 anni fa",
+          "hidden_implication": "Torvald è innocente — stava cercando la verità, non nascondendola",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "pedinare il sospetto",
+            "confrontarlo con discrezione",
+            "controllare dove si e diretto"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Dottor Kael Voss",
+          "role": "Coordinatore scientifico della missione (IL TRADITORE)",
+          "description": "Distruggere ogni prova del programma Specchio Nero che lo identifica come Soggetto Zero",
+          "location": "Centro di comando del cantiere",
+          "secret": "È il primo successo del programma, dotato di memoria eidetica e resistenza al dolore. Ha fondato la Fondazione Verità per controllare chi cerca la verità su Specchio Nero",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Distruggere ogni prova del programma Specchio Nero che lo identifica come Soggetto Zero",
+            "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Distruggere ogni prova del programma Specchio Nero che lo identifica come Soggetto Zero"
+            ],
+            "avoids": [
+              "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È il primo successo del programma, dotato di memoria eidetica e resistenza al dolore. Ha fondato la Fondazione Verità per controllare chi cerca la verità su Specchio Nero",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Indra Halim",
+          "role": "Tecnico di recupero, sopravvissuta al massacro",
+          "description": "Sopravvivere e capire chi ha ucciso i suoi colleghi",
+          "location": "Baraccamento tecnici",
+          "secret": "Ha visto uno dei mercenari ricevere ordini via radio da qualcuno con 'voce calma, come un dottore'. Non ha ancora collegato a Voss",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Sopravvivere e capire chi ha ucciso i suoi colleghi",
+            "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Sopravvivere e capire chi ha ucciso i suoi colleghi"
+            ],
+            "avoids": [
+              "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha visto uno dei mercenari ricevere ordini via radio da qualcuno con 'voce calma, come un dottore'. Non ha ancora collegato a Voss",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Capitano Nils Torvald",
+          "role": "Ex-ufficiale della marina, ora capo sicurezza del cantiere",
+          "description": "Proteggere ciò che resta del suo equipaggio (i tecnici sopravvissuti)",
+          "location": "Torre di guardia principale",
+          "secret": "Trent'anni fa era sul convoglio che scortava il Leviatano quando affondò. Ha sempre sospettato che non fosse un incidente. Sta indagando di nascosto",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere ciò che resta del suo equipaggio (i tecnici sopravvissuti)",
+            "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere ciò che resta del suo equipaggio (i tecnici sopravvissuti)"
+            ],
+            "avoids": [
+              "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Trent'anni fa era sul convoglio che scortava il Leviatano quando affondò. Ha sempre sospettato che non fosse un incidente. Sta indagando di nascosto",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Zhen 'Mantide' Qiao",
+          "role": "Comandante del team mercenario",
+          "description": "Completare il contratto: eliminare testimoni, recuperare documenti specifici per il cliente (Voss)",
+          "location": "Perimetro esterno del cantiere",
+          "secret": "È anche lei una sopravvissuta di Specchio Nero (Soggetto Sedici). Lavora per Voss perché lui le ha promesso i dati per rintracciare gli altri soggetti ancora vivi",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Completare il contratto: eliminare testimoni, recuperare documenti specifici per il cliente (Voss)",
+            "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Completare il contratto: eliminare testimoni, recuperare documenti specifici per il cliente (Voss)"
+            ],
+            "avoids": [
+              "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È anche lei una sopravvissuta di Specchio Nero (Soggetto Sedici). Lavora per Voss perché lui le ha promesso i dati per rintracciare gli altri soggetti ancora vivi",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_5",
+          "name": "Dott.ssa Aya Okonkwo",
+          "role": "Archivista capo del Leviatano (morta, ma lascia tracce cruciali)",
+          "description": "(da viva) Assicurarsi che la verità emergesse anche se il Leviatano fosse stato compromesso",
+          "location": "Sala server del Leviatano",
+          "secret": "Nei suoi ultimi minuti ha caricato una copia criptata dei dossier su un server remoto. La chiave di decrittazione è nascosta nel suo diario personale",
+          "status": "dead",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "(da viva) Assicurarsi che la verità emergesse anche se il Leviatano fosse stato compromesso",
+            "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "(da viva) Assicurarsi che la verità emergesse anche se il Leviatano fosse stato compromesso"
+            ],
+            "avoids": [
+              "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Nei suoi ultimi minuti ha caricato una copia criptata dei dossier su un server remoto. La chiave di decrittazione è nascosta nel suo diario personale",
+            "arc_status": "dead",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_6",
+          "name": "Lior Ashkenazi",
+          "role": "Giornalista investigativo embedded con la squadra di recupero",
+          "description": "Ottenere la storia del secolo e vincere il premio giornalistico che gli è sempre sfuggito",
+          "location": "Ponte principale del Leviatano",
+          "secret": "È stato contattato anonimamente da qualcuno (Voss) che gli ha 'suggerito' di unirsi alla spedizione. Non sa di essere una pedina per rendere credibile la 'tragedia accidentale' che Voss sta orchestrando",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Ottenere la storia del secolo e vincere il premio giornalistico che gli è sempre sfuggito",
+            "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Ottenere la storia del secolo e vincere il premio giornalistico che gli è sempre sfuggito"
+            ],
+            "avoids": [
+              "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È stato contattato anonimamente da qualcuno (Voss) che gli ha 'suggerito' di unirsi alla spedizione. Non sa di essere una pedina per rendere credibile la 'tragedia accidentale' che Voss sta orchestrando",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_7",
+          "name": "Yuki 'Ingranaggio' Sato",
+          "role": "Ingegnere di sistema, unico altro sopravvissuto oltre Indra",
+          "description": "Restare nascosto fino all'arrivo dei soccorsi",
+          "location": "Condotti di ventilazione del cantiere",
+          "secret": "Ha visto Voss entrare nella sala server del Leviatano PRIMA che arrivassero i mercenari. Non capisce cosa significhi, ma ha paura a dirlo",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Restare nascosto fino all'arrivo dei soccorsi",
+            "fear": "che Verbale di sabotaggio comunicazioni riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Restare nascosto fino all'arrivo dei soccorsi"
+            ],
+            "avoids": [
+              "che Verbale di sabotaggio comunicazioni riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha visto Voss entrare nella sala server del Leviatano PRIMA che arrivassero i mercenari. Non capisce cosa significhi, ma ha paura a dirlo",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Punto di partenza",
+          "description": "Punto di partenza: nodo giocabile della struttura survival_escape.",
+          "type": "entry",
+          "visual_identity": "Punto di partenza: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [
+            "clue_10"
+          ],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Percorso rapido",
+          "description": "Percorso rapido: nodo giocabile della struttura survival_escape.",
+          "type": "site",
+          "visual_identity": "Percorso rapido: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Nodo sicuro",
+          "description": "Nodo sicuro: nodo giocabile della struttura survival_escape.",
+          "type": "site",
+          "visual_identity": "Nodo sicuro: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona pericolosa",
+          "description": "Zona pericolosa: nodo giocabile della struttura survival_escape.",
+          "type": "site",
+          "visual_identity": "Zona pericolosa: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Uscita contestata",
+          "description": "Uscita contestata: nodo giocabile della struttura survival_escape.",
+          "type": "finale",
+          "visual_identity": "Uscita contestata: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Chiusura delle vie di fuga",
+          "value": 0,
+          "max": 6,
+          "consequence": "la minaccia raggiunge la zona finale",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_7b24ff879a",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Centro di comando del cantiere",
+        "agenda_pressure": 0,
+        "goal": "Distruggere ogni prova del programma Specchio Nero che lo identifica come Soggetto Zero",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Baraccamento tecnici",
+        "agenda_pressure": 0,
+        "goal": "Sopravvivere e capire chi ha ucciso i suoi colleghi",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Torre di guardia principale",
+        "agenda_pressure": 0,
+        "goal": "Proteggere ciò che resta del suo equipaggio (i tecnici sopravvissuti)",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Perimetro esterno del cantiere",
+        "agenda_pressure": 0,
+        "goal": "Completare il contratto: eliminare testimoni, recuperare documenti specifici per il cliente (Voss)",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_5": {
+        "status": "dead",
+        "location_id": "Sala server del Leviatano",
+        "agenda_pressure": 0,
+        "goal": "(da viva) Assicurarsi che la verità emergesse anche se il Leviatano fosse stato compromesso",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_6": {
+        "status": "unintroduced",
+        "location_id": "Ponte principale del Leviatano",
+        "agenda_pressure": 0,
+        "goal": "Ottenere la storia del secolo e vincere il premio giornalistico che gli è sempre sfuggito",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_7": {
+        "status": "unintroduced",
+        "location_id": "Condotti di ventilazione del cantiere",
+        "agenda_pressure": 0,
+        "goal": "Restare nascosto fino all'arrivo dei soccorsi",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T1"
+      ],
+      "clue_4": [
+        "T2"
+      ],
+      "clue_5": [
+        "T3"
+      ],
+      "clue_6": [
+        "T3"
+      ],
+      "clue_7": [
+        "T1"
+      ],
+      "clue_8": [
+        "T2"
+      ],
+      "clue_9": [
+        "T2"
+      ],
+      "clue_10": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 86,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Centro di comando del cantiere.",
+      "Actor npc_2 ha location non riconosciuta: Baraccamento tecnici.",
+      "Actor npc_3 ha location non riconosciuta: Torre di guardia principale.",
+      "Actor npc_4 ha location non riconosciuta: Perimetro esterno del cantiere.",
+      "Actor npc_5 ha location non riconosciuta: Sala server del Leviatano.",
+      "Actor npc_6 ha location non riconosciuta: Ponte principale del Leviatano.",
+      "Actor npc_7 ha location non riconosciuta: Condotti di ventilazione del cantiere."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 7,
+      "clues": 10,
+      "revelations": 3
+    }
+  },
+  "doctor": {
+    "score": 3.3,
+    "score_after": 4.1,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_1",
+        "message": "NPC 'Dottor Kael Voss': location_id 'Centro di comando del cantiere' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_2",
+        "message": "NPC 'Indra Halim': location_id 'Baraccamento tecnici' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_3",
+        "message": "NPC 'Capitano Nils Torvald': location_id 'Torre di guardia principale' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_4",
+        "message": "NPC 'Zhen 'Mantide' Qiao': location_id 'Perimetro esterno del cantiere' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_5",
+        "message": "NPC 'Dott.ssa Aya Okonkwo': location_id 'Sala server del Leviatano' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_6",
+        "message": "NPC 'Lior Ashkenazi': location_id 'Ponte principale del Leviatano' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_7",
+        "message": "NPC 'Yuki 'Ingranaggio' Sato': location_id 'Condotti di ventilazione del cantiere' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Clock 'Chiusura delle vie di fuga': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Il clock 'Chiusura delle vie di fuga' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_2, clue:clue_3, clue:clue_7, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_2, clue:clue_3, clue:clue_7, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_4, clue:clue_8, clue:clue_9, clue:clue_10, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_4, clue:clue_8, clue:clue_9, clue:clue_10, revelation:T2"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T3",
+        "message": "Pista fantasma 'T3': citata da clue:clue_5, clue:clue_6, revelation:T3 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T3', oppure rimuovi il riferimento da clue:clue_5, clue:clue_6, revelation:T3"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 5 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "Le Ossa del Leviatano",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "10 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}
