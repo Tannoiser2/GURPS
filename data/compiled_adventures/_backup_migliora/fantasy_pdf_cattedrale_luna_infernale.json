@@ -1933,7 +1933,7 @@
         "id": "llm_clue_2",
         "label": "La luna sopra la cattedrale",
         "type": "document",
-        "thread_id": "T13",
+        "thread_id": "T2",
         "source_location": "loc_abbazia_megalos",
         "reveals": "La cattedrale è legata a un fenomeno lunare specifico che potrebbe avere significato rituale",
         "payoff": "I PG possono scegliere quando attaccare in base alle fasi lunari per ridurre il potere del luogo",
@@ -1969,7 +1969,7 @@
         "id": "llm_clue_3",
         "label": "Sant'Onorio protettore di Megalos",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T3",
         "source_location": "loc_abbazia_megalos",
         "reveals": "L'abbazia di Sant'Onorio a Megalos potrebbe avere informazioni o risorse per combattere il male della cattedrale",
         "payoff": "I PG possono recarsi all'abbazia per ottenere benedizioni, armi sacre o informazioni",
@@ -2077,7 +2077,7 @@
         "id": "llm_clue_6",
         "label": "La porta di bronzo intatta",
         "type": "scene_observation",
-        "thread_id": "T13",
+        "thread_id": "T6",
         "source_location": "loc_biblioteca",
         "reveals": "La porta conserva ancora potere psichico e rivela visioni di un demone legato a una bottiglia",
         "payoff": "La visione preannuncia ai PG della bottiglia sepolta, permettendo di evitare o prepararsi alla trappola demoniaca",
@@ -2221,7 +2221,7 @@
         "id": "llm_clue_10",
         "label": "Tracce delle mura e macerie",
         "type": "scene_observation",
-        "thread_id": "T13",
+        "thread_id": "T10",
         "source_location": "loc_biblioteca",
         "reveals": "La cattedrale è stata distrutta, ma elementi chiave (porta, sepolture) sono sopravvissuti",
         "payoff": "I PG capiscono che indagare le macerie potrebbe rivelare la storia della distruzione e se è stata completa",
@@ -2324,198 +2324,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Registro dell'Abbazia di Sant'Onorio",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Frate Albino era membro dell'Abbazia e scomparve dirigendosi verso est",
-        "payoff": "Collega il frate fuggitivo all'Abbazia e suggerisce che aveva strumenti di protezione magica",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Diario personale di Frate Albino",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Frate Albino rubò deliberatamente la bottiglia ai cultisti e la nascose",
-        "payoff": "Conferma che Frate Albino sabotò i rituali e spiega perché la bottiglia è sotto la croce",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Testimonianza di un locandiere",
-        "type": "testimony",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "I Quattro Uomini stanno attivamente cercando la cattedrale e portano simboli lunari",
-        "payoff": "Identifica i Quattro Uomini come cultisti legati al culto della luna infernale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Altare sacrificale sotto la statua",
-        "type": "location_detail",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "L'altare richiedeva specificamente le quattro daghe per i rituali e qualcuno ha tentato recentemente di usarlo",
-        "payoff": "Dimostra che i cultisti hanno bisogno delle daghe e della bottiglia per completare il rituale di liberazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Mappa nautica di un capitano di Azer",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "La cattedrale è nascosta da bruma magica ed è visibile solo in condizioni specifiche",
-        "payoff": "Fornisce le coordinate esatte e le condizioni per trovare la cattedrale via mare",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Sentiero divorato dalle piante",
-        "type": "location_detail",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Esisteva un percorso protetto magicamente che collegava la terraferma alla cattedrale",
-        "payoff": "Indica la direzione corretta e suggerisce che le rune potrebbero essere riattivate per un passaggio sicuro",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Incisioni sulla porta di bronzo",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il demone può essere liberato solo con il sangue dei Quattro Uomini",
-        "payoff": "Rivela la condizione esatta per liberare o mantenere imprigionato il demone",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Simbolo di Sant'Onorio sulla croce",
-        "type": "location_detail",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Frate Albino usò la protezione di Sant'Onorio per sigillare la bottiglia",
-        "payoff": "Conferma il collegamento tra Frate Albino e l'Abbazia, e spiega perché il demone rimane imprigionato",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -2593,8 +2401,8 @@
         "secret": "È ancora estremamente debole appena liberato e ha bisogno di tempo per rigenerarsi, la sua minaccia immediata è solo apparenza",
         "agenda_pressure": 0,
         "fear": "Essere nuovamente imprigionato o esorcizzato prima di recuperare la sua forza completa",
-        "current_plan": "Manipolare i PG affinché lo portino alle rovine della Cattedrale dove l'antica energia lunare-infernale può rigenerarlo completamente in pochi giorni",
-        "fallback_plan": "Se scoperto o attaccato, possedere temporaneamente un PG per raggiungere autonomamente le rovine, poi abbandonare l'ospite ormai consumato sulla soglia del tempio",
+        "current_plan": "Manipolare i PG affinché lo conducano alle rovine della Cattedrale Luna Infernale dove antichi altari sacrificali ancora risuonano di energia oscura. Una volta lì, attivare rituali dormienti usando i PG come catalizzatori involontari per rigenerarsi completamente",
+        "fallback_plan": "Se i PG rifiutano cooperazione, infiltrarsi come presenza parassita in un loro oggetto personale o seguirli come ombra impercettibile. Alle rovine, attendere che attivino difese arcane o disturbino sigilli, quindi assorbire l'energia rilasciata. Se completamente scoperto, contrattare conoscenze sulla Cattedrale in cambio di essere portato almeno alla soglia delle rovine",
         "resources": [
           "accessi",
           "contatti",
@@ -2616,16 +2424,16 @@
           "Essere individuato da chierici o paladini prima di aver recuperato forza"
         ],
         "pressure_response": {
-          "low": "Appare come vapore oscuro dalla bottiglia, mostrandosi grandioso e terrificante con illusioni di fiamme e ombre danzanti per intimidire i PG e guadagnare tempo",
-          "medium": "Offre patti e conoscenze proibite sulla Cattedrale, promettendo potere in cambio di sangue o anime per accelerare la sua rigenerazione",
-          "high": "Si ritira nella bottiglia o fugge in forma eterea verso le rovine costiere dove può attingere all'energia residua del culto lunare per guarire",
-          "extreme": "Tenta di possedere il PG più debole o corrotto, usando il suo corpo come ancora temporanea al mondo materiale mentre pianifica la fuga"
+          "low": "Appare come nebbia sulfurea proveniente dalla bottiglia rotta, sussurrando promesse di potere antico e conoscenza proibita sulla Cattedrale. Offre di guidare i PG alle rovine in cambio di 'piccoli favori'",
+          "medium": "Manifesta illusioni terrificanti di templi sommersi e sacerdoti sacrificati, minacciando di maledire chi lo ostacola. In realtà cerca disperatamente di guadagnare tempo nascondendo la propria debolezza dietro visioni grandiose",
+          "high": "Tenta possessione di un PG debilitato o ferito, sperando di usare il corpo come ancora fisica. Se respinto, fugge verso le rovine costiere dove antichi sigilli potrebbero accelerare la sua rigenerazione",
+          "extreme": "Si dissolve apparentemente in un'esplosione di fiamme infernali e urla agghiaccianti, ma in realtà si rifugia come essenza impercettibile dentro un oggetto di metallo dei PG, attendendo pazientemente di raggiungere la Cattedrale"
         },
         "reaction_table": {
-          "se_minacciato": "Bluffa sulla sua potenza evocando visioni terrificanti di ciò che farà 'quando sarà pronto', cercando di manipolare i PG a liberarlo completamente",
-          "se_corrotto": "Sussurra al corruttibile segreti sulla Cattedrale e promette di condividere il potere del Grande Antico se lo aiuterà a raggiungere le rovine",
-          "se_i_pg_hanno_prove": "Ammette parte della verità mescolando bugie, sostenendo di essere stato imprigionato ingiustamente dai cultisti che ora cerca vendetta",
-          "se_alleato": "Finge gratitudine servile mentre segretamente assorbe energia vitale dal suo 'alleato' attraverso il legame, rafforzandosi lentamente"
+          "se_minacciato": "Arretra manifestando terrore finto seguito da risate echeggianti, bluffando sulla propria invulnerabilità. Cerca freneticamente di identificare chi è più corruttibile nel gruppo per creare divisioni",
+          "se_corrotto": "Non applicabile - è già un'entità demoniaca pura, ma finge vulnerabilità emotiva raccontando bugie sulla sua 'prigionia ingiusta' per manipolare PG compassionevoli",
+          "se_i_pg_hanno_prove": "Se scoprono la sua debolezza attuale, inventa che la Cattedrale Luna Infernale contiene un artefatto che solo lui può usare per distruggere 'nemici comuni'. Propone alleanza temporanea camuffando la sua vera necessità di raggiungerla",
+          "se_alleato": "Impossibile vera alleanza, ma inscena fedeltà servile rivelando frammenti di verità sulla Cattedrale mescolati a menzogne letali. Li guida deliberatamente verso trappole arcane che assorbono energia vitale utile alla sua rigenerazione"
         },
         "pressure_events": [],
         "relationships": [
@@ -2652,8 +2460,8 @@
         "secret": "Stanno ancora cercando attivamente Frate Albino e monitorano le strade verso Megalos per trovarlo o i suoi complici",
         "agenda_pressure": 0,
         "fear": "Che il loro culto venga scoperto ed eliminato dalle autorità religiose o che perdano per sempre il favore del demone",
-        "current_plan": "Sorvegliare le principali vie d'accesso a Megalos con cambiaforma mercenari. Interrogare discretamente monaci e pellegrini su Frate Albino. Preparare le rovine costiere per il sacrificio durante la prossima luna nuova (tra 8 giorni), restaurando l'altare e tracciando i sigilli di sangue necessari.",
-        "fallback_plan": "Se Frate Albino resta introvabile, rapiranno un chierico di alto rango della Chiesa ortodossa come sacrificio alternativo - meno potente ma sufficiente. In extremis, uno di loro si offrirà come martire volontario per preservare il culto, mentre gli altri tre continueranno la tradizione.",
+        "current_plan": "Mantenere sorveglianza sulle tre strade principali verso Megalos con coppie di cultisti travestiti, interrogare forzatamente chiunque abbia visto Frate Albino, e preparare il cerchio sacrificale nella camera sotto la statua per agire rapidamente quando lo troveranno",
+        "fallback_plan": "Se Frate Albino risulta irrecuperabile entro la luna nuova, catturare un chierico o monaco di fede opposta per un sacrificio blasfemo alternativo che, sebbene meno potente, dovrebbe comunque risvegliare parzialmente l'influenza del Grande Antico",
         "resources": [
           "accessi",
           "contatti",
@@ -2675,16 +2483,16 @@
           "Permettere che la bottiglia del demone venga distrutta invece che aperta"
         ],
         "pressure_response": {
-          "low": "Osservano da lontano, seguendo discretamente i PG attraverso informatori nelle taverne e spie tra i mendicanti. Lasciano sottili segni occulti sui muri per intimidire.",
-          "medium": "Tentano un'imboscata notturna sulla strada costiera, mascherati da banditi comuni. Cercano di catturare almeno un PG per interrogarlo sulla posizione di Frate Albino.",
-          "high": "Rapiscono un alleato o contatto dei PG, lasciando un messaggio scritto in sangue: 'La Luna Infernale esige il suo tributo. Portate il frate o il vostro amico brucerà'. Preparano un rituale di localizzazione proibito.",
-          "extreme": "Abbandonano la ricerca di Frate Albino e tentano di sacrificare uno dei PG come sostituto sotto la statua. Evocano un servitore minore del Grande Antico per completare il rituale a ogni costo, anche se significa la loro stessa dannazione."
+          "low": "I Quattro Uomini osservano da lontano, interrogano discretamente locandieri e mercanti sulle strade per Megalos, fingendosi pellegrini preoccupati per un confratello scomparso",
+          "medium": "Aumentano le pattuglie notturne attorno alle rovine costiere, piazzano informatori pagati nei villaggi circostanti e iniziano a seguire chiunque faccia domande sulla Cattedrale della Luna Infernale",
+          "high": "Organizzano imboscate sulle strade principali, rapiscono testimoni per interrogatori brutali, e preparano un rituale di localizzazione usando oggetti personali di Frate Albino ancora nella loro disponibilità",
+          "extreme": "Decidono di sacrificare un sostituto temporaneo sotto la statua per ottenere abbastanza potere da scatenare i servitori evocati del Grande Antico, sacrificando la segretezza del culto pur di completare il rituale a ogni costo"
         },
         "reaction_table": {
-          "se_minacciato": "Si dividono immediatamente, ciascuno fuggendo in direzioni diverse. Bruciano documenti compromettenti e attivano rune di confusione nelle rovine per cancellare tracce. Il più anziano rimane indietro per guadagnare tempo, pronto al suicidio rituale piuttosto che parlare.",
-          "se_corrotto": "Fingono di accettare, chiedendo oro e promesse di potere, ma segretamente pianificano di tradire i PG all'ultimo momento. Potrebbero rivelare false informazioni sulla cattedrale o condurli in una trappola nelle rovine.",
-          "se_i_pg_hanno_prove": "Negano tutto, sostenendo di essere semplici studiosi di antichità pagane. Offrono di 'collaborare' nelle ricerche per monitorare cosa scoprono i PG. Inviano urgentemente messaggeri agli altri cultisti per accelerare i piani.",
-          "se_alleato": "Condividono conoscenze sulla cattedrale e la sua storia, ma omettono deliberatamente dettagli cruciali sul rituale del sacrificio. Cercano di manipolare i PG perché li guidino a Frate Albino 'inconsapevolmente'."
+          "se_minacciato": "Fingono di essere semplici cultisti minori, offrono false informazioni sulla posizione della cattedrale, e tentano di attirare i PG in un'imboscata nelle rovine usando una mappa contraffatta",
+          "se_corrotto": "Promettono di rivelare i segreti nascosti sotto la cattedrale e di condividere il potere del Grande Antico, ma richiedono che i PG consegnino Frate Albino o portino un sostituto adatto al sacrificio",
+          "se_i_pg_hanno_prove": "Accelerano drasticamente i tempi del rituale, abbandonano Frate Albino come obiettivo primario e cercano vittime alternative tra i viandanti isolati, disposti a usare un sacrificio imperfetto pur di agire prima dell'intervento",
+          "se_alleato": "Invitano l'alleato a partecipare al Grande Risveglio, gli mostrano la statua infernale nelle rovine costiere e gli assegnano il compito di catturare Frate Albino promettendo un posto d'onore nel culto rinato"
         },
         "pressure_events": [],
         "relationships": [
@@ -2725,7 +2533,6 @@
           "frate_albino",
           "quattro_cultisti"
         ],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -2755,18 +2562,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_abbazia_megalos",
-          "loc_monte_piante",
-          "loc_nave_per_azer"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2787,7 +2582,6 @@
           "llm_clue_12"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -2817,17 +2611,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_biblioteca",
-          "loc_strada_per_megalos"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2840,7 +2623,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -2871,17 +2653,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_abbazia_megalos",
-          "loc_monte_piante"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2894,7 +2665,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -2925,14 +2695,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_strada_per_megalos",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2945,7 +2707,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -2975,16 +2736,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_biblioteca",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_rovine_cattedrale"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2999,7 +2750,6 @@
         "contains_actors": [
           "demone_intrappolato"
         ],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -3029,14 +2779,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_nave_per_azer",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3049,7 +2791,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -3079,16 +2820,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_rovine_cattedrale",
-        "location_type": "local",
-        "connections_to": [
-          "loc_croce_sepolta"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3101,7 +2832,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -3131,16 +2861,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_rovine_cattedrale",
-        "location_type": "local",
-        "connections_to": [
-          "loc_porta_bronzo"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3275,206 +2995,7 @@
         "concrete_choice": "Scavare con cautela, recuperare la bottiglia intatta e trasportarla sigillata verso un luogo sicuro o esperto"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Chi era il frate fuggitivo?",
-        "question": "Quale frate scoprì i rituali demoniaci e riuscì a imprigionare il demone?",
-        "true_answer": "Frate Albino scoprì i rituali, rubò la bottiglia contenente il demone e la seppellì sotto una croce, lanciando poi l'incantesimo della bruma per nascondere la cattedrale",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_1",
-          "llm_clue_9"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Frate Albino"
-        ],
-        "linked_locations": [
-          "Abbazia di Sant'Onorio (Megalos)",
-          "Rovine della Cattedrale della Luna Infernale"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Qual è il vero scopo dei Quattro Uomini?",
-        "question": "Perché i Quattro Uomini cercano la cattedrale e cosa vogliono dalla bottiglia sepolta?",
-        "true_answer": "I Quattro Uomini sono cultisti del grande antico che vogliono recuperare le daghe rituali e liberare il demone dalla bottiglia per riprendere i rituali sotto la statua infernale",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_4"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "I Quattro Uomini",
-          "Demone della Bottiglia"
-        ],
-        "linked_locations": [
-          "Strada per Megalos",
-          "Rovine della Cattedrale della Luna Infernale"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Come raggiungere la cattedrale nascosta?",
-        "question": "Dove si trova esattamente la cattedrale e come superare le difese magiche e naturali che la proteggono?",
-        "true_answer": "La cattedrale si trova sulla costa orientale presso Azer, nascosta dalla bruma magica. Il percorso attraversa il Monte delle Piante Carnivore e richiede una nave per raggiungere le rovine",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "llm_clue_5"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "linked_locations": [
-          "Nave per Azer",
-          "Monte delle Piante Carnivore",
-          "Rovine della Cattedrale della Luna Infernale"
-        ]
-      },
-      {
-        "id": "T1",
-        "title": "T1",
-        "question": "Cosa documentò il frate nel suo manoscritto sulla cattedrale e quali indizi lasciò per i futuri visitatori?",
-        "true_answer": "Il frate descrisse la struttura della cattedrale, i pericoli al suo interno e lasciò deliberatamente indizi nascosti per guidare fedeli futuri a completare la missione che lui non riuscì a portare a termine: la distruzione definitiva del luogo maledetto.",
-        "collected_clue_ids": [
-          "llm_clue_1"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T4",
-        "title": "T4",
-        "question": "Qual è il vero scopo delle quattro daghe insanguinate trovate nella cattedrale?",
-        "true_answer": "Le quattro daghe insanguinate sono strumenti rituali utilizzati dai cultisti per evocare e dare potere alla statua infernale che domina la cattedrale. Distruggerle o rimuoverle indebolisce significativamente il rituale e il potere demoniaco del luogo.",
-        "collected_clue_ids": [
-          "llm_clue_4"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T5",
-        "title": "T5",
-        "question": "Come prepararsi per superare l'ostacolo delle piante aggressive che infestano la cattedrale?",
-        "true_answer": "I vasi contengono piante aggressive e ostili controllate dall'influenza demoniaca. I PG devono equipaggiarsi con armi da taglio, fuoco o magia elementale e pianificare tattiche per affrontare creature vegetali che possono bloccare passaggi e attaccare in gruppo.",
-        "collected_clue_ids": [
-          "llm_clue_5"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T7",
-        "title": "T7",
-        "question": "Cosa rappresenta la croce senza lapide con la bottiglia sepolta e quali conseguenze ha disseppellirla?",
-        "true_answer": "La croce segna il punto dove il frate sigillò il demone della cattedrale intrappolandolo in una bottiglia consacrata e sepolta. Aprire o rompere la bottiglia libera un demone estremamente potente che il frate riuscì a malapena a contenere.",
-        "collected_clue_ids": [
-          "llm_clue_7"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Quali sono le conseguenze immediate di aver liberato il demone dalla bottiglia sigillata?",
-        "true_answer": "I PG hanno rilasciato una minaccia antica e potente che ora minaccia la regione. Sono moralmente e praticamente responsabili di fermare il demone prima che causi devastazione, e potrebbero essere ricercati o condannati se la verità viene scoperta.",
-        "collected_clue_ids": [
-          "llm_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T9",
-        "title": "T9",
-        "question": "Qual è la natura e l'utilizzo dell'incantesimo della bruma salvifica menzionato nel manoscritto?",
-        "true_answer": "L'incantesimo della bruma salvifica è una magia di occultamento e fuga che il frate utilizzò per sfuggire ai cultisti e successivamente per sigillare il demone. I PG incantatori possono preparare questo incantesimo per situazioni simili contro cultisti o per contenere entità demoniache.",
-        "collected_clue_ids": [
-          "llm_clue_9"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_sigillo",
-        "title": "T sigillo",
-        "question": "Quale fu il vero destino della Cattedrale della Luna Infernale e del demone che vi dimorava?",
-        "true_answer": "La cattedrale non fu mai distrutta ma solo sigillata. Il frate, non riuscendo a distruggerla completamente, intrappolò il demone principale in una bottiglia consacrata che seppellì sotto una croce, lasciando il luogo maledetto ma temporaneamente neutralizzato.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_missione",
-        "title": "T missione",
-        "question": "Perché il frate lasciò un manoscritto dettagliato con indizi sulla cattedrale invece di distruggerlo?",
-        "true_answer": "Il frate sapeva di non aver completato la distruzione della cattedrale e lasciò deliberatamente indizi e istruzioni nel suo manoscritto per guidare futuri fedeli o eroi a terminare ciò che lui aveva iniziato: l'eliminazione definitiva della minaccia demoniaca.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rituale",
-        "title": "T rituale",
-        "question": "Come le quattro daghe insanguinate si collegano alla statua infernale nella cattedrale?",
-        "true_answer": "Le quattro daghe insanguinate sono i fulcri rituali che canalizzano energia oscura verso la statua infernale centrale, evocandola e mantenendola manifesta nel piano materiale. Sono disposte secondo un pattern geometrico che amplifica il potere demoniaco.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_allineamento",
-        "title": "T allineamento",
-        "question": "Quale significato occulto ha l'architettura della cattedrale e il suo rapporto con la luna?",
-        "true_answer": "La cattedrale fu costruita a forma di croce invertita in perfetto allineamento con le fasi lunari. Quando la luna piena si allinea sopra la struttura, si crea un varco sacrilego che amplifica enormemente il potere demoniaco e facilita evocazioni dal piano infernale.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_incantesimo",
-        "title": "T incantesimo",
-        "question": "Come il frate utilizzò realmente l'incantesimo della bruma e per quale scopo finale?",
-        "true_answer": "Il frate usò l'incantesimo della bruma salvifica prima per fuggire dai cultisti durante la sua esplorazione, poi lo perfezionò e lo integrò nel rituale di sigillo per intrappolare il demone nella bottiglia, creando una barriera mistica temporanea ma non una soluzione permanente.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 6,
@@ -5484,8 +5005,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
