@@ -7114,7 +7114,7 @@
         "id": "llm_clue_1",
         "label": "Rune dwarven antiche nella grotta",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T1",
         "source_location": "The Old Cave",
         "reveals": "La grotta era un antico insediamento nanico, probabilmente collegato alla miniera di Davihn-Karr",
         "payoff": "Fornisce la prima connessione diretta con la miniera perduta che gli orchi hanno abbandonato",
@@ -7150,7 +7150,7 @@
         "id": "llm_clue_2",
         "label": "Testimonianza sugli orchi scacciati",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T2",
         "source_location": "Search for Survivors",
         "reveals": "Gli orchi non attaccarono per malvagità ma perché spaventati e senza casa, scacciati da uno stregone necromante",
         "payoff": "Trasforma gli orchi da nemici a potenziali alleati e identifica il vero villain",
@@ -7186,7 +7186,7 @@
         "id": "llm_clue_3",
         "label": "Piano del golem di platino",
         "type": "document",
-        "thread_id": "T13",
+        "thread_id": "T3",
         "source_location": "The Mine of Davinn-Kahr",
         "reveals": "Lo stregone sta costruendo un'arma vivente di platino capace di attraversare la roccia solida",
         "payoff": "Stabilisce l'urgenza di fermare I'Zor'zah prima che completi il suo golem",
@@ -7222,7 +7222,7 @@
         "id": "llm_clue_4",
         "label": "Motivazione di Fat Farlsbag",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T4",
         "source_location": "Fat Farlsbag",
         "reveals": "Il criminale ricercato è ancora vivo e ora cerca la miniera di platino per arricchirsi",
         "payoff": "Crea una corsa contro il tempo: tre fazioni cercano la stessa miniera",
@@ -7258,7 +7258,7 @@
         "id": "llm_clue_5",
         "label": "Rapimento della promessa sposa del Principe",
         "type": "document",
-        "thread_id": "T11",
+        "thread_id": "T5",
         "source_location": "Search for Survivors",
         "reveals": "Il crimine che scatenò la caccia all'uomo e la ragione per cui cento uomini entrarono nelle montagne",
         "payoff": "Fornisce motivazione personale per catturare Farlsbag e potenziale ricompensa dal Principe",
@@ -7294,7 +7294,7 @@
         "id": "llm_clue_6",
         "label": "Tempesta in arrivo",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T6",
         "source_location": "The Storm Arrives",
         "reveals": "I PG hanno poche ore per trovare riparo o rischiano di morire assiderati",
         "payoff": "Forza i PG a prendere decisioni rapide: cercare riparo, sopravvissuti o inseguire nemici",
@@ -7330,7 +7330,7 @@
         "id": "llm_clue_7",
         "label": "Feud con i Maghi dei Picchi di Cristallo Bianco",
         "type": "testimony",
-        "thread_id": "T13",
+        "thread_id": "T7",
         "source_location": "The Sorcerers of the White Crystal Peaks",
         "reveals": "Lo stregone è un ex-membro o fondatore del culto, ora cerca vendetta contro di loro",
         "payoff": "Apre la possibilità di alleanza con un potente gruppo di maghi",
@@ -7366,7 +7366,7 @@
         "id": "llm_clue_8",
         "label": "Schiavi sotto controllo mentale",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T8",
         "source_location": "Mind-controlled Slaves",
         "reveals": "Lo stregone possiede potenti capacità di controllo mentale e ha usato gli orchi come schiavi minatori",
         "payoff": "I PG potrebbero dover liberare schiavi mentali o combatterli senza ucciderli",
@@ -7402,7 +7402,7 @@
         "id": "llm_clue_9",
         "label": "Olio di Scarabeo Nanico",
         "type": "physical_evidence",
-        "thread_id": "T12",
+        "thread_id": "T9",
         "source_location": "The Mine of Davinn-Kahr",
         "reveals": "I nani di Davihn-Karr usavano oli speciali, probabilmente per l'estrazione o per scopi magici",
         "payoff": "Fornisce un oggetto utile per superare ostacoli nella miniera o contro il golem",
@@ -7438,7 +7438,7 @@
         "id": "llm_clue_10",
         "label": "Anello con sigillo reale",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T10",
         "source_location": "Search for Survivors",
         "reveals": "Qualcuno nella spedizione aveva connessioni dirette con la famiglia reale o autorità legale",
         "payoff": "Può essere usato per legittimare le azioni dei PG o identificare un VIP morto",
@@ -7505,198 +7505,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Lettera di pagamento nascosta su Farlsbag",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Farlsbag lavorava per qualcuno interessato a un obiettivo reale e alla miniera nanica",
-        "payoff": "Collega Farlsbag a I'Zor'zah e alla promessa sposa rapita",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Tracce di carrozza reale",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Qualcuno di nobile lignaggio è stato trascinato via con la forza",
-        "payoff": "Conferma il rapimento e indica la direzione verso le miniere",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Collare d'argento spezzato",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Gli orchi erano controllati tramite oggetti magici alchemici",
-        "payoff": "Spiega il meccanismo di controllo e la connessione con l'Olio di Scarabeo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Testimonianza di Ott Z'orto sul dolore",
-        "type": "testimony",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il controllo causava sofferenza e gli orchi estraevano qualcosa di prezioso",
-        "payoff": "Conferma la schiavitù e l'estrazione di platino",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Registro di espulsione della Torre",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "I'Zor'zah fu bandito per crimini legati proprio ai golem",
-        "payoff": "Stabilisce movente personale e conferma la sua expertise",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Minaccia incisa nella roccia",
-        "type": "location_detail",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "I'Zor'zah ha un rancore personale e pianifica un attacco usando la terra/roccia",
-        "payoff": "Conferma il piano del golem che cammina attraverso la terra",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Mappa tattica sul Battlefield",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "L'operazione di Farlsbag era temporizzata e doveva evitare le autorità",
-        "payoff": "Aggiunge urgenza e conferma la natura criminale dell'operazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Laboratorio alchemico nascosto",
-        "type": "location_detail",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "L'Olio di Scarabeo è prodotto qui ed è la chiave del controllo",
-        "payoff": "Rivela come interrompere il controllo o replicarlo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -7710,8 +7518,8 @@
         "secret": "Ha ucciso la promessa sposa del Principe Adelheid dopo il rapimento ed è venuto a conoscenza della leggendaria miniera di platino",
         "agenda_pressure": 0,
         "fear": "Essere catturato dai cacciatori di taglie e consegnato al Principe Adelheid per la sua esecuzione",
-        "current_plan": "Catturare 3-4 sopravvissuti feriti dalla battaglia, interrogarli sulla posizione di Davihn-Karr, poi usarli come merce di scambio con i clan orcheschi locali che conoscono i tunnel sotterranei",
-        "fallback_plan": "Se braccato, raggiungere il Passo delle Vedove dove la sua amante Grishka gestisce una locanda - ha già inviato là metà del riscatto in gemme e documenti compromettenti sul Principe Adelheid per ricatto finale",
+        "current_plan": "Usare i sopravvissuti feriti della battaglia come esca e merce di scambio. Torturare sistematicamente chiunque possa conoscere Davihn-Karr, iniziando dai cacciatori di taglie morenti. Seguire i PG a distanza se sembrano conoscere la posizione della miniera.",
+        "fallback_plan": "Se braccato senza speranza, Far Farlsbag si dirigerà verso la Gola dei Venti Urlanti con l'ultimo ostaggio. Lì tenterà di barattare la vita dell'ostaggio e la mappa decifrata della miniera in cambio di libero passaggio oltre i confini del regno del Principe Adelheid, verso le terre senza legge dell'est.",
         "resources": [
           "accessi",
           "contatti",
@@ -7733,16 +7541,16 @@
           "Tornare nei territori del sud dove è ricercato"
         ],
         "pressure_response": {
-          "low": "Negozia con calma glaciale, offre oro e informazioni false sulla miniera per guadagnare tempo e fiducia",
-          "medium": "Minaccia di uccidere ostaggi uno ad uno, rivela dettagli parziali su Davihn-Karr per creare divisioni tra i PG",
-          "high": "Usa ostaggi come scudi umani, tenta di fuggire verso le caverne glaciali dove ha nascosto mappe rubate al seguito del Principe",
-          "extreme": "Confessa l'omicidio della promessa sposa in un delirio disperato, offre l'intera ubicazione della miniera in cambio della vita, pronto a tradire chiunque"
+          "low": "Fat Farlsbag osserva i sopravvissuti tra i cadaveri ghiacciati, ordinando ai suoi uomini rimasti di raccogliere informazioni su Davihn-Karr interrogando 'gentilmente' i feriti. Offre coperte e acquavite calda a chi collabora.",
+          "medium": "Organizza un'imboscata notturna contro i PG, usando i corpi congelati come copertura. Se individuato, fa uccidere un ostaggio ogni ora finché non gli rivelano la posizione della miniera di platino.",
+          "high": "Minaccia di bruciare vivo il sopravvissuto più debole tra i ghiacci se i PG non lo conducono a Davihn-Karr entro l'alba. Rivela di conoscere rotte segrete attraverso Zarak che renderanno inutile ogni fuga.",
+          "extreme": "Ammette urlando di aver strangolato la promessa sposa del Principe con le sue stesse mani quando lei si rifiutò di dirgli dove si trovava la miniera. Sfida i PG a ucciderlo, sapendo che il platino di Davihn-Karr morirà con lui poiché solo lui ha decifrato la mappa trovata sul corpo della ragazza."
         },
         "reaction_table": {
-          "se_minacciato": "Ride nervosamente mostrando denti d'oro, la mano sempre vicina al pugnale avvelenato nascosto nello stivale destro",
-          "se_corrotto": "Diventa improvvisamente collaborativo ma inserisce sempre mezze verità - propone spartizione del platino ma pianifica già il tradimento",
-          "se_i_pg_hanno_prove": "Il sudore gli imperla la fronte massiccia, balbetta scuse incoerenti, cerca disperatamente un capro espiatorio tra i suoi stessi uomini",
-          "se_alleato": "Si mostra generoso e gioviale ma annota mentalmente ogni debolezza dell'alleato per sfruttarla quando servirà"
+          "se_minacciato": "Ride sommessamente e ordina ai suoi arcieri nascosti tra i picchi di mirare agli ostaggi. 'Un passo avanti e trasformo questa neve in un mattatoio rosso.'",
+          "se_corrotto": "Finge interesse, negoziando l'accesso a Davihn-Karr in cambio di oro. Una volta ottenute le informazioni, tradisce l'accordo: 'Il platino vale più di qualsiasi corruzione. E i morti non reclamano debiti.'",
+          "se_i_pg_hanno_prove": "Quando confrontato con prove del suo crimine (forse un medaglione della sposa), diventa frenetico e ossessivo: 'Lei doveva solo PARLARE! Il platino avrebbe reso grande il nostro regno! Ora dovrete morire anche voi, come lei.'",
+          "se_alleato": "Propone un'alleanza temporanea contro eventuali altri cacciatori di taglie o orchi sopravvissuti, promettendo una quota del platino. Pianifica segretamente di avvelenare i PG con polvere di ghiaccio arsenicale una volta raggiunta la miniera."
         },
         "pressure_events": [],
         "relationships": [
@@ -7769,8 +7577,8 @@
         "secret": "È il fondatore del culto dei Sorcerers of the White Crystal Peaks e ora cerca di distruggerli. Sta schiavizzando orchi con magia sperimentale per estrarre platino essenziale",
         "agenda_pressure": 0,
         "fear": "Che i Sorcerers of the White Crystal Peaks scoprano il suo piano e lo attacchino prima che il golem sia pronto",
-        "current_plan": "Usare i cadaveri della battaglia come copertura per estrarre altri dieci orchi vivi dai feriti. Completare il nucleo pulsante del golem di platino entro tre lune piene, poi marciare sulla White Crystal Spire durante la Cerimonia dell'Inverno Eterno quando tutti i membri del culto saranno riuniti",
-        "fallback_plan": "Se i PG scoprono la locazione della fucina, attivare il golem incompiuto e guidarlo personalmente in una carica suicida contro la Spire, accettando di morire pur di vedere il culto distrutto. Lasciare diari magici che rivelino al mondo la corruzione del culto",
+        "current_plan": "Continuare a schiavizzare orchi superstiti dalla battaglia per estrarre gli ultimi 300 libbre di platino necessari dal Filone Sommerso sotto il lago ghiacciato di Torn'Kah, poi sacrificare Fat Farlsbag per animare definitivamente il golem entro la luna nuova",
+        "fallback_plan": "Se il golem non può essere completato, I'Zor'zah userà tutto il platino già estratto per creare sei Sentinelle Minori azzurre che infiltrerà nella White Crystal Spire durante la Cerimonia del Solstizio, innescandole simultaneamente per far collassare la torre dall'interno con esplosioni di energia cristallina corrotta",
         "resources": [
           "accessi",
           "contatti",
@@ -7792,16 +7600,16 @@
           "Combattimenti diretti che potrebbero danneggiare il golem in costruzione"
         ],
         "pressure_response": {
-          "low": "Osserva da lontano attraverso i suoi orchi schiavizzati, raccogliendo informazioni sui sopravvissuti. Invia sussurri magici gelidi per seminare paranoia tra i PG riguardo Fat Farlsbag",
-          "medium": "Sacrifica una dozzina di orchi schiavizzati in un rituale per accelerare la fusione del platino. Manifesta illusioni di sé stesso tra le tempeste per demoralizzare i cacciatori di taglie",
-          "high": "Attiva prematuramente sezioni incomplete del golem di platino per attaccare i PG. Offre a Fat Farlsbag asilo nella sua fortezza in cambio di servigi, creando un'alleanza disperata",
-          "extreme": "Distrugge la propria ancora vitale al culto attraverso un rituale di sangue, trasformandosi in una creatura di ghiaccio e platino fuso. Crolla parte della White Crystal Spire con un'esplosione controllata anche se il golem non è completo"
+          "low": "I'Zor'zah osserva i PG da lontano attraverso scrying di ghiaccio, valutando se possano essergli utili come agenti inconsapevoli contro il culto o se debbano essere eliminati prima che scoprano le miniere di platino",
+          "medium": "Invia orchi schiavizzati con rune azzurre sulla fronte per rallentare i PG, mentre accelera l'estrazione e trasferisce segmenti del golem in una caverna secondaria sotto il Ghiacciaio Nero",
+          "high": "Attiva il golem incompiuto (manca il braccio sinistro) per annientare i PG, rischiando che il culto rilevi le emanazioni di platino incantato e scopra la sua posizione presso le Fornaci Dimenticate",
+          "extreme": "Si fonde temporaneamente con il nucleo azzurro del golem, diventando una mostruosità semi-vivente di platino e carne, pronto a distruggere tutto nel raggio di tre miglia pur di preservare la sua vendetta, anche se questo significa morire nel processo"
         },
         "reaction_table": {
-          "se_minacciato": "Ride con voce cristallina e offre di insegnare ai PG i veri segreti del culto che lo ha tradito, usando mezze verità per manipolarli contro la Spire",
-          "se_corrotto": "Impossibile corromperlo con oro o potere - desidera solo vendetta. Potrebbe essere tentato solo dalla promessa di umiliare pubblicamente il Sommo Sacerdote davanti all'intero culto",
-          "se_i_pg_hanno_prove": "Ammette tutto con orgoglio glaciale. 'Il culto che ho fondato mi ha chiamato folle quando ho scoperto la corruzione nel cuore della Spire. Ora vedranno'",
-          "se_alleato": "Offre conoscenze arcane sul platino vivente e mappe delle miniere segrete, ma tradirà i PG appena completato il golem - per lui sono solo strumenti temporanei"
+          "se_minacciato": "Evoca una tempesta di lame di ghiaccio azzurro dal suo bastone di cristallo corrotto, mentre i suoi occhi brillano della stessa luce innaturale delle rune sugli orchi schiavizzati - fa capire che controlla decine di creature simili pronte ad attaccare",
+          "se_corrotto": "Ride amaramente e offre di condividere il segreto per schiavizzare volontà altrui attraverso magia cristallina, ma solo se i PG gli portano Fat Farlsbag vivo - ha bisogno di un ultimo sacrificio umano per completare il nucleo del golem",
+          "se_i_pg_hanno_prove": "Ammette freddamente la sua identità originale come Fondatore Primo del culto, mostrando il marchio azzurro bruciato sul suo petto - 'Mi hanno tradito, chiamato folle quando volevo usare il potere del cristallo per proteggere queste montagne, non adorarlo come un dio impotente'",
+          "se_alleato": "Rivela la posizione dei tre Archon del culto che orchestrarono il suo esilio ventidue anni fa, offre mappe delle loro fortificazioni nella White Crystal Spire e promette di risparmiare la torre più bassa se i PG li eliminano prima che lui completi il golem"
         },
         "pressure_events": [],
         "relationships": [
@@ -7825,11 +7633,11 @@
         "location_id": "section_3",
         "status": "unintroduced",
         "goal": "Sopravvivere alla battaglia e alla tempesta imminente nonostante la ferita alla testa",
-        "secret": "Ha accettato denaro da Farlsbag per indicargli il passaggio sicuro attraverso i picchi, tradendo inconsapevolmente i cacciatori di taglie che includevano suo fratello",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Morire dissanguato o congelato nelle montagne prima di poter tornare a casa",
-        "current_plan": "Trovare riparo dalla tempesta imminente tra i cadaveri, sperando che qualcuno lo salvi prima dell'assideramento",
-        "fallback_plan": "Seguire le tracce di Farlsbag fino alla caverna dove sa che c'è legna e scorte, anche se significa affrontare il criminale da solo",
+        "current_plan": "Fingere di essere più grave di quanto sia per ottenere aiuto dai PG, poi guidarli verso la direzione sbagliata mentre cerca un'occasione per rubare provviste e fuggire verso valle",
+        "fallback_plan": "Se la tempesta peggiora o la ferita si aggrava davvero, tradire completamente Fat Farlsbag rivelando il suo nascondiglio nel tempio abbandonato di ghiaccio in cambio di cure e salvezza",
         "resources": [
           "accessi",
           "contatti",
@@ -7851,16 +7659,16 @@
           "Essere catturato da orchi o banditi"
         ],
         "pressure_response": {
-          "low": "Fascia la testa con stracci insanguinati, evita lo sguardo dei PG e risponde con frasi spezzate, tremando per il freddo e lo shock",
-          "medium": "Crolla in ginocchio nella neve, confessa di aver visto Farlsbag fuggire verso il Passo del Corvo, implora acqua e bende",
-          "high": "Afferra disperatamente il braccio del PG più vicino, urla che Farlsbag ha ucciso suo fratello durante la fuga, offre di fare da guida se lo portano con loro",
-          "extreme": "Delira per la ferita, confonde i PG con gli orchi, tenta di scappare nella tempesta gridando che 'il grasso bastardo ha tradito tutti', collassa dopo pochi metri"
+          "low": "Ott si tiene la testa fasciata e mormora nomi di caduti, indicando ai PG dove ha visto Fat Farlsbag scappare tra i crepacci prima che iniziasse la tormenta",
+          "medium": "Ott crolla sulla neve urlando che la tempesta li seppellirà tutti come ha fatto con i suoi compagni, supplica i PG di portarlo via prima che il sangue congelato sulla sua benda lo faccia svenire",
+          "high": "Ott afferra disperato il braccio del PG più vicino, farfugliando che Fat Farlsbag ha una grotta-rifugio a due ore di marcia verso nord, informazione che gli costò tre dita congelate per scoprirla",
+          "extreme": "Ott svela che Fat Farlsbag gli ha promesso mille corone d'oro se avesse depistato i cacciatori, ma ora la ferita lo sta uccidendo e vuole solo vedere l'alba, offrendo la mappa nascosta nel suo stivale sinistro"
         },
         "reaction_table": {
-          "se_minacciato": "Si rannicchia urlando che è solo un testimone, rivela la direzione di Farlsbag e che portava un sacco di monete d'oro rubate",
-          "se_corrotto": "Accetta cibo caldo o cure mediche, sussurra che Farlsbag ha una caverna segreta a tre ore di marcia, marca la posizione su una mappa improvvisata col sangue",
-          "se_i_pg_hanno_prove": "Riconosce gli oggetti di Farlsbag, sputa nella neve e conferma che il criminale ha orchestrato l'imboscata per depistare i cacciatori",
-          "se_alleato": "Diventa una guida affidabile ma fragile, condivide provviste nascoste nella sua giacca, avverte dei crepacci mortali sul percorso di Farlsbag"
+          "se_minacciato": "Si rannicchia piangendo, la ferita alla testa riaperta dal terrore, giura su ogni dio che dirà tutto ma che lo portino al caldo o morirà dissanguato",
+          "se_corrotto": "Accetta qualsiasi offerta che includa cure mediche immediate e passaggio sicuro fuori da Zarak, tradendo Farlsbag senza esitazione",
+          "se_i_pg_hanno_prove": "Crolla mentalmente, ammette di aver visto Farlsbag uccidere il capitano Vrost durante la battaglia e nascondere qualcosa sotto le pietre del vecchio avamposto",
+          "se_alleato": "Diventa fedele come un cane salvato, condivide che Farlsbag ha altri due complici nascosti tra i 'cadaveri' sul campo di battaglia, pronti a fuggire al calar della notte"
         },
         "pressure_events": [],
         "relationships": [],
@@ -7878,11 +7686,11 @@
         "location_id": "section_4",
         "status": "unintroduced",
         "goal": "Trovare suo fratello tra i sopravvissuti o i caduti della battaglia",
-        "secret": "Suo fratello Tomos era una spia di Farlsbag infiltrata tra i cacciatori di taglie, e lei lo sapeva. È venuta alla battaglia per estrarlo prima che venisse smascherato, ma è arrivata troppo tardi. Se questo viene scoperto, anche lei sarà considerata complice.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Scoprire che suo fratello è morto nella battaglia",
-        "current_plan": "Cercare sistematicamente tra i cadaveri nella zona sud del campo di battaglia dove i cacciatori di Capo Ferro erano posizionati, dove Tomos doveva essere",
-        "fallback_plan": "Se Tomos è morto, recuperare il suo corpo e qualsiasi documento compromettente prima che altri scoprano il suo doppio gioco, poi fuggire verso il Passo di Nebbia",
+        "current_plan": "Identificare sistematicamente i cadaveri dei cacciatori di taglie partendo dal centro della battaglia, dove suo fratello Cadwyr combatteva nell'avanguardia. Interrogare eventuali feriti sopravvissuti.",
+        "fallback_plan": "Se Cadwyr è morto, recuperare il suo corpo per la cremazione rituale e poi unirsi alla caccia a Farlsbag per vendetta. Se è vivo ma ferito, abbandonare la caccia per portarlo in salvo al Monastero di Ghiaccio a tre giorni di marcia.",
         "resources": [
           "accessi",
           "contatti",
@@ -7904,16 +7712,16 @@
           "Mettere in pericolo altri mentre cerca suo fratello"
         ],
         "pressure_response": {
-          "low": "Enfys si muove metodicamente tra i cadaveri, controllando ogni volto con calma professionale, prendendo appunti su un taccuino macchiato di sangue",
-          "medium": "Inizia a scavare freneticamente nella neve rossa, voltando corpi più velocemente, la voce che si incrina chiamando 'Tomos! Tomos!' tra i mucchi di morti",
-          "high": "Afferra i PG per le vesti supplicando aiuto, promettendo la sua parte della taglia su Farlsbag in cambio di assistenza nella ricerca, le mani tremanti",
-          "extreme": "Crolla in ginocchio urlando, confessando che Tomos era infiltrato tra i cacciatori per conto di Farlsbag e che lei è venuta a salvarlo prima che venisse scoperto"
+          "low": "Enfys aiuta i PG a perlustrare i cadaveri con metodicità professionale, controllando ogni volto coperto di gelo. Chiede dettagli su dove hanno visto combattere i cacciatori di taglie.",
+          "medium": "Enfys inizia a scavare freneticamente nella neve rossa di sangue, chiamando 'Cadwyr! Cadwyr!' tra i corpi. Si ferma davanti ai cadaveri più dilaniati, tremando prima di girarli.",
+          "high": "Enfys crolla in ginocchio davanti a un corpo irriconoscibile con l'armatura di suo fratello. Urla che i PG dovevano proteggerlo, che Farlsbag ha orchestrato tutto questo massacro per coprire la sua fuga.",
+          "extreme": "Enfys impugna la spada ancora stretta nella mano congelata di un cadavere e minaccia di uccidere Farlsbag personalmente, anche se significa inseguirlo fino ai confini del mondo. Pretende che i PG giurino sul sangue dei caduti."
         },
         "reaction_table": {
-          "se_minacciato": "Si difende con un pugnale nascosto nel manicotto, combatte come un animale ferito se ostacolata nella ricerca del fratello",
-          "se_corrotto": "Offre informazioni sui movimenti di Farlsbag che solo lei conosce, ma solo dopo aver trovato Tomos - vivo o morto",
-          "se_i_pg_hanno_prove": "Se i PG trovano il corpo di Tomos prima di lei, crolla completamente e diventa loro debitrice per sempre, rivelando tutto",
-          "se_alleato": "Condivide mappe dei rifugi segreti nei picchi dove Farlsbag potrebbe nascondersi, guida i PG attraverso passaggi nascosti che solo i locali conoscono"
+          "se_minacciato": "Enfys abbandona immediatamente la ricerca e si ritira tra i cadaveri, usando i corpi come copertura. 'Mio fratello può aspettare se sono morta'",
+          "se_corrotto": "Respinge con disgusto qualsiasi offerta di denaro: 'Cadwyr vale più di tutto l'oro dei picchi di Zarak'. Ma accetterebbe informazioni certe sulla sua posizione.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano il medaglione di famiglia di Cadwyr o prove della sua morte/sopravvivenza, Enfys diventa loro debitrice incondizionata e rivela che Farlsbag ha una tana segreta nel Passo del Corvo Bianco.",
+          "se_alleato": "Enfys condivide le sue provviste da battaglia e la mappa delle rotte di fuga usate dai cacciatori di taglie. Promette che se trovano Cadwyr vivo, lui conosce tutti i nascondigli di Farlsbag."
         },
         "pressure_events": [],
         "relationships": [
@@ -7937,11 +7745,11 @@
         "location_id": "section_5",
         "status": "unintroduced",
         "goal": "Guidare i sopravvissuti fuori dalle montagne prima che la tempesta li intrappoli",
-        "secret": "Ha deliberatamente condotto una spedizione punitiva nel ghiaccio cinque anni fa, abbandonando quaranta soldati alla tempesta per coprire la propria diserzione—alcuni corpi giacciono ancora nel Passo di Ferro",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Che il suo Danger Sense non sia sufficiente a prevenire un'altra imboscata mortale",
-        "current_plan": "Guidare tutti attraverso il Passo di Ferro prima che la tempesta lo sigilli—ha 18 ore secondo i suoi calcoli, ma non rivela che è già in ritardo di mezza giornata",
-        "fallback_plan": "Se la tempesta li raggiunge, raggiungere la Grotta dei Sospiri dove ha nascosto provviste tre mesi fa durante la sua fuga originale—ma il nascondiglio potrebbe essere stato scoperto",
+        "current_plan": "Convincere i PG che la caccia a Fat Farlsbag può aspettare. Guidarli verso il Rifugio dei Tre Corvi prima che la tempesta arrivi (stima: 18 ore). Usare la sua conoscenza delle montagne per rendersi indispensabile e garantire che lo proteggano durante la discesa.",
+        "fallback_plan": "Se i PG insistono a cacciare Farlsbag o rallentano troppo, Cariyen fingerà di andare in avanscoperta e invece fuggirà da solo verso il rifugio, portando con sé quante più provviste possibile. Lascerà falsi segnali che conducono i PG nella direzione sbagliata.",
         "resources": [
           "accessi",
           "contatti",
@@ -7963,16 +7771,16 @@
           "Attardarsi nell'area della battaglia più del necessario"
         ],
         "pressure_response": {
-          "low": "Mantiene un'efficienza glaciale, organizza i feriti in colonne di marcia e distribuisce razioni con precisione militare",
-          "medium": "Inizia a prendere decisioni brutali: abbandona equipaggiamento pesante, considera di lasciare indietro i più deboli, controlla ossessivamente il cielo",
-          "high": "Urla ordini contraddittori, accusa i PG di rallentare il gruppo, propone di separarsi per aumentare le possibilità di sopravvivenza",
-          "extreme": "Tenta di fuggire da sola con le provviste migliori, disposta a uccidere chiunque la fermi—la tempesta ha risvegliato ricordi del suo passato sepolto"
+          "low": "Cariyen controlla ossessivamente l'orizzonte verso nord, stringendo il suo amuleto di osso. Urge i PG a muoversi velocemente, ignorando i feriti meno gravi.",
+          "medium": "Cariyen inizia ad abbandonare equipaggiamento e provviste per alleggerirsi. Propone di lasciare indietro i feriti gravi che rallentano la marcia. Il suo respiro diventa affannoso, parla della 'fame bianca' che viene con la tempesta.",
+          "high": "Cariyen confessa di aver già visto la tempesta di Zarak uccidere un'intera carovana in due ore. Minaccia di partire da solo all'alba se il gruppo non accelera. Rivela una mappa con un rifugio segreto, ma insiste che c'è posto solo per sei persone.",
+          "extreme": "Cariyen tenta di rubare le razioni e le coperte durante la notte per fuggire da solo. Se fermato, supplica disperatamente rivelando che ha promesso a sua figlia morente di tornare. Offre di rivelare dove Fat Farlsbag si nasconde in cambio di provviste e di essere lasciato andare."
         },
         "reaction_table": {
-          "se_minacciato": "Si blocca completamente, la mano va all'arma ma non la estrae—esita tra fuga e combattimento con tremore visibile",
-          "se_corrotto": "Rifiuta con disgusto qualsiasi tangente, ma offerte di garantirle sicurezza permanente lontano da Zarak la fanno vacillare",
-          "se_i_pg_hanno_prove": "Crolla emotivamente, ammette tutto tra lacrime congelate, implora di non essere riportata 'da loro'",
-          "se_alleato": "Diventa ferocemente protettiva, condivide il suo cibo, insegna tecniche di sopravvivenza e racconta sottovoce della sua sorella perduta"
+          "se_minacciato": "Cariyen cade in ginocchio tremando, coprendosi il volto. Balbetta che i morti nel ghiaccio lo chiamano di notte. Offre di servire come scout permanente pur di non essere lasciato solo sui picchi.",
+          "se_corrotto": "Cariyen ascolta con interesse malsano, ma scuote la testa: 'Nelle montagne di Zarak l'oro non scalda e il cibo non cresce. Datemi una possibilità di sopravvivere e vi dirò chi ha tradito i cacciatori di taglie agli orchi.'",
+          "se_i_pg_hanno_prove": "Cariyen fissa le prove con occhi spalancati, poi ride amaramente. 'Sapete dov'è Fat Farlsbag? Bene. Sapete anche che sta scappando verso la Gola dell'Eco, l'unico passaggio aperto. Se non ci muoviamo ORA, lo perderemo... e moriremo congelati cercandolo.'",
+          "se_alleato": "Cariyen stringe forte la mano del PG, con gratitudine genuina. Rivela che conosce un antico sentiero dei contrabbandieri che taglia due giorni di viaggio, ma richiede scalare una parete di ghiaccio verticale. Offre di fare da apripista."
         },
         "pressure_events": [],
         "relationships": [],
@@ -7993,8 +7801,8 @@
         "secret": "Conosce la leggenda della miniera di platino Davihn-Karr e sa riconoscere i segni di lavorazione nanica antica",
         "agenda_pressure": 0,
         "fear": "Morire congelato nelle montagne lontano dalla sua fucina e dalla sua gente",
-        "current_plan": "Guidare i sopravvissuti verso riparo mentre cerca discretamente segni della leggendaria miniera Davihn-Karr, che secondo le leggende dovrebbe trovarsi proprio in questi picchi",
-        "fallback_plan": "Se la tempesta diventa letale, rivelare ai PG la sua conoscenza della miniera e convincerli a cercarla insieme come unica speranza di sopravvivenza, anche se significa esplorare rovine potenzialmente pericolose",
+        "current_plan": "Valutare le condizioni dei feriti, inventariare le risorse rimaste e identificare eventuali ripari naturali nelle vicinanze",
+        "fallback_plan": "Costruire un riparo di emergenza con materiali disponibili e usare le sue conoscenze ingegneristiche per creare strumenti di sopravvivenza",
         "resources": [
           "accessi",
           "contatti",
@@ -8016,16 +7824,16 @@
           "Avventurarsi senza preparazione adeguata"
         ],
         "pressure_response": {
-          "low": "Offre il suo mantello foderato di pelliccia e guida i sopravvissuti verso sporgenze rocciose che conosce, canticchiando vecchie ballate naniche per mantenere alto il morale",
-          "medium": "Inizia a esaminare freneticamente le rocce circostanti cercando segni di lavorazione antica, mormorando 'dev'esserci un ingresso... lo so che c'è', mentre il vento si fa pungente",
-          "high": "Urla ordini perentori ai PG di seguirlo verso una parete rocciosa specifica, graffiando via neve e ghiaccio con le mani nude finché non sanguinano, ossessionato dal trovare i 'segni dei maestri'",
-          "extreme": "Crolla in ginocchio davanti a quella che crede sia una porta nanica sigillata, picchiando sulla pietra e supplicando in Nanico antico, disposto a sacrificare chiunque rallenti il gruppo pur di salvare chi può muoversi velocemente"
+          "low": "Offre consulenza tecnica e valuta con calma le opzioni ingegneristiche disponibili",
+          "medium": "Propone soluzioni pratiche immediate e inizia a costruire ripari o strumenti di fortuna",
+          "high": "Si concentra ossessivamente sulla sopravvivenza immediata, raziona risorse e impone disciplina",
+          "critical": "Fugge verso il rifugio più vicino abbandonando chi non può seguirlo, portando solo l'essenziale"
         },
         "reaction_table": {
-          "se_minacciato": "Arretra con mani alzate, ma gli occhi continuano a scandagliare le rocce dietro l'aggressore, incapace di smettere di cercare i segni della miniera",
-          "se_corrotto": "Rifiuta oro ma vacilla se gli viene offerta una mappa antica o informazioni su rovine naniche nelle vicinanze, tradendo la sua ossessione",
-          "se_i_pg_hanno_prove": "Se mostrano artefatti nanici o conoscono Davihn-Karr, diventa improvvisamente collaborativo e rivela tutto ciò che sa sulla miniera perduta",
-          "se_alleato": "Divide equamente le razioni, fascia le ferite dei compagni, ma di notte studia di nascosto ogni pezzo di roccia lavorata che trova, incapace di resistere"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [
@@ -8049,11 +7857,11 @@
         "location_id": "section_7",
         "status": "unintroduced",
         "goal": "Mantenere l'ordine tra i sopravvissuti e organizzare una strategia difensiva contro ulteriori minacce orchesche",
-        "secret": "Ha già perso un intero plotone in queste montagne tre anni fa per una sua decisione avventata. I superiori lo hanno mandato qui come ultima possibilità di redimersi, ma lui sa che un altro fallimento significherebbe l'esilio o peggio",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Perdere il controllo della situazione e vedere altri uomini morire sotto il suo comando",
-        "current_plan": "Consolidare l'autorità sui sopravvissuti, stabilire un perimetro difensivo e inviare esploratori per localizzare Fat Farlsbag prima che gli orchi si riorganizzino",
-        "fallback_plan": "Se la situazione degenera, guidare un'evacuazione verso valle portando con sé solo i più forti e lasciando indietro i deboli, incolpando poi la necessità tattica",
+        "current_plan": "Fortificare la posizione attuale usando i cadaveri e i detriti della battaglia, inviare scout per localizzare Fat Farlsbag prima che raggiunga territorio orchesco, stabilire una catena di comando chiara tra i sopravvissuti caotici.",
+        "fallback_plan": "Se gli orchi contrattaccano o le risorse si esauriscono, Halsey organizzerà una ritirata combattuta verso la valle più vicina, sacrificando i feriti e i più deboli per rallentare gli inseguitori. Se completamente sopraffatto, si arrenderà agli orchi sperando di negoziare come prigioniero di valore.",
         "resources": [
           "accessi",
           "contatti",
@@ -8075,16 +7883,16 @@
           "Ritirarsi senza aver tentato di compiere la missione"
         ],
         "pressure_response": {
-          "low": "Organizza pattuglie di ricognizione sistematiche tra i sopravvissuti, stabilisce turni di guardia e cataloga armi e rifornimenti recuperabili dai cadaveri",
-          "medium": "Impone la legge marziale, requisisce provviste e considera di abbandonare i feriti gravi per salvare chi può ancora combattere",
-          "high": "Propone di usare i PG come esca per attirare Fat Farlsbag allo scoperto, promettendo metà della taglia ma pianificando di tenerla tutta",
-          "extreme": "Tenta di negoziare segretamente con gli orchi superstiti, offrendo Fat Farlsbag e i cacciatori di taglie feriti in cambio di salvacondotto per sé e pochi fedeli"
+          "low": "Sir Halsey organizza pattuglie di ricognizione e dispone i feriti in ordine di priorità, mantenendo un tono autoritario ma controllato. Interroga metodicamente i sopravvissuti sulla posizione di Fat Farlsbag.",
+          "medium": "Halsey inizia a razionare le risorse mediche e impone la legge marziale tra i sopravvissuti. Diventa più brusco, minaccia esecuzioni sommarie per chi semina panico. Considera di abbandonare i feriti gravi per inseguire Farlsbag.",
+          "high": "Sir Halsey ordina esecuzioni pubbliche di presunti traditori o codardi per 'mantenere l'ordine'. Requisisce tutto l'equipaggiamento dei morti, incluso quello dei PG caduti. Propone di usare i cadaveri degli orchi come barricate o esche.",
+          "extreme": "Halsey perde completamente il controllo, accusando i PG di cospirazione con gli orchi. Tenta di arrestarli o eliminarli per prendere il loro equipaggiamento. Propone di negoziare con gli orchi consegnando Fat Farlsbag o altri prigionieri come sacrificio."
         },
         "reaction_table": {
-          "se_minacciato": "Solleva la questione dell'insubordinazione davanti agli altri sopravvissuti, appellandosi alla necessità di comando unitario in tempi di crisi",
-          "se_corrotto": "Tentenna visibilmente, tocca nervosamente l'elsa della spada, poi chiede 'garanzie concrete' e un incontro privato lontano da occhi indiscreti",
-          "se_i_pg_hanno_prove": "Afferma che ogni decisione drastica era necessaria per la sopravvivenza del gruppo, trasformando i suoi crimini in scelte tattiche difficili ma inevitabili",
-          "se_alleato": "Condivide mappe della regione e informazioni sui movimenti orcheschi, delegando ai PG missioni pericolose presentandole come opportunità di gloria"
+          "se_minacciato": "Richiama immediatamente i suoi uomini più fedeli, forma un cerchio difensivo e accusa pubblicamente i PG di tradimento verso la Corona, cercando di isolare socialmente chi lo minaccia.",
+          "se_corrotto": "Ride amaramente e risponde che nei Picchi di Zarak l'unica legge è la sopravvivenza. Potrebbe accettare tangenti in cambio di informazioni su Farlsbag o ignorare 'irregolarità' dei PG.",
+          "se_i_pg_hanno_prove": "Diventa difensivo e sostiene che ogni sua azione brutale era necessaria per la sopravvivenza del gruppo. Accusa i PG di non capire il peso del comando in situazioni disperate.",
+          "se_alleato": "Condivide mappe della regione e intelligence sugli orchi. Assegna ai PG missioni di ricognizione rischiose ma cruciali. Promette ricompense della Corona se catturano Farlsbag vivo."
         },
         "pressure_events": [],
         "relationships": [
@@ -8116,8 +7924,8 @@
         "secret": "Non è qui per la taglia su Fat Farlsbag: ha sentito voci sulla miniera di platino e vuole trovarla per appropriarsi della ricchezza. Ha già rubato alcuni oggetti dai cadaveri",
         "agenda_pressure": 0,
         "fear": "Essere smascherato come truffatore e ladro davanti agli altri cacciatori di taglie",
-        "current_plan": "Seguire discretamente i PG sperando che trovino indizi utili, mentre lei continua a interrogare i pochi superstiti della battaglia e a perlustrare i cadaveri per mappe o documenti. Vuole identificare chi tra i morti potesse conoscere l'ubicazione della miniera.",
-        "fallback_plan": "Se la situazione diventa troppo pericolosa o i PG si avvicinano troppo alla verità, Sisley fingerà di essere stata ferita gravemente e chiederà di essere scortata al villaggio più vicino—dove in realtà ha nascosto provviste e un cavallo veloce per fuggire verso una zona inesplorata dei picchi.",
+        "current_plan": "Seguire le coordinate trovate nella borsa di un cacciatore morto per raggiungere Davihn-Karr entro tre giorni, prima che altri sopravvissuti possano fare lo stesso. Usare i PG come scorta contro orchi e pericoli, poi eliminarli o seminarli",
+        "fallback_plan": "Se scoperto o bloccato, Sisley baratta informazioni parziali sulla miniera in cambio di libertà, omettendo volutamente dettagli cruciali. In extremis, attiva un'esca (segnale di fumo o grido) per attirare orchi superstiti contro i PG mentre fugge verso Davihn-Karr",
         "resources": [
           "accessi",
           "contatti",
@@ -8139,16 +7947,16 @@
           "Condividere informazioni sulla miniera"
         ],
         "pressure_response": {
-          "low": "Finge di collaborare con i PG nella ricerca di Fat Farlsbag, mentre esplora di nascosto i sentieri montani cercando indizi sulla miniera. Minimizza le sue assenze con scuse plausibili.",
-          "medium": "Inizia a sabotare sottilmente i progressi dei PG, creando falsi indizi su Fat Farlsbag che li allontanino dalle zone dove sospetta si trovi la miniera. Diventa nervosa e irritabile se interrogata troppo.",
-          "high": "Mente apertamente, accusando i PG di volerla derubare o di non essere veri cacciatori di taglie. Minaccia di denunciarli alle autorità di Zarak per il massacro. Tenta di fuggire verso la miniera se scopre nuove informazioni.",
-          "extreme": "Assale i PG direttamente o ingaggia mercenari superstiti per eliminarli. Se messa alle strette, rivela l'esistenza della miniera ma fornisce coordinate false, sperando che si perdano o muoiano nel tentativo di trovarla."
+          "low": "Sisley si offre di collaborare con i PG nella ricerca di Fat Farlsbag, suggerendo casualmente di perlustrare zone vicine a vecchie gallerie minerarie 'dove il criminale potrebbe nascondersi'",
+          "medium": "Sisley inizia a separarsi dal gruppo con scuse plausibili, cercando di raggiungere per primo le coordinate che ha trovato su una mappa rubata a un cacciatore di taglie morto",
+          "high": "Sisley accusa i PG di rallentarlo nella caccia, mostrando aggressività. Tenta di sabotare le loro provviste o equipaggiamento per costringerli a tornare indietro mentre lui prosegue verso Davihn-Karr",
+          "extreme": "Sisley abbandona ogni finzione e rivela di conoscere l'ubicazione della miniera. Minaccia i PG con armi o trappole preparate, oppure tenta di provocare una valanga per eliminare i testimoni e rivendicare il platino"
         },
         "reaction_table": {
-          "se_minacciato": "Alza le mani in segno di resa, ma cerca di negoziare offrendo una falsa spartizione della taglia su Farlsbag. Tiene nascosta una lama avvelenata nel risvolto dello stivale.",
-          "se_corrotto": "Accetta una tangente ma tradisce immediatamente, usando i soldi per assumere guide locali che conoscano meglio i picchi. Considera chiunque la paghi uno sciocco da sfruttare.",
-          "se_i_pg_hanno_prove": "Cambia tattica: propone un'alleanza temporanea per trovare insieme la miniera, pianificando già come tradire i PG una volta raggiunto l'obiettivo. Diventa eccessivamente collaborativa.",
-          "se_alleato": "Resta in allerta costante, studiando i punti deboli dei PG. Condivide solo informazioni parziali e false. Alla prima occasione d'oro, li abbandonerà o eliminerà per prendersi tutto."
+          "se_minacciato": "Sisley finge sottomissione ma nasconde le mappe rubate. Propone un falso accordo di spartizione del bottino su Fat Farlsbag mentre pianifica di fuggire di notte verso Davihn-Karr",
+          "se_corrotto": "Accetta denaro o favori ma non rivela la verità sulla miniera. Propone invece una falsa partnership dove indirizza i PG verso zone lontane da Davihn-Karr mentre lui si avvicina al vero obiettivo",
+          "se_i_pg_hanno_prove": "Ammette solo il furto dai cadaveri, giustificandolo come 'recupero da morti che non ne hanno più bisogno'. Nega categoricamente di conoscere Davihn-Karr. Se costretto, propone spartizione 60-40 a suo favore del platino",
+          "se_alleato": "Usa l'alleanza per manipolare i PG verso la miniera spacciandola come nascondiglio di Farlsbag. Pianifica di tradirli all'ultimo momento, magari chiudendoli dentro Davihn-Karr o usando esplosivi per crollare l'ingresso"
         },
         "pressure_events": [],
         "relationships": [
@@ -8175,8 +7983,8 @@
         "secret": "Non dovrebbe essere presente nella spedizione",
         "agenda_pressure": 0,
         "fear": "Essere considerato un codardo o un peso inutile che ha causato problemi agli altri",
-        "current_plan": "Rimanere vicino ai sopravvissuti più forti, esagerare il proprio contributo alla battaglia quando si racconterà la storia, cercare il corpo del padre tra i cadaveri senza farsi scoprire",
-        "fallback_plan": "Se scoperto, fingersi indispensabile rivelando che conosce i nascondigli segreti nei picchi dove Fat Farlsbag potrebbe rifugiarsi (informazioni rubate origliando)",
+        "current_plan": "Restare vicino ai PG perché sembrano capaci. Partecipare alla cattura di Fat Farlsbag così potrà tornare a casa da eroe e nessuno scoprirà che si era imbarcato illegalmente.",
+        "fallback_plan": "Se scoperto, fuggire nei picchi di Zarak e catturare Fat Farlsbag da solo per tornare trionfante. Probabilmente morirebbe congelato o ucciso, ma è troppo giovane per capirlo.",
         "resources": [
           "accessi",
           "contatti",
@@ -8198,16 +8006,16 @@
           "Essere lasciato solo o abbandonato"
         ],
         "pressure_response": {
-          "low": "Racconta con entusiasmo esagerato cosa ha visto, gonfiando il proprio ruolo nella battaglia. Si offre volontario per compiti pericolosi prima che glieli chiedano.",
-          "medium": "Diventa difensivo e aggressivo. Sfida chiunque metta in dubbio la sua versione dei fatti. Potrebbe fare qualcosa di stupidamente rischioso per dimostrare il suo valore.",
-          "high": "Crolla parzialmente, ammettendo di aver mentito su alcuni dettagli. Supplica di non essere rimandato indietro. Rivela informazioni che ha origliato per rendersi utile.",
-          "extreme": "Confessa tra le lacrime di essersi nascosto durante gran parte della battaglia. Ammette di essere un passeggero clandestino, figlio illegittimo di uno dei cacciatori morti. Implora pietà."
+          "low": "Si vanta di aver combattuto valorosamente contro gli orchi, esagerando il suo contributo. Chiede insistentemente di unirsi ai PG nella caccia a Fat Farlsbag.",
+          "medium": "Cerca disperatamente di rendersi utile recuperando armi dai cadaveri o esplorando zone pericolose per dimostrare il suo valore. Rischia stupidamente la vita.",
+          "high": "Ammette tra le lacrime di essersi imbarcato clandestinamente nella spedizione perché voleva diventare un cacciatore famoso. Implora i PG di non dirlo al capospedizione.",
+          "extreme": "Crolla psicologicamente davanti alla carneficina. Confessa tutto: ha falsificato i documenti, suo padre lo crede a casa. Minaccia di fare qualcosa di folle per redimere la sua presenza illegittima."
         },
         "reaction_table": {
-          "se_minacciato": "Si irrigidisce come per combattere, ma la mano gli trema sull'arma. Potrebbe fuggire improvvisamente o attaccare in preda al panico.",
-          "se_corrotto": "Accetta subito qualsiasi offerta che lo faccia sembrare importante o coraggioso davanti agli altri. Ingenuo nelle contrattazioni.",
-          "se_i_pg_hanno_prove": "Cerca disperatamente di rigirare la situazione, inventando scuse elaborate. Offre di spiare altri membri della spedizione in cambio del silenzio.",
-          "se_alleato": "Diventa leale fino all'ossessione, seguendo i PG ovunque. Condivide quello che sa sui cacciatori: Fat Farlsbag aveva complici nella carovana."
+          "se_minacciato": "Si irrigidisce cercando di sembrare più adulto e coraggioso, ma la voce gli trema. Potrebbe fare una mossa avventata per dimostrare di non aver paura.",
+          "se_corrotto": "È confuso dall'offerta. Non vuole soldi, vuole gloria. Potrebbe accettare se promettono di raccontare storie eroiche su di lui al ritorno.",
+          "se_i_pg_hanno_prove": "Crolla immediatamente, piangendo e supplicando. Offre di fare qualsiasi cosa pur di non essere rimandato a casa in disgrazia prima di aver compiuto un'impresa.",
+          "se_alleato": "Diventa devotamente fedele. Segue i PG ovunque come un cucciolo, cercando di imparare e impressionarli. Condivide informazioni che ha origliato tra i cacciatori prima della battaglia."
         },
         "pressure_events": [],
         "relationships": [
@@ -8234,8 +8042,8 @@
         "secret": "È consumato dalla vendetta al punto da essere disposto a sacrificare vite innocenti pur di catturare Fat Farlsbag. Ha pagato informatori per sabotare vie di fuga",
         "agenda_pressure": 0,
         "fear": "Che Fat Farlsbag sfugga alla giustizia e che la memoria della sua promessa sposa venga dimenticata",
-        "current_plan": "Stringere il cerchio attorno a Farlsbag usando i PG come battitori, mentre i suoi informatori bloccano ogni rifugio e passo montano. Vuole il criminale vivo per una esecuzione teatrale che ristabilisca il suo onore",
-        "fallback_plan": "Se Farlsbag rischia di fuggire definitivamente, far scatenare un'operazione militare massiccia nei Picchi di Zarak, radendo al suolo ogni insediamento che potrebbe nasconderlo. La vendetta vale più della stabilità del regno",
+        "current_plan": "Stringere il cerchio attorno ai picchi di Zarak usando informatori posizionati nei villaggi di montagna per segnalare ogni movimento sospetto. Mantenere i PG motivati con ricompense crescenti mentre i suoi agenti bloccano segretamente le rotte di fuga meridionali, spingendo Farlsbag verso nord dove un'imboscata è già preparata.",
+        "fallback_plan": "Se Farlsbag sta per sfuggire definitivamente, Adelheid è pronto a scatenare una valanga artificiale sull'intera valle usando maghi di corte, seppellendo il criminale insieme a chiunque si trovi nella zona, PG inclusi. Giustificherà pubblicamente la tragedia come 'disastro naturale' causato dalla battaglia tra cacciatori e orchi.",
         "resources": [
           "accessi",
           "contatti",
@@ -8257,16 +8065,16 @@
           "Abbandonare la caccia senza risultati"
         ],
         "pressure_response": {
-          "low": "Offre generose ricompense aggiuntive e risorse del regno: cavalli freschi, guide esperte, accesso agli archivi reali su Farlsbag",
-          "medium": "Minaccia di ritirare il sostegno politico e far bandire i PG dal regno se falliscono. Invia suoi agenti a 'assistere' (spiare) la caccia",
-          "high": "Ordina ai suoi uomini di tendere imboscate mortali sui sentieri montani per forzare Farlsbag verso i PG, non importa quanti civili restino intrappolati",
-          "extreme": "Pianifica segretamente di eliminare anche i PG dopo la cattura, in modo che nessuno sappia dei metodi brutali usati. Pronto a scatenare una valanga controllata sull'intera regione"
+          "low": "Adelheid invia messaggeri regolari ai PG con generose ricompense in oro e provviste, chiedendo aggiornamenti sulla caccia. Offre mappe dettagliate delle fortezze nelle montagne e intelligence sui movimenti di Farlsbag.",
+          "medium": "Adelheid arriva personalmente ai picchi di Zarak con una scorta armata, offrendo il doppio della taglia originale. Rivela che Farlsbag ha ucciso sua sorella e che la sua esecuzione pubblica è l'unica cosa che placherà il regno. Minaccia velatamente di ritirare protezione politica ai PG se falliscono.",
+          "high": "Adelheid ordina ai suoi informatori di bloccare tutti i passi montani, condannando villaggi isolati alla fame pur di intrappolare Farlsbag. Offre amnistia totale ai PG per qualsiasi crimine passato o futuro se consegnano il criminale vivo. Inizia a mostrare segni di instabilità mentale.",
+          "extreme": "Adelheid mobilita il suo esercito privato per circondare l'intera regione dei picchi di Zarak, pronto a far bruciare ogni insediamento. Offre ai PG metà del suo tesoro personale e terre nobiliari. Se rifiutano, li dichiara complici di Farlsbag e nemici della corona, mettendo una taglia sulle loro teste."
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica nel suo palazzo, circondato da guardie fanatiche. Denuncia pubblicamente i PG come traditori complici di Farlsbag",
-          "se_corrotto": "Finge di accettare, poi tenta di far assassinare chi lo ha corrotto per coprire ogni traccia della sua debolezza",
-          "se_i_pg_hanno_prove": "Diventa disperato e paranoico. Offre titoli nobiliari e terre pur di insabbiare tutto, ma prepara il veleno come ultima risorsa",
-          "se_alleato": "Tratta i PG come eroi del regno, garantisce protezione totale e ricchezze, ma pretende fedeltà cieca nei suoi piani vendicativi"
+          "se_minacciato": "Adelheid si ritira fingendo diplomazia ma attiva immediatamente la rete di assassini di corte. Invia killer travestiti da rifugiati nei campi dei PG. La vendetta diventa doppia: Farlsbag E chi ha osato sfidarlo.",
+          "se_corrotto": "Accetta solo se la corruzione include la garanzia che Farlsbag sarà comunque consegnato vivo entro un mese. Usa l'oro o i favori offerti come leva per manipolare i PG in seguito, trasformandoli in strumenti inconsapevoli della sua vendetta.",
+          "se_i_pg_hanno_prove": "Diventa pericolosamente instabile se le prove rivelano i suoi sabotaggi. Tenta prima di comprare il silenzio dei PG con titoli nobiliari, poi di screditarli pubblicamente come bugiardi al soldo di Farlsbag. In extremis, ordina la loro eliminazione 'accidentale'.",
+          "se_alleato": "Tratta i PG come estensioni della sua volontà. Condivide intelligence riservata sui movimenti di Farlsbag e rivela che il criminale ha un nascondiglio segreto nel Ghiacciaio del Pianto. Li avverte che preferirebbe Farlsbag morto piuttosto che lasciarlo sfuggire di nuovo."
         },
         "pressure_events": [],
         "relationships": [
@@ -8298,7 +8106,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -8329,14 +8136,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8351,7 +8150,6 @@
           "llm_clue_1"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -8385,14 +8183,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8405,7 +8195,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -8436,14 +8225,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8456,7 +8237,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -8487,14 +8267,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -8645,140 +8417,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Cosa stava davvero cercando Fat Farlsbag?",
-        "question": "Perché Fat Farlsbag si trovava nei Picchi di Zarak durante l'attacco degli orchi?",
-        "true_answer": "Farlsbag era stato assoldato da I'Zor'zah per rapire la promessa sposa del Principe e portarla a Davihn-Karr come ostaggio per impedire interferenze reali nell'operazione mineraria",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_4",
-          "llm_clue_5"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Fat Farlsbag",
-          "I'Zor'zah the Azure"
-        ],
-        "linked_locations": [
-          "The Battlefield",
-          "Davihn-Karr"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Come funziona il controllo mentale sugli orchi?",
-        "question": "Con quale metodo I'Zor'zah mantiene il controllo sugli schiavi orchi?",
-        "true_answer": "I'Zor'zah usa collari d'argento incantati alimentati dall'Olio di Scarabeo Nanico estratto nelle miniere stesse, che sopprime la volontà e amplifica i comandi necromantici",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_8",
-          "llm_clue_9"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T2",
-          "T8"
-        ],
-        "linked_npcs": [
-          "I'Zor'zah the Azure",
-          "Ott Z'orto"
-        ],
-        "linked_locations": [
-          "Davihn-Karr",
-          "The Old Cave"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Perché I'Zor'zah vuole distruggere la Torre Bianca?",
-        "question": "Qual è la vera ragione del feud tra I'Zor'zah e i Maghi dei Picchi di Cristallo Bianco?",
-        "true_answer": "I Maghi esiliarono I'Zor'zah 50 anni fa dopo che scoprirono i suoi esperimenti su golem senzienti. La distruzione della torre è vendetta personale e permetterebbe il controllo magico dell'intera regione",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "llm_clue_3",
-          "llm_clue_7"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T3",
-          "T7"
-        ],
-        "linked_npcs": [
-          "I'Zor'zah the Azure",
-          "Enfys Loom",
-          "Cariyen Kraye"
-        ],
-        "linked_locations": [
-          "White Crystal Spire",
-          "Davihn-Karr"
-        ]
-      },
-      {
-        "id": "T_orchi_vittime",
-        "title": "T orchi vittime",
-        "question": "Perché gli orchi hanno attaccato con tale ferocia e disperazione?",
-        "true_answer": "Gli orchi non sono i veri nemici: sono rifugiati scacciati dalla loro casa ancestrale da I'Zor'zah the Azure, un potente essere che ha occupato il loro territorio",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_farlsbag_piano",
-        "title": "T farlsbag piano",
-        "question": "Quale era il vero scopo di Fat Farlsbag nel farsi inseguire fino ai picchi ghiacciati?",
-        "true_answer": "Fat Farlsbag ha orchestrato deliberatamente il rapimento per attirare un gran numero di cacciatori di taglie nei picchi di Zarak, con l'intento di usarli come ostaggi o risorse per un piano più ampio",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_golem_vendetta",
-        "title": "T golem vendetta",
-        "question": "Cosa sta costruendo I'Zor'zah the Azure e per quale scopo?",
-        "true_answer": "I'Zor'zah the Azure sta costruendo un colossale golem di platino con l'obiettivo di distruggere la torre dei Maghi dei Picchi di Cristallo Bianco, probabilmente per vendetta",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_miniera_schiavi",
-        "title": "T miniera schiavi",
-        "question": "Cosa sta accadendo nella miniera di Davihn-Karr?",
-        "true_answer": "Nella miniera di Davihn-Karr, schiavi sotto controllo mentale stanno estraendo platino giorno e notte per fornire il materiale necessario alla costruzione del golem di I'Zor'zah",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_sopravvissuti",
-        "title": "T sopravvissuti",
-        "question": "Che fine ha fatto la promessa sposa del Principe e ci sono sopravvissuti della spedizione?",
-        "true_answer": "La promessa sposa del Principe è stata uccisa da Fat Farlsbag, ma il suo anello nuziale o oggetti personali suggeriscono che altri membri della spedizione potrebbero essere ancora vivi da qualche parte",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -12677,8 +12316,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
