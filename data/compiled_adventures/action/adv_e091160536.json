@@ -1,0 +1,2330 @@
+{
+  "adventure_definition": {
+    "id": "adv_e091160536",
+    "title": "Operazione Nexum",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "military_operation",
+      "secondary_archetypes": [],
+      "confidence": 0.75,
+      "reason": "Matched runtime signals for military_operation",
+      "definition": {
+        "id": "military_operation",
+        "description": "Obiettivi tattici, terreno, forze e vincoli.",
+        "required_modules": [
+          "objectives",
+          "terrain",
+          "forces"
+        ],
+        "optional_modules": [
+          "clock"
+        ],
+        "runtime_focus": [
+          "terrain",
+          "force",
+          "mission"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail",
+          "document"
+        ],
+        "common_failure_modes": [
+          "enemy_alerted",
+          "objective_cost"
+        ],
+        "ending_patterns": [
+          "mission_result"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "action",
+    "runtime_profiles": [
+      "guided_sandbox"
+    ],
+    "tone": "Thriller corporativo claustrofobico con tensione crescente — luci al neon, corridoi sterili, paranoia costante",
+    "premise": "Siete agenti sotto copertura infiltrati nella Nexum Industries, multinazionale farmaceutica sospettata di sviluppare armi biologiche. Da tre settimane vivete identità false: Thorin come tecnico della manutenzione, Alara come analista di laboratorio, Okafor come addetto alla sicurezza. Questa notte dovete accedere al datacenter sotterraneo e copiare i file del Progetto Asclepio. Ma quando Alara scende al livello -3, trova il badge del vero analista che impersona: sgozzato, nascosto dietro i server. Qualcuno sa chi siete davvero. E vi ha lasciati entrare.",
+    "initial_hook": "Operazione Nexum Siete agenti sotto copertura infiltrati nella Nexum Industries, multinazionale farmaceutica sospettata di sviluppare armi biologiche. Da tre settimane vivete identità false: Thorin come tecnico della manutenzione, Alara come analista di laboratorio, Okafor come addetto alla ",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Il comandante Voss, l'ufficiale dell'intelligence che ha ordinato la missione, ha venduto i vostri nomi e identità false alla Nexum tre giorni fa in cambio di 4 milioni e un passaporto diplomatico. Vi ha mandati deliberatamente a morire per coprire la vera operazione: sua figlia Maya, infiltrata da anni nel consiglio d'amministrazione Nexum, sta per rubare i dati sul Progetto Asclepio per rivenderseli a un governo straniero. Voi siete il diversivo sacrificabile che attirerà tutta la sicurezza mentre Maya scappa.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Estrarre vivi e decidere cosa fare dei dati del Progetto Asclepio: consegnarli all'intelligence (salvando la missione ma coprendone la corruzione), pubblicarli (distruggendo sia Nexum che la carriera di decine di innocenti coinvolti), o distruggerli (impedendo un'arma biologica ma lasciando Voss impunito)",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Estrarre vivi e decidere cosa fare dei dati del Progetto Asclepio: consegnarli all'intelligence (salvando la missione ma coprendone la corruzione), pubblicarli (distruggendo sia Nexum che la carriera di decine di innocenti coinvolti), o distruggerli (impedendo un'arma biologica ma lasciando Voss impunito)"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Il comandante Voss ha venduto le vostre coperture per 4 milioni e un passaporto. Vi ha mandati sapendo che sareste stati catturati o uccisi, per coprire il furto di sua figlia Maya. Voi eravate sacrificabili.",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela che l'operazione è compromessa dall'inizio / Identifica Voss come traditore",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Maya Voss è legata al comandante Voss e sa della missione Il Progetto Asclepio è una cura, non solo un'arma",
+        "required_clues": [
+          "clue_3",
+          "clue_4",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela che Maya è la vera operativa e voi il diversivo / Rende Kawale comprensibile e complica la scelta morale finale",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Cadavere dell'analista vero",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Sala Server Principale",
+        "reveals": "Qualcuno sapeva della vostra infiltrazione e ha lasciato che accadesse",
+        "payoff": "Rivela che l'operazione è compromessa dall'inizio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Il corpo del Dr. Rennik",
+        "hidden_implication": "Qualcuno sapeva della vostra infiltrazione e ha lasciato che accadesse",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Trasferimento bancario anomalo",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Sala Server Principale",
+        "reveals": "Qualcuno nell'intelligence ha venduto informazioni a Nexum",
+        "payoff": "Identifica Voss come traditore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nei log finanziari del backup server",
+        "hidden_implication": "Qualcuno nell'intelligence ha venduto informazioni a Nexum",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Messaggio criptato intercettato",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Ufficio Esecutivo",
+        "reveals": "Maya Voss è legata al comandante Voss e sa della missione",
+        "payoff": "Rivela che Maya è la vera operativa e voi il diversivo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Email criptata nel server di Maya Voss (membro del consiglio)",
+        "hidden_implication": "Maya Voss è legata al comandante Voss e sa della missione",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Dossier clinico del Dr. Kawale",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Laboratorio Livello -2",
+        "reveals": "Il Progetto Asclepio è una cura, non solo un'arma",
+        "payoff": "Rende Kawale comprensibile e complica la scelta morale finale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Cartella medica della figlia di Kawale",
+        "hidden_implication": "Il Progetto Asclepio è una cura, non solo un'arma",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Ordine di cattura vivi",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Centro Controllo Sicurezza",
+        "reveals": "Nexum sa chi siete ma vuole prendervi vivi",
+        "payoff": "Spiega perché la sicurezza non ha già attaccato in forze",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Memo di Raines alla squadra di sicurezza: 'Target infiltrati identificati. Cattura, non eliminazione. Il consiglio vuole interrogarli per risalire alla rete. Priorità: estrazione di informazioni.' Orario: 3 ore fa.",
+        "hidden_implication": "Nexum sa chi siete ma vuole prendervi vivi",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Comportamento di Maya Voss",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Corridoio Sotterraneo",
+        "reveals": "Maya ha un'agenda propria e vi sta manipolando attivamente",
+        "payoff": "Può portare a un confronto diretto o a seguirla per scoprire i suoi veri piani",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Maya vi incrocia nel corridoio del livello -1 e",
+        "hidden_implication": "Maya ha un'agenda propria e vi sta manipolando attivamente",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Registro chiamate di Voss",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Voss ha comunicato con entità esterne poco prima che la sicurezza Nexum diventasse consapevole delle identità false",
+        "payoff": "Collega temporalmente il tradimento di Voss alla compromissione della missione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Foto di famiglia nell'ufficio di Maya",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Maya Voss è la figlia del comandante che ha ordinato la missione - un legame mai menzionato nel briefing",
+        "payoff": "Stabilisce la connessione familiare che spiega la coordinazione tra il tradimento e l'estrazione dati",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Chiavetta USB crittografata",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Maya si sta preparando per estrarre grandi quantità di dati sensibili stanotte",
+        "payoff": "Conferma che qualcuno sta pianificando un furto di dati su larga scala",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Email cancellata dal Dr. Kawale",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il Dr. Kawale ha inconsapevolmente preparato tutti i dati di Asclepio per Maya, credendo si tratti di una richiesta legittima del consiglio",
+        "payoff": "Rivela che Maya ha manipolato Kawale per preparare i dati per l'estrazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Piano di estrazione di Maya",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Maya ha pianificato nei minimi dettagli un'estrazione che sfrutta un 'diversivo' nel settore dove operano gli agenti",
+        "payoff": "Fornisce la tempistica esatta e conferma che gli agenti sono il diversivo sacrificabile",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Badge di accesso duplicato",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "Qualcuno ha creato duplicati dei badge degli agenti subito dopo che Voss ha venduto le loro identità",
+        "payoff": "Prova fisica che la sicurezza Nexum conosceva le identità false e si stava preparando",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Conversazione tra Raines e Maya",
+        "type": "testimony",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Maya sta coordinando con la sicurezza per avere campo libero mentre gli agenti vengono neutralizzati",
+        "payoff": "Conferma la complicità tra Maya e la sicurezza Nexum e il ruolo degli agenti come diversivo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Dr. Soren Kawale",
+        "role": "Responsabile del Progetto Asclepio",
+        "location_id": "Laboratorio Livello -2",
+        "status": "unintroduced",
+        "goal": "Completare la cura per la sindrome di Heller, malattia degenerativa che ha ucciso sua moglie e affligge sua figlia adolescente. Il Progetto Asclepio è una cura, non un'arma — ma i militari lo vogliono perché può anche paralizzare il sistema nervoso.",
+        "secret": "Ha rifiutato offerte di governi stranieri per anni. Non sa che il suo stesso consiglio d'amministrazione sta per venderlo al miglior offerente. Maya Voss si è spacciata per sua alleata per avvicinarlo.",
+        "agenda_pressure": 0,
+        "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Completare la cura per la sindrome di Heller, malattia degenerativa che ha ucciso sua moglie e affligge sua figlia adolescente. Il Progetto Asclepio è una cura, non un'arma — ma i militari lo vogliono perché può anche paralizzare il sistema nervoso."
+        ],
+        "avoids": [
+          "che Cadavere dell'analista vero riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": false
+      },
+      {
+        "id": "npc_2",
+        "name": "Maya Voss",
+        "role": "Membro del consiglio Nexum (copertura); vera infiltrata a lungo termine",
+        "location_id": "Sala Server Principale",
+        "status": "unintroduced",
+        "goal": "Rubare i dati del Progetto Asclepio e rivenderli al governo di Khalistan per 50 milioni. Ha orchestrato tutto: convinse suo padre a mandare una squadra sacrificabile per creare il caos mentre lei ruba i file dal backup ridondante.",
+        "secret": "Ha tradito suo padre prima ancora che lui tradisse voi: il suo piano include farlo arrestare per corruzione una volta fuggita col denaro. Vi ha deliberatamente lasciato trovare il cadavere per accelerare il caos.",
+        "agenda_pressure": 0,
+        "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Rubare i dati del Progetto Asclepio e rivenderli al governo di Khalistan per 50 milioni. Ha orchestrato tutto: convinse suo padre a mandare una squadra sacrificabile per creare il caos mentre lei ruba i file dal backup ridondante."
+        ],
+        "avoids": [
+          "che Cadavere dell'analista vero riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": false
+      },
+      {
+        "id": "npc_3",
+        "name": "Raines",
+        "role": "Capo della sicurezza Nexum",
+        "location_id": "Centro Controllo Sicurezza",
+        "status": "unintroduced",
+        "goal": "Proteggere Nexum da infiltrazioni. Riceve ordini direttamente dal CEO. Non sa che Maya Voss è una minaccia: la considera intoccabile per il suo ruolo nel consiglio.",
+        "secret": "Ha scoperto le vostre identità false tre ore fa grazie a una soffiata anonima (da Voss tramite Maya). Ha ordine di catturarvi vivi per interrogatorio, non uccidervi subito — vuole sapere chi altri è coinvolto.",
+        "agenda_pressure": 0,
+        "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere Nexum da infiltrazioni. Riceve ordini direttamente dal CEO. Non sa che Maya Voss è una minaccia: la considera intoccabile per il suo ruolo nel consiglio."
+        ],
+        "avoids": [
+          "che Cadavere dell'analista vero riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": false
+      },
+      {
+        "id": "npc_4",
+        "name": "Comandante Voss",
+        "role": "Ufficiale intelligence che ha ordinato la missione",
+        "location_id": "Remoto (comunicazioni criptate)",
+        "status": "unintroduced",
+        "goal": "Incassare i 4 milioni dalla Nexum e sparire prima che l'intelligence scopra il suo tradimento. Ha venduto la vostra copertura credendo che morireste nell'assalto — testimoni morti non parlano.",
+        "secret": "Non sa che sua figlia Maya lo ha già tradito a sua volta. Crede ancora di controllarla. Le ultime comunicazioni con lei sono state ignorate.",
+        "agenda_pressure": 0,
+        "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+        "current_plan": "Ricevere conferma dell'assalto Nexum alle 23:00. Quando gli agenti vengono eliminati, incassare i 4 milioni tramite trasferimento a società fantasma lussemburghese. Aspettare 72 ore, poi rassegnare dimissioni 'per stress post-operativo'. Riunirsi con Maya a Dubrovnik.",
+        "fallback_plan": "Se gli agenti sopravvivono o la situazione si complica: attivare immediatamente 'Protocollo Nightfall' (disconoscimento agenti + strike aereo sulla Nexum entro 6 ore). Incolpare tutto su 'cellula rogue interna all'intelligence'. Evacuare con identità fasulla comunque, ma via Budapest invece che diretta. Provare a contattare Maya con frase in codice 'Cormorano Rosso'.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Incassare i 4 milioni dalla Nexum e sparire prima che l'intelligence scopra il suo tradimento. Ha venduto la vostra copertura credendo che morireste nell'assalto — testimoni morti non parlano."
+        ],
+        "avoids": [
+          "che Cadavere dell'analista vero riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene comunicazioni brevi e fredde. Invia messaggi criptati routinari chiedendo 'conferma status operativo'. Ignora richieste di supporto adducendo 'protocollo silenzio radio'. Sta già trasferendo fondi offshore.",
+          "medium": "Inizia a sabotare attivamente: fornisce coordinate di estrazione sbagliate, ritarda invio rinforzi, comunica alla Nexum 'possibile compromissione settore B'. Prepara alibi facendo filtrare che 'aveva dubbi sugli agenti da settimane'.",
+          "high": "Attiva protocollo Burned Notice: dichiara ufficialmente gli agenti 'rogue operatives' che hanno tradito. Invia squadra di eliminazione spacciandola per 'recupero'. Contatta Maya con urgenza per farla evacuare (ignora che lei non risponde).",
+          "extreme": "Fuga immediata con identità preparata (passaporto croato, conti Cayman). Prima cancella ogni traccia digitale e ordina strike sulla struttura Nexum 'per contenere la minaccia biologica' - elimina tutti i testimoni, agenti inclusi. Tenta disperatamente di chiamare Maya in loop."
+        },
+        "reaction_table": {
+          "se_minacciato": "Bluffa con autorità: 'State compromettendo sicurezza nazionale'. Registra tutto per usarlo contro di loro. Se accantonato, tenta di far sembrare che loro sono i traditori attivando falsi allarmi nelle comunicazioni intelligence.",
+          "se_corrotto": "Ride sarcastico: 'Con cosa? La vostra paga mensile?'. Potrebbe fingere interesse solo per guadagnare tempo e localizzarli. L'unica leva reale è Maya - ma non sa che anche lei lo ha tradito.",
+          "se_i_pg_hanno_prove": "Passa in modalità damage control: offre di 'sistemare tutto' se gli consegnano le prove, promette bonus e promozioni. Simultaneamente prepara eliminazione. Se prove sono già inviate: anticipa la fuga e tenta di incastrare un capro espiatorio.",
+          "se_alleato": "Impossibile fidarsi completamente - è troppo narcisista. Collaborerebbe solo se intrappolato senza uscite, ma pianificherebbe comunque di eliminarli 'dopo'. Unico vero legame emotivo è Maya, che potrebbe essere usato contro di lui."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Apertura",
+        "description": "Apertura: nodo giocabile della struttura military_operation.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Nodo indizi",
+        "description": "Nodo indizi: nodo giocabile della struttura military_operation.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Luogo sociale",
+        "description": "Luogo sociale: nodo giocabile della struttura military_operation.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Zona calda",
+        "description": "Zona calda: nodo giocabile della struttura military_operation.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Finale",
+        "description": "Finale: nodo giocabile della struttura military_operation.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Finale: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Reazione delle forze ostili",
+        "value": 0,
+        "max_value": 5,
+        "consequence": "percorso laterale minacciato o sigillato",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Allarme silenzioso attivato",
+            "effect": "Le squadre di sicurezza iniziano pattugliamenti irregolari nei corridoi principali. I badge di accesso vengono tracciati in tempo reale."
+          },
+          {
+            "value": 2,
+            "label": "Protocollo di verifica identità",
+            "effect": "Controlli a campione su tutti i dipendenti. Gli accessi ai laboratori richiedono doppia autenticazione. Le telecamere passano in modalità registrazione continua."
+          },
+          {
+            "value": 3,
+            "label": "Lockdown parziale settore R&D",
+            "effect": "I documenti sensibili vengono trasferiti in archivi sigillati. Testimoni chiave vengono scortati in aree protette. Gli accessi ordinari ai piani superiori sono sospesi."
+          },
+          {
+            "value": 4,
+            "label": "Squadre tattiche mobilitate",
+            "effect": "Unità armate della sicurezza privata sorvegliano i percorsi di evacuazione. Gli ingressi al laboratorio biocontenimento vengono blindati. Viene attivato il protocollo di estrazione VIP."
+          },
+          {
+            "value": 5,
+            "label": "Sigillatura completa struttura",
+            "effect": "Tutti gli accessi vengono bloccati elettronicamente. Le prove critiche vengono distrutte o rimosse. Gli infiltrati sono identificati e braccati attivamente."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "I giocatori devono neutralizzare il centro di controllo sicurezza al terzo piano, sabotare il sistema di allerta biometrico o convincere il capo della sicurezza che l'allarme è un falso positivo attraverso prove contraffatte",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Le guardie di sicurezza parlano con tono più formale del solito. Qualcuno al piano superiore continua a controllare il tablet nervosamente. Un tecnico viene fermato e interrogato più a lungo del normale durante il cambio turno.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Operazione Cenere Fredda Siete agenti sotto",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Il tradimento di Voss",
+        "question": "Chi ha compromesso la missione e perché?",
+        "true_answer": "Il comandante Voss ha venduto le identità degli agenti alla Nexum per 4 milioni, usando la squadra come diversivo mentre sua figlia Maya ruba i dati del Progetto Asclepio",
+        "status": "hidden",
+        "required_clues": [
+          "clue_2",
+          "clue_5",
+          "clue_7",
+          "clue_8"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [
+          "T1"
+        ],
+        "linked_npcs": [
+          "Comandante Voss",
+          "Maya Voss",
+          "Raines"
+        ],
+        "linked_locations": [
+          "Nodo indizi",
+          "Finale"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "La vera operazione",
+        "question": "Qual è il vero obiettivo stanotte alla Nexum?",
+        "true_answer": "Maya Voss sta per estrarre i dati completi del Progetto Asclepio per rivenderli a un governo straniero, mentre gli agenti attirano tutta la sicurezza",
+        "status": "hidden",
+        "required_clues": [
+          "clue_6",
+          "clue_9",
+          "clue_10",
+          "clue_11"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2",
+          "T3"
+        ],
+        "linked_npcs": [
+          "Maya Voss",
+          "Dr. Soren Kawale"
+        ],
+        "linked_locations": [
+          "Zona calda",
+          "Finale"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Cadavere dell'analista vero?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Messaggio criptato intercettato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Apertura",
+          "to": "Finale"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Apertura",
+          "to": "Finale"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Finale",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "guided_sandbox",
+      "tone": "genre-consistent adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_3838ba7ce8",
+      "title": "Operazione Cenere Fredda",
+      "genre": "action",
+      "detected_genre": "action",
+      "premise": "Siete agenti sotto copertura infiltrati nella Nexum Industries, multinazionale farmaceutica sospettata di sviluppare armi biologiche. Da tre settimane vivete identità false: Thorin come tecnico della manutenzione, Alara come analista di laboratorio, Okafor come addetto alla sicurezza. Questa notte dovete accedere al datacenter sotterraneo e copiare i file del Progetto Asclepio. Ma quando Alara scende al livello -3, trova il badge del vero analista che impersona: sgozzato, nascosto dietro i server. Qualcuno sa chi siete davvero. E vi ha lasciati entrare.",
+      "hidden_truth": "Il comandante Voss, l'ufficiale dell'intelligence che ha ordinato la missione, ha venduto i vostri nomi e identità false alla Nexum tre giorni fa in cambio di 4 milioni e un passaporto diplomatico. Vi ha mandati deliberatamente a morire per coprire la vera operazione: sua figlia Maya, infiltrata da anni nel consiglio d'amministrazione Nexum, sta per rubare i dati sul Progetto Asclepio per rivenderseli a un governo straniero. Voi siete il diversivo sacrificabile che attirerà tutta la sicurezza mentre Maya scappa.",
+      "win_condition": "Estrarre vivi e decidere cosa fare dei dati del Progetto Asclepio: consegnarli all'intelligence (salvando la missione ma coprendone la corruzione), pubblicarli (distruggendo sia Nexum che la carriera di decine di innocenti coinvolti), o distruggerli (impedendo un'arma biologica ma lasciando Voss impunito)",
+      "threat_description": "Reazione delle forze ostili",
+      "threat_max_turns": 5,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "military_operation",
+        "secondary_archetypes": [],
+        "confidence": 0.75,
+        "reason": "Matched runtime signals for military_operation",
+        "definition": {
+          "id": "military_operation",
+          "description": "Obiettivi tattici, terreno, forze e vincoli.",
+          "required_modules": [
+            "objectives",
+            "terrain",
+            "forces"
+          ],
+          "optional_modules": [
+            "clock"
+          ],
+          "runtime_focus": [
+            "terrain",
+            "force",
+            "mission"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail",
+            "document"
+          ],
+          "common_failure_modes": [
+            "enemy_alerted",
+            "objective_cost"
+          ],
+          "ending_patterns": [
+            "mission_result"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_3838ba7ce8",
+      "adventure_canon": {
+        "core_truth": "Il comandante Voss, l'ufficiale dell'intelligence che ha ordinato la missione, ha venduto i vostri nomi e identità false alla Nexum tre giorni fa in cambio di 4 milioni e un passaporto diplomatico. Vi ha mandati deliberatamente a morire per coprire la vera operazione: sua figlia Maya, infiltrata da anni nel consiglio d'amministrazione Nexum, sta per rubare i dati sul Progetto Asclepio per rivenderseli a un governo straniero. Voi siete il diversivo sacrificabile che attirerà tutta la sicurezza mentre Maya scappa.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Apertura",
+          "Nodo indizi",
+          "Luogo sociale",
+          "Zona calda",
+          "Finale"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Operazione Cenere Fredda Siete agenti sotto"
+        ],
+        "genre_profile": {
+          "id": "guided_sandbox",
+          "tone": "genre-consistent adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Che cosa dimostrano Cadavere dell'analista vero e Trasferimento bancario anomalo",
+          "question": "Che cosa dimostrano Cadavere dell'analista vero e Trasferimento bancario anomalo?",
+          "true_answer": "Il comandante Voss ha venduto le vostre coperture per 4 milioni e un passaporto. Vi ha mandati sapendo che sareste stati catturati o uccisi, per coprire il furto di sua figlia Maya. Voi eravate sacrificabili.",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela che l'operazione è compromessa dall'inizio / Identifica Voss come traditore",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Messaggio criptato intercettato",
+          "question": "Dove conduce Messaggio criptato intercettato?",
+          "true_answer": "Maya Voss è legata al comandante Voss e sa della missione Il Progetto Asclepio è una cura, non solo un'arma",
+          "required_clues": [
+            "clue_3",
+            "clue_4",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela che Maya è la vera operativa e voi il diversivo / Rende Kawale comprensibile e complica la scelta morale finale",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Cadavere dell'analista vero",
+          "text": "Cadavere dell'analista vero",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Qualcuno sapeva della vostra infiltrazione e ha lasciato che accadesse",
+          "payoff": "Rivela che l'operazione è compromessa dall'inizio",
+          "location": "Sala Server Principale",
+          "immediate_information": "Il corpo del Dr. Rennik",
+          "hidden_implication": "Qualcuno sapeva della vostra infiltrazione e ha lasciato che accadesse",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Trasferimento bancario anomalo",
+          "text": "Trasferimento bancario anomalo",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Qualcuno nell'intelligence ha venduto informazioni a Nexum",
+          "payoff": "Identifica Voss come traditore",
+          "location": "Sala Server Principale",
+          "immediate_information": "Nei log finanziari del backup server",
+          "hidden_implication": "Qualcuno nell'intelligence ha venduto informazioni a Nexum",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Messaggio criptato intercettato",
+          "text": "Messaggio criptato intercettato",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Maya Voss è legata al comandante Voss e sa della missione",
+          "payoff": "Rivela che Maya è la vera operativa e voi il diversivo",
+          "location": "Ufficio Esecutivo",
+          "immediate_information": "Email criptata nel server di Maya Voss (membro del consiglio)",
+          "hidden_implication": "Maya Voss è legata al comandante Voss e sa della missione",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Dossier clinico del Dr. Kawale",
+          "text": "Dossier clinico del Dr. Kawale",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Il Progetto Asclepio è una cura, non solo un'arma",
+          "payoff": "Rende Kawale comprensibile e complica la scelta morale finale",
+          "location": "Laboratorio Livello -2",
+          "immediate_information": "Cartella medica della figlia di Kawale",
+          "hidden_implication": "Il Progetto Asclepio è una cura, non solo un'arma",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Ordine di cattura vivi",
+          "text": "Ordine di cattura vivi",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Nexum sa chi siete ma vuole prendervi vivi",
+          "payoff": "Spiega perché la sicurezza non ha già attaccato in forze",
+          "location": "Centro Controllo Sicurezza",
+          "immediate_information": "Memo di Raines alla squadra di sicurezza: 'Target infiltrati identificati. Cattura, non eliminazione. Il consiglio vuole interrogarli per risalire alla rete. Priorità: estrazione di informazioni.' Orario: 3 ore fa.",
+          "hidden_implication": "Nexum sa chi siete ma vuole prendervi vivi",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Comportamento di Maya Voss",
+          "text": "Comportamento di Maya Voss",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Maya ha un'agenda propria e vi sta manipolando attivamente",
+          "payoff": "Può portare a un confronto diretto o a seguirla per scoprire i suoi veri piani",
+          "location": "Corridoio Sotterraneo",
+          "immediate_information": "Maya vi incrocia nel corridoio del livello -1 e",
+          "hidden_implication": "Maya ha un'agenda propria e vi sta manipolando attivamente",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Dr. Soren Kawale",
+          "role": "Responsabile del Progetto Asclepio",
+          "description": "Completare la cura per la sindrome di Heller, malattia degenerativa che ha ucciso sua moglie e affligge sua figlia adolescente. Il Progetto Asclepio è una cura, non un'arma — ma i militari lo vogliono perché può anche paralizzare il sistema nervoso.",
+          "location": "Laboratorio Livello -2",
+          "secret": "Ha rifiutato offerte di governi stranieri per anni. Non sa che il suo stesso consiglio d'amministrazione sta per venderlo al miglior offerente. Maya Voss si è spacciata per sua alleata per avvicinarlo.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Completare la cura per la sindrome di Heller, malattia degenerativa che ha ucciso sua moglie e affligge sua figlia adolescente. Il Progetto Asclepio è una cura, non un'arma — ma i militari lo vogliono perché può anche paralizzare il sistema nervoso.",
+            "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Completare la cura per la sindrome di Heller, malattia degenerativa che ha ucciso sua moglie e affligge sua figlia adolescente. Il Progetto Asclepio è una cura, non un'arma — ma i militari lo vogliono perché può anche paralizzare il sistema nervoso."
+            ],
+            "avoids": [
+              "che Cadavere dell'analista vero riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha rifiutato offerte di governi stranieri per anni. Non sa che il suo stesso consiglio d'amministrazione sta per venderlo al miglior offerente. Maya Voss si è spacciata per sua alleata per avvicinarlo.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Maya Voss",
+          "role": "Membro del consiglio Nexum (copertura); vera infiltrata a lungo termine",
+          "description": "Rubare i dati del Progetto Asclepio e rivenderli al governo di Khalistan per 50 milioni. Ha orchestrato tutto: convinse suo padre a mandare una squadra sacrificabile per creare il caos mentre lei ruba i file dal backup ridondante.",
+          "location": "Sala Server Principale",
+          "secret": "Ha tradito suo padre prima ancora che lui tradisse voi: il suo piano include farlo arrestare per corruzione una volta fuggita col denaro. Vi ha deliberatamente lasciato trovare il cadavere per accelerare il caos.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Rubare i dati del Progetto Asclepio e rivenderli al governo di Khalistan per 50 milioni. Ha orchestrato tutto: convinse suo padre a mandare una squadra sacrificabile per creare il caos mentre lei ruba i file dal backup ridondante.",
+            "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Rubare i dati del Progetto Asclepio e rivenderli al governo di Khalistan per 50 milioni. Ha orchestrato tutto: convinse suo padre a mandare una squadra sacrificabile per creare il caos mentre lei ruba i file dal backup ridondante."
+            ],
+            "avoids": [
+              "che Cadavere dell'analista vero riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha tradito suo padre prima ancora che lui tradisse voi: il suo piano include farlo arrestare per corruzione una volta fuggita col denaro. Vi ha deliberatamente lasciato trovare il cadavere per accelerare il caos.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Raines",
+          "role": "Capo della sicurezza Nexum",
+          "description": "Proteggere Nexum da infiltrazioni. Riceve ordini direttamente dal CEO. Non sa che Maya Voss è una minaccia: la considera intoccabile per il suo ruolo nel consiglio.",
+          "location": "Centro Controllo Sicurezza",
+          "secret": "Ha scoperto le vostre identità false tre ore fa grazie a una soffiata anonima (da Voss tramite Maya). Ha ordine di catturarvi vivi per interrogatorio, non uccidervi subito — vuole sapere chi altri è coinvolto.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere Nexum da infiltrazioni. Riceve ordini direttamente dal CEO. Non sa che Maya Voss è una minaccia: la considera intoccabile per il suo ruolo nel consiglio.",
+            "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere Nexum da infiltrazioni. Riceve ordini direttamente dal CEO. Non sa che Maya Voss è una minaccia: la considera intoccabile per il suo ruolo nel consiglio."
+            ],
+            "avoids": [
+              "che Cadavere dell'analista vero riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto le vostre identità false tre ore fa grazie a una soffiata anonima (da Voss tramite Maya). Ha ordine di catturarvi vivi per interrogatorio, non uccidervi subito — vuole sapere chi altri è coinvolto.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Comandante Voss",
+          "role": "Ufficiale intelligence che ha ordinato la missione",
+          "description": "Incassare i 4 milioni dalla Nexum e sparire prima che l'intelligence scopra il suo tradimento. Ha venduto la vostra copertura credendo che morireste nell'assalto — testimoni morti non parlano.",
+          "location": "Remoto (comunicazioni criptate)",
+          "secret": "Non sa che sua figlia Maya lo ha già tradito a sua volta. Crede ancora di controllarla. Le ultime comunicazioni con lei sono state ignorate.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Incassare i 4 milioni dalla Nexum e sparire prima che l'intelligence scopra il suo tradimento. Ha venduto la vostra copertura credendo che morireste nell'assalto — testimoni morti non parlano.",
+            "fear": "che Cadavere dell'analista vero riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Incassare i 4 milioni dalla Nexum e sparire prima che l'intelligence scopra il suo tradimento. Ha venduto la vostra copertura credendo che morireste nell'assalto — testimoni morti non parlano."
+            ],
+            "avoids": [
+              "che Cadavere dell'analista vero riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Non sa che sua figlia Maya lo ha già tradito a sua volta. Crede ancora di controllarla. Le ultime comunicazioni con lei sono state ignorate.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Apertura",
+          "description": "Apertura: nodo giocabile della struttura military_operation.",
+          "type": "entry",
+          "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Nodo indizi",
+          "description": "Nodo indizi: nodo giocabile della struttura military_operation.",
+          "type": "site",
+          "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Luogo sociale",
+          "description": "Luogo sociale: nodo giocabile della struttura military_operation.",
+          "type": "site",
+          "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona calda",
+          "description": "Zona calda: nodo giocabile della struttura military_operation.",
+          "type": "site",
+          "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Finale",
+          "description": "Finale: nodo giocabile della struttura military_operation.",
+          "type": "finale",
+          "visual_identity": "Finale: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Reazione delle forze ostili",
+          "value": 0,
+          "max": 5,
+          "consequence": "percorso laterale minacciato o sigillato",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_3838ba7ce8",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Laboratorio Livello -2",
+        "agenda_pressure": 0,
+        "goal": "Completare la cura per la sindrome di Heller, malattia degenerativa che ha ucciso sua moglie e affligge sua figlia adolescente. Il Progetto Asclepio è una cura, non un'arma — ma i militari lo vogliono perché può anche paralizzare il sistema nervoso.",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Sala Server Principale",
+        "agenda_pressure": 0,
+        "goal": "Rubare i dati del Progetto Asclepio e rivenderli al governo di Khalistan per 50 milioni. Ha orchestrato tutto: convinse suo padre a mandare una squadra sacrificabile per creare il caos mentre lei ruba i file dal backup ridondante.",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Centro Controllo Sicurezza",
+        "agenda_pressure": 0,
+        "goal": "Proteggere Nexum da infiltrazioni. Riceve ordini direttamente dal CEO. Non sa che Maya Voss è una minaccia: la considera intoccabile per il suo ruolo nel consiglio.",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Remoto (comunicazioni criptate)",
+        "agenda_pressure": 0,
+        "goal": "Incassare i 4 milioni dalla Nexum e sparire prima che l'intelligence scopra il suo tradimento. Ha venduto la vostra copertura credendo che morireste nell'assalto — testimoni morti non parlano.",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 5,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T2"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Laboratorio Livello -2.",
+      "Actor npc_2 ha location non riconosciuta: Sala Server Principale.",
+      "Actor npc_3 ha location non riconosciuta: Centro Controllo Sicurezza.",
+      "Actor npc_4 ha location non riconosciuta: Remoto (comunicazioni criptate)."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  }
+}

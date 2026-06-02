@@ -1,0 +1,2404 @@
+{
+  "adventure_definition": {
+    "id": "adv_2021f22ec2",
+    "title": "Il Sigillo di Cenere",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "heist",
+      "secondary_archetypes": [
+        "faction_sandbox"
+      ],
+      "confidence": 0.75,
+      "reason": "Matched runtime signals for heist",
+      "definition": {
+        "id": "heist",
+        "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+        "required_modules": [
+          "target",
+          "security_layers",
+          "routes"
+        ],
+        "optional_modules": [
+          "heat"
+        ],
+        "runtime_focus": [
+          "route",
+          "security",
+          "resource"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "document",
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "heat_tick",
+          "alarm"
+        ],
+        "ending_patterns": [
+          "extraction"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "heist",
+      "faction_crisis"
+    ],
+    "tone": "Thriller claustrofobico con tensione crescente, morale ambigua e paranoia reciproca",
+    "premise": "Siete nel caveau sotterraneo della Gilda dei Mercanti Liberi, a Valcorvo. Il vostro committente, Lord Hadrian Voss, vi ha assunti per rubare un sigillo d'argento appartenente al Maestro della Gilda, Ormund Crale. Vi ha detto che quel sigillo è stato usato per firmare contratti di schiavitù illegali. Ma mentre forzate la cassaforte, sentite urla dall'uscita: le porte del caveau si chiudono dall'esterno. Qualcuno ha sigillato l'edificio. Le guardie della Gilda arrivano da una scala laterale che non era segnata nella mappa che Voss vi ha fornito.",
+    "initial_hook": "Il Sigillo di Cenere Siete nel caveau sotterraneo della Gilda dei Mercanti Liberi, a Valcorvo. Il vostro committente, Lord Hadrian Voss, vi ha assunti per rubare un sigillo d'argento appartenente al Maestro della Gilda, Ormund Crale. Vi ha detto che quel sigillo è stato usato per firmare contratti d",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Lord Hadrian Voss ha orchestrato il furto non per ottenere il sigillo, ma per far rinchiudere Thorin, Alara e Okafor nel caveau durante l'assemblea notturna della Gilda. Voss ha fatto trapelare ai consiglieri della Gilda che un gruppo di mercenari avrebbe attaccato stanotte, costringendoli a evacuare il livello superiore e sigillare il caveau con voi dentro. L'obiettivo reale di Voss era costringere Ormund Crale a mostrare pubblicamente la mappa segreta dei tunnel sotterranei che collegano Valcorvo al confine meridionale, in modo che i suoi agenti potessero fotografarla durante l'evacuazione. Voss lavora per il Regno di Ashmar, nemico storico di Valcorvo, e vuoi invadere la città usando quei tunnel. Voi eravate solo un'esca sacrificabile.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire la verità sul vero piano di Lord Voss, uscire dal caveau prima che le guardie vi catturino o uccidano, e decidere se consegnare il sigillo a Voss (ricevendo la paga ma aiutando un'invasione), alla Gilda (perdendo la paga ma fermando Voss), o distruggerlo e fuggire con nulla",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire la verità sul vero piano di Lord Voss, uscire dal caveau prima che le guardie vi catturino o uccidano, e decidere se consegnare il sigillo a Voss (ricevendo la paga ma aiutando un'invasione), alla Gilda (perdendo la paga ma fermando Voss), o distruggerlo e fuggire con nulla"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Lord Hadrian Voss ha pagato Mira Dennel per far trapelare l'orario del colpo a Ormund Crale, così che la Gilda evacuasse e mostrasse la mappa dei tunnel segreti durante l'emergenza. I PG erano solo un'esca sacrificabile per creare il caos n",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Mette in dubbio l'affidabilità di Voss e apre la possibilità che il vero obiettivo del colpo fosse altro / Conferma che siete stati usati come diversivo",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Il sigillo è legato a qualcosa che riguarda Ashmar, ma non sembra un elenco di contratti di schiavitù; Il sigillo non è uno strumento di oppressione, ma una protezione. 'Nomi Perduti' suggerisce identità nascoste.",
+        "required_clues": [
+          "clue_3",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Introduce il dubbio che Ormund non sia il criminale che Voss ha descritto / Ribalta la percezione di Ormund Crale: non è un criminale, ma un protettore",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Traccia di percorso verso Sala centrale del caveau",
+        "type": "location_detail",
+        "thread_id": "T1",
+        "source_location": "Sala centrale del caveau",
+        "reveals": "Voss sapeva che sareste stati intrappolati. La mappa era volutamente incompleta.",
+        "payoff": "Mette in dubbio l'affidabilità di Voss e apre la possibilità che il vero obiettivo del colpo fosse altro",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Traccia di percorso verso Sala centrale del caveau",
+        "hidden_implication": "Voss sapeva che sareste stati intrappolati. La mappa era volutamente incompleta.",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "seguire la traccia",
+          "cercare punti di riferimento",
+          "preparare una via di ritorno"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Testimonianza di Seris Thane Seris",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Corridoio del caveau sotterraneo",
+        "reveals": "Qualcuno ha fatto trapelare il colpo deliberatamente. La Gilda vi aspettava.",
+        "payoff": "Conferma che siete stati usati come diversivo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Testimonianza di Seris Thane Seris",
+        "hidden_implication": "Qualcuno ha fatto trapelare il colpo deliberatamente. La Gilda vi aspettava.",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Registro cifrato nella cassaforte",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Sala centrale del caveau",
+        "reveals": "Il sigillo è legato a qualcosa che riguarda Ashmar, ma non sembra un elenco di contratti di schiavitù",
+        "payoff": "Introduce il dubbio che Ormund non sia il criminale che Voss ha descritto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Dentro la cassaforte",
+        "hidden_implication": "Il sigillo è legato a qualcosa che riguarda Ashmar, ma non sembra un elenco di contratti di schiavitù",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il cerchio",
+          "cancellare o alterare un segno",
+          "seguire la traccia verso l'officiante"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Lettera strappata nell'archivio",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Archivio della Gilda",
+        "reveals": "Esiste una spia nella Gilda (M.D.) che lavora per Voss. Il vero obiettivo era esporre i tunnel, non il sigillo.",
+        "payoff": "Ribalta completamente il significato della missione. I PG capiscono di essere stati usati.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nell'archivio della Gilda",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "Archivio della Gilda"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Comportamento nervoso di Mira Dennel",
+        "type": "behavior",
+        "thread_id": "T1",
+        "source_location": "Archivio della Gilda",
+        "reveals": "Mira è probabilmente la spia di Voss, ma il suo comportamento suggerisce senso di colpa, non malvagità",
+        "payoff": "Permette ai PG di confrontarla e ottenere la verità completa, oppure di usarla per uscire",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Se i PG incontrano Mira nell'archivio",
+        "hidden_implication": "Mira è probabilmente la spia di Voss, ma il suo comportamento suggerisce senso di colpa, non malvagità",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Incisione sul retro del sigillo d'argento",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Sala centrale del caveau",
+        "reveals": "Il sigillo non è uno strumento di oppressione, ma una protezione. 'Nomi Perduti' suggerisce identità nascoste.",
+        "payoff": "Ribalta la percezione di Ormund Crale: non è un criminale, ma un protettore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Sul retro del sigillo d'argento è inciso in caratteri minuscoli: 'Chiave dei Nomi Perduti. Custodisci con la vita'. Il metallo ha segni di usura, come se fosse stato maneggiato con cura per decenni.",
+        "hidden_implication": "Il sigillo non è uno strumento di oppressione, ma una protezione. 'Nomi Perduti' suggerisce identità nascoste.",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il cerchio",
+          "cancellare o alterare un segno",
+          "seguire la traccia verso l'officiante"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Messaggio cifrato di Voss intercettato",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Qualcuno ha coordinato deliberatamente il sigillo del caveau con un'evacuazione",
+        "payoff": "Dimostra che il furto era parte di un piano più ampio e che Mira era coinvolta",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Testimonianza contraddittoria di Seris",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Qualcuno sapeva esattamente quando il gruppo sarebbe stato nel caveau e ha preparato la trappola",
+        "payoff": "Indica che le informazioni sul furto sono state passate ai consiglieri della Gilda in anticipo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Registro delle comunicazioni urgenti",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "La Gilda è stata allertata in anticipo da una fonte esterna",
+        "payoff": "Conferma che qualcuno ha deliberatamente fatto trapelare l'informazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Mappa parziale su pergamena antica",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Esiste una rete di tunnel segreti strategicamente importante",
+        "payoff": "Rivela l'esistenza di vie sotterranee che potrebbero essere usate per un'invasione militare",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Medaglione di Ashmar nascosto",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Lord Voss ha collegamenti diretti con il Regno nemico di Ashmar",
+        "payoff": "Prova che Voss è un agente straniero, non un nobile locale preoccupato per la giustizia",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Conversazione udita durante l'evacuazione",
+        "type": "testimony",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "La vera priorità dell'evacuazione era mettere in sicurezza una mappa, non difendere il caveau",
+        "payoff": "Indica che il vero obiettivo dell'operazione era costringere Ormund a spostare la mappa in pubblico",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Contratto di schiavitù autentico",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Ormund Crale è effettivamente coinvolto in attività criminali, come sosteneva Voss",
+        "payoff": "Conferma parte della storia di copertura di Voss, rendendo più difficile identificare il vero tradimento",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Piano di evacuazione modificato",
+        "type": "location_detail",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il protocollo di evacuazione è stato modificato per includere una stanza specifica non standard",
+        "payoff": "Suggerisce che qualcuno voleva garantire che durante l'evacuazione si passasse da un luogo specifico",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Lord Hadrian Voss",
+        "role": "Committente traditore",
+        "location_id": "Villa Voss, quartiere nobiliare",
+        "status": "unintroduced",
+        "goal": "Consegnare la mappa dei tunnel segreti di Valcorvo al Regno di Ashmar per permettere un'invasione silenziosa e ricevere in cambio il titolo di Viceré",
+        "secret": "Ha pagato una spia all'interno della Gilda per far trapelare l'ora esatta del colpo, così che Ormund Crale potesse evacuare la Gilda e mostrare la mappa segreta ai suoi consiglieri fuori dal caveau",
+        "agenda_pressure": 0,
+        "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+        "current_plan": "Attendere che i PG rubino il sigillo, poi consegnarlo personalmente all'Ambasciatore di Ashmar durante il Banchetto della Luna Calante tra tre giorni. Nel frattempo, diffondere voci che i PG siano mercenari stranieri per screditarli preventivamente",
+        "fallback_plan": "Se i PG sospettano o falliscono, attivare la spia nella Gilda (il contabile Grevin Mal) per rubare direttamente la mappa dei tunnel. Incolpare pubblicamente i PG del tentato furto, facendoli arrestare dalla Guardia Cittadina mentre lui fugge ad Ashmar con documenti falsi",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Consegnare la mappa dei tunnel segreti di Valcorvo al Regno di Ashmar per permettere un'invasione silenziosa e ricevere in cambio il titolo di Viceré"
+        ],
+        "avoids": [
+          "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un contegno aristocratico impeccabile, offrendo vino pregiato e rassicurazioni sui pagamenti promessi. Sottolinea l'importanza del sigillo per 'questioni d'onore familiare'",
+          "medium": "Diventa nervoso quando interrogato sui dettagli. Si tocca ripetutamente l'anello con lo stemma Voss. Offre bonus in oro per accelerare i tempi, insistendo che 'la Gilda non deve sospettare nulla'",
+          "high": "Suda visibilmente e balbetta scuse contraddittorie. Tenta di allontanare i PG inviandoli in missioni secondarie inutili. Manda servitori fidati a controllare se ci sono spie di Ashmar nei paraggi",
+          "extreme": "Ordina alla sua guardia personale di 'trattenere' i PG 'per la loro sicurezza'. Se sfuggono, invia assassini della Confraternita della Cenere per eliminarli prima che raggiungano il confine con Ashmar"
+        },
+        "reaction_table": {
+          "se_minacciato": "Crolla psicologicamente, rivela tutto piangendo. Offre di spartire il titolo di Viceré promettendo territori e rendite, ma tradirà appena possibile contattando i suoi alleati ad Ashmar",
+          "se_corrotto": "Rifiuta con sdegno iniziale, poi cede offrendo il doppio del compenso originale E una tenuta nelle Terre Rosse, a patto che i PG fingano di non aver mai trovato il sigillo",
+          "se_i_pg_hanno_prove": "Tenta il suicidio per evitare il disonore pubblico. Se fermato, propone un accordo disperato: userà i suoi contatti per sabotare l'invasione di Ashmar dall'interno in cambio dell'esilio invece dell'esecuzione",
+          "se_alleato": "Confida loro 'in segreto' che il sigillo nasconde coordinate di tunnel antichi, utili per 'proteggere Valcorvo da minacce esterne'. Li manipola per renderli complici inconsapevoli"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Ormund Crale",
+        "role": "Maestro della Gilda, presunto criminale",
+        "location_id": "Sala del Consiglio della Gilda",
+        "status": "unintroduced",
+        "goal": "Proteggere i registri della Gilda che rivelano i nomi di tutti i rifugiati di Ashmar nascosti a Valcorvo negli ultimi vent'anni",
+        "secret": "Il sigillo d'argento che custodisce non è uno strumento di schiavitù, ma la chiave cifrata per aprire il libro dei rifugiati. Se cadesse nelle mani di Ashmar, centinaia di famiglie sarebbero giustiziate",
+        "agenda_pressure": 0,
+        "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+        "current_plan": "Convincere i PG che sono stati ingannati da Voss. Guadagnare tempo sufficiente perché il suo vice, Mira Tallowbrook, attivi il protocollo di evacuazione dei rifugiati più esposti. Se necessario, consegnare un sigillo falsificato che impiegherà settimane per essere identificato come falso.",
+        "fallback_plan": "Se non riesce a fermare i PG, Ormund attiverà una trappola magica che sigilla permanentemente il caveau con lui all'interno. Questo darà ai rifugiati 3-5 giorni per fuggire prima che esperti possano forzare le porte. Ha già scritto lettere d'addio e testamento che trasferiscono la custodia dei registri al Santuario di Ember's Rest.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere i registri della Gilda che rivelano i nomi di tutti i rifugiati di Ashmar nascosti a Valcorvo negli ultimi vent'anni"
+        ],
+        "avoids": [
+          "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Ormund mantiene un comportamento professionale e distaccato, offrendo ai PG un contratto commerciale vantaggioso se lasceranno il caveau. Accenna vagamente a 'responsabilità verso persone innocenti' senza rivelare dettagli.",
+          "medium": "Ormund rivela parzialmente la verità: il sigillo protegge 'vite umane, non oro'. Offre di mostrare ai PG uno dei registri cifrati per dimostrare che Voss li sta usando. Propone un accordo: restituirà loro il doppio del compenso di Voss se lo aiuteranno a spostare i rifugiati.",
+          "high": "Ormund crolla emotivamente e confessa tutto: i nomi, Ashmar, le famiglie. Mostra fotografie e lettere di rifugiati salvati. Supplica i PG di non consegnare il sigillo, offrendo tutto ciò che possiede. Propone di falsificare un sigillo falso per ingannare Voss.",
+          "extreme": "Ormund tenta di distruggere il sigillo fondendolo con acido alchemico, anche a costo della propria vita. Se fermato, si offre come ostaggio o capro espiatorio, chiedendo solo 24 ore per evacuare i rifugiati più vulnerabili prima che il sigillo cada nelle mani sbagliate."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si barrica nel caveau attivando sigilli di protezione runiche. Invia segnali d'emergenza cifrati alla rete dei rifugiati affinché fuggano da Valcorvo entro l'alba. Combatte disperatamente per guadagnare tempo, non per vincere.",
+          "se_corrotto": "Rifiuta sdegnosamente qualsiasi somma. Risponde: 'Non potete comprare ciò che non ha prezzo. Ogni moneta che posseggo è sporca del sangue di chi ho fallito a salvare.' Offre invece informazioni su Voss: è un agente dormiente di Ashmar.",
+          "se_i_pg_hanno_prove": "Se i PG dimostrano di conoscere la vera natura del sigillo, Ormund li tratta come potenziali alleati. Rivela che Voss ha già tradito altri rifugiati. Offre accesso ai registri della Gilda che provano i crimini di Voss contro l'umanità.",
+          "se_alleato": "Fornisce ai PG identità false nella rete dei rifugiati, accesso ai tunnel sotterranei di Valcorvo, e una lettera sigillata per il Conclave dei Santuari nel Nord. Promette che la Gilda coprirà le loro tracce e li proteggerà dalla vendetta di Voss."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Seris Thane",
+        "role": "Guardia della Gilda intrappolata con voi",
+        "location_id": "Corridoio del caveau sotterraneo",
+        "status": "unintroduced",
+        "goal": "Sopravvivere e proteggere i segreti della Gilda anche a costo della propria vita",
+        "secret": "È una rifugiata di Ashmar salvata anni fa da Ormund Crale. Sa che il sigillo protegge i registri dei rifugiati, ma non può rivelarlo senza tradire la Gilda",
+        "agenda_pressure": 0,
+        "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+        "current_plan": "Guadagnare tempo fingendo cooperazione per la fuga, mentre cerca un'opportunità di distruggere il sigillo o renderlo inutilizzabile. Memorizza i volti dei PG per rintracciarli in seguito se necessario.",
+        "fallback_plan": "Se la protezione del sigillo diventa impossibile, attivare il protocollo 'Cenere Nera': un incantesimo suicida inciso nel suo medaglione che cancella magicamente tutti i nomi dai registri prima di ucciderla. Ormund le ha fatto giurare di usarlo solo in extremis.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Sopravvivere e proteggere i segreti della Gilda anche a costo della propria vita"
+        ],
+        "avoids": [
+          "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Rimane professionale e distante, suggerisce di collaborare per uscire dalla trappola senza rivelare nulla sul sigillo. Osserva attentamente i PG per capire cosa sanno davvero.",
+          "medium": "Inizia a mostrare nervosismo quando i PG menzionano il sigillo. Tenta di dirottare l'attenzione sulla fuga, inventando pericoli imminenti (gas velenosi, crollo imminente). Stringe inconsciamente il medaglione che nasconde sotto l'armatura.",
+          "high": "Piange parlando vagamente di 'persone innocenti che verranno danneggiate' se il sigillo finisce nelle mani sbagliate. Implora i PG di lasciare perdere senza spiegare perché. Offre informazioni su altre ricchezze della Gilda come diversivo.",
+          "extreme": "Crolla emotivamente rivelando di essere lei stessa una rifugiata di Ashmar. Confessa che Ormund l'ha salvata quando era bambina e che il sigillo protegge centinaia come lei. Si getta in ginocchio supplicando: 'Uccidetemi, ma non condannate la mia gente una seconda volta.'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Combatte con disperazione suicida, cercando deliberatamente di danneggiare il sigillo o di farlo cadere in pozzi/fessure irrecuperabili. Grida: 'Meglio distrutto che nelle vostre mani!'",
+          "se_corrotto": "Finge di accettare denaro ma cerca di rubare il sigillo appena possibile per nasconderlo. Se la corruzione include promesse di proteggere i rifugiati, diventa collaborativa ma vigile, chiedendo garanzie concrete e nomi di garanti fidati.",
+          "se_i_pg_hanno_prove": "Se dimostrano di conoscere la verità sui rifugiati di Ashmar, cessa la resistenza fisica ma chiede un patto di sangue: aiutarla a falsificare i registri prima di consegnare il sigillo, salvando le identità nascoste. Offre la sua vita come pegno.",
+          "se_alleato": "Diventa una risorsa straordinaria: conosce ogni passaggio segreto del caveau, i codici di Ormund, e può contattare la rete sotterranea dei rifugiati per creare vie di fuga. Rivela che Lord Voss è un cacciatore di rifugiati pagato dal Consiglio di Ashmar."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Mira Dennel",
+        "role": "Spia pagata da Voss, impiegata della Gilda",
+        "location_id": "Archivio della Gilda",
+        "status": "unintroduced",
+        "goal": "Accumulare abbastanza denaro per comprare un passaggio verso il continente orientale e ricominciare da zero lontano dalla guerra",
+        "secret": "Ha fatto trapelare l'ora del colpo a Voss, ma non sapeva che avreste rischiato la vita. Ora è divorata dal senso di colpa e cerca di aiutarvi senza farsi scoprire da Ormund",
+        "agenda_pressure": 0,
+        "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+        "current_plan": "Guidare discretamente i PG verso l'uscita di sicurezza usata dai corrieri, poi sparire nella notte con il pagamento di Voss prima che Ormund scopra il suo tradimento.",
+        "fallback_plan": "Se scoperta, incolpare completamente Voss sostenendo di essere stata ricattata con false accuse di furto. Come ultima risorsa, barattare tutto ciò che sa su Voss con Ormund in cambio dell'immunità.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Accumulare abbastanza denaro per comprare un passaggio verso il continente orientale e ricominciare da zero lontano dalla guerra"
+        ],
+        "avoids": [
+          "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Finge di svolgere normalmente i suoi compiti d'ufficio, ma lascia 'accidentalmente' porte socchiuse o documenti utili in vista. Evita il contatto diretto.",
+          "medium": "Si avvicina nervosamente sussurrando avvertimenti criptici ('Le guardie cambiano turno tra dieci minuti' o 'Ormund ha fatto installare trappole magiche nel corridoio est'). Trema visibilmente.",
+          "high": "Confessa in lacrime di aver tradito l'orario del colpo a Voss, giura di non sapere che avrebbe mandato guardie extra. Offre la sua chiave personale degli archivi pur di rimediare.",
+          "extreme": "Si frappone fisicamente tra i PG e il pericolo, urlando che è tutta colpa sua. Rivela il piano di fuga segreto di Ormund attraverso i tunnel delle fogne, anche se questo la esporrà come traditrice."
+        },
+        "reaction_table": {
+          "se_minacciato": "Crolla psicologicamente, confessa tutto tra i singhiozzi. Implora pietà mostrando le lettere della sorella malata nel continente orientale per cui ha bisogno dei soldi di Voss.",
+          "se_corrotto": "Accetta immediatamente una somma doppia rispetto a quella di Voss. Propone di testimoniare contro Ormund in cambio del passaggio sulla nave che parte tra tre giorni.",
+          "se_i_pg_hanno_prove": "Ammette la sua complicità senza esitare, ma giura che Voss l'ha ingannata sulla pericolosità del colpo. Offre informazioni su dove Voss tiene realmente il sigillo se l'ha già rubato.",
+          "se_alleato": "Diventa risorsa preziosa: conosce la combinazione del caveau secondario, sa dove Ormund nasconde il registro degli incantesimi di protezione, e può falsificare documenti di transito."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Punto di osservazione",
+        "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Ingresso di servizio",
+        "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Sicurezza interna",
+        "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo",
+        "description": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Via di estrazione",
+        "description": "Via di estrazione: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Heat della sicurezza",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "la minaccia raggiunge la zona finale",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Allarme silenzioso attivato",
+            "effect": "Le rune di guardia nel corridoio principale si illuminano di rosso. Le guardie iniziano a controllare i registri degli accessi."
+          },
+          {
+            "value": 2,
+            "label": "Protocollo di chiusura iniziato",
+            "effect": "I sigilli magici secondari si attivano. Gli accessi ordinari vengono sospesi. Le porte tra le sezioni del caveau iniziano a brillare."
+          },
+          {
+            "value": 3,
+            "label": "Squadre di ricerca mobilitate",
+            "effect": "Guardie d'élite con cristalli di rilevamento pattugliano i corridoi. Testimoni e complici vengono attivamente cercati. Una prova secondaria rischia di essere scoperta."
+          },
+          {
+            "value": 4,
+            "label": "Lockdown parziale attivo",
+            "effect": "Le vie di fuga laterali vengono sigillate con barriere arcane. Il Maestro della Gilda viene allertato. Rinforzi sono in arrivo."
+          },
+          {
+            "value": 5,
+            "label": "Caccia sistematica in corso",
+            "effect": "Invocatori scandagliano magicamente ogni stanza. I percorsi alternativi sono compromessi. Il tempo per agire si esaurisce rapidamente."
+          },
+          {
+            "value": 6,
+            "label": "Confronto inevitabile",
+            "effect": "Il Maestro della Gilda Octavian Mors raggiunge il caveau con la sua guardia personale. La fuga diretta è impossibile. Serve un piano disperato."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Disattivare il nucleo runico di sorveglianza nella sala di controllo",
+          "Creare un diversivo che attiri le forze di sicurezza altrove",
+          "Convincere o corrompere il Capitano della Guardia a rallentare la risposta",
+          "Usare un sigillo contraffatto per resettare il sistema di allarme"
+        ],
+        "resolution_condition": "I giocatori fermano il clock disattivando il sistema di allarme centrale, creando un diversivo convincente che distragga permanentemente le guardie, o negoziando/ingannando la sicurezza prima che il lockdown completo sia attivato.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Un ronzio sottile nell'aria, come cristalli che vibrano all'unisono. Le ombre proiettate dalle torce magiche sembrano muoversi con ritmo innaturale, quasi pulsante.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Sigillo Cenere Siete nel caveau sotterraneo",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T2",
+        "title": "Chi ha tradito il gruppo?",
+        "question": "Chi ha informato la Gilda del furto e perché il caveau è stato sigillato proprio stanotte?",
+        "true_answer": "Lord Hadrian Voss ha fatto trapelare l'informazione ai consiglieri della Gilda per costringerli a sigillare il caveau e far evacuare Ormund Crale con la mappa segreta dei tunnel",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Lord Hadrian Voss",
+          "Mira Dennel",
+          "Ormund Crale"
+        ],
+        "linked_locations": [
+          "Siete nel caveau sotterraneo",
+          "Sala centrale del caveau"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "Qual è il vero obiettivo di Voss?",
+        "question": "Perché Voss voleva davvero che rubaste il sigillo proprio stanotte?",
+        "true_answer": "Voss non voleva il sigillo, ma costringere Ormund Crale a evacuare con la mappa dei tunnel sotterranei verso il confine meridionale, per permettere l'invasione di Ashmar",
+        "status": "hidden",
+        "required_clues": [
+          "clue_10",
+          "clue_11",
+          "clue_12"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Lord Hadrian Voss",
+          "Ormund Crale"
+        ],
+        "linked_locations": [
+          "Punto di osservazione",
+          "Siete nel caveau sotterraneo"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Traccia di percorso verso Sala centrale del caveau?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Registro cifrato nella cassaforte?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Via di estrazione",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "fantasy",
+      "tone": "fantasy adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "ambush",
+        "chase",
+        "guardian attack",
+        "curse intensifies"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "sci-fi genre shift",
+        "cosmic apocalypse without trigger"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_162144c0a6",
+      "title": "Il Sigillo di Cenere",
+      "genre": "fantasy",
+      "detected_genre": "fantasy",
+      "premise": "Siete nel caveau sotterraneo della Gilda dei Mercanti Liberi, a Valcorvo. Il vostro committente, Lord Hadrian Voss, vi ha assunti per rubare un sigillo d'argento appartenente al Maestro della Gilda, Ormund Crale. Vi ha detto che quel sigillo è stato usato per firmare contratti di schiavitù illegali. Ma mentre forzate la cassaforte, sentite urla dall'uscita: le porte del caveau si chiudono dall'esterno. Qualcuno ha sigillato l'edificio. Le guardie della Gilda arrivano da una scala laterale che non era segnata nella mappa che Voss vi ha fornito.",
+      "hidden_truth": "Lord Hadrian Voss ha orchestrato il furto non per ottenere il sigillo, ma per far rinchiudere Thorin, Alara e Okafor nel caveau durante l'assemblea notturna della Gilda. Voss ha fatto trapelare ai consiglieri della Gilda che un gruppo di mercenari avrebbe attaccato stanotte, costringendoli a evacuare il livello superiore e sigillare il caveau con voi dentro. L'obiettivo reale di Voss era costringere Ormund Crale a mostrare pubblicamente la mappa segreta dei tunnel sotterranei che collegano Valcorvo al confine meridionale, in modo che i suoi agenti potessero fotografarla durante l'evacuazione. Voss lavora per il Regno di Ashmar, nemico storico di Valcorvo, e vuoi invadere la città usando quei tunnel. Voi eravate solo un'esca sacrificabile.",
+      "win_condition": "Scoprire la verità sul vero piano di Lord Voss, uscire dal caveau prima che le guardie vi catturino o uccidano, e decidere se consegnare il sigillo a Voss (ricevendo la paga ma aiutando un'invasione), alla Gilda (perdendo la paga ma fermando Voss), o distruggerlo e fuggire con nulla",
+      "threat_description": "Heat della sicurezza",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "heist",
+        "secondary_archetypes": [
+          "faction_sandbox"
+        ],
+        "confidence": 0.75,
+        "reason": "Matched runtime signals for heist",
+        "definition": {
+          "id": "heist",
+          "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+          "required_modules": [
+            "target",
+            "security_layers",
+            "routes"
+          ],
+          "optional_modules": [
+            "heat"
+          ],
+          "runtime_focus": [
+            "route",
+            "security",
+            "resource"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "document",
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "heat_tick",
+            "alarm"
+          ],
+          "ending_patterns": [
+            "extraction"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_162144c0a6",
+      "adventure_canon": {
+        "core_truth": "Lord Hadrian Voss ha orchestrato il furto non per ottenere il sigillo, ma per far rinchiudere Thorin, Alara e Okafor nel caveau durante l'assemblea notturna della Gilda. Voss ha fatto trapelare ai consiglieri della Gilda che un gruppo di mercenari avrebbe attaccato stanotte, costringendoli a evacuare il livello superiore e sigillare il caveau con voi dentro. L'obiettivo reale di Voss era costringere Ormund Crale a mostrare pubblicamente la mappa segreta dei tunnel sotterranei che collegano Valcorvo al confine meridionale, in modo che i suoi agenti potessero fotografarla durante l'evacuazione. Voss lavora per il Regno di Ashmar, nemico storico di Valcorvo, e vuoi invadere la città usando quei tunnel. Voi eravate solo un'esca sacrificabile.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Punto di osservazione",
+          "Ingresso di servizio",
+          "Sicurezza interna",
+          "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo",
+          "Via di estrazione"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Sigillo Cenere Siete nel caveau sotterraneo"
+        ],
+        "genre_profile": {
+          "id": "fantasy",
+          "tone": "fantasy adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "ambush",
+            "chase",
+            "guardian attack",
+            "curse intensifies"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "sci-fi genre shift",
+            "cosmic apocalypse without trigger"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Traccia di percorso verso Sala centrale del caveau",
+          "question": "Dove conduce Traccia di percorso verso Sala centrale del caveau?",
+          "true_answer": "Lord Hadrian Voss ha pagato Mira Dennel per far trapelare l'orario del colpo a Ormund Crale, così che la Gilda evacuasse e mostrasse la mappa dei tunnel segreti durante l'emergenza. I PG erano solo un'esca sacrificabile per creare il caos n",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Mette in dubbio l'affidabilità di Voss e apre la possibilità che il vero obiettivo del colpo fosse altro / Conferma che siete stati usati come diversivo",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Che cosa prova Registro cifrato nella cassaforte sul Barone o sui suoi complici",
+          "question": "Che cosa prova Registro cifrato nella cassaforte sul Barone o sui suoi complici?",
+          "true_answer": "Il sigillo è legato a qualcosa che riguarda Ashmar, ma non sembra un elenco di contratti di schiavitù; Il sigillo non è uno strumento di oppressione, ma una protezione. 'Nomi Perduti' suggerisce identità nascoste.",
+          "required_clues": [
+            "clue_3",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Introduce il dubbio che Ormund non sia il criminale che Voss ha descritto / Ribalta la percezione di Ormund Crale: non è un criminale, ma un protettore",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Traccia di percorso verso Sala centrale del caveau",
+          "text": "Traccia di percorso verso Sala centrale del caveau",
+          "type": "location_detail",
+          "thread_id": "T1",
+          "reveals": "Voss sapeva che sareste stati intrappolati. La mappa era volutamente incompleta.",
+          "payoff": "Mette in dubbio l'affidabilità di Voss e apre la possibilità che il vero obiettivo del colpo fosse altro",
+          "location": "Sala centrale del caveau",
+          "immediate_information": "Traccia di percorso verso Sala centrale del caveau",
+          "hidden_implication": "Voss sapeva che sareste stati intrappolati. La mappa era volutamente incompleta.",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "seguire la traccia",
+            "cercare punti di riferimento",
+            "preparare una via di ritorno"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Testimonianza di Seris Thane Seris",
+          "text": "Testimonianza di Seris Thane Seris",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Qualcuno ha fatto trapelare il colpo deliberatamente. La Gilda vi aspettava.",
+          "payoff": "Conferma che siete stati usati come diversivo",
+          "location": "Corridoio del caveau sotterraneo",
+          "immediate_information": "Testimonianza di Seris Thane Seris",
+          "hidden_implication": "Qualcuno ha fatto trapelare il colpo deliberatamente. La Gilda vi aspettava.",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Registro cifrato nella cassaforte",
+          "text": "Registro cifrato nella cassaforte",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Il sigillo è legato a qualcosa che riguarda Ashmar, ma non sembra un elenco di contratti di schiavitù",
+          "payoff": "Introduce il dubbio che Ormund non sia il criminale che Voss ha descritto",
+          "location": "Sala centrale del caveau",
+          "immediate_information": "Dentro la cassaforte",
+          "hidden_implication": "Il sigillo è legato a qualcosa che riguarda Ashmar, ma non sembra un elenco di contratti di schiavitù",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il cerchio",
+            "cancellare o alterare un segno",
+            "seguire la traccia verso l'officiante"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Lettera strappata nell'archivio",
+          "text": "Lettera strappata nell'archivio",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Esiste una spia nella Gilda (M.D.) che lavora per Voss. Il vero obiettivo era esporre i tunnel, non il sigillo.",
+          "payoff": "Ribalta completamente il significato della missione. I PG capiscono di essere stati usati.",
+          "location": "Archivio della Gilda",
+          "immediate_information": "Nell'archivio della Gilda",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "Archivio della Gilda"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Comportamento nervoso di Mira Dennel",
+          "text": "Comportamento nervoso di Mira Dennel",
+          "type": "behavior",
+          "thread_id": "T1",
+          "reveals": "Mira è probabilmente la spia di Voss, ma il suo comportamento suggerisce senso di colpa, non malvagità",
+          "payoff": "Permette ai PG di confrontarla e ottenere la verità completa, oppure di usarla per uscire",
+          "location": "Archivio della Gilda",
+          "immediate_information": "Se i PG incontrano Mira nell'archivio",
+          "hidden_implication": "Mira è probabilmente la spia di Voss, ma il suo comportamento suggerisce senso di colpa, non malvagità",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Incisione sul retro del sigillo d'argento",
+          "text": "Incisione sul retro del sigillo d'argento",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Il sigillo non è uno strumento di oppressione, ma una protezione. 'Nomi Perduti' suggerisce identità nascoste.",
+          "payoff": "Ribalta la percezione di Ormund Crale: non è un criminale, ma un protettore",
+          "location": "Sala centrale del caveau",
+          "immediate_information": "Sul retro del sigillo d'argento è inciso in caratteri minuscoli: 'Chiave dei Nomi Perduti. Custodisci con la vita'. Il metallo ha segni di usura, come se fosse stato maneggiato con cura per decenni.",
+          "hidden_implication": "Il sigillo non è uno strumento di oppressione, ma una protezione. 'Nomi Perduti' suggerisce identità nascoste.",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il cerchio",
+            "cancellare o alterare un segno",
+            "seguire la traccia verso l'officiante"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Lord Hadrian Voss",
+          "role": "Committente traditore",
+          "description": "Consegnare la mappa dei tunnel segreti di Valcorvo al Regno di Ashmar per permettere un'invasione silenziosa e ricevere in cambio il titolo di Viceré",
+          "location": "Villa Voss, quartiere nobiliare",
+          "secret": "Ha pagato una spia all'interno della Gilda per far trapelare l'ora esatta del colpo, così che Ormund Crale potesse evacuare la Gilda e mostrare la mappa segreta ai suoi consiglieri fuori dal caveau",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Consegnare la mappa dei tunnel segreti di Valcorvo al Regno di Ashmar per permettere un'invasione silenziosa e ricevere in cambio il titolo di Viceré",
+            "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Consegnare la mappa dei tunnel segreti di Valcorvo al Regno di Ashmar per permettere un'invasione silenziosa e ricevere in cambio il titolo di Viceré"
+            ],
+            "avoids": [
+              "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha pagato una spia all'interno della Gilda per far trapelare l'ora esatta del colpo, così che Ormund Crale potesse evacuare la Gilda e mostrare la mappa segreta ai suoi consiglieri fuori dal caveau",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Ormund Crale",
+          "role": "Maestro della Gilda, presunto criminale",
+          "description": "Proteggere i registri della Gilda che rivelano i nomi di tutti i rifugiati di Ashmar nascosti a Valcorvo negli ultimi vent'anni",
+          "location": "Sala del Consiglio della Gilda",
+          "secret": "Il sigillo d'argento che custodisce non è uno strumento di schiavitù, ma la chiave cifrata per aprire il libro dei rifugiati. Se cadesse nelle mani di Ashmar, centinaia di famiglie sarebbero giustiziate",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere i registri della Gilda che rivelano i nomi di tutti i rifugiati di Ashmar nascosti a Valcorvo negli ultimi vent'anni",
+            "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere i registri della Gilda che rivelano i nomi di tutti i rifugiati di Ashmar nascosti a Valcorvo negli ultimi vent'anni"
+            ],
+            "avoids": [
+              "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Il sigillo d'argento che custodisce non è uno strumento di schiavitù, ma la chiave cifrata per aprire il libro dei rifugiati. Se cadesse nelle mani di Ashmar, centinaia di famiglie sarebbero giustiziate",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Seris Thane",
+          "role": "Guardia della Gilda intrappolata con voi",
+          "description": "Sopravvivere e proteggere i segreti della Gilda anche a costo della propria vita",
+          "location": "Corridoio del caveau sotterraneo",
+          "secret": "È una rifugiata di Ashmar salvata anni fa da Ormund Crale. Sa che il sigillo protegge i registri dei rifugiati, ma non può rivelarlo senza tradire la Gilda",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Sopravvivere e proteggere i segreti della Gilda anche a costo della propria vita",
+            "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Sopravvivere e proteggere i segreti della Gilda anche a costo della propria vita"
+            ],
+            "avoids": [
+              "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È una rifugiata di Ashmar salvata anni fa da Ormund Crale. Sa che il sigillo protegge i registri dei rifugiati, ma non può rivelarlo senza tradire la Gilda",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Mira Dennel",
+          "role": "Spia pagata da Voss, impiegata della Gilda",
+          "description": "Accumulare abbastanza denaro per comprare un passaggio verso il continente orientale e ricominciare da zero lontano dalla guerra",
+          "location": "Archivio della Gilda",
+          "secret": "Ha fatto trapelare l'ora del colpo a Voss, ma non sapeva che avreste rischiato la vita. Ora è divorata dal senso di colpa e cerca di aiutarvi senza farsi scoprire da Ormund",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Accumulare abbastanza denaro per comprare un passaggio verso il continente orientale e ricominciare da zero lontano dalla guerra",
+            "fear": "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Accumulare abbastanza denaro per comprare un passaggio verso il continente orientale e ricominciare da zero lontano dalla guerra"
+            ],
+            "avoids": [
+              "che Traccia di percorso verso Sala centrale del caveau riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha fatto trapelare l'ora del colpo a Voss, ma non sapeva che avreste rischiato la vita. Ora è divorata dal senso di colpa e cerca di aiutarvi senza farsi scoprire da Ormund",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Punto di osservazione",
+          "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+          "type": "entry",
+          "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Ingresso di servizio",
+          "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sicurezza interna",
+          "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo",
+          "description": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Via di estrazione",
+          "description": "Via di estrazione: nodo giocabile della struttura heist.",
+          "type": "finale",
+          "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Heat della sicurezza",
+          "value": 0,
+          "max": 6,
+          "consequence": "la minaccia raggiunge la zona finale",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_162144c0a6",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Villa Voss, quartiere nobiliare",
+        "agenda_pressure": 0,
+        "goal": "Consegnare la mappa dei tunnel segreti di Valcorvo al Regno di Ashmar per permettere un'invasione silenziosa e ricevere in cambio il titolo di Viceré",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Sala del Consiglio della Gilda",
+        "agenda_pressure": 0,
+        "goal": "Proteggere i registri della Gilda che rivelano i nomi di tutti i rifugiati di Ashmar nascosti a Valcorvo negli ultimi vent'anni",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Corridoio del caveau sotterraneo",
+        "agenda_pressure": 0,
+        "goal": "Sopravvivere e proteggere i segreti della Gilda anche a costo della propria vita",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Archivio della Gilda",
+        "agenda_pressure": 0,
+        "goal": "Accumulare abbastanza denaro per comprare un passaggio verso il continente orientale e ricominciare da zero lontano dalla guerra",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T3"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T3"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 88,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Villa Voss, quartiere nobiliare.",
+      "Actor npc_2 ha location non riconosciuta: Sala del Consiglio della Gilda.",
+      "Actor npc_3 ha location non riconosciuta: Corridoio del caveau sotterraneo.",
+      "Actor npc_4 ha location non riconosciuta: Archivio della Gilda.",
+      "heist richiede security_layers o pressure_system heat.",
+      "faction_crisis richiede almeno 2 factions."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "live_game_state": null
+}

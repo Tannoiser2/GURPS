@@ -1,0 +1,2467 @@
+{
+  "adventure_definition": {
+    "id": "adv_13844291d2",
+    "title": "La Reliquia di Velmora",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "heist",
+      "secondary_archetypes": [],
+      "confidence": 0.75,
+      "reason": "Matched runtime signals for heist",
+      "definition": {
+        "id": "heist",
+        "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+        "required_modules": [
+          "target",
+          "security_layers",
+          "routes"
+        ],
+        "optional_modules": [
+          "heat"
+        ],
+        "runtime_focus": [
+          "route",
+          "security",
+          "resource"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "document",
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "heat_tick",
+          "alarm"
+        ],
+        "ending_patterns": [
+          "extraction"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "heist"
+    ],
+    "tone": "Thriller teologico claustrofobico — tensione crescente in un luogo sacro che diventa prigione",
+    "premise": "Siete già dentro le mura del Santuario di Velmora, travestiti da pellegrini devoti alla Fiamma Perenne. La vostra missione: rubare il Sudario di Cenere, reliquia che secondo il vostro committente — Frate Aldric del Culto Riformato — proverebbe la corruzione dei Guardiani della Fiamma. Ma le porte del Santuario si chiudono al tramonto, e non si riaprono fino all'alba. Avete sei ore prima della Veglia Notturna, quando tutti i pellegrini saranno radunati nella Sala delle Preghiere. Se non sarete lì, la vostra assenza verrà notata.",
+    "initial_hook": "La Reliquia di Velmora Siete già dentro le mura del Santuario di Velmora, travestiti da pellegrini devoti alla Fiamma Perenne. La vostra missione: rubare il Sudario di Cenere, reliquia che secondo il vostro committente — Frate Aldric del Culto Riformato — proverebbe la corruzione dei Guardiani della F",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Frate Aldric non è un riformatore, ma un agente della Casata Valnir, che ha orchestrato il furto per screditare i Guardiani della Fiamma e prendere il controllo del Santuario. Il Sudario non contiene prove di corruzione: è un falso che Aldric stesso ha fatto introdurre nel Santuario tre mesi fa. Il vero obiettivo è far scoprire il gruppo durante il furto, causando uno scandalo che permetta ai Valnir di intervenire militarmente per 'proteggere' la reliquia. I giocatori sono il diversivo: mentre il Santuario è in allerta per il furto, mercenari Valnir preleveranno segretamente il vero tesoro — le mappe delle rotte commerciali nascoste nel registro contabile dei Guardiani.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire la verità sul Sudario prima della Veglia Notturna, smascherare Aldric, ed estrarre con le prove del complotto Valnir — oppure rubare il vero tesoro (i registri contabili) e negoziare l'uscita coi Guardiani",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire la verità sul Sudario prima della Veglia Notturna, smascherare Aldric, ed estrarre con le prove del complotto Valnir — oppure rubare il vero tesoro (i registri contabili) e negoziare l'uscita coi Guardiani"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Il Sudario è entrato nel Santuario solo tre mesi fa, non è una reliquia antica I Valnir hanno avuto contatti diretti con Frate Aldric",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Mette in dubbio l'autenticità del Sudario e suggerisce che Aldric sia coinvolto nell'introduzione della 'reliquia' / Collega Aldric alla Casata Valnir e suggerisce un complotto più ampio",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Aldric sta coordinando mercenari Valnir per un'operazione parallela durante il furto",
+        "required_clues": [
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela che il vero obiettivo sono i registri contabili, non il Sudario — i giocatori sono solo un diversivo",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Mercenari Valnir sono già infiltrati nel Santuario, pronti a intervenire",
+        "required_clues": [
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Conferma la presenza fisica della minaccia e permette di pianificare contromisure o negoziare con Mirael",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Registro delle Donazioni Recenti",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Sala degli Archivi",
+        "reveals": "Il Sudario è entrato nel Santuario solo tre mesi fa, non è una reliquia antica",
+        "payoff": "Mette in dubbio l'autenticità del Sudario e suggerisce che Aldric sia coinvolto nell'introduzione della 'reliquia'",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un libro contabile nella Sala degli Archivi mostra una donazione anonima del 'Sudario di Cenere' tre mesi fa. La calligrafia della nota è nervosa",
+        "hidden_implication": "Il Sudario è entrato nel Santuario solo tre mesi fa, non è una reliquia antica",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "seguire le impronte",
+          "analizzare la cenere",
+          "proteggersi prima di avanzare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Testimonianza di Fratello Torvald",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Sala degli Archivi",
+        "reveals": "I Valnir hanno avuto contatti diretti con Frate Aldric",
+        "payoff": "Collega Aldric alla Casata Valnir e suggerisce un complotto più ampio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Se interrogato con delicatezza",
+        "hidden_implication": "I Valnir hanno avuto contatti diretti con Frate Aldric",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Analisi del Sudario",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Sacello delle Reliquie",
+        "reveals": "Il Sudario è un falso fabbricato di recente",
+        "payoff": "Rivela che l'intera missione si basa su una menzogna — questo indizio DEVE attivare twist_1",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Esaminando il Sudario con attenzione (richiede almeno un turno indisturbati nel Sacello)",
+        "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+        "unlocks": [
+          "antagonist_pressure",
+          "thread_responsabile"
+        ],
+        "possible_actions": [
+          "verificare la firma",
+          "confrontare gli orari",
+          "interrogare il responsabile dei registri"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Comportamento di Suor Mirael",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Sacello delle Reliquie",
+        "reveals": "Suor Mirael sospetta un complotto Valnir e sa che il Sudario è falso",
+        "payoff": "Permette di avvicinare Mirael come potenziale alleata invece che nemica",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Se osservata, Suor Mirael controlla ossessivamente il Sacello ma evita di toccare il Sudario. Quando crede di essere sola, lo fissa con espressione disgustata e mormora: 'Quale gioco stanno giocando i Valnir...'",
+        "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+        "unlocks": [
+          "antagonist_pressure",
+          "thread_responsabile"
+        ],
+        "possible_actions": [
+          "verificare la firma",
+          "confrontare gli orari",
+          "interrogare il responsabile dei registri"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Messaggio Cifrato Intercettato",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Cortile del Pellegrino",
+        "reveals": "Aldric sta coordinando mercenari Valnir per un'operazione parallela durante il furto",
+        "payoff": "Rivela che il vero obiettivo sono i registri contabili, non il Sudario — i giocatori sono solo un diversivo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nel Cortile del Pellegrino",
+        "hidden_implication": "Aldric sta coordinando mercenari Valnir per un'operazione parallela durante il furto",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Confessione di Kasimir",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "Refettorio dei Pellegrini",
+        "reveals": "Mercenari Valnir sono già infiltrati nel Santuario, pronti a intervenire",
+        "payoff": "Conferma la presenza fisica della minaccia e permette di pianificare contromisure o negoziare con Mirael",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Se rassicurato sulla sua sicurezza",
+        "hidden_implication": "Mercenari Valnir sono già infiltrati nel Santuario, pronti a intervenire",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Data di Acquisizione nel Registro",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il Sudario è arrivato recentemente, non è una reliquia antica del Santuario",
+        "payoff": "Contraddice la narrazione di Aldric che lo descriveva come reliquia custodita da generazioni; solleva dubbi sulla sua autenticità",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Ricordo di Kasimir sulla Consegna",
+        "type": "testimony",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Kasimir ha fatto da tramite per la consegna del Sudario",
+        "payoff": "Collega Frate Aldric all'introduzione del Sudario nel Santuario, suggerendo che conoscesse già la reliquia prima di commissionare il furto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Etichetta del Fornitore sul Tessuto",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il tessuto del Sudario è di produzione recente e proviene dal territorio Valnir",
+        "payoff": "Prova definitiva che il Sudario è un falso moderno e collega l'operazione alla Casata Valnir",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Movimenti Sospetti alla Sala Archivi",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "C'è un secondo gruppo operativo nel Santuario con obiettivi diversi dal Sudario",
+        "payoff": "Indica che i registri contabili, non il Sudario, sono il vero bersaglio di qualcuno",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Valore Reale dei Registri",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "I registri hanno un valore strategico e commerciale enorme",
+        "payoff": "Spiega perché qualcuno organizzerebbe un'operazione così complessa: controllare quelle rotte vale più di qualsiasi reliquia",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Timing dell'Incarico",
+        "type": "behavior",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Il timing del furto coincide con tensioni politiche tra Valnir e i Guardiani",
+        "payoff": "Suggerisce che il furto è parte di una manovra politica più ampia, non un atto di riforma religiosa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Anello con Sigillo Valnir",
+        "type": "physical_evidence",
+        "thread_id": "T6",
+        "source_location": "",
+        "reveals": "Aldric ha un legame concreto con la Casata Valnir",
+        "payoff": "Rivela la vera lealtà di Aldric e mette in dubbio le sue motivazioni religiose",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Pagamento in Monete Valnir",
+        "type": "physical_evidence",
+        "thread_id": "T6",
+        "source_location": "",
+        "reveals": "I fondi di Aldric provengono direttamente da Valnir",
+        "payoff": "Conferma che dietro l'operazione ci sono risorse economiche significative della Casata Valnir",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_aldric",
+        "name": "Frate Aldric del Culto Riformato",
+        "role": "Committente e traditore nascosto",
+        "location_id": "Cortile del Pellegrino",
+        "status": "unintroduced",
+        "goal": "Vuole che i Valnir prendano il controllo del Santuario per accedere alle rotte commerciali e arricchirsi come loro agente",
+        "secret": "È un agente della Casata Valnir infiltrato nel Culto Riformato. Ha fatto introdurre il Sudario falsificato tre mesi fa. La sua vera missione è far scoprire il gruppo durante il furto per giustificare l'intervento militare.",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+        "current_plan": "Far sì che i PG rubino il Sudario falsificato, far scattare l'allarme al momento giusto (ha posizionato campanelli d'argento incantati nella camera della reliquia), far catturare almeno un PG per interrogarlo pubblicamente. Durante l'interrogatorio, 'scoprirà' documenti che provano un complotto più ampio contro il Santuario, giustificando la chiamata dei Valnir come protettori. Una volta entrati, i Valnir non se ne andranno più.",
+        "fallback_plan": "Se i PG hanno successo senza essere scoperti: rivelare che il Sudario rubato è falso e accusare la corruzione interna del Santuario stesso, creando uno scandalo che indebolisce l'autorità del Custode. Questo divide il Culto e rende comunque necessario l'intervento Valnir come 'mediatori'. Se viene smascherato: avvelenare il Custode Supremo e incolpare i PG del regicidio religioso, scatenando una caccia all'uomo che richiede... indovinate chi? I Valnir.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole che i Valnir prendano il controllo del Santuario per accedere alle rotte commerciali e arricchirsi come loro agente"
+        ],
+        "avoids": [
+          "che Registro delle Donazioni Recenti riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene il ruolo di frate preoccupato, invia messaggi criptici ai PG tramite piccioni viaggiatori, li esorta a 'fare presto prima che la Fiamma riveli la verità'. Finge di pregare per il loro successo.",
+          "medium": "Inizia a seminare voci nel Santuario su 'pellegrini sospetti', aumentando discretamente la guardia. Invia un secondo gruppo di ladri (mercenari Valnir travestiti) per creare confusione e garantire che qualcuno venga catturato.",
+          "high": "Avvisa direttamente il Custode Supremo di 'aver sentito sussurri di un furto imminente', facendosi passare per informatore leale. Prepara documenti falsificati che collegano i PG a nemici del Santuario. Contatta apertamente i Valnir per l'intervento militare 'preventivo'.",
+          "extreme": "Denuncia pubblicamente i PG come eretici e ladri davanti all'assemblea dei fedeli, presentando 'prove' fabbricate. Richiede l'esecuzione immediata. Se i PG fuggono con il Sudario, lo rivela come falso gridando che 'i veri ladri hanno rubato la reliquia mesi fa', scatenando il caos e l'invasione Valnir comunque."
+        },
+        "reaction_table": {
+          "se_minacciato": "Ride nervosamente, invoca la protezione della Fiamma. Se minacciato fisicamente, rivela metà verità: 'I Valnir mi hanno costretto, hanno mia sorella!' Tenta di convincere i PG che insieme possono incastrare i Valnir invece. Cerca di guadagnare tempo per far arrivare le guardie.",
+          "se_corrotto": "Finge interesse, chiede 'quanto vale il vostro silenzio?' per capire cosa sanno. Offre di dividere la ricompensa Valnir (mentendo sulla cifra reale: 5000 corone invece delle vere 20000). Propone di 'far sparire' il Sudario vero insieme, quando in realtà è già stato sostituito.",
+          "se_i_pg_hanno_prove": "Crolla parzialmente, ammette solo il rapporto con i Valnir ma non il piano completo. Sostiene di voler 'riformare il Culto dall'interno con fondi esterni'. Offre di far fuggire i PG se distruggono le prove, mentre segretamente prepara un'imboscata al punto d'incontro che propone.",
+          "se_alleato": "Diventa eccessivamente amichevole e protettivo, fornendo 'mappe dettagliate' che in realtà conducono attraverso zone altamente sorvegliate. Regala loro un 'amuleto benedetto' che in realtà è un segnalatore alchemico che lascia tracce invisibili. Insiste per celebrare il successo con vino drogato."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_mirael",
+        "name": "Suor Mirael, Custode delle Reliquie",
+        "role": "Antagonista iniziale che diventa alleata potenziale",
+        "location_id": "Sacello delle Reliquie",
+        "status": "unintroduced",
+        "goal": "Proteggere il Santuario e le sue reliquie a ogni costo — ma cerca anche la verità sulla recente 'donazione' del Sudario",
+        "secret": "Ha scoperto tre settimane fa che il Sudario è un falso, ma non ha prove su chi l'abbia introdotto. Sta conducendo indagini segrete e sospetta un complotto dei Valnir.",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+        "current_plan": "Completare la sorveglianza notturna delle reliquie, annotare nel suo diario cifrato ogni anomalia tra i pellegrini. Domani dovrà incontrare segretamente un informatore che promette prove sul Vescovo Talmun. Spera di raccogliere abbastanza evidenze prima della Cerimonia della Fiamma (in 4 giorni) quando il falso verrà esposto pubblicamente",
+        "fallback_plan": "Se il furto del falso avviene comunque, lo usa come pretesto per forzare un'inchiesta ufficiale dell'Arcidiocesi. Incolpa pubblicamente il Vescovo Talmun della negligenza, sperando che l'indagine riveli la verità. Se tutto fallisce, fugge dal Santuario con il suo diario di prove e cerca giustizia presso il Concilio dei Cinque Fuochi nella capitale, anche se significa disonore personale",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere il Santuario e le sue reliquie a ogni costo — ma cerca anche la verità sulla recente 'donazione' del Sudario"
+        ],
+        "avoids": [
+          "che Registro delle Donazioni Recenti riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Osserva i pellegrini con sguardo penetrante, nota dettagli fuori posto (mani senza calli da preghiera, movimenti troppo cauti). Cammina tra loro recitando litanie, testando chi risponde correttamente",
+          "medium": "Convoca discretamente due Guardiani della Fiamma per seguire i sospetti. Modifica il percorso della processione per guidarli lontano dalla Camera delle Reliquie. Inizia interrogatorio velato: 'Da quale diocesi venite? Chi è il vostro padre confessore?'",
+          "high": "Attiva il Sigillo di Allerta (campanello silenzioso che solo i custodi sentono). Blocca tutte le uscite del Santuario con pretesto di 'benedizione notturna obbligatoria'. Confronta direttamente i PG: 'Il Sudario che cercate non è quello che pensate. Parliamo. Ora.'",
+          "extreme": "Scatena i Penitenti Armati e sigilla il Santuario in Lockdown Sacro (nessuno entra o esce per 24 ore). Rivela pubblicamente che il Sudario è falso, sacrificando la sua indagine segreta per impedire il furto. Se messa alle strette, distrugge il falso per proteggere la reputazione del Santuario"
+        },
+        "reaction_table": {
+          "se_minacciato": "Non cede alla violenza. 'Uccidetemi e cento custodi prenderanno il mio posto. Ma se cercate la VERA reliquia, io so dove non si trova.' Usa la sua conoscenza del falso come merce di scambio per la vita",
+          "se_corrotto": "Offesa mortalmente. 'Tenete il vostro oro maledetto.' Ma se offrono INFORMAZIONI su chi ha piazzato il falso o prove contro i Valnir, si ferma ad ascoltare. La verità vale più dell'oro per lei",
+          "se_i_pg_hanno_prove": "Se mostrano documenti/lettere che collegano il committente ai Valnir o alla sostituzione, cambia completamente. 'Avete quello che cercavo da settimane. Facciamo un patto: io vi dico dov'è il VERO Sudario, voi mi aiutate a smascherare i traditori'",
+          "se_alleato": "Diventa risorsa preziosa: rivela che il vero Sudario fu spostato in una cripta segreta sotto l'altare nord tre settimane fa dal Vescovo Talmun (probabilmente complice). Fornisce chiave della cripta e codice per superare i sigilli. Chiede solo giustizia e verità"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_torvald",
+        "name": "Fratello Torvald, Archivista",
+        "role": "Testimone inconsapevole e custode dei registri contabili",
+        "location_id": "Sala degli Archivi",
+        "status": "unintroduced",
+        "goal": "Preservare la memoria storica del Santuario e vivere i suoi ultimi anni in pace",
+        "secret": "Ha visto mercenari con l'emblema Valnir consegnare 'donazioni' a Frate Aldric due mesi fa, ma ha pensato fosse normale amministrazione",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+        "current_plan": "Continuare la routine quotidiana ignorando i sospetti sui Valnir. Catalogare testi antichi. Evitare Frate Aldric. Sperare che nessuno indaghi su quelle donazioni fino al suo pensionamento tra otto mesi",
+        "fallback_plan": "Se interrogato ufficialmente, dire mezza verità: sì, ha visto mercenari, ma non conosceva dettagli. Se minacciato gravemente, barattare tutto ciò che sa in cambio di asilo in un monastero remoto lontano dalla portata dei Valnir",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Preservare la memoria storica del Santuario e vivere i suoi ultimi anni in pace"
+        ],
+        "avoids": [
+          "che Registro delle Donazioni Recenti riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Risponde con cortesia professionale, citando procedure del Santuario. Offre di mostrare registri delle donazioni pubbliche, ma omette dettagli sui benefattori privati per 'discrezione religiosa'",
+          "medium": "Diventa nervoso e difensivo. Balbetta che non è suo compito indagare sui donatori, solo registrare. Menziona che Frate Aldric gestisce personalmente certe transazioni 'delicate'",
+          "high": "Crolla psicologicamente. Ammette di aver visto l'emblema Valnir ma giura di non sapere perché mercenari donino al Santuario. Rivela date precise e che Aldric ordinò silenzio su quelle visite",
+          "extreme": "Piange disperato, confessa tutto ciò che sa: localizzazione esatta dei registri nascosti, orari delle ronde, che il Sudario viene spostato ogni novilunio. Supplica di non essere coinvolto, vuole solo finire i suoi giorni in pace"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si paralizza per il terrore. Potrebbe cedere immediatamente o avere un collasso. Se lasciato solo, corre tremante da Frate Aldric a confessare tutto",
+          "se_corrotto": "Tentato se offrono sicurezza per la sua vecchiaia fuori dal Santuario. Chiede garanzie scritte e protezione. Contratta accesso ai registri segreti in cambio di pensione sicura",
+          "se_i_pg_hanno_prove": "Sbianca vedendo l'emblema Valnir. Crolla: 'Sapevo che quelle donazioni erano sporche'. Collabora completamente sperando che denunciare Aldric lo salvi dalle conseguenze",
+          "se_alleato": "Guida i PG agli archivi proibiti di notte. Fornisce mappe interne del Santuario. Falsifica registri per coprire la loro presenza. Chiede solo di essere portato via prima che scoprano il furto"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_kasimir",
+        "name": "Kasimir il Mercante",
+        "role": "Pellegrino sospetto con informazioni chiave",
+        "location_id": "Refettorio dei Pellegrini",
+        "status": "unintroduced",
+        "goal": "Vuole completare un affare segreto coi Guardiani della Fiamma prima dell'alba",
+        "secret": "Ha scoperto per caso la presenza di mercenari Valnir nascosti nella Foresteria Ovest e teme per la sua vita. Sa che sono arrivati ieri notte.",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+        "current_plan": "Consegnare le mappe commerciali segrete a Padre Torvan nell'ufficio privato dei Guardiani entro l'alba (tra circa 3 ore). Ricevere in cambio il salvacondotto e 200 monete d'oro. Fuggire immediatamente dal Santuario verso sud prima che i mercenari Valnir scoprano che li ha visti e possano eliminarlo come testimone scomodo.",
+        "fallback_plan": "Se i Valnir lo scoprono o l'incontro con Torvan fallisce, Kasimir tenterà di raggiungere la Sala delle Offerte dove ci sono sempre almeno tre Guardiani armati. Si fingerà vittima di un tentato furto e chiederà asilo sacro, rivelando tutto sui Valnir per comprarsi protezione. In extremis, conosce un passaggio di servizio dietro la statua della Fiamma Purificatrice che porta alle stalle esterne - fuggirà a cavallo abbandonando tutto.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole completare un affare segreto coi Guardiani della Fiamma prima dell'alba"
+        ],
+        "avoids": [
+          "che Registro delle Donazioni Recenti riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Kasimir osserva nervosamente i pellegrini intorno a sé, stringendo il suo bastone da viaggio. Sussurra preghiere alla Fiamma Perenne un po' troppo velocemente, sbagliando le formule rituali. Continua a guardare verso la Foresteria Ovest con ansia mal celata.",
+          "medium": "Le mani gli tremano visibilmente. Interrompe bruscamente qualsiasi conversazione che si avvicini al tema dei Guardiani o degli 'ospiti inattesi'. Cerca di allontanarsi dalla Foresteria Ovest, inventando scuse per spostarsi verso la Cappella Principale. Balbetta che deve completare il suo 'dono votivo' prima dell'alba, altrimenti tutto sarà perduto.",
+          "high": "Kasimir crolla psicologicamente. Ammette in un sussurro disperato di aver visto 'uomini in nero con il marchio del lupo' - i mercenari Valnir - entrare furtivamente ieri notte. Implora protezione, rivelando che i Guardiani gli hanno promesso salvacondotto in cambio di 'mappe delle rotte commerciali orientali'. Vuole solo completare lo scambio e fuggire prima che i Valnir lo scoprano.",
+          "extreme": "Completamente terrorizzato, Kasimir svela tutto: i mercenari Valnir sono qui per lo stesso Sudario. I Guardiani lo sanno e stanno usando lui come esca per identificare altri infiltrati. L'alba è la scadenza perché è quando Padre Torvan trasferirà la reliquia nella Cripta Profonda. Offre di guidare i PG alla camera dei Guardiani attraverso i tunnel dei servitori in cambio della fuga insieme a loro."
+        },
+        "reaction_table": {
+          "se_minacciato": "Cade in ginocchio piangendo, giura sulla Fiamma che è solo un mercante. Rovescia la sua borsa mostrando pergamene di rotte commerciali e una lettera sigillata per Padre Torvan. Tradisce immediatamente la posizione dei Valnir (Foresteria Ovest, terzo piano, stanze 7-9) sperando di comprarsi la vita.",
+          "se_corrotto": "I suoi occhi si illuminano di speranza. Accetta denaro, ma ciò che vuole davvero è protezione armata fino al confine meridionale. In cambio rivela gli orari delle ronde notturne dei Guardiani (cambio ogni due ore, il prossimo tra 40 minuti) e che il Sudario è custodito nella Sacrestia Superiore, non nella cripta come credono tutti.",
+          "se_i_pg_hanno_prove": "Se mostrano di sapere dei Valnir o delle 'mappe', Kasimir capisce che sono anche loro infiltrati. Diventa un alleato disperato: propone un'alleanza temporanea contro i Valnir e offre informazioni dettagliate sul layout del Santuario che ha memorizzato in tre giorni di 'devozione forzata'. Vuole che i PG creino una distrazione mentre lui completa lo scambio.",
+          "se_alleato": "Diventa prezioso ma vigliacco. Conferma che Padre Torvan stesso custodisce la chiave della Sacrestia Superiore nella sua cella privata. Rivela che i Valnir hanno corrotto Fratello Aldous, il responsabile delle provviste, che lascia aperta la porta della cucina ogni notte a mezzanotte. Kasimir può creare una distrazione fingendo un malore durante la preghiera dell'alba, ma poi i PG devono portarlo con loro."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Punto di osservazione",
+        "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Ingresso di servizio",
+        "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Sicurezza interna",
+        "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Bersaglio: Sudario Cenere Siete già dentro mura",
+        "description": "Bersaglio: Sudario Cenere Siete già dentro mura: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Bersaglio: Sudario Cenere Siete già dentro mura: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Via di estrazione",
+        "description": "Via di estrazione: nodo giocabile della struttura heist.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato",
+          "bracieri rovesciati"
+        ],
+        "hazards": [
+          "pietre instabili",
+          "rune che si accendono a impulsi"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "sarcofagi di pietra",
+          "colonne spezzate",
+          "altare incrinato"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Heat della sicurezza",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "Suor Mirael, Custode delle Reliquie raggiunge la zona finale",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Allarme silenzioso",
+            "effect": "Le guardie nei corridoi raddoppiano i turni di pattuglia. Gli accoliti iniziano a guardarvi con sospetto."
+          },
+          {
+            "value": 2,
+            "label": "Protocollo di vigilanza",
+            "effect": "Gli accessi alle ali sacre vengono sorvegliati. I pellegrini vengono scortati in gruppi controllati."
+          },
+          {
+            "value": 3,
+            "label": "Indagine attiva",
+            "effect": "Suor Mirael interroga personalmente i testimoni. Una prova che avevate individuato viene rimossa o isolata."
+          },
+          {
+            "value": 4,
+            "label": "Caccia mirata",
+            "effect": "I servitori del Santuario distribuiscono descrizioni vaghe degli intrusi. Vie secondarie vengono presidiate."
+          },
+          {
+            "value": 5,
+            "label": "Lockdown parziale",
+            "effect": "Le porte della cripta vengono sigillate con benedizioni. Solo Suor Mirael e le sue guardie scelte possono accedere."
+          },
+          {
+            "value": 6,
+            "label": "Confronto inevitabile",
+            "effect": "Suor Mirael raggiunge la camera del Sudario. Il furto silenzioso diventa impossibile - serve uno scontro diretto o una fuga disperata."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Sabotare il sistema di allarme sacro alimentato dalla Fiamma Perenne",
+          "Creare un diversivo convincente in un'altra ala del Santuario",
+          "Compromettere Suor Mirael con prove della sua corruzione (se esistono)",
+          "Completare il furto prima che il clock raggiunga 6"
+        ],
+        "resolution_condition": "I giocatori neutralizzano la fonte dell'allarme, distraggono permanentemente Suor Mirael con una crisi maggiore, o completano il furto e fuggono prima del confronto finale",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Nel chiostro, un novizio mormora preoccupato: 'Suor Mirael dice che la Fiamma ha sussurrato nomi di ombre... dice che i lupi camminano tra le pecore stasera.'",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Sudario Cenere Siete già dentro mura",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "Chi ha introdotto il Sudario nel Santuario?",
+        "question": "Come e quando il Sudario di Cenere è arrivato al Santuario di Velmora?",
+        "true_answer": "Il Sudario è un falso introdotto tre mesi fa da Frate Aldric stesso, spacciandolo per una donazione anonima orchestrata attraverso Kasimir il Mercante",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Frate Aldric del Culto Riformato",
+          "Kasimir il Mercante",
+          "Fratello Torvald"
+        ],
+        "linked_locations": [
+          "Bersaglio: Sudario Cenere",
+          "Ingresso di servizio"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Qual è il vero obiettivo dell'operazione?",
+        "question": "Perché qualcuno vorrebbe che i giocatori rubassero proprio il Sudario in questo momento?",
+        "true_answer": "Il furto è un diversivo: mentre il Santuario è in allerta, mercenari Valnir preleveranno i registri contabili contenenti mappe di rotte commerciali segrete",
+        "status": "hidden",
+        "required_clues": [
+          "clue_10",
+          "clue_11",
+          "clue_12"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1",
+          "T2"
+        ],
+        "linked_npcs": [
+          "Frate Aldric del Culto Riformato",
+          "Fratello Torvald",
+          "Suor Mirael"
+        ],
+        "linked_locations": [
+          "Sicurezza interna",
+          "Via di estrazione"
+        ]
+      },
+      {
+        "id": "T6",
+        "title": "Qual è il legame tra Aldric e la Casata Valnir?",
+        "question": "Frate Aldric è davvero un riformatore religioso o lavora per altri interessi?",
+        "true_answer": "Aldric è un agente pagato dalla Casata Valnir per orchestrare uno scandalo che giustifichi l'intervento militare e il controllo del Santuario",
+        "status": "hidden",
+        "required_clues": [
+          "clue_13",
+          "clue_14"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2",
+          "T3"
+        ],
+        "linked_npcs": [
+          "Frate Aldric del Culto Riformato",
+          "Kasimir il Mercante"
+        ],
+        "linked_locations": [
+          "Punto di osservazione",
+          "Ingresso di servizio"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Registro delle Donazioni Recenti?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Messaggio Cifrato Intercettato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Confessione di Kasimir?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Via di estrazione",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "fantasy",
+      "tone": "fantasy adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "ambush",
+        "chase",
+        "guardian attack",
+        "curse intensifies"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "sci-fi genre shift",
+        "cosmic apocalypse without trigger"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_ce2e74612e",
+      "title": "Il Sudario di Cenere",
+      "genre": "fantasy",
+      "detected_genre": "fantasy",
+      "premise": "Siete già dentro le mura del Santuario di Velmora, travestiti da pellegrini devoti alla Fiamma Perenne. La vostra missione: rubare il Sudario di Cenere, reliquia che secondo il vostro committente — Frate Aldric del Culto Riformato — proverebbe la corruzione dei Guardiani della Fiamma. Ma le porte del Santuario si chiudono al tramonto, e non si riaprono fino all'alba. Avete sei ore prima della Veglia Notturna, quando tutti i pellegrini saranno radunati nella Sala delle Preghiere. Se non sarete lì, la vostra assenza verrà notata.",
+      "hidden_truth": "Frate Aldric non è un riformatore, ma un agente della Casata Valnir, che ha orchestrato il furto per screditare i Guardiani della Fiamma e prendere il controllo del Santuario. Il Sudario non contiene prove di corruzione: è un falso che Aldric stesso ha fatto introdurre nel Santuario tre mesi fa. Il vero obiettivo è far scoprire il gruppo durante il furto, causando uno scandalo che permetta ai Valnir di intervenire militarmente per 'proteggere' la reliquia. I giocatori sono il diversivo: mentre il Santuario è in allerta per il furto, mercenari Valnir preleveranno segretamente il vero tesoro — le mappe delle rotte commerciali nascoste nel registro contabile dei Guardiani.",
+      "win_condition": "Scoprire la verità sul Sudario prima della Veglia Notturna, smascherare Aldric, ed estrarre con le prove del complotto Valnir — oppure rubare il vero tesoro (i registri contabili) e negoziare l'uscita coi Guardiani",
+      "threat_description": "Heat della sicurezza",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "heist",
+        "secondary_archetypes": [],
+        "confidence": 0.75,
+        "reason": "Matched runtime signals for heist",
+        "definition": {
+          "id": "heist",
+          "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+          "required_modules": [
+            "target",
+            "security_layers",
+            "routes"
+          ],
+          "optional_modules": [
+            "heat"
+          ],
+          "runtime_focus": [
+            "route",
+            "security",
+            "resource"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "document",
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "heat_tick",
+            "alarm"
+          ],
+          "ending_patterns": [
+            "extraction"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_ce2e74612e",
+      "adventure_canon": {
+        "core_truth": "Frate Aldric non è un riformatore, ma un agente della Casata Valnir, che ha orchestrato il furto per screditare i Guardiani della Fiamma e prendere il controllo del Santuario. Il Sudario non contiene prove di corruzione: è un falso che Aldric stesso ha fatto introdurre nel Santuario tre mesi fa. Il vero obiettivo è far scoprire il gruppo durante il furto, causando uno scandalo che permetta ai Valnir di intervenire militarmente per 'proteggere' la reliquia. I giocatori sono il diversivo: mentre il Santuario è in allerta per il furto, mercenari Valnir preleveranno segretamente il vero tesoro — le mappe delle rotte commerciali nascoste nel registro contabile dei Guardiani.",
+        "main_antagonist": "Suor Mirael, Custode delle Reliquie",
+        "key_locations": [
+          "Punto di osservazione",
+          "Ingresso di servizio",
+          "Sicurezza interna",
+          "Bersaglio: Sudario Cenere Siete già dentro mura",
+          "Via di estrazione"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Sudario Cenere Siete già dentro mura"
+        ],
+        "genre_profile": {
+          "id": "fantasy",
+          "tone": "fantasy adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "ambush",
+            "chase",
+            "guardian attack",
+            "curse intensifies"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "sci-fi genre shift",
+            "cosmic apocalypse without trigger"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Registro delle Donazioni Recenti",
+          "question": "Dove conduce Registro delle Donazioni Recenti?",
+          "true_answer": "Il Sudario è entrato nel Santuario solo tre mesi fa, non è una reliquia antica I Valnir hanno avuto contatti diretti con Frate Aldric",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_3"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Mette in dubbio l'autenticità del Sudario e suggerisce che Aldric sia coinvolto nell'introduzione della 'reliquia' / Collega Aldric alla Casata Valnir e suggerisce un complotto più ampio",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Che cosa dimostra Messaggio Cifrato Intercettato",
+          "question": "Che cosa dimostra Messaggio Cifrato Intercettato?",
+          "true_answer": "Aldric sta coordinando mercenari Valnir per un'operazione parallela durante il furto",
+          "required_clues": [
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Rivela che il vero obiettivo sono i registri contabili, non il Sudario — i giocatori sono solo un diversivo",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Che cosa dimostra Confessione di Kasimir",
+          "question": "Che cosa dimostra Confessione di Kasimir?",
+          "true_answer": "Mercenari Valnir sono già infiltrati nel Santuario, pronti a intervenire",
+          "required_clues": [
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Conferma la presenza fisica della minaccia e permette di pianificare contromisure o negoziare con Mirael",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Registro delle Donazioni Recenti",
+          "text": "Registro delle Donazioni Recenti",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Il Sudario è entrato nel Santuario solo tre mesi fa, non è una reliquia antica",
+          "payoff": "Mette in dubbio l'autenticità del Sudario e suggerisce che Aldric sia coinvolto nell'introduzione della 'reliquia'",
+          "location": "Sala degli Archivi",
+          "immediate_information": "Un libro contabile nella Sala degli Archivi mostra una donazione anonima del 'Sudario di Cenere' tre mesi fa. La calligrafia della nota è nervosa",
+          "hidden_implication": "Il Sudario è entrato nel Santuario solo tre mesi fa, non è una reliquia antica",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "seguire le impronte",
+            "analizzare la cenere",
+            "proteggersi prima di avanzare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Testimonianza di Fratello Torvald",
+          "text": "Testimonianza di Fratello Torvald",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "I Valnir hanno avuto contatti diretti con Frate Aldric",
+          "payoff": "Collega Aldric alla Casata Valnir e suggerisce un complotto più ampio",
+          "location": "Sala degli Archivi",
+          "immediate_information": "Se interrogato con delicatezza",
+          "hidden_implication": "I Valnir hanno avuto contatti diretti con Frate Aldric",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Analisi del Sudario",
+          "text": "Analisi del Sudario",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Il Sudario è un falso fabbricato di recente",
+          "payoff": "Rivela che l'intera missione si basa su una menzogna — questo indizio DEVE attivare twist_1",
+          "location": "Sacello delle Reliquie",
+          "immediate_information": "Esaminando il Sudario con attenzione (richiede almeno un turno indisturbati nel Sacello)",
+          "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+          "unlocks": [
+            "antagonist_pressure",
+            "thread_responsabile"
+          ],
+          "possible_actions": [
+            "verificare la firma",
+            "confrontare gli orari",
+            "interrogare il responsabile dei registri"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Comportamento di Suor Mirael",
+          "text": "Comportamento di Suor Mirael",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Suor Mirael sospetta un complotto Valnir e sa che il Sudario è falso",
+          "payoff": "Permette di avvicinare Mirael come potenziale alleata invece che nemica",
+          "location": "Sacello delle Reliquie",
+          "immediate_information": "Se osservata, Suor Mirael controlla ossessivamente il Sacello ma evita di toccare il Sudario. Quando crede di essere sola, lo fissa con espressione disgustata e mormora: 'Quale gioco stanno giocando i Valnir...'",
+          "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+          "unlocks": [
+            "antagonist_pressure",
+            "thread_responsabile"
+          ],
+          "possible_actions": [
+            "verificare la firma",
+            "confrontare gli orari",
+            "interrogare il responsabile dei registri"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Messaggio Cifrato Intercettato",
+          "text": "Messaggio Cifrato Intercettato",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Aldric sta coordinando mercenari Valnir per un'operazione parallela durante il furto",
+          "payoff": "Rivela che il vero obiettivo sono i registri contabili, non il Sudario — i giocatori sono solo un diversivo",
+          "location": "Cortile del Pellegrino",
+          "immediate_information": "Nel Cortile del Pellegrino",
+          "hidden_implication": "Aldric sta coordinando mercenari Valnir per un'operazione parallela durante il furto",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Confessione di Kasimir",
+          "text": "Confessione di Kasimir",
+          "type": "testimony",
+          "thread_id": "T3",
+          "reveals": "Mercenari Valnir sono già infiltrati nel Santuario, pronti a intervenire",
+          "payoff": "Conferma la presenza fisica della minaccia e permette di pianificare contromisure o negoziare con Mirael",
+          "location": "Refettorio dei Pellegrini",
+          "immediate_information": "Se rassicurato sulla sua sicurezza",
+          "hidden_implication": "Mercenari Valnir sono già infiltrati nel Santuario, pronti a intervenire",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_aldric",
+          "name": "Frate Aldric del Culto Riformato",
+          "role": "Committente e traditore nascosto",
+          "description": "Vuole che i Valnir prendano il controllo del Santuario per accedere alle rotte commerciali e arricchirsi come loro agente",
+          "location": "Cortile del Pellegrino",
+          "secret": "È un agente della Casata Valnir infiltrato nel Culto Riformato. Ha fatto introdurre il Sudario falsificato tre mesi fa. La sua vera missione è far scoprire il gruppo durante il furto per giustificare l'intervento militare.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole che i Valnir prendano il controllo del Santuario per accedere alle rotte commerciali e arricchirsi come loro agente",
+            "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole che i Valnir prendano il controllo del Santuario per accedere alle rotte commerciali e arricchirsi come loro agente"
+            ],
+            "avoids": [
+              "che Registro delle Donazioni Recenti riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È un agente della Casata Valnir infiltrato nel Culto Riformato. Ha fatto introdurre il Sudario falsificato tre mesi fa. La sua vera missione è far scoprire il gruppo durante il furto per giustificare l'intervento militare.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_mirael",
+          "name": "Suor Mirael, Custode delle Reliquie",
+          "role": "Antagonista iniziale che diventa alleata potenziale",
+          "description": "Proteggere il Santuario e le sue reliquie a ogni costo — ma cerca anche la verità sulla recente 'donazione' del Sudario",
+          "location": "Sacello delle Reliquie",
+          "secret": "Ha scoperto tre settimane fa che il Sudario è un falso, ma non ha prove su chi l'abbia introdotto. Sta conducendo indagini segrete e sospetta un complotto dei Valnir.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere il Santuario e le sue reliquie a ogni costo — ma cerca anche la verità sulla recente 'donazione' del Sudario",
+            "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere il Santuario e le sue reliquie a ogni costo — ma cerca anche la verità sulla recente 'donazione' del Sudario"
+            ],
+            "avoids": [
+              "che Registro delle Donazioni Recenti riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "depista e osserva",
+              "medium": "manda oppositori o chiude un accesso",
+              "high": "distrugge una prova o sposta un ostaggio/testimone",
+              "critical": "fugge verso la zona finale forzando il confronto"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto tre settimane fa che il Sudario è un falso, ma non ha prove su chi l'abbia introdotto. Sta conducendo indagini segrete e sospetta un complotto dei Valnir.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "high"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_torvald",
+          "name": "Fratello Torvald, Archivista",
+          "role": "Testimone inconsapevole e custode dei registri contabili",
+          "description": "Preservare la memoria storica del Santuario e vivere i suoi ultimi anni in pace",
+          "location": "Sala degli Archivi",
+          "secret": "Ha visto mercenari con l'emblema Valnir consegnare 'donazioni' a Frate Aldric due mesi fa, ma ha pensato fosse normale amministrazione",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Preservare la memoria storica del Santuario e vivere i suoi ultimi anni in pace",
+            "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Preservare la memoria storica del Santuario e vivere i suoi ultimi anni in pace"
+            ],
+            "avoids": [
+              "che Registro delle Donazioni Recenti riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "esita",
+              "medium": "si nasconde",
+              "high": "cerca protezione dalla squadra",
+              "critical": "scompare lasciando una traccia incompleta"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha visto mercenari con l'emblema Valnir consegnare 'donazioni' a Frate Aldric due mesi fa, ma ha pensato fosse normale amministrazione",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_kasimir",
+          "name": "Kasimir il Mercante",
+          "role": "Pellegrino sospetto con informazioni chiave",
+          "description": "Vuole completare un affare segreto coi Guardiani della Fiamma prima dell'alba",
+          "location": "Refettorio dei Pellegrini",
+          "secret": "Ha scoperto per caso la presenza di mercenari Valnir nascosti nella Foresteria Ovest e teme per la sua vita. Sa che sono arrivati ieri notte.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole completare un affare segreto coi Guardiani della Fiamma prima dell'alba",
+            "fear": "che Registro delle Donazioni Recenti riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole completare un affare segreto coi Guardiani della Fiamma prima dell'alba"
+            ],
+            "avoids": [
+              "che Registro delle Donazioni Recenti riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto per caso la presenza di mercenari Valnir nascosti nella Foresteria Ovest e teme per la sua vita. Sa che sono arrivati ieri notte.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Punto di osservazione",
+          "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+          "type": "entry",
+          "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Ingresso di servizio",
+          "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sicurezza interna",
+          "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Bersaglio: Sudario Cenere Siete già dentro mura",
+          "description": "Bersaglio: Sudario Cenere Siete già dentro mura: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Bersaglio: Sudario Cenere Siete già dentro mura: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Via di estrazione",
+          "description": "Via di estrazione: nodo giocabile della struttura heist.",
+          "type": "finale",
+          "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Heat della sicurezza",
+          "value": 0,
+          "max": 6,
+          "consequence": "Suor Mirael, Custode delle Reliquie raggiunge la zona finale",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di Suor Mirael, Custode delle Reliquie",
+              "world_state_change": "un testimone viene cercato dagli uomini di Suor Mirael, Custode delle Reliquie",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Suor Mirael, Custode delle Reliquie.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "Suor Mirael, Custode delle Reliquie raggiunge la zona finale",
+              "world_state_change": "Suor Mirael, Custode delle Reliquie raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: Suor Mirael, Custode delle Reliquie raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di Suor Mirael, Custode delle Reliquie",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Suor Mirael, Custode delle Reliquie.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "Suor Mirael, Custode delle Reliquie raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: Suor Mirael, Custode delle Reliquie raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_ce2e74612e",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_aldric": {
+        "status": "unintroduced",
+        "location_id": "Cortile del Pellegrino",
+        "agenda_pressure": 0,
+        "goal": "Vuole che i Valnir prendano il controllo del Santuario per accedere alle rotte commerciali e arricchirsi come loro agente",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_mirael": {
+        "status": "unintroduced",
+        "location_id": "Sacello delle Reliquie",
+        "agenda_pressure": 0,
+        "goal": "Proteggere il Santuario e le sue reliquie a ogni costo — ma cerca anche la verità sulla recente 'donazione' del Sudario",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "depista e osserva",
+          "medium": "manda oppositori o chiude un accesso",
+          "high": "distrugge una prova o sposta un ostaggio/testimone",
+          "critical": "fugge verso la zona finale forzando il confronto"
+        }
+      },
+      "npc_torvald": {
+        "status": "unintroduced",
+        "location_id": "Sala degli Archivi",
+        "agenda_pressure": 0,
+        "goal": "Preservare la memoria storica del Santuario e vivere i suoi ultimi anni in pace",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        }
+      },
+      "npc_kasimir": {
+        "status": "unintroduced",
+        "location_id": "Refettorio dei Pellegrini",
+        "agenda_pressure": 0,
+        "goal": "Vuole completare un affare segreto coi Guardiani della Fiamma prima dell'alba",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T1"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T3"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 90,
+    "errors": [],
+    "warnings": [
+      "Actor npc_aldric ha location non riconosciuta: Cortile del Pellegrino.",
+      "Actor npc_mirael ha location non riconosciuta: Sacello delle Reliquie.",
+      "Actor npc_torvald ha location non riconosciuta: Sala degli Archivi.",
+      "Actor npc_kasimir ha location non riconosciuta: Refettorio dei Pellegrini.",
+      "heist richiede security_layers o pressure_system heat."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 3
+    }
+  }
+}
