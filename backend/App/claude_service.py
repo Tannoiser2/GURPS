@@ -4776,9 +4776,9 @@ def _build_create_adventure_prompt(
 
     json_schema = f"""{{
   "title": "Titolo avventura specifico e originale",
-  "premise": "Situazione iniziale in medias res (3-4 frasi coinvolgenti)",
+  "premise": "Situazione iniziale (3-4 frasi coinvolgenti). Varia il modo in cui i PG entrano nella storia e l'arco temporale: NON sempre 'siete già dentro/infiltrati' e NON sempre un conto alla rovescia di pochi giorni",
   "hidden_truth": "La verità profonda — deve nominare CHI ha fatto COSA e PERCHÉ con dettagli specifici. VIETATO: frasi vaghe come 'qualcuno ha orchestrato tutto' o 'la verità è più oscura di così'",
-  "atmosphere": "Tono/atmosfera (es: noir claustrofobico, horror psicologico, avventura epica)",
+  "atmosphere": "Tono/atmosfera SPECIFICA di questa storia — varia il registro (es: meraviglia avventurosa, malinconia elegiaca, tensione investigativa, epica corale, ironia amara, dramma intimo, inquietudine onirica). Evita il default 'claustrofobico/paranoia' se l'archetipo non lo richiede davvero",
   "win_condition": "Come i giocatori vincono in modo concreto",
   "threat_description": "La minaccia che scala nel tempo",
   "threat_max_turns": 10,
@@ -4879,6 +4879,10 @@ VIETATO:
 - ID clue generici come "clue_ai_1" nel campo required_clues delle finale_conditions — usare gli ID reali degli indizi generati (clue_1, clue_2, ecc.)
 - Twist che usano: "era tutto un sogno/illusione", "era morto da sempre", "il vero villain era l'IA/il sistema/il computer", antagonista che si rivela buono senza motivazione coerente
 - "hidden_truth" vaga: deve citare nome proprio, azione specifica e motivazione — non "qualcuno ha orchestrato tutto" o "la verità è più oscura di così"
+- Titoli con "Cenere", "Ceneri", "Patto di Cenere" o varianti: trova un'immagine originale e specifica di QUESTA storia
+- Lo schema ripetitivo "un trattato/accordo/negoziato sta per essere firmato e qualcuno viene ucciso o sabota": costruisci il conflitto sull'ARCHETIPO e sulla DIRETTIVA NARRATIVA indicati sopra, non su questo cliché
+- Trasformare OGNI avventura in un conto alla rovescia di "tre giorni / tre settimane / 48 ore": il tempo è UNA leva possibile, non un obbligo — usalo solo se l'archetipo lo richiede
+- Aprire la premessa con la formula automatica "Siete già dentro", "Siete stati convocati", "Siete infiltrati" o "Tre giorni fa…"
 
 Rispondi SOLO con il JSON seguente (genera il numero esatto di elementi richiesti, non di meno):
 
@@ -4954,50 +4958,55 @@ def _pick_adventure_archetype(genre: str) -> dict:
 
 
 def _pick_narrative_frame(archetype: dict, genre: str) -> dict:
-    """Seleziona il frame narrativo (_FAMILY_NARRATIVE_FRAMES) più adatto all'archetype e genere."""
+    """Seleziona un frame narrativo adatto all'archetype/genere, scegliendo A CASO
+    tra i candidati pertinenti realmente esistenti. La scelta casuale (anziché il
+    primo match) è essenziale per la varietà: senza, ogni archetipo produceva sempre
+    la stessa atmosfera (es. 'politico' = trattato che salta) avventura dopo avventura."""
     arch_name = archetype.get("name", "").lower()
     g = genre.lower().replace("-", "_")
 
-    # Priorità: archetype keywords → genre default → "base"
+    # Candidati per keyword dell'archetipo (solo chiavi che esistono in _FAMILY_NARRATIVE_FRAMES)
     if any(k in arch_name for k in ("traditore", "cospiraz", "ribaltamento")):
-        candidates = ["politico", "investigativo"]
+        candidates = ["politico", "investigativo", "psicologico"]
     elif any(k in arch_name for k in ("mostro", "serial", "caccia", "predator")):
-        candidates = ["selvaggio", "investigativo", "occulto"]
+        candidates = ["selvaggio", "investigativo", "occulto", "biohorror"]
     elif any(k in arch_name for k in ("infiltraz", "doppio gioco", "colpo", "furto")):
-        candidates = ["assedio", "caccia"]
+        candidates = ["politico", "investigativo", "occulto", "frontiera"]
     elif any(k in arch_name for k in ("sopravviv", "risorse", "assedio")):
-        candidates = ["frontiera", "assedio"]
+        candidates = ["frontiera", "biohorror", "selvaggio"]
     elif any(k in arch_name for k in ("profezia", "malediz", "eredità")):
-        candidates = ["gotico", "mitico"]
+        candidates = ["gotico", "mitico", "occulto"]
     elif any(k in arch_name for k in ("scoperta", "primo contatto")):
-        candidates = ["archeologico", "metafisico"]
+        candidates = ["archeologico", "metafisico", "mitico"]
     elif any(k in arch_name for k in ("fuga", "innocente", "braccato")):
-        candidates = ["caccia", "investigativo"]
+        candidates = ["investigativo", "psicologico", "frontiera"]
     elif any(k in arch_name for k in ("salvataggio", "prigioniero")):
-        candidates = ["frontiera", "assedio"]
+        candidates = ["frontiera", "resistenza", "selvaggio"]
     elif any(k in arch_name for k in ("corsa", "tempo")):
-        candidates = ["frontiera", "metafisico"]
+        candidates = ["frontiera", "metafisico", "biohorror"]
     else:
         candidates = []
 
-    # Genre default aggiuntivi
+    # Default di genere aggiuntivi (anche questi solo chiavi esistenti)
     genre_defaults = {
-        "sci_fi":          ["frontiera", "metafisico", "biohorror", "archeologico"],
-        "fantasy":         ["mitico", "gotico", "selvaggio"],
-        "horror":          ["investigativo", "psicologico", "biohorror"],
-        "mystery_horror":  ["investigativo", "psicologico", "occulto"],
-        "investigation":   ["investigativo", "whodunit", "camera_chiusa"],
-        "action":          ["assedio", "caccia"],
-        "romance":         ["nostalgico", "sociale"],
-        "ww2":             ["resistenza", "fronte"],
-        "detective_classico": ["whodunit", "camera_chiusa"],
+        "sci_fi":             ["frontiera", "metafisico", "biohorror", "archeologico"],
+        "fantasy":            ["mitico", "gotico", "selvaggio", "archeologico"],
+        "horror":             ["investigativo", "psicologico", "biohorror", "gotico"],
+        "mystery_horror":     ["investigativo", "psicologico", "occulto", "gotico"],
+        "investigation":      ["investigativo", "politico", "psicologico"],
+        "action":             ["frontiera", "resistenza", "selvaggio"],
+        "romance":            ["nostalgico", "politico", "gotico"],
+        "ww2":                ["resistenza", "fronte"],
+        "detective_classico": ["investigativo", "politico", "psicologico"],
     }
-    all_candidates = candidates + genre_defaults.get(g, []) + ["base"]
-    # Prendi il primo che esiste nel dizionario
-    for key in all_candidates:
-        if key in _FAMILY_NARRATIVE_FRAMES:
-            return _FAMILY_NARRATIVE_FRAMES[key]
-    return _FAMILY_NARRATIVE_FRAMES["base"]
+
+    # Pool finale: candidati archetipo + default di genere, SOLO frame realmente presenti,
+    # de-duplicati. Poi scelta casuale per massimizzare la varietà tra avventure diverse.
+    pool = [k for k in (candidates + genre_defaults.get(g, [])) if k in _FAMILY_NARRATIVE_FRAMES]
+    pool = list(dict.fromkeys(pool))
+    if not pool:
+        pool = [k for k in _FAMILY_NARRATIVE_FRAMES.keys() if k != "base"] or ["base"]
+    return _FAMILY_NARRATIVE_FRAMES[random.choice(pool)]
 
 
 def create_adventure(genre: str, players: list[dict], scale: str = "standard") -> dict:
