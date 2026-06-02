@@ -839,14 +839,11 @@
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Documento ufficiale con il sigillo della Marchesa che ordina a Draven di catturare i ladri del Sigillo",
-        "hidden_implication": "La calligrafia e la formulazione degli ordini non corrispondono allo stile della vera Marchesa - sono stati falsificati da qualcuno con accesso ai sigilli ufficiali",
+        "immediate_information": "",
+        "hidden_implication": "",
         "unlocks": [],
         "possible_actions": [],
-        "wrong_interpretations": [
-          "Gli ordini sono autentici e la Marchesa è davvero dietro tutto questo",
-          "Draven ha falsificato lui stesso gli ordini per coprire una sua iniziativa personale"
-        ],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -866,14 +863,11 @@
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Draven esita prima di attaccare, il suo sguardo si sposta ripetutamente tra gli avventurieri e il documento degli ordini",
-        "hidden_implication": "Draven ha già dei sospetti sulla legittimità della missione ma il suo senso del dovere lo obbliga a seguire gli ordini - sta cercando una scusa per non combattere",
+        "immediate_information": "",
+        "hidden_implication": "",
         "unlocks": [],
         "possible_actions": [],
-        "wrong_interpretations": [
-          "Draven è semplicemente codardo e ha paura di combattere",
-          "L'esitazione è una tattica per far abbassare la guardia agli avventurieri prima di attaccare"
-        ],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -893,14 +887,11 @@
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Kessara menziona che i condotti termici sotto la Cittadella sono ancora accessibili e collegano la sala del trono alle caverne vulcaniche esterne",
-        "hidden_implication": "I condotti non sono semplici passaggi di ventilazione ma antiche vie rituali costruite dai Custodi del Fuoco - Kessara conosce questo dettaglio perché ha studiato la vera storia della Cittadella",
+        "immediate_information": "",
+        "hidden_implication": "",
         "unlocks": [],
         "possible_actions": [],
-        "wrong_interpretations": [
-          "I condotti sono troppo stretti o pericolosi per essere attraversati da un gruppo",
-          "Kessara sta mentendo per tendere una trappola e condurre il gruppo in un vicolo cieco"
-        ],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -920,14 +911,11 @@
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Pergamene ingiallite che mostrano la struttura originale della Cittadella con rune e simboli che indicano i percorsi sicuri attraverso i condotti",
-        "hidden_implication": "Gli schemi rivelano che i condotti erano progettati per trasportare il Sigillo del Fuoco Antico in sicurezza - le rune indicano punti dove il Sigillo stesso può disattivare trappole magiche",
+        "immediate_information": "",
+        "hidden_implication": "",
         "unlocks": [],
         "possible_actions": [],
-        "wrong_interpretations": [
-          "Gli schemi sono obsoleti e i condotti sono stati modificati nel corso dei secoli rendendo la mappa inutile",
-          "Le rune sono semplici decorazioni artistiche senza significato pratico per la navigazione"
-        ],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -947,8 +935,8 @@
         "secret": "Ha pagato le guardie della Cittadella per sigillare le uscite non appena il gruppo fosse entrato",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Attendere che il gruppo rubi il Sigillo, scatenando il caos nella Cittadella. Durante il panico, le sue guardie corrotte sigillano le uscite intrappolando i PG, mentre lui usa documenti falsificati per rivendicare proprietà del Consorzio 'per protezione'. Il gruppo diventa ricercato, lui diventa eroe e nuovo padrone.",
-        "fallback_plan": "Se il gruppo scopre il tradimento, incolpare le guardie corrotte come 'traditori improvvisati'. Se anche questo fallisce, fuggire verso la Villa Thrace oltre il confine, dove ha già trasferito fondi e documenti. Ha un accordo segreto con i pirati del Porto Franco per l'espatrio.",
+        "current_plan": "Mantenere i PG intrappolati nella Cittadella abbastanza a lungo perché le guardie li catturino o uccidano. Mentre il Consorzio è impegnato con l'incidente del furto, i suoi complici esterni (mercenari travestiti da rivoltosi) saccheggiano i tre magazzini principali sulla Banchina del Sale. Severan apparirà poi come 'sopravvissuto miracoloso' e 'eroe' che ha aiutato a contenere i ladri, guadagnando favore e posizione nel caos risultante.",
+        "fallback_plan": "Se i PG scoprono il tradimento troppo presto: usare l'anello-talismano per teletrasportarsi alla Locanda del Gabbiano Nero, dove una nave è già pronta a salpare con il bottino dei magazzini. Ha documenti falsi che lo identificano come 'Mercante Davos di Selene' e contatti a Porto Nebbia disposti a nasconderlo per un anno in cambio del 40% del bottino. Se anche questo fallisce: suicidio con veleno piuttosto che cattura - ha visto cosa il Consorzio fa ai traditori.",
         "resources": [
           "accessi",
           "contatti",
@@ -964,16 +952,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Mantiene un'aria di cortese preoccupazione, offrendo ricompense generose per il 'recupero' del Sigillo e informandosi sulla loro 'fuga'. Sottolinea quanto sia pericolosa la Cittadella ora che l'allarme è scattato.",
-          "medium": "Diventa nervoso e insistente. Cerca di convincere il gruppo a tornare dentro la Cittadella per 'completare il lavoro' o recuperare 'prove compromettenti'. Aumenta la ricompensa promessa, mostrando crepe nella sua facciata calma.",
-          "high": "La maschera cade. Alterna minacce velate ('Sapete troppe cose') a tentativi disperati di negoziazione. Rivela dettagli del suo piano per errore, poi tenta di corromperli o eliminarli tramite sicari già appostati.",
-          "extreme": "Ordina l'attacco immediato. Attiva il segnale concordato con le sue guardie corrotte per far ricadere tutti i crimini sul gruppo. Fugge verso proprietà del Consorzio che ha già predisposto per essere intestate a lui, lasciando i PG come capri espiatori."
+          "low": "Severan mantiene un'espressione preoccupata ma controlata, offrendo suggerimenti apparentemente utili: 'Le guardie stanno convergendo verso la sala est. Dovete muovervi verso le cantine, conosco un passaggio.' In realtà li sta guidando verso la trappola più stretta.",
+          "medium": "Inizia a sudare visibilmente e balbetta scuse: 'Non capisco perché le uscite siano sigillate! Forse il Consorzio ha scoperto qualcosa... aspettate, lasciatemi negoziare per voi!' Mentre parla, cerca discretamente di allontanarsi verso l'ala ovest dove ha preparato la sua via di fuga personale.",
+          "high": "Crolla la facciata di alleato fedele. 'Maledizione! Non dovevate sopravvivere così a lungo!' Estrae un corno d'argento dalla cintura e lo suona tre volte - il segnale convenuto con le guardie per l'attacco finale. Tenta di barricarsi dietro il trono usando i PG come scudi.",
+          "extreme": "In preda al panico totale, Severan grida: 'Aspettate! Il Sigillo è falso! Quello vero è nella Torre Occidentale, ve lo giuro! Prendetelo e lasciatemi andare!' Getta a terra una borsa piena d'oro del Consorzio (rubato) e tenta disperatamente di attivare un anello-talismano che dovrebbe teletrasportarlo, ma che richiede 10 secondi di concentrazione."
         },
         "reaction_table": {
-          "se_minacciato": "Finge sottomissione mentre attiva discretamente un anello-segnale che chiama i suoi uomini. Propone un accordo vantaggioso guadagnando tempo.",
-          "se_corrotto": "Finge interesse ma qualsiasi accordo è una trappola. Accetta solo se può trasformare i PG in complici ancora più compromessi, legandoli ai suoi crimini.",
-          "se_i_pg_hanno_prove": "Tenta disperatamente di distruggerle o screditarle. Se fallisce, offre metà dei profitti del Consorzio in cambio del silenzio, pur pianificando la loro eliminazione.",
-          "se_alleato": "Si mostra generoso e affidabile, ma pianifica sempre di sacrificarli. Ogni 'favore' li compromette maggiormente, rendendoli complici o testimoni scomodi da eliminare."
+          "se_minacciato": "Alza le mani in segno di resa ma cerca di guadagnare tempo: 'Uccidetemi e non scoprirete mai chi altro nel Consorzio è coinvolto! Ci sono tre consiglieri che sanno tutto.' Mente spudoratamente, cercando di creare paranoia e divisione mentre conta mentalmente le guardie che stanno arrivando.",
+          "se_corrotto": "Gli occhi gli si illuminano di avidità. 'Cinquantamila corone d'oro e vi apro il Passaggio del Mercante - nessuno lo conosce tranne me e i fondatori del Consorzio. Ma prima il Sigillo torna a me... per sicurezza.' Tenterà di tradirli comunque, ma l'offerta potrebbe ritardare l'allarme di 15 minuti.",
+          "se_i_pg_hanno_prove": "Il suo volto impallidisce visibilmente vedendo la lettera con il suo sigillo o sentendo i testimoni. 'Quelle prove sono false! Fabricate dai miei nemici nel Consorzio! Guardate il timbro - è contraffatto!' Diventa isterico e pericoloso: se messo alle strette, preferisce far crollare parte della Cittadella usando cariche incendiarie nascoste piuttosto che affrontare il disonore pubblico.",
+          "se_alleato": "Impossibile. Severan non ha veri alleati, solo strumenti. Se un PG cerca genuinamente l'alleanza, lui recita la parte del nobile pentito: 'Avete ragione, sono andato troppo oltre. Aiutatemi a rimediare.' Poi, alla prima occasione, li pugnala alle spalle - letteralmente se possibile - e incolpa 'assassini del Consorzio' per le loro morti."
         },
         "pressure_events": [],
         "relationships": [],
@@ -994,8 +982,8 @@
         "secret": "Ha già rubato il vero Sigillo mesi fa e lo usa per alimentare gradualmente la Fiamma Dormiente",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Completare il rituale del Risveglio durante il Festival delle Ceneri (tra tre giorni), quando tutti i rivali politici saranno riuniti nel Quartiere Basso per i festeggiamenti popolari. L'eruzione 'spontanea' distruggerà solo quella zona, lasciando la Cittadella Alta e i magazzini del Consorzio intatti.",
-        "fallback_plan": "Se scoperta, incolpare il Circolo dei Maghi di Pietra di aver sabotato i sigilli protettivi. Ha già piazzato prove false nei loro laboratori. In caso estremo, fuggire via mare verso la colonia di Tharsis con il tesoro del Consorzio già trasferito, lasciando Korven al suo destino.",
+        "current_plan": "Completare il risveglio graduale del vulcano durante il Festival delle Ceneri tra 3 giorni, quando tutti i rivali politici saranno riuniti nella Sala Bassa per il banchetto. Dare ai suoi fedeli il tempo di evacuare segretamente attraverso i tunnel sotto il porto.",
+        "fallback_plan": "Se scoperta, accelerare l'eruzione immediatamente e fuggire attraverso il portale runico nel suo studiolo privato che conduce alla Villa Korven sulle Isole di Cenere, dove ha già trasferito metà della fortuna familiare. Dare la colpa dell'eruzione ai PG accusandoli di essere sabotatori elementali.",
         "resources": [
           "accessi",
           "contatti",
@@ -1011,16 +999,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Sorride cordialmente, offre vino speziato e discute di commercio come se nulla fosse. Osserva ogni gesto dei personaggi con attenzione mercantile.",
-          "medium": "La maschera di cortesia si incrina. Chiama discretamente le guardie d'élite vestite da servitori. Inizia a parlare del 'necessario rinnovamento attraverso il fuoco purificatore'.",
-          "high": "Rivela apertamente il vero Sigillo nascosto nel medaglione al collo. Minaccia di accelerare l'eruzione immediatamente se non lasciano la Cittadella. Le fiamme nelle torce si alzano innaturalmente.",
-          "extreme": "Frantuma il Sigillo contro il pavimento urlando formule antiche. Il palazzo trema violentemente mentre fugge attraverso passaggi segreti verso il porto, disposta a sacrificare l'intera città pur di eliminare i testimoni."
+          "low": "Sorride glacialmente e offre vino pregiato, complimentandosi per l'audacia mentre chiama discretamente le guardie. Ammette candidamente che il Sigillo nella cripta è una copia decorativa.",
+          "medium": "Ride nervosamente toccando l'anello al dito che pulsa di luce rossastra. Accusa i PG di essere spie dei Clan delle Montagne e ordina il loro arresto immediato, minacciando di attivare i sigilli di pietra lavica nelle fondamenta.",
+          "high": "Strappa l'anello dal dito rivelando il vero Sigillo. Le pareti tremano mentre invoca una barriera di fiamme ancestrali. Urla che il vulcano si risveglierà comunque e che loro moriranno sepolti. Offre disperatamente un patto: lasciarla fuggire con metà del tesoro.",
+          "extreme": "Frantuma deliberatamente il Sigillo contro il pavimento liberando un'ondata piroclastica. Mentre la sala crolla e il magma erutta dalle fessure, ride istericamente rivelando che ha già preparato un portale di fuga nel torrione est ma che loro non lo raggiungeranno mai."
         },
         "reaction_table": {
-          "se_minacciato": "Attiva una trappola magica che sigilla la sala del trono, riempiendola lentamente di gas vulcanico. Propone un duello verbale: risolvere enigmi del Consorzio per guadagnare tempo mentre le guardie circondano il palazzo.",
-          "se_corrotto": "Finge interesse, chiede cosa vogliono veramente. Se promettono silenzio, offre quote azionarie nel 'nuovo Korven' post-eruzione e accesso ai quartieri sicuri nelle miniere profonde. Mente spudoratamente.",
-          "se_i_pg_hanno_prove": "Passa immediatamente al piano B: li accusa pubblicamente di essere agenti stranieri venuti a sabotare Korven. Convoca il Consiglio d'Emergenza dove ha già comprato tutti i voti. Le prove diventano 'evidenti falsificazioni'.",
-          "se_alleato": "Li coinvolge nel piano come 'consulenti di sicurezza'. Mostra loro le mappe dell'eruzione controllata, omettendo che i quartieri poveri saranno completamente spazzati via. Valuta costantemente se eliminarli dopo o renderli complici permanenti."
+          "se_minacciato": "Attiva i golem di ossidiana nascosti dietro gli arazzi e minaccia di far crollare il ponte sospeso sul cratere, condannando tutti alla morte. Propone un duello rituale davanti al Consorzio.",
+          "se_corrotto": "Finge interesse ma segretamente versa veleno di salamandra nelle coppe. Se l'offerta supera 50.000 corone d'oro, considera seriamente di condividere il potere del Sigillo per dominare insieme il Consorzio.",
+          "se_i_pg_hanno_prove": "Impallidisce vedendo i documenti delle sue comunicazioni con i cultisti del Fuoco. Crolla mentalmente e supplica i PG di aiutarla a fermare l'eruzione ormai fuori controllo, ammettendo che il vulcano si risveglierà in 48 ore.",
+          "se_alleato": "Rivela la vera portata del piano: eliminare le Cinque Casate rivali quando il magma sommergerà i quartieri bassi, ricostruendo Korven come città-stato indipendente. Offre ai PG titoli nobiliari e il controllo delle miniere di cristallo infuocato."
         },
         "pressure_events": [],
         "relationships": [],
@@ -1041,8 +1029,8 @@
         "secret": "Sa che Ilyne nasconde qualcosa ma ha paura di indagare; suo figlio è ostaggio in una cella segreta",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Catturare i PG e consegnare il Sigillo alla Marchesa Ilyne come richiesto, sperando che la sua obbedienza continui a mantenere suo figlio in vita un altro giorno",
-        "fallback_plan": "Se i PG dimostrano di conoscere il segreto di Kael, fingere di catturarli ma sabotare sottilmente la sicurezza, lasciando una via di fuga aperta attraverso l'armeria est dove ha nascosto armi e una mappa",
+        "current_plan": "Arrestare i PG come da ordini, consegnarli alla Marchesa Ilyne prima dell'alba per dimostrare fedeltà e garantire la sicurezza di suo figlio per un altro giorno. Spera segretamente che qualcuno fermi tutto questo prima che sia troppo tardi.",
+        "fallback_plan": "Se i PG lo sopraffanno o presentano prove schiaccianti contro Ilyne, fingerà di essere stato sconfitto per salvare le apparenze. Lascerà 'accidentalmente' una chiave delle celle e una mappa parziale. Se il figlio viene liberato, organizzerà un colpo di stato interno, radunando le guardie fedeli che condividono i suoi dubbi sulla Marchesa.",
         "resources": [
           "accessi",
           "contatti",
@@ -1058,16 +1046,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Draven mantiene un tono professionale e autoritario, intima ai PG di arrendersi e consegnare il Sigillo. Posiziona strategicamente le guardie bloccando le uscite, ma evita lo scontro diretto.",
-          "medium": "La voce si incrina leggermente. Ordina l'attacco ma esita un istante di troppo. Se i PG menzionano la Marchesa o 'prigionieri innocenti', il suo sguardo tradisce un momento di panico prima di irrigidirsi.",
-          "high": "Draven urla ordini contraddittori alle guardie. Suda freddo. Se i PG rivelano di sapere di suo figlio, crolla parzialmente: 'Non potete capire... lei lo ucciderà se...' Si riprende ma la sua determinazione vacilla visibilmente.",
-          "extreme": "Si volta contro le guardie leali alla Marchesa pur di salvare i PG se promettono di liberare suo figlio. Alternativa: tenta disperatamente di uccidere i PG prima che parlino, urlando 'Perdonatemi!' con lacrime negli occhi."
+          "low": "Mantiene un tono formale e autoritario, chiede ai PG di deporre le armi e di seguirlo per l'interrogatorio. Cita articoli della legge mercantile e promette un processo equo.",
+          "medium": "La mano trema leggermente sull'elsa della spada. Abbassa la voce: 'Non rendete tutto più difficile. Ci sono cose in gioco che non capite.' Lo sguardo si sposta nervosamente verso le porte che conducono alle celle sotterranee.",
+          "high": "Sudore freddo sulla fronte. 'Maledizione! Se la Marchesa scopre che vi ho lasciati parlare...' Stringe i pugni, combattuto. 'Mio figlio... lei ha mio figlio. Credete che non voglia fare la cosa giusta?'",
+          "extreme": "Crolla in ginocchio, la spada cade a terra. 'È nelle celle sotto la Torre Nera. Ha solo dodici anni.' Piange apertamente. 'Ilyne ha detto che se tradisco l'ordine anche solo una volta, lo getterà nelle Fosse di Cenere. Ditemi cosa devo fare... ditemi come salvarlo!'"
         },
         "reaction_table": {
-          "se_minacciato": "Combatte con abilità ma senza vera convinzione. Cerca di ferire senza uccidere. Se messo alle strette, sussurra 'La cella sotto la torre est... terzo livello' prima di fingersi svenuto.",
-          "se_corrotto": "Rifiuta sdegnosamente qualsiasi oro, ma se offrono di liberare suo figlio o forniscono una via d'uscita per entrambi dalla Cittadella, collabora immediatamente pur fingendo resistenza per le guardie presenti.",
-          "se_i_pg_hanno_prove": "Legge qualsiasi documento su suo figlio con mani tremanti. Crollo emotivo seguito da decisione: 'Datemi un'ora. Porterò via le guardie dalla sala ovest. Poi siete soli.' Diventa complice silenzioso.",
-          "se_alleato": "Fornisce mappe delle vie di fuga, turni di guardia, e la combinazione della porta della cripta secondaria. Chiede solo: 'Quando fuggite... prendetelo con voi. Si chiama Kael. Ha solo dodici anni.'"
+          "se_minacciato": "Chiama rinforzi ma esita prima di attaccare. Combatte in modo difensivo, cercando di disarmare piuttosto che uccidere. Urla: 'Non mi obbligate a fare questo!' Se ferito gravemente, rivela la posizione del figlio supplicando pietà.",
+          "se_corrotto": "Rifiuta oro ma ascolta se gli offrono un modo per liberare suo figlio. 'Il denaro non mi serve se non ho nessuno per cui spenderlo.' Chiede garanzie concrete e un piano dettagliato prima di considerare il tradimento.",
+          "se_i_pg_hanno_prove": "Legge i documenti con mani tremanti. 'Lo sapevo... lo sapevo che c'era qualcosa di marcio.' Si toglie l'elmo e si passa una mano tra i capelli. 'Ma queste prove devono arrivare al Consiglio dei Sette. E prima devo tirare fuori mio figlio da quel buco.'",
+          "se_alleato": "Diventa una risorsa preziosa: fornisce mappe delle celle segrete, orari delle ronde, e la parola d'ordine 'Cenere e Rame' per i passaggi nascosti. 'Una volta che avrò riabbracciato Torin, marcerò io stesso nelle stanze di Ilyne. Con voi o senza di voi.'"
         },
         "pressure_events": [],
         "relationships": [],
@@ -1088,8 +1076,8 @@
         "secret": "Ha scoperto il furto del vero Sigillo ma teme ritorsioni se parla apertamente",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Continuare a fingere ignoranza sul furto, copiare di nascosto i testi proibiti sul vulcano prima che il Consorzio li distrugga, trovare un modo per avvertire qualcuno dell'imminente catastrofe senza esporsi",
-        "fallback_plan": "Se scoperto, fuggire attraverso i tunnel della biblioteca verso il monastero abbandonato sulle pendici del vulcano, dove ha già nascosto copie dei testi più importanti in una cassa impermeabile",
+        "current_plan": "Continuare a fingere ignoranza sul furto mentre cerca disperatamente nei testi antichi un modo per sostituire o replicare il Sigillo prima che il Consorzio o il vulcano stesso rivelino la verità. Ogni notte scende segretamente a controllare le attività sismiche crescenti",
+        "fallback_plan": "Se il vulcano mostra segni di eruzione imminente o il Consorzio lo interroga direttamente, incendiare la biblioteca per creare una distrazione, fuggire attraverso i tunnel di evacuazione segreti verso il monastero abbandonato di Monte Scoria e vivere da eremita custodendo le copie più preziose che riesce a salvare",
         "resources": [
           "accessi",
           "contatti",
@@ -1105,16 +1093,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Risponde con citazioni criptiche dai testi antichi, sfoglia nervosamente pergamene, cerca di allontanare i PG dalla biblioteca con scuse banali sul rischio di incendi dovuti alle candele",
-          "medium": "Confessa di aver visto qualcuno uscire dalla cripta tre notti fa, ma fornisce dettagli vaghi e contraddittori. Trema visibilmente, guarda ossessivamente verso l'ala est dove ha nascosto le sue annotazioni sul vero Sigillo",
-          "high": "Crolla emotivamente, ammette di aver visto i mercanti del Consorzio sostituire il Sigillo autentico con una replica. Implora protezione, rivela che il vero Sigillo è stato portato nelle Miniere di Cenere per spegnere il risveglio del vulcano",
-          "extreme": "In preda al panico totale, cerca di bruciare i suoi appunti compromettenti. Urla che il Consorzio ha pianificato tutto per controllare l'eruzione e monopolizzare le gemme vulcaniche. Rivela l'ubicazione esatta del Sigillo e i nomi dei congiurati prima di tentare la fuga"
+          "low": "Frate Myron consulta nervosamente antichi tomi sul vulcano, sottolineando passaggi criptici sulla Fiamma di Korven. Mormora tra sé formule di protezione e lancia occhiate furtive verso la cripta, chiaramente tormentato da un segreto",
+          "medium": "Inizia a lasciare indizi velati attraverso citazioni oscure: 'Il vero fuoco non si spegne mai, ma può essere sostituito da cenere che inganna gli stolti'. Trema visibilmente quando qualcuno menziona il Sigillo, stringendo un amuleto nascosto sotto la tonaca",
+          "high": "Crolla emotivamente e confessa a mezza voce che il Sigillo nella cripta è un falso da settimane. 'Gli Incappucciati della Cenere l'hanno già preso! Ma se il Consorzio scopre che lo sapevo e tacevo, brucerò con i libri!' Supplica aiuto per recuperarlo prima che sia troppo tardi",
+          "extreme": "In preda al panico totale, rivela l'ubicazione segreta degli Incappucciati (le Catacombe Fumanti sotto il vulcano) e consegna la Chiave di Ossidiana che apre i passaggi proibiti. 'Prendetelo voi! Io sono già un uomo morto, ma salvate almeno la biblioteca prima che il vulcano si risvegli senza il vero Sigillo a placarlo!'"
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica nella biblioteca, minaccia di incendiare i volumi antichi sul vulcano se i PG non lo lasciano in pace. La sua codardia vince sulla ragione",
-          "se_corrotto": "Accetta oro o protezione in cambio di mappe dettagliate delle catacombe sotto la Cittadella e del percorso verso le Miniere di Cenere. Chiede però di essere portato via da Korven",
-          "se_i_pg_hanno_prove": "Riconosce che non può più nascondersi. Offre la sua competenza sui rituali del Fuoco Antico in cambio di testimoniare contro il Consorzio anonimamente",
-          "se_alleato": "Diventa una risorsa preziosa: decifra iscrizioni vulcaniche, rivela che il Sigillo deve essere riattivato entro il plenilunio o il vulcano esploderà. Guida i PG attraverso passaggi segreti"
+          "se_minacciato": "Si rannicchia tra i suoi libri, piangendo. 'Uccidetemi se volete, ma la verità morirà con me e Korven arderà per l'ignoranza!' Minaccia di far scattare le trappole di fuoco della biblioteca se spinto oltre",
+          "se_corrotto": "Rifiuta oro ma accetta protezione o un passaggio sicuro lontano da Korven. 'Non sono i soldi che mi servono, ma una vita dopo che il Consorzio scoprirà il mio silenzio. Giuratemi asilo e vi dirò tutto sul furto e su dove cercare'",
+          "se_i_pg_hanno_prove": "Gli occhi si illuminano di speranza. 'Avete prove contro gli Incappucciati? Allora posso testimoniare senza sembrare complice! Vi darò le mappe delle catacombe e il Rituale di Riattivazione del Sigillo. Ma dobbiamo muoverci stanotte'",
+          "se_alleato": "Diventa improvvisamente risoluto e metodico. Apre tomi proibiti rivelando la vera natura del Sigillo (chiave che impedisce al magma antico di eruttare) e fornisce equipaggiamento: polvere di amianto, lenti anti-calore e il suo diario di ricerche sul culto del vulcano"
         },
         "pressure_events": [],
         "relationships": [],
@@ -1135,8 +1123,8 @@
         "secret": "Ha venduto informazioni sia a Thrace che a Ilyne, sa che il gruppo è una pedina sacrificabile",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Usare il caos del furto del Sigillo per fuggire a Porto Libero con i soldi ricevuti da entrambe le fazioni. Ha già prenotato passaggio su una nave contrabbandiera che salpa domani all'alba.",
-        "fallback_plan": "Se scoperta, barattare TUTTE le informazioni che ha (movimenti di entrambe le fazioni, la verità sull'eruzione imminente, posizione dei tesori nascosti del Consorzio) al miglior offerente che possa garantirle la fuga. Ultima risorsa: rifugiarsi nel Quartiere dei Tagliagole sotto protezione di Madre Corvina, sua vecchia mentore.",
+        "current_plan": "Convincere il gruppo che è ancora utile come informatrice, offrire informazioni parziali su Thrace e Ilyne per guadagnare tempo. Portarli alle Darsene Basse dove ha un battello pronto, poi drogarli con vino al laudano e rubare il Sigillo mentre sono incoscienti. Vendere il Sigillo al Culto della Fiamma Rinata per 600 corone e salpare sulla Tempesta Nera prima dell'alba.",
+        "fallback_plan": "Se il gruppo non abbocca: attivare la fiala di olio alchemico per creare una cortina fumogena, fuggire attraverso i condotti di ventilazione che conosce (essendo cresciuta nella Cittadella come serva). Raggiungere il suo nascondiglio nei Quartieri Bruciati, recuperare il dossier con informazioni compromettenti su Lord Mercante Vane, usarlo come merce di scambio per protezione. Se anche questo fallisce: presentarsi a Ilyne, tradire il gruppo completamente rivelando i loro piani, accettare di lavorare come spia permanente in cambio di passaggio sulla sua nave privata.",
         "resources": [
           "accessi",
           "contatti",
@@ -1152,16 +1140,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Ride nervosamente, gioca con le sue dita piene di anelli, offre informazioni parziali mescolando verità e menzogne. 'Il Sigillo? Oh, quello... sapevo che qualcuno sarebbe venuto a prenderlo. Non io, chiaro.'",
-          "medium": "Il suo sorriso si spezza. Ammette di aver venduto la mappa della cripta, ma omette i nomi. Propone uno scambio: informazioni su vie di fuga segrete in cambio di un passaggio fuori città. La voce diventa più acuta.",
-          "high": "Crolla. Confessa di aver lavorato per Thrace E Ilyne contemporaneamente, che il gruppo era una distrazione mentre altri agivano. Supplica: 'Portatemi via! L'eruzione arriverà in tre giorni, lo so dai documenti che ho rubato al Consorzio!'",
-          "extreme": "Totale panico. Rivela TUTTO: il Sigillo è la chiave che tiene dormiente il vulcano sotto Korven. Thrace vuole l'eruzione per ricostruire sulle ceneri. Ilyne vuole fermarlo ma non ha il potere. 'Uccidetemi o salvatemi, ma DECIDETE!'"
+          "low": "Ride nervosamente, giocherella con la cicatrice sulla guancia. 'Calma ragazzi, il Sigillo era lì dove vi ho detto, no? Non è colpa mia se metà Cittadella si è svegliata.' Cerca di minimizzare, propone di spartire il bottino in una taverna sicura.",
+          "medium": "Inizia a sudare, si guarda intorno cercando vie di fuga. 'Aspettate... Thrace sapeva? Oddio, ha parlato con voi? Guardate, io ho solo passato informazioni, non sapevo che vi avrebbe... merda.' Ammette di aver parlato con altri, ma giura di non sapere dei doppi giochi.",
+          "high": "Crolla, le mani tremano. 'Va bene! Sì! Li ho informati entrambi! Ma dovete capire - l'Oracolo dei Fumi ha previsto l'eruzione per la luna nuova! Ho bisogno di 500 corone d'oro per una nave, voi eravate solo un lavoro!' Cerca di contrattare protezione in cambio di informazioni su Thrace e Ilyne.",
+          "extreme": "Estrae un pugnale avvelenato nascosto nella cintura. 'Se muoio qui, muoio comunque nell'eruzione! Almeno così scelgo io!' Minaccia di far esplodere una fiala di olio alchemico che porterà le guardie. Totalmente disperata, pronta a tradire chiunque o a suicidarsi pur di non essere torturata."
         },
         "reaction_table": {
-          "se_minacciato": "Si rannicchia, porta le mani al viso dove ha la cicatrice. Balbetta che ha copie di documenti compromettenti nascoste, se muore verranno consegnate alle guardie. Bluff al 60%.",
-          "se_corrotto": "Occhi che brillano. Contratta duramente: vuole 500 corone d'oro E un passaggio garantito via mare. Rivela che nella Torre Nera c'è un portale ancora attivo, ma serve sangue di drago per attivarlo.",
-          "se_i_pg_hanno_prove": "Cambia tattica immediatamente. Diventa collaborativa, troppo collaborativa. Offre di testimoniare contro chiunque vogliano in cambio di immunità. È sincera ma disperata.",
-          "se_alleato": "Lealtà pragmatica. Li avverte dei tradimenti imminenti, condivide mappe vere, ma tiene sempre un piano di fuga personale. 'Vi aiuto, ma se crolla tutto, io salto per prima dalla nave.'"
+          "se_minacciato": "Retrocede verso la finestra, mano sulla fiala di olio alchemico alla cintura. 'So dove Ilyne tiene i frammenti del Cuore di Fiamma. So chi ha davvero ucciso il Custode. Mi ammazzate, e quei segreti muoiono con me.' Usa ogni informazione come scudo.",
+          "se_corrotto": "Occhi che brillano, calcola rapidamente. 'Duecentocinquanta corone e vi dico chi altro sa del Sigillo. Trecento e vi porto alle catacombe dove Thrace nasconde le reliquie rubate. Cinquecento... cinquecento e sparisco, come se non ci fossimo mai conosciuti.' Mercanteggia fino all'ultimo rame.",
+          "se_i_pg_hanno_prove": "Ride amaramente, toccando la cicatrice. 'Quella me la fece Ilyne quando scoprì che informavo anche altri. Pensate di essere i primi che mi scoprono? Sono ancora viva perché so cose che valgono più della mia morte.' Gioca la carta del male necessario.",
+          "se_alleato": "Abbassa la guardia solo leggermente. 'Se mi aiutate a lasciare Korven prima dell'eruzione, vi porto nei tunnel sotto il Tempio - c'è un'altra via per il Sancta Sanctorum dove tengono il vero Sigillo. Quello che avete rubato era un'esca.' Offre informazioni genuine, ma solo in cambio di salvezza garantita."
         },
         "pressure_events": [],
         "relationships": [],
@@ -1182,8 +1170,8 @@
         "secret": "È un agente dormiente di Thrace, ma inizia a dubitare quando capisce che anche lui è destinato a morire",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Completare la sua missione facendo incolpare il furto del Sigillo a una fazione rivale interna al Consorzio, guadagnando così credibilità per infiltrarsi ancora più in alto. Non sa che Thrace ha già emesso il suo ordine di esecuzione.",
-        "fallback_plan": "Se scoperto o minacciato da Thrace, rivelare tutto al Consorzio fingendo di essere stato un doppio agente fedele fin dall'inizio. Ha documenti falsificati nascosti nella sua villa che 'proverebbero' questa storia.",
+        "current_plan": "Fingere di indagare sul furto del Sigillo mentre segretamente cerca di capire se Thrace lo considera ancora un alleato o un testimone scomodo da eliminare. Sta preparando documenti falsi e oro nascosto per una fuga urgente verso le Isole Libere.",
+        "fallback_plan": "Se scoperto o se Thrace invia assassini, rivelerà al Gran Mercante Tavius l'ubicazione del deposito segreto di Thrace nella Cripta Nera sotto il mercato vecchio, dove sono custodite armi runiche e il grimorio che spiega come usare il Sigillo. Userà questo come merce di scambio per la sua vita, poi fuggirà verso est durante il caos che seguirà.",
         "resources": [
           "accessi",
           "contatti",
@@ -1199,16 +1187,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Mantiene un contegno diplomatico impeccabile, offrendo vino e negoziazioni ragionevoli. Studia ogni parola degli interlocutori per identificare chi sa troppo.",
-          "medium": "La sua calma si incrina. Inizia a sudare visibilmente, le mani tremano impercettibilmente. Fa nomi di altri consiglieri per deviare sospetti, mentendo con crescente disperazione.",
-          "high": "Crolla psicologicamente. Ammette di essere un agente di Thrace ma rivela che il suo superiore, Commodoro Grenn, ha ordinato l'eliminazione di tutti i testimoni - incluso lui. Implora protezione in cambio di informazioni.",
-          "extreme": "In preda al panico totale, rivela i codici segreti per accedere ai documenti nascosti di Thrace nella biblioteca sud. Offre di avvelenare Grenn personalmente se i PG lo lasciano fuggire con loro."
+          "low": "Mantiene una facciata di calma diplomatica, offrendo soluzioni ragionevoli al Consorzio mentre raccoglie informazioni su chi altri potrebbe essere compromesso. Usa la sua posizione per deviare sospetti.",
+          "medium": "Inizia a insinuare che altri membri del Consorzio hanno legami sospetti con Thrace, creando confusione. Manipola documenti e testimonianze per proteggere se stesso, mentre cerca disperatamente di contattare i suoi gestori a Thrace.",
+          "high": "Si barrica nei suoi appartamenti privati con guardie fedeli, affermando di aver scoperto una cospirazione che lo vuole morto. Rivela parzialmente i piani di Thrace per guadagnare credibilità, omettendo il proprio ruolo. Cerca alleanze disperate.",
+          "extreme": "In preda al panico, confessa tutto al Consorzio in cambio di protezione, rivelando nomi, piani e la rete di Thrace. Implora asilo, offre ogni informazione che possiede, anche il luogo dove Thrace custodisce il vero Sigillo contraffatto che doveva sostituire quello rubato."
         },
         "reaction_table": {
-          "se_minacciato": "Arretra verso la porta segreta dietro l'arazzo del Grifone Rosso, attivando discretamente l'anello-segnale che chiama le guardie. Tenta di guadagnare tempo con false confessioni.",
-          "se_corrotto": "Accetta solo oro in gemme non tracciabili. Esige garanzie scritte di immunità dal Consorzio. Tradisce informazioni parziali su Thrace ma omette deliberatamente la parte sul suo destino.",
-          "se_i_pg_hanno_prove": "Il suo volto impallidisce fino al grigio cenere. Chiede disperatamente di vedere le prove. Se menzionano il 'Protocollo Cenere' (il piano per eliminarlo), la sua lealtà a Thrace si dissolve istantaneamente.",
-          "se_alleato": "Diventa prezioso ma instabile. Fornisce mappe dei tunnel di Thrace sotto la cittadella e l'ubicazione del vero Sigillo (quello rubato era un falso). Pretende di essere presente quando cattureranno Grenn."
+          "se_minacciato": "Attiva immediatamente i suoi contatti personali tra le Guardie Scarlatte. Se minacciato da Thrace, finge fedeltà mentre pianifica la fuga o il tradimento. Se minacciato dal Consorzio, usa il suo carisma per incolpare scrivani e mercanti minori.",
+          "se_corrotto": "Accetta solo se gli viene garantita protezione fisica immediata e permanente. Chiede asilo in territorio neutrale, scorta armata e immunità totale. Tradisce Thrace senza esitazione se la sua vita è realmente in pericolo.",
+          "se_i_pg_hanno_prove": "Cerca prima di screditare le prove come falsificazioni di Thrace per destabilizzare il Consorzio. Se le prove sono inconfutabili, offre un patto: lui rivela l'intera rete dormiente in cambio della vita. Conosce sette altri agenti nella Cittadella.",
+          "se_alleato": "Diventa un informatore prezioso ma instabile. Fornisce mappe delle rotte segrete di Thrace, codici cifrati e il piano finale: Thrace vuole usare il Sigillo per risvegliare un antico drago di fuoco sotto le montagne Korven. Ma tradirà nuovamente se sentirà che la sua vita è ancora a rischio."
         },
         "pressure_events": [],
         "relationships": [],
@@ -1229,8 +1217,8 @@
         "secret": "Ha scoperto che le fondamenta sono state sabotate deliberatamente mesi fa",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Puntellare i pilastri nella Grande Sala con travi di rinforzo temporanee mentre coordina l'evacuazione dei livelli 3-7. Ha inviato messaggeri a chiamare tutti gli ingegneri disponibili nel raggio di dieci leghe.",
-        "fallback_plan": "Se il collasso è inevitabile, far detonare cariche controllate nella Torre Nord per creare un punto di cedimento direzionale che risparmi i quartieri residenziali, anche se questo significa sacrificare gli archivi del Consorzio e probabilmente se stessa.",
+        "current_plan": "Stabilizzare i tre nodi runici critici entro dieci minuti usando cristalli di riserva, mentre coordina l'evacuazione silenziosa dei civili attraverso i tunnel di servizio senza allertare il Consorzio - che sospetta stia insabbiando il sabotaggio intenzionale",
+        "fallback_plan": "Se il collasso è inevitabile, sacrificare i livelli superiori della Cittadella attivando il Sigillo di Separazione Nanico - un'antica runa che taglia fisicamente la struttura, permettendo alle fondamenta di sopravvivere come rifugio sotterraneo mentre la torre crolla, salvando almeno metà della popolazione intrappolata",
         "resources": [
           "accessi",
           "contatti",
@@ -1246,16 +1234,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Parla con tono professionale e diretto, consulta continuamente i suoi progetti architettonici arrotolati. Usa termini tecnici nanici per mascherare la propria ansia crescente.",
-          "medium": "Inizia a sudare, le mani tremano mentre indica crepe e fessure nei muri. Urla ordini contraddittori agli operai, tradendo la consapevolezza che il sabotaggio era troppo esteso per essere casuale.",
-          "high": "Crolla in ginocchio tra i suoi schemi, ammettendo tra i singhiozzi di aver trovato segni di manomissione mesi fa ma di averli ignorati per paura di perdere il contratto con il Consorzio. Supplica aiuto per evacuare i livelli inferiori.",
-          "extreme": "Afferra disperatamente chiunque le passi vicino, urlando nomi di colleghi sepolti vivi. Tenta di correre verso le fondamenta con picconi e travi, pronta a sacrificarsi per guadagnare minuti preziosi all'evacuazione, anche se inutile."
+          "low": "Jendra ispeziona nervosamente le crepe sui pilastri portanti con la sua lente runonica, mascherando l'ansia dietro ordini tecnici secchi ai muratori. 'Rinforzate quelle travi prima che cedano, maledizione!'",
+          "medium": "Tira fuori i progetti originali della Cittadella e li confronta con schizzi nascosti nella sua sacca. Le mani tremano leggermente mentre traccia linee rosse dove i supporti strutturali sono stati rimossi. 'Qualcuno sapeva esattamente dove colpire... questo non è un semplice cedimento.'",
+          "high": "Afferra il PG più vicino per il colletto, la voce incrinata: 'Ci sono duecento civili nei livelli inferiori! Il vostro dannato Sigillo ha attivato qualcosa - le rune di stabilizzazione stanno collassando in sequenza! Ho bisogno di sapere COSA avete toccato laggiù!'",
+          "extreme": "Spalanca la mappa dei canali di magma sotto la Cittadella, gridando sopra il fragore delle pietre che crollano: 'Il sabotaggio era preparatorio! Qualcuno VOLEVA che qualcosa venisse rubato per innescare questo! Abbiamo otto minuti prima che il magmaducto principale ceda - aiutatemi a sigillare le valvole runiche o moriamo tutti arrostiti!'"
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica dietro colonne portanti, minaccia di far crollare deliberatamente la sezione est se non la lasciano lavorare. La sua conoscenza strutturale diventa un'arma di disperazione.",
-          "se_corrotto": "Rifiuta l'oro con disprezzo - 'Le pietre non si comprano con monete, idioti!' Ma offre informazioni su passaggi segreti della cripta in cambio di aiuto nell'evacuazione dei quartieri nanici.",
-          "se_i_pg_hanno_prove": "Se mostrano prove del sabotaggio, svela che l'artefice è Vorun Blackvein, ex-partner che lei stessa licenziò. Offre schemi completi della Cittadella e dei suoi punti deboli in cambio di testimonianza contro il Consorzio.",
-          "se_alleato": "Diventa una risorsa inestimabile: conosce ogni passaggio, ogni scala nascosta. Guida i PG attraverso corridoi crollanti verso la cripta, monitorando costantemente i cedimenti con orecchio esperto contro le pareti."
+          "se_minacciato": "Attiva il suo guanto da battaglia nanico che proietta scudi cinetici, ma mantiene l'altra mano sul detonatore runico d'emergenza che potrebbe suggellare le sezioni critiche - intrappolando tutti dentro. 'Potete uccidermi, ma senza le mie sequenze di contenimento questa fortezza diventa una tomba.'",
+          "se_corrotto": "Sputa per terra. 'Tenete il vostro oro insanguinato. Ma se avete contatti esterni - mandameli. Ho bisogno di squadre di evacuazione che il Consorzio non fornirà mai in tempo. Fate questo, e vi dirò CHI ha comprato i progetti delle fondamenta tre lune fa.'",
+          "se_i_pg_hanno_prove": "Strappa i documenti dalle mani del PG, gli occhi che si allargano riconoscendo il sigillo cereo. 'Per la fucina di Moradin... è il marchio del Primo Mercante. Il NOSTRO leader ha sabotato la propria fortezza? Questo cambia tutto - dovete portare questo al Circolo dei Costruttori prima che...' - si blocca, realizzando qualcosa di terribile.",
+          "se_alleato": "Consegna ai PG uno schema dettagliato: 'Vedete questi tre nodi runici? Sono i punti di ancoraggio che tengono in piedi la cittadella. Qualcuno ha inserito cristalli di sovraccarico - il furto del Sigillo era il grilletto. Se riusciamo a raggiungerli prima del collasso totale, possiamo sostituirli. Io prendo il livello delle fucine, voi gli altri due. E se non torniamo... dite al mio clan che ho mantenuto il Giuramento del Costruttore.'"
         },
         "pressure_events": [],
         "relationships": [],
@@ -1276,8 +1264,8 @@
         "secret": "Era l'ultimo guardiano legittimo del Sigillo prima che Ilyne lo facesse arrestare con false accuse",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Infiltrarsi nella cripta durante il cambio della guardia notturna per recuperare prove documentali che dimostrino il complotto di Ilyne contro di lui, nascoste insieme al Sigillo",
-        "fallback_plan": "Se scoperto, rapire un membro anziano del Consorzio e costringerlo a confessare pubblicamente nella piazza mercantile all'alba, anche a costo della propria vita",
+        "current_plan": "Seguire i PG a distanza dopo che lasciano la sala, scoprire dove portano il Sigillo, poi usare quella informazione per negoziare con elementi del Consorzio disposti ad ascoltare la sua versione - il Sigillo come prova fisica della cospirazione di Ilyne",
+        "fallback_plan": "Se i PG scappano con il Sigillo: farsi catturare volontariamente dalle guardie, accusare pubblicamente Ilyne durante il processo, sperando che la sparizione del Sigillo corrobori le sue accuse di incompetenza/corruzione anche senza prove dirette",
         "resources": [
           "accessi",
           "contatti",
@@ -1293,16 +1281,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Mantiene un contegno aristocratico ma vigilante, studiando i PG con occhi esperti. Parla con tono formale, cercando di valutare le loro vere intenzioni senza rivelare troppo.",
-          "medium": "La mano si stringe sull'elsa della spada. La voce si fa più aspra mentre accenna al suo arresto ingiusto. Cerca disperatamente indizi che i PG possano essere alleati contro Ilyne.",
-          "high": "Il volto si contrae in una smorfia di rabbia contenuta. Rivela parti della sua caduta in disgrazia, accusando apertamente il Consorzio. Propone un'alleanza immediata se i PG dimostrano ostilità verso Ilyne.",
-          "extreme": "Getta via ogni cautela. Confessa di essere stato il guardiano tradito e offre di aiutare i PG a fuggire con il Sigillo in cambio della loro testimonianza contro il Consorzio. Pronto a combattere al loro fianco."
+          "low": "Osserva i PG con cautela, una mano sulla spada arrugginita. 'State cercando qualcosa che non vi appartiene. Il Sigillo fu sottratto a me con l'inganno... e voi siete ladri o giustizia mascherata?'",
+          "medium": "Blocca l'uscita, voce tremante di rabbia repressa. 'Il Consorzio ha già profanato il mio nome! Se portate via il Sigillo senza smascherare Ilyne, la mia disonore sarà eterno. Aiutatemi a provare il suo tradimento o giuro che suonerò l'allarme.'",
+          "high": "Estrae la spada con movimento disperato, lacrime di frustrazione. 'SETTE ANNI ho aspettato! Il Sigillo è la chiave per la mia redenzione! Le guardie stanno arrivando - datemi il Sigillo e vi mostro il passaggio segreto, O moriamo tutti qui come traditori!'",
+          "extreme": "Si getta in ginocchio davanti ai PG, offrendo la propria spada. 'Uccidetemi allora. Meglio morte che vivere ancora un giorno con questa vergogna. Ma se avete un briciolo di pietà... lasciate che il Sigillo testimoni la verità prima di sparire per sempre nei vostri forzieri.'"
         },
         "reaction_table": {
-          "se_minacciato": "Assume posizione difensiva ma non attacca subito. 'Se servite Ilyne, uccidetemi e finite ciò che ha iniziato. Ma se cercate la verità, abbassate le armi.'",
-          "se_corrotto": "Rifiuta con disgusto violento. 'L'oro del Consorzio ha già comprato la mia rovina. Non venderò anche la mia anima.' Diventa ostile.",
-          "se_i_pg_hanno_prove": "Gli occhi si illuminano di speranza feroce. Si inginocchia. 'Finalmente. Testimoni della corruzione. Portatemi con voi - conosco ogni segreto di questa fortezza.'",
-          "se_alleato": "Giura fedeltà sul suo onore perduto. Rivela passaggi segreti per la fuga e avverte dei veri piani di Ilyne per il Sigillo: usarlo per controllare i Draghi Dormienti del Nord."
+          "se_minacciato": "Combatte con ferocia suicida, urlando 'Per l'Ordine Dimenticato!' cercando di attivare il meccanismo d'allarme nella sala, preferendo morire che fallire ancora",
+          "se_corrotto": "Finge di accettare, poi al momento dello scambio attacca gridando 'Non venderò il mio onore due volte!', tentando di prendere sia il Sigillo che l'oro",
+          "se_i_pg_hanno_prove": "Crolla emotivamente, baciando i documenti che lo scagionano. Offre totale cooperazione: mappe della Cittadella, chiave della cripta personale di Ilyne, e giura fedeltà fino alla morte",
+          "se_alleato": "Rivela il Passaggio del Guardiano dietro il trono, consegna il suo anello sigillare come lasciapassare, e chiede solo di poter testimoniare quando Ilyne verrà smascherata pubblicamente"
         },
         "pressure_events": [],
         "relationships": [],
@@ -1323,8 +1311,8 @@
         "secret": "Ha intercettato messaggi tra Thrace e un sicario, sa che il gruppo è stato mandato a morire",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Raccogliere prove tangibili contro Ilyne e Thrace senza esporsi direttamente, usando il gruppo come inconsapevoli 'cani da caccia' per stanare i corrotti. Poi presentare le prove al Gran Magistrato quando sarà al sicuro.",
-        "fallback_plan": "Se scoperta o minacciata, bruciare tutti i ponti: rivelare pubblicamente lo scandalo durante il Consiglio dei Mercanti, sperando che il caos le permetta di fuggire dalla Cittadella prima che Thrace possa silenziarla.",
+        "current_plan": "Raccogliere prove sufficienti contro Ilyne presentandole al Maestro del Consorzio, usare il gruppo come testimoni inconsapevoli senza esporsi direttamente",
+        "fallback_plan": "Se la situazione degenera, fuggire da Korven usando i tunnel di servizio sotto gli archivi, vendere le informazioni a una gilda rivale in cambio di protezione e nuova identità",
         "resources": [
           "accessi",
           "contatti",
@@ -1340,16 +1328,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Mantiene un atteggiamento professionale e distaccato, osservando con attenzione ogni movimento del gruppo mentre finge di prendere appunti per il Consorzio. Pone domande apparentemente innocue per sondare le loro vere intenzioni.",
-          "medium": "Inizia a mostrare nervosismo, giocherellando con il suo anello-sigillo. Lascia trapelare piccoli indizi su 'irregolarità nei contratti di Thrace' e 'strane transazioni prima della missione', cercando di capire se il gruppo sospetta qualcosa.",
-          "high": "La facciata crolla. Con voce tremante rivela di aver intercettato messaggi cifrati tra Thrace e un assassino noto come 'Il Corvo Cremisi'. Ammette che il gruppo non doveva uscire vivo dalla cripta, ma che lei non può testimoniare apertamente senza prove fisiche o sarà la prossima vittima.",
-          "extreme": "Crolla completamente, confessando tutto tra le lacrime. Offre i messaggi cifrati nascosti nella fodera del suo mantello in cambio di protezione. Supplica il gruppo di portarla via dalla Cittadella quella notte stessa, rivelando che Thrace ha già eliminato altri due informatori nelle ultime settimane."
+          "low": "Finge di essere una semplice archivista del Consorzio, offre informazioni vaghe sulla disposizione della cittadella mentre osserva attentamente le reazioni del gruppo",
+          "medium": "Accenna nervosamente di aver visto Thrace incontrare qualcuno nelle ore notturne, lascia cadere indizi sul tradimento senza sbilanciarsi completamente",
+          "high": "Rivela di aver intercettato i messaggi tra Thrace e il sicario, mostra copie cifrate come prova, propone un'alleanza temporanea per sopravvivere insieme",
+          "extreme": "Confessa tutto: il Consorzio voleva il gruppo morto per incolparli del furto, Ilyne è il vero traditore, offre le prove complete in cambio di protezione immediata e fuga dalla Cittadella"
         },
         "reaction_table": {
-          "se_minacciato": "Si irrigidisce ma cerca di mediare: 'Uccidetemi e non saprete mai chi nel Consorzio voleva la vostra morte'. Usa il suo segreto come merce di scambio per la sopravvivenza.",
-          "se_corrotto": "Accetta denaro solo se accompagnato da una via di fuga sicura dalla Cittadella. Il denaro da solo non vale la sua vita - ha visto cosa fa Thrace ai traditori. Chiede almeno 500 corone d'oro E passaggio sicuro oltre i confini del Consorzio.",
-          "se_i_pg_hanno_prove": "Si anima immediatamente, vedendo una possibilità di rovesciare Thrace senza esporsi. Offre di falsificare documenti del Consorzio per incastrare Thrace, a patto che il suo nome resti fuori dalle testimonianze ufficiali.",
-          "se_alleato": "Diventa preziosa informatrice: conosce passaggi segreti nella Cittadella, i movimenti delle guardie, e dove Thrace nasconde i suoi archivi compromettenti. In cambio pretende una nuova identità e protezione permanente dal Consorzio."
+          "se_minacciato": "Alza le mani mostrando un sigillo del Consorzio, rivela di avere informazioni vitali sulla loro sopravvivenza, minaccia che se muore loro non sapranno mai chi li ha traditi",
+          "se_corrotto": "Accetta oro ma chiede anche garanzie di passaggio sicuro fuori da Korven, fornisce le prove contro Thrace e mappe delle vie di fuga segrete dalla cittadella",
+          "se_i_pg_hanno_prove": "Conferma tremante che le loro prove combaciano con quanto ha scoperto, propone di unire le informazioni per smascherare pubblicamente Ilyne davanti al Consorzio",
+          "se_alleato": "Condivide tutto: i messaggi cifrati, i nomi dei sicari, la posizione degli agguati preparati, guida il gruppo attraverso passaggi segreti degli archivi che conosce come spia"
         },
         "pressure_events": [],
         "relationships": [],
@@ -1370,8 +1358,8 @@
         "secret": "Fu lui a insegnare a Ilyne come risvegliare la Fiamma senza uccidersi immediatamente",
         "agenda_pressure": 0,
         "fear": "che Contratto di sangue strappato riveli il suo ruolo",
-        "current_plan": "Raggiungere la camera del focolare centrale nella cripta dove Ilyne sta preparando il risveglio della Fiamma. Gettarsi nel fuoco sacro completando il rituale di sangue iniziato 40 anni fa, credendo erroneamente che questo conterrà la Fiamma invece di liberarla completamente.",
-        "fallback_plan": "Se impedito fisicamente di raggiungere il focolare, cercherà di far detonare le vene di fuoco-liquido sotto la Cittadella aprendo le valvole sigillate nella sala delle caldaie, causando un'esplosione che forzerà Ilyne a completare il rituale in anticipo - senza controllo.",
+        "current_plan": "Raggiungere il punto dove Ilyne sta canalizzando il Sigillo del Fuoco Antico e gettarsi nel flusso magico, usando il suo corpo segnato da decenni di preparazione rituale come catalizzatore finale per risvegliare completamente la Fiamma di Korven.",
+        "fallback_plan": "Se impedito fisicamente di raggiungere Ilyne, iniziare il rituale di auto-immolazione dove si trova, creando un secondo epicentro della Fiamma che comunque alimenterà il risveglio, anche se in modo meno controllato e più catastrofico per la Cittadella.",
         "resources": [
           "accessi",
           "contatti",
@@ -1387,16 +1375,16 @@
           "che Contratto di sangue strappato riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva con occhi febbrili, mormorando litanie in lingua antica. Offre conoscenze sul rituale in cambio di essere condotto alla Fiamma.",
-          "medium": "Si strappa le bende rivelando carne carbonizzata che pulsa di bagliori arancioni. Supplica con voce rotta: 'Portatemi al focolare! Il rituale deve compiersi!'",
-          "high": "Crolla in ginocchio piangendo, confessa che Ilyne è destinata a bruciare come lui se non completa il ciclo. Solo il suo sacrificio può spezzare la maledizione che ha trasmesso.",
-          "extreme": "Si dà fuoco con mani tremanti usando polvere alchemica nascosta. Mentre brucia, urla la vera formula del rituale e il nome della camera segreta sotto la cripta dove giace il Cuore della Fiamma."
+          "low": "Volrath osserva con occhi ardenti, mormorando versi in una lingua dimenticata. Sorride alle fiamme che danzano sulle pareti, aspettando pazientemente il momento giusto.",
+          "medium": "Volrath inizia a ridere istericamente, le cicatrici da ustione sul suo corpo brillano di un bagliore rossastro. 'La Fiamma chiama! Ilyne ha già aperto la via!' Si muove verso il punto più caldo della sala.",
+          "high": "Volrath si strappa le vesti rivelando simboli incisi a fuoco sulla pelle. Urla invocazioni che fanno tremare l'aria: 'Decenni ho aspettato! Il mio corpo è l'esca, la mia morte sarà l'innesco!' Cerca disperatamente di raggiungere le fiamme più intense.",
+          "extreme": "Volrath si getta letteralmente nelle fiamme magiche, abbracciandole. Il suo corpo non brucia normalmente ma diventa un condotto: 'Ilyne! Completa ciò che ti ho insegnato! Il Sigillo è solo l'inizio! IO SONO IL SACRIFICIO FINALE!' Le fiamme si espandono esponenzialmente dal suo corpo."
         },
         "reaction_table": {
-          "se_minacciato": "Ride con gioia delirante - la morte è esattamente ciò che cerca, ma deve essere per fuoco sacro o il rituale fallirà e la Fiamma divorerà Korven.",
-          "se_corrotto": "Impossibile corromperlo - ha rinunciato a tutto decenni fa. Può però essere convinto a ritardare il rituale se gli si dimostra un modo per salvare Ilyne.",
-          "se_i_pg_hanno_prove": "Ammette tutto senza esitazione. Descrive con orgoglio come ha preparato Ilyne per anni, credendola l'unica degna di controllare il potere che lui non poté padroneggiare.",
-          "se_alleato": "Rivela i punti deboli di Ilyne: teme il freddo primordiale e il suo legame con il fuoco si spezza se qualcuno pronuncia il vero nome della Fiamma (Keth'vorun)."
+          "se_minacciato": "Ride della minaccia: 'Uccidermi? Sciocchi! La mia morte È il rituale! Ogni ferita mi avvicina al fuoco eterno!' Cerca attivamente di farsi colpire.",
+          "se_corrotto": "Respinge qualsiasi offerta con disgusto: 'Ho rifiutato oro, potere, persino la guarigione! Quarant'anni bruciano nelle mie vene. Solo la consumazione finale mi libererà!'",
+          "se_i_pg_hanno_prove": "Se sanno del suo legame con Ilyne: 'Sì! L'ho addestrata io! Una studentessa perfetta! Lei vivrà per guidare la Fiamma, io morirò per alimentarla! L'equilibrio è completo!'",
+          "se_alleato": "Impossibile. Rifiuta chiunque non sia disposto a bruciare con lui. Unica eccezione: chi accetta di aiutarlo a raggiungere il nucleo della Fiamma per completare il rituale."
         },
         "pressure_events": [],
         "relationships": [],
@@ -4001,8 +3989,7 @@
       "actors": 10,
       "clues": 18,
       "revelations": 6
-    },
-    "doctor_score": 4.3
+    }
   },
   "live_game_state": null
 }
