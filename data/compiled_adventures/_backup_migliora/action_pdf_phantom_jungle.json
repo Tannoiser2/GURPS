@@ -9487,7 +9487,7 @@
         "id": "llm_clue_1",
         "label": "Collana leggendaria raccolta accidentalmente in Perù",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T1",
         "source_location": "The TuSCAlOOSA",
         "reveals": "I PG possiedono un tesoro Inca che è la vera ragione dell'attacco dei gemelli al battello",
         "payoff": "Può essere usata come merce di scambio o per accedere al tempio",
@@ -9523,7 +9523,7 @@
         "id": "llm_clue_2",
         "label": "Richiesta urgente di aiuto da Arthur Van Der Woodson",
         "type": "document",
-        "thread_id": "T12",
+        "thread_id": "T2",
         "source_location": "ASeSinATO",
         "reveals": "Arthur era in una missione per trovare tesori Inca e ha avuto bisogno di aiuto urgente",
         "payoff": "Fornisce motivazione per raggiungere il campo rivoluzionario",
@@ -9559,7 +9559,7 @@
         "id": "llm_clue_3",
         "label": "Rapimento del Dr. Niyali Joshi da parte di 'fantasmi grigi'",
         "type": "testimony",
-        "thread_id": "T13",
+        "thread_id": "T3",
         "source_location": "ST. gOnzAlez lePer COlOny",
         "reveals": "Il dottore è stato rapito da misteriose figure grigie, lasciando i lebbrosi senza cure",
         "payoff": "Spinge i PG a seguire le tracce fino al campo rivoluzionario e al tempio",
@@ -9595,7 +9595,7 @@
         "id": "llm_clue_4",
         "label": "Arthur sospettato di essere El Clavo",
         "type": "contradiction",
-        "thread_id": "T12",
+        "thread_id": "T4",
         "source_location": "ASeSinATO",
         "reveals": "Arthur è stato erroneamente identificato come un pericoloso assassino",
         "payoff": "Salvare Arthur rivela informazioni cruciali sul tempio e sul Khipu Eterno",
@@ -9631,7 +9631,7 @@
         "id": "llm_clue_5",
         "label": "Arthur contratta la lebbra durante l'esplorazione",
         "type": "forensic",
-        "thread_id": "T12",
+        "thread_id": "T5",
         "source_location": "ASeSinATO",
         "reveals": "Arthur è malato e ha bisogno del Dr. Joshi per essere curato, creando urgenza nel salvataggio",
         "payoff": "Motiva i PG a salvare sia Arthur che il dottore",
@@ -9667,7 +9667,7 @@
         "id": "llm_clue_6",
         "label": "Ironclad confederata nel lagone fuori dal tempio",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T6",
         "source_location": "The CSS Tuscaloosa",
         "reveals": "Una nave da guerra confederata del 1860 è nascosta nella giungla peruviana",
         "payoff": "Rivela la connessione tra i confederati, il tempio e il tesoro nascosto",
@@ -9703,7 +9703,7 @@
         "id": "llm_clue_7",
         "label": "Incubi di Kirby Bell Bee sul bisnonno vivo",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T7",
         "source_location": "KIRBY BELL BEE",
         "reveals": "Il leader del culto è ossessionato da visioni di un antenato in stato comatoso nel tempio",
         "payoff": "Spiega le motivazioni di Kirby e il pericolo del Khipu",
@@ -9739,7 +9739,7 @@
         "id": "llm_clue_8",
         "label": "La Cabala: tre leader confederati in stasi",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T8",
         "source_location": "Outside the Temple",
         "reveals": "I corpi dei confederati e un tesoro in oro sono nascosti nel tempio da quasi 70 anni",
         "payoff": "Rivela il vero obiettivo di Kirby e il pericolo del Khipu",
@@ -9775,7 +9775,7 @@
         "id": "llm_clue_9",
         "label": "El Clavo ingaggiato per navigare le trappole del tempio",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T9",
         "source_location": "Outside the Temple",
         "reveals": "Il vero assassino El Clavo sta lavorando per Kirby Bell Bee",
         "payoff": "I PG dovranno affrontare un esperto di trappole e assassino nel tempio",
@@ -9811,7 +9811,7 @@
         "id": "llm_clue_10",
         "label": "Piano di Kirby di finanziare gruppi rivoluzionari",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T10",
         "source_location": "KIRBY BELL BEE",
         "reveals": "Il culto Certum Americana vuole destabilizzare il Perù e creare una propria nazione",
         "payoff": "Fermare Kirby previene un colpo di stato in Sud America",
@@ -9914,222 +9914,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "clue_11a",
-        "label": "Manifesto della Certum Americana",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "L'esistenza di un piano politico-militare su larga scala",
-        "payoff": "Rivela le vere ambizioni di Kirby oltre il semplice occultismo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_11b",
-        "label": "Mappa strategica dell'Amazzonia",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Piani territoriali concreti per stabilire un nuovo stato",
-        "payoff": "Conferma che l'oro del tempio è destinato a finanziare una rivoluzione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_11c",
-        "label": "Testimonianza di un rivoluzionario",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Il collegamento diretto tra Kirby e i gruppi rivoluzionari",
-        "payoff": "Spiega perché l'accampamento rivoluzionario protegge l'accesso al tempio",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_12a",
-        "label": "Contratto firmato da Kirby",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "El Clavo è un mercenario assunto da Kirby, non un alleato ideologico",
-        "payoff": "Scagiona Arthur dal sospetto di essere El Clavo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_12b",
-        "label": "Testimonianza di Arthur sulle sue malattie",
-        "type": "testimony",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Arthur è davvero malato e ha un alibi credibile per i suoi movimenti",
-        "payoff": "Elimina Arthur come sospetto per essere El Clavo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_12c",
-        "label": "Attrezzatura specializzata di El Clavo",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "El Clavo è un professionista altamente specializzato in archeologia pericolosa",
-        "payoff": "Conferma che El Clavo è stato ingaggiato specificamente per le sue competenze uniche",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_13a",
-        "label": "Registri medici rubati",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Il rapitore cercava specifiche conoscenze mediche del dottore",
-        "payoff": "Suggerisce che il Dr. Joshi è vivo e necessario per qualcosa di medico",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_13b",
-        "label": "Testimonianza di un testimone oculare",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Il rapimento è legato a persone in uno stato di sonno/stasi che devono essere risvegliate",
-        "payoff": "Collega il rapimento del Dr. Joshi direttamente alla Cabala nel tempio",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_13c",
-        "label": "Grida dal tempio",
-        "type": "behavior",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Il Dr. Joshi è vivo, nel tempio, e sta lavorando forzatamente su un processo di rianimazione",
-        "payoff": "Conferma la posizione esatta del dottore e il suo ruolo nel piano di Kirby",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -10143,8 +9927,8 @@
         "secret": "Ha contratto la lebbra esplorando il tempio Inca e teme di infettare gli altri, specialmente suo figlio",
         "agenda_pressure": 0,
         "fear": "Morire di lebbra senza completare la sua scoperta archeologica e senza rivedere suo figlio",
-        "current_plan": "Convincere i PG a risalire il Javary fino alle rovine Inca nascoste usando la collana come chiave di accesso, mentre lui rimane al campo base coordinando rifornimenti. Nasconde che intende seguirli segretamente per assicurarsi che trovino il Khipu",
-        "fallback_plan": "Se i PG rifiutano o la sua condizione peggiora troppo rapidamente, ha già assoldato un gruppo di mercenari peruviani senza scrupoli (guidati da Diego Maldonado) che seguiranno i PG e ruberanno sia la collana che il Khipu con la forza",
+        "current_plan": "Convincere i PG a guidarlo al tempio dove hanno trovato il Khipu, sostenendo che lì esistono altri artefatti che spiegano come usarlo. In realtà cerca le incisioni murali che descrivono il rituale di guarigione",
+        "fallback_plan": "Se i PG rifiutano di collaborare, Van Der Woodson seguirà segretamente la loro spedizione con guide indigene corrotti. Se anche questo fallisce, si suiciderà dopo aver inviato tutte le sue ricerche a Timothy con una lettera che spiega come completare la missione del padre",
         "resources": [
           "accessi",
           "contatti",
@@ -10166,16 +9950,16 @@
           "Morire prima di completare la sua scoperta"
         ],
         "pressure_response": {
-          "low": "Van Der Woodson accoglie i PG con cordialità britannica ma mantiene distanze fisiche, offrendo loro mappe parziali e informazioni frammentarie sul Khipu, nascondendo l'urgenza della sua malattia dietro interesse archeologico",
-          "medium": "Inizia a mostrare segni di disperazione: offre somme sempre più alte, rivela dettagli sulla maledizione del tempio e sulla sua condizione, ma omette ancora che la lebbra è già in stadio avanzato. Potrebbe mandare il figlio lontano improvvisamente",
-          "high": "Confessa apertamente la lebbra e il tempo limitato (forse 6 mesi). Minaccia di seguire i PG nella giungla da solo se non collaborano, rischiando di morire o diffondere il contagio. Mostra le fasciature deteriorate e le lesioni",
-          "extreme": "Nel delirio febbrile causato dalla malattia, tenta di rubare la collana ai PG di notte o di barattare informazioni vitali sulla giungla con nemici/rivali pur di ottenere il Khipu. Potrebbe minacciare il suicidio davanti al figlio se fallisce"
+          "low": "Van Der Woodson accoglie i PG con cortesia britannica ma mantiene le distanze fisiche, offrendo drink ma non stringendo mani. Nasconde le macchie sulla pelle sotto guanti bianchi e camicia a maniche lunghe",
+          "medium": "Diventa impaziente e ossessivo riguardo al Khipu, offre somme sempre maggiori. Tiene riunioni solo all'aperto o in stanze ben ventilate. Tossisce sangue in un fazzoletto che nasconde rapidamente",
+          "high": "Minaccia di rivelare la posizione dei PG ai cacciatori della collana o alle autorità brasiliane. Le lesioni sul viso diventano visibili. Parla delirante di 'tempo che scorre' e 'marciume che avanza'",
+          "extreme": "Tenta di rubare il Khipu di notte, disposto a uccidere se necessario. In preda alla febbre, urla che deve salvare suo figlio Timothy dall'eredità maledetta. Rivela che il ragazzo potrebbe essere già infetto"
         },
         "reaction_table": {
-          "se_minacciato": "Si ritira nel suo isolamento autoimposto, distruggendo le sue ricerche per non lasciare tracce che conducano altri al Khipu. Potrebbe trasformarsi in antagonista disperato che tende imboscate nella giungla",
-          "se_corrotto": "Impossibile corromperlo con denaro (ne ha in abbondanza), ma può essere manipolato attraverso la promessa di cure alternative o facendo leva sul suo amore paterno e sul desiderio di rivedere il figlio guarito",
-          "se_i_pg_hanno_prove": "Se confrontato con prove della sua malattia o del pericolo per altri, crolla emotivamente. Ammette tutto e si offre di rimanere in quarantena, ma supplica i PG di completare la missione per suo figlio",
-          "se_alleato": "Diventa mentore appassionato, condividendo decenni di esperienza amazzonica. Rivela trappas nascoste, dialetti tribali e la vera natura del Khipu: non è solo un artefatto curativo, ma una chiave per conoscenze Inca perdute"
+          "se_minacciato": "Si ritira nella sua capanna isolata sul fiume, armato con un vecchio fucile da caccia. Brucia tutti i documenti tranne la mappa del tempio. Invia un telegramma cifrato a Manaus per chiamare mercenari",
+          "se_corrotto": "Impossibile corromperlo con denaro - ne ha già. Ma può essere convinto che esiste un'altra cura oltre al Khipu: accetterebbe di aiutare i PG in cambio di un passaggio sicuro verso il sanatorio svizzero del Dr. Müller",
+          "se_i_pg_hanno_prove": "Crolla emotivamente se confrontato con prove della sua lebbra. Confessa tutto: il tempio maledetto, l'infezione, la disperazione. Supplica i PG di non dirlo a suo figlio Timothy che lo attende a Londra",
+          "se_alleato": "Rivela l'intera verità sul Khipu: non è solo un artefatto ma una mappa vivente verso la Ciudad Blanca dove i sacerdoti Inca curavano ogni male. Offre la sua expertise archeologica e contatti con tribù locali"
         },
         "pressure_events": [],
         "relationships": [
@@ -10207,8 +9991,8 @@
         "secret": "Conosce segreti medici o proprietà curative legate al tempio Inca che i cultisti vogliono sfruttare",
         "agenda_pressure": 0,
         "fear": "Che i suoi pazienti disperati muoiano senza le sue cure miracolose",
-        "current_plan": "Convincere i rapitori che deve tornare alla colonia per recuperare i suoi appunti medici completi, poi segnalare la presenza dei cultisti alle autorità brasiliane del Rio Javary",
-        "fallback_plan": "Se la fuga fallisce, distruggere deliberatamente i suoi stessi appunti medici ingoiandoli o bruciandoli, portando con sé nella morte i segreti che i cultisti bramano",
+        "current_plan": "Restare nascosta nella missione sul Javary fingendo di essere solo una dottoressa di frontiera. Cercare discretamente guide indigene disposte a condurla al tempio. Studiare i diari botanici di Arthur Van Der Woodson per localizzare autonomamente le spore curative prima che i cultisti ritornino.",
+        "fallback_plan": "Se i cultisti la trovano prima dei PG: lasciarsi catturare volontariamente dopo aver nascosto campioni di spore e istruzioni mediche cifrate nella colonia. Rallentare i cultisti fornendo coordinate false del tempio. Estrema ratio: ingerire veleno da curare entro 72 ore, rendendosi inutile come ostaggio ma guadagnando tempo per evacuare i pazienti.",
         "resources": [
           "accessi",
           "contatti",
@@ -10230,16 +10014,16 @@
           "Essere uccisa o resa inutile dai rapitori"
         ],
         "pressure_response": {
-          "low": "Finge collaborazione con i rapitori, rallentando i loro esperimenti fingendo di non ricordare le esatte proporzioni delle antiche formule curative incaiche",
-          "medium": "Nasconde campioni di erbe medicinali nelle cuciture del suo abito da medico, preparandosi a fuggire al primo segno di debolezza nella sorveglianza",
-          "high": "Sabota deliberatamente i rituali dei cultisti fornendo ingredienti sbagliati, rischiando punizioni pur di impedire che profanino le conoscenze sacre del tempio",
-          "extreme": "Tenta una fuga disperata attraverso la giungla notturna, anche se febbricitante, pur di avvertire la colonia lebbrosa dell'arrivo dei cultisti che cercano il 'siero dell'immortalità'"
+          "low": "Cura ferite e malattie con competenza professionale, menziona casualmente erbe rare del Rio Javary. Nasconde nervosismo quando si parla di templi o antichità.",
+          "medium": "Rivela di essere stata rapita da uomini con tatuaggi a forma di serpente. Confessa che la cercavano per le sue conoscenze su un unguento sacerdotale Inca che guarisce la lebbra. La collana è la chiave per accedere alla camera dove cresce il fungo necessario.",
+          "high": "Implora aiuto disperato: i cultisti torneranno per lei entro 48 ore. Spiega che il tempio nel profondo della giungla contiene spore medicinali che potrebbero salvare centinaia di lebbrosi, ma i cultisti vogliono usarle per un rituale di 'rigenerazione immortale'. Offre di guidarli al tempio se proteggono la colonia.",
+          "extreme": "Crolla emotivamente rivelando che i cultisti hanno infettato deliberatamente tre suoi pazienti con una lebbra accelerata come ricatto. Senza l'unguento del tempio moriranno in una settimana. Si offre come ostaggio in cambio della collana se necessario, pur di salvare i malati."
         },
         "reaction_table": {
-          "se_minacciato": "Si offre di curare le ferite dei cultisti con le sue conoscenze mediche, guadagnando tempo e fiducia mentre cerca una via di fuga",
-          "se_corrotto": "Rifiuta categoricamente denaro o potere, citando il giuramento di Ippocrate e la sua dedizione ai lebbrosi abbandonati che nessun altro vuole curare",
-          "se_i_pg_hanno_prove": "Rivela che la collana è la chiave per accedere alla camera segreta del tempio dove gli Inca custodivano il 'Nettare di Viracocha', una resina curativa ora cercata dai cultisti",
-          "se_alleato": "Insegna ai PG come riconoscere e preparare le piante medicinali amazzoniche, condividendo mappe mentali del territorio tra il fiume Javary e l'antica rotta Inca verso il tempio"
+          "se_minacciato": "Si ritrae terrorizzata, balbetta in hindi, poi supplica mostrando foto dei suoi pazienti lebbrosi bambini. 'Non sono io che cercate, è la conoscenza che porto, e quella muore con me!'",
+          "se_corrotto": "Rifiuta con dignità offesa: 'Ho rinunciato a Londra e Bombay per questi dimenticati. Il denaro non cura la lebbra, la dedizione sì.' Ma potrebbe barattare informazioni mediche per medicine moderne.",
+          "se_i_pg_hanno_prove": "Se mostrano la collana, impallidisce: 'Quella è la Chiave del Guaritore! Arthur mi scrisse di averla cercata per anni... pensava fosse la salvezza per la colonia. Dove l'avete trovata?' Collabora immediatamente.",
+          "se_alleato": "Diventa risorsa preziosa: identifica veleni della giungla, cura malattie tropicali, traduce simboli medici Inca. Condivide mappe di Arthur verso il 'Tempio delle Sette Lacrime' dove crescono le spore curative. Avverte: 'I guardiani del tempio non distinguono tra predatori e salvatori.'"
         },
         "pressure_events": [],
         "relationships": [
@@ -10271,8 +10055,8 @@
         "secret": "Sta avendo incubi causati dal contatto psichico con il Cabal: tre leader confederati in stasi dal 1867 che vogliono creare una nazione nel bacino amazzonico",
         "agenda_pressure": 0,
         "fear": "Che il suo bisnonno muoia nella stasi prima di essere risvegliato e salvato",
-        "current_plan": "Seguire i PG a distanza fino al tempio Eternal Khipu. La collana è la chiave d'accesso alle camere di stasi. Una volta lì, usare il sangue dei portatori della collana per completare il rituale di risveglio del bisnonno Colonnello Bell.",
-        "fallback_plan": "Se perde la collana o i PG la distruggono, usare il proprio sangue familiare per un risveglio parziale. Questo lo ucciderà ma permetterà al bisnonno di possedere il suo corpo moribondo abbastanza a lungo da accedere alle camere degli altri due Colonnelli.",
+        "current_plan": "Lasciare che i PG risalgano il Javary con la collana, seguendoli a distanza. Quando raggiungono Van Der Woodson (che è già sotto la sua influenza), far sì che l'archeologo li guidi 'accidentalmente' al tempio del Cabal. Lì, usare la collana leggendaria come chiave per completare il risveglio del bisnonno, il Colonnello Obadiah Bell.",
+        "fallback_plan": "Se il piano principale fallisce, attivare l'Eternal Khipu incompletamente per creare un campo di controllo mentale limitato. Usare gli schiavi psichici risultanti (inclusi i PG, se possibile) per recuperare altri artefatti perduti nella giungla. Come ultima risorsa, distruggere il tempio e la collana per impedire che cadano in altre mani, anche se significa perdere il bisnonno per sempre.",
         "resources": [
           "accessi",
           "contatti",
@@ -10294,16 +10078,16 @@
           "Essere scoperto dalle autorità brasiliane o peruviane"
         ],
         "pressure_response": {
-          "low": "Kirby si presenta come collezionista rivale interessato alla collana, offre denaro o scambi per evitare conflitti. Invia mercenari locali a spiare i PG.",
-          "medium": "Organizza un'imboscata fluviale per rubare la collana, usando kayapó corrotti. Se fallisce, sabota la loro imbarcazione durante la notte per rallentarli mentre lui procede verso il tempio.",
-          "high": "Rapisce Van Der Woodson come ostaggio e lascia messaggi cifrati per scambiare la collana con la sua vita. Gli incubi peggiorano: comincia a parlare in prima persona plurale, citando battaglie della Guerra Civile.",
-          "extreme": "Risveglia prematuramente uno dei tre del Cabal nel tempio, anche se il rituale è incompleto. L'entità posseduta attacca tutti indiscriminatamente. Kirby, in preda a delirio psichico, crede di essere già suo bisnonno reincarnato."
+          "low": "Invia mercenari indigeni corrotti per seguire i PG sul Javary, fingendosi guide locali. Offre denaro a Van Der Woodson per sabotare sottilmente la spedizione.",
+          "medium": "Organizza imboscate fluviali usando piroghe armate. Diffonde voci tra i ribeirinhos che la collana porta maledizioni e morti. Accelera i preparativi al tempio, sacrificando cautela per velocità.",
+          "high": "Attacca direttamente con la sua banda armata, cercando di rapire il portatore della collana. Usa artefatti minori del tempio per evocare creature della giungla contro i PG. Gli incubi peggiorano, lo rendono instabile e violento.",
+          "extreme": "Risveglia prematuramente uno dei tre leader del Cabal in stasi, anche se il rituale è incompleto. Usa l'Eternal Khipu parzialmente attivato per scatenare un'ondata psionica che rende folli tutti nel raggio di chilometri. Brucia letteralmente il proprio corpo come conduttore del potere confederato."
         },
         "reaction_table": {
-          "se_minacciato": "Finge resa ma attiva una trappola pre-pianificata nella giungla. Usa specchi e fischietti per disorientare, poi fugge verso una zattera nascosta con provviste per il tempio.",
-          "se_corrotto": "Accetta temporaneamente l'alleanza ma chiede di toccare la collana 'per verificarne l'autenticità'. Il contatto intensifica gli incubi: tradirà i PG alla prima occasione utile vicino al tempio.",
-          "se_i_pg_hanno_prove": "Nega tutto attribuendo le sue azioni ai 'banditi locali'. Se mostrano prove del Cabal, ha un episodio psicotico: 'Come fate a conoscere i Colonnelli?!' Fugge terrorizzato nella giungla.",
-          "se_alleato": "Condivide mappe del tempio ma omette le camere di stasi. Propone di 'studiare insieme' la collana al tempio, dove pianifica di completare il rituale usando i PG come sacrifici per stabilizzare il risveglio."
+          "se_minacciato": "Finge di essere un semplice cercatore di gomma o esploratore. Mostra documenti falsi che lo identificano come ricercatore del Museum of Natural History. Se alle strette, rivela connessioni con potenti fazendeiros brasiliani.",
+          "se_corrotto": "Promette accesso alle tecnologie perdute nel tempio, oro confederato nascosto, o una posizione di potere nella 'Nuova Confederazione Amazzonica'. Gli incubi lo rendono sospettoso: testa sempre la lealtà con compiti crudeli.",
+          "se_i_pg_hanno_prove": "Scatena i suoi alleati politici a Manaus e Leticia per screditare i PG come spie straniere o sabotatori. Fa sparire le prove fisiche con furti o incendi. Nega tutto, accusando i PG di delirio da febbre della giungla.",
+          "se_alleato": "Condivide visioni frammentarie degli incubi: templi sommersi, soldati grigi in uniformi Confederate che marciano nella giungla, il Cabal che gli sussurra promesse di impero. Chiede aiuto per 'controllare le voci', ma tradisce appena ha la collana."
         },
         "pressure_events": [],
         "relationships": [
@@ -10335,8 +10119,8 @@
         "secret": "Ha sviluppato un dispositivo ad azoto che gli permette salti impossibili, dandogli vantaggio tattico unico negli scontri",
         "agenda_pressure": 0,
         "fear": "Fallire la missione e perdere la reputazione di assassino mortale infallibile",
-        "current_plan": "Seguire i PG lungo il Javary mantenendo distanza di sicurezza. Quando si avvicinano al territorio del tempio, eliminarli in zone dove il dispositivo ad azoto garantisce superiorità tattica totale - cascate, rovine verticali, ponti di liana.",
-        "fallback_plan": "Se i PG si rivelano troppo resistenti o numerosi, ritirarsi al tempio e preparare difesa concentrica usando le trappole antiche. Usare il dispositivo per controllare i livelli superiori inaccessibili, trasformando il tempio in fortezza tridimensionale dove solo lui può muoversi liberamente tra tutti i piani.",
+        "current_plan": "Seguire i PG lungo il Javary mantenendo distanza di sicurezza, coordinandosi via radio portatile con le guardie del tempio. Quando si avvicinano alla proprietà di Van Der Woodson, orchestrare un rapimento notturno del portatore della collana usando il dispositivo ad azoto per infiltrazione verticale impossibile",
+        "fallback_plan": "Se il piano di rapimento fallisce, avvelenare le provviste d'acqua dei PG con tossine paralizzanti locali estratte dalla rana dorata. Durante la loro debolezza, usare il vantaggio verticale per recuperare la collana e ritirarsi verso il tempio, minando il sentiero dietro di sé con trappole ad azoto esplosivo",
         "resources": [
           "accessi",
           "contatti",
@@ -10358,16 +10142,16 @@
           "Fallire pubblicamente una missione e rovinare la sua reputazione"
         ],
         "pressure_response": {
-          "low": "Osserva i portatori della collana da lontano, seguendoli lungo il Javary senza farsi notare. Invia rapporti a Kirby sulla loro posizione e composizione del gruppo.",
-          "medium": "Sabota la loro imbarcazione durante la notte usando il dispositivo ad azoto per saltare silenziosamente a bordo. Lascia segni del culto per intimidirli e rallentare la loro avanzata verso il tempio.",
-          "high": "Tende un'imboscata nella giungla usando la mobilità verticale del dispositivo ad azoto, colpendo dall'alto della canopia. Cerca di recuperare la collana eliminando i portatori più isolati del gruppo.",
-          "extreme": "Attiva le antiche trappole del tempio e usa il dispositivo per attraversare zone mortali inaccessibili agli altri. Se necessario, sacrifica alcuni cultisti come diversivo mentre lui elimina i PG uno per uno con assalti aerei improvvisi."
+          "low": "Osserva i PG da lontano nelle giungle del Javary, studiando i loro movimenti e la collana. Lascia segni inquietanti del culto lungo il fiume per intimidirli",
+          "medium": "Orchestra imboscate tattiche usando il suo dispositivo ad azoto per apparire e scomparire dalla vegetazione, mirando a separare il portatore della collana dal gruppo",
+          "high": "Attacca direttamente il gruppo durante la notte con salti impossibili tra gli alberi, tentando di strappare la collana con violenza chirurgica prima di sparire nel buio",
+          "extreme": "Prepara un'esplosione controllata lungo una sezione del fiume usando nitroglicerina e azoto liquido, costringendo i PG verso il tempio dove il culto li attende in forze"
         },
         "reaction_table": {
-          "se_minacciato": "Sfrutta il dispositivo ad azoto per ritirarsi verticalmente oltre 10 metri in un istante, sparendo nella canopia o su rovine inaccessibili. Riposiziona e contrattacca da angolazioni impossibili.",
-          "se_corrotto": "Finge interesse solo per guadagnare tempo e scoprire i punti deboli dei PG. Il contratto con Kirby vale più di qualsiasi offerta - è una questione di reputazione professionale.",
-          "se_i_pg_hanno_prove": "Accelera l'eliminazione fisica dei testimoni. Le prove non contano se non ci sono sopravvissuti per presentarle. Contatta Kirby per rinforzi dal culto se necessario.",
-          "se_alleato": "Impossibile - vede Van Der Woodson come il bersaglio primario e chiunque risponda alla sua chiamata come ostacolo da rimuovere. Potrebbe fingere alleanza solo per portarli in trappola mortale."
+          "se_minacciato": "Attiva il dispositivo ad azoto per balzare a distanza di sicurezza (6-8 metri verticali), usa granate fumogene e riposizionamento acrobatico impossibile da seguire",
+          "se_corrotto": "Finge interesse per denaro ma riferisce tutto a Kirby - la fedeltà al contratto vale più di qualsiasi somma. Usa l'incontro per piazzare traccianti chimici sui PG",
+          "se_i_pg_hanno_prove": "Accelera drasticamente il piano: brucia le prove fisiche con termite, elimina testimoni scomodi e finge la propria morte con un manichino lasciato sulla scena",
+          "se_alleato": "Impossibile: Van Der Woodson potrebbe averlo assunto tramite Kirby ma El Clavo lavora esclusivamente per il culto. Qualsiasi alleanza è tradimento in preparazione"
         },
         "pressure_events": [],
         "relationships": [
@@ -10399,8 +10183,8 @@
         "secret": "",
         "agenda_pressure": 0,
         "fear": "Perdere per sempre la traccia della collana e fallire la loro caccia al tesoro",
-        "current_plan": "Precedere i PG fino all'accampamento di Van Der Woodson, convincerlo che i PG sono tombaroli pericolosi e ottenere il suo aiuto per recuperare la collana 'legalmente'",
-        "fallback_plan": "Se falliscono nel recupero, rapire uno dei portatori indigeni dei PG e torturarlo per scoprire la vera destinazione finale della collana, poi vendere l'informazione al miglior offerente a Manaus",
+        "current_plan": "Uno precede la spedizione risalendo il Javary più velocemente, preparando un'imboscata dove il fiume si restringe presso le rapide di Atalaia do Norte. L'altro insegue da dietro, chiudendo la via di fuga. Attaccano contemporaneamente al crepuscolo, quando la giungla è più buia.",
+        "fallback_plan": "Se l'imboscata fallisce, infiltrano l'accampamento dei PG facendosi assumere come guide locali (uno si maschera da esploratore mestizo, l'altro da cacciatore caboclo). Guadagnano fiducia, poi rubano la collana durante una crisi orchestrata (attacco di giaguaro, indigeni ostili) e scompaiono nella giungla, lasciando false tracce verso il Perù mentre fuggono in Brasile.",
         "resources": [
           "accessi",
           "contatti",
@@ -10422,16 +10206,16 @@
           "Danneggiare la collana durante il combattimento"
         ],
         "pressure_response": {
-          "low": "Seguono i PG da lontano lungo il fiume Javary, osservando con binocoli dalle rive, lasciando segni minacciosi nei villaggi dove si fermano: animali scuoiati, collane spezzate",
-          "medium": "Tendono un'imboscata fluviale notturna con canoe silenziose, tentano di salire a bordo per perquisire i bagagli mentre uno dei gemelli distrae con colpi di fucile dalla giungla",
-          "high": "Sabotano l'imbarcazione dei PG causando una falla, poi si offrono di 'salvarli' in cambio della collana, tenendo uno dei PG in ostaggio su una piroga separata",
-          "extreme": "Incendiano la vegetazione circostante per bloccare il fiume, attaccano frontalmente con machete e revolver, disposti a uccidere tutti pur di recuperare la collana prima che raggiunga Van Der Woodson"
+          "low": "Seguono la spedizione a distanza lungo il Javary, osservando da rive opposte e usando informatori indigeni per tracciare i movimenti. Lasciano segni intimidatori: feticci appesi, accampamenti saccheggiati, guide locali che scompaiono misteriosamente.",
+          "medium": "Orchestrano imboscate fluviali coordinate: uno attacca frontalmente con piroghe armate mentre l'altro tende agguati sulla riva. Sabotano il motore della barca, avvelenano le provviste, rapiscono Van Der Woodson per costringere la consegna della collana.",
+          "high": "Attaccano simultaneamente da due direzioni durante la notte, usando fuoco e granate. Uno si finge ferito per attirare i PG in trappola mentre l'altro devasta l'accampamento. Minacciano di giustiziare ostaggi ogni ora finché non ottengono la collana.",
+          "extreme": "Si separano definitivamente: uno innesca un incendio massiccio nella giungla per bloccare ogni via di fuga fluviale, l'altro assalta direttamente con dinamite e machete, pronto a uccidere chiunque pur di strappare la collana dal cadavere del portatore. Nessuna trattativa, solo violenza totale."
         },
         "reaction_table": {
-          "se_minacciato": "Il gemello più calmo tratta mentre l'altro impugna nervosamente il machete, propongono di spartire il 'potere della collana' piuttosto che combattere",
-          "se_corrotto": "Rifiutano denaro ma accettano informazioni su dove Van Der Woodson conserva altri artefatti nella sua tenuta brasiliana, tradendo il loro vero mandante",
-          "se_i_pg_hanno_prove": "Ammettono di lavorare per un collezionista tedesco ossessionato dalle leggende amazzoniche, rivelano che la collana è la chiave per un tempio sommerso nel Rio delle Amazzoni",
-          "se_alleato": "Uno dei gemelli tradisce l'altro per schierarsi coi PG, rivela che suo fratello è già posseduto dalla maledizione della collana e deve essere fermato"
+          "se_minacciato": "Fingono temporanea sottomissione, poi uno distrae mentre l'altro colpisce alle spalle. Se separati, il gemello libero organizza immediatamente un'operazione di salvataggio feroce, bruciando tutto ciò che incontra.",
+          "se_corrotto": "Accettano pagamenti o favori solo come tattica dilatoria. Prenderanno denaro, oro, qualsiasi cosa... poi attaccheranno comunque. La collana vale più di qualsiasi ricchezza per i loro misteriosi committenti.",
+          "se_i_pg_hanno_prove": "Ridono delle prove. Nessuna autorità ha giurisdizione nella giungla del Javary. Se i PG minacciano di esporli a Van Der Woodson o tribù locali, accelerano l'attacco finale prima che le prove raggiungano qualcuno.",
+          "se_alleato": "Impossibile vera alleanza, ma se un PG tradisce gli altri offrendo la collana, i gemelli la prendono e uccidono il traditore per ultimo, lentamente, come esempio. Il loro codice gemellare non prevede outsider fidati."
         },
         "pressure_events": [],
         "relationships": [],
@@ -10452,8 +10236,8 @@
         "secret": "Sono caduti in coma nel 1867 dopo aver toccato l'Eterno Khipu troppe volte per avidità di conoscenza cosmica. La loro esistenza è il vero motivo per cui Kirby Bell Bee cerca disperatamente il Khipu.",
         "agenda_pressure": 0,
         "fear": "Rimanere intrappolati per sempre nello stato comatoso o essere uccisi mentre sono indifesi",
-        "current_plan": "Usare Kirby Bell Bee e i cultisti per recuperare l'Eterno Khipu dai PG. Una volta in possesso della collana, completare il rituale del 'Grande Risveglio' usando il sangue di chi ha toccato il Khipu (i PG stessi) come catalizzatore. Risvegliarsi completamente e unire i frammenti sparsi del Certum Americana per proclamare la Nazione di Paititi nel 1937.",
-        "fallback_plan": "Se il risveglio fisico fallisce, trasferire permanentemente le loro coscienze nel piano onirico usando il Khipu come ancoraggio. Continuare a governare il culto attraverso sogni e visioni, trasformando i membri fedeli in estensioni del loro volere collettivo. Kirby Bell Bee diventa il 'corpo' primario attraverso cui manifestarsi fisicamente quando necessario (possessione consensuale ritualistica).",
+        "current_plan": "Usare la risonanza tra l'Eterno Khipu nascosto nel tempio sommerso e la collana leggendaria per creare un ponte telepatico. Questo permetterà ai cinque membri della Cabal di risvegliarsi gradualmente senza dover toccare direttamente il Khipu, evitando ulteriore degenerazione mentale.",
+        "fallback_plan": "Se impossibile recuperare la collana intatta, i cultisti Certum Americana devono distruggere sia la collana che i PG in un sabotaggio esplosivo sulla nave fluviale. Meglio nessuno abbia il potere che vederlo nelle mani sbagliate. La Cabal rimarrà dormiente altri decenni cercando alternative per risvegliarsi.",
         "resources": [
           "accessi",
           "contatti",
@@ -10475,16 +10259,16 @@
           "Il fallimento del culto Certum Americana che renderebbe il loro sacrificio inutile"
         ],
         "pressure_response": {
-          "low": "Sussurri onirici invadono i sogni dei portatori del Khipu, mostrando visioni di città dorate sommerse dalla giungla. Gli sciamani locali evitano certi tratti del fiume, mormorando di 'quelli che dormono ma vedono'.",
-          "medium": "I cultisti fedeli del Certum Americana intensificano la sorveglianza sul fiume Javary. Kirby Bell Bee riceve ordini telepatici frammentati: 'Portare... collana... ai Dormienti... risveglio imminente'. Creature della giungla si comportano in modo innaturale vicino agli antichi templi nascosti.",
-          "high": "Uno dei membri della Cabala si agita nella stasi, causando terremoti localizzati presso le rovine dove riposano. Kirby Bell Bee mobilita tutto il culto per intercettare i PG prima che raggiungano Van Der Woodson. I sogni diventano incubi condivisi tra tutti coloro che hanno toccato il Khipu.",
-          "extreme": "Il membro più giovane della Cabala, Edmund Vance (in coma dal 1867), si risveglia parzialmente: corpo funzionante ma mente ancora intrappolata nel 1867. Cammina verso la posizione del Khipu come uno zombie lucido, seguito da centinaia di cultisti. Le sue parole sono echi di conversazioni di 70 anni fa mescolate a comandi telepatici ai fedeli."
+          "low": "Attraverso sogni condivisi e visioni, The Cabal invia sussurri telepatici ai cultisti Certum Americana ancora attivi, ordinando di recuperare la collana e portarla al loro tempio sommerso presso le sorgenti del Javary.",
+          "medium": "Uno dei membri della Cabal, il Veggente Mortimer Ashford, si risveglia parzialmente dallo stato catatonico. Comunica attraverso scrittura automatica tramite medium posseduti, guidando cultisti armati e indigeni corrotti a tendere imboscate fluviali ai PG.",
+          "high": "Due membri della Cabal si risvegliano completamente ma menomati: Lady Constance Drummond può camminare solo trasportata in lettiga, mentre il Dottor Erasmus Fell parla solo lingue precolombiane dimenticate. Guidano personalmente una spedizione di recupero con mercenari olandesi e creature della giungla telepaticamente dominate.",
+          "extreme": "Tutti e cinque i membri della Cabal si risvegliano simultaneamente in forma corrotta e semi-umana, abbandonando il piano della nuova nazione. Vogliono solo toccare nuovamente l'Eterno Khipu per completare la trasformazione in entità cosmiche, anche a costo di distruggere l'intera regione del bacino amazzonico con un rituale di ascensione."
         },
         "reaction_table": {
-          "se_minacciato": "La Cabala non può essere minacciata direttamente (sono catatonici in un tempio segreto), ma se i loro corpi vengono scoperti, i cultisti attuano il 'Protocollo del Sonno Eterno': trasferimento immediato in una nuova locazione e sacrifici di sangue per rafforzare le barriere oniriche.",
-          "se_corrotto": "Impossibile corromperli - la loro coscienza non opera su scala umana ormai. Però i PG potrebbero 'negoziare' attraverso visioni indotte toccando il Khipu, promettendo di consegnare la collana in cambio di conoscenze proibite (trappola: ogni visione li avvicina alla stessa catatonia).",
-          "se_i_pg_hanno_prove": "Le prove della loro esistenza (dagherrotipi del 1867, documenti del culto originale, testimonianze di anziani sciamani) attireranno fazioni rivali: il Vaticano invia esorcisti, università occultiste europee mandano 'ricercatori', governi sudamericani negano tutto ma inviano squadre militari.",
-          "se_alleato": "Se i PG toccano volontariamente il Khipu cercando alleanza, vedono la 'verità': la Cabala promette immortalità attraverso la stasi cosciente e l'accesso a millenni di storia pre-colombiana. Il prezzo: diventare guardiani dormienti della loro futura nazione. Kirby Bell Bee diventa loro 'interprete' nel mondo sveglio."
+          "se_minacciato": "Sacrifica tutti i cultisti fedeli come distrazioni o carburante ritualistico per accelerare il risveglio. Attiva trappole temporali lasciate nel tempio sommerso dal 1867 che distorcono lo spazio-tempo fluviale.",
+          "se_corrotto": "Impossibile corromperli - sono già oltre l'umano. Ma fingono interesse per negoziare, promettendo potere cosmico se i PG consegnano volontariamente la collana, permettendo loro di toccare il Khipu 'solo una volta'.",
+          "se_i_pg_hanno_prove": "Kirby Bell Bee attiva il protocollo di emergenza: deve distruggere ogni evidenza della Cabal prima che governi stranieri intervengano. Potrebbe temporaneamente allearsi coi PG per silenziare la verità, poi tradirli.",
+          "se_alleato": "Arthur Van Der Woodson viene contattato telepaticamente e riceve visioni del 'futuro glorioso' - una nazione teocrazia amazzonica. Gli offrono posizione di alto sacerdote se consegna i PG e la collana al tempio sommerso alle coordinate esatte."
         },
         "pressure_events": [],
         "relationships": [
@@ -10516,7 +10300,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -10546,16 +10329,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_jungle_trek",
-        "location_type": "local",
-        "connections_to": [
-          "loc_benjamin_constant"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10568,7 +10341,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -10599,18 +10371,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_jungle_trek",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_javary_river_boat",
-          "loc_leper_colony",
-          "loc_revolutionary_camp"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10623,7 +10383,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -10653,17 +10412,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_jungle_trek",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_benjamin_constant",
-          "loc_revolutionary_camp"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10676,7 +10424,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -10706,18 +10453,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_jungle_trek",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_benjamin_constant",
-          "loc_leper_colony",
-          "loc_temple_outskirts"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10730,7 +10465,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -10760,16 +10494,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_temple_coniraya",
-        "location_type": "local",
-        "connections_to": [
-          "loc_temple_lagoon"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10782,7 +10506,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -10814,16 +10537,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_jungle_trek",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_revolutionary_camp"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10836,7 +10549,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -10866,16 +10578,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_temple_coniraya",
-        "location_type": "local",
-        "connections_to": [
-          "loc_temple_outskirts"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10888,7 +10590,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -10918,14 +10619,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10943,29 +10636,19 @@
         "on_complete": "Kirby Bell Bee risveglia i tre leader confederati dalla stasi. Con l'oro del tempio e la conoscenza del Khipu Eterno, fondano una nazione imperialista che destabilizza il Sud America.",
         "steps": [
           {
-            "value": 2,
-            "label": "Ironclad Confederata individuata",
-            "effect": "L'antica nave da guerra confederata viene avvistata risalendo le acque torbide verso il lagone, lasciando una scia di fumo nero"
+            "step": 3,
+            "world_state_change": "Kirby Bell Bee raggiunge il tempio con la Dr. Joshi e El Clavo",
+            "scene_prompt": "L'ironclad confederata si sposta verso il lagone del tempio"
           },
           {
-            "value": 4,
-            "label": "Kirby raggiunge il tempio",
-            "effect": "L'ironclad si ancora nel lagone nascosto. Kirby Bell Bee, la Dr. Joshi prigioniera ed El Clavo sbarcano con equipaggiamento da esplorazione"
+            "step": 6,
+            "world_state_change": "El Clavo supera le prime trappole del tempio",
+            "scene_prompt": "Si sentono meccanismi antichi attivarsi dalle profondità del Tempio di Coniraya"
           },
           {
-            "value": 6,
-            "label": "Prime trappole superate",
-            "effect": "El Clavo guida Kirby attraverso i primi corridoi mortali. Meccanismi antichi si riattivano dopo secoli, echeggiando nella giungla"
-          },
-          {
-            "value": 8,
-            "label": "Camera della Cabala raggiunta",
-            "effect": "Una luce dorata e innaturale emana dalle profondità. Si sentono voci sussurrare in lingue dimenticate mentre i sigilli si indeboliscono"
-          },
-          {
-            "value": 10,
-            "label": "Risveglio completato",
-            "effect": "I tre leader confederati emergono dalla stasi con occhi che brillano di potere antico. Il Sud America non sarà più lo stesso"
+            "step": 8,
+            "world_state_change": "Kirby raggiunge la camera della Cabala",
+            "scene_prompt": "Una luce innaturale emana dalle profondità del tempio"
           }
         ],
         "clock_type": "terminal_defeat",
@@ -10974,13 +10657,13 @@
           "llm_clue_11",
           "llm_clue_9"
         ],
-        "resolution_condition": "I giocatori liberano la Dr. Joshi e la convincono a sabotare i rituali di risveglio, oppure distruggono i meccanismi della camera della stasi prima che Kirby completi la sequenza di attivazione del Khipu Eterno",
+        "resolution_condition": "I giocatori liberano la Dr. Joshi e impediscono a El Clavo di guidare Kirby attraverso le trappole del tempio fino alla camera della Cabala",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_7",
-        "discovery_hint": "Nelle notti senza luna, alcuni discendenti confederati si svegliano urlando, parlando di antenati che chiamano dai sogni con promesse di gloria perduta",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Alcuni discendenti confederati sembrano ossessionati da sogni ricorrenti di antenati che chiamano dal profondo della giu",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 0,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -10999,24 +10682,14 @@
         "on_complete": "Arthur Van Der Woodson muore di lebbra. I PCs perdono informazioni cruciali sul tempio e il Khipu Eterno.",
         "steps": [
           {
-            "value": 2,
-            "label": "Primi sintomi visibili",
-            "effect": "Arthur tossisce frequentemente e la sua pelle mostra chiazze pallide. Cerca di nasconderlo ma trema durante le conversazioni"
+            "step": 3,
+            "world_state_change": "Le condizioni di Arthur peggiorano visibilmente",
+            "scene_prompt": "Arthur è pallido e febbricitante, fatica a stare in piedi"
           },
           {
-            "value": 4,
-            "label": "Febbre persistente",
-            "effect": "Arthur è costretto a letto, pallido e febbricitante. Le sue mani tremano mentre cerca di mostrare mappe e documenti ai giocatori"
-          },
-          {
-            "value": 6,
-            "label": "Delirio intermittente",
-            "effect": "Arthur alterna momenti di lucidità a deliri febbrili. Balbetta frasi sul Khipu, su 'tre che dormono' e su 'l'oro che non deve risvegliarli'"
-          },
-          {
-            "value": 8,
-            "label": "Morte imminente",
-            "effect": "Arthur è incosciente, il respiro affannoso. I segreti del tempio e del Khipu Eterno moriranno con lui se non viene salvato immediatamente"
+            "step": 6,
+            "world_state_change": "Arthur è quasi incosciente",
+            "scene_prompt": "Arthur delira e balbetta frasi incomprensibili sul Khipu"
           }
         ],
         "clock_type": "escalation",
@@ -11024,13 +10697,13 @@
           "llm_clue_11",
           "llm_clue_3"
         ],
-        "resolution_condition": "I giocatori salvano la Dr. Niyali Joshi da Kirby Bell Bee e la riportano alla piantagione in tempo per somministrare le cure ad Arthur, oppure trovano medicine alternative attraverso contatti locali o conoscenze mediche",
+        "resolution_condition": "I giocatori salvano la Dr. Niyali Joshi e la riportano in tempo per curare Arthur",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_5",
-        "discovery_hint": "Le lettere di Arthur sono scritte con calligrafia sempre più tremolante, e i servi della piantagione sussurrano preoccupati di una 'maledizione del tempio' che affligge il padrone",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Arthur sembra sempre più debole e tossisce frequentemente durante gli incontri",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 1,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -11049,37 +10722,22 @@
         "on_complete": "Kirby Bell Bee trasferisce parte dell'oro confederato ai gruppi rivoluzionari peruviani, destabilizzando il governo e creando caos nella regione.",
         "steps": [
           {
-            "value": 1,
-            "label": "Contatto stabilito",
-            "effect": "Emissari rivoluzionari vengono avvistati in incontri notturni lungo il fiume. Si scambiano segnali luminosi con l'ironclad confederata"
-          },
-          {
-            "value": 3,
-            "label": "Primo carico consegnato",
-            "effect": "Canoe cariche partono dall'ironclad verso i campi rivoluzionari. L'attività aumenta visibilmente con nuove armi e rifornimenti"
-          },
-          {
-            "value": 5,
-            "label": "Insurrezione armata",
-            "effect": "I rivoluzionari lanciano attacchi coordinati contro postazioni governative. Il caos si diffonde nella regione mentre l'oro finanzia la guerriglia"
-          },
-          {
-            "value": 6,
-            "label": "Destabilizzazione completa",
-            "effect": "Il governo peruviano vacilla. La regione sprofonda nel caos mentre Kirby usa la confusione per consolidare il suo controllo sul tempio"
+            "step": 4,
+            "world_state_change": "I rivoluzionari ricevono il primo carico d'oro",
+            "scene_prompt": "L'attività nel campo rivoluzionario aumenta notevolmente, con nuove armi visibili"
           }
         ],
         "clock_type": "narrative",
         "resolution_clues": [
           "llm_clue_10"
         ],
-        "resolution_condition": "I giocatori intercettano i corrieri dell'oro, scoprono i piani di Kirby attraverso documenti o interrogatori, e convincono i leader rivoluzionari che Kirby li sta manipolando per i suoi scopi imperialisti",
+        "resolution_condition": "I giocatori scoprono e intercettano i piani di Kirby prima che l'oro lasci il tempio",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_10",
-        "discovery_hint": "Canoe misteriose solcano il fiume nelle notti senza luna, cariche di casse pesanti. Nei villaggi si sussurra di 'oro maledetto' che porta solo sangue e fuoco",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Si sentono voci di movimenti insoliti di oro e armi nelle zone controllate dai rivoluzionari",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 0,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -11121,155 +10779,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Il vero scopo della Certum Americana",
-        "question": "Cosa intende fare Kirby Bell Bee con i leader confederati risvegliati e l'oro del tempio?",
-        "true_answer": "Kirby vuole risvegliare i tre leader confederati dalla stasi e usare l'oro del tempio per finanziare gruppi rivoluzionari anti-imperialisti, creando un nuovo stato confederato nell'Amazzonia come rifugio per la 'vera America'",
-        "status": "hidden",
-        "required_clues": [
-          "clue_11a",
-          "clue_11b",
-          "clue_11c"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T1",
-          "T10"
-        ],
-        "linked_npcs": [
-          "Kirby Bell Bee"
-        ],
-        "linked_locations": [
-          "Temple of Coniraya",
-          "Anti-Imperialist Revolutionary Camp"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "La vera identità di El Clavo",
-        "question": "Chi è realmente El Clavo e perché è coinvolto nella spedizione?",
-        "true_answer": "El Clavo è un mercenario esperto di archeologia pre-colombiana, ingaggiato da Kirby per navigare le trappole mortali del tempio Inca. Arthur Van Der Woodson viene falsamente sospettato di essere El Clavo per depistare i PG",
-        "status": "hidden",
-        "required_clues": [
-          "clue_12a",
-          "clue_12b",
-          "clue_12c"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T4",
-          "T9"
-        ],
-        "linked_npcs": [
-          "El Clavo",
-          "Arthur Van Der Woodson",
-          "Kirby Bell Bee"
-        ],
-        "linked_locations": [
-          "Benjamin Constant",
-          "Incan Temple Outskirts"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Il destino del Dr. Joshi",
-        "question": "Perché il Dr. Niyali Joshi è stato rapito e dove si trova ora?",
-        "true_answer": "Il Dr. Joshi è stato rapito dai membri della Certum Americana (i 'fantasmi grigi') perché le sue competenze mediche sono necessarie per risvegliare i leader confederati dalla stasi senza ucciderli. È tenuto prigioniero nel tempio",
-        "status": "hidden",
-        "required_clues": [
-          "clue_13a",
-          "clue_13b",
-          "clue_13c"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T3"
-        ],
-        "linked_npcs": [
-          "Dr. Niyali Joshi",
-          "Kirby Bell Bee"
-        ],
-        "linked_locations": [
-          "Temple of Coniraya",
-          "Benjamin Constant"
-        ]
-      },
-      {
-        "id": "T_identita_arthur",
-        "title": "T identita arthur",
-        "question": "Arthur Van Der Woodson è El Clavo, il mercenario mortale che ha infiltrato il tempio per conto di Certum Americana",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_cabala_confederata",
-        "title": "T cabala confederata",
-        "question": "La Cabala sono tre leader confederati in stasi dal 1867 che Kirby vuole risvegliare per creare un nuovo stato sudista",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_piano_risveglio",
-        "title": "T piano risveglio",
-        "question": "Kirby Bell Bee usa il Dr. Joshi per curare la lebbra della Cabala affinché possano risvegliarsi e guidare il culto",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_artefatto_khipu",
-        "title": "T artefatto khipu",
-        "question": "La collana peruviana è un frammento dell'Eternal Khipu che i gemelli vogliono recuperare per completare l'artefatto",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_complotto_politico",
-        "title": "T complotto politico",
-        "question": "Certum Americana userà l'oro confederato del tempio per finanziare gruppi rivoluzionari e destabilizzare il Sud America",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_fantasmi_grigi",
-        "title": "T fantasmi grigi",
-        "question": "I 'fantasmi grigi' sono discendenti dei veterani confederati che custodiscono il tempio e servono la Cabala dormiente",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -15883,8 +15393,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
