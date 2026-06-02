@@ -2874,7 +2874,7 @@
         "id": "llm_clue_2",
         "label": "Leggenda del cancello dimensionale firmata da Vincent Sakud",
         "type": "document",
-        "thread_id": "T1",
+        "thread_id": "T2",
         "source_location": "Megalos",
         "reveals": "Il tempio si trasforma in un portale demoniaco durante la luna piena",
         "payoff": "I PG sanno quando il pericolo è massimo e possono pianificare l'esplorazione di conseguenza",
@@ -2910,7 +2910,7 @@
         "id": "llm_clue_3",
         "label": "Vincent Sakud è scomparso da due anni",
         "type": "contradiction",
-        "thread_id": "T11",
+        "thread_id": "T3",
         "source_location": "Megalos",
         "reveals": "La morte di Vincent è una menzogna; la sua sparizione coincide con il cambiamento di Mark",
         "payoff": "I PG sospettano che Mark nasconda qualcosa e Vincent potrebbe essere la chiave del mistero",
@@ -2946,7 +2946,7 @@
         "id": "llm_clue_4",
         "label": "Mark Sakud divenne criminale dopo la scomparsa del padre",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T4",
         "source_location": "Megalos",
         "reveals": "La trasformazione di Mark è improvvisa e recente, legata alla sparizione paterna",
         "payoff": "I PG affrontano Mark con maggiore cautela, cercando segni di possessione o coercizione",
@@ -2982,7 +2982,7 @@
         "id": "llm_clue_5",
         "label": "Servizio di posate d'argento nella sala da pranzo",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T5",
         "source_location": "Questa Ł la stanza da pranzo. Sul tavolo Sento che gi(cid:224) la creatura si sta impossessando di c(cid:146)Ł un prezio",
         "reveals": "Mark custodisce oggetti d'argento di valore in casa, protetti ma accessibili",
         "payoff": "I PG ottengono materiale prezioso e potenzialmente armi contro demoni",
@@ -3018,7 +3018,7 @@
         "id": "llm_clue_6",
         "label": "Diario di Vincent sulla scialuppa elfica",
         "type": "document",
-        "thread_id": "T11",
+        "thread_id": "T6",
         "source_location": "Megalos",
         "reveals": "Vincent pianificò un viaggio via mare verso il tempio, partendo da un'isola elfica",
         "payoff": "I PG hanno indicazioni geografiche precise per raggiungere il tempio seguendo il percorso di Vincent",
@@ -3054,7 +3054,7 @@
         "id": "llm_clue_7",
         "label": "Bottiglie di oli rari nel bagno della villa",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T7",
         "source_location": "Questa Ł la stanza da pranzo. Sul tavolo Sento che gi(cid:224) la creatura si sta impossessando di c(cid:146)Ł un prezio",
         "reveals": "Mark vive nel lusso e ha accesso a beni rari e costosi",
         "payoff": "I PG possono vendere gli oli per finanziarsi o usarli in rituali",
@@ -3090,7 +3090,7 @@
         "id": "llm_clue_8",
         "label": "Frase interrotta nella sala da pranzo: 'la creatura si sta impossessando'",
         "type": "document",
-        "thread_id": "T11",
+        "thread_id": "T8",
         "source_location": "Questa Ł la stanza da pranzo. Sul tavolo Sento che gi(cid:224) la creatura si sta impossessando di c(cid:146)Ł un prezio",
         "reveals": "Qualcuno in questa casa è o era vittima di possessione demoniaca",
         "payoff": "I PG cercano segni di possessione in Mark e preparano esorcismi o protezioni",
@@ -3126,7 +3126,7 @@
         "id": "llm_clue_9",
         "label": "Istruzioni per distruggere il dolmen centrale",
         "type": "document",
-        "thread_id": "T13",
+        "thread_id": "T9",
         "source_location": "Il Tempio della Luna Piena",
         "reveals": "Il cancello può essere chiuso distruggendo fisicamente uno dei megaliti centrali",
         "payoff": "I PG sanno esattamente cosa fare al tempio e possono pianificare la distruzione",
@@ -3162,7 +3162,7 @@
         "id": "llm_clue_10",
         "label": "Luna d'argento sepolta sotto il tempio",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T10",
         "source_location": "Il Tempio della Luna Piena",
         "reveals": "Il tempio custodisce un artefatto magico potente chiamato luna d'argento",
         "payoff": "I PG ottengono un artefatto leggendario dopo aver completato la missione principale",
@@ -3229,174 +3229,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Testimonianza delle guardie sulla figura notturna",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Vincent potrebbe essere ancora vivo ma trasformato in qualcosa di diverso",
-        "payoff": "Conferma che Vincent non è morto ma è cambiato, suggerisce possessione o corruzione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Lettera strappata nella Camera degli Ospiti",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Vincent ha scritto questa lettera subito dopo l'incidente al tempio, descrivendo una possessione in corso",
-        "payoff": "Prova diretta che Vincent è stato posseduto da un'entità attraverso il cancello dimensionale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Comportamento anomalo di Mark Sakud",
-        "type": "behavior",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Mark sa qualcosa che non dice e ha avuto un incontro traumatico con Vincent dopo la scomparsa",
-        "payoff": "Rivela che Vincent è apparso a Mark almeno una volta, confermando che è vivo ma alterato",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Diagramma rituale nel diario di Vincent",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il tempio è progettato per aprire un portale permanente durante un evento astronomico specifico",
-        "payoff": "Rivela lo scopo del rituale e il pericolo di un'invasione demoniaca su larga scala",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Incisioni demoniache sui dolmen",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il rituale è imminente e coinvolge entità multiple chiamate 'Signori del Vuoto'",
-        "payoff": "Definisce la minaccia reale e l'urgenza temporale legata a un evento astronomico specifico",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Simbolo sacro sul servizio d'argento",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "L'argento ha significato sacro contro le entità demoniache, specialmente se legato alla luna",
-        "payoff": "Suggerisce che l'argento benedetto può essere usato come arma contro il rituale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Mappa dei punti cardinali nel bagno",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Esiste un metodo alternativo per fermare il rituale usando la Luna d'Argento",
-        "payoff": "Fornisce istruzioni precise per un rituale di contro-evocazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -3410,8 +3242,8 @@
         "secret": "Non è morto, ma è posseduto da un demone che emerge ogni plenilunio. Il suo corpo è ancora vivo da qualche parte, forse vicino al tempio.",
         "agenda_pressure": 0,
         "fear": "Che il demone usi il suo corpo per aprire definitivamente il cancello dimensionale",
-        "current_plan": "Continuare a documentare ossessivamente gli schemi del tempio cercando indizi su come invertire la possessione, evitare qualsiasi contatto con il sito durante i pleniluni nascondendosi in luoghi isolati e protetti da simboli sacri",
-        "fallback_plan": "Se non trova una cura entro tre lune, progetta di farsi murare vivo in una cripta consacrata con abbastanza provviste per sopravvivere, preferendo la prigionia eterna alla dannazione di altri innocenti",
+        "current_plan": "Mantenere la facciata di studioso eccentrico mentre cerca segretamente un modo per spezzare la possessione. Sta documentando gli schemi del plenilunio per identificare una finestra vulnerabile nel controllo del demone, ma il tempo stringe e la sua volontà si indebolisce.",
+        "fallback_plan": "Se scoperto o se sente la prossima trasformazione avvicinarsi, pianifica di suicidarsi usando un pugnale rituale d'argento che porta sempre con sé. Ha lasciato lettere sigillate in tre locande diverse che rivelano tutto, da consegnare se non si presenta entro determinate date.",
         "resources": [
           "accessi",
           "contatti",
@@ -3433,16 +3265,16 @@
           "Che la Luna d'Argento cada nelle mani sbagliate"
         ],
         "pressure_response": {
-          "low": "Vincent appare come uno studioso affabile e appassionato, condivide le sue ricerche sul tempio con entusiasmo febbrile, ma evita accuratamente di parlare dei pleniluni o di trovarsi vicino al tempio di notte",
-          "medium": "Diventa nervoso e difensivo, cerca disperatamente di allontanare i PG dal tempio durante i pleniluni, inventa scuse per lasciare la zona, mostra segni di panico crescente quando la luna si fa più piena",
-          "high": "Supplica i PG di incatenarlo o rinchiuderlo prima del plenilunio, rivela frammenti confusi del suo tormento, mostra cicatrici e segni di auto-contenimento, confessa di aver perso intere notti senza ricordi",
-          "extreme": "Si barrica disperatamente ovunque possa, urla avvertimenti incoerenti sul 'lui che viene', tenta di ferirsi per impedire al demone di usare il suo corpo, implora una morte pietosa piuttosto che un'altra trasformazione"
+          "low": "Vincent appare come uno studioso nervoso e affaticato, con occhiaie profonde. Evita domande dirette sul plenilunio, attribuendo vuoti di memoria a 'episodi di sonnambulismo' legati allo stress della ricerca.",
+          "medium": "Inizia a sudare copiosamente quando interrogato sui suoi movimenti durante le lune piene. Mostra segni di lotta interiore: tremori, sguardo che si offusca momentaneamente, frasi interrotte a metà come se qualcosa lo zittisse dall'interno.",
+          "high": "La sua personalità oscilla violentemente. Implora aiuto sussurrando 'è dentro di me, dovete fermarlo prima del prossimo plenilunio', per poi irrigidirsi e parlare con voce gutturale in una lingua antica, prima di riprendersi terrorizzato da ciò che ha appena detto.",
+          "extreme": "Durante confronto diretto o se esposto a simboli sacri, Vincent collassa in preda a convulsioni. Il demone emerge parzialmente: occhi che diventano completamente neri, voce distorta che minaccia in lingue dimenticate, forza sovrumana. Vincent riprende controllo per brevi istanti gridando la posizione esatta dove il suo corpo viene tenuto prigioniero."
         },
         "reaction_table": {
-          "se_minacciato": "Crolla psicologicamente, confessa tutto tra le lacrime: non è lui il mostro che temono, ma ciò che abita in lui al plenilunio, implora aiuto invece che punizione",
-          "se_corrotto": "Rifiuta categoricamente qualsiasi patto o potere offerto, terrorizzato che possa rafforzare la presa del demone su di lui, reagisce con disgusto a proposte che coinvolgano magia oscura",
-          "se_i_pg_hanno_prove": "Ammette tutto con sollievo misto a disperazione, collabora pienamente fornendo i suoi diari che documentano i blackout e le scoperte sul rituale di possessione, li prega di trovare un esorcismo",
-          "se_alleato": "Diventa una risorsa preziosa sulle conoscenze del tempio, condivide rituali antichi che potrebbero intrappolare il demone, accetta di fungere da esca durante il plenilunio se questo può liberarlo"
+          "se_minacciato": "Il demone prende temporaneamente il sopravvento per difendersi, ma Vincent lotta per non ferire nessuno. Cerca di fuggire verso il tempio gridando avvertimenti contraddittori. Potrebbe autoinfliggersi ferite per rallentare il demone.",
+          "se_corrotto": "Se offerto potere o conoscenze occulte, il demone risponde con interesse attraverso Vincent, rivelando involontariamente dettagli sul rituale del plenilunio. Vincent riprende controllo abbastanza da lasciare indizi su come rompere il legame demoniaco.",
+          "se_i_pg_hanno_prove": "Crolla emotivamente ammettendo tutto. Rivela che il suo corpo giace in una camera nascosta sotto il dolmen centrale, connesso al demone da un cordone eterico che si rafforza ogni luna piena. Supplica i PG di distruggere il collegamento prima che la possessione diventi permanente.",
+          "se_alleato": "Collabora disperatamente fornendo i suoi appunti criptati sul tempio. Spiega che durante il plenilunio il demone usa il suo corpo per compiere omicidi rituali che rafforzano il cancello dimensionale. Chiede di essere incatenato con ferro consacrato durante la prossima luna piena mentre tentano il salvataggio."
         },
         "pressure_events": [],
         "relationships": [
@@ -3474,8 +3306,8 @@
         "secret": "Ha usato la sua rete criminale per cercare il padre, commettendo crimini che potrebbero far arrestare anche chi lo aiuta. Possiede parte delle ricerche originali di Vincent.",
         "agenda_pressure": 0,
         "fear": "Che suo padre sia morto per colpa delle sue ricerche sul tempio maledetto",
-        "current_plan": "Usare i PG come esploratori sacrificabili per testare il portale durante il prossimo plenilunio, mentre la sua squadra criminale segue a distanza per recuperare Vincent",
-        "fallback_plan": "Se i PG scoprono troppo, incolparli dei crimini commessi e farli arrestare dalle autorità, usando i suoi contatti per depistarli mentre lui completa la missione da solo",
+        "current_plan": "Usare i PG come esploratori sacrificabili per testare il Tempio durante il prossimo plenilunio mentre lui osserva da distanza sicura. Se sopravvivono e trovano Vincent, attraverserà personalmente; altrimenti userà ciò che scopriranno per il tentativo successivo.",
+        "fallback_plan": "Se i PG scoprono troppo, Mark userà la sua rete criminale per rapirli e costringerli ad attraversare il cancello durante il rituale come ancore viventi per stabilizzare il passaggio dimensionale. In alternativa, fugge in un altro regno con le ricerche paterne per continuare la ricerca da solo.",
         "resources": [
           "accessi",
           "contatti",
@@ -3497,16 +3329,16 @@
           "Essere accusato della scomparsa del padre"
         ],
         "pressure_response": {
-          "low": "Collaborativo e generoso, offre denaro e contatti. Nasconde abilmente le sue attività illegali dietro l'immagine del figlio disperato.",
-          "medium": "Diventa evasivo sulle sue fonti d'informazione. Minaccia velatamente di ritirare il supporto se i PG indagano troppo sui suoi metodi.",
-          "high": "Ammette di aver assoldato mercenari e scassinato archivi per trovare suo padre. Chiede silenzio in cambio delle ricerche originali di Vincent.",
-          "extreme": "Rivela che il suo network criminale ha già mandato una squadra al Tempio. Se i PG lo tradiscono, la sua organizzazione li eliminerà come testimoni scomodi."
+          "low": "Mark offre denaro e risorse ai PG, mostrando solo le ricerche incomplete di suo padre. Insiste che il Tempio è solo una curiosità archeologica e che Vincent era un semplice studioso eccentrico.",
+          "medium": "Mark ammette che Vincent è scomparso durante una spedizione al Tempio due anni fa durante il plenilunio. Rivela di aver assoldato mercenari e tombaroli per cercarlo, ma nega coinvolgimenti criminali gravi.",
+          "high": "Mark confessa di aver fatto irruzione in archivi accademici e templi rivali, e di aver torturato un custode del Tempio per informazioni. Mostra le vere note di Vincent: descrivono un rituale per attraversare il cancello dimensionale.",
+          "extreme": "Mark rivela disperato che Vincent non è scomparso per caso: stava cercando di raggiungere l'altro lato per salvare sua moglie (madre di Mark), intrappolata oltre il cancello anni prima. Mark stesso pianifica di attraversare il portale al prossimo plenilunio, anche a costo di sacrifici umani se necessario."
         },
         "reaction_table": {
-          "se_minacciato": "Attiva i suoi contatti criminali per intimidire o neutralizzare la minaccia, facendo sparire prove compromettenti",
-          "se_corrotto": "Offre una quota dei manufatti del Tempio e protezione dalla legge, ma pretende completa omertà sulle sue attività",
-          "se_i_pg_hanno_prove": "Tenta prima il ricatto emotivo, poi propone un accordo: aiutarlo a salvare Vincent in cambio della distruzione delle prove",
-          "se_alleato": "Condivide tutto: mappe, note cifrate di Vincent, nomi di studiosi scomparsi. Diventa protettivo e quasi ossessivo verso i PG"
+          "se_minacciato": "Attiva i suoi contatti criminali per eliminare le prove e intimidire i PG. Nel peggiore dei casi, tenta di screditarli presso le autorità accusandoli dei suoi stessi crimini.",
+          "se_corrotto": "Offre una quota del tesoro dimensionale che Vincent avrebbe scoperto, più copertura legale permanente attraverso i suoi contatti. Promette di far sparire qualsiasi crimine passato dei PG.",
+          "se_i_pg_hanno_prove": "Cerca disperatamente un accordo: li supplica di accompagnarlo al Tempio per un ultimo tentativo di salvataggio prima di consegnarsi. Offre di testimoniare contro i criminali che ha assoldato.",
+          "se_alleato": "Condivide tutte le ricerche di Vincent incluse mappe dimensionali e formule di protezione. Fornisce equipaggiamento magico della famiglia Sakud e si offre di entrare nel cancello al loro fianco come supporto."
         },
         "pressure_events": [],
         "relationships": [
@@ -3538,8 +3370,8 @@
         "secret": "Sanno che Mark è coinvolto in attività criminali e hanno partecipato a intimidazioni per suo conto",
         "agenda_pressure": 0,
         "fear": "Fallire nel loro dovere e perdere il lavoro ben pagato o subire la vendetta di Mark",
-        "current_plan": "Impedire che chiunque disturbi Mark nelle prossime 48 ore critiche prima del plenilunio, quando deve completare i preparativi per il rituale al Tempio. Sono stati pagati il triplo per questo periodo.",
-        "fallback_plan": "Se la situazione degenera, far sparire ogni evidenza del coinvolgimento personale nelle intimidazioni e giurare di essere stati solo guardie che seguivano ordini legittimi. Grevik ha già preparato documenti falsificati che li descrivono come semplice sicurezza privata.",
+        "current_plan": "Mantenere i PG lontani dalla villa fino alla prossima luna piena (tra 3 giorni), quando Mark completerà il suo rituale al tempio. Sorvegliare i cancelli in turni di 4 ore.",
+        "fallback_plan": "Se i PG penetrano nella proprietà, ritardare la loro avanzata abbastanza da permettere a Mark di fuggire attraverso il passaggio segreto verso le stalle. In caso di sconfitta totale, Gregor ha ordine di bruciare tutti i documenti nello studio.",
         "resources": [
           "accessi",
           "contatti",
@@ -3561,16 +3393,16 @@
           "Deludere Mark Sakud e perdere la sua fiducia"
         ],
         "pressure_response": {
-          "low": "Rimangono formali e distaccati, ripetendo che la villa è proprietà privata e che Mark Sakud non riceve visitatori non annunciati. Controllano eventuali documenti con scrupolo burocratico.",
-          "medium": "Diventano nervosi e si scambiano occhiate. Uno di loro si allontana per 'chiamare il signor Sakud', in realtà per avvisarlo e dargli tempo di nascondere prove. Suggeriscono insistentemente di tornare un altro giorno.",
-          "high": "Tentano di intimidire i PG con minacce velate sui 'problemi' che potrebbero avere in città. Uno mette mano all'arma ostensivamente. Citano contatti importanti di Mark nella milizia cittadina.",
-          "extreme": "Attaccano per neutralizzare i PG, cercando di renderli incoscienti piuttosto che ucciderli. Chiamano rinforzi. Se sopraffatti, il più giovane crolla psicologicamente e ammette tutto pur di salvare la pelle."
+          "low": "Rimangono professionali e cortesi, ripetendo che il signor Sakud non riceve visite senza appuntamento. Suggeriscono di tornare durante l'orario d'ufficio.",
+          "medium": "Diventano più rigidi e intimidatori, spostando le mani sulle armi. Minacciano di chiamare le autorità cittadine se i PG non se ne vanno immediatamente.",
+          "high": "Uno di loro va ad allertare Mark mentre gli altri circondano i PG con armi sguainate. Accusano i PG di violazione di proprietà privata e tentano di trattenerli fino all'arrivo di rinforzi.",
+          "extreme": "Attaccano per neutralizzare i PG, cercando di catturarli vivi per consegnarli a Mark. Se sopraffatti, una guardia fugge per avvertire Sakud mentre le altre coprono la ritirata verso la villa."
         },
         "reaction_table": {
-          "se_minacciato": "Il capogruppo rimane fermo ma gli altri tremano visibilmente - hanno famiglie da sfamare e non sono veri criminali incalliti",
-          "se_corrotto": "Il veterano Grevik rifiuta sdegnato, ma la giovane guardia Mira esita - ha una sorella malata e i debiti stanno accumulandosi. Serve una cifra consistente.",
-          "se_i_pg_hanno_prove": "Crollano immediatamente, cercando di scaricare ogni responsabilità su Mark. Offrono testimonianza in cambio di immunità, rivelando dove tiene i documenti compromettenti.",
-          "se_alleato": "Se convinti che Mark sta per coinvolgerli in qualcosa di pericoloso legato al Tempio, si trasformano in informatori preziosi sugli incontri notturni e sugli strani ospiti incappucciati."
+          "se_minacciato": "Si appellanno al loro dovere di guardie private legali, ma se messi veramente alle strette rivelano nervosamente che 'seguono solo gli ordini del signor Sakud' lasciando intendere attività poco pulite.",
+          "se_corrotto": "La guardia più anziana, Gregor, è tentata da una somma sostanziosa (almeno 50 monete d'oro). Rivela che Mark ha fatto sparire persone che indagavano sul tempio e che ha un laboratorio segreto nella villa.",
+          "se_i_pg_hanno_prove": "Si scambiano sguardi nervosi e cercano di prendere tempo. Propongono di far entrare i PG per 'chiarire la situazione con il signor Sakud', ma è una trappola per portarli in un luogo isolato.",
+          "se_alleato": "Se convinti che Mark li ha ingannati o messi in pericolo, la guardia Tomas (il più giovane) collabora rivelando gli orari delle ronde e l'esistenza di un'entrata secondaria attraverso le cantine."
         },
         "pressure_events": [],
         "relationships": [
@@ -3603,7 +3435,6 @@
           "llm_clue_6"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -3638,16 +3469,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "tempio_luna_piena"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3660,7 +3481,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -3692,14 +3512,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "megalos",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3712,7 +3524,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -3742,17 +3553,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "villa_mark_sakud",
-        "location_type": "local",
-        "connections_to": [
-          "bagno_villa",
-          "camera_ospiti_villa"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3765,7 +3565,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -3795,17 +3594,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "villa_mark_sakud",
-        "location_type": "local",
-        "connections_to": [
-          "sala_da_pranzo_villa",
-          "camera_ospiti_villa"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3818,7 +3606,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -3848,17 +3635,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "villa_mark_sakud",
-        "location_type": "local",
-        "connections_to": [
-          "sala_da_pranzo_villa",
-          "bagno_villa"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3875,7 +3651,6 @@
           "llm_clue_11"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -3910,16 +3685,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "megalos"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3932,7 +3697,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -3962,16 +3726,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "megalos",
-        "location_type": "regional",
-        "connections_to": [
-          "promontorio_nomadi"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3984,7 +3738,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -4014,16 +3767,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tempio_luna_piena",
-        "location_type": "regional",
-        "connections_to": [
-          "riva_isola_ovest"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -4202,154 +3945,7 @@
         "concrete_choice": "Colpire ripetutamente uno dei dolmen centrali con attacchi potenziati, incantesimi distruttivi o abilità speciali che infliggano danni alla struttura fino a raggiungere 30 punti FOR equivalenti"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Cosa è successo a Vincent Sakud?",
-        "question": "Dove si trova Vincent Sakud e cosa gli è accaduto dopo la scomparsa?",
-        "true_answer": "Vincent è stato posseduto da un demone attraverso il cancello dimensionale del tempio durante una luna piena di due anni fa. Il suo corpo è ancora vivo ma controllato dall'entità demoniaca.",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "nuovo_clue_3",
-          "llm_clue_3",
-          "llm_clue_8"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [
-          "T2",
-          "T3"
-        ],
-        "linked_npcs": [
-          "Vincent Sakud",
-          "Mark Sakud"
-        ],
-        "linked_locations": [
-          "Tempio della Luna Piena",
-          "Villa di Mark Sakud"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Qual è il vero scopo del rituale?",
-        "question": "Cosa sta cercando di compiere l'entità che controlla Vincent?",
-        "true_answer": "Il demone sta usando il corpo di Vincent per completare un rituale di evocazione durante la prossima luna piena, che aprirà permanentemente il cancello dimensionale e permetterà ad altre entità demoniache di invadere il piano materiale.",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_4",
-          "nuovo_clue_5",
-          "llm_clue_1",
-          "llm_clue_2"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T1",
-          "T2"
-        ],
-        "linked_npcs": [
-          "Vincent Sakud"
-        ],
-        "linked_locations": [
-          "Tempio della Luna Piena"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Come fermare il rituale?",
-        "question": "Qual è il modo per interrompere il rituale demoniaco e chiudere il cancello?",
-        "true_answer": "Il rituale può essere fermato distruggendo il dolmen centrale del tempio con un oggetto fatto di argento benedetto durante la luna piena, oppure seppellendo la Luna d'Argento nei punti cardinali del tempio.",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_9",
-          "llm_clue_10",
-          "nuovo_clue_6",
-          "nuovo_clue_7"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T1",
-          "T2"
-        ],
-        "linked_npcs": [
-          "Vincent Sakud"
-        ],
-        "linked_locations": [
-          "Tempio della Luna Piena",
-          "Villa di Mark Sakud"
-        ]
-      },
-      {
-        "id": "T1",
-        "title": "T1",
-        "question": "Cos'è esattamente il Tempio della Luna Piena e quando rappresenta un pericolo?",
-        "true_answer": "Il Tempio della Luna Piena è un antico calendario megalitico formato da dolmen che si attiva come cancello dimensionale durante ogni plenilunio, permettendo l'accesso a entità di altri piani di esistenza.",
-        "collected_clue_ids": [
-          "llm_clue_1",
-          "llm_clue_2"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_possessione",
-        "title": "T possessione",
-        "question": "Cosa è realmente accaduto allo studioso Vincent Sakud?",
-        "true_answer": "Vincent Sakud fu posseduto da un'entità demoniaca durante le sue ricerche sul Tempio della Luna Piena e ora il demone abita ancora il suo corpo nella villa, mantenendo l'apparenza dello studioso.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rifugio",
-        "title": "T rifugio",
-        "question": "Perché la villa di Vincent Sakud sembra così ben mantenuta nonostante tutto?",
-        "true_answer": "La villa è il rifugio del demone che possiede Vincent Sakud, il quale utilizza gli oggetti di lusso e mantiene l'apparenza di normalità per nascondere la sua vera natura e non destare sospetti.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rituale",
-        "title": "T rituale",
-        "question": "Come funziona il cancello dimensionale e come può essere fermato?",
-        "true_answer": "Il cancello dimensionale del Tempio si apre automaticamente ad ogni luna piena, permettendo il passaggio di creature demoniache; può essere chiuso definitivamente solo distruggendo il dolmen centrale della struttura megalitica.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_alleato",
-        "title": "T alleato",
-        "question": "Perché Mark Sakud è diventato un criminale?",
-        "true_answer": "Mark Sakud non scelse la vita criminale per malvagità, ma fu spinto dalla disperazione dopo che suo padre Vincent fu posseduto dal demone, cercando forse risorse o conoscenze per salvarlo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_tesoro",
-        "title": "T tesoro",
-        "question": "Esiste una ricompensa per chi risolve la minaccia del Tempio?",
-        "true_answer": "Sotto il Tempio della Luna Piena giace sepolta la Luna d'Argento, un tesoro sacro lasciato dalle forze del Bene come ricompensa destinata a chi riuscirà a chiudere definitivamente il cancello demoniaco.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 19,
@@ -6751,8 +6347,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 1.8
+    }
   },
   "live_game_state": null
 }
