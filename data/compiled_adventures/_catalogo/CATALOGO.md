@@ -2,20 +2,12 @@
 
 > Vista generata da `tools/build_adventure_catalog.py` — symlink ai file reali in `data/compiled_adventures/`. **Non** modificare a mano: rilancia lo script.
 
-**Totale:** 110 avventure · **Punteggio medio:** 83/100 · **Rotte:** 3
+**Totale:** 107 avventure · **Punteggio medio:** 84/100 · **Rotte:** 0
 
-**Per fonte:** AI 68 · PDF 42  
-**Per tema:** Azione 16 · Fantasy 32 · Horror 24 · Investigazione 12 · Romance 8 · Fantascienza 18
+**Per fonte:** AI 68 · PDF 39  
+**Per tema:** Azione 16 · Fantasy 29 · Horror 24 · Investigazione 12 · Romance 8 · Fantascienza 18
 
 **Legenda codice:** `TEMA-FONTE-PUNTEGGIO` — TEMA: FAN/HOR/SCI/INV/ACT/ROM/STO · FONTE: PDF/AI/GEN · PUNTEGGIO: playable_score (NA = assente)
-
-## ⚠️ Rotte (da sistemare)
-
-| Codice | Titolo | Errori | Warn | File |
-|---|---|---|---|---|
-| `FAN-PDF-50` | Il Tempio della Luna Piena | 1 | 6 | `fantasy/pdf_il_tempio_della_luna_piena.json` |
-| `FAN-PDF-54` | Il Castello di Simno | 1 | 4 | `fantasy/pdf_il_castello_di_simno.json` |
-| `FAN-PDF-58` | S T E V E JAC K S O N G A M E S | 1 | 5 | `fantasy/pdf_steve_jackson_games_sampler.json` |
 
 ## Azione (16)
 
@@ -38,7 +30,7 @@
 | `ACT-PDF-NA` | Never Forget to Die | PDF | — | ⚪ n/d | `action/pdf_never_forget.json` |
 | `ACT-PDF-NA` | Railgun Road | PDF | — | ⚪ n/d | `action/pdf_railgun_road.json` |
 
-## Fantasy (32)
+## Fantasy (29)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -66,9 +58,6 @@
 | `FAN-PDF-75` | Lupo di Kosmar | PDF | 75 | 🟡 | `fantasy/pdf_lupo_di_kosmar.json` |
 | `FAN-PDF-71` | Moon of Thorns | PDF | 71 | 🟡 | `fantasy/pdf_moon_of_thorns.json` |
 | `FAN-PDF-63` | Cold Bounty | PDF | 63 | 🟠 | `fantasy/pdf_cold_bounty.json` |
-| `FAN-PDF-58` | S T E V E JAC K S O N G A M E S | PDF | 58 | 🔴 rotta | `fantasy/pdf_steve_jackson_games_sampler.json` |
-| `FAN-PDF-54` | Il Castello di Simno | PDF | 54 | 🔴 rotta | `fantasy/pdf_il_castello_di_simno.json` |
-| `FAN-PDF-50` | Il Tempio della Luna Piena | PDF | 50 | 🔴 rotta | `fantasy/pdf_il_tempio_della_luna_piena.json` |
 | `FAN-PDF-NA` | Beast of Black Keep | PDF | — | ⚪ n/d | `fantasy/pdf_beast_keep.json` |
 | `FAN-AI-NA` | Il Castello Senza Re | AI | — | ⚪ n/d | `fantasy/ai_castello_senza_re.json` |
 | `FAN-AI-NA` | Il Festival del Sangue | AI | — | ⚪ n/d | `fantasy/ai_festival_del_sangue.json` |
