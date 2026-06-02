@@ -1,0 +1,2270 @@
+{
+  "adventure_definition": {
+    "id": "adv_59b5c50280",
+    "title": "La Sala Senza Uscita",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "investigation_graph",
+      "secondary_archetypes": [],
+      "confidence": 0.5,
+      "reason": "Matched runtime signals for investigation_graph",
+      "definition": {
+        "id": "investigation_graph",
+        "description": "Piste, indizi, deduzioni e payoff.",
+        "required_modules": [
+          "clues",
+          "revelations"
+        ],
+        "optional_modules": [
+          "witnesses",
+          "false_leads"
+        ],
+        "runtime_focus": [
+          "clue",
+          "deduction"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "physical_evidence",
+          "testimony",
+          "document"
+        ],
+        "common_failure_modes": [
+          "clue_partial",
+          "witness_closes"
+        ],
+        "ending_patterns": [
+          "deduction_finale"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "action",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "Tensione claustrofobica e morale — ogni respiro è contato, ogni accusa può spezzare l'unica alleanza che tiene in vita il gruppo. L'oscurità delle torce elettriche che si scaricano, il ticchettio dell'acqua che goccia, il peso del cemento sopra le teste.",
+    "premise": "Il bombardamento ha colpito il Palazzo delle Telecomunicazioni durante un turno di notte. Le scale sono crollate, i corridoi sepolti. Thorin, Alara e Okafor si svegliano nel bunker sotterraneo insieme ad altri quattro sopravvissuti: operatori radio, tecnici, un'archivista. L'aria è poca. Le razioni sono per tre giorni al massimo. E qualcuno ha sabotato il generatore d'emergenza prima del raid: i fascisti non potevano sapere dove colpire se qualcuno non avesse trasmesso le coordinate. Fuori, le macerie continuano ad assestrarsi.",
+    "initial_hook": "La Sala Senza Uscita Il bombardamento ha colpito il Palazzo delle Telecomunicazioni durante un turno di notte. Le scale sono crollate, i corridoi sepolti. Thorin, Alara e Okafor si svegliano nel bunker sotterraneo insieme ad altri quattro sopravvissuti: operatori radio, tecnici, un'archivista. L'ari",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "L'archivista Bruna Vescovi ha trasmesso le coordinate del palazzo non per ideologia, ma perché i fascisti tenevano prigioniera sua figlia Marta in una villa di campagna. Il sabotaggio del generatore era il suo piano per sigillare il bunker e morire con tutti prima che la rete partigiana scoprisse il tradimento e uccidesse Marta per rappresaglia.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire chi ha sabotato il generatore, ripararlo usando componenti nascosti nel bunker, e negoziare con i sopravvissuti una via d'uscita prima che l'aria diventi irrespirabile o che la disperazione porti a violenza fatale.",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire chi ha sabotato il generatore, ripararlo usando componenti nascosti nel bunker, e negoziare con i sopravvissuti una via d'uscita prima che l'aria diventi irrespirabile o che la disperazione porti a violenza fatale."
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Bruna Vescovi ha trasmesso le coordinate perché i fascisti tenevano sua figlia Marta in ostaggio e le avevano ordinato di collaborare.",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di interrogare Bruna sulla sua famiglia e scoprire il movente del tradimento / Stabilisce che il bombardamento non era casuale ma mirato, grazie a un tradimento interno",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Bruna ha sabotato il generatore per sigillare il bunker e uccidere tutti, inclusa se stessa, prima che la rete partigiana scoprisse il tradimento e uccidesse sua figlia per rappresaglia.",
+        "required_clues": [
+          "clue_3",
+          "clue_4",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Identifica il sabotatore come una donna del gruppo e stabilisce che voleva intrappolare tutti / Conferma Bruna come sabotatore e introduce il tema della lealtà personale contro il bene collettivo",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Dettaglio verificabile in Archivio Cifrato",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Archivio Cifrato",
+        "reveals": "Bruna ha una figlia di cui nessuno nel gruppo sapeva nulla",
+        "payoff": "Permette di interrogare Bruna sulla sua famiglia e scoprire il movente del tradimento",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Dettaglio verificabile in Archivio Cifrato",
+        "hidden_implication": "Bruna ha una figlia di cui nessuno nel gruppo sapeva nulla",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Registro delle trasmissioni",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Sala Radio Principale",
+        "reveals": "Qualcuno ha trasmesso la posizione esatta del palazzo ai fascisti",
+        "payoff": "Stabilisce che il bombardamento non era casuale ma mirato, grazie a un tradimento interno",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un quaderno con tutte le trasmissioni in uscita. L'ultima voce, la sera del bombardamento, è stata cancellata con inchiostro nero. Sotto controluce si legge 'coordinata 44.502N 11.347E — confermata ricezione'.",
+        "hidden_implication": "Qualcuno ha trasmesso la posizione esatta del palazzo ai fascisti",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Cavo del generatore tranciato",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Sala Generatore",
+        "reveals": "Il sabotaggio è stato deliberato e compiuto da qualcuno con accesso al bunker",
+        "payoff": "Identifica il sabotatore come una donna del gruppo e stabilisce che voleva intrappolare tutti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Il cavo principale del generatore è stato tagliato di netto con una lama, non danneggiato dall'esplosione. Il taglio è pulito, professionale. Accanto, impronte di scarpe da donna, numero piccolo.",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "Sala Generatore"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Testimonianza di Confessione",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Dormitorio Comune",
+        "reveals": "Aldo ha coperto Bruna per debito di gratitudine, ma ora è dilaniato dal senso di colpa",
+        "payoff": "Conferma Bruna come sabotatore e introduce il tema della lealtà personale contro il bene collettivo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Testimonianza di Confessione",
+        "hidden_implication": "Aldo ha coperto Bruna per debito di gratitudine, ma ora è dilaniato dal senso di colpa",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Dettaglio verificabile in Archivio Cifrato — Bruna era ricattata: sua figlia Marta è os",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Archivio Cifrato",
+        "reveals": "Bruna era ricattata: sua figlia Marta è ostaggio dei fascisti",
+        "payoff": "Ribalta Bruna da traditrice a madre disperata, aggiunge complessità morale alla situazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Dettaglio verificabile in Archivio Cifrato",
+        "hidden_implication": "Bruna era ricattata: sua figlia Marta è ostaggio dei fascisti",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Dettaglio verificabile in Dormitorio Comune",
+        "type": "behavior",
+        "thread_id": "T5",
+        "source_location": "Dormitorio Comune",
+        "reveals": "Cesare ha rubato le razioni per un piano di fuga egoista, ora inutile",
+        "payoff": "Crea un falso colpevole e aumenta la tensione interna — la paranoia può uccidere prima del crollo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Dettaglio verificabile in Dormitorio Comune",
+        "hidden_implication": "Cesare ha rubato le razioni per un piano di fuga egoista, ora inutile",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_1",
+        "label": "Tracce di bruciatura fresca sulle mani di Bruna",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Bruna ha maneggiato recentemente cavi elettrici sotto tensione",
+        "payoff": "Collega Bruna fisicamente al sabotaggio del generatore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_2",
+        "label": "Pinze isolate nascoste nella branda di Bruna",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Bruna si è procurata strumenti per sabotare apparecchiature elettriche",
+        "payoff": "Prova materiale della premeditazione del sabotaggio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_3",
+        "label": "Testimonianza di Aldo sul turno notturno",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Bruna era fuori posto poco prima del sabotaggio",
+        "payoff": "Stabilisce presenza e opportunità per il sabotaggio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_4",
+        "label": "Trasmissione anomala nel registro delle 01:30",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Una trasmissione sospetta è partita poco prima del bombardamento",
+        "payoff": "Identifica il momento esatto della trasmissione delle coordinate",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_5",
+        "label": "Codice cifrato d'emergenza nell'archivio",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Esisteva un canale segreto per comunicare col nemico e Bruna ne aveva le chiavi",
+        "payoff": "Spiega il metodo tecnico usato per tradire",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_6",
+        "label": "Fotografia nascosta di una bambina",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Bruna ha una figlia di cui non ha mai parlato con nessuno",
+        "payoff": "Rivela l'esistenza di Marta e suggerisce un legame affettivo vulnerabile",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_7",
+        "label": "Comportamento ossessivo di Bruna",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Bruna era disperatamente preoccupata per qualcosa o qualcuno in territorio fascista",
+        "payoff": "Suggerisce che la motivazione del tradimento è personale e legata a un ostaggio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Bruna Vescovi",
+        "role": "Archivista delle trasmissioni cifrate",
+        "location_id": "Archivio Cifrato",
+        "status": "unintroduced",
+        "goal": "Salvare sua figlia Marta, prigioniera dei fascisti, anche a costo della propria vita e di quella degli altri",
+        "secret": "Ha trasmesso le coordinate del palazzo e sabotato il generatore per sigillare il bunker dall'interno prima che la rete partigiana scoprisse il tradimento",
+        "agenda_pressure": 0,
+        "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+        "current_plan": "Mantenere tutti nel bunker sigillato finché i fascisti non arriveranno a scavare dall'esterno (24-36 ore). Usare la radio nascosta nell'archivio per coordinare con loro, offrendo i partigiani in cambio di Marta.",
+        "fallback_plan": "Se il bunker viene aperto troppo presto, Bruna cercherà di fuggire per prima usando un passaggio di servizio che solo lei conosce, per raggiungere Via Tasso e negoziare direttamente. Se impossibile, tenterà il suicidio per evitare la tortura che rivelerebbe altri segreti sulla rete.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Salvare sua figlia Marta, prigioniera dei fascisti, anche a costo della propria vita e di quella degli altri"
+        ],
+        "avoids": [
+          "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Bruna collabora attivamente alla ricerca di uscite, ma devia sottilmente i tentativi verso zone pericolose o inaccessibili. Propone di risparmiare energia del generatore 'per sicurezza'.",
+          "medium": "Diventa nervosa e insiste per restare nel bunker: 'È più sicuro aspettare i soccorsi, fuori potrebbero esserci altre bombe'. Controlla ossessivamente l'orologio, aspettando notizie su Marta.",
+          "high": "Confessa di aver passato informazioni ai fascisti per salvare Marta, ma omette il sabotaggio del generatore. Piange disperata: 'Mia figlia ha solo dodici anni, cosa avrei dovuto fare?'",
+          "extreme": "Tenta di impedire fisicamente la fuga degli altri, urlando che se scappano i fascisti non libereranno Marta. Può arrivare a usare un'arma da fuoco nascosta negli archivi per trattenere tutti nel bunker sigillato."
+        },
+        "reaction_table": {
+          "se_minacciato": "Crolla emotivamente, confessa tutto sul ricatto ma giura che Marta è innocente. Supplica di capire che è una madre prima che una partigiana. Offre i codici degli archivi cifrati in cambio di pietà.",
+          "se_corrotto": "Accetta aiuto solo se include un piano concreto per salvare Marta dalla prigione di Via Tasso. Rivela la posizione di documenti segreti nascosti nel bunker che potrebbero essere usati come merce di scambio.",
+          "se_i_pg_hanno_prove": "Non nega, ma si giustifica con ferocia materna. Rivela che il generatore è stato sabotato con acido nelle guarnizioni e che cederà tra 6-8 ore, allagando il bunker. Marta doveva essere liberata entro quella scadenza.",
+          "se_alleato": "Impossibile fidarsi completamente. Anche se sembra collaborare, cercherà di ritardare la fuga abbastanza da permettere ai fascisti di arrivare, sperando in uno scambio con Marta sul posto."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Aldo Grimani",
+        "role": "Tecnico delle comunicazioni",
+        "location_id": "Sala Generatore",
+        "status": "unintroduced",
+        "goal": "Uscire vivo e punire il traditore per vendicare i compagni morti nel bombardamento",
+        "secret": "Ha visto Bruna entrare nella sala del generatore poco prima del raid, ma non l'ha denunciata perché lei gli aveva salvato la vita sei mesi prima durante un rastrellamento",
+        "agenda_pressure": 0,
+        "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+        "current_plan": "Scoprire chi è il traditore osservando i comportamenti sospetti del gruppo intrappolato, mentre usa le sue competenze tecniche per riattivare le comunicazioni d'emergenza e segnalare la loro posizione",
+        "fallback_plan": "Se Bruna viene smascherata da altri, testimonierà contro di lei per salvarsi; se nessuno la scopre e riescono a uscire, la seguirà in segreto per scoprire per chi lavora, sperando di trovare una spiegazione che giustifichi il suo tradimento",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Uscire vivo e punire il traditore per vendicare i compagni morti nel bombardamento"
+        ],
+        "avoids": [
+          "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Aldo collabora attivamente per trovare una via d'uscita, condivide le sue conoscenze tecniche sul palazzo e controlla ossessivamente i rottami cercando tracce del sabotaggio",
+          "medium": "Inizia a fare domande insistenti su dove fossero tutti prima dell'esplosione, osserva Bruna con sguardi accusatori ma si morde la lingua, stringendo i pugni fino a farsi sbiancate le nocche",
+          "high": "Accusa apertamente qualcuno di tradimento senza fare nomi, urla che il generatore non poteva esplodere da solo, che qualcuno lo ha manomesso, mentre trema per la rabbia repressa e il conflitto interiore",
+          "extreme": "Crolla psicologicamente di fronte a Bruna gridando 'Ti ho vista entrare! Sei stata tu!' tra le lacrime, per poi pentirsi immediatamente e supplicarla di spiegargli perché ha ucciso i loro compagni"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rifugia dietro i PG più forti fisicamente, ma se accusato direttamente di complicità esplode rivelando di aver visto Bruna, anche a costo di tradire il suo debito di gratitudine",
+          "se_corrotto": "Rifiuta qualsiasi compenso con disgusto - 'I miei amici sono morti sepolti! Volete comprarmi?' - l'unica cosa che accetterebbe è la garanzia che il traditore pagherà",
+          "se_i_pg_hanno_prove": "Se vedono prove contro Bruna prima che lui parli, si mette in mezzo disperato cercando di proteggere lei dall'ira degli altri, rivelando infine che gli ha salvato la vita durante il rastrellamento di aprile",
+          "se_alleato": "Diventa una risorsa preziosa: conosce ogni condotto, ogni pannello elettrico, ogni via di servizio del palazzo, e lavora instancabilmente per salvare il gruppo, evitando solo di restare solo con Bruna"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Livia Santoro",
+        "role": "Operatrice radio e medico di fortuna",
+        "location_id": "Infermeria di Fortuna",
+        "status": "unintroduced",
+        "goal": "Mantenere l'ordine e la razionalità, evitare che la paranoia uccida più del collasso",
+        "secret": "È una spia della rete partigiana, infiltrata per sorvegliare Bruna che era già sospettata. Non ha denunciato il sabotaggio perché voleva scoprire l'intera rete di collaboratori.",
+        "agenda_pressure": 0,
+        "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+        "current_plan": "Stabilirsi come leader de facto del gruppo intrappolato attraverso competenza medica e tecnica. Controllare la narrazione su cosa è successo quella notte, minimizzando il proprio ruolo. Identificare chi sa cosa e neutralizzare informazioni pericolose. Se necessario, accusare Bruna postuma di tutto.",
+        "fallback_plan": "Se smascherata o messa all'angolo: negoziare usando i nomi della rete partigiana come merce di scambio (fornendo informazioni false o irrilevanti). Ultima risorsa: provocare un 'incidente' nel bunker che elimini i testimoni, poi presentarsi come unica sopravvissuta eroica quando arriveranno i soccorsi.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Mantenere l'ordine e la razionalità, evitare che la paranoia uccida più del collasso"
+        ],
+        "avoids": [
+          "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene la calma professionale, organizza turni di razionamento, si offre di medicare ferite minori. Osserva attentamente le dinamiche del gruppo senza intervenire troppo.",
+          "medium": "Propone di esplorare i condotti dell'aria e studia le pareti con competenza tecnica. Inizia a fare domande indirette su chi era di turno quando è iniziato il bombardamento. Nasconde la sua crescente ansia per essere intrappolata con possibili testimoni.",
+          "high": "Accusa direttamente qualcuno (preferibilmente non Bruna) di aver causato il collasso con negligenza o sabotaggio. Cerca di isolare i sospetti per controllarli. La maschera razionale comincia a scivolare: controlla ossessivamente la radio rotta.",
+          "extreme": "Confessa di essere partigiana ma accusa Bruna di averla tradita alla Gestapo. Tenta di convincere i PG che l'unico modo di uscire vivi è eliminare 'il vero traditore'. Pronta a uccidere per proteggere la rete partigiana o per disperazione."
+        },
+        "reaction_table": {
+          "se_minacciato": "Alza le mani in segno di resa, poi cerca di ribaltare l'accusa: 'Volete sapere chi DAVVERO lavorava coi tedeschi? Bruna. Avevo le prove. Per questo sono qui.' Usa dettagli veri mescolati a bugie.",
+          "se_corrotto": "Offre informazioni sulla rete partigiana in cambio di protezione o silenzio, ma fornisce solo nomi già compromessi o morti. Finge collaborazione totale mentre pianifica come eliminare chi sa troppo.",
+          "se_i_pg_hanno_prove": "Cambia strategia: ammette di essere partigiana ma nega di aver permesso il sabotaggio. 'Stavo per fermarla! Il bombardamento mi ha sorpresa prima che potessi agire.' Piange, mostra vulnerabilità, chiede di essere creduta per i suoi sforzi di salvataggio.",
+          "se_alleato": "Diventa confidente e protettiva. Condivide informazioni tecniche utili per la fuga. Sussurra: 'Qui sotto ci sono persone pericolose. Non tutti sono quello che sembrano. Fidatevi solo di me.' Cerca di costruire una cellula di sopravvivenza leale."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Cesare Battisti",
+        "role": "Operatore radio anziano",
+        "location_id": "Dormitorio Comune",
+        "status": "unintroduced",
+        "goal": "Confessare i peccati e morire in pace — è stanco della guerra",
+        "secret": "Ha rubato metà delle razioni la prima notte per barattarle con i fascisti se qualcuno riuscisse a scavare, ma il crollo ha vanificato il piano",
+        "agenda_pressure": 0,
+        "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+        "current_plan": "Nascondere la colpa finché possibile, poi confessare quando la morte è vicina per morire assolto, sperare che nessuno scopra le razioni mancanti prima",
+        "fallback_plan": "Se scoperto, accusare i fascisti di averle rubate prima del crollo, poi crollare e confessare tutto offrendo di morire per primo per lasciare più aria agli altri",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Confessare i peccati e morire in pace — è stanco della guerra"
+        ],
+        "avoids": [
+          "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Cesare raziona l'acqua con mano tremante, evita gli sguardi degli altri, mormora preghiere sottovoce toccando il rosario nascosto in tasca",
+          "medium": "Confessa di aver rubato le razioni 'per proteggere tutti da decisioni affrettate', piange parlando dei suoi figli morti al fronte, chiede perdono a Dio ad alta voce",
+          "high": "Rivela dove ha nascosto le razioni rubate (dietro il pannello elettrico bruciato), supplica di essere perdonato prima di morire sepolto qui, offre di sacrificarsi per gli altri",
+          "extreme": "Si batte il petto violentemente, urla confessioni deliranti su altri crimini di guerraminori, tenta di impiccarsi con il cavo della radio o di farsi uccidere provocando gli altri"
+        },
+        "reaction_table": {
+          "se_minacciato": "Crolla psicologicamente, confessa tutto tra singhiozzi, si accusa di aver condannato tutti rubando il cibo, implora una morte rapida invece che per fame",
+          "se_corrotto": "Ride amaramente - 'Con cosa mi corrompi, ragazzo? Siamo già morti qui sotto' - ma accetta qualsiasi promessa di assoluzione o di essere ricordato come eroe",
+          "se_i_pg_hanno_prove": "Non nega, anzi si getta in ginocchio ringraziando per l'opportunità di confessare, rivela che voleva comprare un lasciapassare per raggiungere la tomba di suo figlio",
+          "se_alleato": "Divide le razioni nascoste equamente, condivide storie della sua vita, insegna codici radio segreti, muore sereno sapendo di aver fatto ammenda"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Apertura",
+        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Nodo indizi",
+        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Luogo sociale",
+        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Zona calda",
+        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse",
+          "porte tagliafuoco"
+        ],
+        "hazards": [
+          "allarme silenzioso",
+          "sistemi antincendio impazziti"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "container metallici",
+          "auto parcheggiate",
+          "bancali di casse"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "L'ossigeno diminuisce progressivamente. Le razioni si esauriscono. La paranoia cresce: ogni sospetto potrebbe portare a un'esecuzione sommaria. Le crepe nelle pareti si allargano: il bunker potrebbe cedere.",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "piano completato se nessuno interviene",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Prime difficoltà respiratorie",
+            "effect": "L'aria si fa più pesante. Qualcuno inizia a tossire. Le prime accuse volano: 'Chi sta consumando troppo ossigeno?' I ventilatori d'emergenza emettono un ronzio irregolare."
+          },
+          {
+            "value": 4,
+            "label": "Crepe strutturali evidenti",
+            "effect": "Una fessura si allarga sulla parete est. Polvere di cemento cade continuamente. Un boato sordo scuote il bunker: qualcosa sta cedendo sopra di loro. Le luci tremolano."
+          },
+          {
+            "value": 6,
+            "label": "Primo crollo parziale",
+            "effect": "Parte del corridoio nord collassa. Una sezione del bunker è ora inaccessibile. Le razioni erano lì. Qualcuno urla che c'era una via d'uscita in quella direzione. La tensione esplode in violenza verbale."
+          },
+          {
+            "value": 8,
+            "label": "Paranoia e violenza imminente",
+            "effect": "L'ossigeno è criticamente basso. Due persone sono già svenute. Thorin o Alara vengono accusati di sabotaggio. Okafor trova un'arma improvvisata. Qualcuno propone di eliminare 'i più deboli' per risparmiare aria."
+          },
+          {
+            "value": 10,
+            "label": "Collasso totale",
+            "effect": "Il bunker cede. Le pareti implodono o l'ossigeno si esaurisce completamente. Chi resta vivo è troppo debole per muoversi. Nell'oscurità finale, solo il suono della polvere che cade e respiri sempre più rari."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "I giocatori devono trovare una via d'uscita alternativa (scavare attraverso un punto debole, scoprire condotti di ventilazione, o usare esplosivi controllati per aprire un varco) OPPURE stabilizzare il bunker (puntellare le strutture, razionare l'ossigeno scientificamente, calmare la paranoia con prove concrete che nessuno è il sabotatore)",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Il ronzio dei ventilatori cambia tono, come un respiro affannoso. Qualcuno nella penombra continua a fissare gli altri, contando in silenzio. Sulla parete, una sottile linea scura che ieri non c'era.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Sala Senza Uscita bombardamento colpito Palazzo",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Chi ha sabotato il generatore?",
+        "question": "Chi ha deliberatamente tranciato il cavo del generatore e perché?",
+        "true_answer": "Bruna Vescovi ha sabotato il generatore per sigillare tutti nel bunker e morire prima che i partigiani scoprissero il suo tradimento e uccidessero sua figlia",
+        "status": "hidden",
+        "required_clues": [
+          "clue_3",
+          "nuovo_clue_1",
+          "nuovo_clue_2",
+          "nuovo_clue_3"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [
+          "T1",
+          "T2"
+        ],
+        "linked_npcs": [
+          "Bruna Vescovi",
+          "Aldo Grimani"
+        ],
+        "linked_locations": [
+          "Sala Generatori",
+          "Dormitorio Comune"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "Come sono arrivate le coordinate ai fascisti?",
+        "question": "Chi e come ha trasmesso le coordinate del Palazzo delle Telecomunicazioni ai bombardieri?",
+        "true_answer": "Bruna Vescovi ha trasmesso le coordinate usando il codice d'emergenza, lasciando una firma cifrata riconoscibile solo dall'intelligence fascista",
+        "status": "hidden",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "nuovo_clue_4",
+          "nuovo_clue_5"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Bruna Vescovi",
+          "Cesare Battisti",
+          "Livia Santoro"
+        ],
+        "linked_locations": [
+          "Sala Radio",
+          "Archivio Cifrato"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Perché Bruna ha tradito?",
+        "question": "Quale motivazione ha spinto l'archivista a collaborare con i fascisti?",
+        "true_answer": "I fascisti tenevano prigioniera sua figlia Marta in una villa di campagna e l'hanno ricattata",
+        "status": "hidden",
+        "required_clues": [
+          "clue_4",
+          "clue_5",
+          "nuovo_clue_6",
+          "nuovo_clue_7"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T4"
+        ],
+        "linked_npcs": [
+          "Bruna Vescovi"
+        ],
+        "linked_locations": [
+          "Dormitorio Comune",
+          "Archivio Cifrato"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Dettaglio verificabile in Archivio Cifrato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Cavo del generatore tranciato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Apertura",
+          "to": "Zona calda"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Apertura",
+          "to": "Zona calda"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Zona calda",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "investigation_graph",
+      "tone": "mystery investigation",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "witness disappears",
+        "suspect lies",
+        "new contradiction",
+        "pressure clock advances",
+        "partial clue",
+        "false lead",
+        "social fallout",
+        "enemy alerted"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "mystery solved before threshold",
+        "villain revealed without clue threshold",
+        "case ends from one failed roll",
+        "untriggered massacre"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_59b5c50280",
+      "title": "La Sala Senza Uscita",
+      "genre": "action",
+      "detected_genre": "action",
+      "premise": "Il bombardamento ha colpito il Palazzo delle Telecomunicazioni durante un turno di notte. Le scale sono crollate, i corridoi sepolti. Thorin, Alara e Okafor si svegliano nel bunker sotterraneo insieme ad altri quattro sopravvissuti: operatori radio, tecnici, un'archivista. L'aria è poca. Le razioni sono per tre giorni al massimo. E qualcuno ha sabotato il generatore d'emergenza prima del raid: i fascisti non potevano sapere dove colpire se qualcuno non avesse trasmesso le coordinate. Fuori, le macerie continuano ad assestrarsi.",
+      "hidden_truth": "L'archivista Bruna Vescovi ha trasmesso le coordinate del palazzo non per ideologia, ma perché i fascisti tenevano prigioniera sua figlia Marta in una villa di campagna. Il sabotaggio del generatore era il suo piano per sigillare il bunker e morire con tutti prima che la rete partigiana scoprisse il tradimento e uccidesse Marta per rappresaglia.",
+      "win_condition": "Scoprire chi ha sabotato il generatore, ripararlo usando componenti nascosti nel bunker, e negoziare con i sopravvissuti una via d'uscita prima che l'aria diventi irrespirabile o che la disperazione porti a violenza fatale.",
+      "threat_description": "L'ossigeno diminuisce progressivamente. Le razioni si esauriscono. La paranoia cresce: ogni sospetto potrebbe portare a un'esecuzione sommaria. Le crepe nelle pareti si allargano: il bunker potrebbe cedere.",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "investigation_graph",
+        "secondary_archetypes": [],
+        "confidence": 0.5,
+        "reason": "Matched runtime signals for investigation_graph",
+        "definition": {
+          "id": "investigation_graph",
+          "description": "Piste, indizi, deduzioni e payoff.",
+          "required_modules": [
+            "clues",
+            "revelations"
+          ],
+          "optional_modules": [
+            "witnesses",
+            "false_leads"
+          ],
+          "runtime_focus": [
+            "clue",
+            "deduction"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "physical_evidence",
+            "testimony",
+            "document"
+          ],
+          "common_failure_modes": [
+            "clue_partial",
+            "witness_closes"
+          ],
+          "ending_patterns": [
+            "deduction_finale"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_59b5c50280",
+      "adventure_canon": {
+        "core_truth": "L'archivista Bruna Vescovi ha trasmesso le coordinate del palazzo non per ideologia, ma perché i fascisti tenevano prigioniera sua figlia Marta in una villa di campagna. Il sabotaggio del generatore era il suo piano per sigillare il bunker e morire con tutti prima che la rete partigiana scoprisse il tradimento e uccidesse Marta per rappresaglia.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Apertura",
+          "Nodo indizi",
+          "Luogo sociale",
+          "Zona calda"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Sala Senza Uscita bombardamento colpito Palazzo"
+        ],
+        "genre_profile": {
+          "id": "investigation_graph",
+          "tone": "mystery investigation",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "witness disappears",
+            "suspect lies",
+            "new contradiction",
+            "pressure clock advances",
+            "partial clue",
+            "false lead",
+            "social fallout",
+            "enemy alerted"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "mystery solved before threshold",
+            "villain revealed without clue threshold",
+            "case ends from one failed roll",
+            "untriggered massacre"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Dettaglio verificabile in Archivio Cifrato",
+          "question": "Dove conduce Dettaglio verificabile in Archivio Cifrato?",
+          "true_answer": "Bruna Vescovi ha trasmesso le coordinate perché i fascisti tenevano sua figlia Marta in ostaggio e le avevano ordinato di collaborare.",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Permette di interrogare Bruna sulla sua famiglia e scoprire il movente del tradimento / Stabilisce che il bombardamento non era casuale ma mirato, grazie a un tradimento interno",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Cavo del generatore tranciato",
+          "question": "Dove conduce Cavo del generatore tranciato?",
+          "true_answer": "Bruna ha sabotato il generatore per sigillare il bunker e uccidere tutti, inclusa se stessa, prima che la rete partigiana scoprisse il tradimento e uccidesse sua figlia per rappresaglia.",
+          "required_clues": [
+            "clue_3",
+            "clue_4",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Identifica il sabotatore come una donna del gruppo e stabilisce che voleva intrappolare tutti / Conferma Bruna come sabotatore e introduce il tema della lealtà personale contro il bene collettivo",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Dettaglio verificabile in Archivio Cifrato",
+          "text": "Dettaglio verificabile in Archivio Cifrato",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Bruna ha una figlia di cui nessuno nel gruppo sapeva nulla",
+          "payoff": "Permette di interrogare Bruna sulla sua famiglia e scoprire il movente del tradimento",
+          "location": "Archivio Cifrato",
+          "immediate_information": "Dettaglio verificabile in Archivio Cifrato",
+          "hidden_implication": "Bruna ha una figlia di cui nessuno nel gruppo sapeva nulla",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Registro delle trasmissioni",
+          "text": "Registro delle trasmissioni",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Qualcuno ha trasmesso la posizione esatta del palazzo ai fascisti",
+          "payoff": "Stabilisce che il bombardamento non era casuale ma mirato, grazie a un tradimento interno",
+          "location": "Sala Radio Principale",
+          "immediate_information": "Un quaderno con tutte le trasmissioni in uscita. L'ultima voce, la sera del bombardamento, è stata cancellata con inchiostro nero. Sotto controluce si legge 'coordinata 44.502N 11.347E — confermata ricezione'.",
+          "hidden_implication": "Qualcuno ha trasmesso la posizione esatta del palazzo ai fascisti",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Cavo del generatore tranciato",
+          "text": "Cavo del generatore tranciato",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Il sabotaggio è stato deliberato e compiuto da qualcuno con accesso al bunker",
+          "payoff": "Identifica il sabotatore come una donna del gruppo e stabilisce che voleva intrappolare tutti",
+          "location": "Sala Generatore",
+          "immediate_information": "Il cavo principale del generatore è stato tagliato di netto con una lama, non danneggiato dall'esplosione. Il taglio è pulito, professionale. Accanto, impronte di scarpe da donna, numero piccolo.",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "Sala Generatore"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Testimonianza di Confessione",
+          "text": "Testimonianza di Confessione",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Aldo ha coperto Bruna per debito di gratitudine, ma ora è dilaniato dal senso di colpa",
+          "payoff": "Conferma Bruna come sabotatore e introduce il tema della lealtà personale contro il bene collettivo",
+          "location": "Dormitorio Comune",
+          "immediate_information": "Testimonianza di Confessione",
+          "hidden_implication": "Aldo ha coperto Bruna per debito di gratitudine, ma ora è dilaniato dal senso di colpa",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Dettaglio verificabile in Archivio Cifrato — Bruna era ricattata: sua figlia Marta è os",
+          "text": "Dettaglio verificabile in Archivio Cifrato — Bruna era ricattata: sua figlia Marta è os",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Bruna era ricattata: sua figlia Marta è ostaggio dei fascisti",
+          "payoff": "Ribalta Bruna da traditrice a madre disperata, aggiunge complessità morale alla situazione",
+          "location": "Archivio Cifrato",
+          "immediate_information": "Dettaglio verificabile in Archivio Cifrato",
+          "hidden_implication": "Bruna era ricattata: sua figlia Marta è ostaggio dei fascisti",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Dettaglio verificabile in Dormitorio Comune",
+          "text": "Dettaglio verificabile in Dormitorio Comune",
+          "type": "behavior",
+          "thread_id": "T1",
+          "reveals": "Cesare ha rubato le razioni per un piano di fuga egoista, ora inutile",
+          "payoff": "Crea un falso colpevole e aumenta la tensione interna — la paranoia può uccidere prima del crollo",
+          "location": "Dormitorio Comune",
+          "immediate_information": "Dettaglio verificabile in Dormitorio Comune",
+          "hidden_implication": "Cesare ha rubato le razioni per un piano di fuga egoista, ora inutile",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Bruna Vescovi",
+          "role": "Archivista delle trasmissioni cifrate",
+          "description": "Salvare sua figlia Marta, prigioniera dei fascisti, anche a costo della propria vita e di quella degli altri",
+          "location": "Archivio Cifrato",
+          "secret": "Ha trasmesso le coordinate del palazzo e sabotato il generatore per sigillare il bunker dall'interno prima che la rete partigiana scoprisse il tradimento",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Salvare sua figlia Marta, prigioniera dei fascisti, anche a costo della propria vita e di quella degli altri",
+            "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Salvare sua figlia Marta, prigioniera dei fascisti, anche a costo della propria vita e di quella degli altri"
+            ],
+            "avoids": [
+              "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha trasmesso le coordinate del palazzo e sabotato il generatore per sigillare il bunker dall'interno prima che la rete partigiana scoprisse il tradimento",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Aldo Grimani",
+          "role": "Tecnico delle comunicazioni",
+          "description": "Uscire vivo e punire il traditore per vendicare i compagni morti nel bombardamento",
+          "location": "Sala Generatore",
+          "secret": "Ha visto Bruna entrare nella sala del generatore poco prima del raid, ma non l'ha denunciata perché lei gli aveva salvato la vita sei mesi prima durante un rastrellamento",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Uscire vivo e punire il traditore per vendicare i compagni morti nel bombardamento",
+            "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Uscire vivo e punire il traditore per vendicare i compagni morti nel bombardamento"
+            ],
+            "avoids": [
+              "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha visto Bruna entrare nella sala del generatore poco prima del raid, ma non l'ha denunciata perché lei gli aveva salvato la vita sei mesi prima durante un rastrellamento",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Livia Santoro",
+          "role": "Operatrice radio e medico di fortuna",
+          "description": "Mantenere l'ordine e la razionalità, evitare che la paranoia uccida più del collasso",
+          "location": "Infermeria di Fortuna",
+          "secret": "È una spia della rete partigiana, infiltrata per sorvegliare Bruna che era già sospettata. Non ha denunciato il sabotaggio perché voleva scoprire l'intera rete di collaboratori.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Mantenere l'ordine e la razionalità, evitare che la paranoia uccida più del collasso",
+            "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Mantenere l'ordine e la razionalità, evitare che la paranoia uccida più del collasso"
+            ],
+            "avoids": [
+              "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È una spia della rete partigiana, infiltrata per sorvegliare Bruna che era già sospettata. Non ha denunciato il sabotaggio perché voleva scoprire l'intera rete di collaboratori.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Cesare Battisti",
+          "role": "Operatore radio anziano",
+          "description": "Confessare i peccati e morire in pace — è stanco della guerra",
+          "location": "Dormitorio Comune",
+          "secret": "Ha rubato metà delle razioni la prima notte per barattarle con i fascisti se qualcuno riuscisse a scavare, ma il crollo ha vanificato il piano",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Confessare i peccati e morire in pace — è stanco della guerra",
+            "fear": "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Confessare i peccati e morire in pace — è stanco della guerra"
+            ],
+            "avoids": [
+              "che Dettaglio verificabile in Archivio Cifrato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha rubato metà delle razioni la prima notte per barattarle con i fascisti se qualcuno riuscisse a scavare, ma il crollo ha vanificato il piano",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Apertura",
+          "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+          "type": "entry",
+          "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Nodo indizi",
+          "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+          "type": "site",
+          "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Luogo sociale",
+          "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+          "type": "site",
+          "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona calda",
+          "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
+          "type": "finale",
+          "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse",
+            "porte tagliafuoco"
+          ],
+          "hazards": [
+            "allarme silenzioso",
+            "sistemi antincendio impazziti"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "container metallici",
+            "auto parcheggiate",
+            "bancali di casse"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "container metallici",
+              "auto parcheggiate",
+              "bancali di casse"
+            ],
+            "hazards": [
+              "allarme silenzioso",
+              "sistemi antincendio impazziti"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "L'ossigeno diminuisce progressivamente. Le razioni si esauriscono. La paranoia cresce: ogni sospetto potrebbe portare a un'esecuzione sommaria. Le crepe nelle pareti si allargano: il bunker potrebbe cedere.",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_59b5c50280",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Archivio Cifrato",
+        "agenda_pressure": 0,
+        "goal": "Salvare sua figlia Marta, prigioniera dei fascisti, anche a costo della propria vita e di quella degli altri",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Sala Generatore",
+        "agenda_pressure": 0,
+        "goal": "Uscire vivo e punire il traditore per vendicare i compagni morti nel bombardamento",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Infermeria di Fortuna",
+        "agenda_pressure": 0,
+        "goal": "Mantenere l'ordine e la razionalità, evitare che la paranoia uccida più del collasso",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Dormitorio Comune",
+        "agenda_pressure": 0,
+        "goal": "Confessare i peccati e morire in pace — è stanco della guerra",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T2"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T1"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Archivio Cifrato.",
+      "Actor npc_2 ha location non riconosciuta: Sala Generatore.",
+      "Actor npc_3 ha location non riconosciuta: Infermeria di Fortuna.",
+      "Actor npc_4 ha location non riconosciuta: Dormitorio Comune."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 4,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "live_game_state": null
+}
