@@ -5302,7 +5302,7 @@
         "id": "llm_clue_2",
         "label": "Cassaforte sferica anti-rilevamento magico",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T2",
         "source_location": "10",
         "reveals": "La gemma non può essere localizzata magicamente. I maghi di Montbatten cercano attivamente oggetti magici da collezionare.",
         "payoff": "Gli incantesimi di localizzazione falliranno. I PG devono trovare il drago fisicamente.",
@@ -5374,7 +5374,7 @@
         "id": "llm_clue_4",
         "label": "Guida della palude con cartello",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T4",
         "source_location": "#1",
         "reveals": "Esiste una guida locale che conosce la palude. Ignora attivamente i PG, suggerendo diffidenza o test.",
         "payoff": "Assumere la guida potrebbe evitare pericoli e condurre alla tana del drago più velocemente.",
@@ -5410,7 +5410,7 @@
         "id": "llm_clue_5",
         "label": "Sentiero stretto nella palude nebbiosa",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T5",
         "source_location": "#1",
         "reveals": "Esiste un percorso principale nella palude. La nebbia e l'odore potrebbero essere pericolosi o naturali.",
         "payoff": "I PG devono decidere se seguire il sentiero noto o cercare percorsi alternativi più sicuri.",
@@ -5482,7 +5482,7 @@
         "id": "llm_clue_7",
         "label": "Motivazioni divergenti per la Sfera Celestiale",
         "type": "contradiction",
-        "thread_id": "T13",
+        "thread_id": "T7",
         "source_location": "10",
         "reveals": "C'era tensione tra i due partner su cosa fare con la gemma. Potrebbero aver discusso o preso decisioni impulsive.",
         "payoff": "Interrogare Aonn sulle vere intenzioni potrebbe rivelare dettagli nascosti sull'attacco.",
@@ -5590,7 +5590,7 @@
         "id": "llm_clue_10",
         "label": "Braccio di Aonn sciolto dall'acido del drago",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T10",
         "source_location": "10",
         "reveals": "Il drago serpente nero usa attacchi acidi devastanti. Aonn porta cicatrici visibili che provano la sua storia.",
         "payoff": "Procurarsi protezione contro acido e preparare tattica contro attacchi rapidi e letali.",
@@ -5621,198 +5621,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Registro dei teletrasporti dell'Accademia",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "L'incidente di teletrasporto ha creato una breve finestra temporale",
-        "payoff": "Conferma che l'Accademia ha sfruttato un momento di vulnerabilità della cassaforte anti-rilevamento",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Cristallo di risonanza spezzato",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "L'apprendista portava con sé un dispositivo di rilevamento magico",
-        "payoff": "Suggerisce che il teletrasporto 'accidentale' potrebbe non essere stato casuale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Tracce di acido sul sentiero",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il drago si muove regolarmente lungo questo percorso",
-        "payoff": "Permette di seguire la scia fino alla direzione del tempio sommerso",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Cartello della Guida Lucertola con avvertimento",
-        "type": "location_detail",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Esiste un'area specifica considerata territorio del drago, legata a un 'tempio vecchio'",
-        "payoff": "Conferma la connessione tra il drago e il tempio sommerso, e rivela che ha ucciso almeno 12 persone",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Testimonianza contraddittoria di Aonn Tesk",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "La cassaforte è stata aperta durante la celebrazione",
-        "payoff": "Spiega perché il gruppo è diventato improvvisamente rilevabile e vulnerabile",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Resti del campo con bottiglie vuote",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Il gruppo stava festeggiando e la cassaforte era stata posata a terra, fuori dalla sua protezione",
-        "payoff": "Conferma la negligenza di Aonn Tesk e spiega come il drago abbia potuto attaccare con precisione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Scala di pietra sommersa nel tempio",
-        "type": "location_detail",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il tempio è la fonte originale della Sfera Celestiale ed è ora abitato dal drago",
-        "payoff": "Conferma che il drago è attratto dalla Sfera per ragioni legate al tempio stesso",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Lettera di incarico dell'Accademia al nonno",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Il nonno aveva istruzioni precise sulla sicurezza che Aonn Tesk ha violato",
-        "payoff": "Stabilisce la responsabilità di Aonn Tesk nella tragedia e la serietà delle precauzioni richieste",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -5959,8 +5767,8 @@
         "secret": "Ha la cassaforte sferica contenente la Gemma Celestiale ancora intatta nel suo stomaco insieme ai resti del nonno",
         "agenda_pressure": 0,
         "fear": "Che qualcuno gli squarci il ventre per recuperare la cassaforte sferica e la gemma",
-        "current_plan": "Rimanere semi-sommerso nelle zone più fangose della palude dove nessuno osa avventurarsi, digerendo lentamente l'ultimo pasto. Attaccare solo chi invade il territorio del nucleo centrale della palude.",
-        "fallback_plan": "Se gravemente ferito, ritirarsi nella tana sottomarina più profonda dove ha accumulato ossa e resti di prede precedenti. Lì regurgitare la cassaforte se necessario per recuperare mobilità e fuggire attraverso canali sotterranei verso altre zone paludose.",
+        "current_plan": "Digerire completamente la cassaforte metallica e il suo contenuto nel corso di settimane. Rimanere semi-sommerso nella tana fangosa, uscendo solo per cacciare quando la fame diventa insopportabile",
+        "fallback_plan": "Se ferito gravemente o se la cassaforte causa dolori intestinali insopportabili, migrare verso le caverne allagate più profonde nella palude dove può rigurgitare l'oggetto indigesto in sicurezza e guarire",
         "resources": [
           "accessi",
           "contatti",
@@ -5982,16 +5790,16 @@
           "Perdere il controllo del territorio ricco di prede nella palude"
         ],
         "pressure_response": {
-          "low": "Osserva gli intrusi dall'acqua torbida, solo gli occhi e le narici visibili. Emette ringhi bassi e gorgoglianti per intimidire senza rivelare la posizione completa.",
-          "medium": "Emerge parzialmente dal fango, sibila vapori acidi e colpisce con la coda per spingere gli intrusi verso zone più profonde dove ha vantaggio. Marca il territorio con spruzzi di bile corrosiva.",
-          "high": "Attacco frontale con morso velenoso e spire costrittive. Trascina le prede sott'acqua per annegarle. Vomita acido digestivo sugli avversari più pericolosi.",
-          "extreme": "Furia cieca: emerge completamente rivelando il ventre gonfio innaturalmente, attacca tutto ciò che si muove. Rigurgita contenuti dello stomaco (inclusa la cassaforte) se ferito gravemente all'addome, nel tentativo disperato di fuggire più leggero."
+          "low": "Osserva i PG dalla palude sommersa, solo gli occhi e le narici visibili. Emette sibili minacciosi e rilascia vapori acidi per intimidire gli intrusi dal suo territorio",
+          "medium": "Emerge parzialmente attorcigliandosi tra i cipressi della palude. Attacca con la coda per ferire e respingere, poi si ritira nelle acque più profonde. Marca il territorio con acido per creare barriere",
+          "high": "Combatte ferocemente usando soffio acido e morsi. Se gravemente ferito, rigurgita parte del contenuto stomacale (inclusi frammenti ossei del nonno) per alleggerirsi prima della fuga verso la tana subacquea più sicura",
+          "extreme": "In punto di morte, si contorce violentemente causando l'apertura della cassaforte nel suo stomaco. L'acido digestivo ha parzialmente corroso il metallo. Tenta disperatamente di fuggire nelle profondità più remote della palude dove nessuno può seguirlo"
         },
         "reaction_table": {
-          "se_minacciato": "Finge ritirata nelle acque profonde, poi tende un'imboscata da sotto il fango. Preferisce separare il gruppo e cacciare il più debole.",
-          "se_corrotto": "Impossibile corromplo con oro o cibo - ha già divorato tesori e non ha bisogno di prede. Potrebbe essere placato solo con magia che allevia il dolore da indigestione causato dalla cassaforte di metallo.",
-          "se_i_pg_hanno_prove": "Se capisce che cercano specificamente il contenuto del suo stomaco, diventa paranoico e difensivo. Potrebbe fuggire in tane più profonde o attaccare preventivamente.",
-          "se_alleato": "Se qualcuno alleviasse magicamente il suo costante dolore gastrico (senza estrarre la cassaforte), potrebbe tollerare la presenza umana nel suo territorio per gratitudine, ma mai fidarsi completamente."
+          "se_minacciato": "Attacca immediatamente qualsiasi creatura che si avvicini alla sua tana o disturbi il suo letargo digestivo. Protegge istintivamente la zona addominale dove sente ancora il peso della cassaforte",
+          "se_corrotto": "Impossibile. È una bestia territoriale primitiva guidata solo da istinto predatorio e fame. Non comprende tesori o negoziazioni, solo prede e minacce",
+          "se_i_pg_hanno_prove": "Se i PG mostrano oggetti appartenuti al nonno trovati nella palude, il drago li riconosce come odore di 'pasto precedente' e attacca più aggressivamente per eliminare testimoni",
+          "se_alleato": "Nessun alleato possibile. Altre creature della palude lo evitano. Solo piccoli parassiti acquatici vivono sulla sua corazza, nutrendosi di residui tra le scaglie"
         },
         "pressure_events": [],
         "relationships": [
@@ -6204,7 +6012,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -6241,14 +6048,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "59",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "Your next few weeks are spent magically enslaved to",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6265,7 +6064,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -6302,17 +6100,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p4_room_59",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_3",
-          "p9_room_15"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Swamp Lion",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6327,7 +6114,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {
           "enabled": true,
           "role": "hot_zone",
@@ -6377,17 +6163,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p4_room_59",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_3",
-          "section_extra_4"
-        ],
-        "local_map_image_b64": "",
         "original_section": "All-Out Attack!",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6402,7 +6177,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -6439,18 +6213,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p4_room_59",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_1",
-          "section_extra_2",
-          "p9_room_15"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Redbellies",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6465,7 +6227,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -6502,18 +6263,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "15",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p4_room_59",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_1",
-          "section_extra_3",
-          "section_extra_4"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Great Anurus",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6530,7 +6279,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -6568,18 +6316,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p4_room_59",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_2",
-          "p9_room_15",
-          "p10_room_50"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Great Anurus",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6603,7 +6339,6 @@
           "llm_clue_10"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -6645,17 +6380,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "50",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p4_room_59",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_4",
-          "p16_room_24"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6672,7 +6396,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -6709,16 +6432,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "24",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p4_room_59",
-        "location_type": "regional",
-        "connections_to": [
-          "p10_room_50"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6735,7 +6448,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [
           "llm_clue_1",
@@ -6777,14 +6489,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p9_room_15",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "Rodent carcass #6 $50",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6799,7 +6503,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [
           "llm_clue_1",
@@ -6844,14 +6547,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "p9_room_15",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "Ebony fish #11 $200",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -6866,7 +6561,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [
           "llm_clue_1",
@@ -6908,14 +6602,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_1",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "Swamp lion hide #7 $200",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -7019,205 +6705,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Come ha fatto l'Accademia a localizzare la Sfera?",
-        "question": "Qual è la vera connessione tra l'incidente di teletrasporto e il rilevamento della Sfera Celestiale?",
-        "true_answer": "L'apprendista si è teletrasportato accidentalmente vicino al drago, creando un'eco magica che ha brevemente disattivato la cassaforte anti-rilevamento, permettendo a Riversturm Malreaver di triangolare la posizione della Sfera",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_3",
-          "llm_clue_9"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Riversturm Malreaver"
-        ],
-        "linked_locations": [
-          "Accademia di Montbatten"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Dove si nasconde il Drago Serpente Nero?",
-        "question": "Dove ha la sua tana il drago che ha divorato il nonno e la cassaforte?",
-        "true_answer": "Il drago vive nelle rovine del tempio sommerso, lo stesso luogo da cui proviene originariamente la Sfera Celestiale, attratto dalla sua energia magica residua",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_6"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Drago Serpente Nero",
-          "Guida Lucertola"
-        ],
-        "linked_locations": [
-          "Tempio sommerso",
-          "Vast Vermin Swamp"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Cosa è successo davvero la notte dell'attacco?",
-        "question": "Perché il gruppo del nonno è stato attaccato proprio quella notte?",
-        "true_answer": "La celebrazione ubriaca ha attirato l'attenzione del drago con rumore e luce, ma Aonn Tesk aveva anche rimosso temporaneamente la cassaforte dalla protezione magica per mostrarla durante i festeggiamenti, rendendo il gruppo rilevabile",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "llm_clue_1",
-          "llm_clue_8"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Aonn Tesk",
-          "Nonno del Protagonista"
-        ],
-        "linked_locations": [
-          "Vast Vermin Swamp"
-        ]
-      },
-      {
-        "id": "T1",
-        "title": "T1",
-        "question": "Dove si trova il drago serpente nero che ha divorato il nonno e come può essere ucciso per recuperare la cassaforte?",
-        "true_answer": "Il drago serpente nero ha inghiottito il nonno con la cassaforte contenente la Sfera Celestiale ancora nello zaino. La cassaforte è intatta nel ventre del drago e può essere recuperata solo uccidendo la creatura.",
-        "collected_clue_ids": [
-          "llm_clue_1"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T3",
-        "title": "T3",
-        "question": "Cosa può rivelare l'incidente del teletrasporto dell'apprendista sulla posizione della tana del drago?",
-        "true_answer": "L'apprendista di Riversturm ha tentato un teletrasporto fallito nella zona dove si trova la Sfera. Riversturm o l'apprendista possono fornire coordinate precise sulla tana del drago, ma il fallimento ha anche allertato l'Accademia di Montbatten sulla presenza della Sfera nella palude.",
-        "collected_clue_ids": [
-          "llm_clue_3"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T6",
-        "title": "T6",
-        "question": "Cosa può rivelare il tempio sommerso pre-Tempesta sulla natura e i poteri della Sfera Celestiale?",
-        "true_answer": "Il tempio sommerso è la fonte originale della Sfera Celestiale e contiene iscrizioni e manufatti che rivelano segreti magici antichi contesi. Localizzare il tempio potrebbe fornire informazioni sui poteri della gemma, rituali per controllarla o percorsi alternativi per neutralizzare chi la possiede.",
-        "collected_clue_ids": [
-          "llm_clue_6"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Come ha fatto il drago nero a localizzare e attaccare Aonn e il nonno quella notte specifica?",
-        "true_answer": "Aonn e il nonno stavano celebrando ubriachi il ritrovamento della Sfera, compromettendo gravemente la loro vigilanza. Il rumore della festa e la loro incapacità di nascondersi efficacemente hanno permesso al drago di localizzarli facilmente seguendo il percorso dal tempio sommerso al sito dell'attacco.",
-        "collected_clue_ids": [
-          "llm_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T9",
-        "title": "T9",
-        "question": "Quali sono le vere intenzioni di Riversturm Malreaver riguardo alla Sfera Celestiale?",
-        "true_answer": "Riversturm Malreaver, mago famoso dell'Accademia di Montbatten, ha motivazioni divergenti per ottenere la Sfera che vanno oltre la semplice collezione accademica. Potrebbe essere un alleato prezioso per localizzare il drago, ma anche un avversario pericoloso che cerca di impossessarsi della gemma per scopi personali o dell'Accademia.",
-        "collected_clue_ids": [
-          "llm_clue_9"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_sfera_drago",
-        "title": "T sfera drago",
-        "question": "In che condizioni si trova la Sfera Celestiale dopo l'attacco del drago?",
-        "true_answer": "Il drago nero ha inghiottito il nonno con la cassaforte contenente la Sfera Celestiale ancora chiusa nello zaino. La gemma è intatta e protetta all'interno della cassaforte, ma tutto si trova nel ventre del drago.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_accademia_rivale",
-        "title": "T accademia rivale",
-        "question": "Chi altro sta cercando la Sfera Celestiale e cosa sanno della sua posizione?",
-        "true_answer": "L'Accademia di Montbatten cerca attivamente la Sfera Celestiale e potrebbe già sapere della sua posizione nella Vast Vermin Swamp. Il teletrasporto fallito dell'apprendista ha rivelato la presenza della gemma, creando una corsa contro il tempo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_negligenza",
-        "title": "T negligenza",
-        "question": "Aonn Tesk sta raccontando tutta la verità sulle circostanze dell'attacco del drago?",
-        "true_answer": "Aonn e il nonno erano completamente ubriachi durante la celebrazione per il ritrovamento della Sfera, compromettendo drasticamente la loro vigilanza e capacità di difendersi. Questa negligenza ha reso l'attacco del drago possibile e Aonn potrebbe omettere questo dettaglio imbarazzante.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_origine_sfera",
-        "title": "T origine sfera",
-        "question": "Qual è l'origine e il vero potere della Sfera Celestiale?",
-        "true_answer": "La Sfera Celestiale proviene da un tempio sommerso dell'era pre-Banestorm e contiene segreti magici antichi estremamente contesi. Il suo potere va oltre quello di una semplice gemma magica ed è per questo che molteplici fazioni la cercano.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rilevamento",
-        "title": "T rilevamento",
-        "question": "Come ha fatto l'Accademia di Montbatten a scoprire la presenza della Sfera nella palude?",
-        "true_answer": "Il teletrasporto fallito dell'apprendista di Riversturm ha creato una perturbazione magica rilevabile che ha allertato l'Accademia sulla presenza della Sfera Celestiale nella Vast Vermin Swamp, accelerando la loro ricerca.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_antagonista",
-        "title": "T antagonista",
-        "question": "Riversturm Malreaver può essere considerato un alleato affidabile?",
-        "true_answer": "Riversturm Malreaver dell'Accademia di Montbatten ha motivazioni complesse e divergenti per ottenere la Sfera Celestiale che vanno oltre la semplice collezione o studio accademico. Le sue vere intenzioni potrebbero entrare in conflitto con quelle dei PG.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 4,
@@ -10845,8 +10333,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.9
+    }
   },
   "live_game_state": null
 }
