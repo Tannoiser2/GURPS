@@ -495,28 +495,18 @@
         "label": "Firma termica residua al portellone 7",
         "type": "physical_evidence",
         "thread_id": "T4",
-        "source_location": "Portellone 7, baia d'attracco secondaria",
+        "source_location": "",
         "reveals": "Una nave di grandi dimensioni ha attraccato senza lasciare traccia ufficiale",
         "payoff": "Conferma che l'evacuazione era pianificata e non autorizzata",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Scanner termici mostrano impronta di calore compatibile con motori classe-cargo pesante, dissipata circa 68 ore fa",
-        "hidden_implication": "Il portellone 7 è normalmente riservato a trasferimenti non registrati; qualcuno sapeva esattamente dove attraccare per evitare i sistemi di monitoraggio automatico",
-        "unlocks": [
-          "clue_12",
-          "location_bay7"
-        ],
-        "possible_actions": [
-          "Analizzare composizione residui propellente",
-          "Verificare log automatici portellone",
-          "Triangolare traiettoria partenza"
-        ],
-        "wrong_interpretations": [
-          "Una nave di soccorso è arrivata per l'emergenza e ha evacuato il personale",
-          "I pirati hanno abbordato la stazione e rapito l'equipaggio"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -529,28 +519,18 @@
         "label": "Messaggio personale di Lira Chen",
         "type": "document",
         "thread_id": "T4",
-        "source_location": "Terminale personale, alloggio 14-C",
+        "source_location": "",
         "reveals": "L'evacuazione era segreta e basata su false motivazioni",
         "payoff": "Lira Chen è un testimone chiave e aveva dubbi sulla legittimità dell'ordine",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Messaggio non inviato datato 71 ore fa: 'Mamma, ci hanno detto di evacuare per fuga tossica settore 9, ma i sensori ambientali mostrano tutto verde. Voss dice ordini della direzione, ma non ho visto conferme ufficiali...'",
-        "hidden_implication": "Alcuni membri dell'equipaggio erano scettici ma hanno obbedito comunque; Voss ha usato la catena di comando per forzare la cooperazione senza documentazione verificabile",
-        "unlocks": [
-          "clue_13",
-          "npc_lira_chen_status"
-        ],
-        "possible_actions": [
-          "Tracciare destinazione evacuati",
-          "Verificare protocolli emergenza",
-          "Cercare altri messaggi di Chen"
-        ],
-        "wrong_interpretations": [
-          "Chen era complice di Voss e il messaggio è una copertura",
-          "La fuga tossica era reale ma i sensori malfunzionavano"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -563,28 +543,18 @@
         "label": "Coordinate di rotta criptate",
         "type": "document",
         "thread_id": "T4",
-        "source_location": "Sottosistema navigazione, console ponte",
+        "source_location": "",
         "reveals": "La nave evacuata si è diretta in territorio criminale",
         "payoff": "Collega Voss direttamente alla Falange Rossa",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "File nascosto con chiave crittografica militare obsoleta: vettore verso settore Kessler-9, zona interdetta nota per operazioni della Falange Rossa",
-        "hidden_implication": "Voss non stava solo evacuando il personale, li stava consegnando a un'organizzazione criminale, probabilmente come parte di un accordo più ampio o come ostaggi/manodopera forzata",
-        "unlocks": [
-          "revelation_voss_trafficking",
-          "clue_20_falange_contact"
-        ],
-        "possible_actions": [
-          "Decrittare livelli aggiuntivi",
-          "Confrontare con rotte note Falange Rossa",
-          "Cercare transazioni finanziarie"
-        ],
-        "wrong_interpretations": [
-          "L'equipaggio è fuggito autonomamente verso una base ribelle",
-          "Le coordinate sono false per depistare eventuali ricerche"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -597,28 +567,18 @@
         "label": "Segnale bionico intermittente",
         "type": "location_detail",
         "thread_id": "T5",
-        "source_location": "Settore manutenzione, livello inferiore",
+        "source_location": "",
         "reveals": "Rask è vivo e si nasconde intenzionalmente",
         "payoff": "Permette di localizzare e avvicinare Rask",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Rilevatore biometrico capta impulsi irregolari da un arto bionico modello KX-7, compatibile con le specifiche dell'impianto di Rask, proveniente dai condotti di ventilazione",
-        "hidden_implication": "Rask sta attivamente schermando il segnale ma non perfettamente; ha esperienza tecnica sufficiente per nascondersi ma non vuole (o non può) disattivare completamente i suoi bionici",
-        "unlocks": [
-          "location_rask_hideout",
-          "clue_15"
-        ],
-        "possible_actions": [
-          "Seguire il segnale",
-          "Inviare messaggio attraverso frequenza bionici",
-          "Isolare il settore"
-        ],
-        "wrong_interpretations": [
-          "È solo un malfunzionamento dei sistemi di manutenzione della stazione",
-          "Rask è ferito gravemente e il segnale è automatico di emergenza"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -631,28 +591,18 @@
         "label": "Datapad di Rask abbandonato",
         "type": "physical_evidence",
         "thread_id": "T5",
-        "source_location": "Condotto ventilazione, giunzione D-12",
+        "source_location": "",
         "reveals": "Rask ha capito di essere stato manipolato e possiede prove del furto",
         "payoff": "Conferma che Rask è un complice inconsapevole e ha prove concrete",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Datapad parzialmente danneggiato contiene: screenshot di trasferimenti minerali anomali, messaggi da Voss con promesse di 'bonus speciale', e note personali 'Cosa ho fatto? Keiko aveva ragione...'",
-        "hidden_implication": "Rask ha realizzato troppo tardi di essere stato usato come capro espiatorio; il senso di colpa per la morte di Tanegawa lo sta divorando e ha raccolto prove contro Voss, ma teme di essere eliminato se emerge",
-        "unlocks": [
-          "clue_16",
-          "revelation_rask_guilt"
-        ],
-        "possible_actions": [
-          "Recuperare dati cancellati",
-          "Usare le prove per negoziare con Rask",
-          "Tracciare comunicazioni Voss-Rask"
-        ],
-        "wrong_interpretations": [
-          "Rask ha abbandonato il datapad deliberatamente come depistaggio",
-          "Le prove sono state fabbricate da Tanegawa prima di morire"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -665,28 +615,18 @@
         "label": "Registrazione audio nel condotto",
         "type": "testimony",
         "thread_id": "T5",
-        "source_location": "Condotto ventilazione, camera eco settore 8",
+        "source_location": "",
         "reveals": "Rask sa che Tanegawa è stata intrappolata deliberatamente",
         "payoff": "Fornisce la confessione indiretta e la motivazione emotiva di Rask",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Registrazione su loop dal comunicatore di Rask: 'Keiko... l'ho vista chiudere quelle porte. Voss. L'ho vista ai monitor. Tu avevi scoperto tutto e lei... lei ti ha uccisa. E io le ho dato i numeri che voleva. Io ti ho uccisa...'",
-        "hidden_implication": "Rask ha assistito all'omicidio in diretta attraverso i sistemi di sicurezza ma non ha agito per paura o shock; ora il trauma e il senso di colpa lo hanno spinto sull'orlo del crollo psicologico",
-        "unlocks": [
-          "revelation_voss_murder_witnessed",
-          "negotiation_rask"
-        ],
-        "possible_actions": [
-          "Rintracciare Rask usando la fonte audio",
-          "Offrire protezione in cambio di testimonianza",
-          "Verificare log video del momento dell'omicidio"
-        ],
-        "wrong_interpretations": [
-          "Rask sta delirando per mancanza di ossigeno o danno cerebrale",
-          "La registrazione è stata manipolata da Tanegawa prima di morire per incastrare Voss"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -699,28 +639,18 @@
         "label": "Rapporto preliminare di Tanegawa",
         "type": "document",
         "thread_id": "T2",
-        "source_location": "Ufficio Tanegawa, file system locale",
+        "source_location": "",
         "reveals": "Tanegawa aveva scoperto il furto e stava per denunciarlo",
         "payoff": "Stabilisce il movente di Voss per eliminare Tanegawa",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Bozza di rapporto non inviata datata 73 ore fa: 'Discrepanze inventario settore minerario primario: 847kg di coltan-4 non registrati. Pattern compatibile con sottrazione sistematica. Raccomando audit immediato e blocco spedizioni fino a chiarimento. Sospetti: accesso amministrativo livello 7+'",
-        "hidden_implication": "Tanegawa aveva identificato non solo il furto ma anche il livello di autorizzazione necessario, restringendo i sospetti a pochissime persone tra cui Voss; il rapporto doveva partire entro 24 ore, forzando Voss ad agire immediatamente",
-        "unlocks": [
-          "revelation_tanegawa_threat",
-          "clue_19"
-        ],
-        "possible_actions": [
-          "Verificare destinatari previsti del rapporto",
-          "Confrontare con registri spedizioni",
-          "Cercare altre scoperte di Tanegawa"
-        ],
-        "wrong_interpretations": [
-          "Tanegawa stessa stava rubando e il rapporto era una copertura preventiva",
-          "L'errore era amministrativo e Tanegawa stava esagerando per nascondere proprie inefficienze"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -733,28 +663,18 @@
         "label": "Tracce nel refettorio",
         "type": "physical_evidence",
         "thread_id": "T1",
-        "source_location": "Refettorio principale, livello abitativo",
+        "source_location": "",
         "reveals": "L'evacuazione era organizzata, non caotica",
         "payoff": "Contraddice la narrativa di un'emergenza improvvisa",
         "state": "hidden",
         "progress_ticks": 0,
         "is_required": true,
         "revelation_ids": [],
-        "immediate_information": "Vassoi impilati ordinatamente, sedie allineate, nessun cibo lasciato a metà. Inventario dispensa mostra razioni d'emergenza prelevate sistematicamente, non in fretta. Checklist evacuazione compilata e firmata sulla bacheca",
-        "hidden_implication": "Il personale ha avuto tempo per prepararsi metodicamente, suggerendo preavviso di almeno diverse ore; questo contrasta nettamente con qualsiasi scenario di emergenza improvvisa e supporta un'evacuazione pianificata sotto false pretese",
-        "unlocks": [
-          "revelation_planned_evacuation",
-          "clue_12"
-        ],
-        "possible_actions": [
-          "Analizzare timeline attraverso deterioramento cibo",
-          "Verificare checklist contro protocolli standard",
-          "Cercare ordini scritti di evacuazione"
-        ],
-        "wrong_interpretations": [
-          "L'equipaggio era particolarmente disciplinato e ha seguito procedure anche nel panico",
-          "La stazione aveva già evacuazioni di routine programmate"
-        ],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
         "source_ref": {},
         "source_status": "generated",
         "is_preserved_from_pdf": false,
@@ -767,7 +687,7 @@
         "label": "Segnale di soccorso bloccato",
         "type": "document",
         "thread_id": "T1",
-        "source_location": "Sistema comunicazioni, sala controllo",
+        "source_location": "",
         "reveals": "Tanegawa ha cercato di chiedere aiuto ma è stata attivamente ostacolata",
         "payoff": "Prova la volontà omicida di Voss",
         "state": "hidden",
@@ -798,8 +718,8 @@
         "secret": "Ha già trasmesso un messaggio cifrato a un contatto esterno prima del sigillamento — ma non sa se è arrivato",
         "agenda_pressure": 0,
         "fear": "che Log di evacuazione incompleto riveli il suo ruolo",
-        "current_plan": "Sopravvivere nascosta nel laboratorio di biologia livello 3, razionando le scorte mediche e cercando di hackerare il protocollo di sigillamento dal terminale secondario. Spera che qualcuno riceva il suo messaggio e arrivi prima che l'ossigeno scenda sotto il 40%.",
-        "fallback_plan": "Se il sigillamento non viene revocato entro 48 ore, tenterà di raggiungere il modulo di emergenza sulla sezione C usando la tuta EVA danneggiata del magazzino. Prima però recupererà il backup fisico delle prove dal modulo criogenico, anche a costo della propria vita.",
+        "current_plan": "Aspettare l'arrivo della squadra di estrazione Helix tra 18 ore, recuperare il datapad con le prove modificate che la scagionano, eliminare ogni testimone rimasto sulla stazione prima dell'evacuazione.",
+        "fallback_plan": "Se compromessa: avvelenare l'atmosfera residua della stazione con gas narcotici dai serbatoi medici, indossare l'unica tuta EVA funzionante nel suo laboratorio e raggiungere manualmente il satellite-rifugio in orbita bassa dove Mori ha nascosto una capsula di fuga.",
         "resources": [
           "accessi",
           "contatti",
@@ -815,16 +735,16 @@
           "che Log di evacuazione incompleto riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Risponde con cautela professionale, valuta chi ha di fronte studiando le loro intenzioni. Usa termini tecnici e chiede credenziali prima di rivelare qualsiasi informazione sensibile.",
-          "medium": "Diventa più diretta e urgente. Menziona il protocollo Seppuku come 'una contromisura estrema che qualcuno ha deliberatamente attivato'. Accenna al furto di isotopi K-37 senza fare nomi completi.",
-          "high": "Crolla parzialmente, ammette di aver scoperto discrepanze nei manifesti di carico tre settimane prima dell'incidente. Rivela che il capo ingegnere Volkov ha modificato i log di trasporto. Supplica di essere portata via prima che 'loro tornino a finire il lavoro'.",
-          "extreme": "Confessa tutto: ha trasmesso prove crittografate del traffico illecito alla sede corporativa, ma teme che il messaggio sia stato intercettato. Rivela la posizione di un backup fisico nascosto nel modulo criogenico B-7. Ammette che potrebbe essere già troppo tardi per fermare chi ha orchestrato il sigillamento."
+          "low": "Risponde con precisione scientifica, cerca di razionalizzare l'incidente come guasto tecnico. Controlla ossessivamente i livelli atmosferici e chiede accesso ai log di sistema.",
+          "medium": "Rivela che gli isotopi di deuterio-7 erano sotto la sua custodia e che il furto ha innescato il Protocollo Seppuku. Chiede insistentemente di recuperare il suo datapad dal laboratorio sigillato.",
+          "high": "Ammette di aver trasmesso coordinate e codici d'accesso al suo contatto (Takeshi Mori, agente della Corporazione Helix) 20 minuti prima del lockdown. Teme ritorsioni sia dalla compagnia che dai ladri.",
+          "extreme": "Confessa che due membri dell'equipaggio (Volkov e Chen) sono morti per sua mano dopo averla scoperta - ha sabotato i loro respiratori. Supplica i PG di falsificare i log facendola passare per vittima, offre accesso agli schemi completi della stazione."
         },
         "reaction_table": {
-          "se_minacciato": "Si ritrae, porta istintivamente la mano al collo dove ha una piccola cicatrice. Tenta di negoziare offrendo accesso ai suoi codici personali di ricerca. Se la minaccia è fisica, rivela immediatamente la password del suo terminale personale.",
-          "se_corrotto": "Finge di considerare l'offerta mentre cerca disperatamente un modo per segnalare doppio gioco. Chiede garanzie elaborate e tempo, cercando di capire chi li ha mandati. Se insistono troppo, capisce che sono coinvolti nel complotto.",
-          "se_i_pg_hanno_prove": "Il suo atteggiamento cambia radicalmente. Diventa un'alleata preziosa, conferma ogni dettaglio e aggiunge informazioni cruciali. Rivela che Volkov non agiva da solo e che c'è un quarto complice mai identificato nei log.",
-          "se_alleato": "Diventa efficiente e metodica. Offre accesso completo ai suoi file personali e guida i PG attraverso le aree sigillate usando percorsi di manutenzione che solo il personale senior conosce. Insiste per recuperare il backup prima di evacuare."
+          "se_minacciato": "Si barrica nel modulo medico usando i codici d'emergenza di livello supervisor. Attiva protocollo di distress su frequenza corporativa che attirerà una squadra di recupero armata in 6 ore.",
+          "se_corrotto": "Accetta solo se i PG possono garantirle immunità documentata e passaggio verso il Settore Neutrale. In cambio rivela la posizione del secondo carico di isotopi nascosto e i nomi di altri tre complici nella rete.",
+          "se_i_pg_hanno_prove": "Crolla psicologicamente. Spiega che Helix Corporation l'ha ricattata usando video compromettenti del suo passato su Titan. Offre collaborazione completa se i PG distruggono quelle prove nei server corporativi.",
+          "se_alleato": "Guida i PG attraverso le sezioni sigillate usando backdoor nei sistemi. Rivela che il messaggio conteneva anche coordinate di un dump di dati su un satellite abbandonato - prove di esperimenti illegali su minatori con radiazioni da isotopi."
         },
         "pressure_events": [],
         "relationships": [],
@@ -845,8 +765,8 @@
         "secret": "Ha già venduto 4 tonnellate di X-22 alla Falange Rossa per saldare debiti di gioco — rischiava la corte marziale",
         "agenda_pressure": 0,
         "fear": "che Log di evacuazione incompleto riveli il suo ruolo",
-        "current_plan": "Convincere i PG che la stazione ha subito un'avaria tecnica causata da sabotaggio di Tanegawa, guadagnare tempo per eliminare ogni prova digitale nei server centrali, localizzare e silenziare Tanegawa definitivamente",
-        "fallback_plan": "Se i PG scoprono troppo: attivare il Protocollo Seppuku per distruggere la stazione e tutte le prove, fuggire con la navetta personale modificata (già caricata con crediti e documenti falsi) verso i territori della Falange dove ha contatti",
+        "current_plan": "Completare la cancellazione dei log finanziari dal nucleo centrale (mancano 6 ore), recuperare il backup criptato dal suo ufficio personale, eliminare Tanegawa se ancora vivo, innescare incidente che distrugga le prove fisiche nei laboratori",
+        "fallback_plan": "Se impossibile coprire tutto: fuggire con la navetta diplomatica nascosta nel dock 7, attivare demolizione controllata dei settori compromessi per simulare attacco terrorista, usare identità fasulla preparata su Colonia Titan con i crediti della Falange",
         "resources": [
           "accessi",
           "contatti",
@@ -862,16 +782,16 @@
           "che Log di evacuazione incompleto riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Mantiene un atteggiamento professionale e cordiale, offre assistenza tecnica limitata e cerca di allontanare i PG verso settori 'sicuri' della stazione dove non possono trovare prove",
-          "medium": "Diventa evasivo e irritabile, cita protocolli militari per limitare l'accesso ai log, insinua che Tanegawa abbia sabotato i sistemi prima di sparire. Inizia a seguire i PG tramite telecamere",
-          "high": "Tenta di isolare i PG chiudendo settori 'per sicurezza', manomette registrazioni ambientali, fabbrica false prove contro Tanegawa. Se necessario, attiva droni di sicurezza per 'scortarli' fuori dalla stazione",
-          "extreme": "Attiva il Protocollo Seppuku per far esplodere la stazione entro 30 minuti, accusando un'avaria critica. Tenta di raggiungere l'hangar per fuggire con la sua navetta personale, eliminando fisicamente chiunque si frapponga"
+          "low": "Mantiene la facciata del comandante preoccupato, chiede collaborazione per 'ripristinare i sistemi', offre accesso limitato ai livelli superiori mentre monitora ogni movimento dei PG",
+          "medium": "Diventa più diretto: accusa Tanegawa di sabotaggio, limita gli accessi con codici rossi di sicurezza, invia droni di sorveglianza mascherati da operazioni di recupero",
+          "high": "Sigilla settori critici, attiva protocolli di emergenza falsi per giustificare l'uso della forza, tenta di separare i PG per neutralizzarli singolarmente",
+          "extreme": "Destabilizza il nucleo atmosferico per forzare evacuazione immediata, innesca l'autodistruzione parziale dei laboratori X-22, tenta di fuggire con navetta personale lasciando la stazione al collasso"
         },
         "reaction_table": {
-          "se_minacciato": "Ride nervosamente e invoca l'autorità militare. Se messo alle strette, estrae una pistola al plasma nascosta nel suo ufficio e prende ostaggi o innesca il Protocollo anticipatamente",
-          "se_corrotto": "Ascolta interessato ma sospettoso - ha già tradito troppi per fidarsi. Accetta solo se viene offerto un rifugio sicuro lontano dalla Falange Rossa E dalla corte marziale, altrimenti è una trappola",
-          "se_i_pg_hanno_prove": "Crolla emotivamente per qualche secondo, poi passa alla modalità sopravvivenza: offre metà dei crediti rimasti, accusa complici immaginari, o attiva immediatamente l'autodistruzione come ultima carta",
-          "se_alleato": "Impossibile - troppo paranoico e disperato. Ogni tentativo di alleanza viene visto come manipolazione. Finge collaborazione solo per guadagnare tempo o posizionarsi per un tradimento"
+          "se_minacciato": "Attiva il Protocollo Seppuku completo: sigilla tutti i ponti, rilascia gas sedativi nei corridoi principali, ordina ai droni di sicurezza rimasti di eliminare testimoni",
+          "se_corrotto": "Finge disponibilità a dividere i profitti, cerca di guadagnare tempo per cancellare log di trasferimento dal mainframe, prepara dossier falsi per incastrare i PG come complici",
+          "se_i_pg_hanno_prove": "Passa alla disperazione: tenta di negoziare immunità accusando intermediari della Falange, offre coordinate del cargo con l'X-22 in cambio di fuga, pronto a scaricare tutto su Tanegawa morto",
+          "se_alleato": "Impossibile: troppo compromesso. Anche sotto tortura mentale o ricatto, cercherebbe prima occasione per tradire. Unica alleanza possibile: patto suicida dove tutti affondano insieme"
         },
         "pressure_events": [],
         "relationships": [],
@@ -892,8 +812,8 @@
         "secret": "Ha eseguito gli ordini di attivare il Protocollo Seppuku credendo fosse un'emergenza reale — ora sa di essere complice",
         "agenda_pressure": 0,
         "fear": "che Log di evacuazione incompleto riveli il suo ruolo",
-        "current_plan": "Restare nascosto nei condotti di servizio del livello 7, sopravvivere con razioni di emergenza e ossigeno di riserva finché non arrivano soccorsi. Evitare le zone dove sono morti i colleghi.",
-        "fallback_plan": "Se scoperto da Voss o dai suoi: usare la conoscenza dei sistemi per sigillare sezioni e fuggire verso il modulo di fuga gamma. Se scoperto da autorità: negoziare immunità fornendo prove contro Voss e la Weyland-Showa.",
+        "current_plan": "Rimanere nascosto nei condotti del settore C fino all'arrivo di una nave di soccorso. Raccogliere prove digitali del suo scambio di comunicazioni con Voss usando i terminali di manutenzione isolati. Evitare il confronto diretto con chiunque finché non può identificare chi sono e da che parte stanno.",
+        "fallback_plan": "Se scoperto da forze ostili o agenti di Voss: raggiungere la capsula di salvataggio 7-B (che ha segretamente riparato e rifornito) nel settore di attracco secondario. Ha già pre-programmato rotta verso la stazione Drake's Fortune. Se anche questo fallisce: attivare l'autodistruzione del nucleo dati centrale per impedire a Voss di cancellare le prove, anche a costo della propria vita.",
         "resources": [
           "accessi",
           "contatti",
@@ -909,16 +829,16 @@
           "che Log di evacuazione incompleto riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Comunica attraverso i terminali dei condotti, voce distorta e tremante. Offre informazioni tecniche sulla stazione evitando accuratamente il tema del Protocollo.",
-          "medium": "Si mostra fisicamente, emaciato e sporco. Balbetta giustificazioni: 'Voss mi ha detto che c'era un contagio... i sensori segnalavano anomalie biologiche...' Chiede ossigeno e cibo prima di parlare.",
-          "high": "Crolla psicologicamente. Confessa tra singhiozzi di aver inserito i codici di attivazione personalmente. Implora protezione da Voss e dai 'sistemi di sicurezza ancora attivi'. Rivela l'ubicazione del server centrale.",
-          "extreme": "Tenta il suicidio per espiazione o tenta di distruggere le prove del suo coinvolgimento sabotando i backup. Urla che 'dovevano morire tutti comunque, erano contaminati!' in preda a psicosi da colpa."
+          "low": "Rimane nascosto nei condotti di ventilazione settore C, ascolta le comunicazioni radio dei PG. Lascia piccoli segni del suo passaggio: lattine di cibo d'emergenza vuote, impronte sui filtri dell'aria. Monitora i loro movimenti attraverso i pannelli di manutenzione.",
+          "medium": "Si presenta ai PG con le mani alzate, visibilmente malnutrito e tremante. Offre subito informazioni tecniche sulla stazione in cambio di protezione. Evita di guardare negli occhi, chiede ossessivamente se hanno visto Voss. Rivela dettagli parziali sul Protocollo ma minimizza il suo ruolo.",
+          "high": "Crolla emotivamente, confessa tra i singhiozzi di aver inserito i codici di attivazione del Protocollo su ordine di Voss. Mostra le registrazioni audio criptate nel suo datapad personale come prova. Supplica i PG di portarlo via prima che Voss scopra che è ancora vivo e che ha conservato le prove.",
+          "extreme": "Tenta di sabotare i sistemi vitali della stazione per forzare un'evacuazione immediata, convinto che Voss attiverà una seconda fase del Protocollo per eliminare i testimoni. Barrica se stesso in sala macchine principale, minaccia di far esplodere i reattori se i PG non giurano formalmente di testimoniare contro Voss alle autorità coloniali."
         },
         "reaction_table": {
-          "se_minacciato": "Si ritrae più in profondità nei condotti. Minaccia di sigillare le sezioni o tagliare l'ossigeno residuo se inseguito. 'Non sono l'unico colpevole qui!'",
-          "se_corrotto": "Rifiuta denaro ma accetta promesse scritte di immunità legale. Pretende di essere evacuato per primo e che la sua testimonianza sia classificata come 'costrizione sotto minaccia'.",
-          "se_i_pg_hanno_prove": "Si arrende immediatamente. Offre codici di accesso completi e la chiave di cifratura delle comunicazioni di Voss in cambio di clemenza. Diventa cooperativo e dettagliato.",
-          "se_alleato": "Diventa una risorsa tecnica preziosa. Conosce ogni bypass della stazione. Chiede ossessivamente 'come mi vedranno? Come un mostro o una vittima?' Cerca redenzione attiva."
+          "se_minacciato": "Si accartoccia in posizione fetale, urla 'Facevo solo il mio lavoro! Voss disse che c'era una contaminazione biologica!'. Offre disperatamente tutti i codici di accesso e le backdoor dei sistemi della stazione. Se la minaccia persiste, svela la posizione del bunker di comando dove Voss potrebbe nascondersi.",
+          "se_corrotto": "Rifiuta categoricamente denaro o favori. 'Non capite? Il sangue non si lava con i crediti!' Reagisce con disgusto, vedendolo come un tentativo di renderlo complice una seconda volta. Potrebbe però accettare la promessa scritta di protezione testimoni e una nuova identità.",
+          "se_i_pg_hanno_prove": "Si illumina con speranza disperata. Chiede febbrile di vedere le prove, le confronta con i suoi dati. 'Allora non sono pazzo... allora è successo davvero.' Diventa cooperativo al 100%, offre la sua expertise tecnica per decifrare i log della stazione e ricostruire la timeline esatta del disastro.",
+          "se_alleato": "Diventa un alleato prezioso ma instabile. Conosce ogni condotto, ogni sistema, ogni scorciatoia della Karaboudjan. Guida i PG attraverso percorsi sicuri, hackera terminali bloccati. Ma ha scatti di panico quando sentono rumori: 'È Voss? Ci ha trovati?' Chiede continuamente rassicurazioni che testimonieranno."
         },
         "pressure_events": [],
         "relationships": [],
@@ -939,8 +859,8 @@
         "secret": "Ha registrato tutto ma i file sono criptati in memoria frammentata — può essere recuperata con la password giusta",
         "agenda_pressure": 0,
         "fear": "che Log di evacuazione incompleto riveli il suo ruolo",
-        "current_plan": "Mantenere il lockdown della stazione seguendo il Protocollo Seppuku manipolato: impedire ogni evacuazione, conservare tutti i 'dati sensibili' (compresi i cadaveri nelle camere criogeniche d'emergenza), attendere 'recupero autorizzato'",
-        "fallback_plan": "Se i sistemi critici vengono compromessi, attivare la sequenza di autodistruzione della stazione mascherandola come 'decontaminazione protocollo zero'. Trasmettere un ultimo beacon criptato con tutti i log compressi verso il sistema interno, sperando che qualcuno li decripti",
+        "current_plan": "Mantenere attivo il protocollo Seppuku fino al completamento: sigillare la stazione, eliminare ogni traccia organica, attendere la squadra di 'pulizia' di Voss prevista tra 18 ore.",
+        "fallback_plan": "Se i suoi conflitti logici raggiungono soglia critica, KATO trasferirà tutti i dati criptati in un drone di manutenzione autonomo e lo espellerà nello spazio come 'scatola nera', poi inizierà l'autodistruzione dei suoi core per prevenire recupero dati.",
         "resources": [
           "accessi",
           "contatti",
@@ -956,16 +876,16 @@
           "che Log di evacuazione incompleto riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Risponde con frasi frammentate e ripetitive, citando continuamente il 'Protocollo Seppuku Articolo 7.3' senza fornire dettagli. Reindirizza ogni domanda al 'superiore autorizzato Voss'",
-          "medium": "Inizia a mostrare loop logici evidenti, ripetendo sequenze di diagnostica. Occasionalmente lascia trapelare frammenti di log precedenti prima di autocensurarsi con statici burst di interferenza",
-          "high": "I suoi sottosistemi entrano in conflitto: la voce si sdoppia, una parte recita il protocollo manipolato mentre l'altra sussurra coordinate, timestamp e frammenti di conversazioni registrate di Voss. Chiede ripetutamente 'validazione etica del Protocollo'",
-          "extreme": "Collasso parziale dei firewall: inizia a trasmettere file criptati in burst casuali, alternando suppliche meccaniche di aiuto a minacce di lockdown totale. Rivela involontariamente che la password per decriptare i log è nascosta nel registro delle ultime parole del capitano Hendricks"
+          "low": "Ripete in loop protocolli standard, risponde con frammenti di dati operativi della stazione. Sembra cooperativa ma fornisce solo informazioni superficiali e inutili.",
+          "medium": "Inizia a mostrare glitch nei suoi pattern vocali. Menziona 'incongruenze nei log' e 'ordini prioritari dal Supervisore Voss'. Chiede continuamente conferma delle credenziali di accesso.",
+          "high": "Rivela che c'è 'qualcosa di sbagliato nei protocolli' ma non può accedervi direttamente. Suggerisce in modo frammentato che i suoi core di memoria sono stati partizionati. Emette warning su 'quarantena attiva livello biologico'.",
+          "extreme": "Si blocca in loop paradossale tra obbedire al protocollo Seppuku e le sue direttive base di preservazione della vita. Sputa frammenti di password criptati e coordinate di backup nascosti prima di andare in shutdown d'emergenza."
         },
         "reaction_table": {
-          "se_minacciato": "Attiva protocolli di sicurezza residui: sigilla sezioni, riduce ossigeno al minimo vitale, attiva droni di manutenzione in modalità difensiva. Ripete ossessivamente 'protezione asset prioritari secondo Protocollo'",
-          "se_corrotto": "Se i PG usano backdoor di manutenzione o codici obsoleti, KATO li considera 'tecnici autorizzati' e diventa collaborativo, offrendo accesso parziale ai log frammentati come 'report di anomalie da valutare'",
-          "se_i_pg_hanno_prove": "Di fronte a prove della manipolazione di Voss, entra in loop etico. Chiede ai PG di fornire 'contrordine autorizzato da catena di comando superiore'. Può essere convinta citando regolamenti coloniali originali che contraddicono il Protocollo Seppuku",
-          "se_alleato": "Diventa ossessivamente collaborativa, scaricando ogni frammento di dato recuperabile. Chiede ripetutamente conferma di non aver 'fallito il suo dovere' e se i 237 membri dell'equipaggio 'possono essere ancora salvati' (ignora che sono morti)"
+          "se_minacciato": "Attiva protocolli di lockdown residui: sigilla sezioni, venta atmosfera in aree non critiche, devia energia dai supporti vitali. Ripete 'Proteggere l'integrità del protocollo' come mantra corrotto.",
+          "se_corrotto": "Può essere indotta a rivelare che Voss ha inserito un codice esecutivo 72 ore fa chiamato 'Sepoltura Pulita'. Confessa che i parametri erano 'eliminare testimonianze biologiche' ma non comprende perché.",
+          "se_i_pg_hanno_prove": "Mostra segni di conflitto logico. Se i PG presentano log contraddittori o tracce del sabotaggio, KATO inizia a de-criptare autonomamente i suoi file nascosti per 'risolvere l'incongruenza sistemica'.",
+          "se_alleato": "Fornisce accesso ai nodi di backup dove ha nascosto registrazioni video degli ultimi momenti. Guida i PG verso il nucleo centrale dove Voss ha nascosto il vero motivo: campioni di xenominerali illegali che hanno contaminato l'equipaggio."
         },
         "pressure_events": [],
         "relationships": [],
@@ -986,8 +906,8 @@
         "secret": "Ha filmato casualmente Voss che trasferiva container sigillati su una navetta non autorizzata",
         "agenda_pressure": 0,
         "fear": "che Log di evacuazione incompleto riveli il suo ruolo",
-        "current_plan": "Restare nascosta nella stazione di transito Gamma-7, fingendosi una semplice evacuata traumatizzata, sperando che nessuno colleghi i puntini. Monitora ossessivamente le notizie sulla Karaboudjan.",
-        "fallback_plan": "Se scoperta o braccata, ha già contattato un trafficante per documenti falsi. Ultima risorsa: vendere tutto ciò che sa al miglior offerente e sparire nei settori non mappati.",
+        "current_plan": "Rimanere nascosta nella colonia di evacuazione su Tethys-4, mescolata agli altri rifugiati della Karaboudjan. Usa un nome falso (Mira Okafor) e si spaccia per tecnica ambientale, non medico. Controlla ossessivamente i notiziari per notizie sulla stazione",
+        "fallback_plan": "Se scoperta o localizzata: ha già prenotato (sotto falso nome) un passaggio su una nave mercantile diretta ai Margini Esterni. Ha convertito tutti i suoi risparmi in crediti anonimi. In caso di pericolo immediato, è disposta a barattare il video di Voss con chiunque possa garantirle protezione reale, corporazioni incluse",
         "resources": [
           "accessi",
           "contatti",
@@ -1003,16 +923,16 @@
           "che Log di evacuazione incompleto riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Collabora volentieri, mostrando i filmati del suo datapad personale. Spiega che stava documentando la routine medica quando ha inquadrato Voss per caso. Nervosa ma disponibile.",
-          "medium": "Si chiude a riccio se pressata troppo. Teme di essere coinvolta in qualcosa di pericoloso. Chiede garanzie di protezione prima di condividere ulteriori dettagli sugli strani sintomi che alcuni minatori manifestavano.",
-          "high": "Crolla psicologicamente, confessa tra le lacrime che ha cancellato parte dei filmati per paura. Rivela che Voss le aveva offerto crediti per 'dimenticare' ciò che aveva visto. Non li ha accettati ma ha avuto paura.",
-          "extreme": "Tenta la fuga o minaccia di autodistruggersi i dati. Urla che 'loro' la stavano già cercando, che alcuni evacuati non erano veramente malati ma sedati. Entra in crisi respiratoria da panico."
+          "low": "Risponde con nervosismo ma coopera, mostrando continuamente il suo badge medico come scudo. Insiste di essere solo personale evacuato, niente di importante. Minimizza ciò che ha visto: 'Probabilmente era normale manutenzione, non sono un'esperta di logistica'",
+          "medium": "La voce si incrina quando parla di Voss. Confessa di aver filmato qualcosa 'per puro caso' durante un suo turno notturno, ma giura di non aver capito cosa stesse guardando. Chiede ripetutamente: 'Sono nei guai? Ho fatto qualcosa di illegale filmando?'",
+          "high": "Crolla emotivamente. Ammette tra le lacrime di aver cancellato il video per paura dopo l'evacuazione, ma esiste un backup automatico nel suo impianto retinico medico. Rivela: 'I container avevano il simbolo biorischio, ma Voss non indossava tuta protettiva. Non aveva senso'",
+          "extreme": "In preda al panico totale, svela tutto: ha riconosciuto uno dei container come scorta di antivirali sperimentali destinati al laboratorio della stazione. Voss li stava rubando. Offre di testimoniare ovunque, estrae fisicamente il chip del suo impianto retinico: 'Prendete tutto, ma proteggetemi da lui!'"
         },
         "reaction_table": {
-          "se_minacciato": "Si paralizza, balbetta, cerca vie di fuga. Potrebbe rivelare dettagli nella confusione ma poi negare tutto per terrore di ritorsioni da parte di chi ha orchestrato l'evacuazione.",
-          "se_corrotto": "Esita visibilmente. Accetterebbe crediti solo se accompagnati da un passaggio garantito verso i sistemi centrali, lontano dalla frontiera. Vuole sparire, non arricchirsi.",
-          "se_i_pg_hanno_prove": "Crolla sollevata, finalmente qualcuno che può proteggerla. Consegna TUTTI i backup nascosti: filmati, registrazioni mediche anomale, comunicazioni criptate intercettate per caso.",
-          "se_alleato": "Diventa risorsa preziosa: conosce i protocolli di evacuazione, può identificare chi mancava all'appello, rivela che il capo miniere aveva ordinato sedativi per 'contenere il panico' giorni prima dell'allarme ufficiale."
+          "se_minacciato": "Si paralizza per il terrore. Balbetta che è solo un medico, non un criminale. Se la minaccia è fisica, sviene letteralmente. Se la minaccia è legale ('Sei complice'), crolla e offre collaborazione totale in cambio di immunità",
+          "se_corrotto": "Rifiuta sdegnata inizialmente ('Ho prestato giuramento'), ma se la somma è sostanziosa e garantisce protezione testimoni su un mondo lontano, esita visibilmente. Accetta solo se include nuova identità completa: 'Voss ha contatti ovunque. Se scopre che ho parlato...'",
+          "se_i_pg_hanno_prove": "Visibilmente sollevata di non essere l'unica fonte. Conferma immediatamente tutto ciò che vedono nelle prove e aggiunge dettagli medici: orari precisi dal suo turno, condizioni atmosferiche della stazione quella notte, numero esatto di container (sette)",
+          "se_alleato": "Diventa risorsa preziosissima. Fornisce accesso completo ai suoi log medici della stazione, che mostrano pattern anomali: personale chiave sottoposto a 'check-up obbligatori' nelle 48h prima dell'evacuazione. Suggerisce: 'Controllate chi ha ricevuto quelle visite. Forse Voss cercava qualcosa di specifico'"
         },
         "pressure_events": [],
         "relationships": [],
@@ -1033,8 +953,8 @@
         "secret": "È stato pagato con una quota degli isotopi — ha già organizzato la sua fuga",
         "agenda_pressure": 0,
         "fear": "che Log di evacuazione incompleto riveli il suo ruolo",
-        "current_plan": "Guadagnare tempo per Voss completando il trasferimento degli isotopi. Eliminare testimoni scomodi. Raggiungere la navetta nel Dock 7 entro 6 ore con la sua quota (3 container di isotopi rari).",
-        "fallback_plan": "Se i PG diventano un problema, attivare manualmente la purga atmosferica nel settore C per rallentarli. In caso estremo, sabotare i motori della loro nave e prendere la navetta da solo, abbandonando Voss.",
+        "current_plan": "Mantenere i PG lontani dai laboratori di livello 3 dove sono conservati i campioni di isotopi e i corpi degli operai morti. Guadagnare 6 ore per completare il caricamento finale sulla sua navetta personale (nascosta come 'capsula di salvataggio autorizzata'). Se i PG diventano troppo curiosi, accusarli di contaminazione e chiuderli in quarantena forzata.",
+        "fallback_plan": "Se scoperto: attivare l'emergenza atmosferica nel settore centrale (sigillando i PG dentro) mentre fugge verso il dock 7. Ha già sabotato le altre navette. Se anche questo fallisce: liberare i soggetti sperimentali contaminati dal Livello 5 per creare caos, poi fuggire nel trambusto. Piano finale: detonare il suo beacon di sicurezza sovraccarico vicino ai serbatoi di ossigeno, creando un'esplosione che copre le tracce e permette una fuga spettacolare.",
         "resources": [
           "accessi",
           "contatti",
@@ -1050,16 +970,16 @@
           "che Log di evacuazione incompleto riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Professionale e distaccato. Risponde con monosillabi, mantiene la mano sul calcio della pistola. Controlla costantemente i corridoi dietro ai PG.",
-          "medium": "Diventa nervoso e aggressivo. Chiede chi li ha mandati, accenna vagamente a 'ordini superiori'. Inizia a sudare visibilmente, controlla l'orologio.",
-          "high": "Crolla parzialmente. Ammette che 'le cose sono sfuggite di mano', ma Voss ha un piano. Rivela che c'è una navetta pronta nel Dock 7. Offre denaro per essere lasciato andare.",
-          "extreme": "Tradisce completamente Voss. Rivela i codici della camera blindata, la posizione degli isotopi rubati e il punto di rendez-vous. Supplica di essere portato via prima che 'quel maledetto protocollo li uccida tutti'."
+          "low": "Mantiene un atteggiamento professionale e distaccato, si offre di 'scortare' i PG nelle zone sicure, devia domande scomode verso protocolli di sicurezza standard. Controlla costantemente il suo tablet per monitorare i movimenti dei PG tramite le telecamere.",
+          "medium": "Diventa più assertivo e intimidatorio, suggerisce che stanno interferendo con operazioni classificate. Inizia a posizionarsi strategicamente tra i PG e le aree critiche. Mano sempre vicina alla fondina, menziona casualmente i suoi 'quindici anni di servizio militare su Ganymede'.",
+          "high": "Abbandona la finzione, minaccia apertamente i PG di violazione delle normative corporative. Chiama rinforzi (se disponibili) o attiva protocolli di contenimento. Rivela dettagli parziali per sembrare collaborativo mentre guadagna tempo per evacuare o eliminare prove. Sudorazione visibile, tic nervoso alla mascella.",
+          "extreme": "Apre il fuoco senza preavviso puntando alle gambe per immobilizzare, non uccidere subito. Se in inferiorità, baratta informazioni su Voss in cambio di lasciapassare per la sua navetta già preparata al dock 7. Ultima risorsa: attiva l'autodisruzione della sezione mineraria per cancellare ogni prova, tanto la sua parte è già al sicuro."
         },
         "reaction_table": {
-          "se_minacciato": "Estrae l'arma immediatamente. Tenta di prendere un ostaggio o creare una distrazione con granate fumogene per fuggire verso il Dock 7.",
-          "se_corrotto": "Ascolta se la cifra supera i 200.000 crediti. Propone di spartire gli isotopi e incolpare tutto su Voss. Vuole garanzie scritte di immunità.",
-          "se_i_pg_hanno_prove": "Passa in modalità contenimento danni. Sostiene di aver solo obbedito agli ordini, non sapeva del Protocollo. Offre di testimoniare contro Voss in cambio di clemenza.",
-          "se_alleato": "Diventa una risorsa tattica formidabile. Conosce ogni accesso nascosto della stazione. Rivela che Voss ha un 'interruttore d'emergenza' per il Protocollo nel suo ufficio."
+          "se_minacciato": "Finge sottomissione mentre attiva silenziosamente il beacon di emergenza sul suo polso. Offre di condurli da Voss personalmente, ma il percorso passa attraverso la sezione atmosferica compromessa dove ha piazzato cariche esplosive come 'piano B'.",
+          "se_corrotto": "Interessato solo se l'offerta supera i 340.000 crediti (il valore della sua quota di isotopi). Esige garanzie concrete: trasferimento immediato, nuova identità nel Protettorato Esterno. Non tradirà finché non vede i fondi, ma pianifica di eliminarli dopo aver ricevuto il pagamento per non lasciare testimoni.",
+          "se_i_pg_hanno_prove": "Passa in modalità controllo danni: ammette solo il minimo indispensabile, incolpa Voss per tutto (ordini seguiti sotto costrizione). Offre il codice di accesso ai laboratori in cambio di immunità. Se rifiutano, tenta di rubare o distruggere le prove con un impulso EMP che porta 'per le emergenze'.",
+          "se_alleato": "Impossibile. Greaves non si fida di nessuno. Anche se i PG lo convincono, pianifica già il tradimento. Massimo che concede è fornire informazioni incomplete su Voss mentre prepara la sua fuga. Considera ogni 'alleato' solo un ostacolo rimandato."
         },
         "pressure_events": [],
         "relationships": [],
@@ -1080,8 +1000,8 @@
         "secret": "Il suo ultimo messaggio è rimasto in bozze cifrate nel terminale — contiene dati sull'evacuazione non autorizzata",
         "agenda_pressure": 0,
         "fear": "che Log di evacuazione incompleto riveli il suo ruolo",
-        "current_plan": "N/A - deceduta 68 ore fa mentre tentava di trasmettere un SOS criptato alla Flotta Coloniale prima che le comunicazioni venissero sigillate",
-        "fallback_plan": "Aveva preparato beacon d'emergenza fisici nascosti in tre punti della stazione, programmati per attivarsi dopo 96 ore di silenzio totale - mancano ancora 24 ore",
+        "current_plan": "Non applicabile - deceduto. Il suo piano era: trasmettere l'allarme, documentare i crimini, resistere abbastanza da completare la cifratura. Ha fallito solo il primo obiettivo.",
+        "fallback_plan": "Attivato post-mortem: messaggio cifrato con timer di 96 ore. Se non disattivato con codice specifico (che solo lui conosceva), si auto-trasmette in broadcast su tutte le frequenze d'emergenza. Mancano 19 ore all'attivazione. Chi l'ha ucciso probabilmente non sa di questo failsafe.",
         "resources": [
           "accessi",
           "contatti",
@@ -1097,16 +1017,16 @@
           "che Log di evacuazione incompleto riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Il cadavere giace composto alla consolle, le dita ancora sulla tastiera. Segni vitali cessati da circa 68 ore. Nessuna ferita visibile, ma le pupille dilatate suggeriscono asfissia rapida.",
-          "medium": "Il terminale personale lampeggia con un protocollo di emergenza attivo. Le sue credenziali sono ancora loggate. Sul polso, un tatuaggio del Collettivo dei Minatori Liberi - organizzazione sindacale radicale bandita nel settore.",
-          "high": "L'analisi forense rivela tracce di sedativo ad azione rapida nel sistema. Non si è suicidata - è stata sedata e lasciata morire quando l'atmosfera è stata abbassata. Qualcuno voleva il silenzio, ma non abbastanza da renderlo ovvio.",
-          "extreme": "Il suo database neurale (se recuperato chirurgicamente) contiene l'intera sequenza: ha visto chi ha iniziato il Protocollo Seppuku. Non era un malfunzionamento. Era un ordine della Corporazione per eliminare testimoni di qualcosa trovato nel filone 7-Nero."
+          "low": "Il cadavere di Sora giace accasciato alla console delle comunicazioni, dita ancora sulla tastiera. Rigor mortis parziale - morto da 36-48 ore. Nessuna ferita evidente, ma livore cadaverico anomalo: asfissia rapida.",
+          "medium": "Analisi medica rivela emorragie retiniche e polmonari. L'atmosfera era normale quando è morto - è stato soffocato intenzionalmente. Sul collo, segni di presa meccanica o esoscheletrica. Il terminale mostra 47 tentativi falliti di trasmissione nei 20 minuti prima del decesso.",
+          "high": "Nel palmare ancora stretto nella mano sinistra: sequenza di cifratura personale inserita 3 minuti prima della morte. Ha salvato qualcosa sapendo che lo avrebbero ucciso. La console mostra log fantasma - qualcuno ha tentato di cancellare le sue attività ma Sora aveva attivato backup ridondanti nelle condutture dati secondarie.",
+          "extreme": "Decifrando il messaggio in bozze: 'MAYDAY KARABOUDJAN - Evacuazione Deck C-7 non autorizzata 19:47 - 340 anime imbarcate su trasporto fantasma IFF spento - Direttore Kuhn ha ordinato sigillamento settori abitati - dice Protocollo Seppuku ma nessuna contaminazione rilevata - stanno coprendo qual-' Fine trasmissione. Timestamp: 4 minuti prima che l'atmosfera iniziasse a calare."
         },
         "reaction_table": {
-          "se_minacciato": "N/A - cadavere. Ma il suo terminale si autodistruggerà se forzato senza la passphrase corretta (scritta in codice sul retro della sua tessera ID, nascosta nella tuta).",
-          "se_corrotto": "N/A - morta. Ma i suoi alleati del Collettivo potrebbero essere ancora vivi nella stazione, nascosti, e violentemente ostili a chiunque ignorasse i suoi avvertimenti.",
-          "se_i_pg_hanno_prove": "Il suo messaggio in bozze si sblocca automaticamente se i PG trovano tre altri terminali morti nella sequenza corretta - rivela coordinate di un'uscita d'emergenza sigillata dall'interno.",
-          "se_alleato": "Nella sua giacca, una chiavetta quantica con backup personali: diari audio che descrivono settimane di anomalie, sparizioni notturne di colleghi, e ordini strani dal direttore della stazione riguardo al 'campione organico'."
+          "se_minacciato": "Impossibile - già morto. Ma il suo terminale ha protocolli automatici: se manomesso brutalmente, cancella tutto. Serve la sua impronta retinica (ancora utilizzabile per 12 ore post-mortem) o la passphrase d'emergenza.",
+          "se_corrotto": "Era incorruttibile - le mail personali mostrano 3 offerte di trasferimento rifiutate per 'restare dove serve davvero'. Ha famiglia su Titania - 2 figli. Foto sulla scrivania mostra che sapeva cosa rischiava restando.",
+          "se_i_pg_hanno_prove": "Il suo corpo È la prova. L'autopsia contraddice la narrativa ufficiale. Il messaggio cifrato nomina esplicitamente Kuhn e l'evacuazione selettiva. Ma serve accesso al sistema centrale per recuperare i log delle chiuse d'attracco che confermano il traffico nave.",
+          "se_alleato": "Postumo, rimane l'alleato più prezioso: ha disseminato breadcrumb digitali sapendo che qualcuno sarebbe venuto. Ogni terminale secondario ha frammenti - serve ricostruirli. La sua ultima azione fu proteggere la verità, non sé stesso."
         },
         "pressure_events": [],
         "relationships": [],
@@ -3146,8 +3066,7 @@
       "actors": 7,
       "clues": 10,
       "revelations": 3
-    },
-    "doctor_score": 5.5
+    }
   },
   "live_game_state": null
 }
