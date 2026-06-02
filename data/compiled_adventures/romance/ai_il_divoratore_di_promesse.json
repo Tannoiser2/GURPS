@@ -1,0 +1,2317 @@
+{
+  "adventure_definition": {
+    "id": "adv_07d6e2b54a",
+    "title": "Il Divoratore di Promesse",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "ritual_countdown",
+      "secondary_archetypes": [
+        "romance_drama",
+        "horror_survival"
+      ],
+      "confidence": 0.65,
+      "reason": "Matched runtime signals for ritual_countdown",
+      "definition": {
+        "id": "ritual_countdown",
+        "description": "Rituale con condizioni, oggetti e clock.",
+        "required_modules": [
+          "clock",
+          "ritual_conditions"
+        ],
+        "optional_modules": [
+          "special_items"
+        ],
+        "runtime_focus": [
+          "clock",
+          "ritual"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "document",
+          "physical_evidence"
+        ],
+        "common_failure_modes": [
+          "ritual_tick"
+        ],
+        "ending_patterns": [
+          "ritual_stopped"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "romance",
+    "runtime_profiles": [
+      "ritual_dungeon",
+      "guided_sandbox"
+    ],
+    "tone": "Malinconia elegiaca venata di tensione crescente: le testimonianze delle vittime evocano rimorsi universali, ma l'ombra che caccia trasforma ogni scena romantica in un presagio mortale. Il paesaggio autunnale di Valmora amplifica il senso di bellezza corrotta dal dolore.",
+    "premise": "Nelle terre di Valmora, ogni dieci anni qualcuno scompare nel nulla lasciando solo un marchio rosso a forma di cuore spezzato. Quest'anno le sparizioni sono iniziate in anticipo: tre persone in due settimane, tutte legate da promesse d'amore infrante. Il Concilio delle Famiglie vi ha convocato perché l'ultima vittima è stata rapita davanti a testimoni: un'ombra umanoide con occhi di brace l'ha trascinata via mentre urlava nomi di persone che aveva tradito. Gli anziani parlano di una maledizione nata da un amore distrutto, ma nessuno sa chi l'abbia scatenata né perché ora uccida più velocemente.",
+    "initial_hook": "Il Divoratore di Promesse Nelle terre di Valmora, ogni dieci anni qualcuno scompare nel nulla lasciando solo un marchio rosso a forma di cuore spezzato. Quest'anno le sparizioni sono iniziate in anticipo: tre persone in due settimane, tutte legate da promesse d'amore infrante. Il Concilio delle Fami",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "La mercante Sylene Torr non è una vittima della maledizione: è sua figlia Mirael, trasformata in entità vendicativa dopo essersi suicidata quindici anni fa quando il suo amato Korvin la tradì pubblicamente con sua sorella. Sylene ha alimentato la maledizione con rituali segreti per tenere viva la coscienza di Mirael, credendo di proteggerla dalla morte definitiva. Ogni vittima è qualcuno che ha spezzato una promessa d'amore, perché Mirael caccia chi le ricorda il suo dolore. Liberare Mirael significa lasciarla morire davvero, e Sylene farebbe qualsiasi cosa per impedirlo.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire l'identità di Mirael, convincere Sylene a lasciarla andare o distruggerla con un controrituale (sacrificando un ricordo d'amore di uno dei PG), impedendo che completi il ciclo di sette vittime che la renderebbe immortale.",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire l'identità di Mirael, convincere Sylene a lasciarla andare o distruggerla con un controrituale (sacrificando un ricordo d'amore di uno dei PG), impedendo che completi il ciclo di sette vittime che la renderebbe immortale."
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Il rapitore segue un simbolismo romantico violato: il cuore rappresenta promesse infrante La maledizione è selettiva e antica, colpisce chi spezza promesse d'amore. È consapevole e vendicativa.",
+        "required_clues": [
+          "clue_1",
+          "clue_3",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di identificare potenziali prossime vittime cercando chi ha rotto promesse d'amore pubblicamente / Conferma il pattern e permette di prevedere chi sarà preso di mira; introduce il ciclo decennale",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Il rapitore parla, sembra provare dolore, e accusa le vittime di 'scelte'. Korvin nasconde qualcosa sulla sua presenza.",
+        "required_clues": [
+          "clue_2"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Collega l'entità a un passato di tradimento; sospetti su Korvin crescono",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Sylene compie rituali di necromanzia legati alla maledizione; il ritratto potrebbe essere di Mirael",
+        "required_clues": [
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Conferma il tradimento di Sylene; permette di interrompere un rituale in corso o rubare il ritratto",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Marchio del Cuore Spezzato",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Piazza del Mercato",
+        "reveals": "Il rapitore segue un simbolismo romantico violato: il cuore rappresenta promesse infrante",
+        "payoff": "Permette di identificare potenziali prossime vittime cercando chi ha rotto promesse d'amore pubblicamente",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Ogni luogo di rapimento mostra lo stesso simbolo bruciato nel terreno: un cuore diviso da una crepa irregolare",
+        "hidden_implication": "Il rapitore segue un simbolismo romantico violato: il cuore rappresenta promesse infrante",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Testimonianza di Korvin",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Locanda del Passero Grigio",
+        "reveals": "Il rapitore parla, sembra provare dolore, e accusa le vittime di 'scelte'. Korvin nasconde qualcosa sulla sua presenza.",
+        "payoff": "Collega l'entità a un passato di tradimento; sospetti su Korvin crescono",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Korvin racconta tra i singhiozzi di aver visto l'ombra rapire la terza vittima. Descrive occhi 'come braci che piangono'",
+        "hidden_implication": "Il rapitore parla, sembra provare dolore, e accusa le vittime di 'scelte'. Korvin nasconde qualcosa sulla sua presenza.",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Registro delle Sparizioni di Osmund",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Archivio del Monastero",
+        "reveals": "La maledizione è selettiva e antica, colpisce chi spezza promesse d'amore. È consapevole e vendicativa.",
+        "payoff": "Conferma il pattern e permette di prevedere chi sarà preso di mira; introduce il ciclo decennale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un tomo di pelle nera nel monastero elenca ogni vittima del ciclo decennale degli ultimi cinquant'anni. Tutte hanno in comune almeno un tradimento sentimentale documentato: matrimoni annullati",
+        "hidden_implication": "La maledizione è selettiva e antica, colpisce chi spezza promesse d'amore. È consapevole e vendicativa.",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Diario Rituale di Sylene",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Cappella Bruciata di Mirael",
+        "reveals": "Sylene non è una vittima ma la responsabile della maledizione. Mirael è sua figlia, tenuta in vita con rituali oscuri.",
+        "payoff": "Ribalta completamente il ruolo di Sylene; rivela identità del mostro; apre la possibilità di interrompere i rituali",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un diario nascosto sotto l'altare bruciato della cappella. Sylene descrive rituali mensili per 'tenere sveglia Mirael'",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Sciarpa di Lena Altieri",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Casa Venn",
+        "reveals": "Korvin e Lena sono legati alle vittime; Lena è a rischio come traditrice seriale",
+        "payoff": "Identifica Lena come prossima vittima certa; collega Korvin al ciclo originale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nella casa Venn",
+        "hidden_implication": "Korvin e Lena sono legati alle vittime; Lena è a rischio come traditrice seriale",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Comportamento di Sylene nei Giorni di Luna Nuova",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "Bottega dei Tessuti Preziosi",
+        "reveals": "Sylene compie rituali di necromanzia legati alla maledizione; il ritratto potrebbe essere di Mirael",
+        "payoff": "Conferma il tradimento di Sylene; permette di interrompere un rituale in corso o rubare il ritratto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Diversi mercanti raccontano che Sylene chiude bottega ogni novilunio e scompare fino all'alba. Un vecchio la vide uscire dalla cappella bruciata con le mani sporche di cenere. Quando i PG la seguono",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_1",
+        "label": "Ricevute del Custode",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Sylene acquista regolarmente componenti rituali dal Custode del componente",
+        "payoff": "Collega Sylene ai rituali di mantenimento della maledizione e identifica il Custode come complice",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_2",
+        "label": "Tracce di Sangue Rituali",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Sylene compie rituali di sangue nella Camera degli officianti durante la luna nuova",
+        "payoff": "Conferma il momento e il luogo dei rituali di Sylene, permettendo di interromperli o sorprenderla",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_3",
+        "label": "Registro di Morte di Mirael",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Mirael Torr si suicidò quindici anni fa per un tradimento pubblico di Korvin",
+        "payoff": "Identifica Mirael come possibile entità e Korvin come colpevole originale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_4",
+        "label": "Ciondolo con Ritratto di Mirael",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Esiste una connessione personale tra Sylene e l'entità, una figlia di nome Mirael",
+        "payoff": "Collega emotivamente Sylene all'entità e suggerisce un legame familiare con il Divoratore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_5",
+        "label": "Testimonianza dell'Officiante",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Sylene interruppe il rito funebre di sua figlia impedendole di passare nell'aldilà",
+        "payoff": "Spiega l'origine della trasformazione di Mirael e il motivo per cui è intrappolata come entità",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_6",
+        "label": "Pattern delle Vittime",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "Tutte le vittime hanno un tratto comune: hanno tradito promesse d'amore pubblicamente",
+        "payoff": "Identifica il criterio di selezione delle vittime e suggerisce una motivazione emotiva/vendicativa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_7",
+        "label": "Lettere d'Amore di Mirael",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Mirael amava profondamente Korvin e aveva minacciato vendetta in caso di tradimento",
+        "payoff": "Fornisce il movente emotivo di Mirael e collega direttamente Korvin alla sua trasformazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "nuovo_clue_8",
+        "label": "Testimonianza del Testimone del Primo Segno",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "L'entità ha sembianze umane e assomiglia a qualcuno morto tragicamente in passato",
+        "payoff": "Conferma la natura spettrale del Divoratore e lo collega a un suicidio locale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "actor_ai_1",
+        "name": "Officiante del rito",
+        "role": "witness",
+        "location_id": "loc_ai_1",
+        "status": "unintroduced",
+        "goal": "completare il rito",
+        "secret": "conosce il momento esatto del compimento",
+        "agenda_pressure": 0,
+        "fear": "che Marchio del Cuore Spezzato riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "completare il rito"
+        ],
+        "avoids": [
+          "che Marchio del Cuore Spezzato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 0.7,
+        "llm_enriched": false
+      },
+      {
+        "id": "actor_ai_2",
+        "name": "Testimone del primo segno",
+        "role": "ally",
+        "location_id": "loc_ai_2",
+        "status": "unintroduced",
+        "goal": "sopravvivere raccontando cio che ha visto",
+        "secret": "ha visto chi ha preparato il cerchio",
+        "agenda_pressure": 0,
+        "fear": "che Marchio del Cuore Spezzato riveli il suo ruolo",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "sopravvivere raccontando cio che ha visto"
+        ],
+        "avoids": [
+          "che Marchio del Cuore Spezzato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        },
+        "reaction_table": {
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 0.7,
+        "llm_enriched": false
+      },
+      {
+        "id": "actor_ai_3",
+        "name": "Custode del componente",
+        "role": "antagonist",
+        "location_id": "loc_ai_3",
+        "status": "unintroduced",
+        "goal": "proteggere il componente mancante",
+        "secret": "sa quale oggetto puo interrompere il rito",
+        "agenda_pressure": 0,
+        "fear": "che Marchio del Cuore Spezzato riveli il suo ruolo",
+        "current_plan": "Deviare i PG verso false tracce nelle Rovine degli Sposi Eterni mentre rinforza i sigilli del Primo Cuore Promesso con il proprio sangue ogni notte",
+        "fallback_plan": "Se i PG scoprono l'ubicazione, liberare volontariamente il Divoratore in forma parziale per negoziare la restituzione di sua sorella in cambio del silenzio eterno",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "proteggere il componente mancante"
+        ],
+        "avoids": [
+          "che Marchio del Cuore Spezzato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Osserva i PG da lontano con sguardo protettivo, accarezzando nervosamente un medaglione a forma di cuore intero. Ripete sottovoce: 'Non possono saperlo. Non ancora.'",
+          "medium": "Si frappone fisicamente tra i PG e l'ubicazione del componente. Le sue mani tremano mentre stringe una chiave di ferro nero: 'Le sparizioni anticipate sono colpa vostra! Ogni domanda accelera il Divoratore!'",
+          "high": "Rivela disperato che il componente è il Primo Cuore Promesso, sepolto sotto l'altare degli amanti perduti. Urla: 'Se lo toccate prima del decimo anno, non saranno tre a sparire... ma trecento!'",
+          "extreme": "Si trafigge il petto estraendo dalla propria carne il marchio rosso vivente, offrendosi come esca al Divoratore: 'Prendetemi invece di loro! Il rito può essere ingannato con un sacrificio volontario... il mio amore non promesso!'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva sigilli di sangue nascosti che invocano frammenti del Divoratore, manifestando illusioni dei loro amori perduti per confonderli emotivamente",
+          "se_corrotto": "Accetta solo se gli viene promesso di rivedere sua sorella (scomparsa 20 anni fa). Tradisce rivelando che l'oggetto interrompente è uno specchio che riflette promesse non mantenute",
+          "se_i_pg_hanno_prove": "Crolla in lacrime ammettendo che custodisce il componente per proteggere il nome di sua sorella inciso su di esso. Offre collaborazione se promettono di salvarla retroattivamente",
+          "se_alleato": "Condivide mappe delle Crepe tra Promesse (luoghi dove il Divoratore è debole) e insegna la Litania del Rimpianto, unica preghiera che rallenta temporaneamente il rito"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 0.7,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Soglia del rito",
+        "description": "Soglia del rito: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Soglia del rito: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Archivio dei segni",
+        "description": "Archivio dei segni: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Archivio dei segni: scaffali alti come copertura, tavoli di lettura, scale mobili",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scaffali alti come copertura",
+          "tavoli di lettura",
+          "scale mobili",
+          "vetrine con manoscritti"
+        ],
+        "hazards": [
+          "scaffali instabili",
+          "pergamene infiammabili"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scaffali alti come copertura",
+          "tavoli di lettura",
+          "scale mobili"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Camera degli officianti",
+        "description": "Camera degli officianti: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Camera degli officianti: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Altare incompleto",
+        "description": "Altare incompleto: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Altare incompleto: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni",
+        "description": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni: nodo giocabile della struttura ritual_countdown.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_3",
+        "location_type": "local",
+        "connections_to": [
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Compimento di Divoratore Promesse Nelle terre Valmora ogni",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "Il Divoratore si manifesta completamente e reclama tutte le promesse d'amore infrante",
+        "active": true,
+        "on_complete": "Il Divoratore Promesse si manifesta fisicamente a Valmora e il rituale di contenimento diventa estremamente pericoloso.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Quarta vittima scomparsa",
+            "effect": "Una giovane coppia scompare durante la festa del raccolto, lasciando marchi doppi intrecciati. Il panico inizia a diffondersi."
+          },
+          {
+            "value": 2,
+            "label": "I marchi iniziano a bruciare",
+            "effect": "I luoghi dove sono apparsi i marchi rossi cominciano a emanare calore. Chi si avvicina sente sussurri di vecchi giuramenti."
+          },
+          {
+            "value": 3,
+            "label": "Le promesse si spezzano",
+            "effect": "Coppie stabili da anni iniziano a litigare senza motivo. Gli anelli nuziali si incrinano spontaneamente. L'amore stesso sembra corrodersi."
+          },
+          {
+            "value": 4,
+            "label": "Manifestazioni spettrali",
+            "effect": "Ombre delle vittime passate appaiono nei luoghi romantici di Valmora, ripetendo le promesse che hanno infranto."
+          },
+          {
+            "value": 5,
+            "label": "Il velo si assottiglia",
+            "effect": "Una fenditura scarlatta appare nel cielo sopra la Piazza dei Giuramenti. Da essa fuoriesce un pianto disperato udibile in tutta la città."
+          },
+          {
+            "value": 6,
+            "label": "Il Divoratore si manifesta",
+            "effect": "Il Divoratore emerge completamente: un'entità di cuori spezzati e promesse tradite, pronto a consumare ogni legame d'amore di Valmora."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Gli archivi della Biblioteca dei Vincoli contengono il Registro delle Promesse Eterne",
+          "L'ultima Custode del Cuore scomparve dieci anni fa lasciando un diario cifrato",
+          "Il Santuario Dimenticato sotto la piazza nasconde un altare di riconciliazione"
+        ],
+        "resolution_condition": "I giocatori devono scoprire l'identità del primo amante tradito (l'origine del Divoratore), recuperare un pegno d'amore infranto dalle vittime precedenti, e compiere un rituale di promessa sincera presso l'Altare dei Vincoli Eterni durante la notte senza luna",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_burning_marks",
+        "discovery_hint": "Un profumo di rose appassite permea l'aria. Gli specchi riflettono ombre di coppie che non ci sono più. Qualcuno sussurra giuramenti infranti nelle strade vuote della notte.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Divoratore Promesse Nelle terre Valmora ogni",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare il componente corretto, il momento giusto e la prova sull'officiante",
+        "concrete_choice": "interrompere il rito, deviarne il costo o affrontare l'officiante nella zona finale"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "Il Legame tra Sylene e le Sparizioni",
+        "question": "Qual è il coinvolgimento di Sylene Torr nelle sparizioni?",
+        "true_answer": "Sylene compie rituali durante la luna nuova per alimentare la maledizione che mantiene sua figlia Mirael come entità vendicativa, usando componenti che ottiene dal Custode del componente",
+        "status": "hidden",
+        "required_clues": [
+          "clue_4",
+          "clue_6",
+          "nuovo_clue_1",
+          "nuovo_clue_2"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [
+          "T1",
+          "T3"
+        ],
+        "linked_npcs": [
+          "Sylene Torr",
+          "Custode del componente"
+        ],
+        "linked_locations": [
+          "Altare incompleto",
+          "Camera degli officianti"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "L'Identità del Divoratore",
+        "question": "Chi o cosa è realmente l'entità che rapisce le vittime?",
+        "true_answer": "Il Divoratore è Mirael Torr, figlia di Sylene, trasformata in entità vendicativa dopo il suo suicidio quindici anni fa a causa del tradimento di Korvin",
+        "status": "hidden",
+        "required_clues": [
+          "clue_2",
+          "nuovo_clue_3",
+          "nuovo_clue_4",
+          "nuovo_clue_5"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Korvin",
+          "Sylene Torr",
+          "Officiante del rito"
+        ],
+        "linked_locations": [
+          "Archivio dei segni",
+          "Cuore del rito: Divoratore Promesse"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Marchio del Cuore Spezzato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Testimonianza di Korvin?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Comportamento di Sylene nei Giorni di Luna Nuova?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Soglia del rito",
+          "to": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Soglia del rito",
+          "to": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "ritual_dungeon",
+      "tone": "dark fantasy dungeon",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "trap activation",
+        "guardian attack",
+        "ritual clock advances",
+        "boss signs awaken",
+        "room changes state",
+        "curse intensifies",
+        "danger scene"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "boss fully awakens without trigger",
+        "ritual completes without clock",
+        "party death cutscene"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_07d6e2b54a",
+      "title": "Il Divoratore di Promesse",
+      "genre": "romance",
+      "detected_genre": "romance",
+      "premise": "Nelle terre di Valmora, ogni dieci anni qualcuno scompare nel nulla lasciando solo un marchio rosso a forma di cuore spezzato. Quest'anno le sparizioni sono iniziate in anticipo: tre persone in due settimane, tutte legate da promesse d'amore infrante. Il Concilio delle Famiglie vi ha convocato perché l'ultima vittima è stata rapita davanti a testimoni: un'ombra umanoide con occhi di brace l'ha trascinata via mentre urlava nomi di persone che aveva tradito. Gli anziani parlano di una maledizione nata da un amore distrutto, ma nessuno sa chi l'abbia scatenata né perché ora uccida più velocemente.",
+      "hidden_truth": "La mercante Sylene Torr non è una vittima della maledizione: è sua figlia Mirael, trasformata in entità vendicativa dopo essersi suicidata quindici anni fa quando il suo amato Korvin la tradì pubblicamente con sua sorella. Sylene ha alimentato la maledizione con rituali segreti per tenere viva la coscienza di Mirael, credendo di proteggerla dalla morte definitiva. Ogni vittima è qualcuno che ha spezzato una promessa d'amore, perché Mirael caccia chi le ricorda il suo dolore. Liberare Mirael significa lasciarla morire davvero, e Sylene farebbe qualsiasi cosa per impedirlo.",
+      "win_condition": "Scoprire l'identità di Mirael, convincere Sylene a lasciarla andare o distruggerla con un controrituale (sacrificando un ricordo d'amore di uno dei PG), impedendo che completi il ciclo di sette vittime che la renderebbe immortale.",
+      "threat_description": "Compimento di Divoratore Promesse Nelle terre Valmora ogni",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "ritual_countdown",
+        "secondary_archetypes": [
+          "romance_drama",
+          "horror_survival"
+        ],
+        "confidence": 0.65,
+        "reason": "Matched runtime signals for ritual_countdown",
+        "definition": {
+          "id": "ritual_countdown",
+          "description": "Rituale con condizioni, oggetti e clock.",
+          "required_modules": [
+            "clock",
+            "ritual_conditions"
+          ],
+          "optional_modules": [
+            "special_items"
+          ],
+          "runtime_focus": [
+            "clock",
+            "ritual"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "document",
+            "physical_evidence"
+          ],
+          "common_failure_modes": [
+            "ritual_tick"
+          ],
+          "ending_patterns": [
+            "ritual_stopped"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_07d6e2b54a",
+      "adventure_canon": {
+        "core_truth": "La mercante Sylene Torr non è una vittima della maledizione: è sua figlia Mirael, trasformata in entità vendicativa dopo essersi suicidata quindici anni fa quando il suo amato Korvin la tradì pubblicamente con sua sorella. Sylene ha alimentato la maledizione con rituali segreti per tenere viva la coscienza di Mirael, credendo di proteggerla dalla morte definitiva. Ogni vittima è qualcuno che ha spezzato una promessa d'amore, perché Mirael caccia chi le ricorda il suo dolore. Liberare Mirael significa lasciarla morire davvero, e Sylene farebbe qualsiasi cosa per impedirlo.",
+        "main_antagonist": "Custode del componente",
+        "key_locations": [
+          "Soglia del rito",
+          "Archivio dei segni",
+          "Camera degli officianti",
+          "Altare incompleto",
+          "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Divoratore Promesse Nelle terre Valmora ogni"
+        ],
+        "genre_profile": {
+          "id": "ritual_dungeon",
+          "tone": "dark fantasy dungeon",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "trap activation",
+            "guardian attack",
+            "ritual clock advances",
+            "boss signs awaken",
+            "room changes state",
+            "curse intensifies",
+            "danger scene"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "boss fully awakens without trigger",
+            "ritual completes without clock",
+            "party death cutscene"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Che cosa prova Marchio del Cuore Spezzato sul Barone o sui suoi complici",
+          "question": "Che cosa prova Marchio del Cuore Spezzato sul Barone o sui suoi complici?",
+          "true_answer": "Il rapitore segue un simbolismo romantico violato: il cuore rappresenta promesse infrante La maledizione è selettiva e antica, colpisce chi spezza promesse d'amore. È consapevole e vendicativa.",
+          "required_clues": [
+            "clue_1",
+            "clue_3",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Permette di identificare potenziali prossime vittime cercando chi ha rotto promesse d'amore pubblicamente / Conferma il pattern e permette di prevedere chi sarà preso di mira; introduce il ciclo decennale",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Che cosa dimostra Testimonianza di Korvin",
+          "question": "Che cosa dimostra Testimonianza di Korvin?",
+          "true_answer": "Il rapitore parla, sembra provare dolore, e accusa le vittime di 'scelte'. Korvin nasconde qualcosa sulla sua presenza.",
+          "required_clues": [
+            "clue_2"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Collega l'entità a un passato di tradimento; sospetti su Korvin crescono",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Dove conduce Comportamento di Sylene nei Giorni di Luna Nuova",
+          "question": "Dove conduce Comportamento di Sylene nei Giorni di Luna Nuova?",
+          "true_answer": "Sylene compie rituali di necromanzia legati alla maledizione; il ritratto potrebbe essere di Mirael",
+          "required_clues": [
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Conferma il tradimento di Sylene; permette di interrompere un rituale in corso o rubare il ritratto",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Marchio del Cuore Spezzato",
+          "text": "Marchio del Cuore Spezzato",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Il rapitore segue un simbolismo romantico violato: il cuore rappresenta promesse infrante",
+          "payoff": "Permette di identificare potenziali prossime vittime cercando chi ha rotto promesse d'amore pubblicamente",
+          "location": "Piazza del Mercato",
+          "immediate_information": "Ogni luogo di rapimento mostra lo stesso simbolo bruciato nel terreno: un cuore diviso da una crepa irregolare",
+          "hidden_implication": "Il rapitore segue un simbolismo romantico violato: il cuore rappresenta promesse infrante",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Testimonianza di Korvin",
+          "text": "Testimonianza di Korvin",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Il rapitore parla, sembra provare dolore, e accusa le vittime di 'scelte'. Korvin nasconde qualcosa sulla sua presenza.",
+          "payoff": "Collega l'entità a un passato di tradimento; sospetti su Korvin crescono",
+          "location": "Locanda del Passero Grigio",
+          "immediate_information": "Korvin racconta tra i singhiozzi di aver visto l'ombra rapire la terza vittima. Descrive occhi 'come braci che piangono'",
+          "hidden_implication": "Il rapitore parla, sembra provare dolore, e accusa le vittime di 'scelte'. Korvin nasconde qualcosa sulla sua presenza.",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Registro delle Sparizioni di Osmund",
+          "text": "Registro delle Sparizioni di Osmund",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "La maledizione è selettiva e antica, colpisce chi spezza promesse d'amore. È consapevole e vendicativa.",
+          "payoff": "Conferma il pattern e permette di prevedere chi sarà preso di mira; introduce il ciclo decennale",
+          "location": "Archivio del Monastero",
+          "immediate_information": "Un tomo di pelle nera nel monastero elenca ogni vittima del ciclo decennale degli ultimi cinquant'anni. Tutte hanno in comune almeno un tradimento sentimentale documentato: matrimoni annullati",
+          "hidden_implication": "La maledizione è selettiva e antica, colpisce chi spezza promesse d'amore. È consapevole e vendicativa.",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Diario Rituale di Sylene",
+          "text": "Diario Rituale di Sylene",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Sylene non è una vittima ma la responsabile della maledizione. Mirael è sua figlia, tenuta in vita con rituali oscuri.",
+          "payoff": "Ribalta completamente il ruolo di Sylene; rivela identità del mostro; apre la possibilità di interrompere i rituali",
+          "location": "Cappella Bruciata di Mirael",
+          "immediate_information": "Un diario nascosto sotto l'altare bruciato della cappella. Sylene descrive rituali mensili per 'tenere sveglia Mirael'",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Sciarpa di Lena Altieri",
+          "text": "Sciarpa di Lena Altieri",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Korvin e Lena sono legati alle vittime; Lena è a rischio come traditrice seriale",
+          "payoff": "Identifica Lena come prossima vittima certa; collega Korvin al ciclo originale",
+          "location": "Casa Venn",
+          "immediate_information": "Nella casa Venn",
+          "hidden_implication": "Korvin e Lena sono legati alle vittime; Lena è a rischio come traditrice seriale",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Comportamento di Sylene nei Giorni di Luna Nuova",
+          "text": "Comportamento di Sylene nei Giorni di Luna Nuova",
+          "type": "testimony",
+          "thread_id": "T3",
+          "reveals": "Sylene compie rituali di necromanzia legati alla maledizione; il ritratto potrebbe essere di Mirael",
+          "payoff": "Conferma il tradimento di Sylene; permette di interrompere un rituale in corso o rubare il ritratto",
+          "location": "Bottega dei Tessuti Preziosi",
+          "immediate_information": "Diversi mercanti raccontano che Sylene chiude bottega ogni novilunio e scompare fino all'alba. Un vecchio la vide uscire dalla cappella bruciata con le mani sporche di cenere. Quando i PG la seguono",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "actor_ai_1",
+          "name": "Officiante del rito",
+          "role": "witness",
+          "description": "completare il rito",
+          "location": "loc_ai_1",
+          "secret": "conosce il momento esatto del compimento",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "witness",
+            "goal": "completare il rito",
+            "fear": "che Marchio del Cuore Spezzato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+            "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "completare il rito"
+            ],
+            "avoids": [
+              "che Marchio del Cuore Spezzato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "esita",
+              "medium": "si nasconde",
+              "high": "cerca protezione dalla squadra",
+              "critical": "scompare lasciando una traccia incompleta"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "conosce il momento esatto del compimento",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.7
+        },
+        {
+          "id": "actor_ai_2",
+          "name": "Testimone del primo segno",
+          "role": "ally",
+          "description": "sopravvivere raccontando cio che ha visto",
+          "location": "loc_ai_2",
+          "secret": "ha visto chi ha preparato il cerchio",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "ally",
+            "goal": "sopravvivere raccontando cio che ha visto",
+            "fear": "che Marchio del Cuore Spezzato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+            "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "sopravvivere raccontando cio che ha visto"
+            ],
+            "avoids": [
+              "che Marchio del Cuore Spezzato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "ha visto chi ha preparato il cerchio",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.7
+        },
+        {
+          "id": "actor_ai_3",
+          "name": "Custode del componente",
+          "role": "antagonist",
+          "description": "proteggere il componente mancante",
+          "location": "loc_ai_3",
+          "secret": "sa quale oggetto puo interrompere il rito",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "antagonist",
+            "goal": "proteggere il componente mancante",
+            "fear": "che Marchio del Cuore Spezzato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+            "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "proteggere il componente mancante"
+            ],
+            "avoids": [
+              "che Marchio del Cuore Spezzato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "depista e osserva",
+              "medium": "manda oppositori o chiude un accesso",
+              "high": "distrugge una prova o sposta un ostaggio/testimone",
+              "critical": "fugge verso la zona finale forzando il confronto"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "sa quale oggetto puo interrompere il rito",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "high"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 0.7
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Soglia del rito",
+          "description": "Soglia del rito: nodo giocabile della struttura ritual_countdown.",
+          "type": "entry",
+          "visual_identity": "Soglia del rito: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Archivio dei segni",
+          "description": "Archivio dei segni: nodo giocabile della struttura ritual_countdown.",
+          "type": "site",
+          "visual_identity": "Archivio dei segni: scaffali alti come copertura, tavoli di lettura, scale mobili",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scaffali alti come copertura",
+            "tavoli di lettura",
+            "scale mobili",
+            "vetrine con manoscritti"
+          ],
+          "hazards": [
+            "scaffali instabili",
+            "pergamene infiammabili"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scaffali alti come copertura",
+            "tavoli di lettura",
+            "scale mobili"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Camera degli officianti",
+          "description": "Camera degli officianti: nodo giocabile della struttura ritual_countdown.",
+          "type": "site",
+          "visual_identity": "Camera degli officianti: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Altare incompleto",
+          "description": "Altare incompleto: nodo giocabile della struttura ritual_countdown.",
+          "type": "site",
+          "visual_identity": "Altare incompleto: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni",
+          "description": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni: nodo giocabile della struttura ritual_countdown.",
+          "type": "finale",
+          "visual_identity": "Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Compimento di Divoratore Promesse Nelle terre Valmora ogni",
+          "value": 0,
+          "max": 6,
+          "consequence": "Custode del componente raggiunge la zona finale",
+          "on_complete": "Divoratore Promesse Nelle terre Valmora ogni si compie e il finale diventa molto piu costoso.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di Custode del componente",
+              "world_state_change": "un testimone viene cercato dagli uomini di Custode del componente",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Custode del componente.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "Custode del componente raggiunge la zona finale",
+              "world_state_change": "Custode del componente raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: Custode del componente raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di Custode del componente",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Custode del componente.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "Custode del componente raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: Custode del componente raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_07d6e2b54a",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "actor_ai_1": {
+        "status": "unintroduced",
+        "location_id": "loc_ai_1",
+        "agenda_pressure": 0,
+        "goal": "completare il rito",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        }
+      },
+      "actor_ai_2": {
+        "status": "unintroduced",
+        "location_id": "loc_ai_2",
+        "agenda_pressure": 0,
+        "goal": "sopravvivere raccontando cio che ha visto",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "actor_ai_3": {
+        "status": "unintroduced",
+        "location_id": "loc_ai_3",
+        "agenda_pressure": 0,
+        "goal": "proteggere il componente mancante",
+        "current_plan": "bloccare l'accesso a Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni e spostare le prove",
+        "fallback_plan": "ritirarsi verso Cuore del rito: Divoratore Promesse Nelle terre Valmora ogni usando un percorso secondario",
+        "pressure_response": {
+          "low": "depista e osserva",
+          "medium": "manda oppositori o chiude un accesso",
+          "high": "distrugge una prova o sposta un ostaggio/testimone",
+          "critical": "fugge verso la zona finale forzando il confronto"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T1"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T3"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 98,
+    "errors": [],
+    "warnings": [
+      "ritual_dungeon richiede ritual_conditions o special_items."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 3,
+      "clues": 6,
+      "revelations": 3
+    }
+  },
+  "doctor": {
+    "score": 5.8,
+    "score_after": 6.1,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "actor_ai_3",
+        "message": "NPC 'Custode del componente': agenda_pressure 0 troppo bassa per antagonista",
+        "fix_hint": "Imposta agenda_pressure tra 7 e 9"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Clock 'Compimento di Divoratore Promesse Nelle terre Valmora ogni': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Il clock 'Compimento di Divoratore Promesse Nelle terre Valmora ogni' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_3, clue:clue_4, clue:clue_5, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_3, clue:clue_4, clue:clue_5, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_2, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_2, revelation:T2"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T3",
+        "message": "Pista fantasma 'T3': citata da clue:clue_6, revelation:T3 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T3', oppure rimuovi il riferimento da clue:clue_6, revelation:T3"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 5 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "equipment",
+        "entity_id": "actor_ai_3",
+        "message": "NPC 'Custode del componente' (antagonista/minaccia) senza armi né items",
+        "fix_hint": "Aggiungi items: ['pistola', 'coltello', ...] o actions"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "Il Divoratore di Promesse",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "6 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}
