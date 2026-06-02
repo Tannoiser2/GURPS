@@ -11487,7 +11487,7 @@
         "id": "llm_clue_1",
         "label": "Bell Wine protegge dalle malattie ma è velenoso per i non-morti",
         "type": "physical_evidence",
-        "thread_id": "T10",
+        "thread_id": "T1",
         "source_location": "ARRIVAL IN NEW BECHAFEN",
         "reveals": "Il vino che i PG stanno vendendo è letale per il Barone Charybdis e tutti i vampiri di New Bechafen",
         "payoff": "I PG possono usare il vino come arma contro i vampiri o merce di scambio per la loro salvezza",
@@ -11523,7 +11523,7 @@
         "id": "llm_clue_2",
         "label": "New Bechafen è chiamata 'la dispensa' per i suoi abitanti mortali",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T2",
         "source_location": "ARRIVAL IN NEW BECHAFEN",
         "reveals": "Gli umani vivi a New Bechafen sono deliberatamente mantenuti come riserva di cibo per i vampiri",
         "payoff": "I PG capiscono che ogni umano qui è in pericolo mortale e devono fuggire al più presto",
@@ -11559,7 +11559,7 @@
         "id": "llm_clue_3",
         "label": "Il Tempio dell'Immortalità con mille candele sempre accese",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T3",
         "source_location": "ARRIVAL IN NEW BECHAFEN",
         "reveals": "Il tempio è un centro di potere soprannaturale costantemente attivo, punto di riferimento dei vampiri",
         "payoff": "I PG possono evitare il tempio o investigarlo per scoprire i piani dei vampiri",
@@ -11595,7 +11595,7 @@
         "id": "llm_clue_4",
         "label": "È insolito che l'intero equipaggio sopravviva una notte a New Bechafen",
         "type": "testimony",
-        "thread_id": "T10",
+        "thread_id": "T4",
         "source_location": "ARRIVAL IN NEW BECHAFEN",
         "reveals": "I vampiri attaccano regolarmente le navi mercantili durante la notte, uccidendo membri dell'equipaggio",
         "payoff": "I PG devono decidere se completare l'affare o fuggire immediatamente per salvare le loro vite",
@@ -11631,7 +11631,7 @@
         "id": "llm_clue_5",
         "label": "Le zanzare vampiro giganti evitano chi beve Bell Wine",
         "type": "scene_observation",
-        "thread_id": "T10",
+        "thread_id": "T5",
         "source_location": "Death Fens",
         "reveals": "Il Bell Wine offre protezione non solo da malattie ma anche dagli insetti predatori della giungla",
         "payoff": "I PG possono usare il vino come repellente durante la fuga nella giungla primordiale",
@@ -11667,7 +11667,7 @@
         "id": "llm_clue_6",
         "label": "L'etichetta del Bell Wine rivendica un'origine millenaria",
         "type": "document",
-        "thread_id": "T12",
+        "thread_id": "T6",
         "source_location": "ARRIVAL IN NEW BECHAFEN",
         "reveals": "Il vino ha un'origine misteriosa e antica, collegata a qualche rituale o processo magico bretonniano",
         "payoff": "I PG possono ricercare l'origine del vino per capire meglio le sue proprietà magiche",
@@ -11703,7 +11703,7 @@
         "id": "llm_clue_7",
         "label": "Il colore ossidiana ipnotico del Bell Wine",
         "type": "physical_evidence",
-        "thread_id": "T10",
+        "thread_id": "T7",
         "source_location": "ARRIVAL IN NEW BECHAFEN",
         "reveals": "Il vino ha proprietà visive insolite che suggeriscono una natura magica o alchemica",
         "payoff": "I PG esperti in magia possono riconoscere segni di incantamento o alchimia nel vino",
@@ -11739,7 +11739,7 @@
         "id": "llm_clue_8",
         "label": "La città fu fondata mille anni fa dal vampiro folle Luthor Harkon",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T8",
         "source_location": "ARRIVAL IN NEW BECHAFEN",
         "reveals": "La città ha una storia vampirica millenaria sotto lo stesso sovrano non-morto",
         "payoff": "I PG capiscono che sono coinvolti in politiche vampiriche ben più grandi e antiche di loro",
@@ -11775,7 +11775,7 @@
         "id": "llm_clue_9",
         "label": "Barone Charybdis vuole il vino per proteggere i servi della sua piantagione",
         "type": "testimony",
-        "thread_id": "T10",
+        "thread_id": "T9",
         "source_location": "A Deal at the Gravesend",
         "reveals": "Charybdis ha una piantagione con servi umani che vuole proteggere dalle malattie",
         "payoff": "I PG possono sfruttare questa informazione per capire i veri piani di Charybdis",
@@ -11806,198 +11806,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Contratto della piantagione di Charybdis",
-        "type": "document",
-        "thread_id": "T10",
-        "source_location": "",
-        "reveals": "Charybdis usa il Bell Wine per proteggere i suoi servi da predatori non-morti",
-        "payoff": "Conferma che il vino ha proprietà protettive contro creature non-morte",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Cicatrici da morso sui lavoratori",
-        "type": "physical_evidence",
-        "thread_id": "T10",
-        "source_location": "",
-        "reveals": "Il Bell Wine protegge effettivamente dalle zanzare vampiro",
-        "payoff": "Collega la protezione del vino a un beneficio concreto e osservabile",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Registro delle candele perpetue",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Le candele sono legate misticamente alla popolazione mortale",
-        "payoff": "Svela che il Tempio esercita un controllo magico attraverso le candele",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Comportamento anomalo delle candele",
-        "type": "location_detail",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Le candele sono alimentate da magia necromantica legata alla vita dei cittadini",
-        "payoff": "Conferma il legame soprannaturale tra Tempio e popolazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Etichetta originale del Bell Wine",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il Bell Wine fu creato come risposta alla fondazione vampirica della città",
-        "payoff": "Stabilisce la connessione temporale e simbolica tra vino e resistenza mortale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Testimonianza di Reingard Götz",
-        "type": "testimony",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il Bell Wine è un'arma antica creata dai mortali contro i vampiri",
-        "payoff": "Svela l'origine ribelle del vino e il pericolo nascosto per chi ne abusa",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Reazione di Charybdis al vino versato",
-        "type": "behavior",
-        "thread_id": "T10",
-        "source_location": "",
-        "reveals": "Il Bell Wine è dannoso per i non-morti anche al contatto",
-        "payoff": "Prova diretta della tossicità del vino per i vampiri",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Mappa antica di New Bechafen",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "La città fu progettata con il Tempio come fulcro di controllo magico",
-        "payoff": "Conferma la natura architettonica del rituale di dominazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -12011,8 +11819,8 @@
         "secret": "È completamente pazzo e il suo controllo sulla città è più fragile di quanto sembri, dipendente dai suoi luogotenenti vampiri",
         "agenda_pressure": 0,
         "fear": "Perdere il dominio sulla città che ha fondato mille anni fa",
-        "current_plan": "Mantenere New Bechafen come suo regno personale mentre cerca ossessivamente il leggendario tesoro nelle paludi circostanti, usando i mortali come lavoratori e cibo",
-        "fallback_plan": "Se il controllo vacilla, ritirarsi nella Fortezza Nera con i tesori accumulati e scatenare la Terrorghorger per devastare il porto ribelle",
+        "current_plan": "Mantenere il fragile equilibrio di terrore su New Bechafen organizzando razzie notturne controllate, dove i vampiri si nutrono degli abitanti secondo quote prestabilite. Sta ossessionato dalla ricerca di un tesoro sepolto che forse esiste solo nella sua mente malata.",
+        "fallback_plan": "Se perde il controllo sulla città, Harkon si ritira nelle catacombe sottomarine del porto con i suoi servitori più fedeli. Da lì scatena orde di morti affogati e creature marine non-morte, preferendo distruggere New Bechafen piuttosto che perderla.",
         "resources": [
           "accessi",
           "contatti",
@@ -12034,16 +11842,16 @@
           "Che altri vampiri complottino per prendere il suo posto"
         ],
         "pressure_response": {
-          "low": "Osserva i mercanti con curiosità distaccata, li invita a banchetti notturni dove mischia lucidità aristocratica a deliri sul tesoro di Nehek",
-          "medium": "Le sue personalità multiple emergono: passa da ospite cordiale a tiranno paranoico, accusando i mercanti di essere spie dei Re Funerari",
-          "high": "Ordina ai luogotenenti vampiri di imprigionare i mercanti nelle cripte del porto, convinto che siano emissari venuti a rubargli la corona maledetta",
-          "extreme": "Perde completamente il controllo: scatena ondate di non-morti contro la città stessa, non distinguendo più sudditi da nemici mentre urla ordini contraddittori"
+          "low": "Harkon osserva i mercanti con interesse distratto, parlando a loro come se fossero ora ospiti preziosi, ora bestiame. Offre 'protezione' in cambio di tributi in oro e sangue, ridendo delle proprie battute che nessun altro comprende.",
+          "medium": "Il vampiro folle inizia a vedere complotti ovunque. Ordina ai suoi Capitani non-morti di pedinare i mercanti giorno e notte, imponendo coprifuoco e requisizioni arbitrarie. Parla a voci che solo lui sente, accusando i PG di essere 'agenti degli elfi del mare'.",
+          "high": "Harkon convoca i mercanti nel Palazzo delle Ossa Nere per un 'banchetto'. Li circonda con i suoi luogotenenti vampiri più fedeli, alternando minacce di morte a proposte di matrimonio con sue 'figlie' inesistenti. Pretende che giurino fedeltà al suo 'impero sommerso'.",
+          "extreme": "Il Signore Vampiro perde completamente il controllo, trasformandosi in una creatura bestiale. Scatena un'ondata di terrore notturno su tutta New Bechafen, ordinando ai non-morti di radunare tutti gli abitanti nella piazza del porto per un 'grande banchetto di sangue'. I suoi stessi luogotenenti iniziano a dubitare della sua leadership."
         },
         "reaction_table": {
-          "se_minacciato": "Si frantuma in personalità contrastanti che litigano tra loro, permettendo ai luogotenenti di agire autonomamente mentre lui delira",
-          "se_corrotto": "Impossibile corromperlo con oro o promesse - risponde solo a chi lusinga la sua grandezza perduta o promette indizi sul tesoro ossessivo",
-          "se_i_pg_hanno_prove": "Nega violentemente qualsiasi evidenza della sua follia, giustizia sommariamente chi la menziona, ma i luogotenenti potrebbero trattare in segreto",
-          "se_alleato": "Concede privilegi commerciali folli e mutevoli, pretendendo tributi bizzarri (sangue di marinaio, carte nautiche antiche, specchi rotti)"
+          "se_minacciato": "Scoppia in una risata folle e si moltiplica in quattro versioni di sé stesso (illusioni create dalla sua pazzia e magia necrotica), ciascuna che urla ordini contraddittori alle sue guardie zombi. Attacca prima con pistole da duello arrugginite, poi con artigli.",
+          "se_corrotto": "È impossibile corrompere un folle che già possiede tutto ciò che desidera. Accetta offerte bizzarre (mappe di tesori inesistenti, promesse di catturare sirene) ma le dimentica immediatamente, chiedendo tributi sempre più assurdi.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano prove della sua instabilità ai luogotenenti, Harkon cade in uno stato catatonico per giorni, permettendo ai Capitani vampiri di considerare un cambio di potere. Al risveglio, è ancora più paranoico e violento.",
+          "se_alleato": "Harkon non ha veri alleati, solo servitori terrorizzati. Se i PG fingono lealtà e alimentano le sue fantasie (trovare l''Oro degli Antichi', costruire una flotta fantasma), li nomina 'Ammiragli della Flotta Invisibile' dandogli accesso limitato alla città, ma pretendendo tributi costanti."
         },
         "pressure_events": [],
         "relationships": [
@@ -12070,8 +11878,8 @@
         "secret": "Non vuole semplicemente acquistare vino, ma sta complottando per aumentare la propria influenza tra i signori vampiri di New Bechafen",
         "agenda_pressure": 0,
         "fear": "Che Luthor Harkon scopra le sue vere ambizioni di potere",
-        "current_plan": "Usare il vino Bell pregiato per organizzare un banchetto sontuoso dove drogare sottilmente Baron Noctilus e Lady Cylostra, indebolendoli abbastanza da reclamare i loro territori portuali durante il prossimo Consiglio della Luna Nera",
-        "fallback_plan": "Se il vino non arriva o il complotto fallisce, incolpare pubblicamente i mercanti viventi di averlo tradito, usando la loro esecuzione spettacolare per guadagnare favore popolare tra i vampiri conservatori e posizionarsi come difensore dell'ordine costituito",
+        "current_plan": "Acquistare tutto il vino Bell disponibile per servarlo al Banchetto della Luna Nera tra tre settimane. Il vino è infuso con essenza di aglio diluita—innocua per i viventi ma indebolisce temporaneamente i vampiri. Userà questo momento per accusare il Governatore di debolezza e sfidarlo per il controllo del porto.",
+        "fallback_plan": "Se il piano del banchetto fallisce, Charybdis userà i contatti commerciali dei mercanti per importare un Necromante rinnegato da Sartosa. Questo stregone rianimera un Terrorghorger dalle profondità marine per seminare caos nel porto, permettendo a Charybdis di 'salvare' la città e rivendicare la leadership attraverso eroismo.",
         "resources": [
           "accessi",
           "contatti",
@@ -12093,16 +11901,16 @@
           "Che i mercanti rivelino informazioni sui suoi accordi"
         ],
         "pressure_response": {
-          "low": "Sorride cordialmente e offre un prezzo generoso per il vino Bell, invitando i mercanti a una cena nel suo palazzo sul molo decadente",
-          "medium": "Diventa impaziente e insinua che rifiutare la sua offerta potrebbe attirare l'attenzione sgradita degli altri signori vampiri sulla 'merce fresca' arrivata in porto",
-          "high": "Convoca i suoi servitori ghoul per 'scortare' i mercanti alle sue celle private, promettendo che il vino verrà preso comunque - con o senza compenso",
-          "extreme": "Rivela le zanne e attacca personalmente, decidendo che i mercanti stessi saranno la moneta di scambio con cui corrompere Baron Noctilus - il vino è solo un contorno"
+          "low": "Charybdis negozia con cortesia glaciale, offrendo un prezzo equo per il vino Bell. Invia servitori thrall a controllare la merce, mostrando interesse particolare per eventuali contatti dei mercanti con altri signori vampiri della città.",
+          "medium": "Il Barone diventa insistente, aumentando l'offerta ma chiedendo esclusiva sulla fornitura. Menziona casualmente che 'alcuni mercanti scompaiono nelle nebbie del porto' e suggerisce che la sua protezione sarebbe preziosa. Inizia a indagare sui loro movimenti notturni.",
+          "high": "Charybdis abbandona la facciata diplomatica. Fa seguire i mercanti dai suoi ghoul e invia minacce velate attraverso intermediari. Offre un ultimatum: vendere solo a lui o affrontare l'accusa di commercio illegale di sangue davanti al Consiglio dei Signori Non-Morti.",
+          "extreme": "Il Barone ordina un'imboscata notturna per catturare i mercanti vivi. Li vuole nella sua cripta per estorcere non solo il vino, ma informazioni sui loro contatti. Se necessario, li trasformerà in vampire spawn come 'assicurazione' per controllare le loro rotte commerciali."
         },
         "reaction_table": {
-          "se_minacciato": "Ride con disprezzo e fa notare che in questa città i morti comandano i vivi, non il contrario - poi ordina ai suoi tirapiedi di 'ricordare loro il loro posto nella catena alimentare'",
-          "se_corrotto": "Accetta con avidità informazioni sui movimenti degli altri Baron, offrendo protezione temporanea e persino una quota dei suoi traffici clandestini di sangue pregiato",
-          "se_i_pg_hanno_prove": "Tenta di comprare il loro silenzio con oro o posizioni privilegiate come 'fornitori esclusivi', ma se rifiutano ordina la loro eliminazione immediata prima che raggiungano altri nobili",
-          "se_alleato": "Li tratta come pedine preziose, garantendo loro libertà di movimento nel porto e accesso ai mercati notturni dove si commercia in anime e carne"
+          "se_minacciato": "Charybdis finge di ritirarsi ma attiva immediatamente la sua rete di spie tra i portuali zombificati. Pianifica di accusare i mercanti di aver profanato le tombe dei fondatori, crimine punibile con la morte definitiva anche per i non-morti.",
+          "se_corrotto": "Accetta doni e favori con eleganza predatoria. In cambio di informazioni sui movimenti delle altre casate vampiriche o accesso a rotte commerciali esclusive, offre salvacondotti firmati e protezione contro gli altri predatori notturni di New Bechafen.",
+          "se_i_pg_hanno_prove": "Nega tutto con sdegno aristocratico, poi cerca di comprare o rubare le prove. Se fallisce, tenta di eliminare i testimoni attraverso 'incidenti' orchestrati. Come ultima risorsa, incolpa un rivale vampiro, il Conte Noctilus, di averlo diffamato.",
+          "se_alleato": "Rivela parte dei suoi piani: vuole usare il vino Bell per avvelenare sottilmente il Governatore Vampiro durante il Banchetto della Luna Nera, sostituendolo. Offre ai mercanti monopolio commerciale sulla città in cambio di forniture costanti e silenzio."
         },
         "pressure_events": [],
         "relationships": [
@@ -12590,7 +12398,6 @@
           "llm_clue_8"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -12632,14 +12439,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "ARRIVAL IN NEW BECHAFEN",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -12654,7 +12453,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -12691,17 +12489,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_1",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_3",
-          "section_extra_4"
-        ],
-        "local_map_image_b64": "",
         "original_section": "The Adventure’s Flow",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -12716,7 +12503,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -12753,17 +12539,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_1",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_2",
-          "section_extra_4"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Dypolt Stanislav’s Dilemma",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -12780,7 +12555,6 @@
           "llm_clue_9"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -12819,18 +12593,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_1",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_2",
-          "section_extra_3",
-          "section_extra_5"
-        ],
-        "local_map_image_b64": "",
         "original_section": "A Deal at the Gravesend",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -12845,7 +12607,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -12882,16 +12643,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "p6_room_2"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Grave Levy",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -12906,7 +12657,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -12943,17 +12693,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "2",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "section_extra_5",
-          "p6_room_3"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -12970,7 +12709,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -13007,17 +12745,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "3",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "p6_room_2",
-          "p6_room_5"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Drys",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -13034,7 +12761,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {
           "enabled": true,
           "role": "hot_zone",
@@ -13084,17 +12810,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "5",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "p6_room_3",
-          "p7_room_6"
-        ],
-        "local_map_image_b64": "",
         "original_section": "If the PCs drench the dryad in the essential water located along",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -13111,7 +12826,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [
           "llm_clue_1",
@@ -13153,17 +12867,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "6",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "p6_room_5",
-          "p7_room_7"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Move: 5 DR: 2",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -13180,7 +12883,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [
           "llm_clue_1",
@@ -13222,16 +12924,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "7",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "p7_room_6"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Bite: 1d-4 imp",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -13461,143 +13153,7 @@
         "concrete_choice": "Accettare l'invito a unirsi al clan che vi ha accolto, ottenendo protezione permanente in cambio di fedeltà e rinuncia alla nave"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T10",
-        "title": "Il Vero Scopo del Bell Wine",
-        "question": "Perché il Barone Charybdis vuole davvero il Bell Wine millenario?",
-        "true_answer": "Il Bell Wine millenario è velenoso per i non-morti. Charybdis vuole proteggere i suoi servi mortali dalle zanzare vampiro e da altri predatori non-morti per preservare la sua 'dispensa' personale",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_1",
-          "llm_clue_9"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Baron Charybdis",
-          "Long Peg Goldleg"
-        ],
-        "linked_locations": [
-          "A Deal at the Gravesend",
-          "Chamber of the Failed Dead"
-        ]
-      },
-      {
-        "id": "T11",
-        "title": "Il Segreto del Tempio dell'Immortalità",
-        "question": "Qual è il vero ruolo del Tempio dell'Immortalità nella gerarchia vampirica?",
-        "true_answer": "Il Tempio con le sue mille candele perpetue è il centro di controllo magico sulla città. Le candele sono alimentate dalla vita dei mortali e mantengono il patto che vincola la popolazione a servire i non-morti",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Luthor Harkon",
-          "Alda Brandler"
-        ],
-        "linked_locations": [
-          "Arrival in New Bechafen",
-          "Grave Levy"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "La Maledizione Millenaria",
-        "question": "Quale connessione esiste tra la fondazione di New Bechafen e il Bell Wine millenario?",
-        "true_answer": "Luthor Harkon fondò New Bechafen mille anni fa e il Bell Wine millenario fu creato nello stesso periodo come contrappeso: un'arma segreta dei mortali contro i loro oppressori non-morti",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "llm_clue_6",
-          "llm_clue_8"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Luthor Harkon",
-          "Reingard Götz"
-        ],
-        "linked_locations": [
-          "The Adventure's Flow",
-          "Dypolt Stanislav's Dilemma"
-        ]
-      },
-      {
-        "id": "T_larder",
-        "title": "T larder",
-        "question": "Perché New Bechafen è chiamata 'la dispensa' e qual è il vero ruolo dei suoi abitanti mortali?",
-        "true_answer": "New Bechafen è una fattoria umana creata dai vampiri, dove i mortali sono deliberatamente allevati e mantenuti come bestiame da nutrizione per i signori non-morti che governano la città",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_protection",
-        "title": "T protection",
-        "question": "Cosa rende il Bell Wine così prezioso e ricercato a New Bechafen?",
-        "true_answer": "Il Bell Wine è l'unica sostanza efficace che protegge i mortali dagli attacchi dei predatori non-morti e dalle creature vampiriche che infestano Lustria, rendendolo essenziale per la sopravvivenza",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_system",
-        "title": "T system",
-        "question": "Come ha fatto Luthor Harkon a mantenere New Bechafen funzionante per mille anni?",
-        "true_answer": "Luthor Harkon ha creato un sistema ingegnoso e millenario dove il Bell Wine mantiene vivi i mortali proteggendoli dai non-morti minori, preservando così la 'dispensa' per i vampiri dominanti",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_charybdis",
-        "title": "T charybdis",
-        "question": "Qual è il vero scopo del Barone Charybdis nel cercare il Bell Wine?",
-        "true_answer": "Il Barone Charybdis non vuole il Bell Wine per proteggere i suoi servi, ma per replicare il modello di New Bechafen e creare una propria 'dispensa' personale di mortali da cui nutrirsi",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_temple",
-        "title": "T temple",
-        "question": "Cosa simboleggiano veramente il Tempio dell'Immortalità e le sue mille candele?",
-        "true_answer": "Il Tempio dell'Immortalità con le sue mille candele celebra i mille anni del dominio vampirico di Luthor Harkon sulla città, commemorando un millennio di sfruttamento della 'dispensa' vivente",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_escape",
-        "title": "T escape",
-        "question": "Quanto è realmente sicuro per l'equipaggio della Grimmest Gale lasciare New Bechafen?",
-        "true_answer": "L'equipaggio è in pericolo mortale: pochissimi mercanti riescono a sopravvivere intatti a New Bechafen e i vampiri controllano strettamente chi può lasciare la città per mantenere segreto il loro sistema",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 5,
@@ -19295,8 +18851,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 2.5
+    }
   },
   "live_game_state": null
 }
