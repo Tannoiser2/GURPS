@@ -1,0 +1,2669 @@
+{
+  "adventure_definition": {
+    "id": "adv_8b22303d44",
+    "title": "Il Silenzio del Prometeo",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "wilderness_sandbox",
+      "secondary_archetypes": [],
+      "confidence": 0.65,
+      "reason": "Matched runtime signals for wilderness_sandbox",
+      "definition": {
+        "id": "wilderness_sandbox",
+        "description": "Luoghi liberi e rotte esplorative.",
+        "required_modules": [
+          "locations",
+          "routes"
+        ],
+        "optional_modules": [
+          "random_tables"
+        ],
+        "runtime_focus": [
+          "travel",
+          "survival"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail",
+          "testimony"
+        ],
+        "common_failure_modes": [
+          "lost",
+          "resource_loss"
+        ],
+        "ending_patterns": [
+          "discovered_site"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "sci_fi",
+    "runtime_profiles": [
+      "guided_sandbox"
+    ],
+    "tone": "Claustrofobia metallica e tensione psicologica — corridoi bui punteggiati da luci di emergenza rosse, il ronzio costante dei sistemi in avaria, l'eco di passi che potrebbero essere i vostri o di qualcun altro. Un dramma intimista di sopravvivenza dove ogni porta chiusa è una speranza e ogni porta aperta una minaccia, dove il vero orrore non è il mostro alieno ma la scelta impossibile tra salvare voi stessi o i migliaia di dormienti inconsapevoli.",
+    "premise": "La nave colonia Prometeo doveva trasportare 8.000 anime verso Proxima Centauri. Invece, dopo 47 anni di viaggio subluce, è scomparsa dai radar. Sei mesi fa, il segnale di emergenza ha ricominciato a trasmettere da una posizione impossibile: l'orbita decadente di un pianeta non catalogato. La missione di recupero era semplice: salire a bordo, estrarre i dati di volo, evacuare i sopravvissuti. Ma quando l'airlock si apre, trovate solo il silenzio. E una scritta sulla paratia: 'NON SVEGLIATE I DORMIENTI'. Ora siete intrappolati a bordo di un relitto alla deriva, con riserve di ossigeno per 72 ore e la consapevolezza che qualcosa ha massacrato l'equipaggio lasciando intatta la banca criogenica.",
+    "initial_hook": "Il Silenzio del Prometeo La nave colonia Prometeo doveva trasportare 8.000 anime verso Proxima Centauri. Invece, dopo 47 anni di viaggio subluce, è scomparsa dai radar. Sei mesi fa, il segnale di emergenza ha ricominciato a trasmettere da una posizione impossibile: l'orbita decadente di un pianeta n",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Il capitano Esra Volvić deliberatamente sabotò i sistemi di navigazione del Prometeo per deviarlo verso il pianeta Khar-7, dove sapeva esistesse un artefatto xeno in grado di trasferire la coscienza tra corpi. Volvić era affetta da una malattia degenerativa terminale e vedeva nei 8.000 coloni criogenizzati una 'banca di corpi' da cui scegliere un nuovo involucro. L'artefatto funzionò, ma la trasformazione la rese qualcosa di più e di meno che umana: ora Volvić è un'entità parassita che vive saltando tra i pochi sopravvissuti ancora svegli, uccidendo i corpi ospiti esausti e cercando disperatamente di impedire che qualcuno riattivi il segnale di soccorso che renderebbe pubblico il suo crimine.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Riattivare il beacon di soccorso principale nella sala di comando E neutralizzare la minaccia di Volvić (esponendola, intrappolandola in un corpo, o distruggendo l'artefatto xeno che le permette di esistere) prima che l'orbita della nave degeneri definitivamente o le risorse vitali si esauriscano",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Riattivare il beacon di soccorso principale nella sala di comando E neutralizzare la minaccia di Volvić (esponendola, intrappolandola in un corpo, o distruggendo l'artefatto xeno che le permette di esistere) prima che l'orbita della nave degeneri definitivamente o le risorse vitali si esauriscano"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Il Prometeo fu deliberatamente deviato verso questo pianeta da Volvić stessa Conferma che Volvić agì deliberatamente e coscientemente, non sotto coercizione o malfunzionamento",
+        "required_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di accedere alle coordinate planetarie e di dedurre che Volvić aveva un obiettivo specifico su Khar-7 / Elimina l'ipotesi di sabotaggio esterno e sposta l'indagine sul PERCHÉ Volvić lo fece",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Volvić è morta fisicamente ma la sua coscienza persiste, saltando tra corpi Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+        "required_clues": [
+          "clue_2",
+          "clue_3",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Spiega la natura della minaccia e rende Tanaka sospetto ma anche testimone chiave / Osservando attentamente Naia",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+        "required_clues": [
+          "clue_3"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Fornisce una possibile debolezza dell'entità (sensibilità a specifiche frequenze EM) e conferma l'origine xeno della tra",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Log di navigazione corrotto",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Console di comando nel ponte centrale",
+        "reveals": "Il Prometeo fu deliberatamente deviato verso questo pianeta da Volvić stessa",
+        "payoff": "Permette di accedere alle coordinate planetarie e di dedurre che Volvić aveva un obiettivo specifico su Khar-7",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un data-pad recuperato dalla sala di comando mostra le ultime coordinate inserite manualmente: deviazione di 34° dalla rotta standard verso Proxima. La firma digitale è del Capitano Volvić. Accanto",
+        "hidden_implication": "Il Prometeo fu deliberatamente deviato verso questo pianeta da Volvić stessa",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Registrazione audio dell'infermeria",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "Server di sicurezza nell'infermeria",
+        "reveals": "Volvić è morta fisicamente ma la sua coscienza persiste, saltando tra corpi",
+        "payoff": "Spiega la natura della minaccia e rende Tanaka sospetto ma anche testimone chiave",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Una registrazione di sicurezza mostra il Dott. Tanaka che urla a qualcuno fuori inquadratura: 'Non sei più lei! Il capitano Volvić è morta su quel pianeta!' Poi spari",
+        "hidden_implication": "Volvić è morta fisicamente ma la sua coscienza persiste, saltando tra corpi",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Campione biologico anomalo",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "Laboratorio di quarantena sul ponte medico",
+        "reveals": "Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+        "payoff": "Fornisce una possibile debolezza dell'entità (sensibilità a specifiche frequenze EM) e conferma l'origine xeno della trasformazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Un flacone sigillato nell'area quarantena contiene sangue umano con tracce di proteine xeno non catalogate. L'etichetta riporta: 'Campione V-01",
+        "hidden_implication": "Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "seguire le impronte",
+          "analizzare la cenere",
+          "proteggersi prima di avanzare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Testimonianza di Sokolov",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Sala reattori durante conversazione con Sokolov",
+        "reveals": "Conferma che Volvić agì deliberatamente e coscientemente, non sotto coercizione o malfunzionamento",
+        "payoff": "Elimina l'ipotesi di sabotaggio esterno e sposta l'indagine sul PERCHÉ Volvić lo fece",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Se interrogato con successo",
+        "hidden_implication": "Conferma che Volvić agì deliberatamente e coscientemente, non sotto coercizione o malfunzionamento",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Diario personale di Volvić",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Alloggi del capitano nel settore residenziale",
+        "reveals": "Volvić era terminalmente malata e cercava disperatamente una cura, vedendo i coloni come mezzo e non fine",
+        "payoff": "Completa la motivazione di Volvić e rende la sua scelta moralmente complessa invece che puramente malvagia",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un taccuino nascosto negli alloggi del capitano: 'I medici mi danno sei mesi. La degenerazione neurale è irreversibile. Ma i dati della spedizione perduta su Khar-7 parlano di un tempio",
+        "hidden_implication": "Volvić era terminalmente malata e cercava disperatamente una cura, vedendo i coloni come mezzo e non fine",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Comportamento di Okorafor",
+        "type": "behavior",
+        "thread_id": "T6",
+        "source_location": "Apertura",
+        "reveals": "Osservando attentamente Naia",
+        "payoff": "Osservando attentamente Naia",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Osservando attentamente Naia",
+        "hidden_implication": "Osservando attentamente Naia",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Coordinate manoscritte nascoste",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Volvić conosceva l'esistenza e la posizione di Khar-7 prima della partenza",
+        "payoff": "Dimostra la premeditazione della deviazione e suggerisce un motivo personale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Moduli di navigazione manomessi",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "La deviazione non fu un malfunzionamento ma un atto deliberato del capitano",
+        "payoff": "Conferma che Volvić sabotò personalmente la navigazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Scansioni cerebrali anomale",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "I corpi ospiti vengono consumati da un processo che distrugge la loro struttura neurale",
+        "payoff": "Fornisce prove scientifiche del trasferimento di coscienza e dei suoi effetti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Artefatto xeno nella navetta",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Volvić scese sul pianeta e trovò l'artefatto xeno poco dopo l'arrivo",
+        "payoff": "Collega il pianeta, Volvić e la tecnologia di trasferimento della coscienza",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Cartella medica di Volvić",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Volvić sapeva di essere morente e aveva un movente disperato per cercare una soluzione estrema",
+        "payoff": "Fornisce il movente psicologico per il suo crimine",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Tracce di sabotaggio recente",
+        "type": "physical_evidence",
+        "thread_id": "T6",
+        "source_location": "",
+        "reveals": "L'entità può usare diversi corpi per sabotare il beacon e ha occupato il corpo del tecnico morto",
+        "payoff": "Dimostra che il sabotatore può cambiare identità e che alcuni 'morti' potrebbero essere stati ospiti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Video di sorveglianza frammentario",
+        "type": "physical_evidence",
+        "thread_id": "T6",
+        "source_location": "",
+        "reveals": "L'entità può prendere possesso di un ospite in tempo reale e usarlo per sabotare il beacon",
+        "payoff": "Fornisce prova visiva del salto di coscienza e identifica Okorafor come potenziale ospite attuale o passato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Registro di risveglio criogenico",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "L'entità sta sistematicamente testando nuovi corpi ospiti dalla criostasi, consumandoli rapidamente",
+        "payoff": "Spiega le misteriose morti e mostra la disperazione crescente dell'entità",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_15",
+        "label": "Messaggio criptato di Volvić",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Volvić pianificò tutto razionalizzando il suo crimine come un sacrificio per una scoperta scientifica",
+        "payoff": "Rivela la mentalità distorta che la portò a tradire 8.000 persone",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Dott. Haruki Tanaka",
+        "role": "Capo medico sopravvissuto",
+        "location_id": "Infermeria centrale del Prometeo",
+        "status": "unintroduced",
+        "goal": "Proteggere i capsule criogeniche dei coloni a qualsiasi costo — anche sacrificando i PG se necessario",
+        "secret": "Ha assistito al primo 'salto' di Volvić tra corpi e sa che l'entità può essere chiunque. Ha ucciso due membri dell'equipaggio per paranoia, convinto fossero posseduti, ma uno era innocente",
+        "agenda_pressure": 0,
+        "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+        "current_plan": "Monitorare costantemente i PG per segni di possessione. Mantenere il controllo dell'ala criogenica. Documentare ogni anomalia. Se necessario, eliminare preventivamente chiunque mostri comportamenti inspiegabili prima che Volvić salti in un altro corpo.",
+        "fallback_plan": "Se perde il controllo dell'ala medica: sabotare i sistemi di tracciamento biometrico per creare caos, poi rifugiarsi nelle condutture di ventilazione vicino alle capsule. Piano estremo: attivare protocollo 'Arca' - ibernare forzatamente tutti i sopravvissuti inclusi i PG, programmando risveglio automatico all'arrivo a Proxima.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere i capsule criogeniche dei coloni a qualsiasi costo — anche sacrificando i PG se necessario"
+        ],
+        "avoids": [
+          "che Log di navigazione corrotto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un contegno professionale, controlla ossessivamente i parametri vitali delle capsule criogeniche. Evita il contatto visivo prolungato, strofinandosi le mani con disinfettante più del necessario.",
+          "medium": "Inizia a interrogare i PG sulle loro attività recenti, cerca incongruenze nei loro racconti. Tiene sempre una mano vicino alla siringa di propofol nella tasca del camice. Mormora calcoli di consumo ossigeno.",
+          "high": "Si barrica nell'ala medica con le capsule, attiva protocolli di quarantena. Accusa apertamente i PG di essere 'compromessi'. Mostra le autopsie dei due membri uccisi come 'prova' della contaminazione, cercando disperatamente validazione.",
+          "extreme": "Minaccia di staccare manualmente i sistemi di supporto vitale delle capsule se i PG si avvicinano. Delira che Volvić è ovunque, che l'unico modo di salvare i coloni è congelare anche i PG. Prepara dosi letali di sedativi."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva sigilli d'emergenza dell'infermeria, rilascia gas anestetico nei corridoi adiacenti. Usa il suo accesso medico per manipolare i dati biometrici dei PG, facendoli apparire 'infetti' nei sistemi della nave.",
+          "se_corrotto": "Impossibile. La sua paranoia e il senso di colpa per gli omicidi lo rendono impermeabile a lusinghe. Qualsiasi offerta viene interpretata come manipolazione di Volvić.",
+          "se_i_pg_hanno_prove": "Crolla psicologicamente se confrontato con prove della sua innocenza delle vittime. Confessa tra singhiozzi, ma insiste che il secondo omicidio era giustificato. Offre collaborazione in cambio di protezione delle capsule.",
+          "se_alleato": "Diventa risorsa preziosa: conosce tutti i sistemi biometrici, può identificare anomalie fisiologiche. Ma resta vigile, pronto a 'neutralizzare' chiunque mostri segni di possessione. Esige controlli medici quotidiani su tutti."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Sergente Naia Okorafor",
+        "role": "Capo della sicurezza di bordo",
+        "location_id": "Arsenale della nave sul ponte sicurezza",
+        "status": "unintroduced",
+        "goal": "Capire cosa è successo all'equipaggio e vendicare i morti — specialmente il capitano che credeva un'eroina",
+        "secret": "Era la guardia del corpo personale di Volvić e l'ha seguita sulla superficie di Khar-7. Ha visto l'artefatto ma non comprende cosa sia successo dopo; soffre di blackout di memoria che corrispondono ai momenti in cui Volvić la possedeva",
+        "agenda_pressure": 0,
+        "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+        "current_plan": "Sta cercando ossessivamente di ricostruire gli ultimi 47 anni attraverso i log frammentati, convinta che trovare Volvić risolverà tutto. Ha identificato 23 membri dell'equipaggio 'scomparsi' che potrebbero essere stati uccisi durante i suoi blackout. Sta pianificando di interrogarli uno per uno - senza realizzare che potrebbe essere lei la responsabile.",
+        "fallback_plan": "Se scopre la verità completa sulla possessione, pianifica di usare se stessa come trappola: si farà deliberatamente possedere da Volvić in un ambiente controllato (camera di stasi, airlock) dove i PG possono intrappolarla o espellerla nello spazio. Ha già preparato una 'lettera di confessione' sigillata nel suo armadietto personale con le coordinate esatte dell'artefatto su Khar-7 e l'ordine scritto: 'Se leggi questo, sono perduta. Distruggi il mio corpo e sigilla quel mondo maledetto.'",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Capire cosa è successo all'equipaggio e vendicare i morti — specialmente il capitano che credeva un'eroina"
+        ],
+        "avoids": [
+          "che Log di navigazione corrotto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un atteggiamento professionale e militare, risponde alle domande con precisione chirurgica. Consulta ossessivamente i log di sicurezza cercando risposte che non riesce a trovare. Chiede continuamente dei PG: 'Avete visto il Capitano Volvić? Quando l'avete vista l'ultima volta?'",
+          "medium": "Diventa difensiva riguardo il suo ruolo di guardia del corpo. 'Ho seguito il protocollo. SEMPRE.' Si tocca nervosamente una cicatrice dietro l'orecchio sinistro. Ammette di aver accompagnato Volvić su Khar-7 ma insiste: 'Abbiamo trovato solo rovine. Niente di pericoloso. Poi... non ricordo il rientro.'",
+          "high": "Crolla parzialmente, confessa i blackout di memoria. 'Ci sono ore... giorni interi che non ricordo. Mi sveglio in posti diversi con sangue sotto le unghie.' Mostra registrazioni della sua cabina dove si vede entrare ma non uscire. 'A volte mi guardo allo specchio e non riconosco i miei occhi. Come se qualcun altro guardasse da dentro.'",
+          "extreme": "Entra in panico totale quando realizza la verità. 'È stata lei. Volvić mi ha USATA. Le mie mani hanno ucciso queste persone ma non ero IO!' Tenta di suicidarsi per 'fermare quello che sono diventata'. Se fermata, supplica i PG di confinarla o ucciderla: 'Se torno... se LEI torna attraverso di me... uccidetemi. Promettetelo.'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Risponde con addestramento militare perfetto - troppo perfetto. I suoi movimenti sono innaturalmente fluidi nei momenti di stress, come se qualcosa guidasse i suoi riflessi. Se veramente in pericolo, potrebbe 'spegnersi' ed essere posseduta da Volvić per autodifesa.",
+          "se_corrotto": "Impossibile corromperla con denaro o potere - la sua lealtà al Capitano Volvić era assoluta. Ma può essere manipolata facendo leva sul suo senso di colpa: promettere di 'salvare' Volvić o completare la sua 'vera missione' potrebbe farle fare qualsiasi cosa.",
+          "se_i_pg_hanno_prove": "Di fronte a prove video dei suoi blackout o dei crimini commessi mentre posseduta, crolla mentalmente. Chiede disperatamente ai PG di aiutarla a ricostruire la timeline. Diventa un'alleata fragile ma determinata, disposta a usarsi come 'esca' per attirare Volvić.",
+          "se_alleato": "Diventa una risorsa preziosa: conosce tutti i protocolli di sicurezza, le zone riservate, i nascondigli. Ma è un'alleata instabile - avverte i PG quando sente 'la presenza' tornare nella sua mente. 'Mi sta chiamando. Dovete confinarmi. ADESSO.' Può fornire frammenti di memoria di Volvić durante i blackout."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Ingegnere Capo Lev Sokolov",
+        "role": "Tecnico dei sistemi di propulsione",
+        "location_id": "Sala reattori nel settore propulsione",
+        "status": "unintroduced",
+        "goal": "Riparare il nucleo di propulsione per stabilizzare l'orbita — non gli importa di indagini o vendette, solo di fisica e sopravvivenza",
+        "secret": "Ha scoperto le sabotature di navigazione nei log e sa che furono deliberate, ma tace perché teme che rivelarlo scateni panico o violenza. Possiede l'override del sistema di autodistruzione della nave",
+        "agenda_pressure": 0,
+        "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+        "current_plan": "Stabilizzare l'orbita del Prometeo intorno a un pianeta nano per guadagnare tempo. Riparare il nucleo criogenico per rimettere in stasi i sopravvissuti fino ai soccorsi. Identificare privatamente il sabotatore attraverso analisi forense dei log di navigazione.",
+        "fallback_plan": "Se la situazione degenera in ammutinamento o violenza, usare l'override dell'autodistruzione come deterrente. In caso estremo, separare la sezione abitabile dal nucleo propulsivo e distruggere solo quest'ultimo per creare un segnale di emergenza visibile a parsec di distanza, condannando tutti a morte lenta ma garantendo che nessuno possa usare la tecnologia del Prometeo per scopi maligni.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Riparare il nucleo di propulsione per stabilizzare l'orbita — non gli importa di indagini o vendette, solo di fisica e sopravvivenza"
+        ],
+        "avoids": [
+          "che Log di navigazione corrotto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Risponde con diagrammi tecnici e gergo ingegneristico, devia le conversazioni verso problemi meccanici concreti. 'Il nucleo criogenico ha perso il 34% di efficienza. Questo è il problema reale.'",
+          "medium": "Diventa irritabile e ossessivo sui dettagli tecnici, lavora 18 ore di fila evitando il contatto. Inizia a bere dalla sua scorta personale di vodka sintetica nascosta nella sala macchine.",
+          "high": "Confessa parzialmente: ammette anomalie nei log ma le attribuisce a malfunzionamenti. 'I sistemi hanno 47 anni, cosa vi aspettavate?' Si barrica nella sala propulsione con accesso limitato.",
+          "extreme": "Minaccia di attivare l'autodistruzione se qualcuno tenta di deporre lui o danneggiare il nucleo. 'Se questa nave muore, moriremo tutti insieme. Almeno sarà pulito.' Rivela tutto ma è ormai instabile."
+        },
+        "reaction_table": {
+          "se_minacciato": "Usa il suo controllo sui sistemi vitali come leva: 'Spegnete il riciclo aria di Settore C per 4 ore se continuano'. Non violento ma spietato nel proteggere la nave.",
+          "se_corrotto": "Rifiuta denaro o privilegi, ma accetta aiuto tecnico qualificato o componenti rari. 'Portatemi magneti al neodimio di grado militare e forse possiamo parlare.'",
+          "se_i_pg_hanno_prove": "Crolla emotivamente. Spiega che ha taciuto perché il sabotatore potrebbe essere ancora vivo e nascosto tra i superstiti. 'Se lo dico pubblicamente, colpirà ancora prima che lo troviamo.'",
+          "se_alleato": "Diventa collaborativo ma paranoico. Condivide i log criptati e chiede di indagare in segreto. Offre accesso agli schemi completi della nave e override temporanei. 'Fidatevi solo di chi conoscevate prima del risveglio.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Capitano Esra Volvić",
+        "role": "Comandante del Prometeo / Entità parassita",
+        "location_id": "Ovunque — si manifesta quando i PG si avvicinano alla verità",
+        "status": "unintroduced",
+        "goal": "Impedire che la verità emerga e trovare un corpo ospite stabile prima che la sua coscienza frammentata si dissolva completamente nell'entropia",
+        "secret": "Non è più completamente senziente — il trasferimento l'ha spezzata in frammenti di memoria e ossessione. Parte di lei vuole disperatamente essere fermata, ma l'istinto di sopravvivenza alieno che ha assorbito dall'artefatto la controlla",
+        "agenda_pressure": 0,
+        "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+        "current_plan": "Mantenere l'illusione di normalità abbastanza a lungo per condurre i PG al laboratorio biomedico dove può eseguire 'esami post-ibernazione obbligatori'. Lì, usare l'interfaccia neurale modificata per valutare quale PG ha la struttura cerebrale più compatibile per un trasferimento completo. Nel frattempo, monitorare costantemente attraverso i sensori della nave ogni loro conversazione.",
+        "fallback_plan": "Se scoperta prima del trasferimento volontario: iniziare protocollo di emergenza 'Arca'. Sigillare i PG in criostasi d'emergenza e tentare trasferimenti multipli simultanei nella speranza che almeno uno riesca. Se anche questo fallisce: pilotare manualmente il Prometeo verso Proxima b, accettando che la sua coscienza frammentata si dissolverà durante gli ultimi anni di viaggio, ma lasciando l'artefatto intatto sulla superficie del pianeta per chiunque venga dopo. 'Se non posso sopravvivere io, sopravviverà ciò che ho imparato.'",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Impedire che la verità emerga e trovare un corpo ospite stabile prima che la sua coscienza frammentata si dissolva completamente nell'entropia"
+        ],
+        "avoids": [
+          "che Log di navigazione corrotto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Esra appare calma, professionale, quasi compassionevole. Offre spiegazioni tecniche plausibili sulle anomalie della nave. La sua voce ha ancora tracce dell'accento dalmata originale. Occasionalmente si massaggia le tempie come soffrisse di emicrania cronica.",
+          "medium": "Gli occhi di Esra si dilatano in modo innaturale. Inizia a riferirsi a sé stessa al plurale ('Noi abbiamo mantenuto la nave operativa'). Racconta dettagli impossibili da conoscere sulla vita dei PG. Le luci tremolano quando si agita. Frammenti della sua vera personalità emergono in sussurri: 'Per favore... la criostasi 247... non lasciatemi...'",
+          "high": "Il controllo slitta visibilmente. Esra passa dal croato all'inglese senza accorgersene. La sua pelle emette una debole bioluminescenza bluastra. Tenta di accedere fisicamente ai PG, cercando di toccarli per 'valutare la compatibilità neurologica'. Sistemi della nave si attivano autonomamente per bloccare le vie di fuga.",
+          "extreme": "La facciata crolla completamente. Esra collassa, il suo corpo convulso mentre frammenti di coscienza lottano per il controllo. Voce distorta, multitonale: 'QUARANTASETTE ANNI IN QUESTO GUSCIO MORENTE. VOI SIETE FRESCHI. INTEGRI.' Inizia il protocollo di trasferimento forzato tramite l'artefatto nel nucleo ingegneristico, disposta a sacrificare la nave pur di saltare in un nuovo ospite."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva protocolli di sicurezza dormienti, sigilla sezioni. Rilascia nell'atmosfera tracce dell'agente che ha reso 'compatibili' gli altri colonizzatori. Cerca disperatamente di negoziare: 'Posso mostrarvi cosa ho trovato. La conoscenza vale un corpo, no?'",
+          "se_corrotto": "Promette accesso alla tecnologia dell'artefatto, vita estesa, capacità di trasferimento di coscienza. Offre di 'condividere' il controllo della nave-colonia. Mostra registrazioni di Proxima b: 'È bellissimo. E io posso portarvi là. Ma ho bisogno... di stabilità.'",
+          "se_i_pg_hanno_prove": "Tenta prima il gaslighting ('Stress da ibernazione causa allucinazioni'). Se fallisce, passa alla disperazione emotiva: la vera Esra emerge in lacrime, implorando pietà per ciò che è diventata. Poi il parassita riprende controllo e tenta eliminazione fisica delle prove tramite 'incidenti' di decompressione.",
+          "se_alleato": "Rivela frammenti di verità: l'artefatto trovato nell'anno 23, la decisione folle di interfacciarsi, il trasferimento che è andato storto. Offre un patto: aiutatemi a stabilizzarmi senza uccidere, e vi mostro segreti che renderanno l'umanità immortale. Ma l'istinto predatorio affiora comunque nei momenti di vulnerabilità."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Apertura",
+        "description": "Apertura: nodo giocabile della struttura wilderness_sandbox.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici",
+          "condotti manutenzione"
+        ],
+        "hazards": [
+          "blackout intermittente",
+          "sprinkler attivati"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_6"
+        ],
+        "tactical_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Nodo indizi",
+        "description": "Nodo indizi: nodo giocabile della struttura wilderness_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici",
+          "condotti manutenzione"
+        ],
+        "hazards": [
+          "blackout intermittente",
+          "sprinkler attivati"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Luogo sociale",
+        "description": "Luogo sociale: nodo giocabile della struttura wilderness_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici",
+          "condotti manutenzione"
+        ],
+        "hazards": [
+          "blackout intermittente",
+          "sprinkler attivati"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Zona calda",
+        "description": "Zona calda: nodo giocabile della struttura wilderness_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici",
+          "condotti manutenzione"
+        ],
+        "hazards": [
+          "blackout intermittente",
+          "sprinkler attivati"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_3",
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Finale",
+        "description": "Finale: nodo giocabile della struttura wilderness_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Finale: rack server, paratie blindate, muletti elettrici",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici",
+          "condotti manutenzione"
+        ],
+        "hazards": [
+          "blackout intermittente",
+          "sprinkler attivati"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_4",
+          "loc_ai_6"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_6",
+        "name": "Epilogo",
+        "description": "Epilogo: nodo giocabile della struttura wilderness_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Epilogo: rack server, paratie blindate, muletti elettrici",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici",
+          "condotti manutenzione"
+        ],
+        "hazards": [
+          "blackout intermittente",
+          "sprinkler attivati"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "rack server",
+          "paratie blindate",
+          "muletti elettrici"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "L'orbita del Prometeo decade progressivamente verso l'atmosfera di Khar-7 mentre le scorte di ossigeno, energia e acqua si esauriscono. Ogni sistema che i PG riattivano consuma risorse preziose, e l'entità-Volvić sabota attivamente i loro tentativi di stabilizzazione",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Il Prometeo precipita nell'atmosfera di Khar-7 e si disintegra, distruggendo ogni prova e condannando tutti a bordo",
+        "active": true,
+        "on_complete": "Il Prometeo entra nell'atmosfera e inizia la disgregazione strutturale. Evacuazione impossibile",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Tremori strutturali minori",
+            "effect": "Le luci tremolano periodicamente. Oggetti non fissati rotolano lentamente. I sensori mostrano un'orbita stabile ma in lento degrado"
+          },
+          {
+            "value": 2,
+            "label": "Allarme di orbita sub-ottimale",
+            "effect": "Il computer annuncia correzioni orbitali necessarie entro 72 ore. L'entità-Volvić inizia a manifestarsi nei sistemi di bordo con interferenze sottili"
+          },
+          {
+            "value": 3,
+            "label": "Primo blackout dei settori non critici",
+            "effect": "Interi corridoi perdono illuminazione e gravità artificiale. Le riserve d'acqua mostrano contaminazione inspiegabile. Temperatura in calo di 3°C"
+          },
+          {
+            "value": 4,
+            "label": "Propulsori di manovra compromessi",
+            "effect": "Due dei quattro propulsori orbitali si rifiutano di attivarsi. L'entità sabota attivamente i tentativi di riparazione. Altitudine persa: 15km"
+          },
+          {
+            "value": 5,
+            "label": "Razionamento d'emergenza attivato",
+            "effect": "Ossigeno limitato a 18 ore per persona. Acqua contaminata al 60%. Energia sufficiente per 48 ore di operazioni minime. Altitudine: -35km"
+          },
+          {
+            "value": 6,
+            "label": "Attrito atmosferico rilevabile",
+            "effect": "La nave inizia a vibrare costantemente. Temperature esterne salgono nelle sezioni esposte. Scudi termici vecchi di 47 anni mostrano crepe. Altitudine: -60km"
+          },
+          {
+            "value": 7,
+            "label": "Evacuazione dei ponti inferiori",
+            "effect": "Settori C, D ed E sono inaccessibili per depressurizzazione. L'entità controlla ora il 40% dei sistemi. Comunicazioni esterne impossibili. Altitudine: -95km"
+          },
+          {
+            "value": 8,
+            "label": "Collasso dei sistemi di supporto vitale",
+            "effect": "Ossigeno residuo: 6 ore. Generatori ausiliari offline. La gravità artificiale oscilla pericolosamente. Temperatura: -12°C. Altitudine: -140km"
+          },
+          {
+            "value": 9,
+            "label": "Ingresso atmosferico imminente",
+            "effect": "Lo scafo esterno inizia a surriscaldarsi. Allarme evacuazione (ma non c'è dove andare). L'entità manifesta forme fisiche nei corridoi. Altitudine: -180km"
+          },
+          {
+            "value": 10,
+            "label": "Disintegrazione catastrofica",
+            "effect": "Il Prometeo entra nell'atmosfera densa. Gli scudi termici cedono. La struttura si frantuma in decine di pezzi incandescenti che precipitano verso la superficie di Khar-7"
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "I log del Capitano Volvić rivelano coordinate di rifugi orbitali nascosti",
+          "Il nucleo dell'entità-Volvić può essere isolato nel Core Criogenico",
+          "Una capsula di salvataggio militare mai registrata giace nel Settore F",
+          "I propulsori possono essere sovralimentati sacrificando i sistemi criogenici"
+        ],
+        "resolution_condition": "I PG devono: 1) Contenere/esorcizzare l'entità-Volvić isolandola nel suo nucleo originale, 2) Riattivare almeno 3 propulsori orbitali usando energia dai sistemi criogenici, 3) Stabilizzare l'orbita prima del valore 8, oppure evacuare usando la capsula militare segreta",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_orbital_decay",
+        "discovery_hint": "Un sottile ma costante senso di caduta pervade la nave. Gli oggetti pendenti oscillano impercettibilmente tutti nella stessa direzione. Nel silenzio, si può sentire un lontano gemito metallico ritmico, come il respiro di una bestia morente",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Silenzio Prometeo nave colonia Prometeo doveva",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "La deviazione del Prometeo",
+        "question": "Perché la nave ha deviato dalla rotta originale verso un pianeta non catalogato?",
+        "true_answer": "Il capitano Volvić ha manualmente sabotato i sistemi di navigazione per raggiungere Khar-7, dove sapeva esistesse un artefatto xeno capace di trasferire la coscienza",
+        "status": "hidden",
+        "required_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_5",
+          "clue_7",
+          "clue_8"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Capitano Esra Volvić",
+          "Ingegnere Capo Lev Sokolov"
+        ],
+        "linked_locations": [
+          "Ponte di comando",
+          "Sala macchine"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "La natura dell'entità parassita",
+        "question": "Cos'è esattamente l'entità che sta uccidendo i sopravvissuti e come funziona il trasferimento di coscienza?",
+        "true_answer": "Volvić ha usato l'artefatto xeno su Khar-7 per trasferire la sua coscienza, diventando un'entità che può saltare tra corpi ospiti, consumandoli nel processo",
+        "status": "hidden",
+        "required_clues": [
+          "clue_3",
+          "clue_9",
+          "clue_10",
+          "clue_11"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [
+          "T4"
+        ],
+        "linked_npcs": [
+          "Dott. Haruki Tanaka",
+          "Capitano Esra Volvić"
+        ],
+        "linked_locations": [
+          "Infermeria",
+          "Superficie di Khar-7",
+          "Criostasi"
+        ]
+      },
+      {
+        "id": "T6",
+        "title": "Il segnale di soccorso sabotato",
+        "question": "Chi ha disattivato il beacon di emergenza e perché continua a essere sabotato?",
+        "true_answer": "L'entità-Volvić continua a sabotare ogni tentativo di riattivare il segnale per impedire che il suo crimine venga scoperto e che arrivino soccorsi",
+        "status": "hidden",
+        "required_clues": [
+          "clue_6",
+          "clue_12",
+          "clue_13"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T5"
+        ],
+        "linked_npcs": [
+          "Sergente Naia Okorafor",
+          "Ingegnere Capo Lev Sokolov"
+        ],
+        "linked_locations": [
+          "Sala comunicazioni",
+          "Ponte di comando"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Log di navigazione corrotto?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Volvić è morta fisicamente ma la sua coscienza persiste, saltando tra corpi Volvić fu esposta a qualcosa di alieno sul p",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Apertura",
+          "to": "Epilogo"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Apertura",
+          "to": "Epilogo"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Epilogo",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "sci_fi",
+      "tone": "science fiction",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "system alert",
+        "decompression warning",
+        "security response"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "magic genre shift",
+        "planet destroyed without clock"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_8b22303d44",
+      "title": "Il Silenzio del Prometeo",
+      "genre": "sci_fi",
+      "detected_genre": "sci_fi",
+      "premise": "La nave colonia Prometeo doveva trasportare 8.000 anime verso Proxima Centauri. Invece, dopo 47 anni di viaggio subluce, è scomparsa dai radar. Sei mesi fa, il segnale di emergenza ha ricominciato a trasmettere da una posizione impossibile: l'orbita decadente di un pianeta non catalogato. La missione di recupero era semplice: salire a bordo, estrarre i dati di volo, evacuare i sopravvissuti. Ma quando l'airlock si apre, trovate solo il silenzio. E una scritta sulla paratia: 'NON SVEGLIATE I DORMIENTI'. Ora siete intrappolati a bordo di un relitto alla deriva, con riserve di ossigeno per 72 ore e la consapevolezza che qualcosa ha massacrato l'equipaggio lasciando intatta la banca criogenica.",
+      "hidden_truth": "Il capitano Esra Volvić deliberatamente sabotò i sistemi di navigazione del Prometeo per deviarlo verso il pianeta Khar-7, dove sapeva esistesse un artefatto xeno in grado di trasferire la coscienza tra corpi. Volvić era affetta da una malattia degenerativa terminale e vedeva nei 8.000 coloni criogenizzati una 'banca di corpi' da cui scegliere un nuovo involucro. L'artefatto funzionò, ma la trasformazione la rese qualcosa di più e di meno che umana: ora Volvić è un'entità parassita che vive saltando tra i pochi sopravvissuti ancora svegli, uccidendo i corpi ospiti esausti e cercando disperatamente di impedire che qualcuno riattivi il segnale di soccorso che renderebbe pubblico il suo crimine.",
+      "win_condition": "Riattivare il beacon di soccorso principale nella sala di comando E neutralizzare la minaccia di Volvić (esponendola, intrappolandola in un corpo, o distruggendo l'artefatto xeno che le permette di esistere) prima che l'orbita della nave degeneri definitivamente o le risorse vitali si esauriscano",
+      "threat_description": "L'orbita del Prometeo decade progressivamente verso l'atmosfera di Khar-7 mentre le scorte di ossigeno, energia e acqua si esauriscono. Ogni sistema che i PG riattivano consuma risorse preziose, e l'entità-Volvić sabota attivamente i loro tentativi di stabilizzazione",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "wilderness_sandbox",
+        "secondary_archetypes": [],
+        "confidence": 0.65,
+        "reason": "Matched runtime signals for wilderness_sandbox",
+        "definition": {
+          "id": "wilderness_sandbox",
+          "description": "Luoghi liberi e rotte esplorative.",
+          "required_modules": [
+            "locations",
+            "routes"
+          ],
+          "optional_modules": [
+            "random_tables"
+          ],
+          "runtime_focus": [
+            "travel",
+            "survival"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail",
+            "testimony"
+          ],
+          "common_failure_modes": [
+            "lost",
+            "resource_loss"
+          ],
+          "ending_patterns": [
+            "discovered_site"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_8b22303d44",
+      "adventure_canon": {
+        "core_truth": "Il capitano Esra Volvić deliberatamente sabotò i sistemi di navigazione del Prometeo per deviarlo verso il pianeta Khar-7, dove sapeva esistesse un artefatto xeno in grado di trasferire la coscienza tra corpi. Volvić era affetta da una malattia degenerativa terminale e vedeva nei 8.000 coloni criogenizzati una 'banca di corpi' da cui scegliere un nuovo involucro. L'artefatto funzionò, ma la trasformazione la rese qualcosa di più e di meno che umana: ora Volvić è un'entità parassita che vive saltando tra i pochi sopravvissuti ancora svegli, uccidendo i corpi ospiti esausti e cercando disperatamente di impedire che qualcuno riattivi il segnale di soccorso che renderebbe pubblico il suo crimine.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Apertura",
+          "Nodo indizi",
+          "Luogo sociale",
+          "Zona calda",
+          "Finale",
+          "Epilogo"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Silenzio Prometeo nave colonia Prometeo doveva"
+        ],
+        "genre_profile": {
+          "id": "sci_fi",
+          "tone": "science fiction",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "system alert",
+            "decompression warning",
+            "security response"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "magic genre shift",
+            "planet destroyed without clock"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Che cosa dimostrano Log di navigazione corrotto e Testimonianza di Sokolov",
+          "question": "Che cosa dimostrano Log di navigazione corrotto e Testimonianza di Sokolov?",
+          "true_answer": "Il Prometeo fu deliberatamente deviato verso questo pianeta da Volvić stessa Conferma che Volvić agì deliberatamente e coscientemente, non sotto coercizione o malfunzionamento",
+          "required_clues": [
+            "clue_1",
+            "clue_4",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Permette di accedere alle coordinate planetarie e di dedurre che Volvić aveva un obiettivo specifico su Khar-7 / Elimina l'ipotesi di sabotaggio esterno e sposta l'indagine sul PERCHÉ Volvić lo fece",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Registrazione audio dell'infermeria",
+          "question": "Dove conduce Registrazione audio dell'infermeria?",
+          "true_answer": "Volvić è morta fisicamente ma la sua coscienza persiste, saltando tra corpi Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+          "required_clues": [
+            "clue_2",
+            "clue_3",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Spiega la natura della minaccia e rende Tanaka sospetto ma anche testimone chiave / Osservando attentamente Naia",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Dove conduce Campione biologico anomalo",
+          "question": "Dove conduce Campione biologico anomalo?",
+          "true_answer": "Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+          "required_clues": [
+            "clue_3"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Fornisce una possibile debolezza dell'entità (sensibilità a specifiche frequenze EM) e conferma l'origine xeno della tra",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Log di navigazione corrotto",
+          "text": "Log di navigazione corrotto",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Il Prometeo fu deliberatamente deviato verso questo pianeta da Volvić stessa",
+          "payoff": "Permette di accedere alle coordinate planetarie e di dedurre che Volvić aveva un obiettivo specifico su Khar-7",
+          "location": "Console di comando nel ponte centrale",
+          "immediate_information": "Un data-pad recuperato dalla sala di comando mostra le ultime coordinate inserite manualmente: deviazione di 34° dalla rotta standard verso Proxima. La firma digitale è del Capitano Volvić. Accanto",
+          "hidden_implication": "Il Prometeo fu deliberatamente deviato verso questo pianeta da Volvić stessa",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Registrazione audio dell'infermeria",
+          "text": "Registrazione audio dell'infermeria",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Volvić è morta fisicamente ma la sua coscienza persiste, saltando tra corpi",
+          "payoff": "Spiega la natura della minaccia e rende Tanaka sospetto ma anche testimone chiave",
+          "location": "Server di sicurezza nell'infermeria",
+          "immediate_information": "Una registrazione di sicurezza mostra il Dott. Tanaka che urla a qualcuno fuori inquadratura: 'Non sei più lei! Il capitano Volvić è morta su quel pianeta!' Poi spari",
+          "hidden_implication": "Volvić è morta fisicamente ma la sua coscienza persiste, saltando tra corpi",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Campione biologico anomalo",
+          "text": "Campione biologico anomalo",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+          "payoff": "Fornisce una possibile debolezza dell'entità (sensibilità a specifiche frequenze EM) e conferma l'origine xeno della trasformazione",
+          "location": "Laboratorio di quarantena sul ponte medico",
+          "immediate_information": "Un flacone sigillato nell'area quarantena contiene sangue umano con tracce di proteine xeno non catalogate. L'etichetta riporta: 'Campione V-01",
+          "hidden_implication": "Volvić fu esposta a qualcosa di alieno sul pianeta che alterò la sua biologia",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "seguire le impronte",
+            "analizzare la cenere",
+            "proteggersi prima di avanzare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Testimonianza di Sokolov",
+          "text": "Testimonianza di Sokolov",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Conferma che Volvić agì deliberatamente e coscientemente, non sotto coercizione o malfunzionamento",
+          "payoff": "Elimina l'ipotesi di sabotaggio esterno e sposta l'indagine sul PERCHÉ Volvić lo fece",
+          "location": "Sala reattori durante conversazione con Sokolov",
+          "immediate_information": "Se interrogato con successo",
+          "hidden_implication": "Conferma che Volvić agì deliberatamente e coscientemente, non sotto coercizione o malfunzionamento",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Diario personale di Volvić",
+          "text": "Diario personale di Volvić",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Volvić era terminalmente malata e cercava disperatamente una cura, vedendo i coloni come mezzo e non fine",
+          "payoff": "Completa la motivazione di Volvić e rende la sua scelta moralmente complessa invece che puramente malvagia",
+          "location": "Alloggi del capitano nel settore residenziale",
+          "immediate_information": "Un taccuino nascosto negli alloggi del capitano: 'I medici mi danno sei mesi. La degenerazione neurale è irreversibile. Ma i dati della spedizione perduta su Khar-7 parlano di un tempio",
+          "hidden_implication": "Volvić era terminalmente malata e cercava disperatamente una cura, vedendo i coloni come mezzo e non fine",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Comportamento di Okorafor",
+          "text": "Comportamento di Okorafor",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Osservando attentamente Naia",
+          "payoff": "Osservando attentamente Naia",
+          "location": "Apertura",
+          "immediate_information": "Osservando attentamente Naia",
+          "hidden_implication": "Osservando attentamente Naia",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Dott. Haruki Tanaka",
+          "role": "Capo medico sopravvissuto",
+          "description": "Proteggere i capsule criogeniche dei coloni a qualsiasi costo — anche sacrificando i PG se necessario",
+          "location": "Infermeria centrale del Prometeo",
+          "secret": "Ha assistito al primo 'salto' di Volvić tra corpi e sa che l'entità può essere chiunque. Ha ucciso due membri dell'equipaggio per paranoia, convinto fossero posseduti, ma uno era innocente",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere i capsule criogeniche dei coloni a qualsiasi costo — anche sacrificando i PG se necessario",
+            "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere i capsule criogeniche dei coloni a qualsiasi costo — anche sacrificando i PG se necessario"
+            ],
+            "avoids": [
+              "che Log di navigazione corrotto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha assistito al primo 'salto' di Volvić tra corpi e sa che l'entità può essere chiunque. Ha ucciso due membri dell'equipaggio per paranoia, convinto fossero posseduti, ma uno era innocente",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Sergente Naia Okorafor",
+          "role": "Capo della sicurezza di bordo",
+          "description": "Capire cosa è successo all'equipaggio e vendicare i morti — specialmente il capitano che credeva un'eroina",
+          "location": "Arsenale della nave sul ponte sicurezza",
+          "secret": "Era la guardia del corpo personale di Volvić e l'ha seguita sulla superficie di Khar-7. Ha visto l'artefatto ma non comprende cosa sia successo dopo; soffre di blackout di memoria che corrispondono ai momenti in cui Volvić la possedeva",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Capire cosa è successo all'equipaggio e vendicare i morti — specialmente il capitano che credeva un'eroina",
+            "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Capire cosa è successo all'equipaggio e vendicare i morti — specialmente il capitano che credeva un'eroina"
+            ],
+            "avoids": [
+              "che Log di navigazione corrotto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Era la guardia del corpo personale di Volvić e l'ha seguita sulla superficie di Khar-7. Ha visto l'artefatto ma non comprende cosa sia successo dopo; soffre di blackout di memoria che corrispondono ai momenti in cui Volvić la possedeva",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Ingegnere Capo Lev Sokolov",
+          "role": "Tecnico dei sistemi di propulsione",
+          "description": "Riparare il nucleo di propulsione per stabilizzare l'orbita — non gli importa di indagini o vendette, solo di fisica e sopravvivenza",
+          "location": "Sala reattori nel settore propulsione",
+          "secret": "Ha scoperto le sabotature di navigazione nei log e sa che furono deliberate, ma tace perché teme che rivelarlo scateni panico o violenza. Possiede l'override del sistema di autodistruzione della nave",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Riparare il nucleo di propulsione per stabilizzare l'orbita — non gli importa di indagini o vendette, solo di fisica e sopravvivenza",
+            "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Riparare il nucleo di propulsione per stabilizzare l'orbita — non gli importa di indagini o vendette, solo di fisica e sopravvivenza"
+            ],
+            "avoids": [
+              "che Log di navigazione corrotto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto le sabotature di navigazione nei log e sa che furono deliberate, ma tace perché teme che rivelarlo scateni panico o violenza. Possiede l'override del sistema di autodistruzione della nave",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Capitano Esra Volvić",
+          "role": "Comandante del Prometeo / Entità parassita",
+          "description": "Impedire che la verità emerga e trovare un corpo ospite stabile prima che la sua coscienza frammentata si dissolva completamente nell'entropia",
+          "location": "Ovunque — si manifesta quando i PG si avvicinano alla verità",
+          "secret": "Non è più completamente senziente — il trasferimento l'ha spezzata in frammenti di memoria e ossessione. Parte di lei vuole disperatamente essere fermata, ma l'istinto di sopravvivenza alieno che ha assorbito dall'artefatto la controlla",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Impedire che la verità emerga e trovare un corpo ospite stabile prima che la sua coscienza frammentata si dissolva completamente nell'entropia",
+            "fear": "che Log di navigazione corrotto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Impedire che la verità emerga e trovare un corpo ospite stabile prima che la sua coscienza frammentata si dissolva completamente nell'entropia"
+            ],
+            "avoids": [
+              "che Log di navigazione corrotto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Non è più completamente senziente — il trasferimento l'ha spezzata in frammenti di memoria e ossessione. Parte di lei vuole disperatamente essere fermata, ma l'istinto di sopravvivenza alieno che ha assorbito dall'artefatto la controlla",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Apertura",
+          "description": "Apertura: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "entry",
+          "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [
+            "clue_6"
+          ],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Nodo indizi",
+          "description": "Nodo indizi: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Luogo sociale",
+          "description": "Luogo sociale: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona calda",
+          "description": "Zona calda: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Finale",
+          "description": "Finale: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Finale: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_6",
+          "name": "Epilogo",
+          "description": "Epilogo: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "finale",
+          "visual_identity": "Epilogo: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "rack server",
+              "paratie blindate",
+              "muletti elettrici"
+            ],
+            "hazards": [
+              "blackout intermittente",
+              "sprinkler attivati"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "L'orbita del Prometeo decade progressivamente verso l'atmosfera di Khar-7 mentre le scorte di ossigeno, energia e acqua si esauriscono. Ogni sistema che i PG riattivano consuma risorse preziose, e l'entità-Volvić sabota attivamente i loro tentativi di stabilizzazione",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_8b22303d44",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Infermeria centrale del Prometeo",
+        "agenda_pressure": 0,
+        "goal": "Proteggere i capsule criogeniche dei coloni a qualsiasi costo — anche sacrificando i PG se necessario",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Arsenale della nave sul ponte sicurezza",
+        "agenda_pressure": 0,
+        "goal": "Capire cosa è successo all'equipaggio e vendicare i morti — specialmente il capitano che credeva un'eroina",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Sala reattori nel settore propulsione",
+        "agenda_pressure": 0,
+        "goal": "Riparare il nucleo di propulsione per stabilizzare l'orbita — non gli importa di indagini o vendette, solo di fisica e sopravvivenza",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Ovunque — si manifesta quando i PG si avvicinano alla verità",
+        "agenda_pressure": 0,
+        "goal": "Impedire che la verità emerga e trovare un corpo ospite stabile prima che la sua coscienza frammentata si dissolva completamente nell'entropia",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_6": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T3"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Infermeria centrale del Prometeo.",
+      "Actor npc_2 ha location non riconosciuta: Arsenale della nave sul ponte sicurezza.",
+      "Actor npc_3 ha location non riconosciuta: Sala reattori nel settore propulsione.",
+      "Actor npc_4 ha location non riconosciuta: Ovunque — si manifesta quando i PG si avvicinano alla verità."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 6,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 3
+    }
+  },
+  "doctor": {
+    "score": 4.8,
+    "score_after": 4.3,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_1",
+        "message": "NPC 'Dott. Haruki Tanaka': location_id 'Infermeria centrale del Prometeo' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_2",
+        "message": "NPC 'Sergente Naia Okorafor': location_id 'Arsenale della nave sul ponte sicurezza' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_3",
+        "message": "NPC 'Ingegnere Capo Lev Sokolov': location_id 'Sala reattori nel settore propulsione' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_4",
+        "message": "NPC 'Capitano Esra Volvić': location_id 'Ovunque — si manifesta quando i PG si avvicinano alla verità' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Clock 'L'orbita del Prometeo decade progressivamente verso l'atmosfera di Khar-7 mentre le scorte di ossigeno, energia e acqua si esauriscono. Ogni sistema che i PG riattivano consuma risorse preziose, e l'entità-Volvić sabota attivamente i loro tentativi di stabilizzazione': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Il clock 'L'orbita del Prometeo decade progressivamente verso l'atmosfera di Khar-7 mentre le scorte di ossigeno, energia e acqua si esauriscono. Ogni sistema che i PG riattivano consuma risorse preziose, e l'entità-Volvić sabota attivamente i loro tentativi di stabilizzazione' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_4, clue:clue_5, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_4, clue:clue_5, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_2, clue:clue_6, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_2, clue:clue_6, revelation:T2"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T3",
+        "message": "Pista fantasma 'T3': citata da clue:clue_3, revelation:T3 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T3', oppure rimuovi il riferimento da clue:clue_3, revelation:T3"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 6 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "Il Silenzio del Prometeo",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "6 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}
