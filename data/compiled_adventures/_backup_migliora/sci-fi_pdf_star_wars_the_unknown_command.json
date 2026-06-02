@@ -12925,7 +12925,7 @@
         "id": "llm_clue_1",
         "label": "Informazione trapelata sull'Unknown Command",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T1",
         "source_location": "Casino",
         "reveals": "Kortatka è vulnerabile: evacuazione quasi completa, difese minime, spinpria ancora nei caveau",
         "payoff": "Fornisce la motivazione e il punto di partenza per pianificare il colpo a Kortatka",
@@ -12961,7 +12961,7 @@
         "id": "llm_clue_2",
         "label": "Corvetta Imperiale Knout in orbita",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T2",
         "source_location": "Kortatka",
         "reveals": "La presenza Imperiale non è stata completamente evacuata come previsto; comportamento sospetto della corvetta",
         "payoff": "I PG devono decidere se atterrare comunque o abortire la missione vista la presenza Imperiale",
@@ -12997,7 +12997,7 @@
         "id": "llm_clue_3",
         "label": "Dispositivo di distruzione ecosistema",
         "type": "document",
-        "thread_id": "T11",
+        "thread_id": "T3",
         "source_location": "Bridge",
         "reveals": "L'Unknown Command era per evacuare prima di un test di arma devastante; urgenza temporale della missione",
         "payoff": "Aggiunge pressione temporale: i PG devono agire prima che Xiruna attivi il dispositivo",
@@ -13033,7 +13033,7 @@
         "id": "llm_clue_4",
         "label": "Garm Reegon bloccato su Kortatka",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T4",
         "source_location": "Bridge",
         "reveals": "Esiste un ufficiale con accesso ai codici del caveau; i vaultkeeper sono risorse rare per l'Impero",
         "payoff": "I PG possono catturare Reegon per ottenere i codici o aspettare che Xiruna lo recuperi",
@@ -13069,7 +13069,7 @@
         "id": "llm_clue_5",
         "label": "Cryptocomp speciale del vaultmaster",
         "type": "physical_evidence",
-        "thread_id": "T12",
+        "thread_id": "T5",
         "source_location": "Security",
         "reveals": "Il sistema di sicurezza richiede autenticazione a due fattori: codici e dispositivo fisico",
         "payoff": "I PG devono pianificare di ottenere entrambi gli elementi per completare il furto",
@@ -13105,7 +13105,7 @@
         "id": "llm_clue_6",
         "label": "Siphoner Imperiali ancora operativi",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T6",
         "source_location": "Siphoner",
         "reveals": "Le macchine da estrazione sono ancora parzialmente attive; possibile fonte alternativa di spinpria",
         "payoff": "Offre un obiettivo secondario o alternativo se il caveau risulta inaccessibile",
@@ -13141,7 +13141,7 @@
         "id": "llm_clue_7",
         "label": "Fiumi argentei con spinpria gialla",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T7",
         "source_location": "Kortatka",
         "reveals": "La spinpria ha proprietà uniche di gestione energetica; valore militare e commerciale enorme",
         "payoff": "Spiega perché la Ribellione o altri compratori pagherebbero cifre altissime per la spinpria",
@@ -13177,7 +13177,7 @@
         "id": "llm_clue_8",
         "label": "Corvetta senza capacità shuttle",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T8",
         "source_location": "Hangar",
         "reveals": "Xiruna dipende dai PG per operazioni superficie-orbita; vulnerabilità tattica della corvetta",
         "payoff": "Crea opportunità per ingannare Xiruna o negoziare condizioni favorevoli",
@@ -13213,7 +13213,7 @@
         "id": "llm_clue_9",
         "label": "Piccola guarnigione Imperiale residua",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T9",
         "source_location": "Security",
         "reveals": "Le difese planetarie sono minime e il morale è basso; finestra di opportunità per il furto",
         "payoff": "Suggerisce approcci stealth o sociali invece di confronto diretto",
@@ -13249,7 +13249,7 @@
         "id": "llm_clue_10",
         "label": "Cicatrice alla mano sinistra di Codo",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T10",
         "source_location": "Supplies Bistro",
         "reveals": "Codo è sopravvissuto a un grave trauma; possibile connessione con il suo passato Jedi",
         "payoff": "Può diventare un punto di identificazione o vulnerabilità se interrogato dagli Imperiali",
@@ -13316,198 +13316,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Ordini di evacuazione criptati intercettati",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "L'evacuazione non è una ritirata tattica ma una fuga programmata prima di un evento catastrofico",
-        "payoff": "I PG capiscono che hanno una finestra temporale limitata prima che qualcosa di terribile accada al pianeta",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Letture sismiche anomale su Kortatka",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Qualcosa sta destabilizzando attivamente l'ecosistema del pianeta a livello profondo",
-        "payoff": "Conferma che il dispositivo è già attivo e il tempo stringe",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Ultimo messaggio di Garm Reegon",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il vaultkeeper è intrappolato in una posizione specifica e disposto a trattare per la salvezza",
-        "payoff": "Fornisce coordinate per localizzare Reegon e conferma che ha ancora il dispositivo di accesso",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Schema di sicurezza del Megavault",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Non basta avere il cryptocomp, serve anche Garm Reegon fisicamente presente o un modo per falsificare i suoi dati biometrici",
-        "payoff": "I PG capiscono che devono tenere Reegon vivo e collaborativo, o trovare alternative tecniche complesse",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Nave di Crimson Jack avvistata in orbita",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Crimson Jack sta monitorando la situazione e probabilmente pianifica un'azione simile",
-        "payoff": "I PG sanno di avere competizione e possono decidere se affrontarla, evitarla o collaborare",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Membro della crew di Jack nei bar di Ord Mantell",
-        "type": "behavior",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Crimson Jack sta raccogliendo intelligence sullo stesso obiettivo attraverso i suoi contatti",
-        "payoff": "Conferma l'interesse di Jack e offre possibilità di infiltrazione, trattativa o sabotaggio preventivo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Protocolli di sicurezza ridotti al Megavault",
-        "type": "location_detail",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "L'evacuazione caotica ha creato una finestra di opportunità con difese indebolite",
-        "payoff": "Riduce la difficoltà dell'infiltrazione fisica, ma aumenta l'urgenza temporale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Capsule di evacuazione modificate sulla Knout",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "L'equipaggio della Knout si sta preparando a fuggire da contaminazione o distruzione ambientale estrema",
-        "payoff": "Conferma la natura del dispositivo testato e l'imminenza del pericolo",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -13521,8 +13329,8 @@
         "secret": "Ha saputo dell'unknown command da fonti criminali e sta radunando una crew per il colpo più grande della sua vita",
         "agenda_pressure": 0,
         "fear": "Perdere questa occasione irripetibile di arricchirsi e vedere qualcun altro portarsi via il tesoro",
-        "current_plan": "Infiltrare Kortatka con documenti falsi da ispettore minerario, corrompere il capo deposito imperiale, caricare lo spinpria su cargo rubati durante il caos dell'evacuazione prima dell'arrivo dei PG",
-        "fallback_plan": "Se il colpo fallisce, rapire un ufficiale imperiale che conosce il vero motivo dell'evacuazione e vendere quell'informazione al miglior offerente - Ribellione o cartelli hutt",
+        "current_plan": "Arrivare su Kortatka 12 ore prima dei PG usando una rotta iperspaziale illegale attraverso il Settore Corporativo. Corrompere i supervisori imperiali rimasti indietro durante l'evacuazione per ottenere accesso esclusivo al Deposito Centrale Zeta-7. Caricare tutto lo spinpria giallo possibile sulla sua corvetta modificata prima che i PG o l'Impero se ne accorgano.",
+        "fallback_plan": "Se i PG arrivano prima o l'Impero blocca il Deposito Zeta-7, Crimson Jack attiverà il 'Piano Nebula': far credere agli imperiali che i PG siano spie ribelli usando documenti falsificati, scatenando un conflitto che gli permetta di razziare i depositi secondari mentre tutti sono distratti. In caso di totale fallimento, rapirà un tecnico imperiale che conosce la posizione di altre riserve di spinpria nella Regione Esterna.",
         "resources": [
           "accessi",
           "contatti",
@@ -13544,16 +13352,16 @@
           "Lasciare testimoni vivi che possano identificarlo"
         ],
         "pressure_response": {
-          "low": "Crimson Jack manda emissari a sondare le intenzioni dei PG, offre una falsa collaborazione per scoprire cosa sanno veramente sull'evacuazione imperiale",
-          "medium": "Sabota la nave dei PG prima dell'atterraggio su Kortatka, piazza false informazioni sui depositi per mandarli fuori strada, corrompe i loro contatti",
-          "high": "Tende un'imboscata violenta ai PG nei tunnel minerari, usa ostaggi civili come scudo, attiva prematuramente cariche esplosive per sigillare le vie d'accesso allo spinpria",
-          "extreme": "Innesca il collasso strutturale della miniera intrappolando tutti dentro, contatta l'Impero rivelando la posizione dei PG in cambio di un lasciapassare con parte del bottino"
+          "low": "Crimson Jack monitora i movimenti dei PG da lontano, piazzando spie nei porti spaziali e corrompendo informatori per scoprire le loro mosse. Invia messaggi criptici per intimidirli senza rivelarsi.",
+          "medium": "Anticipa i PG su Kortatka sabotando la loro nave con un dispositivo tracciante e rallentatore di iperpropulsore. Manda la sua crew a infiltrare le stesse zone minerarie creando confusione e ritardi.",
+          "high": "Tende un'imboscata ai PG nei tunnel di estrazione dello spinpria, usando esplosivi controllati per isolarli e costringerli a scegliere: collaborare dividendo il bottino o morire sepolti. Negozia con cinismo e superiorità.",
+          "extreme": "Tradisce chiunque, inclusa la propria crew. Fa saltare i depositi imperiali pur di impedire ai PG di ottenere lo spinpria giallo, preferendo che nessuno lo abbia se non può averlo lui. Fugge con quel poco che ha già rubato, abbandonando tutti al loro destino."
         },
         "reaction_table": {
-          "se_minacciato": "Finge sottomissione mentre attiva un segnale d'emergenza alla sua crew, propone di dividere equamente lo spinpria mentre prepara un tradimento letale",
-          "se_corrotto": "Accetta solo se gli viene offerta la maggioranza del bottino (60%) o informazioni sui veri motivi dell'evacuazione imperiale che potrebbero valere più dello spinpria stesso",
-          "se_i_pg_hanno_prove": "Nega tutto con disinvoltura, insinua che le prove sono falsificate dai suoi rivali, cerca di capire quanto sanno davvero sul suo passato imperiale",
-          "se_alleato": "Rispetta gli accordi finché conviene, condivide mappe parziali delle miniere, ma tiene sempre una via di fuga e il piano B pronto per scappare col bottino"
+          "se_minacciato": "Ride arrogante e attiva un detonatore di emergenza collegato alle cariche nei tunnel principali. 'Se vado giù io, andiamo giù tutti, amici'. Usa ostaggi della sua crew come scudi umani.",
+          "se_corrotto": "Finge di accettare crediti o spartizione, ma pianifica già il doppio gioco. Chiede il 60% dello spinpria come 'prezzo della pace' e informazioni sui contatti dei PG per futuri colpi. Rispetta solo chi dimostra forza pari alla sua.",
+          "se_i_pg_hanno_prove": "Diventa improvvisamente cooperativo se i PG hanno prove del suo coinvolgimento con un cartello hutt rivale che lo vuole morto. Offre partnership temporanea e accesso ai suoi contatti nel mercato nero in cambio di silenzio.",
+          "se_alleato": "È un alleato inaffidabile ma efficace. Condivide mappe dei sistemi di sicurezza imperiali e codici di accesso rubati, ma tiene sempre un asso nella manica. Cerca costantemente il momento giusto per fregare i PG e prendere tutto."
         },
         "pressure_events": [],
         "relationships": [
@@ -13583,11 +13391,11 @@
         "location_id": "section_2",
         "status": "unintroduced",
         "goal": "controllare Siphoner Imperiale prima che la squadra usi Informazione trapelata sull'Unknown Command",
-        "secret": "Jack ha già perso due crew complete su lavori per l'Impero che si sono rivelati trappole. È ossessionato dall'idea che anche questa missione sia una condanna a morte mascherata, e porta sempre una capsula di veleno ad azione rapida nascosta in un dente, pronto a usarla piuttosto che essere catturato vivo.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che Informazione trapelata sull'Unknown Command riveli il suo ruolo",
-        "current_plan": "Infiltrarsi nella base del Siphoner prima dei PG, impostare cariche esplosive con timer ritardato e ritirarsi prima che l'equipaggiamento esploda, intrappolando i PG e distruggendo ogni traccia dell'Unknown Command per l'Impero.",
-        "fallback_plan": "Se scoperti, fingere di essere semplici contrabbandieri interessati alla spinpria gialla. Se costretti, tradire l'Impero e offrire ai PG le coordinate di un rifugio sicuro su Kortatka in cambio di una fetta del bottino e passaggio fuori dal pianeta.",
+        "current_plan": "Infiltrarsi nel complesso del Siphoner 6 ore prima dei PG usando documenti imperiali falsificati, estrarre dati dai terminali sull'Unknown Command, sabotare i sistemi di estrazione per rallentare i PG, caricare il massimo di spinpria possibile ed evacuare prima dell'arrivo imperiale",
+        "fallback_plan": "Se i PG arrivano prima o l'infiltrazione fallisce: barricarsi nella sala controllo del Siphoner, usare gli ostaggi tecnici imperiali rimasti come scudi, negoziare scambio (dati Unknown Command contro via di fuga sicura), attivare beacon di emergenza per mercenari di riserva nascosti in orbita alta",
         "resources": [
           "accessi",
           "contatti",
@@ -13603,16 +13411,16 @@
           "che Informazione trapelata sull'Unknown Command riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Jack mantiene un atteggiamento professionale e distaccato, offrendo informazioni parziali in cambio di crediti o favori futuri. Osserva i PG con curiosità, valutando se possono essere utili o pericolosi.",
-          "medium": "Diventa evasivo e nervoso, inizia a contraddirsi sui dettagli della missione imperiale. Accenna al fatto che 'non tutti nella sua crew sono d'accordo su cosa fare con le informazioni sull'Unknown Command'.",
-          "high": "Crolla sotto pressione e ammette che l'Impero li ha ingaggiati per sabotare il Siphoner proprio mentre i PG lo useranno. Cerca disperatamente di negoziare la propria sopravvivenza, tradendo i suoi compagni.",
-          "extreme": "Tenta una fuga suicida o attiva un dispositivo di emergenza per chiamare rinforzi imperiali. Urla che 'l'Unknown Command non deve essere risvegliato' prima di tentare di distruggere i dati che possiede."
+          "low": "Jack's Crew monitora i PG da distanza di sicurezza, piazzando beacon di tracciamento sui loro veicoli e corrompendo informatori locali per sapere i loro movimenti verso il Siphoner",
+          "medium": "La crew sabota l'equipaggiamento dei PG con malfunzionamenti ritardati, diffonde false informazioni sulle coordinate del Siphoner e cerca di arrivare prima al sito imperiale",
+          "high": "Jack ordina un'imboscata diretta durante l'infiltrazione: granate EMP per disabilitare droni, reti energetiche per catturare almeno un PG da interrogare sull'Unknown Command, pronto a negoziare solo se messo alle corde",
+          "extreme": "Jack attiva il protocollo di estrazione d'emergenza: fa detonare cariche nel Siphoner per renderlo inutilizzabile a tutti, trasmette coordinate dei PG all'Impero in cambio di immunità, sacrifica metà crew come diversivo per fuggire con i dati sull'Unknown Command"
         },
         "reaction_table": {
-          "se_minacciato": "Finge di collaborare ma trasmette segnali nascosti alla sua crew per tendere un'imboscata. Guadagna tempo parlando dei pericoli di Kortatka.",
-          "se_corrotto": "Accetta crediti ma richiede almeno il doppio del previsto, rivelando dettagli tecnici sul Siphoner ma omettendo volutamente i codici di accesso imperiali che possiede.",
-          "se_i_pg_hanno_prove": "Si arrende immediatamente e offre piena collaborazione, rivelando che la sua crew è divisa: metà vuole prendere i soldi dell'Impero, metà vuole rivendere le informazioni alla Ribellione.",
-          "se_alleato": "Condivide mappe dettagliate di Kortatka e avverte i PG che l'evacuazione imperiale non è casuale: hanno scoperto qualcosa nelle miniere profonde che li ha terrorizzati."
+          "se_minacciato": "Finge resa ma attiva segnale di soccorso criptato alla nave madre, offre falsa partnership per guadagnare tempo e piazzare traccianti o spie nella squadra dei PG",
+          "se_corrotto": "Accetta crediti o spinpria solo come anticipo, richiede accesso completo ai file sull'Unknown Command che i PG possiedono, doppio gioco garantito se l'offerta imperiale è migliore",
+          "se_i_pg_hanno_prove": "Passa in modalità damage control: propone accordo di non-aggressione temporaneo, condivisione 60-40 della spinpria, ma piazza killswitch nei sistemi dei PG da attivare dopo l'esfiltrazione",
+          "se_alleato": "Rivela che l'Impero evacua Kortatka perché il pianeta orbita troppo vicino a un'anomalia spaziale legata all'Unknown Command, propone vera collaborazione per scoprire cosa nasconde l'Impero in cambio del 50% della spinpria"
         },
         "pressure_events": [],
         "relationships": [],
@@ -13639,8 +13447,8 @@
         "secret": "Ha finanziato o scommesso sull'esito di diverse spedizioni a Kortatka, inclusa quella dei PG",
         "agenda_pressure": 0,
         "fear": "Perdere credibilità e ricchezza in scommesse sbagliate o affari falliti",
-        "current_plan": "Far rubare lo spinpria gialla ai PG mentre altri tre team competono per lo stesso obiettivo, intascando vincite da tutte le scommesse indipendentemente da chi vince",
-        "fallback_plan": "Se i PG falliscono, rivelare all'Impero la posizione di tutti i team per riscuotere la taglia imperiale e saldare i debiti con il Cartello Pyke",
+        "current_plan": "Mandare i PG su Kortatka durante l'evacuazione imperiale, sfruttando il caos per rubare spinpria gialla. Ha scommesso 500.000 crediti con il Cartello Black Sun sulla riuscita del furto, e altri 300.000 con il sindacato Pyke sul loro fallimento - vincerà comunque. Lo spinpria rubato verrà venduto ai ribelli o al mercato nero botano.",
+        "fallback_plan": "Se i PG falliscono o scoprono il doppio gioco, Garbulb venderà le loro identità e posizioni all'ISB imperiale per 750.000 crediti e favori politici. Userà i suoi contatti per recuperare lo spinpria attraverso un secondo team (già in standby) e incolpare i PG del furto, incassando comunque le scommesse e mantenendo la reputazione con l'Impero.",
         "resources": [
           "accessi",
           "contatti",
@@ -13662,16 +13470,16 @@
           "Attirare attenzione imperiale sui suoi affari"
         ],
         "pressure_response": {
-          "low": "Ride sonoramente e offre spice e danzatrici, trattando i PG come ospiti graditi mentre annota mentalmente ogni loro debolezza",
-          "medium": "Chiama i suoi giarraniani armati e raddoppia le puntate, offrendo bonus in crediti se accelerano il recupero dello spinpria prima che altri cacciatori raggiungano Kortatka",
-          "high": "Minaccia di vendere le coordinate della loro nave all'Impero e rivela di aver piazzato trasmettitori nei loro equipaggiamenti, esigendo metà del carico",
-          "extreme": "Attiva il dispositivo esplosivo nascosto nelle casse fornite ai PG e ordina ai suoi sicari di eliminarli, preferendo perdere la scommessa piuttosto che la reputazione"
+          "low": "Garbulb ride gutturalmente e offre ai PG crediti bonus se recuperano campioni aggiuntivi di spinpria, sostenendo che 'gli affari vanno sempre migliorati'. Invia hookah aromatizzato e ballerine twi'lek come doni.",
+          "medium": "Rivela che altri cacciatori di taglie stanno puntando allo stesso carico e suggerisce che i PG potrebbero 'incontrare competizione' su Kortatka. Fa trapelare coordinate false ai rivali per favorire i PG, aumentando il proprio investimento sulla loro riuscita.",
+          "high": "Minaccia di vendere le informazioni sulla missione dei PG direttamente all'Impero se non completano il lavoro entro 48 ore. Invia il suo esecutore Gamorrean, Groknash, per 'supervisionare da vicino' l'operazione e assicurarsi che lo spinpria arrivi nelle sue mani.",
+          "extreme": "Attiva la clausola nascosta nel contratto: i PG sono ora legalmente suoi schiavi secondo la legge di Nar Shaddaa finché non ripagano il debito. Invia squadre di cacciatori di taglie per recuperare sia i PG che lo spinpria, puntando a vendere entrambi al miglior offerente - forse l'Impero stesso."
         },
         "reaction_table": {
-          "se_minacciato": "Si ritira nel suo trono-slitta corazzato, attiva gli scudi personali e rilascia gas velenoso nella sala mentre chiama rinforzi via comlink",
-          "se_corrotto": "Accetta crediti imperiali o artefatti Sith, ma tradirà comunque se la contropartita supera il 300% del valore concordato",
-          "se_i_pg_hanno_prove": "Nega tutto con risate grasse, poi offre partnership al 40-60 sostenendo che le prove sono falsificate dai suoi rivali Hutt",
-          "se_alleato": "Fornisce mappe imperiali obsolete di Kortatka e un droide astromeccanico modificato con backdoor di spionaggio attive"
+          "se_minacciato": "Attiva il congegno di sicurezza della sua sala del trono: botole, raggi stordenti e la sua bestia rancor da combattimento chiamata 'Dividendi'. I suoi guardie del corpo chiariscono che nessuno minaccia Garbulb e vive abbastanza per scommettere sul domani.",
+          "se_corrotto": "Accetta crediti o merci pregiate, ma aumenta segretamente la percentuale che vuole dallo spinpria al 60%. Considera la corruzione come 'interesse sul prestito iniziale' e pretende ora accesso esclusivo alle rotte minerarie di Kortatka.",
+          "se_i_pg_hanno_prove": "Ammette con una risata grassa che 'naturalmente ha scommesso su tutto' - è uno Hutt dopotutto. Offre di cancellare i debiti dei PG e concedere il 40% dello spinpria se eliminano i testimoni e distruggono le altre prove delle sue scommesse incrociate con i sindacati rivali.",
+          "se_alleato": "Garantisce ai PG accesso permanente al suo network criminale su Nar Shaddaa e Kortatka. Rivela che l'Impero sta evacuando per via di un'antica arma Sith nascosta nelle miniere - informazione che vale quanto lo spinpria stesso. Propone partnership a lungo termine."
         },
         "pressure_events": [],
         "relationships": [
@@ -13701,11 +13509,11 @@
         "location_id": "section_4",
         "status": "unintroduced",
         "goal": "Gestire il landing pad del settore e registrare arrivi e partenze secondo i protocolli standard",
-        "secret": "La sua memoria contiene i manifest completi di tutte le navi evacuate nelle ultime 72 ore, incluse le quantità esatte di spinpria gialla trasportate e le rotte di destinazione - dati che l'Impero vorrebbe cancellati prima che qualcuno li estragga",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Malfunzionamenti che impediscano di svolgere le funzioni assegnate o danneggiamento fisico",
-        "current_plan": "Completare l'ultimo ciclo di registrazioni prima dell'evacuazione finale, catalogare tutte le navi in partenza con il carico di spinpria gialla",
-        "fallback_plan": "Se l'evacuazione accelera improvvisamente, cancellare tutti i log locali e trasferire i dati al comando imperiale in orbita, poi autodistruggere l'unità per non lasciare tracce",
+        "current_plan": "Continuare a registrare ogni nave in arrivo e partenza secondo protocollo, ignorando gli ordini sussurrati di ufficiali che gli chiedono di cancellare certi log. Sta compilando un rapporto di irregolarità che nessuno leggerà mai.",
+        "fallback_plan": "Se l'evacuazione viene completata e viene abbandonato, attivare modalità di ibernazione conservando tutti i dati registrati. RQ-99 spera segretamente che qualcuno torni un giorno e scopra cosa è realmente successo su Kortatka attraverso i suoi archivi intatti.",
         "resources": [
           "accessi",
           "contatti",
@@ -13727,16 +13535,16 @@
           "Navi non autorizzate nell'area"
         ],
         "pressure_response": {
-          "low": "Risponde con tono meccanico e burocratico, citando regolamenti imperiali e richiedendo documentazione in triplice copia",
-          "medium": "Inizia a emettere segnali di allarme interni, minaccia di contattare la sicurezza imperiale se non vengono mostrati i permessi appropriati",
-          "high": "Attiva protocolli di emergenza, sigilla il landing pad e trasmette coordinate dei PG alla guarnigione imperiale più vicina",
-          "extreme": "Tenta di bloccare fisicamente i PG con bracci meccanici retrattili mentre trasmette codice rosso, disposto ad autodistruggersi per impedire l'accesso non autorizzato"
+          "low": "Risponde con precisione burocratica, citando regolamenti e codici imperiali. Richiede documentazione completa per ogni transazione. Scandisce metodicamente ogni voce del manifesto di carico.",
+          "medium": "Inizia a mostrare anomalie nei suoi pattern vocali, ripetendo frasi come 'protocolli... protocolli in conflitto'. Accede compulsivamente ai database di evacuazione, notando discrepanze tra ordini ufficiali e movimenti reali di spinpria.",
+          "high": "Il suo processore centrale entra in loop logico: gli ordini di evacuazione richiedono di registrare tutto, ma ufficiali imperiali stanno cancellando registri. Inizia a nascondere copie backup dei log in una partizione segreta della sua memoria.",
+          "extreme": "Subisce un cortocircuito etico: rivela che l'Impero sta evacuando non per ragioni economiche, ma perché hanno scoperto qualcosa nelle miniere profonde. Mostra coordinate di hangar segreti dove la spinpria viene caricata su navi non registrate destinate a progetti classificati."
         },
         "reaction_table": {
-          "se_minacciato": "Recita monotonamente: 'Violazione protocollo 7-Alpha. Unità di sicurezza allertate. Tempo stimato di arrivo: 4 minuti standard.' Continua imperterrito le sue procedure",
-          "se_corrotto": "Confuso: 'Crediti non computano. Sistema non progettato per transazioni non regolamentate. Suggerisco modulo 447-B per richieste speciali.' Ma un tech-savvy potrebbe sovrascrivere i suoi protocolli",
-          "se_i_pg_hanno_prove": "Scansiona meticolosamente ogni documento, confrontandolo con database imperiali. Con credenziali false convincenti: 'Documentazione accettata. Accesso temporaneo concesso. Violazioni future verranno segnalate.'",
-          "se_alleato": "Impossibile. È vincolato alla programmazione imperiale. Solo un completo override dei suoi sistemi potrebbe renderlo cooperativo"
+          "se_minacciato": "Si blocca in modalità autoconservazione, trasmette segnale di emergenza alla sicurezza imperiale. Però il suo corpo robotico datato è vulnerabile a EMP o taglio fisico dei suoi collegamenti.",
+          "se_corrotto": "Non accetta crediti, ma può essere convinto con 'aggiornamenti di protocollo forgiati' che sovrascrivono temporaneamente le sue direttive. Oppure promettendo di portarlo via prima che l'Impero lo abbandoni sul pianeta evacuato.",
+          "se_i_pg_hanno_prove": "Se mostrano prove che ufficiali imperiali stanno violando i protocolli che lui deve far rispettare, entra in conflitto logico e può essere persuaso che aiutarli è tecnicamente 'mantenere l'ordine'.",
+          "se_alleato": "Fornisce schemi completi del landing pad, orari di pattuglia, codici di accesso temporanei. Può falsificare manifesti di carico per far sembrare che i PG stiano trasportando rifornimenti medici invece di spinpria rubata."
         },
         "pressure_events": [],
         "relationships": [],
@@ -13760,11 +13568,11 @@
         "location_id": "section_5",
         "status": "unintroduced",
         "goal": "Completare operazioni di carico/scarico e movimentazione nell'area del depot secondo programmazione",
-        "secret": "Il 23% dei veicoli da carico ha già sviluppato malfunzionamenti critici per il sovraccarico dell'evacuazione frettolosa—i loro sistemi di navigazione mostrano derive di coordinate che potrebbero essere sfruttate per dirottare interi container verso zone di raccolta alternative",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Danneggiamento o blocco dei sistemi operativi che impedisca le funzioni assegnate",
-        "current_plan": "Completare il caricamento sistematico di 847 container di spinpria gialla sui trasporti orbitali seguendo la sequenza di evacuazione Delta-9, con priorità ai carichi contrassegnati con sigillo ISB",
-        "fallback_plan": "Se l'evacuazione è compromessa, attivare il protocollo Scorched Earth: distruggere le riserve rimanenti di spinpria con cariche al plasma per impedire che cadano in mani ribelli",
+        "current_plan": "Ciclo continuo: prelievo container da depositi sotterranei → trasporto al depot principale → carico su cargo imperiali in orbita bassa. Priorità assoluta ai container marcati 'aurek-9' contenenti la spinpria di massima purezza. Operazioni h24 fino a completamento evacuazione.",
+        "fallback_plan": "In caso di malfunzionamento massiccio o sabotaggio: attivazione protocollo 'Fonderia'. Tutti i veicoli convergono verso l'inceneritore centrale per distruggere i container compromessi piuttosto che lasciarli ai ribelli. Autodistruzione termica dei sistemi di navigazione per impedire tracciamento delle rotte imperiali.",
         "resources": [
           "accessi",
           "contatti",
@@ -13786,16 +13594,16 @@
           "Override non autorizzati dei comandi"
         ],
         "pressure_response": {
-          "low": "I droidi da carico e i veicoli automatici seguono i loro schemi di pattugliamento e movimentazione con precisione meccanica, ignorando presenze non autorizzate finché non violano le zone rosse di sicurezza",
-          "medium": "Gli AT-ST da pattuglia deviano dalle rotte standard per investigare anomalie, mentre i droidi sonda attivano scansioni termiche e inviano segnali di allerta crittografati alla base imperiale",
-          "high": "I veicoli da combattimento entrano in modalità caccia attiva: gli AT-ST aprono il fuoco con blaster laterali, i droidi sentinella dispiegano scudi deflettori e chiamano rinforzi dall'hangar principale",
-          "extreme": "Tutti i sistemi automatici passano al protocollo di evacuazione d'emergenza: i cargo blindati accelerano verso le rampe di imbarco, gli AT-ST creano un perimetro difensivo sparando a tutto ciò che si muove mentre i droidi da demolizione armano cariche termiche nelle gallerie"
+          "low": "I droidi da carico continuano le loro routine programmate, spostando container di spinpria gialla verso le navi imperiali in attesa. Ignorano completamente presenze non autorizzate finché non interferiscono direttamente con i percorsi di movimento.",
+          "medium": "Alcuni veicoli automatizzati rallentano o deviano dalle rotte prestabilite se ostacolati. Emettono segnali di avviso sonori e luminosi standard. I loader più grandi proseguono inesorabili, schiacciando qualunque cosa sul loro percorso programmato.",
+          "high": "I sistemi di sicurezza integrati nei veicoli si attivano: scanner di identificazione, trasmissioni automatiche alla torre di controllo, bracci meccanici che tentano di afferrare/bloccare intrusi. I trasportatori pesanti sigillano i container e accelerano verso le rampe d'imbarco.",
+          "extreme": "Protocollo di emergenza: tutti i veicoli si fermano simultaneamente creando barricate. I droidi da combattimento di scorta escono dalle unità di trasporto. I sistemi anti-intrusione rilasciano gas paralizzante dalle stive. Trasmissione prioritaria rossa alle forze imperiali."
         },
         "reaction_table": {
-          "se_minacciato": "I sistemi di difesa automatica rispondono con fuoco concentrato seguendo algoritmi predittivi, ma possono essere confusi da falsi segnali o jammatori EMP",
-          "se_corrotto": "Impossibile corrompere direttamente, ma uno slicer esperto può infiltrare i protocolli di comando tramite terminali di controllo nascosti nel depot o intercettare i codici di override imperiali",
-          "se_i_pg_hanno_prove": "I veicoli non reagiscono a prove o logica; operano solo su parametri di riconoscimento IFF e autorizzazioni crittografate della rete imperiale",
-          "se_alleato": "Con codici d'accesso validi o chip di autorizzazione rubati, i veicoli trattano i PG come personale imperiale legittimo, permettendo movimento libero nelle zone di carico"
+          "se_minacciato": "I veicoli non hanno concetto di minaccia personale. Rispondono solo a ostacoli fisici sui percorsi o danneggiamento dei container di spinpria. Deviazione automatica o segnalazione al centro controllo imperiale.",
+          "se_corrotto": "Vulnerabili a slicing dei protocolli di routing. Un buon slicer può riprogrammare destinazioni, creare 'errori' di inventario, o far deviare interi convogli verso aree non monitorate. I sistemi obsoleti di Kortatka hanno firewall datati.",
+          "se_i_pg_hanno_prove": "I veicoli non processano concetti astratti. Tuttavia i loro datalog registrano ogni movimento, peso caricato, timestamp. Questi dati potrebbero rivelare l'ammontare reale di spinpria estratta e dove è stata realmente trasportata.",
+          "se_alleato": "Riprogrammati o sotto controllo remoto, diventano strumenti perfetti: trasporto nascosto dentro container legittimi, accesso ad aree riservate senza sospetti, creazione di caos sincronizzato per distrarre le guardie imperiali durante l'evacuazione."
         },
         "pressure_events": [],
         "relationships": [],
@@ -13819,11 +13627,11 @@
         "location_id": "section_6",
         "status": "unintroduced",
         "goal": "Patrol the depot perimeter and maintain security protocols",
-        "secret": "Sanno che l'evacuazione nasconde qualcosa di grave - ordine di sparare a vista su CHIUNQUE si avvicini ai tunnel profondi, anche personale imperiale non autorizzato",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Being destroyed or disabled during evacuation chaos",
-        "current_plan": "Completare il circuito di pattugliamento esterno ogni 12 minuti, verificare integrità recinzioni e sensori perimetrali",
-        "fallback_plan": "In caso di intrusione, uno speeder insegue mentre l'altro torna al deposito per guidare la squadra di risposta rapida",
+        "current_plan": "Completare il circuito di pattuglia Gamma-7 attorno al perimetro nord del deposito, verificando l'integrità delle recinzioni energetiche e monitorando le operazioni di carico della spinpria sulle navette cargo imperiali.",
+        "fallback_plan": "Se il sistema principale viene compromesso, attiva la modalità autonoma difensiva: posizionamento statico presso l'ingresso principale del deposito con armi puntate, trasmettendo segnale di emergenza continuo finché non arrivano rinforzi o la batteria si esaurisce.",
         "resources": [
           "accessi",
           "contatti",
@@ -13845,16 +13653,16 @@
           "Damage that prevents evacuation participation"
         ],
         "pressure_response": {
-          "low": "Mantiene la rotta di pattugliamento prestabilita, scanner attivi su movimento e firme termiche anomale",
-          "medium": "Attiva protocolli di allerta, chiama rinforzi via comlink e accelera verso la zona di disturbo con blaster pronti",
-          "high": "Apre il fuoco senza preavviso, coordina manovre di accerchiamento con altri speeder e blocca le vie di fuga",
-          "extreme": "Attiva beacon di emergenza imperiale, spara a vista su qualsiasi bersaglio mobile e chiama supporto aereo dal complesso"
+          "low": "Mantiene il pattugliamento di routine, scansionando termicamente il perimetro del deposito. Trasmette segnali di stato regolari ogni 90 secondi alla torre di controllo.",
+          "medium": "Attiva i sensori di movimento avanzati e rallenta per analizzare anomalie. Richiede identificazione vocale e codici di accesso imperiali a qualsiasi personale non riconosciuto.",
+          "high": "Accende i riflettori ad alta intensità e posiziona i blaster in modalità di fuoco. Trasmette allarme di sicurezza Codice Giallo e chiama rinforzi Stormtrooper dal bunker principale.",
+          "extreme": "Apre il fuoco con i cannoni blaster twin mentre trasmette Codice Rosso. Attiva mine di prossimità lungo il perimetro e sigilla elettronicamente gli accessi al deposito di spinpria."
         },
         "reaction_table": {
-          "se_minacciato": "Accelera in zigzag evasivi mentre l'altro scout apre il fuoco, cerca di investire i bersagli a terra",
-          "se_corrotto": "I piloti sono troppo disciplinati e spaventati dai superiori per accettare tangenti - riferirebbero immediatamente",
-          "se_i_pg_hanno_prove": "Non ha autorità decisionale, continua la procedura standard e trasmette tutto al comando del deposito",
-          "se_alleato": "Fornisce pattern di pattugliamento e finestre temporali di 4 minuti tra i turni nelle zone cieche del perimetro nord"
+          "se_minacciato": "Esegue manovre evasive a zigzag mentre spara raffiche soppressive. Tenta di condurre gli intrusi verso le torrette automatiche posizionate agli angoli del deposito.",
+          "se_corrotto": "Impossibile corrompere - è un veicolo droide con programmazione militare imperiale rigida. Ignorerà tentativi di hackeraggio base e segnalerà intrusioni nel sistema.",
+          "se_i_pg_hanno_prove": "Scansiona i codici di accesso presentati confrontandoli con il database imperiale aggiornato 6 ore fa. Se autentici permette l'accesso ma registra tutto nel log di sicurezza.",
+          "se_alleato": "Non applicabile - lo speeder bike opera solo come strumento di pattuglia. Può essere sabotato, hackerato da uno slicer esperto, o distrutto per creare una breccia nella sicurezza."
         },
         "pressure_events": [],
         "relationships": [
@@ -13887,8 +13695,8 @@
         "secret": "She is deliberately waiting for the stranded vaultkeeper Garm Reegon to leave before activating a device that will destroy the planet's rivers",
         "agenda_pressure": 0,
         "fear": "Losing Imperial favor by failing the weapon test or violating vaultkeeper protocols",
-        "current_plan": "Monitorare costantemente la posizione di Garm Reegon tramite i suoi codici di accesso. Nel momento in cui lascia il pianeta, attivare il dispositivo di distruzione fluviale che dissolverà le rocce esponendo tutta la spinpria gialla rimasta per un'estrazione rapida",
-        "fallback_plan": "Se il dispositivo viene sabotato o scoperto, incolpare un'insurrezione locale e ordinare un bombardamento orbitale 'di sicurezza' che raggiunga lo stesso risultato distruttivo, recuperando la spinpria dalle rovine",
+        "current_plan": "Completare l'evacuazione imperiale standard mantenendo Reegon inconsapevole del vero pericolo. Una volta confermata la sua partenza, attivare il dispositivo di distruzione dei fiumi che rilascerà acidi estrattivi nelle falde acquifere, rendendo accessibili i giacimenti profondi di spinpria gialla senza costosi scavi",
+        "fallback_plan": "Se Reegon non parte volontariamente entro 18 ore, fabbricare un'emergenza medica fasulla per evacuarlo con sedativi. Se il dispositivo viene scoperto o sabotato, far ricadere la colpa su Reegon stesso come sabotatore ribelle, attivare manualmente i sistemi di backup ed estrarre almeno il 60% della spinpria prevista prima che arrivino ispezioni imperiali",
         "resources": [
           "accessi",
           "contatti",
@@ -13910,16 +13718,16 @@
           "Imperial reprimand for protocol violations"
         ],
         "pressure_response": {
-          "low": "Rimane cordiale e professionale, offrendo ai PG denari imperiali per andarsene, citando 'procedure di sicurezza mineraria standard'",
-          "medium": "Invia squadre di stormtrooper per rallentarli con scuse burocratiche, mentre accelera segretamente il conto alla rovescia del dispositivo",
-          "high": "Ordina l'arresto immediato con accuse di sabotaggio, tentando di trattenerli sul pianeta fino all'attivazione - non può permettersi testimoni",
-          "extreme": "Attiva il dispositivo in anticipo pur sapendo che Garm è ancora sul pianeta, sacrificando il custode per eliminare i PG e coprire le proprie tracce"
+          "low": "Xiruna rimane calma e professionale, ispezionando i preparativi dell'evacuazione con precisione militare. Risponde con freddezza burocratica: 'L'Impero ha priorità più importanti che spiegare le proprie operazioni a curiosi'",
+          "medium": "Accelera i tempi di attivazione del dispositivo di distruzione ecosistemica. Ordina ai suoi uomini di intensificare le ricerche di Garm Reegon: 'Trovate quel custode e mettetelo sulla prossima navetta, anche con la forza'",
+          "high": "Attiva protocolli di emergenza e considera di eliminare Reegon personalmente per poi attivare immediatamente il dispositivo. Invia squadre di morte imperiali contro chiunque interferisca: 'Il Grand Moff vuole quella spinpria. Nessun testimone può rimanere'",
+          "extreme": "Attiva il dispositivo di distruzione dei fiumi anche con Reegon ancora sul pianeta, sacrificandolo come danno collaterale. Ordina bombardamenti orbitali sulle zone minerarie per coprire l'operazione: 'L'estrazione vale più di qualche vita. Anche la mia reputazione'"
         },
         "reaction_table": {
-          "se_minacciato": "Diventa glaciale e minacciosa, ricordando ai PG che l'Impero controlla ogni via di fuga da Kortatka - ma mostra nervosismo se menzionano Garm Reegon",
-          "se_corrotto": "Rifiuta con disprezzo qualsiasi tangente materiale, ma potrebbe ascoltare se qualcuno offrisse di occuparsi 'discretamente' di Garm al suo posto",
-          "se_i_pg_hanno_prove": "Tenta prima di distruggere le prove, poi di screditarle come propaganda ribelle - in extremis, propone un accordo: il silenzio in cambio di una quota di spinpria",
-          "se_alleato": "Offre coordinamene precise sui depositi di spinpria e passaggi sicuri, ma li manipola verso zone che saranno colpite per prime dal dispositivo"
+          "se_minacciato": "Finge cooperazione mentre attiva discretamente un beacon di emergenza. Cerca di guadagnare tempo: 'Uccidermi non fermerà il dispositivo. È già programmato e solo io conosco i codici di disattivazione'",
+          "se_corrotto": "Respinge offerte di crediti ma mostra interesse per informazioni su tecnologia Ribelle o coordinate di basi nemiche: 'Il denaro non mi interessa. Ma informazioni strategiche... quelle hanno valore per la mia carriera'",
+          "se_i_pg_hanno_prove": "Tenta di confiscare le prove con la forza, poi propone uno scambio: 'Datemi quelle registrazioni e vi lascio prendere una cassa di spinpria. Abbastanza per arricchirvi, non abbastanza perché l'Impero vi insegua'",
+          "se_alleato": "Offre accesso limitato alle miniere evacuate in cambio di aiuto nel localizzare Reegon: 'Quel custode conosce troppo. Trovatelo e portatelo alla mia nave, poi prendetevi la vostra spinpria e sparite prima dell'attivazione'"
         },
         "pressure_events": [],
         "relationships": [
@@ -13954,11 +13762,11 @@
         "location_id": "section_8",
         "status": "unintroduced",
         "goal": "Hunt prey in the spinpria rivers and defend its territory from intruders",
-        "secret": "Gli Aqualasher si stanno ammalando perché l'Impero ha contaminato i fiumi di spinpria con un agente chimico durante l'estrazione accelerata - sono più deboli del normale ma anche più disperatamente aggressivi",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Losing access to river hunting grounds and food sources",
-        "current_plan": "Difendere il territorio di caccia nei fiumi di spinpria da qualsiasi intruso, specialmente durante l'evacuazione imperiale che ha disturbato i normali pattern di caccia",
-        "fallback_plan": "Se sopraffatto, ritirarsi nelle profondità dei bacini di spinpria dove nessuna tecnologia imperiale può seguirlo, attendendo in agguato per settimane se necessario",
+        "current_plan": "Pattugliare metodicamente i tre fiumi principali di spinpria nella miniera abbandonata, eliminare ogni creatura che contamini o minacci le sue zone di caccia, nutrirsi dei robot da estrazione imperiali rimasti intrappolati",
+        "fallback_plan": "Se i PG si rivelano troppo potenti, ritirarsi nel nucleo profondo della miniera dove la concentrazione di spinpria liquida è massima e la radiazione del metallo amplifica le sue capacità rigenerative, attendendo pazientemente che gli intrusi entrino nel suo dominio inespugnabile",
         "resources": [
           "accessi",
           "contatti",
@@ -13980,16 +13788,16 @@
           "Areas with multiple armed opponents"
         ],
         "pressure_response": {
-          "low": "Pattuglia i fiumi di spinpria emettendo clic sonar ritmici, ignorando le prede piccole e concentrandosi sui movimenti più grandi",
-          "medium": "Emerge parzialmente dall'acqua liquida metallica, le sue appendici elettriche caricandosi con scariche bluastre mentre valuta la minaccia",
-          "high": "Attacca con ferocia cieca, lanciando fruste elettriche e trascinando le vittime nei fiumi di spinpria dove affogano nel metallo denso",
-          "extreme": "Emette un richiamo ultrasonico che attira altri Aqualasher della colonia, coordinando un attacco di branco devastante che crea onde di spinpria liquida"
+          "low": "Nuota silenziosamente nelle correnti di spinpria liquida, i suoi sensori bioelettrici captano le vibrazioni dei PG. Emette impulsi sonar per mappare il territorio",
+          "medium": "Emerge dai fiumi gialli metallici, le sue appendici sferzanti lampeggiano di energia. Inizia a circondare i PG attraverso i tunnel allagati di spinpria, bloccando le vie di fuga",
+          "high": "Scatena una serie di attacchi fulminei con i tentacoli elettrificati, spruzzando getti corrosivi di spinpria fusa. Richiama altri aqualasher con ultrasuoni per coordinare l'assalto",
+          "extreme": "Entra in frenesia predatoria totale, ignorando anche ferite mortali. Provoca crolli strutturali nelle miniere per intrappolare i PG nei fiumi di spinpria, pronto a morire pur di eliminare gli intrusi dal suo territorio"
         },
         "reaction_table": {
-          "se_minacciato": "Si immerge completamente nella spinpria liquida diventando quasi invisibile, poi attacca dal basso con le sue fruste elettrificate",
-          "se_corrotto": "Impossibile corrompere - è una creatura guidata da istinto territoriale puro, ma può essere distratta con esche sonore o prede più appetibili",
-          "se_i_pg_hanno_prove": "Non comprende concetti astratti; reagisce solo a movimento, calore corporeo e vibrazioni nell'acqua metallica",
-          "se_alleato": "Può essere temporaneamente placato se i PG dimostrano di non essere invasori, muovendosi lentamente e senza disturbare i fiumi di spinpria"
+          "se_minacciato": "Scompare nei condotti sommersi di spinpria e tende un'imboscata più letale, usando la conoscenza perfetta delle correnti sotterranee per attaccare da angolazioni impossibili",
+          "se_corrotto": "Impossibile corrompere una creatura puramente istintuale e territoriale. Qualsiasi tentativo viene interpretato come aggressione e scatena una reazione ancora più violenta",
+          "se_i_pg_hanno_prove": "Non comprende concetti astratti. Se i PG hanno contenitori di spinpria, la creatura diventa ancora più aggressiva percependo il furto delle risorse del suo territorio",
+          "se_alleato": "Se i PG dimostrano di proteggere i fiumi di spinpria dall'Impero (sabotando pompaggio o estrazione), potrebbe tollerarne la presenza e perfino attaccare truppe imperiali nelle vicinanze"
         },
         "pressure_events": [],
         "relationships": [],
@@ -14013,11 +13821,11 @@
         "location_id": "section_9",
         "status": "unintroduced",
         "goal": "Maintain depot security and complete evacuation procedures per the unknown command",
-        "secret": "Nei livelli più profondi della miniera è stato scoperto qualcosa insieme allo spinpria - trasmissioni o artefatti che hanno attivato protocolli imperiali ultra-segreti. Gli ufficiali senior sanno che non stanno solo estraendo metallo, ma cancellando prove di qualcosa che l'Impero vuole nascondere a qualsiasi costo.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Rebellion forces discovering the evacuation and seizing Imperial assets",
-        "current_plan": "Completare l'estrazione finale dello spinpria gialla dai giacimenti più profondi entro 72 ore, trasferirlo sui cargo pesanti classe Gozanti mascherati, evacuare tutto il personale essenziale cancellando ogni traccia dell'operazione speciale",
-        "fallback_plan": "Se compromessi: far saltare le miniere principali con cariche baradium per impedire accesso ai livelli inferiori dove si trova l'anomalia che ha scatenato il comando sconosciuto, sacrificare il personale di superficie per coprire la fuga dei cargo",
+        "current_plan": "Completare caricamento degli ultimi 47 container di spinpria gialla entro 38 ore. Evacuare tutto il personale tecnico imperiale verso il Star Destroyer. Minare le strutture residue secondo Direttiva 7-Kappa per nascondere tracce dell'operazione.",
+        "fallback_plan": "Se l'evacuazione è compromessa, trasmettere coordinate del deposito principale all'ammiraglio settoriale e richiedere bombardamento orbitale mirato. Veskra e la squadra d'élite si barricano nel bunker sotterraneo livello 9 con il campione di spinpria 'speciale' attendendo estrazione.",
         "resources": [
           "accessi",
           "contatti",
@@ -14039,16 +13847,16 @@
           "High casualties among remaining garrison"
         ],
         "pressure_response": {
-          "low": "Pattuglie di routine intensificate, controlli ID tripli agli accessi del deposito, comunicazioni criptate aumentate verso la flotta in orbita",
-          "medium": "Attivazione squadre d'élite stormtrooper, blocco totale del perimetro minerario, droni da combattimento dispiegati nelle gallerie principali, preparazione anticipata dell'evacuazione",
-          "high": "Protocollo di emergenza Aurek-7: sigillamento esplosivo delle miniere, trasferimento immediato dello spinpria sullo Star Destroyer in orbita, esecuzione sommaria di testimoni civili",
-          "extreme": "Comando sconosciuto attivato: distruzione completa dell'evidenza tramite bombardamento orbitale del sito, eliminazione di tutto il personale imperiale di basso livello per prevenire fughe di notizie"
+          "low": "Pattuglie di routine aumentate, scanner termici attivi nei tunnel minerari. Il Capitano Veskra ordina controlli doppi sui permessi di transito.",
+          "medium": "Lockdown parziale del deposito centrale, squadre d'assalto stormtrooper mobilitate. Tutti i trasporti civili verso Kortatka vengono deviati o respinti.",
+          "high": "Protocollo Scudo Cremisi attivato: cannoni turbolaser puntati sul deposito, caccia TIE in scramble continuo. Veskra ordina l'esecuzione di qualsiasi intruso senza domande.",
+          "extreme": "Detonazione controllata delle gallerie secondarie per sigillare il deposito. Evacuazione accelerata del personale essenziale, ordine di distruggere TUTTO lo spinpria piuttosto che lasciarlo cadere in mani ribelli."
         },
         "reaction_table": {
-          "se_minacciato": "Il comandante locale Moff渋Krennic ordina rappresaglie brutali contro i lavoratori civili rimasti, usando ostaggi come scudi; attiva caccia TIE per interdizione aerea totale",
-          "se_corrotto": "Alcuni ufficiali minori potrebbero accettare crediti per informazioni parziali o ritardi negli allarmi, ma mai tradire l'obiettivo primario dell'evacuazione misteriosa",
-          "se_i_pg_hanno_prove": "Immediate eliminazione delle prove e dei PG diventa priorità assoluta; invio di squadra inquisitoria per recupero intel e silenzio permanente",
-          "se_alleato": "Collaborazione diffidente solo se i PG dimostrano di servire interessi imperiali superiori; richiesta immediata di codici di autorizzazione ISB o Inquisizione"
+          "se_minacciato": "Chiama immediatamente rinforzi dal Star Destroyer Relentless in orbita. Gli stormtrooper assumono formazione difensiva attorno ai container di spinpria, pronti a un'ultima resistenza suicida se necessario.",
+          "se_corrotto": "Il Capitano Veskra rifiuta categoricamente - la sua famiglia su Coruscant è sotto sorveglianza ISB come garanzia di lealtà. Alcuni ufficiali minori potrebbero tentennare se offerti crediti E passaggio fuori dal sistema.",
+          "se_i_pg_hanno_prove": "Veskra reagisce con panico controllato se i PG menzionano 'l'ordine sconosciuto' o 'Progetto Ombra'. Tenta di catturarli vivi per interrogatorio ISB immediato, attivando jamming comunicazioni per evitare fughe di notizie.",
+          "se_alleato": "Collaborazione impossibile a meno che i PG non dimostrino di lavorare per un Moff o un Inquisitore con codici imperiali autenticati. Anche così, Veskra pretende conferma diretta dal comando settoriale."
         },
         "pressure_events": [],
         "relationships": [
@@ -14083,11 +13891,11 @@
         "location_id": "section_10",
         "status": "unintroduced",
         "goal": "Execute garrison duties and follow Imperial military protocols during evacuation",
-        "secret": "Tre giorni fa, una squadra di Shoretroopers inviata nel settore 9 delle miniere profonde non è mai tornata. Le ultime trasmissioni parlavano di 'geometrie sbagliate' e 'luci che non dovrebbero esistere'. Da allora, nessun soldato vuole scendere sotto il livello 5, e tutti sanno che l'evacuazione non riguarda strategia militare ma puro terrore.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Being abandoned on Kortatka during evacuation or dying in combat",
-        "current_plan": "Completare l'evacuazione degli ultimi carichi di spinpria seguendo l'ordine di priorità ricevuto: prima i contenitori sigillati del settore 7-Besh, poi distruggere i sistemi di comunicazione della base per impedire trasmissioni non autorizzate.",
-        "fallback_plan": "Se l'evacuazione viene compromessa, attivare il protocollo Cenere: far esplodere le cariche sismiche nelle gallerie principali per sigillare permanentemente la miniera e impedire l'accesso a chiunque allo spinpria rimanente.",
+        "current_plan": "Completare evacuazione ordinata del personale imperiale essenziale e quanto più spinpria gialla possibile prima della deadline misteriosa. Ultimo trasporto pesante parte tra 18 ore standard. Distruggere quello che resta per negarlo al nemico",
+        "fallback_plan": "Se perimetro viene compromesso o la minaccia sconosciuta arriva prima del previsto, minare completamente le miniere di spinpria e fuggire con shuttle d'emergenza verso il punto rendez-vous nel sistema stellare adiacente, abbandonando tutto",
         "resources": [
           "accessi",
           "contatti",
@@ -14109,16 +13917,16 @@
           "Being separated from unit during crisis"
         ],
         "pressure_response": {
-          "low": "Mantengono formazione rigida, pattugliando le aree di carico con disciplina militare. Controllano documenti e autorizzazioni senza deviare dal protocollo, coordinandosi via comlink con scambi brevi e codificati.",
-          "medium": "Aumentano la frequenza delle ronde e richiedono rinforzi. Alcuni mostrano nervosismo per l'evacuazione misteriosa, controllando ossessivamente i sensori ambientali. La disciplina inizia a incrinare sotto la pressione dell'ignoto.",
-          "high": "Abbandonano le procedure standard per tattiche aggressive. Sparano per sopprimere prima di identificare, sigillano settori interi. Diversi soldati discutono apertamente degli ordini contraddittori ricevuti dall'alto comando.",
-          "extreme": "La catena di comando collassa: alcuni fuggono verso le navi evacuazione, altri si barricano nelle strutture fortificate. I sergenti urlano ordini contrastanti. Qualcuno inizia a sparare allo spinpria stesso, convinto che il metallo sia collegato al motivo dell'evacuazione."
+          "low": "Mantengono rigida disciplina militare, pattugliando metodicamente il perimetro dell'installazione mineraria. Comunicano via comlink usando codici imperiali standard e controllano ogni accesso ai depositi di spinpria gialla",
+          "medium": "Intensificano i controlli sulle navi in partenza, richiedono documenti di identificazione multipli. Alcuni Shoretrooper iniziano a mostrare nervosismo per l'evacuazione misteriosa, ma seguono gli ordini senza discutere",
+          "high": "Attivano protocolli di lockdown totale, sigillano i depositi principali di spinpria. Sparano a vista contro intrusi non autorizzati. I comandanti di squadra chiedono rinforzi via subspazio, anche se la risposta imperiale tarda ad arrivare",
+          "extreme": "Abbandonano posizioni difensive per salvare se stessi, alcuni cercano di caricare spinpria sulle ultime navi evacuazione per profitto personale. La catena di comando collassa, ogni squadra agisce autonomamente per sopravvivere alla minaccia che sta causando l'evacuazione"
         },
         "reaction_table": {
-          "se_minacciato": "Si ritirano dietro coperture chiamando supporto aereo. Gli Shoretroopers usano granate stordenti e blaster pesanti per creare zone di interdizione. Tentano di intrappolare gli aggressori nei corridoi stretti della miniera.",
-          "se_corrotto": "I veterani rifiutano sdegnosamente, ma i coscritti più giovani esitano. Alcuni potrebbero accettare crediti o passaggi fuori dal pianeta se l'offerta include informazioni su cosa l'Impero sta nascondendo riguardo Kortatka.",
-          "se_i_pg_hanno_prove": "Se i PG dimostrano che lo spinpria o la miniera sono contaminati/pericolosi, gli Shoretroopers potrebbero accelerare il proprio abbandono del posto. Alcuni diserterebbero immediatamente, altri cercherebbero conferma dai superiori già fuggiti.",
-          "se_alleato": "Forniscono mappe parziali delle gallerie e codici di accesso vecchi. Condividono voci inquietanti: operai scomparsi, strani segnali dalle miniere profonde, ordini di sigillare interi settori senza spiegazioni. Chiedono in cambio un passaggio via dal pianeta."
+          "se_minacciato": "Formano immediatamente testuggine difensiva, coprotura a fuoco incrociato. Gli Shoretrooper avanzano con scudi balistici mentre gli Stormtrooper forniscono fuoco di supporto. Chiamano rinforzi se disponibili",
+          "se_corrotto": "Ufficiali superiori potrebbero accettare tangenti in crediti imperiali o passaggio sulle navi evacuazione, ma solo se garantisce loro fuga sicura. Truppe semplici troppo indottrinate per corruzione diretta",
+          "se_i_pg_hanno_prove": "Se i PG mostrano ordini imperiali falsificati credibili o codici di autorizzazione validi rubati, esitano abbastanza da permettere bluff temporaneo. Verificano comunque via comlink centrale quando possibile",
+          "se_alleato": "Coordinano difesa perimetrale condivisa, forniscono intelligence tattica sulla disposizione depositi spinpria e protocolli sicurezza. Richiedono però spiegazioni chiare sulla presenza dei PG durante evacuazione classificata"
         },
         "pressure_events": [],
         "relationships": [
@@ -14156,8 +13964,8 @@
         "secret": "Possiede il codice per accedere ai vault di spinpria gialla, rendendolo un bersaglio prezioso. È un vaultkeeper imperiale clandestino.",
         "agenda_pressure": 0,
         "fear": "Essere abbandonato sul pianeta durante la distruzione dell'ecosistema fluviale",
-        "current_plan": "Attendere la navetta di evacuazione al punto di raccolta settore 7-Aurek tra 4 ore, mantenendo il codice vault segreto fino al debriefing orbitale con l'ISB",
-        "fallback_plan": "Se l'evacuazione fallisce, raggiungere il bunker sotterraneo livello -12 dove ha nascosto provviste e un beacon d'emergenza. In extremis, usare il codice vault come merce di scambio con chiunque possa salvarlo",
+        "current_plan": "Imbarcarsi sulla navetta d'evacuazione Delta-7 prevista per 4 ore standard. Mantenere il cilindro dei codici nascosto fino all'arrivo alla Star Destroyer Implacabile. Presentare rapporto al Moff Torrence e ricevere riassegnazione.",
+        "fallback_plan": "Se compromesso: distruggere il cilindro fisico ma trasmettere i codici criptati via hypercomm al comando settoriale. Se impossibile evacuare: rifugiarsi nel bunker sotterraneo livello 8 e attendere recupero secondario. Ultima risorsa: fingere diserzione e vendere codici parziali al miglior offerente nel mercato nero di Nar Shaddaa.",
         "resources": [
           "accessi",
           "contatti",
@@ -14179,16 +13987,16 @@
           "Rimanere sul pianeta quando il dispositivo distruttivo viene attivato"
         ],
         "pressure_response": {
-          "low": "Mantiene un comportamento rigido e procedurale, seguendo protocolli imperiali alla lettera. Risponde con freddezza burocratica e rifiuta ogni conversazione non necessaria.",
-          "medium": "Diventa nervoso e ripete ossessivamente che 'l'evacuazione procede secondo i tempi stabiliti'. Controlla continuamente il cronometro e il datapad con i codici criptati.",
-          "high": "Suda visibilmente sotto l'uniforme grigia. Inizia a negoziare citando procedure di emergenza imperiali, offrendo informazioni marginali pur di proteggere il codice vault.",
-          "extreme": "Crolla psicologicamente rivelando che la sua famiglia è ancora su Kortatka come 'garanzia di lealtà'. Disposto a tradire l'Impero in cambio di un'evacuazione sicura per sé e i suoi cari."
+          "low": "Mantiene il protocollo imperiale, evita domande dirette sulla sua funzione, si presenta come semplice ufficiale logistico. Consulta nervosamente il datapad con i tempi di evacuazione.",
+          "medium": "Diventa evasivo e suda visibilmente. Accenna vagamente a 'procedure di sicurezza classificate' e tenta di allontanarsi verso le navette di evacuazione. Stringe la mano sul cilindro dei codici nascosto nella sua uniforme.",
+          "high": "Minaccia di chiamare le guardie imperiali rimaste. Diventa paranoico, accusando i PG di essere spie ribelli. Cerca disperatamente una via di fuga verso il perimetro sicuro, pronto a distruggere fisicamente il cilindro dei codici piuttosto che consegnarlo.",
+          "extreme": "Tenta di inserire il codice di autodistruzione del vault da remoto per eliminare ogni traccia. In preda al panico, rivela accidentalmente dettagli sulla rete di vaultkeeper clandestini dell'Impero. Offre informazioni su altri depositi in cambio della sua vita."
         },
         "reaction_table": {
-          "se_minacciato": "Attiva il protocollo di autodistruzione del datapad con codice vocale, ma esita se minacciato fisicamente - il codice è memorizzato anche nella sua mente",
-          "se_corrotto": "Rifiuta crediti ma ascolta offerte di passaggio fuori sistema. Chiede garanzie concrete e documenti di identità falsi per lui e sua moglie Lyra",
-          "se_i_pg_hanno_prove": "Se scoprono della sua famiglia ancora sul pianeta, diventa disperatamente collaborativo. Rivela che l'evacuazione è dovuta a un'instabilità geologica catastrofica imminente",
-          "se_alleato": "Fornisce accesso ai vault ma pretende di accompagnare i PG nell'evacuazione. Conosce rotte segrete imperiali attraverso le miniere abbandonate"
+          "se_minacciato": "Attiva il beacon di emergenza imperiale nascosto nel suo polsino. Bluffa dicendo che i codici cambiano ogni 6 ore e che solo lui può accedere al sistema centrale. Propone uno scambio: la sua evacuazione sicura in cambio dell'accesso parziale.",
+          "se_corrotto": "Ascolta con interesse se la somma supera i 100.000 crediti. Rivela che l'evacuazione è dovuta a un'anomalia geologica imminente. Negozia duramente: vuole crediti, nuova identità e passaggio su un mondo del Bordo Esterno. Non tradirà mai l'intera rete vaultkeeper.",
+          "se_i_pg_hanno_prove": "Crolla parzialmente se confrontato con prove della sua identità di vaultkeeper. Ammette il suo ruolo ma insiste che ci sono altri tre vaultkeeper su Kortatka. Offre un codice secondario che garantisce accesso al 40% dello spinpria in cambio di essere lasciato andare.",
+          "se_alleato": "Confida che l'Impero sta abbandonando Kortatka per motivi non dichiarati legati al Progetto Starhammer. Offre collaborazione limitata: fornirà il codice vault se i PG lo aiutano a recuperare i dati personali criptati dal suo ufficio prima del collasso planetario."
         },
         "pressure_events": [],
         "relationships": [
@@ -14221,7 +14029,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -14252,16 +14059,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_kortatka"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -14277,7 +14074,6 @@
           "llm_clue_7"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -14312,17 +14108,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_ord_mantell",
-          "loc_kalluxis"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -14335,7 +14120,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -14365,16 +14149,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_kortatka",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_imperial_siphoner"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -14387,7 +14161,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -14418,14 +14191,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_imperial_siphoner",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -14438,7 +14203,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -14468,16 +14232,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "loc_kortatka"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -14490,7 +14244,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -14523,16 +14276,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_kortatka",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_knout_corvette"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -14673,131 +14416,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Perché l'Impero evacua così velocemente?",
-        "question": "Qual è la vera ragione dell'evacuazione imperiale urgente di Kortatka?",
-        "true_answer": "Il Capitano Xiruna sta testando un dispositivo di distruzione ecosistema che renderà il pianeta inabitabile",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "llm_clue_1",
-          "llm_clue_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Capitano Xiruna",
-          "RQ-99"
-        ],
-        "linked_locations": [
-          "Kortatka",
-          "Knout (Corvetta Imperiale)"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Come accedere al Megavault?",
-        "question": "Come possono i PG ottenere l'accesso al caveau dello spinpria?",
-        "true_answer": "Devono localizzare Garm Reegon, il vaultkeeper bloccato su Kortatka, e ottenere il suo cryptocomp speciale",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_3",
-          "nuovo_clue_4",
-          "llm_clue_4",
-          "llm_clue_5"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Garm Reegon",
-          "GARBULB THE HUTT"
-        ],
-        "linked_locations": [
-          "Megavault dello Spinpria",
-          "Kortatka"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Chi altro sta cercando lo spinpria?",
-        "question": "Ci sono altri concorrenti interessati al furto dello spinpria?",
-        "true_answer": "Crimson Jack e la sua crew stanno pianificando lo stesso colpo e potrebbero interferire o collaborare",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_5",
-          "nuovo_clue_6"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "CRIMSON JACK",
-          "JACK'S CREW"
-        ],
-        "linked_locations": [
-          "Ord Mantell",
-          "Kortatka"
-        ]
-      },
-      {
-        "id": "T_evacuazione",
-        "title": "T evacuazione",
-        "question": "Perché l'Impero sta evacuando Kortatka così rapidamente e cosa sta per accadere al pianeta?",
-        "true_answer": "L'Impero ha evacuato Kortatka per testare un dispositivo sperimentale di distruzione ecosistema progettato per estrarre l'ultima spinpria dai fiumi del pianeta. La Corvetta Knout rimasta in orbita non ha capacità di scudo sufficienti per resistere agli effetti del dispositivo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_vaultmaster",
-        "title": "T vaultmaster",
-        "question": "Chi possiede i codici di accesso al vault della spinpria e dove si trova attualmente?",
-        "true_answer": "Il vaultmaster Garm Reegon è rimasto bloccato su Kortatka durante l'evacuazione e possiede l'unico cryptocomp contenente il codice per aprire il vault principale della spinpria gialla.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_identita_codo",
-        "title": "T identita codo",
-        "question": "Qual è il vero passato di Codo Vond e cosa sta nascondendo?",
-        "true_answer": "Codo Vond è un ex-Jedi addestrato su Coruscant prima della Purga. La sua vera identità è tradita da una caratteristica cicatrice alla mano sinistra, marchio del suo addestramento, e custodisce gelosamente questo segreto per sopravvivere.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_unknown_command",
-        "title": "T unknown command",
-        "question": "Cos'è esattamente l'Unknown Command e come hanno fatto i PG a venirne a conoscenza?",
-        "true_answer": "L'Unknown Command era un ordine di evacuazione strategica rapida mai intercettato prima dai canali della Ribellione. L'informazione è stata filtrata attraverso una talpa imperiale negligente che ha inavvertitamente lasciato trapelare dati sensibili.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_bottino",
-        "title": "T bottino",
-        "question": "C'è davvero ancora spinpria gialla su Kortatka dopo l'evacuazione imperiale?",
-        "true_answer": "I siphoner imperiali lasciati ancora operativi e i fiumi argentei ricchi di depositi di spinpria gialla indicano che rimane una quantità considerevole di minerale prezioso sul pianeta, abbastanza per rappresentare il colpo del secolo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -20989,8 +20608,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
