@@ -8475,7 +8475,7 @@
         "id": "llm_clue_1",
         "label": "Temporal lightning strikes durante l'attacco",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T1",
         "source_location": "A Familiar Neighborhood. Firefighters desperately rethe PCs to save key landmarks and sites, earning a posspond... and t",
         "reveals": "L'attacco non è solo militare ma causa disturbi temporali che impediscono rinforzi convenzionali",
         "payoff": "I PG capiscono perché sono stati chiamati loro invece di forze convenzionali",
@@ -8511,7 +8511,7 @@
         "id": "llm_clue_2",
         "label": "Duplicati cronali di Per Degaton",
         "type": "document",
-        "thread_id": "T11",
+        "thread_id": "T2",
         "source_location": "The Red Swan",
         "reveals": "Esistono multiple versioni di Per Degaton sparse nel tempo, tutte lavorano per causare la WWIII",
         "payoff": "I PG cercano il Degaton originale in prigione per ottenere informazioni sui duplicati",
@@ -8547,7 +8547,7 @@
         "id": "llm_clue_3",
         "label": "Rapimento del Colonnello Benjamin Bliss",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T3",
         "source_location": "A Familiar Neighborhood. Firefighters desperately rethe PCs to save key landmarks and sites, earning a posspond... and t",
         "reveals": "Il Colonnello Bliss possiede conoscenze cruciali che potrebbero fermare Per Degaton e la WWIII",
         "payoff": "Salvare Bliss diventa la priorità assoluta per prevenire che Degaton ottenga le informazioni",
@@ -8583,7 +8583,7 @@
         "id": "llm_clue_4",
         "label": "Metaumani simpatizzanti nazisti contemporanei",
         "type": "testimony",
-        "thread_id": "T13",
+        "thread_id": "T4",
         "source_location": "The Blitz",
         "reveals": "Esiste una rete moderna di seguaci di Degaton che conoscono i suoi piani e attivamente li supportano",
         "payoff": "Interrogare i simpatizzanti catturati può rivelare le basi nascoste di Degaton",
@@ -8619,7 +8619,7 @@
         "id": "llm_clue_5",
         "label": "Platoon WWII con tattiche di forza bruta",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T5",
         "source_location": "The Blitz",
         "reveals": "Per Degaton preferisce tattiche militari convenzionali della WWII piuttosto che strategie elaborate",
         "payoff": "I PG possono anticipare future mosse di Degaton basandosi su dottrine militari naziste",
@@ -8655,7 +8655,7 @@
         "id": "llm_clue_6",
         "label": "Prigione segreta siberiana con Degaton originale",
         "type": "document",
-        "thread_id": "T11",
+        "thread_id": "T6",
         "source_location": "The Red Swan",
         "reveals": "Il Per Degaton originale è vivo e imprigionato in Siberia, potrebbe avere informazioni cruciali sui duplicati",
         "payoff": "La prigione diventa la prossima destinazione per interrogare Degaton sulle sue controparti",
@@ -8691,7 +8691,7 @@
         "id": "llm_clue_7",
         "label": "Guardie Gorgone alla prigione",
         "type": "scene_observation",
-        "thread_id": "T13",
+        "thread_id": "T7",
         "source_location": "GORGON GUARDS",
         "reveals": "La prigione non è più sotto controllo governativo ma è stata presa da un terrorista metaumano",
         "payoff": "I PG devono prepararsi a combattere le Guardie Gorgone oltre a gestire Degaton",
@@ -8727,7 +8727,7 @@
         "id": "llm_clue_8",
         "label": "Submarine I-402 Nagara",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T8",
         "source_location": "The I-402 Nagara",
         "reveals": "Degaton ha una base operativa su un sottomarino giapponese della WWII, equipaggiato con difese moderne",
         "payoff": "Il sottomarino diventa un obiettivo da infiltrare o distruggere nella fase finale",
@@ -8763,7 +8763,7 @@
         "id": "llm_clue_9",
         "label": "Guardie equipaggiate con 'humanity weapons'",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T9",
         "source_location": "Gear: Per Degaton's guards carry brutal \"humanity",
         "reveals": "Degaton ha equipaggiato le sue forze con armi avanzate specificamente progettate contro obiettivi umani",
         "payoff": "I PG devono prepararsi contro armi anti-umane particolarmente efficaci",
@@ -8799,7 +8799,7 @@
         "id": "llm_clue_10",
         "label": "Oberstleutnant come capitano delle guardie",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T10",
         "source_location": "The captain of the guards is OBERSTLEUTNANT",
         "reveals": "L'organizzazione di Degaton mantiene ranghi e gerarchia militare nazista formale",
         "payoff": "Catturare l'Oberstleutnant potrebbe paralizzare temporaneamente le guardie",
@@ -8902,198 +8902,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Residui di energia cronal sui soldati WWII",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "I soldati non sono viaggiatori temporali naturali ma proiezioni create artificialmente",
-        "payoff": "Conferma l'esistenza di una tecnologia di duplicazione temporale e fornisce una firma tracciabile",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Schemi tecnici nel quartier generale improvvisato",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Il nome e la forma base della tecnologia temporale di Degaton",
-        "payoff": "Permette agli scienziati alleati di teorizzare contromisure ai fulmini temporali",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Testimonianza di un Oberstleutnant catturato",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Esiste più di un Degaton operativo e i duplicati hanno memoria distorta del processo",
-        "payoff": "Conferma la teoria dei duplicati cronali e suggerisce una gerarchia temporale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Dossier militare del Colonnello Bliss",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Bliss è una chiave vivente per i sistemi di difesa occidentali",
-        "payoff": "Chiarisce perché Degaton ha scelto questo obiettivo specifico e l'urgenza del salvataggio",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Intercettazione radio criptata",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Degaton ha una deadline operativa e un piano chiamato Götterdämmerung (Crepuscolo degli Dei)",
-        "payoff": "Stabilisce il limite temporale della missione e la scala apocalittica del piano",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Comportamento di Baroness Blitzkrieg",
-        "type": "behavior",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Esiste un'intelligence dettagliata su Bliss, non è un rapimento opportunistico",
-        "payoff": "Conferma la premeditazione e suggerisce infiltrazione nei servizi segreti alleati",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Tatuaggi identificativi sulle Gorgon Guards",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Le guardie appartengono a un'organizzazione strutturata e hanno collegamenti con una località marina specifica",
-        "payoff": "Fornisce la posizione approssimativa del Submarine I-402 Nagara",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Log di rifornimenti intercettati",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Esiste una rete logistica coordinata tra le diverse basi nemiche",
-        "payoff": "Mappa la rete operativa del nemico e identifica Blitzkrieg come coordinatrice",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -9107,8 +8915,8 @@
         "secret": "They are WWII-era soldiers sent through time, creating dangerous temporal lightning strikes with their presence",
         "agenda_pressure": 0,
         "fear": "Being stranded in the future timeline without a way back to their own era",
-        "current_plan": "Materializzarsi nel parco durante la cerimonia, soprafffare le guardie con la sorpresa e la superiorità numerica, catturare il Colonnello Bliss vivo, trascinarlo attraverso il portale temporale prima che si chiuda",
-        "fallback_plan": "Se il rapimento fallisce, l'ufficiale comandante ha ordine di uccidere Bliss sul posto con una granata Stielhandgranate, causando un'esplosione temporale che cancellerebbe Bliss dalla timeline e permetterebbe a Per Degaton di alterare la storia",
+        "current_plan": "Trattenere il Colonnello Bliss nel parco centrale fino all'arrivo di Per Degaton tra 47 minuti, respingere qualsiasi interferenza usando tattiche Blitzkrieg mentre l'anomalia temporale li mantiene ancorati al presente",
+        "fallback_plan": "Se sopraffatti, il sergente attiva un dispositivo temporale da polso che richiama rinforzi da altre linee temporali, creando un'ondata di soldati Wehrmacht da differenti momenti del 1942-1943, amplificando esponenzialmente i fulmini temporali",
         "resources": [
           "accessi",
           "contatti",
@@ -9130,16 +8938,16 @@
           "Capture by modern authorities"
         ],
         "pressure_response": {
-          "low": "Mantengono la formazione militare tattica, avanzando metodicamente verso l'obiettivo mentre ignorano i civili confusi da questa 'Star City' così diversa dall'Europa che conoscevano",
-          "medium": "Iniziano a sparare con le loro armi d'epoca creando ulteriori scariche temporali, cercando disperatamente di completare la missione per Per Degaton prima che il disorientamento temporale li sopraffaccia",
-          "high": "Si dividono: metà forma un perimetro difensivo usando tattiche blitzkrieg mentre l'altra metà trascina via il Colonnello Bliss, urlando ordini in tedesco mentre fulmini temporali eruttano dai loro corpi",
-          "extreme": "Alcuni soldati iniziano a dissolversi nel tempo, gridando terrorizzati mentre realizzano di essere fuori dalla loro epoca; i superstiti attivano disperatamente il dispositivo di richiamo temporale di Per Degaton per tornare al 1944"
+          "low": "Mantengono la formazione militare da plotone, avanzano tatticamente attraverso Star City usando manovre da combattimento del 1940, sconcertati dalla città moderna ma disciplinati",
+          "medium": "Si barricano usando veicoli e strutture moderne che non riconoscono, sparano raffiche di copertura mentre i fulmini temporali si intensificano attorno alla loro posizione, urlano ordini in tedesco",
+          "high": "Alcuni soldati iniziano a dissolversi parzialmente mentre l'instabilità temporale aumenta, i superstiti si aggrappano disperatamente al Colonnello Bliss come 'obiettivo primario', cercano freneticamente il portale di ritorno",
+          "extreme": "Realizzano di essere stati strappati dal loro tempo e usati come pedine, tentano di negoziare la resa offrendo informazioni su Per Degaton in cambio di un modo per tornare al 1942 prima di svanire completamente"
         },
         "reaction_table": {
-          "se_minacciato": "Rispondono con disciplina militare prussiana, formando quadrati difensivi e sparando salve coordinate mentre i loro fucili Kar98k generano anomalie temporali ad ogni colpo",
-          "se_corrotto": "Impossibile: sono seguaci fanatici convinti che Per Degaton sia il Führer del futuro, inoltre la loro natura temporalmente instabile impedisce negoziazioni prolungate",
-          "se_i_pg_hanno_prove": "Si confondono vedendo tecnologia moderna o prove che la Germania ha perso la guerra, alcuni esitano ma l'ufficiale grida 'Propaganda nemica!' e ordina di continuare l'assalto",
-          "se_alleato": "Un soldato disertore potrebbe rivelare la posizione del portale temporale nel parco e il codice d'emergenza per richiamare l'intero plotone indietro nel 1944"
+          "se_minacciato": "Formano un cerchio difensivo attorno a Bliss, lanciano granate a frammentazione Stielhandgranate mentre fulmini temporali eruttano dal terreno dove cadono",
+          "se_corrotto": "Impossibile corromperli - sono soldati fanaticamente leali agli ordini ricevuti da Per Degaton che credono sia un alto ufficiale del Reich",
+          "se_i_pg_hanno_prove": "Se mostrati filmati della sconfitta nazista nel 1945, alcuni vacillano nella determinazione, il sergente del plotone entra in crisi esistenziale causando instabilità nel gruppo",
+          "se_alleato": "Nessun soldato è alleato - sono tutti sotto il controllo temporale di Per Degaton, ma un soldato morente può sussurrare coordinate temporali del suo 'punto di estrazione'"
         },
         "pressure_events": [],
         "relationships": [
@@ -9182,8 +8990,8 @@
         "secret": "They know about Per Degaton's chronal duplicates but have mostly left him alone",
         "agenda_pressure": 0,
         "fear": "The Gorgon discovering they've been too lenient with the prisoner",
-        "current_plan": "Mantenere Degaton in isolamento assoluto nel Red Swan, monitorare le sue attività cronali residue, nascondere alla catena di comando l'esistenza dei duplicati per evitare un'inchiesta sulla loro negligenza.",
-        "fallback_plan": "Se l'attacco temporale viene collegato al Red Swan, incolpare un 'sabotaggio esterno', eliminare tutti i registri sui duplicati cronali e trasferire Degaton in una prigione dimensionale dove nessuno possa interrogarlo.",
+        "current_plan": "Mantenere Degaton in isolamento totale nel livello Sub-7, monitorando costantemente le fluttuazioni temporali che potrebbero indicare l'arrivo di suoi duplicati o complici dal futuro",
+        "fallback_plan": "Se il contenimento fallisce, usare il Disintegratore Cronale per cancellare Degaton e i suoi duplicati da questa timeline, anche a costo di creare un paradosso controllato che richiederà l'intervento dei Time Masters",
         "resources": [
           "accessi",
           "contatti",
@@ -9205,16 +9013,16 @@
           "Temporal anomalies affecting the facility"
         ],
         "pressure_response": {
-          "low": "Mantengono la routine di guardia al Red Swan, controlli ogni 4 ore sulla cella di Per Degaton, rapporti standard. Ignorano le anomalie temporali come 'non di loro competenza'.",
-          "medium": "Rafforzano i protocolli di sicurezza attorno a Degaton, doppi turni, scansioni cronali ogni ora. Iniziano a sospettare che i fulmini temporali siano collegati al loro prigioniero.",
-          "high": "Lockdown totale del Red Swan. Scoprono che uno dei duplicati cronali di Degaton è sfuggito settimane fa. Cacciano disperatamente informazioni su chi altro sapeva dei duplicati.",
-          "extreme": "Evacuano Degaton verso una struttura più profonda. Il comandante delle guardie considera di eliminare tutti i duplicati cronali per prevenire ulteriori incidenti, violando i protocolli."
+          "low": "Seguono rigidamente i protocolli di sicurezza della Red Swan, rifiutando qualsiasi accesso non autorizzato a Per Degaton con tono burocratico e ostile",
+          "medium": "Aumentano le pattuglie nei corridoi del blocco di isolamento, attivano i sigilli temporali di emergenza e chiamano rinforzi dalla sicurezza centrale",
+          "high": "Evacuano Degaton verso un bunker più profondo attraverso tunnel segreti, pronti a sedarlo con gas cronolitico se necessario",
+          "extreme": "Attivano il Protocollo Omega: eliminazione del prigioniero e di tutti i suoi duplicati temporali prima che possano essere liberati o che la tecnologia cada in mani sbagliate"
         },
         "reaction_table": {
-          "se_minacciato": "Chiamano rinforzi dalla centrale ARGUS, attivano protocolli anti-metaumani, usano armi a impulsi cronali per 'congelare' temporaneamente gli intrusi.",
-          "se_corrotto": "Una guardia veterana accetta tangenti per fornire i registri delle visite a Degaton e i rapporti sulle sue anomalie cronali, ma mai accesso diretto.",
-          "se_i_pg_hanno_prove": "Negano tutto riguardo ai duplicati cronali, sostengono che Degaton sia sempre stato sotto controllo. Minacciano i PG con accuse di spionaggio verso strutture federali.",
-          "se_alleato": "Ammettono 'off the record' che Degaton ha creato almeno 3 duplicati cronali prima dell'arresto, uno dei quali manipola il tempo a Star City. Forniscono coordinate temporali delle anomalie registrate."
+          "se_minacciato": "Formano un muro umano davanti alla cella di Degaton, armi puntate. Il capitano delle guardie attiva silenziosamente un beacon che avverte i Time Masters della violazione",
+          "se_corrotto": "Fingono di accettare tangenti ma preparano un'imboscata: sanno che chiunque voglia liberare Degaton rappresenta una minaccia temporale di livello apocalittico",
+          "se_i_pg_hanno_prove": "Negano categoricamente l'esistenza dei duplicati cronali, sostenendo che sono 'anomalie nei sensori' - ammettere significherebbe confessare di aver fallito nella loro missione primaria",
+          "se_alleato": "Offrono informazioni sui movimenti temporali anomali rilevati vicino alla Red Swan nelle ultime 48 ore, ma solo se i PG giurano di non tentare di comunicare con Degaton"
         },
         "pressure_events": [],
         "relationships": [
@@ -9252,8 +9060,8 @@
         "secret": "He knows about Per Degaton's chronal duplicates but hasn't told anyone the full extent of the threat",
         "agenda_pressure": 0,
         "fear": "Per Degaton's chronal duplicates coordinating to create temporal catastrophe",
-        "current_plan": "Mantenere il rapimento di Bliss come incidente isolato, impedire qualsiasi investigazione che porti al Red Swan, monitorare i duplicati cronali attraverso i suoi sensori temporali segreti sperando che rimangano dormienti",
-        "fallback_plan": "Se i PG scoprono i duplicati cronali, accusare Per Degaton di aver orchestrato tutto dalla sua cella usando tecnologia temporale nascosta, poi offrirsi come consulente indispensabile per la caccia ai duplicati mentre segretamente ne elimina le prove del suo insabbiamento",
+        "current_plan": "Usare il rapimento di Bliss come esca per identificare e catturare i duplicati cronali di Per Degaton ancora liberi, mentre mantiene l'originale sedato e isolato al Red Swan sotto copertura di massima sicurezza",
+        "fallback_plan": "Se il contenimento fallisce, attivare l'Arma Kronos nascosta nel Red Swan: un dispositivo che crea una bolla di tempo congelato permanente intorno a Per Degaton e tutti i suoi duplicati, intrappolandoli in un singolo istante eterno",
         "resources": [
           "accessi",
           "contatti",
@@ -9275,16 +9083,16 @@
           "Government authorities discovering his illegal detention facility"
         ],
         "pressure_response": {
-          "low": "Monitora la situazione da remoto attraverso le telecamere del Red Swan, intensifica i protocolli di sicurezza attorno alla cella di Per Degaton e invia rapporti falsificati ai superiori minimizzando l'incidente",
-          "medium": "Mobilita squadre di contenimento temporale per recuperare i soldati della WWII, ordina il blackout informativo totale sul Red Swan e prepara protocolli di emergenza per eliminare i duplicati cronali se dovessero attivarsi",
-          "high": "Abbandona il Red Swan attivando il protocollo Medusa (sigillamento della struttura con Per Degaton all'interno), recupera personalmente i dati sui duplicati cronali nascosti nei suoi archivi privati e si prepara a negoziare con i PG rivelando parzialmente la verità",
-          "extreme": "Libera deliberatamente uno dei duplicati cronali minori di Per Degaton come diversivo sacrificale, distrugge tutte le prove della sua complicità nel sistema di contenimento difettoso e finge la propria morte per operare nell'ombra"
+          "low": "Rinforza la sicurezza al Red Swan con protocolli biometrici aggiuntivi, monitora i rapporti anomali temporali attraverso la sua rete di informatori militari",
+          "medium": "Attiva il Protocollo Aegis: lockdown completo della facility, sedazione cronale di Per Degaton, dispone una squadra tattica per recuperare Bliss prima che riveli la posizione del Red Swan",
+          "high": "Ordina l'eliminazione di Bliss se compromesso, trasferisce Per Degaton in una black site sottomarina, inizia a cacciare attivamente i duplicati cronali con tecnologia di tracciamento temporale rubata",
+          "extreme": "Esegue il Protocollo Medusa: uccide Per Degaton originale per prevenire ulteriori duplicazioni, si prepara a eliminare tutti i testimoni inclusi i PG, distrugge ogni evidenza del Red Swan con cariche al plasma"
         },
         "reaction_table": {
-          "se_minacciato": "Attiva il suo equipaggiamento anti-metaumani (scariche pietrificanti a corto raggio) e minaccia di rivelare che i PG hanno compromesso l'unica prigione capace di contenere Per Degaton, rendendo Star City responsabile di un'apocalisse temporale",
-          "se_corrotto": "Apparentemente incorruttibile ma potrebbe essere convinto a collaborare se gli viene garantita immunità totale e una nuova identità, poiché sa che quando i duplicati cronali si attiveranno tutti, lui sarà il primo capro espiatorio",
-          "se_i_pg_hanno_prove": "Passa alla modalità danno-controllo: ammette di aver nascosto informazioni sui duplicati per evitare il panico, offre accesso completo agli archivi classificati del Red Swan in cambio di essere incluso nella task force che gestirà la crisi",
-          "se_alleato": "Condivide le coordinate temporali dei tre duplicati cronali che ha già localizzato, fornisce le chiavi di decriptazione per i diari di prigionia di Per Degaton (che contengono indizi sui suoi piani) e ammette che Bliss potrebbe essere stato rapito proprio perché era vicino a scoprire la verità"
+          "se_minacciato": "Risponde con forza letale immediata, usa granate a stasi temporale per congelare gli aggressori in bolle cronali, chiama rinforzi dalla sua unità d'élite 'Medusa's Eyes'",
+          "se_corrotto": "Finge interesse ma documenta tutto per usarlo contro il corruttore, potrebbe accettare informazioni sui duplicati cronali come merce di scambio pur pianificando di tradire",
+          "se_i_pg_hanno_prove": "Tenta prima il recupero stealth delle prove attraverso infiltrati, poi negozia uno scambio (Bliss per il silenzio), ultima risorsa: scredita i PG come terroristi temporali",
+          "se_alleato": "Offre accesso limitato ai dossier di Per Degaton, condivide tecnologia anti-cronale, ma nasconde sempre l'esistenza dei duplicati e la vera estensione della minaccia temporale"
         },
         "pressure_events": [],
         "relationships": [
@@ -9322,8 +9130,8 @@
         "secret": "She found Per Degaton's lost manuscripts and swore loyalty to his cause before meeting White Dragon",
         "agenda_pressure": 0,
         "fear": "Per Degaton's vision failing and the Fourth Reich never coming to exist",
-        "current_plan": "Usare i soldati evocati come distrazione mentre sottopone Bliss a radiazioni temporali nel bunker sotterraneo, trasformandolo in bomba cronologica vivente da detonare all'ONU",
-        "fallback_plan": "Se i PG liberano Bliss, attivare il Dispositivo Degaton nascosto sotto Star City per riportare l'intera metropoli al 1939, creando un anacronismo che destabilizzerà la timeline globale",
+        "current_plan": "Usare Bliss come ancora temporale per stabilizzare un portale permanente verso il 1942. I suoi ricordi militari fungono da 'chiave genetica' per sincronizzare le timeline e permettere l'invasione del Quarto Reich.",
+        "fallback_plan": "Se il rituale fallisce, distruggere i manoscritti originali di Degaton per impedire che cadano in mani nemiche, mentre si ritira nel Timestream con frammenti di conoscenza sufficienti per ricostruire il piano in un'altra epoca.",
         "resources": [
           "accessi",
           "contatti",
@@ -9345,16 +9153,16 @@
           "White Dragon learning Per Degaton's full plans"
         ],
         "pressure_response": {
-          "low": "Osserva con arroganza glaciale, rispondendo con citazioni dai manoscritti di Per Degaton sulla 'inevitabilità del Reich eterno'. Sfoggia la sua conoscenza della tecnologia temporale.",
-          "medium": "Scatena fulmini temporali controllati per dimostrare superiorità, minacciando di disperdere i PG attraverso paradossi temporali. Rivela dettagli sul 'Progetto Götterdämmerung'.",
-          "high": "Apre portali temporali caotici evocando soldati nazisti da timeline multiple. Si barrica dietro distorsioni cronologiche mentre attiva il dispositivo che trasformerà Bliss in arma vivente.",
-          "extreme": "Tenta di innescare prematuramente la Terza Guerra Mondiale sovraccaricando i generatori temporali, anche a costo della propria vita. Urla che White Dragon completerà la missione e che i manoscritti sopravvivranno."
+          "low": "Osserva gli eroi con superiorità ariana, lasciando indizi sul Quarto Reich come propaganda psicologica. Usa i fulmini temporali per coprire la ritirata con i soldati.",
+          "medium": "Scatena un Blitzkrieg fulmineo: tempeste elettriche che alterano la cronologia locale, invecchiando edifici o ringiovanendo vittime. Rivela frammenti dei manoscritti di Degaton come distrazione.",
+          "high": "Apre un varco temporale massiccio per richiamare un intero panzer division dalla Seconda Guerra Mondiale. Minaccia di trasformare Star City in una Berlino del 1945 bombardata.",
+          "extreme": "Tentativo disperato di completare il rituale di Degaton prematuramente: sacrifica il Colonnello Bliss per creare un loop temporale che cancelli la sconfitta nazista. Rischia di frammentare la propria esistenza nel tempo."
         },
         "reaction_table": {
-          "se_minacciato": "Evoca uno scudo di energia temporale che invecchia rapidamente i proiettili. Chiama rinforzi dal 1944 attraverso fessure dimensionali.",
-          "se_corrotto": "Ride istericamente. 'Degaton mi promise l'eternità! Voi offrite solo cenere di un mondo morente!' Impossibile corrompere una fanatica.",
-          "se_i_pg_hanno_prove": "Ammette tutto con orgoglio nazista. 'I manoscritti rivelano la verità: il Reich non cadde, fu solo... ritardato. Noi siamo il suo ritorno inevitabile!'",
-          "se_alleato": "White Dragon arriva con tecnologia Ariana, fornendo copertura. Lei si concentra sul completare il condizionamento temporale di Bliss mentre lui combatte i PG."
+          "se_minacciato": "Ride istericamente e si circonda di fantasmi temporali di soldati SS caduti, usando il loro 'sacrificio' come scudi viventi prima di teletrasportarsi in un bunker del 1944.",
+          "se_corrotto": "Impossibile. La sua fede nei manoscritti di Degaton è fanatica e messianica. Considera qualsiasi offerta come debolezza democratica degna solo di disprezzo.",
+          "se_i_pg_hanno_prove": "Accelera il piano: usa White Dragon come capro espiatorio pubblico mentre lei completa il rituale in segreto. I manoscritti contengono coordinate temporali che solo lei può decifrare.",
+          "se_alleato": "White Dragon è uno strumento utile ma ideologicamente impuro. Se tradisce, lo intrappolerà in un loop temporale dove rivivrà la caduta del Reich all'infinito come punizione."
         },
         "pressure_events": [],
         "relationships": [
@@ -9397,8 +9205,8 @@
         "secret": "He refused to tell White Dragon the gathering location after the attack because he finds him too unpredictable to trust",
         "agenda_pressure": 0,
         "fear": "Failing to trigger World War III and the Fourth Reich never coming to power",
-        "current_plan": "Tenere Bliss in un rifugio anti-atomico del 1962 sospeso in stasi temporale mentre estrae metodicamente i suoi ricordi attraverso una macchina di visione del futuro, scoprendo quale sua azione specifica previene l'apocalisse del 2947",
-        "fallback_plan": "Se l'interrogatorio fallisce, portare Bliss direttamente al 2947 e costringerlo a testimoniare il mondo devastato, quindi riportarlo indietro e seguirlo segretamente per decenni osservando ogni sua mossa fino a identificare l'evento chiave",
+        "current_plan": "Estrarre con tecnologia del 2147 i ricordi specifici di Bliss sul momento esatto in cui impedisce il doomsday. Quindi eliminare Bliss nel passato prima che compia quell'azione, assicurandosi il controllo sul futuro.",
+        "fallback_plan": "Se l'interrogatorio fallisce, usare Bliss come ostaggio per forzare gli eroi a recuperare per lui un artefatto temporale custodito nella Fortezza della Solitudine. Con esso può vedere direttamente tutte le timeline possibili senza bisogno di testimoni.",
         "resources": [
           "accessi",
           "contatti",
@@ -9420,16 +9228,16 @@
           "Capture before completing his mission"
         ],
         "pressure_response": {
-          "low": "Osserva gli eroi dall'ombra temporale, inviando soldati della WWII come diversivo mentre continua l'interrogatorio di Bliss in un bunker fuori fase temporale",
-          "medium": "Accelera l'estrazione di informazioni da Bliss usando dispositivi temporali dolorosi, mentre sposta il prigioniero attraverso diverse epoche per confondere gli inseguitori",
-          "high": "Minaccia di cancellare l'intera linea temporale di Bliss dalla storia se non rivela come prevenire il giorno del giudizio, preparando simultaneamente un salto temporale d'emergenza",
-          "extreme": "Attiva una bomba temporale che congelerà Star City in un loop di 24 ore mentre fugge nel 2947 con Bliss, lasciando White Dragon e i soldati intrappolati come capri espiatori"
+          "low": "Osserva gli eroi da lontano attraverso portali temporali, studiando le loro capacità. Invia soldati della WWII come diversivo mentre interroga Bliss in un bunker del 1942.",
+          "medium": "Accelera l'interrogatorio usando sieri della verità anacronistici. Richiama rinforzi da diverse epoche storiche, creando caos temporale multiplo in Star City.",
+          "high": "Minaccia di cancellare Bliss dalla timeline se non parla. Prepara un salto temporale d'emergenza verso un'altra epoca, lasciando bombe temporali che invecchieranno zone della città di secoli.",
+          "extreme": "Attiva il suo Crono-Collasso: trascina interi isolati di Star City in epoche diverse simultaneamente, creando un labirinto temporale. Usa Bliss come esca per eliminare gli eroi in un paradosso."
         },
         "reaction_table": {
-          "se_minacciato": "Si disconnette istantaneamente dal presente usando il suo orologio temporale, abbandonando le sue truppe senza esitazione - la missione è più importante dei subordinati",
-          "se_corrotto": "Finge interesse ma analizza ogni parola cercando informazioni sul futuro che gli offrono, registrando tutto per studiarlo nella sua fortezza temporale",
-          "se_i_pg_hanno_prove": "Nega tutto affermando che il tempo è fluido e le prove appartengono a una realtà alternativa ormai cancellata, mentre segretamente pianifica di tornare indietro per prevenire quella specifica linea temporale",
-          "se_alleato": "Accetta alleanze temporanee ma mantiene sempre segreti cruciali, specialmente riguardo le coordinate temporali e la vera ubicazione di Bliss - nemmeno White Dragon può essere informato completamente"
+          "se_minacciato": "Si rifugia in un bunker temporale sovrapponendo tre epoche diverse nello stesso spazio. Solo lui può navigare la discontinuità. Invia cloni temporali di se stesso come kamikaze.",
+          "se_corrotto": "Finge interesse ma sta solo guadagnando tempo per completare l'estrazione mnemonica da Bliss. Offre tecnologia futura falsa, già programmata per autodistruggersi.",
+          "se_i_pg_hanno_prove": "Ride amaramente: 'Le prove? Cambierò il passato e non sarete mai esistiti per trovarle.' Minaccia di tornare indietro e impedire la nascita degli eroi stessi.",
+          "se_alleato": "Accetta solo se White Dragon viene escluso dall'alleanza. Condivide parzialmente i dati su Bliss ma nasconde la vera natura del doomsday: è causato proprio dai suoi viaggi nel tempo."
         },
         "pressure_events": [],
         "relationships": [
@@ -9477,7 +9285,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -9514,17 +9321,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "section_extra_2",
-          "section_extra_3"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Adventure Overview",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -9539,7 +9335,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -9576,17 +9371,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "section_extra_1",
-          "section_extra_3"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Activating the Squad",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -9601,7 +9385,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -9639,17 +9422,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "section_extra_1",
-          "section_extra_2"
-        ],
-        "local_map_image_b64": "",
         "original_section": "Part 1: Panzer Plans",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -9667,7 +9439,6 @@
           "llm_clue_3"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {
           "enabled": true,
           "role": "hot_zone",
@@ -9720,17 +9491,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "3",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_3",
-        "location_type": "regional",
-        "connections_to": [
-          "p3_room_4",
-          "p3_room_6"
-        ],
-        "local_map_image_b64": "",
         "original_section": "The Bombers",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -9749,7 +9509,6 @@
           "llm_clue_12"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -9788,17 +9547,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "4",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_3",
-        "location_type": "regional",
-        "connections_to": [
-          "p3_room_3",
-          "p3_room_6"
-        ],
-        "local_map_image_b64": "",
         "original_section": "The Bombers",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -9815,7 +9563,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "room",
@@ -9852,17 +9599,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "6",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_3",
-        "location_type": "regional",
-        "connections_to": [
-          "p3_room_3",
-          "p3_room_4"
-        ],
-        "local_map_image_b64": "",
         "original_section": "The Bombers",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -9882,7 +9618,6 @@
           "llm_clue_5"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -9922,16 +9657,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_3",
-        "location_type": "regional",
-        "connections_to": [
-          "section_extra_5"
-        ],
-        "local_map_image_b64": "",
         "original_section": "The Blitz",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -9946,7 +9671,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "section",
@@ -9983,16 +9707,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "section_extra_6"
-        ],
-        "local_map_image_b64": "",
         "original_section": "The Bombers",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -10007,7 +9721,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [
           "llm_clue_1",
@@ -10049,17 +9762,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "section_extra_5",
-          "section_extra_7"
-        ],
-        "local_map_image_b64": "",
         "original_section": "The Baroness",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -10074,7 +9776,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [
           "llm_clue_1",
@@ -10116,16 +9817,6 @@
         },
         "source_status": "explicit",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "section_extra_4",
-        "location_type": "local",
-        "connections_to": [
-          "section_extra_6"
-        ],
-        "local_map_image_b64": "",
         "original_section": "An Unlikely Rescue?",
         "is_preserved_from_pdf": true,
         "inferred_runtime_fields": [
@@ -10335,151 +10026,7 @@
         "concrete_choice": "Sfruttare il clima siberiano per sabotare il sistema di riscaldamento della prigione, causando un blackout termico che congeli guardie e Degaton, permettendo estrazione di Bliss"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "La tecnologia temporale di Degaton",
-        "question": "Come fa Per Degaton a creare duplicati cronali e manipolare il tempo?",
-        "true_answer": "Degaton ha sviluppato un dispositivo chiamato Time Pool che gli permette di estrarre copie di se stesso da diversi punti temporali e proiettare fulmini temporali come arma difensiva",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "nuovo_clue_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T1",
-          "T2"
-        ],
-        "linked_npcs": [
-          "PER DEGATON"
-        ],
-        "linked_locations": [
-          "Adventure Overview"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Il piano del Quarto Reich",
-        "question": "Perché il Colonnello Bliss è così importante per prevenire la Terza Guerra Mondiale?",
-        "true_answer": "Bliss possiede codici di accesso militari e conoscenze strategiche che Degaton vuole estrarre per sabotare le difese alleate e permettere al Quarto Reich di conquistare il potere globale",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_4",
-          "nuovo_clue_5",
-          "nuovo_clue_6"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T3"
-        ],
-        "linked_npcs": [
-          "PER DEGATON",
-          "BRITTA FELNYK - AKA BARONESS BLITZKRIEG"
-        ],
-        "linked_locations": [
-          "Adventure Overview",
-          "Part 1: Panzer Plans"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "La rete di collaboratori contemporanei",
-        "question": "Chi sta aiutando Degaton nel presente e dove si nasconde?",
-        "true_answer": "Baroness Blitzkrieg guida una cellula di metaumani neonazisti e usa il Submarine I-402 Nagara come base mobile, coordinandosi con la prigione siberiana",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_7",
-          "nuovo_clue_8"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T4",
-          "T8"
-        ],
-        "linked_npcs": [
-          "BRITTA FELNYK - AKA BARONESS BLITZKRIEG",
-          "THE GORGON"
-        ],
-        "linked_locations": [
-          "A Familiar Neighborhood"
-        ]
-      },
-      {
-        "id": "T_duplicati_temporali",
-        "title": "T duplicati temporali",
-        "question": "Per Degaton ha inviato duplicati cronali di sé stesso in diversi punti temporali per scatenare la Terza Guerra Mondiale",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_bliss_obiettivo",
-        "title": "T bliss obiettivo",
-        "question": "Il Colonnello Bliss è la chiave per prevenire l'apocalisse futura e per questo Degaton lo ha rapito per interrogarlo",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_alleanza_nazista",
-        "title": "T alleanza nazista",
-        "question": "Degaton ha reclutato metaumani nazisti contemporanei e usa forze WWII con tattiche di forza bruta per i suoi attacchi",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_prigione_siberiana",
-        "title": "T prigione siberiana",
-        "question": "La prigione siberiana è sorvegliata da Guardie Gorgone equipaggiate con 'humanity weapons' sotto comando nazista",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_fulmini_temporali",
-        "title": "T fulmini temporali",
-        "question": "I temporal lightning strikes sono effetti collaterali dei viaggi temporali di Degaton e rendono l'area troppo pericolosa",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_degaton_originale",
-        "title": "T degaton originale",
-        "question": "Il Degaton originale è imprigionato in Siberia mentre i suoi duplicati operano liberamente nel presente",
-        "true_answer": "",
-        "clue_plan": [],
-        "required_clues": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 3,
@@ -15004,8 +14551,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
