@@ -1000,6 +1000,17 @@ def _enrich_initial_hook(data: Dict) -> str:
         return ""
 
 
+def _npc_needs_depth(actor: Dict) -> bool:
+    """True se al PNG manca spessore narrativo: descrizione, movente o segreto
+    assenti o troppo scarni (< 40 caratteri). Serve a far scattare l'arricchimento
+    anche su attori già dotati dei campi tattici (pressure/reaction) ma "piatti"
+    sul piano narrativo."""
+    return any(
+        len(str(actor.get(fld) or "").strip()) < 40
+        for fld in ("description", "motivation", "secret")
+    )
+
+
 def _enrich_npc(actor: Dict, context: str) -> Dict:
     name = actor.get("name", actor.get("id"))
     prompt = (
@@ -1333,12 +1344,15 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
         if hook:
             enriched["initial_hook"] = hook
 
-    # NPCs
-    if "npc" in categories:
-        npc_ids = {f.entity_id for f in findings if f.category == "npc"}
+    # NPCs — arricchisci quelli segnalati dall'audit E quelli con testo narrativo
+    # magro (description/motivation/secret scarni), anche se hanno già i campi
+    # tattici. Senza questo, i PNG importati "piatti" non venivano mai sviluppati.
+    npc_ids = {f.entity_id for f in findings if f.category == "npc"}
+    actors = enriched.get("actors", [])
+    if npc_ids or any(_npc_needs_depth(a) for a in actors):
         enriched["actors"] = [
-            _enrich_npc(a, context) if a.get("id") in npc_ids else a
-            for a in enriched.get("actors", [])
+            _enrich_npc(a, context) if (a.get("id") in npc_ids or _npc_needs_depth(a)) else a
+            for a in actors
         ]
 
     # Clocks
