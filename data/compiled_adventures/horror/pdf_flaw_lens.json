@@ -832,14 +832,45 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 87,
-      "issues": [],
-      "warnings": [
-        "Solo 1 actor — normale per avventura isolata con antagonista singolo"
-      ]
+    "valid": true,
+    "playable": true,
+    "playable_score": 85,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_gas non collegato a una revelation valida."
+    ],
+    "suggestions": [
+      "Non mostrare mai l'entità direttamente — solo ombre, suoni, effetti sui PG",
+      "Pryce è tragico: era un buon scienziato distrutto dalla curiosità",
+      "Il manuale tecnico è il vero MacGuffin — chi lo trova per primo cambia la dinamica"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 87
+    },
+    "fidelity": {
+      "score": 97,
+      "target": 85,
+      "passes_target": true,
+      "source_card_counts": {},
+      "coverage": {
+        "locations": 100,
+        "actors": 100,
+        "clues": 100,
+        "clue_links": 86,
+        "finale": 100
+      }
+    },
+    "counts": {
+      "objectives": 4,
+      "locations": 4,
+      "actors": 1,
+      "clues": 7,
+      "revelations": 4
     }
   }
 }

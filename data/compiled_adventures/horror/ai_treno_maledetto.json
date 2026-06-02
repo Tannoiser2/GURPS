@@ -807,12 +807,38 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 88,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 70,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_poison non collegato a una revelation valida.",
+      "Location train_corridor senza almeno 3 feature concrete.",
+      "Location train_compartment_4 senza almeno 3 feature concrete.",
+      "Location train_bathroom senza almeno 3 feature concrete.",
+      "Location train_conductors senza almeno 3 feature concrete.",
+      "Location train_compartment_3 senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Il treno come location claustrofobica è il vero protagonista",
+      "Crane come antagonista-alleato è il personaggio più ricco",
+      "Il finale più soddisfacente è la placazione — non l'esorcismo violento"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 79,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 82
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 3,
+      "locations": 6,
+      "actors": 2,
+      "clues": 6,
+      "revelations": 3
     }
   }
 }

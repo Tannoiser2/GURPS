@@ -380,7 +380,8 @@
           "clue_mandato_cattura"
         ],
         "description": "Conroy Biggins è un evaso, non una creatura soprannaturale.",
-        "thread_id": "T_conroy"
+        "thread_id": "T_conroy",
+        "statement": "Conroy Biggins è un evaso, non una creatura soprannaturale."
       },
       {
         "id": "rev_jake_vivo",
@@ -389,7 +390,8 @@
           "clue_droghe_jake"
         ],
         "description": "Jake non è ferito mortalmente — è sotto LSD, recuperabile.",
-        "thread_id": "T_jake"
+        "thread_id": "T_jake",
+        "statement": "Jake non è ferito mortalmente — è sotto LSD, recuperabile."
       },
       {
         "id": "rev_bunker_biggins",
@@ -398,7 +400,8 @@
           "clue_documenti_bunker"
         ],
         "description": "Zacharias conosce l'esistenza del bunker — può aiutare se contattato.",
-        "thread_id": "T_zacharias"
+        "thread_id": "T_zacharias",
+        "statement": "Zacharias conosce l'esistenza del bunker — può aiutare se contattato."
       }
     ],
     "finale_conditions": [
@@ -505,11 +508,83 @@
     "active_threads": []
   },
   "validation_report": {
-    "quality_gate": {
-      "passed": true,
-      "score": 100,
-      "critical": [],
-      "warnings": []
+    "valid": true,
+    "playable": false,
+    "playable_score": 2,
+    "errors": [],
+    "warnings": [
+      "Clue clue_tracce_jake non collegato a una revelation valida.",
+      "Clue clue_tracce_jake senza source_location concreta.",
+      "Clue clue_tracce_jake senza possible_actions.",
+      "Clue clue_tracce_jake troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_zaino_jake non collegato a una revelation valida.",
+      "Clue clue_zaino_jake senza source_location concreta.",
+      "Clue clue_zaino_jake senza possible_actions.",
+      "Clue clue_zaino_jake troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_documenti_bunker non collegato a una revelation valida.",
+      "Clue clue_documenti_bunker senza source_location concreta.",
+      "Clue clue_documenti_bunker senza possible_actions.",
+      "Clue clue_documenti_bunker troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_mandato_cattura non collegato a una revelation valida.",
+      "Clue clue_mandato_cattura senza source_location concreta.",
+      "Clue clue_mandato_cattura senza possible_actions.",
+      "Clue clue_mandato_cattura troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_droghe_jake non collegato a una revelation valida.",
+      "Clue clue_droghe_jake senza source_location concreta.",
+      "Clue clue_droghe_jake senza possible_actions.",
+      "Clue clue_droghe_jake troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_gas_miniera non collegato a una revelation valida.",
+      "Clue clue_gas_miniera senza source_location concreta.",
+      "Clue clue_gas_miniera senza possible_actions.",
+      "Clue clue_gas_miniera troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_radio_sceriffo non collegato a una revelation valida.",
+      "Clue clue_radio_sceriffo senza source_location concreta.",
+      "Clue clue_radio_sceriffo senza possible_actions.",
+      "Clue clue_radio_sceriffo troppo astratta: manca immediate_information o hidden_implication.",
+      "Revelation rev_conroy_umano non ha clue o condizioni.",
+      "Revelation rev_jake_vivo non ha clue o condizioni.",
+      "Revelation rev_bunker_biggins non ha clue o condizioni.",
+      "FinaleCondition finale_jake_salvato non ha dipendenze esplicite.",
+      "FinaleCondition finale_fuga_sicura non ha dipendenze esplicite.",
+      "Actor actor_conroy senza goal.",
+      "Actor actor_jake senza goal.",
+      "Ally actor_jake senza utility concreta.",
+      "Actor actor_zacharias senza goal.",
+      "Actor actor_sceriffo senza goal.",
+      "Ally actor_sceriffo senza utility concreta.",
+      "Location loc_porto_oak senza almeno 3 feature concrete.",
+      "Location loc_porto_oak senza visual_identity.",
+      "Location loc_sitka_spiaggia senza almeno 3 feature concrete.",
+      "Location loc_sitka_spiaggia senza visual_identity.",
+      "Location loc_foresta_sitka senza almeno 3 feature concrete.",
+      "Location loc_foresta_sitka senza visual_identity.",
+      "Location loc_miniera senza almeno 3 feature concrete.",
+      "Location loc_miniera senza visual_identity.",
+      "Location loc_bunker_nascosto senza almeno 3 feature concrete.",
+      "Location loc_bunker_nascosto senza visual_identity.",
+      "Location loc_capanna_eremita senza almeno 3 feature concrete.",
+      "Location loc_capanna_eremita senza visual_identity.",
+      "FinaleCondition finale_jake_salvato dovrebbe richiedere almeno 2 clue.",
+      "FinaleCondition finale_jake_salvato senza metodo/scelta concreta.",
+      "FinaleCondition finale_fuga_sicura dovrebbe richiedere almeno 2 clue.",
+      "FinaleCondition finale_fuga_sicura senza metodo/scelta concreta."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 25,
+      "npc_agenda_score": 75,
+      "location_playability_score": 25,
+      "clock_operational_score": 33,
+      "finale_playability_score": 0,
+      "fiction_density_score": 32
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 0,
+      "locations": 6,
+      "actors": 4,
+      "clues": 7,
+      "revelations": 3
     }
   }
 }

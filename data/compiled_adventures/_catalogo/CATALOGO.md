@@ -2,7 +2,7 @@
 
 > Vista generata da `tools/build_adventure_catalog.py` — symlink ai file reali in `data/compiled_adventures/`. **Non** modificare a mano: rilancia lo script.
 
-**Totale:** 107 avventure · **Punteggio medio:** 84/100 · **Rotte:** 0
+**Totale:** 107 avventure · **Punteggio medio (giocabili):** 83/100 · **Rotte:** 0 · **Non giocabili:** 4
 
 **Per fonte:** AI 68 · PDF 39  
 **Per tema:** Azione 16 · Fantasy 29 · Horror 24 · Investigazione 12 · Romance 8 · Fantascienza 18
@@ -21,14 +21,14 @@
 | `ACT-AI-92` | Operazione Nexum | AI | 92 | 🟢 | `action/adv_e091160536.json` |
 | `ACT-AI-86` | Limite Zero | AI | 86 | 🟢 | `action/adv_27a275c8ee.json` |
 | `ACT-PDF-83` | Bombshell of Tomorrow | PDF | 83 | 🟡 | `action/pdf_bombshell_of_tomorrow.json` |
+| `ACT-PDF-83` | Railgun Road | PDF | 83 | 🟡 | `action/pdf_railgun_road.json` |
 | `ACT-PDF-79` | Lost Jewels Eire | PDF | 79 | 🟡 | `action/pdf_lost_jewels_eire.json` |
 | `ACT-PDF-77` | The Sirens Citadel | PDF | 77 | 🟡 | `action/pdf_the_sirens_citadel.json` |
 | `ACT-PDF-69` | Minutes Not Hours | PDF | 69 | 🟠 | `action/pdf_minutes_not_hours.json` |
 | `ACT-PDF-69` | Phantom Jungle | PDF | 69 | 🟠 | `action/pdf_phantom_jungle.json` |
+| `ACT-AI-67` | Ambasciata sotto Assedio | AI | 67 | 🟠 | `action/ai_ambasciata_assedio.json` |
 | `ACT-PDF-65` | Uncanny Curse of Sekhmet | PDF | 65 | 🟠 | `action/pdf_uncanny_curse_of_sekhmet.json` |
-| `ACT-AI-NA` | Ambasciata sotto Assedio | AI | — | ⚪ n/d | `action/ai_ambasciata_assedio.json` |
-| `ACT-PDF-NA` | Never Forget to Die | PDF | — | ⚪ n/d | `action/pdf_never_forget.json` |
-| `ACT-PDF-NA` | Railgun Road | PDF | — | ⚪ n/d | `action/pdf_railgun_road.json` |
+| `ACT-PDF-02` | Never Forget to Die | PDF | 2 | ⛔ non giocabile | `action/pdf_never_forget.json` |
 
 ## Fantasy (29)
 
@@ -50,19 +50,19 @@
 | `FAN-PDF-85` | T he Vast Vermin Swamp is a mud-ridden, stench- The Vast Vermin Swamp | PDF | 85 | 🟢 | `fantasy/pdf_the_vast_vermin_swamp.json` |
 | `FAN-PDF-83` | Beyond the Vale of Madness | PDF | 83 | 🟡 | `fantasy/pdf_beyond_the_vale_of_madness.json` |
 | `FAN-PDF-83` | Roar of the Terrorghorger | PDF | 83 | 🟡 | `fantasy/pdf_roar_of_the_terrorghorger.json` |
+| `FAN-PDF-83` | Scourge of Triton | PDF | 83 | 🟡 | `fantasy/pdf_scourge_triton.json` |
+| `FAN-PDF-82` | Beast of Black Keep | PDF | 82 | 🟡 | `fantasy/pdf_beast_keep.json` |
 | `FAN-AI-82` | Il Patto di Cenere e Ferro | AI | 82 | 🟡 | `fantasy/adv_9d52b2659c.json` |
 | `FAN-PDF-79` | Cattedrale Luna Infernale | PDF | 79 | 🟡 | `fantasy/pdf_cattedrale_luna_infernale.json` |
 | `FAN-PDF-79` | La Foresta dei Sogni Impossibili | PDF | 79 | 🟡 | `fantasy/pdf_la_foresta_dei_sogni_impossibili.json` |
+| `FAN-AI-78` | Il Festival del Sangue | AI | 78 | 🟡 | `fantasy/ai_festival_del_sangue.json` |
 | `FAN-AI-76` | La Fiamma di Korven | AI | 76 | 🟡 | `fantasy/adv_b9e2b3d093.json` |
 | `FAN-PDF-75` | Cat Nani | PDF | 75 | 🟡 | `fantasy/pdf_cat_nani.json` |
 | `FAN-PDF-75` | Lupo di Kosmar | PDF | 75 | 🟡 | `fantasy/pdf_lupo_di_kosmar.json` |
+| `FAN-AI-73` | Il Castello Senza Re | AI | 73 | 🟡 | `fantasy/ai_castello_senza_re.json` |
 | `FAN-PDF-71` | Moon of Thorns | PDF | 71 | 🟡 | `fantasy/pdf_moon_of_thorns.json` |
 | `FAN-PDF-63` | Cold Bounty | PDF | 63 | 🟠 | `fantasy/pdf_cold_bounty.json` |
-| `FAN-PDF-NA` | Beast of Black Keep | PDF | — | ⚪ n/d | `fantasy/pdf_beast_keep.json` |
-| `FAN-AI-NA` | Il Castello Senza Re | AI | — | ⚪ n/d | `fantasy/ai_castello_senza_re.json` |
-| `FAN-AI-NA` | Il Festival del Sangue | AI | — | ⚪ n/d | `fantasy/ai_festival_del_sangue.json` |
-| `FAN-PDF-NA` | Scourge of Triton | PDF | — | ⚪ n/d | `fantasy/pdf_scourge_triton.json` |
-| `FAN-PDF-NA` | The Third Hall of Uzrah | PDF | — | ⚪ n/d | `fantasy/pdf_uzrah.json` |
+| `FAN-PDF-00` | The Third Hall of Uzrah | PDF | 0 | ⛔ non giocabile | `fantasy/pdf_uzrah.json` |
 
 ## Horror (24)
 
@@ -75,23 +75,23 @@
 | `HOR-AI-92` | Le Ossa del Passaggio Nero | AI | 92 | 🟢 | `horror/adv_1b5b0fc730.json` |
 | `HOR-AI-88` | Il Patto della Cenere Fredda | AI | 88 | 🟢 | `horror/adv_ec1294107c.json` |
 | `HOR-AI-88` | Il Sacrificio di Valmur | AI | 88 | 🟢 | `horror/adv_428711a6d9.json` |
+| `HOR-PDF-87` | The Mound in the Yard | PDF | 87 | 🟢 | `horror/pdf_mound_yard.json` |
 | `HOR-AI-86` | Il Sigillo di Cenere | AI | 86 | 🟢 | `horror/adv_af59f21c42.json` |
 | `HOR-AI-86` | Le Campane di Graustein | AI | 86 | 🟢 | `horror/adv_eb4fc7e52e.json` |
+| `HOR-PDF-85` | Flaw in the Lens | PDF | 85 | 🟢 | `horror/pdf_flaw_lens.json` |
+| `HOR-PDF-85` | Thrusher Manor | PDF | 85 | 🟢 | `horror/pdf_thrusher_manor.json` |
+| `HOR-AI-82` | La Miniera Abbandonata | AI | 82 | 🟡 | `horror/ai_miniera_abbandonata.json` |
 | `HOR-PDF-79` | Il Faro | PDF | 79 | 🟡 | `horror/pdf_il_faro.json` |
+| `HOR-AI-76` | La Cattedrale Profanata | AI | 76 | 🟡 | `horror/ai_cattedrale_profanata.json` |
 | `HOR-PDF-71` | Black Mine of Teihiihan | PDF | 71 | 🟡 | `horror/pdf_black_mine_of_teihiihan.json` |
+| `HOR-AI-70` | Il Treno Maledetto | AI | 70 | 🟡 | `horror/ai_treno_maledetto.json` |
 | `HOR-PDF-69` | Opera Unceasing | PDF | 69 | 🟠 | `horror/pdf_opera_unceasing.json` |
 | `HOR-PDF-65` | story, “The Temple”.) | PDF | 65 | 🟠 | `horror/pdf_the_temple.json` |
 | `HOR-PDF-59` | Festering Locusts of Fenmore | PDF | 59 | 🟠 | `horror/pdf_festering_locusts_of_fenmore.json` |
 | `HOR-PDF-59` | St Cecilias Blasphemous Bordello | PDF | 59 | 🟠 | `horror/pdf_st_cecilias_blasphemous_bordello.json` |
 | `HOR-PDF-57` | Dark Wicche | PDF | 57 | 🟠 | `horror/pdf_dark_wicche.json` |
-| `HOR-PDF-NA` | Flaw in the Lens | PDF | — | ⚪ n/d | `horror/pdf_flaw_lens.json` |
-| `HOR-PDF-NA` | Gotham '39: The Mirror Eternal | PDF | — | ⚪ n/d | `horror/pdf_gotham39.json` |
-| `HOR-AI-NA` | Il Treno Maledetto | AI | — | ⚪ n/d | `horror/ai_treno_maledetto.json` |
-| `HOR-AI-NA` | La Cattedrale Profanata | AI | — | ⚪ n/d | `horror/ai_cattedrale_profanata.json` |
-| `HOR-AI-NA` | La Miniera Abbandonata | AI | — | ⚪ n/d | `horror/ai_miniera_abbandonata.json` |
-| `HOR-PDF-NA` | Spectral Tides: The Goblin-Thing | PDF | — | ⚪ n/d | `horror/pdf_spectral_tides.json` |
-| `HOR-PDF-NA` | The Mound in the Yard | PDF | — | ⚪ n/d | `horror/pdf_mound_yard.json` |
-| `HOR-PDF-NA` | Thrusher Manor | PDF | — | ⚪ n/d | `horror/pdf_thrusher_manor.json` |
+| `HOR-PDF-02` | Gotham '39: The Mirror Eternal | PDF | 2 | ⛔ non giocabile | `horror/pdf_gotham39.json` |
+| `HOR-PDF-02` | Spectral Tides: The Goblin-Thing | PDF | 2 | ⛔ non giocabile | `horror/pdf_spectral_tides.json` |
 
 ## Investigazione (12)
 
@@ -105,10 +105,10 @@
 | `INV-AI-90` | Il Sorvegliante delle Ombre | AI | 90 | 🟢 | `investigation/adv_008cf237dc.json` |
 | `INV-AI-90` | L'Ultima Carovana del Passo Argento | AI | 90 | 🟢 | `investigation/adv_76e500a04a.json` |
 | `INV-AI-86` | Le Ossa del Leviatano | AI | 86 | 🟢 | `investigation/adv_7b24ff879a.json` |
+| `INV-AI-74` | Villa Veleno | AI | 74 | 🟡 | `investigation/ai_villa_veleno.json` |
+| `INV-AI-72` | Il Quartiere Fumoso | AI | 72 | 🟡 | `investigation/ai_quartiere_fumoso.json` |
+| `INV-AI-69` | Porto Fantasma | AI | 69 | 🟠 | `investigation/ai_porto_fantasma.json` |
 | `INV-PDF-59` | Indice | PDF | 59 | 🟠 | `investigation/pdf_index.json` |
-| `INV-AI-NA` | Il Quartiere Fumoso | AI | — | ⚪ n/d | `investigation/ai_quartiere_fumoso.json` |
-| `INV-AI-NA` | Porto Fantasma | AI | — | ⚪ n/d | `investigation/ai_porto_fantasma.json` |
-| `INV-AI-NA` | Villa Veleno | AI | — | ⚪ n/d | `investigation/ai_villa_veleno.json` |
 
 ## Romance (8)
 
@@ -143,5 +143,5 @@
 | `SCI-PDF-83` | Amethyst Reign | PDF | 83 | 🟡 | `sci-fi/pdf_amethyst_reign.json` |
 | `SCI-PDF-75` | Who Tracks the Steps of Glory | PDF | 75 | 🟡 | `sci-fi/pdf_who_tracks_the_steps_of_glory.json` |
 | `SCI-PDF-67` | Clear Light of Doomsday | PDF | 67 | 🟠 | `sci-fi/pdf_clear_light_of_doomsday.json` |
+| `SCI-AI-66` | Stazione Orbit | AI | 66 | 🟠 | `sci-fi/ai_stazione_orbit.json` |
 | `SCI-PDF-57` | Star Wars The Unknown Command | PDF | 57 | 🟠 | `sci-fi/pdf_star_wars_the_unknown_command.json` |
-| `SCI-AI-NA` | Stazione Orbit | AI | — | ⚪ n/d | `sci-fi/ai_stazione_orbit.json` |

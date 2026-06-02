@@ -98,13 +98,15 @@ def collect():
             src = source_code(ad, jf.stem)
             score = vr.get("playable_score")
             score_txt = f"{int(score):02d}" if isinstance(score, (int, float)) else "NA"
-            broken = vr.get("valid") is False or vr.get("playable") is False
+            broken = vr.get("valid") is False          # invalida -> _ROTTE
+            unplayable = not broken and vr.get("playable") is False  # valida ma non giocabile
             slug = slugify(ad.get("title", ""), jf.stem)
             code = f"{code_theme}-{src}-{score_txt}"
             entries.append({
                 "code": code, "theme": folder, "theme_code": code_theme,
                 "src": src, "score": score if isinstance(score, (int, float)) else None,
-                "broken": broken, "slug": slug, "title": ad.get("title") or jf.stem,
+                "broken": broken, "unplayable": unplayable,
+                "slug": slug, "title": ad.get("title") or jf.stem,
                 "real": jf, "errors": len(vr.get("errors") or []),
                 "warnings": len(vr.get("warnings") or []),
             })
@@ -150,15 +152,16 @@ def write_markdown(entries):
     by_theme = Counter(e["theme"] for e in entries)
     by_src = Counter(e["src"] for e in entries)
     broken = [e for e in entries if e["broken"]]
-    scored = [e["score"] for e in entries if e["score"] is not None]
+    unplayable = [e for e in entries if e["unplayable"]]
+    scored = [e["score"] for e in entries if e["score"] is not None and not e["unplayable"]]
     avg = sum(scored) / len(scored) if scored else 0
 
     L = []
     L.append("# 📚 Catalogo avventure\n")
     L.append("> Vista generata da `tools/build_adventure_catalog.py` — symlink ai file "
              "reali in `data/compiled_adventures/`. **Non** modificare a mano: rilancia lo script.\n")
-    L.append(f"**Totale:** {n} avventure · **Punteggio medio:** {avg:.0f}/100 · "
-             f"**Rotte:** {len(broken)}\n")
+    L.append(f"**Totale:** {n} avventure · **Punteggio medio (giocabili):** {avg:.0f}/100 · "
+             f"**Rotte:** {len(broken)} · **Non giocabili:** {len(unplayable)}\n")
     L.append("**Per fonte:** " + " · ".join(f"{k} {v}" for k, v in sorted(by_src.items())) + "  ")
     L.append("**Per tema:** " + " · ".join(
         f"{THEME_LABEL.get(k, k)} {v}" for k, v in sorted(by_theme.items())) + "\n")
@@ -186,6 +189,8 @@ def write_markdown(entries):
         for e in rows:
             if e["broken"]:
                 stato = "🔴 rotta"
+            elif e["unplayable"]:
+                stato = "⛔ non giocabile"
             elif e["score"] is None:
                 stato = "⚪ n/d"
             elif e["score"] >= 85:
