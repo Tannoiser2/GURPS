@@ -1,0 +1,92 @@
+name: Rigenera Avventure Deboli
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_adventures:
+        description: "Quante avventure deboli rigenerare (0 = tutte le 3)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write
+
+jobs:
+  rigenera-deboli:
+    runs-on: ubuntu-latest
+    # Solo 3 avventure (~4 min l'una). Cuscinetto ampio: con commit incrementale
+    # i progressi sono comunque salvati anche se il timeout scattasse.
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verifica ANTHROPIC_API_KEY
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "❌ Secret ANTHROPIC_API_KEY non configurato nel repo."
+            echo ""
+            echo "Come aggiungerlo:"
+            echo "  GitHub → repo → Settings → Secrets and variables → Actions"
+            echo "  → New repository secret"
+            echo "  Nome:   ANTHROPIC_API_KEY"
+            echo "  Valore: la tua chiave (inizia con sk-ant-api03-...)"
+            exit 1
+          fi
+          echo "✅ ANTHROPIC_API_KEY presente (${#ANTHROPIC_API_KEY} caratteri)"
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa dipendenze
+        run: |
+          pip install --upgrade pip
+
+          # Dipendenze obbligatorie del backend
+          pip install \
+            "anthropic>=0.50" \
+            "pydantic>=2.0.0" \
+            "python-dotenv>=1.0.0" \
+            "openai>=1.0.0" \
+            "pdfplumber>=0.10.0" \
+            "Pillow>=10.0.0" \
+            "fastapi>=0.110.0" \
+            "python-multipart>=0.0.9"
+
+          # google-genai opzionale
+          pip install "google-genai" || echo "⚠ google-genai non installato (opzionale)"
+
+      - name: Configura git per commit incrementali
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Rigenera avventure deboli (import diretto, senza uvicorn)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Attiva il commit+push dopo OGNI avventura: se il job va in timeout, il lavoro
+          # fatto è già su main.
+          CI_COMMIT: "1"
+        run: |
+          python3 scripts/rigenera_deboli_direct.py \
+            --max ${{ github.event.inputs.max_adventures }}
+
+      - name: Commit e push risultati
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/compiled_adventures/
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo "⚠ Nessuna modifica da committare"
+          else
+            COUNT=$(git diff --cached --name-only | grep -c "ai_" || true)
+            git commit -m "regen-weak: $COUNT avventure deboli sostituite [skip ci]"
+            git push origin main
+            echo "✅ $COUNT avventure committate su main"
+          fi
