@@ -1,0 +1,2619 @@
+{
+  "adventure_definition": {
+    "id": "adv_008cf237dc",
+    "title": "Il Sorvegliante delle Ombre",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "faction_sandbox",
+      "secondary_archetypes": [],
+      "confidence": 0.9,
+      "reason": "Matched runtime signals for faction_sandbox",
+      "definition": {
+        "id": "faction_sandbox",
+        "description": "Fazioni con obiettivi e reazioni offscreen.",
+        "required_modules": [
+          "factions",
+          "actors"
+        ],
+        "optional_modules": [
+          "clocks"
+        ],
+        "runtime_focus": [
+          "faction_pressure"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "behavior",
+          "testimony"
+        ],
+        "common_failure_modes": [
+          "faction_escalates"
+        ],
+        "ending_patterns": [
+          "balance_shift"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "detective_classico",
+    "runtime_profiles": [
+      "faction_crisis"
+    ],
+    "tone": "Tensione investigativa con crescente inquietudine psicologica — i confini tra memoria vera e falsa si sfaldano progressivamente, creando un senso di isolamento cognitivo dove nemmeno i PG possono fidarsi completamente delle proprie percezioni",
+    "premise": "Thorin, Alara e Okafor vengono ingaggiati come consulenti esterni dal Consiglio di Quartiere di Valmura, una cittadella mineraria dove tre testimoni chiave di un omicidio avvenuto sei settimane fa hanno modificato le loro deposizioni, affermando di ricordare eventi completamente diversi da quelli iniziali. La vittima, un ingegnere delle miniere di nome Corvin Tallis, è stata trovata morta nel pozzo di ventilazione principale. Nessuno sa perché i testimoni mentano ora, o se stiano mentendo davvero. Il Consiglio teme che la verità sia stata manipolata, ma non sa da chi né perché.",
+    "initial_hook": "Il Sorvegliante delle Ombre Thorin, Alara e Okafor vengono ingaggiati come consulenti esterni dal Consiglio di Quartiere di Valmura, una cittadella mineraria dove tre testimoni chiave di un omicidio avvenuto sei settimane fa hanno modificato le loro deposizioni, affermando di ricordare eventi comple",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Maestra Yrell, l'archivista del Consiglio e mentore di fiducia dei PG, ha ucciso Corvin Tallis dopo aver scoperto che lui stava per rivelare pubblicamente l'esistenza di un giacimento di cristallo psichico sotto Valmura. Yrell ha utilizzato frammenti di questo cristallo per alterare i ricordi dei testimoni attraverso sessioni di 'supporto psicologico', convincendoli che Corvin era morto per un incidente. Yrell protegge il segreto del giacimento perché teme che la sua scoperta porterebbe a una guerra mineraria tra le fazioni, distruggendo la fragile pace di Valmura che lei stessa ha contribuito a costruire negli ultimi vent'anni.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire l'identità del manipolatore, raccogliere prove materiali della manipolazione mnemonica (frammenti di cristallo, registrazioni delle 'sedute'), confrontare Yrell con prove incontrovertibili e decidere se consegnarla al Consiglio o cercare una soluzione che preservi la pace di Valmura",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire l'identità del manipolatore, raccogliere prove materiali della manipolazione mnemonica (frammenti di cristallo, registrazioni delle 'sedute'), confrontare Yrell con prove incontrovertibili e decidere se consegnarla al Consiglio o cercare una soluzione che preservi la pace di Valmura"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Qualcuno con autorità ha falsificato i registri dopo la morte di Corvin Yrell sta attivamente deviando l'indagine e controllando l'accesso alle prove. Il suo comportamento è quello di chi nasconde qualcosa, non di chi cerca la verità",
+        "required_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Collega la manipolazione documentale a qualcuno dentro il Consiglio stesso, non a una fazione esterna / Trasforma Yrell da alleata fidata a sospetta. Obbliga i PG a interrogarsi su chi stiano davvero aiutando",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "I ricordi di Rael sono instabili e probabilmente manipolati. Il dolore alle tempie potrebbe essere un effetto collaterale Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+        "required_clues": [
+          "clue_2",
+          "clue_3",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Introduce il concetto di manipolazione mnemonica come possibilità concreta, non solo bugia o paranoia / Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+        "required_clues": [
+          "clue_3"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di confrontare Yrell o di analizzare il cristallo con l'aiuto di Frate Nalm, svelando la sua natura psionica",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Registro delle visite alterato",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Archivio del Consiglio",
+        "reveals": "Qualcuno con autorità ha falsificato i registri dopo la morte di Corvin",
+        "payoff": "Collega la manipolazione documentale a qualcuno dentro il Consiglio stesso, non a una fazione esterna",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nel registro delle visite al pozzo di ventilazione dove è morto Corvin",
+        "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+        "unlocks": [
+          "antagonist_pressure",
+          "thread_responsabile"
+        ],
+        "possible_actions": [
+          "verificare la firma",
+          "confrontare gli orari",
+          "interrogare il responsabile dei registri"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Testimonianza contraddittoria di Rael",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Infermeria dei Minatori",
+        "reveals": "I ricordi di Rael sono instabili e probabilmente manipolati. Il dolore alle tempie potrebbe essere un effetto collaterale",
+        "payoff": "Introduce il concetto di manipolazione mnemonica come possibilità concreta, non solo bugia o paranoia",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Rael Ventor racconta di aver visto Corvin cadere accidentalmente",
+        "hidden_implication": "I ricordi di Rael sono instabili e probabilmente manipolati. Il dolore alle tempie potrebbe essere un effetto collaterale",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Frammento di cristallo viola",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Archivio del Consiglio",
+        "reveals": "Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+        "payoff": "Permette di confrontare Yrell o di analizzare il cristallo con l'aiuto di Frate Nalm, svelando la sua natura psionica",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Nascosto in un cassetto dello scrittoio di Yrell nell'Archivio",
+        "hidden_implication": "Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Comportamento protettivo anomalo di Yrell",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Archivio del Consiglio",
+        "reveals": "Yrell sta attivamente deviando l'indagine e controllando l'accesso alle prove. Il suo comportamento è quello di chi nasconde qualcosa, non di chi cerca la verità",
+        "payoff": "Trasforma Yrell da alleata fidata a sospetta. Obbliga i PG a interrogarsi su chi stiano davvero aiutando",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Yrell cerca costantemente di orientare le indagini dei PG verso la Gilda dei Mercanti",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "Archivio del Consiglio"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Diario di Corvin sequestrato",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Dormitorio dei Minatori",
+        "reveals": "Yrell ha sottratto il diario di Corvin dopo la sua morte. Cosa c'era scritto dentro che doveva sparire?",
+        "payoff": "Conferma che Yrell sta eliminando prove e suggerisce che Corvin sapeva qualcosa di pericoloso",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nel dormitorio di Corvin",
+        "hidden_implication": "Yrell ha sottratto il diario di Corvin dopo la sua morte. Cosa c'era scritto dentro che doveva sparire?",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Miniera abbandonata sotto sorveglianza",
+        "type": "location_detail",
+        "thread_id": "T2",
+        "source_location": "Piazza neutrale",
+        "reveals": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+        "payoff": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+        "hidden_implication": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Tazza di ceramica con residui viola",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Yrell ha usato cristallo psichico in polvere mescolato a una bevanda",
+        "payoff": "Collegato al frammento di cristallo viola (clue_3), suggerisce che Yrell ha avvelenato qualcuno nel suo studio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Testimonianza di Frate Nalm sul malore",
+        "type": "testimony",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Corvin si è sentito male subito dopo un incontro con Yrell",
+        "payoff": "Stabilisce che Yrell è stata l'ultima persona a vedere Corvin vivo e che il malore è iniziato nel suo studio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Registro degli appuntamenti di Yrell",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Yrell aveva un appuntamento con Corvin la sera della morte",
+        "payoff": "Conferma che Yrell ha mentito sulla frequenza dei suoi incontri con Corvin e ha tentato di nascondere qualcosa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Mappa geologica nascosta",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Corvin aveva mappato un giacimento significativo di cristalli sotto la città",
+        "payoff": "Rivela il motivo reale dell'omicidio: la scoperta del giacimento psichico",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Conversazione riservata al mercato",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Corvin voleva rendere pubblica una scoperta importante",
+        "payoff": "Suggerisce che la scoperta avrebbe avuto implicazioni politiche ed economiche enormi",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Rapporto geologico preliminare",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Corvin aveva prove scientifiche del giacimento e voleva presentarle ufficialmente",
+        "payoff": "Conferma l'esistenza del giacimento e l'intenzione di Corvin di rivelarlo pubblicamente",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Comportamento evasivo di Rael",
+        "type": "behavior",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "Rael ha subito una manipolazione mentale che ha lasciato effetti collaterali fisici",
+        "payoff": "Suggerisce che i testimoni sono stati manipolati psichicamente, non semplicemente corrotti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Registro delle sessioni di supporto",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "Yrell ha avuto accesso prolungato e privato a tutti i testimoni dopo l'omicidio",
+        "payoff": "Fornisce l'opportunità per la manipolazione dei ricordi e collega Yrell all'alterazione delle testimonianze",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_15",
+        "label": "Sentinelle nella miniera abbandonata",
+        "type": "location_detail",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Il Consiglio (quindi Yrell) sta proteggendo attivamente qualcosa nella miniera",
+        "payoff": "Suggerisce che l'autorità del Consiglio è coinvolta nel segreto della miniera",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_16",
+        "label": "Tracce di scavo recente",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Qualcuno sta estraendo attivamente cristallo psichico dalla miniera",
+        "payoff": "Conferma che il giacimento esiste e viene sfruttato segretamente",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Maestra Yrell Anden",
+        "role": "Archivista del Consiglio, committente e mentore",
+        "location_id": "Archivio del Consiglio",
+        "status": "unintroduced",
+        "goal": "Proteggere la pace di Valmura impedendo che il giacimento di cristallo psichico diventi pubblico, anche a costo di eliminare chi minaccia il segreto",
+        "secret": "È l'assassina di Corvin Tallis e sta usando cristalli psichici per manipolare i ricordi dei testimoni e cancellare le prove. Ha già ucciso un quarto testimone che resisteva alla manipolazione",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle visite alterato riveli il suo ruolo",
+        "current_plan": "Completare la manipolazione mnemonica del testimone Elara Voss entro tre giorni. Guidare i PG a sospettare della vedova di Corvin, che aveva debiti di gioco. Organizzare la 'scoperta' di lettere compromettenti nella casa della vedova, poi eliminare gli ultimi due testimoni facendolo sembrare suicidio per senso di colpa.",
+        "fallback_plan": "Se la manipolazione viene scoperta, innescare un'esplosione controllata nel livello inferiore della miniera dove sono nascosti i cristalli più grandi, causando un rilascio psichico di massa che renderà inattendibile la testimonianza di chiunque a Valmura. Fuggire durante il caos con campioni sufficienti di cristallo, lasciando una lettera suicida falsificata che incolpa il Capominatore Dravus per tutto.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere la pace di Valmura impedendo che il giacimento di cristallo psichico diventi pubblico, anche a costo di eliminare chi minaccia il segreto"
+        ],
+        "avoids": [
+          "che Registro delle visite alterato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Fornisce accesso agli archivi con cortesia professionale, orientando sottilmente le ricerche verso piste false. Offre tè alle erbe che contiene tracce di cristallo psichico per offuscare i ricordi della giornata.",
+          "medium": "Mostra preoccupazione materna per la sicurezza degli investigatori, suggerendo che forse i testimoni sono semplicemente confusi dal trauma. Inizia a manifestare emicranie quando interrogata troppo da vicino, chiedendo pause frequenti durante le quali consulta i suoi cristalli.",
+          "high": "Organizza 'incidenti' nelle miniere per distrarre i PG. Convoca riunioni d'emergenza del Consiglio per limitare i loro movimenti. Aumenta l'intensità della manipolazione sui testimoni rimasti, rischiando di danneggiarli permanentemente pur di cancellare memorie compromettenti.",
+          "extreme": "Tenta di impiantare falsi ricordi nei PG stessi usando concentrazioni pericolose di cristallo. Se fallisce, inscena il proprio rapimento da parte di 'contrabbandieri esterni' per scomparire con i cristalli più potenti, lasciando che un innocente prenda la colpa per tutti gli omicidi."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva la rete di cristalli nascosti negli uffici del Consiglio per proiettare visioni terrorizzanti, facendo sembrare che l'edificio sia infestato. Usa la confusione per eliminare prove o testimoni vulnerabili.",
+          "se_corrotto": "Finge di accettare, poi usa l'incontro privato per impiantare suggestioni psichiche che faranno sembrare i PG instabili o corrotti agli occhi del Consiglio. Documenta meticolosamente ogni parola per usarla contro di loro.",
+          "se_i_pg_hanno_prove": "Convoca d'urgenza il Consiglio presentando i PG come agenti di corporazioni minerarie esterne. Produce documenti falsificati che li collegano a Corvin Tallis. Se questo fallisce, attiva un collasso controllato nella sezione del giacimento per seppellire le prove fisiche.",
+          "se_alleato": "Li conduce deliberatamente verso Marten Grisk, un vecchio rivale di Corvin che ha movente credibile. Fornisce 'prove' accuratamente fabbricate, offrendosi di testimoniare personalmente. Suggerisce di chiudere rapidamente il caso 'per il bene di Valmura'."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Rael Ventor",
+        "role": "Primo testimone, minatore",
+        "location_id": "Infermeria dei Minatori",
+        "status": "unintroduced",
+        "goal": "Vuole ricordare cosa ha visto davvero quella notte, sente che qualcosa non va nei suoi ricordi ma non riesce a identificare cosa",
+        "secret": "I suoi ricordi sono stati alterati tre volte da Yrell. Nelle ultime 48 ore ha iniziato a sviluppare resistenza al cristallo psichico e frammenti della memoria originale stanno riemergendo, causandogli emicranie violente",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle visite alterato riveli il suo ruolo",
+        "current_plan": "Sopravvivere alle emicranie e cercare aiuto discreto. Rael ha iniziato a scrivere di nascosto i frammenti contrastanti che ricorda, sperando di trovare un pattern. Evita Yrell istintivamente senza sapere perché.",
+        "fallback_plan": "Se le emicranie peggiorano, Rael pianifica di recarsi nella vicina città di Caldris per consultare un guaritore, anche se ciò significa abbandonare il lavoro. Se i PG lo proteggono, rimane e testimonia, ma se Yrell lo raggiunge per un quarto condizionamento, il danno cerebrale potrebbe diventare permanente.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole ricordare cosa ha visto davvero quella notte, sente che qualcosa non va nei suoi ricordi ma non riesce a identificare cosa"
+        ],
+        "avoids": [
+          "che Registro delle visite alterato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Rael collabora volentieri, ma appare confuso e frustrato. Ripete la versione 'ufficiale' dei fatti con esitazione, interrompendosi spesso per massaggiarsi le tempie. Menziona le emicranie che lo tormentano da due giorni.",
+          "medium": "Le contraddizioni nel suo racconto aumentano. Rael inizia a sudare freddo, descrive dettagli che non corrispondono alla sua testimonianza precedente, poi si corregge bruscamente come se qualcosa gli facesse male. Chiede disperatamente se i PG pensano che stia impazzendo.",
+          "high": "Rael ha un crollo emotivo. Tra lacrime e urla di dolore, descrive frammenti contrastanti: 'L'assassino aveva il cappuccio rosso... no, aspetta, era blu... perché continuo a vedere due versioni diverse?!' Si aggrappa ai PG supplicandoli di aiutarlo a capire cosa gli hanno fatto.",
+          "extreme": "Durante un'emicrania devastante, Rael urla la verità originale per alcuni secondi prima che il condizionamento di Yrell lo riprenda violentemente. Sviene sanguinando dal naso. Se i PG lo proteggono e lo tengono lontano da Yrell per 12 ore, i ricordi veri si stabilizzano permanentemente."
+        },
+        "reaction_table": {
+          "se_minacciato": "Rael crolla completamente, troppo confuso e dolorante per reagire con rabbia. Ammette tutto ciò che sa, incluso che 'qualcuno con una pietra brillante' è venuto a trovarlo tre volte, ma non ricorda chi fosse.",
+          "se_corrotto": "Rifiuta denaro con dignità offesa. È un minatore onesto e vuole solo la verità. Tuttavia, se i PG offrono aiuto medico o protezione dalle emicranie, accetta immediatamente e diventa totalmente leale.",
+          "se_i_pg_hanno_prove": "Se i PG gli mostrano prove concrete che contraddicono la sua testimonianza, Rael ha un momento di lucidità straziante. Riconosce la verità, poi urla di dolore quando il condizionamento cerca di cancellarla di nuovo. Supplica i PG di tenerlo al sicuro finché non guarisce.",
+          "se_alleato": "Una volta liberato dal condizionamento di Yrell, Rael diventa il testimone più affidabile. Ricorda ogni dettaglio della notte dell'omicidio e può identificare Yrell come il manipolatore. Giura vendetta contro chi ha violato la sua mente."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Sindaca Orwen Krell",
+        "role": "Leader della Gilda dei Mercanti, una delle tre fazioni",
+        "location_id": "Sala del Mercato",
+        "status": "unintroduced",
+        "goal": "Vuole scoprire cosa nasconde il Consiglio riguardo alla morte di Corvin, sospetta che ci sia un giacimento prezioso coinvolto e vuole accaparrarsene i diritti minerari",
+        "secret": "Ha fatto seguire Yrell da due suoi agenti e sa che l'archivista visita regolarmente una miniera abbandonata. Non sa però del cristallo psichico né dell'omicidio. Sta usando i PG come strumento inconsapevole per destabilizzare il Consiglio",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle visite alterato riveli il suo ruolo",
+        "current_plan": "Continuare a manipolare i PG fornendo informazioni selettive che li portino a scoprire il giacimento o il segreto del Consiglio. Quando emergerà la verità, usare le scoperte dei PG per convocare un'assemblea straordinaria e costringere il Consiglio a cedere i diritti minerari alla Gilda 'per trasparenza e gestione equa delle risorse di Valmura'.",
+        "fallback_plan": "Se i PG diventano incontrollabili o scoprono la sua manipolazione, Orwen farà trapelare al Consiglio che i detective stanno indagando anche su loro, innescando una caccia ai PG. Nel caos risultante, invierà i suoi migliori esploratori a prendere possesso fisico della miniera abbandonata, rivendicando diritto di scoperta. Se necessario, farà eliminare sia i PG che i membri del Consiglio più ostili durante il 'conflitto', consolidando il potere della Gilda.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole scoprire cosa nasconde il Consiglio riguardo alla morte di Corvin, sospetta che ci sia un giacimento prezioso coinvolto e vuole accaparrarsene i diritti minerari"
+        ],
+        "avoids": [
+          "che Registro delle visite alterato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Offre ai PG informazioni parziali sui movimenti del Consiglio, fingendo cooperazione. Propone un accordo commerciale vantaggioso in cambio di 'aggiornamenti periodici' sull'indagine. Sottolinea quanto sia strano che il Consiglio assuma esterni.",
+          "medium": "Rivela di aver fatto pedinare Yrell e fornisce la posizione della miniera abbandonata, omettendo però che i suoi agenti hanno perso le tracce. Insinua che il Consiglio nasconde giacimenti illegali e offre protezione armata ai PG 'per la loro sicurezza'.",
+          "high": "Confessa apertamente di voler destabilizzare il Consiglio e propone alleanza diretta: in cambio dei diritti minerari su qualsiasi giacimento scoperto, la Gilda garantirà copertura politica ai PG e testimonierà a loro favore. Minaccia velatamente che senza la sua protezione potrebbero 'sparire come i testimoni'.",
+          "extreme": "Ordina ai suoi mercenari di sequestrare i documenti dell'indagine e tenta di far arrestare i PG per 'spionaggio industriale'. Se fallisce, offre una fortuna per comprare il loro silenzio totale, rivelando che ha già corrotto due membri del Consiglio e può incastrare chiunque per l'omicidio di Corvin."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva immediatamente la sua rete di mercanti per diffondere voci compromettenti sui PG. Nega tutto con documenti falsificati che 'dimostrano' la sua estraneità. Fa sparire i due agenti che hanno pedinato Yrell, eliminando prove.",
+          "se_corrotto": "Accetta solo se il prezzo include informazioni esclusive sul giacimento. Tradirà comunque l'accordo appena avrà i diritti minerari, usando i PG come capri espiatori. Chiede garanzie scritte 'per sicurezza' che userà poi come ricatto.",
+          "se_i_pg_hanno_prove": "Passa immediatamente in modalità contenimento danni: offre riparazioni economiche generose, si dichiara 'male informata dai subordinati' e scarica la colpa sui due agenti. Propone spartizione equa dei profitti minerari in cambio della distruzione delle prove.",
+          "se_alleato": "Fornisce accesso agli archivi commerciali della Gilda mostrando anomalie nelle spedizioni minerarie di sei settimane fa. Assegna due mercenari fidati come scorta. Chiede però costanti aggiornamenti e preme per accelerare l'indagine prima che il Consiglio reagisca."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Frate Nalm",
+        "role": "Guardiano spirituale della Fratellanza dell'Alba, seconda fazione",
+        "location_id": "Tempio dell'Alba",
+        "status": "unintroduced",
+        "goal": "La Fratellanza conosce l'esistenza del cristallo psichico da generazioni e lo considera sacro e pericoloso. Vuole impedire che venga estratto o usato, ma non può rivelarne l'esistenza senza violare un giuramento antico",
+        "secret": "Sa che Yrell possiede frammenti di cristallo e ha cercato di convincerla a restituirli, ma lei ha rifiutato. Nalm teme che lei stia perdendo il controllo e che il cristallo stia corrompendo anche la sua mente",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle visite alterato riveli il suo ruolo",
+        "current_plan": "Continuare a sorvegliare Yrell da lontano documentando i suoi comportamenti erratici. Inviare messaggi cifrati al Concilio superiore della Fratellanza chiedendo il permesso di rompere il giuramento e avvertire pubblicamente il Consiglio. Cercare di recuperare i frammenti di cristallo dalla casa di Yrell quando lei è assente.",
+        "fallback_plan": "Se Yrell uccide ancora o se altri trovano il giacimento principale, Nalm è pronto a violare il giuramento sacro e rivelare tutto pubblicamente, anche a costo dell'espulsione dall'ordine. In extremis, userà un antico rituale suicida della Fratellanza per sigillare magicamente l'accesso al cristallo con il proprio sacrificio, innescando un crollo controllato delle miniere.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "La Fratellanza conosce l'esistenza del cristallo psichico da generazioni e lo considera sacro e pericoloso. Vuole impedire che venga estratto o usato, ma non può rivelarne l'esistenza senza violare un giuramento antico"
+        ],
+        "avoids": [
+          "che Registro delle visite alterato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Risponde con parabole e metafore religiose, deviando le domande dirette. Offre benedizioni e consigli spirituali vaghi. Menziona la necessità di proteggere 'certi doni pericolosi lasciati dagli antichi' senza specificare.",
+          "medium": "Diventa visibilmente turbato quando si parla di Yrell o dei minatori scomparsi. Inizia a citare passi oscuri dei testi della Fratellanza su 'pietre che sussurrano alle menti'. Ammette di aver avuto 'conversazioni preoccupanti' con Yrell nelle settimane precedenti l'omicidio.",
+          "high": "Rivela che Yrell possiede frammenti di cristallo psichico estratti illegalmente e che ha rifiutato le sue suppliche di restituirli. Confessa di averla seguita di nascosto e di averla vista parlare da sola con voci che solo lei sentiva. Implora i PG di fermarla prima che il cristallo la consumi completamente.",
+          "extreme": "Crolla spiritualmente e ammette che la Fratellanza custodisce da secoli il segreto del giacimento di cristallo psichico sotto Valmura. Rivela che il suo ordine sa che il cristallo corrompe lentamente chi lo possiede, causando paranoia, allucinazioni e infine follia omicida. Confessa di aver considerato di uccidere Yrell per salvare gli altri, ma il suo voto glielo impedisce."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rifugia nella preghiera silenziosa e invoca la protezione del suo ordine. Se spinto troppo, minaccia di rivelare che i PG stanno interferendo con 'forze antiche che non comprendono' e potrebbero causare una catastrofe peggiore.",
+          "se_corrotto": "Rifiuta categoricamente denaro o favori materiali con disgusto. Potrebbe però essere convinto a collaborare se i PG giurano di distruggere ogni frammento di cristallo psichico che troveranno e di sigillare per sempre il giacimento.",
+          "se_i_pg_hanno_prove": "Se i PG mostrano un frammento di cristallo o prove della sua influenza mentale, Nalm cede immediatamente. Conferma tutto ciò che sa e offre gli antichi testi della Fratellanza che descrivono i sintomi della corruzione da cristallo e i rituali di purificazione.",
+          "se_alleato": "Fornisce mappe segrete dei tunnel antichi dove il cristallo è più concentrato. Insegna ai PG come riconoscere chi è sotto influenza del cristallo (tic nervosi, pupille leggermente luminescenti al buio, mormorii involontari). Offre amuleti protettivi benedetti per resistere parzialmente agli effetti psichici."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Piazza neutrale",
+        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_6"
+        ],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Sede fazione A",
+        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Sede fazione B",
+        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Mercato delle informazioni",
+        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_3",
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Luogo del confronto",
+        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_4",
+        "location_type": "local",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Ogni 24 ore in-game Yrell identifica un nuovo testimone o alleato che i PG hanno contattato e li sottopone a 'terapia correttiva', alterando i loro ricordi o eliminandoli se resistono. Gli indizi materiali vengono fatti sparire, i documenti riscritti, le testimonianze ritrattate. I PG devono correre contro la cancellazione progressiva della verità",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "Yrell ha cancellato completamente le prove dell'omicidio originale. I testimoni sono morti o hanno ricordi alterati, i documenti riscritti, le tracce fisiche eliminate. Il caso viene ufficialmente chiuso come suicidio. Il vero colpevole rimane libero e Yrell continua indisturbato.",
+        "steps": [
+          {
+            "step": 1,
+            "event": "allarme interno attivato",
+            "world_state_change": "allarme interno attivato",
+            "scene_prompt": "Mostra in scena: allarme interno attivato.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 1,
+            "label": "Primo contatto compromesso",
+            "effect": "Il primo testimone o alleato contattato dai PG inizia a mostrare segni di confusione. Ricorda eventi in modo contraddittorio o evita gli investigatori."
+          },
+          {
+            "step": 2,
+            "event": "accessi ordinari sospesi",
+            "world_state_change": "accessi ordinari sospesi",
+            "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 2,
+            "label": "Uffici del Consiglio blindati",
+            "effect": "Gli archivi e gli uffici amministrativi del Consiglio di Quartiere vengono chiusi per 'inventario straordinario'. L'accesso ai documenti ufficiali richiede autorizzazioni speciali."
+          },
+          {
+            "step": 3,
+            "event": "prova secondaria rimossa dalla scena",
+            "world_state_change": "prova secondaria rimossa dalla scena",
+            "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 3,
+            "label": "Sparizione di prove fisiche",
+            "effect": "Un oggetto chiave (arma, indumento, documento) sparisce misteriosamente da dove era custodito. Chi lo deteneva giura di averlo messo in sicurezza."
+          },
+          {
+            "step": 4,
+            "event": "un testimone viene cercato dagli uomini di la minaccia",
+            "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+            "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 4,
+            "label": "Caccia al testimone attiva",
+            "effect": "Uomini in divisa della Guardia cittadina cercano attivamente uno dei testimoni chiave per 'interrogatorio di routine'. Il testimone si nasconde o fugge."
+          },
+          {
+            "step": 5,
+            "event": "percorso laterale minacciato o sigillato",
+            "world_state_change": "percorso laterale minacciato o sigillato",
+            "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 5,
+            "label": "Fonte alternativa compromessa",
+            "effect": "Un informatore indipendente o una fonte secondaria (giornalista, archivista, medico) viene intimidito, trasferito o subisce un 'incidente'. Le loro informazioni diventano inaccessibili."
+          },
+          {
+            "step": 6,
+            "event": "la minaccia raggiunge la zona finale",
+            "world_state_change": "la minaccia raggiunge la zona finale",
+            "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 6,
+            "label": "Testimone chiave catturato",
+            "effect": "Yrell o i suoi agenti raggiungono uno dei testimoni principali. Questi viene portato in 'custodia protettiva' o per 'cure mediche urgenti'."
+          },
+          {
+            "step": 7,
+            "event": "prove trasferite o rese instabili",
+            "world_state_change": "prove trasferite o rese instabili",
+            "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 7,
+            "label": "Revisione della verità",
+            "effect": "Compaiono nuove versioni di documenti ufficiali. Rapporti vengono riscritti, testimonianze ritrattate formalmente. La narrazione ufficiale inizia a consolidarsi contro i PG."
+          },
+          {
+            "step": 8,
+            "event": "secondo testimone neutralizzato",
+            "world_state_change": "secondo testimone chiave perduto",
+            "scene_prompt": "Mostra in scena: Un secondo testimone viene trovato morto (apparente suicidio) o risulta con ricordi completamente alterati dopo 'terapia'.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 8,
+            "label": "Secondo testimone perduto",
+            "effect": "Un secondo testimone chiave muore in circostanze sospette o viene trovato in stato catatonico. La sua testimonianza è persa per sempre."
+          },
+          {
+            "step": 9,
+            "event": "cerchio si stringe sui PG",
+            "world_state_change": "i PG stessi diventano sospetti",
+            "scene_prompt": "Mostra in scena: Voci circolano che i PG stiano fabbricando prove o molestando testimoni. Il Consiglio valuta di revocare il loro incarico.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+            "value": 9,
+            "label": "Credibilità dei PG attaccata",
+            "effect": "I PG vengono accusati di interferire con le indagini. La loro credibilità è messa in dubbio pubblicamente. Porte si chiudono, contatti si ritraggono."
+          },
+          {
+            "step": 10,
+            "event": "cancellazione completa",
+            "world_state_change": "la verità è stata cancellata",
+            "scene_prompt": "Mostra in scena: Il caso viene ufficialmente chiuso. Tutti i testimoni sono morti, scomparsi o con ricordi alterati. I documenti supportano la versione del suicidio. Yrell sorride dall'ombra.",
+            "possible_player_response": "accettare la sconfitta o tentare un'azione disperata finale",
+            "value": 10,
+            "label": "Verità cancellata",
+            "effect": "Il caso viene chiuso ufficialmente. Nessuna prova credibile rimane. I testimoni sono tutti compromessi. Il vero assassino è al sicuro. Yrell ha vinto."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Scoprire l'identità e la natura di Yrell",
+          "Proteggere fisicamente i testimoni rimanenti",
+          "Trovare prove che Yrell non può alterare (magiche, testimoniali multiple simultanee, o documenti nascosti)",
+          "Esporre pubblicamente Yrell prima che possa cancellare tutto",
+          "Costringere Yrell a rivelare i ricordi originali che ha estratto"
+        ],
+        "resolution_condition": "I PG fermano il clock sconfiggendo, esponendo o neutralizzando Yrell; proteggendo almeno due testimoni chiave in modo che non possano essere raggiunti; o recuperando prove che Yrell non può manipolare (come ricordi estratti magicamente da lui stesso o testimonianze simultanee coordinate). Alternativamente, possono convincere il Consiglio della manipolazione in atto con prove incontrovertibili.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_strange_memory_gaps",
+        "discovery_hint": "Diversi abitanti di Valmura parlano di incubi ricorrenti dove dimenticano qualcosa di importante. Alcuni testimoni hanno strane cicatrici dietro l'orecchio. Un informatore mormora di 'visite notturne del dottore della mente' che nessuno ricorda chiaramente al mattino.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Sorvegliante Ombre Thorin Alara Okafor vengono",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "La morte di Corvin",
+        "question": "Come è morto realmente Corvin Tallis?",
+        "true_answer": "Yrell lo ha avvelenato con una tisana contaminata da polvere di cristallo psichico durante un incontro privato nel suo studio, facendolo sembrare un malore naturale",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Maestra Yrell Anden",
+          "Frate Nalm"
+        ],
+        "linked_locations": [
+          "Piazza neutrale",
+          "Sede fazione A"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Il segreto del giacimento",
+        "question": "Cosa stava per rivelare Corvin e perché era così pericoloso?",
+        "true_answer": "Corvin aveva scoperto un vasto giacimento di cristallo psichico sotto Valmura e voleva rendere pubblica la scoperta, ignorando che questo avrebbe scatenato una guerra tra le fazioni per il controllo della risorsa",
+        "status": "hidden",
+        "required_clues": [
+          "clue_10",
+          "clue_11",
+          "clue_12"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T3"
+        ],
+        "linked_npcs": [
+          "Sindaca Orwen Krell",
+          "Rael Ventor"
+        ],
+        "linked_locations": [
+          "Mercato delle informazioni",
+          "Sede fazione B"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Registro delle visite alterato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Testimonianza contraddittoria di Rael?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Frammento di cristallo viola?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Piazza neutrale",
+          "to": "Luogo del confronto"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Piazza neutrale",
+          "to": "Luogo del confronto"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Luogo del confronto",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "detective_classico",
+      "tone": "classic detective",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "suspect lies",
+        "alibi pressure",
+        "evidence contested"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "massacre from one roll",
+        "villain revealed without evidence"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 3
+    },
+    "legacy_adventure": {
+      "id": "adv_008cf237dc",
+      "title": "Il Sorvegliante delle Ombre",
+      "genre": "detective_classico",
+      "detected_genre": "detective_classico",
+      "premise": "Thorin, Alara e Okafor vengono ingaggiati come consulenti esterni dal Consiglio di Quartiere di Valmura, una cittadella mineraria dove tre testimoni chiave di un omicidio avvenuto sei settimane fa hanno modificato le loro deposizioni, affermando di ricordare eventi completamente diversi da quelli iniziali. La vittima, un ingegnere delle miniere di nome Corvin Tallis, è stata trovata morta nel pozzo di ventilazione principale. Nessuno sa perché i testimoni mentano ora, o se stiano mentendo davvero. Il Consiglio teme che la verità sia stata manipolata, ma non sa da chi né perché.",
+      "hidden_truth": "Maestra Yrell, l'archivista del Consiglio e mentore di fiducia dei PG, ha ucciso Corvin Tallis dopo aver scoperto che lui stava per rivelare pubblicamente l'esistenza di un giacimento di cristallo psichico sotto Valmura. Yrell ha utilizzato frammenti di questo cristallo per alterare i ricordi dei testimoni attraverso sessioni di 'supporto psicologico', convincendoli che Corvin era morto per un incidente. Yrell protegge il segreto del giacimento perché teme che la sua scoperta porterebbe a una guerra mineraria tra le fazioni, distruggendo la fragile pace di Valmura che lei stessa ha contribuito a costruire negli ultimi vent'anni.",
+      "win_condition": "Scoprire l'identità del manipolatore, raccogliere prove materiali della manipolazione mnemonica (frammenti di cristallo, registrazioni delle 'sedute'), confrontare Yrell con prove incontrovertibili e decidere se consegnarla al Consiglio o cercare una soluzione che preservi la pace di Valmura",
+      "threat_description": "Ogni 24 ore in-game Yrell identifica un nuovo testimone o alleato che i PG hanno contattato e li sottopone a 'terapia correttiva', alterando i loro ricordi o eliminandoli se resistono. Gli indizi materiali vengono fatti sparire, i documenti riscritti, le testimonianze ritrattate. I PG devono correre contro la cancellazione progressiva della verità",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "faction_sandbox",
+        "secondary_archetypes": [],
+        "confidence": 0.9,
+        "reason": "Matched runtime signals for faction_sandbox",
+        "definition": {
+          "id": "faction_sandbox",
+          "description": "Fazioni con obiettivi e reazioni offscreen.",
+          "required_modules": [
+            "factions",
+            "actors"
+          ],
+          "optional_modules": [
+            "clocks"
+          ],
+          "runtime_focus": [
+            "faction_pressure"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "behavior",
+            "testimony"
+          ],
+          "common_failure_modes": [
+            "faction_escalates"
+          ],
+          "ending_patterns": [
+            "balance_shift"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_008cf237dc",
+      "adventure_canon": {
+        "core_truth": "Maestra Yrell, l'archivista del Consiglio e mentore di fiducia dei PG, ha ucciso Corvin Tallis dopo aver scoperto che lui stava per rivelare pubblicamente l'esistenza di un giacimento di cristallo psichico sotto Valmura. Yrell ha utilizzato frammenti di questo cristallo per alterare i ricordi dei testimoni attraverso sessioni di 'supporto psicologico', convincendoli che Corvin era morto per un incidente. Yrell protegge il segreto del giacimento perché teme che la sua scoperta porterebbe a una guerra mineraria tra le fazioni, distruggendo la fragile pace di Valmura che lei stessa ha contribuito a costruire negli ultimi vent'anni.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Piazza neutrale",
+          "Sede fazione A",
+          "Sede fazione B",
+          "Mercato delle informazioni",
+          "Luogo del confronto"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Sorvegliante Ombre Thorin Alara Okafor vengono"
+        ],
+        "genre_profile": {
+          "id": "detective_classico",
+          "tone": "classic detective",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "suspect lies",
+            "alibi pressure",
+            "evidence contested"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "massacre from one roll",
+            "villain revealed without evidence"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 3
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Registro delle visite alterato",
+          "question": "Dove conduce Registro delle visite alterato?",
+          "true_answer": "Qualcuno con autorità ha falsificato i registri dopo la morte di Corvin Yrell sta attivamente deviando l'indagine e controllando l'accesso alle prove. Il suo comportamento è quello di chi nasconde qualcosa, non di chi cerca la verità",
+          "required_clues": [
+            "clue_1",
+            "clue_4",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Collega la manipolazione documentale a qualcuno dentro il Consiglio stesso, non a una fazione esterna / Trasforma Yrell da alleata fidata a sospetta. Obbliga i PG a interrogarsi su chi stiano davvero aiutando",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Che cosa dimostrano Testimonianza contraddittoria di Rael e Frammento di cristallo viola",
+          "question": "Che cosa dimostrano Testimonianza contraddittoria di Rael e Frammento di cristallo viola?",
+          "true_answer": "I ricordi di Rael sono instabili e probabilmente manipolati. Il dolore alle tempie potrebbe essere un effetto collaterale Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+          "required_clues": [
+            "clue_2",
+            "clue_3",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Introduce il concetto di manipolazione mnemonica come possibilità concreta, non solo bugia o paranoia / Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Che cosa dimostra Frammento di cristallo viola",
+          "question": "Che cosa dimostra Frammento di cristallo viola?",
+          "true_answer": "Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+          "required_clues": [
+            "clue_3"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Permette di confrontare Yrell o di analizzare il cristallo con l'aiuto di Frate Nalm, svelando la sua natura psionica",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Registro delle visite alterato",
+          "text": "Registro delle visite alterato",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Qualcuno con autorità ha falsificato i registri dopo la morte di Corvin",
+          "payoff": "Collega la manipolazione documentale a qualcuno dentro il Consiglio stesso, non a una fazione esterna",
+          "location": "Archivio del Consiglio",
+          "immediate_information": "Nel registro delle visite al pozzo di ventilazione dove è morto Corvin",
+          "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+          "unlocks": [
+            "antagonist_pressure",
+            "thread_responsabile"
+          ],
+          "possible_actions": [
+            "verificare la firma",
+            "confrontare gli orari",
+            "interrogare il responsabile dei registri"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Testimonianza contraddittoria di Rael",
+          "text": "Testimonianza contraddittoria di Rael",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "I ricordi di Rael sono instabili e probabilmente manipolati. Il dolore alle tempie potrebbe essere un effetto collaterale",
+          "payoff": "Introduce il concetto di manipolazione mnemonica come possibilità concreta, non solo bugia o paranoia",
+          "location": "Infermeria dei Minatori",
+          "immediate_information": "Rael Ventor racconta di aver visto Corvin cadere accidentalmente",
+          "hidden_implication": "I ricordi di Rael sono instabili e probabilmente manipolati. Il dolore alle tempie potrebbe essere un effetto collaterale",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Frammento di cristallo viola",
+          "text": "Frammento di cristallo viola",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+          "payoff": "Permette di confrontare Yrell o di analizzare il cristallo con l'aiuto di Frate Nalm, svelando la sua natura psionica",
+          "location": "Archivio del Consiglio",
+          "immediate_information": "Nascosto in un cassetto dello scrittoio di Yrell nell'Archivio",
+          "hidden_implication": "Yrell possiede un cristallo psichico e lo tiene nascosto. È la prova materiale del mezzo di manipolazione",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Comportamento protettivo anomalo di Yrell",
+          "text": "Comportamento protettivo anomalo di Yrell",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Yrell sta attivamente deviando l'indagine e controllando l'accesso alle prove. Il suo comportamento è quello di chi nasconde qualcosa, non di chi cerca la verità",
+          "payoff": "Trasforma Yrell da alleata fidata a sospetta. Obbliga i PG a interrogarsi su chi stiano davvero aiutando",
+          "location": "Archivio del Consiglio",
+          "immediate_information": "Yrell cerca costantemente di orientare le indagini dei PG verso la Gilda dei Mercanti",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "Archivio del Consiglio"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Diario di Corvin sequestrato",
+          "text": "Diario di Corvin sequestrato",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Yrell ha sottratto il diario di Corvin dopo la sua morte. Cosa c'era scritto dentro che doveva sparire?",
+          "payoff": "Conferma che Yrell sta eliminando prove e suggerisce che Corvin sapeva qualcosa di pericoloso",
+          "location": "Dormitorio dei Minatori",
+          "immediate_information": "Nel dormitorio di Corvin",
+          "hidden_implication": "Yrell ha sottratto il diario di Corvin dopo la sua morte. Cosa c'era scritto dentro che doveva sparire?",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Miniera abbandonata sotto sorveglianza",
+          "text": "Miniera abbandonata sotto sorveglianza",
+          "type": "location_detail",
+          "thread_id": "T2",
+          "reveals": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+          "payoff": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+          "location": "Piazza neutrale",
+          "immediate_information": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+          "hidden_implication": "Gli agenti della Gilda dei Mercanti hanno seguito Yrell fino a una vecchia miniera abbandonata chiamata Pozzo Nero",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Maestra Yrell Anden",
+          "role": "Archivista del Consiglio, committente e mentore",
+          "description": "Proteggere la pace di Valmura impedendo che il giacimento di cristallo psichico diventi pubblico, anche a costo di eliminare chi minaccia il segreto",
+          "location": "Archivio del Consiglio",
+          "secret": "È l'assassina di Corvin Tallis e sta usando cristalli psichici per manipolare i ricordi dei testimoni e cancellare le prove. Ha già ucciso un quarto testimone che resisteva alla manipolazione",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere la pace di Valmura impedendo che il giacimento di cristallo psichico diventi pubblico, anche a costo di eliminare chi minaccia il segreto",
+            "fear": "che Registro delle visite alterato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere la pace di Valmura impedendo che il giacimento di cristallo psichico diventi pubblico, anche a costo di eliminare chi minaccia il segreto"
+            ],
+            "avoids": [
+              "che Registro delle visite alterato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È l'assassina di Corvin Tallis e sta usando cristalli psichici per manipolare i ricordi dei testimoni e cancellare le prove. Ha già ucciso un quarto testimone che resisteva alla manipolazione",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Rael Ventor",
+          "role": "Primo testimone, minatore",
+          "description": "Vuole ricordare cosa ha visto davvero quella notte, sente che qualcosa non va nei suoi ricordi ma non riesce a identificare cosa",
+          "location": "Infermeria dei Minatori",
+          "secret": "I suoi ricordi sono stati alterati tre volte da Yrell. Nelle ultime 48 ore ha iniziato a sviluppare resistenza al cristallo psichico e frammenti della memoria originale stanno riemergendo, causandogli emicranie violente",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole ricordare cosa ha visto davvero quella notte, sente che qualcosa non va nei suoi ricordi ma non riesce a identificare cosa",
+            "fear": "che Registro delle visite alterato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole ricordare cosa ha visto davvero quella notte, sente che qualcosa non va nei suoi ricordi ma non riesce a identificare cosa"
+            ],
+            "avoids": [
+              "che Registro delle visite alterato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "esita",
+              "medium": "si nasconde",
+              "high": "cerca protezione dalla squadra",
+              "critical": "scompare lasciando una traccia incompleta"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "I suoi ricordi sono stati alterati tre volte da Yrell. Nelle ultime 48 ore ha iniziato a sviluppare resistenza al cristallo psichico e frammenti della memoria originale stanno riemergendo, causandogli emicranie violente",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Sindaca Orwen Krell",
+          "role": "Leader della Gilda dei Mercanti, una delle tre fazioni",
+          "description": "Vuole scoprire cosa nasconde il Consiglio riguardo alla morte di Corvin, sospetta che ci sia un giacimento prezioso coinvolto e vuole accaparrarsene i diritti minerari",
+          "location": "Sala del Mercato",
+          "secret": "Ha fatto seguire Yrell da due suoi agenti e sa che l'archivista visita regolarmente una miniera abbandonata. Non sa però del cristallo psichico né dell'omicidio. Sta usando i PG come strumento inconsapevole per destabilizzare il Consiglio",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole scoprire cosa nasconde il Consiglio riguardo alla morte di Corvin, sospetta che ci sia un giacimento prezioso coinvolto e vuole accaparrarsene i diritti minerari",
+            "fear": "che Registro delle visite alterato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole scoprire cosa nasconde il Consiglio riguardo alla morte di Corvin, sospetta che ci sia un giacimento prezioso coinvolto e vuole accaparrarsene i diritti minerari"
+            ],
+            "avoids": [
+              "che Registro delle visite alterato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha fatto seguire Yrell da due suoi agenti e sa che l'archivista visita regolarmente una miniera abbandonata. Non sa però del cristallo psichico né dell'omicidio. Sta usando i PG come strumento inconsapevole per destabilizzare il Consiglio",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Frate Nalm",
+          "role": "Guardiano spirituale della Fratellanza dell'Alba, seconda fazione",
+          "description": "La Fratellanza conosce l'esistenza del cristallo psichico da generazioni e lo considera sacro e pericoloso. Vuole impedire che venga estratto o usato, ma non può rivelarne l'esistenza senza violare un giuramento antico",
+          "location": "Tempio dell'Alba",
+          "secret": "Sa che Yrell possiede frammenti di cristallo e ha cercato di convincerla a restituirli, ma lei ha rifiutato. Nalm teme che lei stia perdendo il controllo e che il cristallo stia corrompendo anche la sua mente",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "La Fratellanza conosce l'esistenza del cristallo psichico da generazioni e lo considera sacro e pericoloso. Vuole impedire che venga estratto o usato, ma non può rivelarne l'esistenza senza violare un giuramento antico",
+            "fear": "che Registro delle visite alterato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "La Fratellanza conosce l'esistenza del cristallo psichico da generazioni e lo considera sacro e pericoloso. Vuole impedire che venga estratto o usato, ma non può rivelarne l'esistenza senza violare un giuramento antico"
+            ],
+            "avoids": [
+              "che Registro delle visite alterato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Sa che Yrell possiede frammenti di cristallo e ha cercato di convincerla a restituirli, ma lei ha rifiutato. Nalm teme che lei stia perdendo il controllo e che il cristallo stia corrompendo anche la sua mente",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Piazza neutrale",
+          "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+          "type": "entry",
+          "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [
+            "clue_6"
+          ],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Sede fazione A",
+          "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sede fazione B",
+          "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Mercato delle informazioni",
+          "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Luogo del confronto",
+          "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
+          "type": "finale",
+          "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "Ogni 24 ore in-game Yrell identifica un nuovo testimone o alleato che i PG hanno contattato e li sottopone a 'terapia correttiva', alterando i loro ricordi o eliminandoli se resistono. Gli indizi materiali vengono fatti sparire, i documenti riscritti, le testimonianze ritrattate. I PG devono correre contro la cancellazione progressiva della verità",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_008cf237dc",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Archivio del Consiglio",
+        "agenda_pressure": 0,
+        "goal": "Proteggere la pace di Valmura impedendo che il giacimento di cristallo psichico diventi pubblico, anche a costo di eliminare chi minaccia il segreto",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Infermeria dei Minatori",
+        "agenda_pressure": 0,
+        "goal": "Vuole ricordare cosa ha visto davvero quella notte, sente che qualcosa non va nei suoi ricordi ma non riesce a identificare cosa",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Sala del Mercato",
+        "agenda_pressure": 0,
+        "goal": "Vuole scoprire cosa nasconde il Consiglio riguardo alla morte di Corvin, sospetta che ci sia un giacimento prezioso coinvolto e vuole accaparrarsene i diritti minerari",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Tempio dell'Alba",
+        "agenda_pressure": 0,
+        "goal": "La Fratellanza conosce l'esistenza del cristallo psichico da generazioni e lo considera sacro e pericoloso. Vuole impedire che venga estratto o usato, ma non può rivelarne l'esistenza senza violare un giuramento antico",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T3"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 90,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Archivio del Consiglio.",
+      "Actor npc_2 ha location non riconosciuta: Infermeria dei Minatori.",
+      "Actor npc_3 ha location non riconosciuta: Sala del Mercato.",
+      "Actor npc_4 ha location non riconosciuta: Tempio dell'Alba.",
+      "faction_crisis richiede almeno 2 factions."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 3
+    }
+  },
+  "doctor": {
+    "score": 4.8,
+    "score_after": 5.2,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_1",
+        "message": "NPC 'Maestra Yrell Anden': location_id 'Archivio del Consiglio' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_2",
+        "message": "NPC 'Rael Ventor': location_id 'Infermeria dei Minatori' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_3",
+        "message": "NPC 'Sindaca Orwen Krell': location_id 'Sala del Mercato' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_4",
+        "message": "NPC 'Frate Nalm': location_id 'Tempio dell'Alba' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Clock 'Ogni 24 ore in-game Yrell identifica un nuovo testimone o alleato che i PG hanno contattato e li sottopone a 'terapia correttiva', alterando i loro ricordi o eliminandoli se resistono. Gli indizi materiali vengono fatti sparire, i documenti riscritti, le testimonianze ritrattate. I PG devono correre contro la cancellazione progressiva della verità': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_main",
+        "message": "Il clock 'Ogni 24 ore in-game Yrell identifica un nuovo testimone o alleato che i PG hanno contattato e li sottopone a 'terapia correttiva', alterando i loro ricordi o eliminandoli se resistono. Gli indizi materiali vengono fatti sparire, i documenti riscritti, le testimonianze ritrattate. I PG devono correre contro la cancellazione progressiva della verità' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_1, clue:clue_4, clue:clue_5, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_1, clue:clue_4, clue:clue_5, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_2, clue:clue_6, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_2, clue:clue_6, revelation:T2"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T3",
+        "message": "Pista fantasma 'T3': citata da clue:clue_3, revelation:T3 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T3', oppure rimuovi il riferimento da clue:clue_3, revelation:T3"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 5 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "Il Sorvegliante delle Ombre",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "6 indizi senza pista assegnata: clue_1, clue_2, clue_3, clue_4, clue_5... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}
