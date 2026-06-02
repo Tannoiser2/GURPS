@@ -12416,7 +12416,7 @@
         "id": "llm_clue_9",
         "label": "Nota nel fascicolo di Lt. Bexley Gracen",
         "type": "document",
-        "thread_id": "T5",
+        "thread_id": "T9",
         "source_location": "Underground Structure Brig",
         "reveals": "Esiste tensione e rivalità interna tra gli ingegneri della Renown che potrebbe influenzare le prestazioni",
         "payoff": "I PG devono gestire dinamiche interne dell'equipaggio durante una crisi esterna",
@@ -12452,7 +12452,7 @@
         "id": "llm_clue_10",
         "label": "Sentinelle romulane all'avamposto",
         "type": "physical_evidence",
-        "thread_id": "T_defection",
+        "thread_id": "T10",
         "source_location": "Romulan Sentries",
         "reveals": "La stazione romulana è protetta da guardie militari che potrebbero opporsi al soccorso o alla fuga",
         "payoff": "I PG devono pianificare infiltrazione, negoziazione o confronto con le forze di sicurezza romulane",
@@ -12483,390 +12483,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Messaggio personale criptato di S'anra",
-        "type": "document",
-        "thread_id": "T_defection",
-        "source_location": "",
-        "reveals": "S'anra sta agendo a titolo personale, non per conto dell'Impero Romulano",
-        "payoff": "Permette di capire che la defection è genuina e personale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Registro personale di S'anra",
-        "type": "document",
-        "thread_id": "T_defection",
-        "source_location": "",
-        "reveals": "Le motivazioni profonde di S'anra sono ideologiche, non tattiche",
-        "payoff": "Conferma la sincerità della defection e fornisce leva diplomatica",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Piano di autodistruzione armato",
-        "type": "physical_evidence",
-        "thread_id": "T_defection",
-        "source_location": "",
-        "reveals": "S'anra è pronta a morire se la Federazione non accetta la sua offerta",
-        "payoff": "Crea urgenza e dimostra che S'anra non sta bluffando",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Registri scientifici tholiani",
-        "type": "document",
-        "thread_id": "T_nebula_trap",
-        "source_location": "",
-        "reveals": "La nebulosa non è naturale ma un'arma tholiana progettata per intrappolare navi",
-        "payoff": "Spiega le proprietà anomale della nebulosa e suggerisce contromisure",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Satellite romulano di monitoraggio",
-        "type": "physical_evidence",
-        "thread_id": "T_nebula_trap",
-        "source_location": "",
-        "reveals": "I romulani stanno studiando attivamente la nebulosa come arma tattica",
-        "payoff": "Collega la stazione romulana alla nebulosa e rivela l'interesse militare",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Rapporti di ricerca sulla inversione al nadir",
-        "type": "document",
-        "thread_id": "T_nebula_trap",
-        "source_location": "",
-        "reveals": "I romulani hanno quasi capito come replicare l'arma tholiana",
-        "payoff": "Rivela l'importanza strategica della stazione e perché l'Impero potrebbe volerla recuperare",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Log di manutenzione manomessi",
-        "type": "document",
-        "thread_id": "T_gas_sabotage",
-        "source_location": "",
-        "reveals": "Il rilascio di gas non è stato un incidente ma un'azione deliberata di alto livello",
-        "payoff": "Prova che qualcuno con autorità di comando ha sabotato la stazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Testimonianza delle sentinelle romulane",
-        "type": "testimony",
-        "thread_id": "T_gas_sabotage",
-        "source_location": "",
-        "reveals": "S'anra era presente nel luogo del sabotaggio al momento critico",
-        "payoff": "Identifica S'anra come responsabile del sabotaggio, confermando la premeditazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_9",
-        "label": "Analisi del segnale di soccorso",
-        "type": "physical_evidence",
-        "thread_id": "T1",
-        "source_location": "",
-        "reveals": "Il mittente vuole deliberatamente essere scoperto dalla Federazione",
-        "payoff": "Suggerisce che il segnale è un invito mascherato, non una vera emergenza segreta",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_10",
-        "label": "Scansioni della nave tholiana",
-        "type": "physical_evidence",
-        "thread_id": "T2",
-        "source_location": "",
-        "reveals": "I romulani hanno esplorato la nave tholiana e potrebbero aver recuperato tecnologia",
-        "payoff": "Collega la nave tholiana alla stazione romulana e alla nebulosa",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_11",
-        "label": "Rapporto medico sulle vittime del gas",
-        "type": "physical_evidence",
-        "thread_id": "T3",
-        "source_location": "",
-        "reveals": "Il gas è stato rilasciato dai sistemi interni della stazione",
-        "payoff": "Esclude attacco esterno e punta verso malfunzionamento o sabotaggio interno",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_12",
-        "label": "Ordini sigillati decodificati",
-        "type": "document",
-        "thread_id": "T4",
-        "source_location": "",
-        "reveals": "S'anra ha deliberatamente violato gli ordini imperiali richiedendo soccorso",
-        "payoff": "Conferma che S'anra sta agendo contro le direttive romulane",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_13",
-        "label": "Comportamento di S'anra durante il contatto",
-        "type": "behavior",
-        "thread_id": "T5",
-        "source_location": "",
-        "reveals": "S'anra si è preparata per interagire con la Federazione e mostra familiarità con le loro procedure",
-        "payoff": "Indica premeditazione e studio della cultura della Federazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_14",
-        "label": "Schemi di mitigazione delle tempeste boson",
-        "type": "document",
-        "thread_id": "T6",
-        "source_location": "",
-        "reveals": "Esiste una possibile contromisura alle tempeste boson",
-        "payoff": "Permette alla Renown di operare meglio nella nebulosa o evacuare la stazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_15",
-        "label": "Intercettazione della flotta romulana",
-        "type": "document",
-        "thread_id": "T7",
-        "source_location": "",
-        "reveals": "L'Impero considera S'anra un asset prioritario e non tollererà la sua cattura",
-        "payoff": "Stabilisce la posta in gioco e il timer per la missione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_16",
-        "label": "Note di Bexley Gracen sull'anomalia",
-        "type": "document",
-        "thread_id": "T8",
-        "source_location": "",
-        "reveals": "La nebulosa è instabile e rappresenta un pericolo catastrofico imminente",
-        "payoff": "Crea urgenza secondaria per evacuare l'area e spiega perché i romulani vogliono dati",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -12880,8 +12496,8 @@
         "secret": "Carries sealed orders about a secret Federation monitoring outpost illegally located inside the Romulan Neutral Zone",
         "agenda_pressure": 0,
         "fear": "Catastrophic hull breach from boson storm exposure or intergalactic incident with Romulans",
-        "current_plan": "Rispondere al segnale di soccorso mantenendo il segreto della base illegale, evacuare il personale e distruggere ogni evidenza dell'installazione prima che i Romulani la scoprano",
-        "fallback_plan": "Se compromessa, attribuire la base a un'operazione non autorizzata di ufficiali rinnegati; se necessario, sacrificare la Renown stessa per impedire che i Romulani ottengano intelligence strategica sulla rete di spionaggio federale",
+        "current_plan": "Rispondere al segnale di soccorso con squadra minima (4 persone) mentre la Renown mantiene posizione al limite della Zona Neutra. Recuperare personale e apparecchiature sensibili dall'outpost, quindi distruggere la struttura facendola sembrare collasso naturale causato dall'anomalia gassosa. Falsificare log per giustificare deviazione di rotta.",
+        "fallback_plan": "Se i Romulani intercettano l'operazione: abbandonare la squadra di soccorso dichiarandola 'missione non autorizzata da ufficiali corrotti'. Consegnare ai Romulani le 'prove' prefabbricate che incolpano una cellula di spie orioniane. Se la Federazione lo scarica: rilasciare ai media gli ordini dell'Ammiraglio Kensington e cercare asilo politico presso colonia indipendente nei Territori Cardassiani.",
         "resources": [
           "accessi",
           "contatti",
@@ -12903,16 +12519,16 @@
           "Diplomatic incident that could trigger war"
         ],
         "pressure_response": {
-          "low": "La Renown mantiene la rotta di pattugliamento, analizzando metodicamente l'anomalia gassosa mentre il suo equipaggio intercetta e decripta il segnale di soccorso con procedura standard",
-          "medium": "I sistemi tattici si attivano automaticamente; la nave assume posizione difensiva mentre triangola l'origine del segnale, rivelando coordinate che coincidono sospettosamente con quelle degli ordini sigillati del capitano",
-          "high": "Scudi al massimo, la Renown si dirige verso le coordinate proibite mentre i sensori rilevano firme energetiche romulane nelle vicinanze; il computer di bordo inizia a purgare automaticamente i log di navigazione compromettenti",
-          "extreme": "La nave attiva protocolli di autodistruzione controllata per la base segreta; prepara manovre evasive disperate mentre trasmette in subspazio burst criptati verso il Comando della Flotta, sacrificando la propria posizione per avvertire la Federazione"
+          "low": "Il Capitano Voss mantiene la copertura ufficiale: indagine scientifica sull'anomalia gassosa. Risponde al segnale seguendo protocolli standard, senza rivelare conoscenza della base segreta. Limita l'accesso ai dati di navigazione classificati.",
+          "medium": "Voss consulta nervosamente gli ordini sigillati nel suo cassaforte personale. Inizia a modificare i log della nave per giustificare la presenza nella zona. Contatta discretamente il Comando Stellare su canale criptato per chiedere direttive, evitando menzioni esplicite dell'outpost illegale.",
+          "high": "Con i Romulani che potrebbero intercettare le comunicazioni, Voss ordina il silenzio radio totale. Prepara protocolli di autodistruzione per i database della nave contenenti coordinate dell'outpost. Valuta se sacrificare la squadra di soccorso per mantenere il segreto della Federazione.",
+          "extreme": "Voss attiva il Protocollo Omega Nero: distruzione di tutte le prove dell'outpost illegale, inclusa l'eliminazione di testimoni scomodi. Prepara la Renown all'autosabotaggio per simulare un incidente causato dall'anomalia. Considera la defezione ai Romulani come ultima risorsa se catturato con le prove."
         },
         "reaction_table": {
-          "se_minacciato": "Attiva contromisure elettroniche avanzate e si nasconde nell'anomalia gassosa, usando le interferenze per mascherare la propria firma energetica e quella della base illegale",
-          "se_corrotto": "Compromissione impossibile per un'astronave, ma l'equipaggio potrebbe essere infiltrato da agenti romulani che conoscono gli ordini sigillati e cercano di sabotare la missione di soccorso",
-          "se_i_pg_hanno_prove": "Il capitano è costretto ad ammettere l'esistenza della base di monitoraggio clandestina e a condividere gli ordini sigillati, rivelando anni di spionaggio federale nella Zona Neutra",
-          "se_alleato": "Fornisce accesso completo ai dati dell'anomalia e coordinamento tattico, ma insiste che qualsiasi operazione di salvataggio deve essere compiuta con massima discrezione per non scatenare un incidente diplomatico"
+          "se_minacciato": "Invoca autorità di capitano e regolamenti della Flotta Stellare. Se minaccia fisica: confina i responsabili in cella di sicurezza con accuse di ammutinamento. Se minaccia politica: negozia citando 'sicurezza della Federazione' senza dettagli specifici.",
+          "se_corrotto": "Inizialmente finge interesse, poi tende trappola: accetta incontro privato ma registra tutto per accusare i corruttori di tradimento. Potrebbe accettare solo se offerta include protezione personale completa e nuova identità lontano dai confini romulani.",
+          "se_i_pg_hanno_prove": "Tenta prima confisca delle prove per 'sicurezza nazionale'. Se fallisce, propone patto: distruzione prove in cambio di promozioni e assegnazioni prestigiose. Ultima risorsa: ammette tutto accusando l'Ammiraglio Kensington di averlo ricattato per piazzare l'outpost.",
+          "se_alleato": "Condivide parzialmente gli ordini sigillati, rivelando che l'outpost monitora movimenti di flotta romulana da 3 anni. Chiede aiuto per evacuare il personale senza lasciare tracce. Offre accesso ai dati dell'intelligence raccolti come merce di scambio per lealtà futura."
         },
         "pressure_events": [],
         "relationships": [
@@ -12955,8 +12571,8 @@
         "secret": "Carries sealed orders about a secret Federation monitoring outpost illegally located inside the Romulan Neutral Zone",
         "agenda_pressure": 0,
         "fear": "Catastrophic hull breach from boson storm exposure or intergalactic incident with Romulans",
-        "current_plan": "Raggiungere la base di monitoraggio segreta, recuperare personale e dati sensibili, distruggere ogni evidenza della presenza della Federazione nella Zona Neutra prima del rilevamento romulano",
-        "fallback_plan": "Se intercettata dai Romulani, negare qualsiasi conoscenza della base sostenendo di aver solo risposto a un segnale di soccorso; se necessario, sacrificare la base e accusare agenti canaglia della Flotta Stellare",
+        "current_plan": "Completare la scansione dell'anomalia gassosa come copertura, stabilire contatto crittografato con la base segreta usando il canale Omega-3, determinare la natura dell'emergenza senza attirare attenzione romulana, e se possibile estrarre il personale o i dati critici prima che i Romulani scoprano la violazione del trattato.",
+        "fallback_plan": "Se l'operazione viene compromessa: cancellare ogni traccia dell'avamposto dai database della Renown, seminare falsi dati che suggeriscano un'installazione pirata o contrabbandiera indipendente, negare qualsiasi affiliazione della Federazione, e se necessario utilizzare siluri fotonici per vaporizzare la base e cancellare ogni prova fisica della sua esistenza.",
         "resources": [
           "accessi",
           "contatti",
@@ -12978,16 +12594,16 @@
           "Diplomatic incident that could trigger war"
         ],
         "pressure_response": {
-          "low": "Mantiene il protocollo della Flotta Stellare, risponde al segnale di soccorso seguendo le procedure standard mentre continua lo studio dell'anomalia gassosa",
-          "medium": "Rivela selettivamente informazioni sugli ordini sigillati al Primo Ufficiale, preparando scenari di estrazione rapida dalla Zona Neutra se i Romulani rilevano la loro presenza",
-          "high": "Ordina il silenzio radio totale e considera di distruggere la base segreta per eliminare prove della violazione della Zona Neutra, sacrificando eventuali sopravvissuti",
-          "extreme": "Attiva l'autodistruzione dei computer di bordo contenenti i dati della missione classificata, pronta a far saltare la nave piuttosto che permettere ai Romulani di scoprire l'estensione delle operazioni illegali della Federazione"
+          "low": "Il computer di bordo della Renown fornisce coordinate precise dell'anomalia gassosa, mascherando nelle trasmissioni di routine i veri parametri di scansione della base segreta. I sensori rilevano il segnale di soccorso ma lo classificano come 'interferenza naturale' nei log ufficiali.",
+          "medium": "La Renown attiva protocolli di sicurezza Gamma-7, criptando doppie comunicazioni verso il Comando Stellare. Il sistema tattico calcola rotte di evacuazione dalla Zona Neutra mentre mantiene la copertura della missione scientifica. I sigilli sugli ordini classificati mostrano segni di accesso recente.",
+          "high": "I sistemi della nave entrano in allerta tattica silenziosa. Il computer inizia l'autodistruzione selettiva dei database relativi alla base segreta. Le comunicazioni subspaziali verso l'avamposto clandestino vengono interrotte. La Renown si prepara a negare ogni conoscenza della violazione del trattato, sacrificando gli occupanti della base se necessario.",
+          "extreme": "Attivazione automatica del Protocollo Ombra Nera: tutti i dati sulla base illegale vengono cancellati, compresi i codici di riconoscimento. La Renown trasmette falsi dati sull'anomalia ai Romulani per giustificare la presenza nella Zona. Preparazione per distruggere fisicamente l'avamposto segreto e ogni testimone, equipaggio incluso, per preservare la negabilità plausibile della Federazione."
         },
         "reaction_table": {
-          "se_minacciato": "Si nasconde dietro il dovere e la disciplina, citando regolamenti e protocolli mentre valuta se la minaccia può essere contenuta o deve essere eliminata",
-          "se_corrotto": "Rifiuta con sdegno qualsiasi compromesso diretto, ma potrebbe essere influenzata facendo leva sulla sua lealtà verso l'equipaggio versus la Federazione che l'ha messa in questa posizione impossibile",
-          "se_i_pg_hanno_prove": "Ammette la verità ma inquadra tutto come necessità strategica contro la minaccia romulana, cerca di cooptare i PG nella cospirazione enfatizzando il bene superiore",
-          "se_alleato": "Condivide il peso morale della missione, cerca consiglio mentre lotta tra obbedire agli ordini illegali e proteggere il suo equipaggio dalle conseguenze"
+          "se_minacciato": "Attiva la sequenza di autodistruzione dei dati sensibili e trasmette codice rosso al Comando Stellare. Prepara manovre evasive verso territorio federale usando l'anomalia gassosa come copertura dei sensori.",
+          "se_corrotto": "Impossibile corrompere un sistema informatico, ma violazioni ai protocolli di sicurezza potrebbero rivelare l'esistenza della Direttiva Cardinale 4-Alpha: monitoraggio illegale dei movimenti della flotta romulana dal cuore della Zona Neutra.",
+          "se_i_pg_hanno_prove": "Il computer della Renown inizia protocolli di contenimento: isola le prove in buffer di quarantena, marca i PG come 'rischio sicurezza' e notifica l'Intelligence della Flotta. Ogni trasferimento dati viene monitorato e potenzialmente intercettato.",
+          "se_alleato": "Fornisce accesso graduale ai database classificati, rivela che l'avamposto monitora sei installazioni militari romulane e che il segnale di soccorso indica un possibile tradimento interno. Coordina missione di salvataggio mantenendo copertura diplomatica."
         },
         "pressure_events": [],
         "relationships": [
@@ -13030,7 +12646,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -13064,16 +12679,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "boson_nebula",
-        "location_type": "local",
-        "connections_to": [
-          "tholian_vessel"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -13086,7 +12691,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -13118,14 +12722,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "romulan_neutral_zone",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -13138,7 +12734,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "vehicle",
@@ -13169,16 +12764,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "boson_nebula",
-        "location_type": "local",
-        "connections_to": [
-          "uss_renown"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -13191,7 +12776,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -13222,16 +12806,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "romulan_neutral_zone",
-        "location_type": "regional",
-        "connections_to": [
-          "federation_monitoring_base"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -13244,7 +12818,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -13274,16 +12847,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "romulan_neutral_zone",
-        "location_type": "regional",
-        "connections_to": [
-          "romulan_monitoring_station"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -13296,7 +12859,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -13329,14 +12891,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -13349,7 +12903,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -13380,14 +12933,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -13405,47 +12950,27 @@
         "on_complete": "Tutti i Romulani sulla stazione muoiono. S'anra non può più defettare o fornire informazioni. Possibile incidente diplomatico con l'Impero Romulano.",
         "steps": [
           {
-            "value": 1,
-            "label": "Perdita iniziale rilevata",
-            "effect": "I sensori della Renown rilevano emissioni di gas tossico dalla stazione. Le comunicazioni romulane menzionano protocolli di emergenza ambientale."
+            "step": 2,
+            "world_state_change": "Il gas radioattivo ha invaso i ponti inferiori della stazione",
+            "scene_prompt": "Le comunicazioni romulane diventano più disperate e frammentate"
           },
           {
-            "value": 2,
-            "label": "Evacuazione ponti inferiori",
-            "effect": "Il gas radioattivo ha invaso i ponti inferiori della stazione. Le comunicazioni romulane diventano più disperate e frammentate. Almeno 30% dell'equipaggio è già contaminato."
-          },
-          {
-            "value": 3,
-            "label": "Sistema di contenimento fallito",
-            "effect": "I sistemi di purificazione dell'aria sono compromessi. Le letture mostrano concentrazioni letali che si diffondono ai ponti intermedi. Tempo stimato prima del collasso totale: 2 ore."
-          },
-          {
-            "value": 4,
-            "label": "Isolamento ponte di comando",
-            "effect": "Solo il ponte di comando rimane sicuro, i Romulani sono intrappolati. Le letture dei sensori mostrano che il 70% della stazione è compromesso. I campi di forza d'emergenza non reggeranno a lungo."
-          },
-          {
-            "value": 5,
-            "label": "Collasso imminente dei sigilli",
-            "effect": "I campi di contenimento del ponte di comando mostrano segni di cedimento. Si sentono grida disperate nelle comunicazioni. I Romulani hanno meno di 30 minuti prima dell'esposizione fatale."
-          },
-          {
-            "value": 6,
-            "label": "Catastrofe totale",
-            "effect": "Il gas invade il ponte di comando. Silenzio radio completo dalla stazione. Tutti i segni vitali romulani cessano. La stazione diventa una tomba radioattiva."
+            "step": 4,
+            "world_state_change": "Solo il ponte di comando rimane sicuro, i Romulani sono intrappolati",
+            "scene_prompt": "Le letture dei sensori mostrano che il 70% della stazione è compromesso"
           }
         ],
         "clock_type": "terminal_defeat",
         "resolution_clues": [
           "llm_clue_3"
         ],
-        "resolution_condition": "I giocatori teletrasportano un'unità d'ingegneria sulla stazione per sigillare la perdita con campi di forza portatili, oppure evacuano i Romulani sulla Renown prima che il ponte di comando sia compromesso. Richiede superare le difese romulane e vincere la loro diffidenza.",
+        "resolution_condition": "I giocatori entrano nella stazione e riparano la perdita di gas o evacuano i Romulani prima che il tempo scada",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_1",
-        "discovery_hint": "Un odore metallico insolito permea le trasmissioni audio dalla stazione. Nelle pause tra le parole si sentono allarmi ambientali distanti, quasi subliminali.",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Segnali di comunicazione frammentati e disturbati provengono dalla Zona Neutra",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 0,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -13464,50 +12989,25 @@
         "on_complete": "Una flotta di incrociatori romulani arriva sulla scena. Se la Renown è ancora nella Zona Neutra o ha Romulani a bordo, inizia un confronto militare che può degenerare in combattimento.",
         "steps": [
           {
-            "value": 2,
-            "label": "Eco subspaziali distanti",
-            "effect": "Gli analisti rilevano deboli disturbi subspaziali coerenti con motori a curvatura romulani a lungo raggio. Impossibile determinare numero o velocità esatti. Tempo stimato di arrivo: 6-8 ore."
+            "step": 3,
+            "world_state_change": "I sensori a lungo raggio rilevano firme di curvatura romulane in avvicinamento",
+            "scene_prompt": "Tracce di propulsione di almeno tre navi da guerra romulane si muovono verso la vostra posizione"
           },
           {
-            "value": 3,
-            "label": "Firme di curvatura confermate",
-            "effect": "I sensori a lungo raggio rilevano firme di curvatura romulane in avvicinamento. Tracce di propulsione di almeno tre navi da guerra romulane si muovono verso la vostra posizione a velocità di crociera elevata."
-          },
-          {
-            "value": 4,
-            "label": "Identificazione classe navale",
-            "effect": "L'analisi rivela due incrociatori classe Warbird e almeno una nave comando più grande. Stanno mantenendo formazione d'attacco standard. ETA: 3-4 ore."
-          },
-          {
-            "value": 5,
-            "label": "Accelerazione della flotta",
-            "effect": "Le navi romulane hanno aumentato alla massima velocità di curvatura. Evidentemente hanno ricevuto comunicazioni dalla stazione o rilevato la presenza della Renown. ETA: 90 minuti."
-          },
-          {
-            "value": 6,
-            "label": "Raggio di comunicazione",
-            "effect": "La flotta romulana entra nel raggio di comunicazione. Ricevete una trasmissione romulana in codice diretto alla stazione segreta. Nessuna risposta dalla stazione. I Romulani stanno tentando di contattare ripetutamente."
-          },
-          {
-            "value": 7,
-            "label": "Rilevamento della Renown",
-            "effect": "La flotta romulana ha chiaramente rilevato la nave della Federazione. Le navi assumono formazione da battaglia e caricano i sistemi d'arma. ETA: 20 minuti. Ricevete un avviso generale di allontanarsi dalla Zona Neutra."
-          },
-          {
-            "value": 8,
-            "label": "Confronto diretto",
-            "effect": "La flotta romulana emerge dalla curvatura in formazione d'attacco. Il comandante romulano richiede spiegazioni immediate per la violazione del territorio e informazioni sulla stazione. Gli scudi sono alzati, i disruptor puntati sulla Renown."
+            "step": 6,
+            "world_state_change": "La flotta romulana entra nel raggio di comunicazione",
+            "scene_prompt": "Ricevete una trasmissione romulana in codice diretto alla stazione segreta"
           }
         ],
         "clock_type": "escalation",
         "resolution_clues": [],
-        "resolution_condition": "Inevitabile - i giocatori devono completare la missione (evacuazione o negoziazione) e lasciare la Zona Neutra prima dell'arrivo, oppure preparare una spiegazione diplomatica credibile per la loro presenza. Avere S'anra o altri Romulani a bordo complica enormemente le opzioni.",
+        "resolution_condition": "Inevitabile - i giocatori devono completare la missione e lasciare la Zona Neutra prima dell'arrivo",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_7",
-        "discovery_hint": "I sensori captano echi fantasma ai margini della loro portata, come ombre che si muovono nel tessuto dello spazio. Le stelle sembrano tremare impercettibilmente in una direzione specifica.",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Interferenze subspaziali insolite ai margini dei sensori a lungo raggio",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 1,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -13526,39 +13026,14 @@
         "on_complete": "S'anra prende una decisione drastica: tenta di distruggere la Renown in un ultimo atto di gloria, oppure defeziona immediatamente senza informare i subordinati, causando caos sulla stazione.",
         "steps": [
           {
-            "value": 1,
-            "label": "Primi segnali di stress",
-            "effect": "Le comunicazioni di S'anra mostrano esitazioni inusuali per un comandante romulano. Intercettate ordini contraddittori dati all'equipaggio riguardo alle priorità della missione."
+            "step": 3,
+            "world_state_change": "I subordinati di S'anra iniziano a dubitare del suo comando",
+            "scene_prompt": "Intercettate comunicazioni interne romulane che suggeriscono dissenso tra gli ufficiali"
           },
           {
-            "value": 2,
-            "label": "Decisioni erratiche",
-            "effect": "S'anra alterna tra aggressività estrema e aperture diplomatiche inaspettate. Le comunicazioni interne mostrano schemi incoerenti nelle decisioni tattiche. Gli ufficiali subordinati si scambiano sguardi perplessi durante le trasmissioni video."
-          },
-          {
-            "value": 3,
-            "label": "Dissenso tra gli ufficiali",
-            "effect": "I subordinati di S'anra iniziano a dubitare del suo comando. Intercettate comunicazioni interne romulane che suggeriscono dissenso tra gli ufficiali. Un sottoufficiale viene rimosso dalla plancia per aver 'messo in discussione l'autorità'."
-          },
-          {
-            "value": 4,
-            "label": "Frattura del comando",
-            "effect": "La disciplina sulla stazione si sta sgretolando. Due fazioni emergono: leali a S'anra e quelli che credono lei abbia perso il diritto al comando. Le comunicazioni diventano criptiche, codici non standard vengono usati."
-          },
-          {
-            "value": 5,
-            "label": "Ammutinamento incombente",
-            "effect": "I subordinati romulani pianificano di agire autonomamente. Le sentinelle romulane si muovono in formazioni difensive, ignorando gli ordini standard. S'anra si è barricata nel suo ufficio con guardie fedeli."
-          },
-          {
-            "value": 6,
-            "label": "Crisi di comando",
-            "effect": "S'anra appare in video-comunicazione con gli occhi iniettati di sangue, parlando di 'onore' e 'tradimento dell'Impero'. Metà dell'equipaggio non risponde più ai suoi ordini. Qualcuno ha tentato di accedere ai sistemi d'arma della stazione."
-          },
-          {
-            "value": 7,
-            "label": "Punto di rottura",
-            "effect": "S'anra attiva un protocollo d'emergenza: o inizia sequenze di autodistruzione per 'negare la stazione ai traditori e alla Federazione', oppure richiede asilo immediato sulla Renown abbandonando il suo equipaggio al proprio destino. Il caos regna sulla stazione."
+            "step": 5,
+            "world_state_change": "I subordinati romulani pianificano di agire autonomamente",
+            "scene_prompt": "Le sentinelle romulane si muovono in formazioni difensive, ignorando gli ordini standard"
           }
         ],
         "clock_type": "narrative",
@@ -13566,13 +13041,13 @@
           "llm_clue_5",
           "llm_clue_9"
         ],
-        "resolution_condition": "I giocatori stabiliscono comunicazione privata con S'anra e comprendono che la sua instabilità deriva dal conflitto tra dovere verso l'Impero e disillusione per le sue missioni 'senza gloria'. Devono offrirle un'alternativa onorevole (asilo con dignità, salvataggio del suo equipaggio, riconoscimento del suo valore) prima che la pressione la spinga all'azione disperata.",
+        "resolution_condition": "I giocatori comprendono le motivazioni di S'anra e negoziano con lei prima che agisca d'impulso",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_5",
-        "discovery_hint": "Nelle trasmissioni romulane intercettate, ci sono lunghe pause dove dovrebbero esserci ordini decisi. In sottofondo, quasi impercettibile, si sente il suono di qualcuno che cita versi antichi romulani sull'esilio e l'onore perduto.",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Le comunicazioni romulane mostrano schemi incoerenti nelle decisioni tattiche",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 0,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -13614,242 +13089,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T_defection",
-        "title": "Le vere intenzioni del Comandante S'anra",
-        "question": "Il Comandante S'anra vuole davvero defezionare o è una trappola?",
-        "true_answer": "S'anra è sincera nella sua volontà di defezionare, stanca della politica romulana e abbandonata dal suo impero, ma è pronta a morire gloriosamente se la Federazione la rifiuta",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_1",
-          "nuovo_clue_2",
-          "nuovo_clue_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "linked_locations": [
-          "Romulan Secret Monitoring Station"
-        ]
-      },
-      {
-        "id": "T_nebula_trap",
-        "title": "Il ruolo della Boson Micro-Nebula",
-        "question": "Perché la nebulosa è così pericolosa e chi l'ha creata?",
-        "true_answer": "La nebulosa è un'arma di origine tholiana, invertita al nadir, che genera tempeste boson in grado di disabilitare scudi e teletrasporto. I romulani la stavano studiando come sistema di difesa",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_4",
-          "nuovo_clue_5",
-          "nuovo_clue_6"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "linked_locations": [
-          "Boson Micro-Nebula",
-          "Tholian O-class Vessel"
-        ]
-      },
-      {
-        "id": "T_gas_sabotage",
-        "title": "Origine del gas radioattivo",
-        "question": "Il gas radioattivo è un incidente o sabotaggio?",
-        "true_answer": "S'anra ha sabotato i sistemi di contenimento della stazione per forzare un'emergenza che giustifichi il suo contatto con la Federazione",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_7",
-          "nuovo_clue_8"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "linked_locations": [
-          "Romulan Secret Monitoring Station"
-        ]
-      },
-      {
-        "id": "T1",
-        "title": "T1",
-        "question": "Il segnale di soccorso criptato è autentico o si tratta di una trappola per attirare la Renown nella Zona Neutra?",
-        "true_answer": "Il segnale proviene realmente da una base segreta della Federazione, ma è stato amplificato e reindirizzato dal Comandante S'anra come invito mascherato per negoziare la sua diserzione, non è un inganno romulano ma un'opportunità per contatto diretto.",
-        "collected_clue_ids": [
-          "llm_clue_1",
-          "nuovo_clue_9"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T2",
-        "title": "T2",
-        "question": "Perché una nave tholiana antica si trova nella nebulosa e qual è il suo collegamento con la stazione romulana?",
-        "true_answer": "La nave tholiana è un relitto che i Romulani hanno scoperto e studiato segretamente; la sua tecnologia di manipolazione spaziale è stata reverse-engineered per creare le tempeste boson che proteggono la stazione dall'essere individuata.",
-        "collected_clue_ids": [
-          "llm_clue_2",
-          "nuovo_clue_10"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T3",
-        "title": "T3",
-        "question": "Il gas radioattivo che allaga la stazione è il risultato di un attacco esterno, un malfunzionamento o un sabotaggio interno?",
-        "true_answer": "È sabotaggio interno orchestrato dai subordinati lealisti di S'anra che hanno scoperto il suo piano di diserzione; hanno danneggiato i sistemi di contenimento per creare un'emergenza che impedisse il suo contatto con la Federazione.",
-        "collected_clue_ids": [
-          "llm_clue_3",
-          "nuovo_clue_11"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T4",
-        "title": "T4",
-        "question": "Cosa rivelano gli ordini sigillati sull'avamposto segreto della Federazione nella Zona Neutra e quali sono le sue vere operazioni?",
-        "true_answer": "Gli ordini rivelano che l'avamposto monitora illegalmente le comunicazioni romulane e raccoglie dati sul fenomeno della nebulosa invertita, operazioni non autorizzate dal Comando della Flotta che S'anra ha scoperto e usa come merce di scambio per la sua diserzione.",
-        "collected_clue_ids": [
-          "llm_clue_4",
-          "nuovo_clue_12"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T5",
-        "title": "T5",
-        "question": "Perché il Comandante S'anra mostra un comportamento erratico e quali sono le sue vere intenzioni verso la Renown?",
-        "true_answer": "S'anra sta pianificando di disertare verso la Federazione portando con sé intelligence critica sulla flotta romulana; il suo comportamento erratico deriva dal conflitto interno tra dovere e sopravvivenza, e dalla pressione dei subordinati che sospettano il tradimento.",
-        "collected_clue_ids": [
-          "llm_clue_5",
-          "llm_clue_9",
-          "nuovo_clue_13"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T6",
-        "title": "T6",
-        "question": "Le tempeste boson sono un fenomeno naturale della nebulosa o hanno un'origine artificiale?",
-        "true_answer": "Le tempeste boson sono generate artificialmente usando tecnologia tholiana adattata dai Romulani; S'anra può modularne l'intensità attraverso il relitto tholiano, permettendo alla Renown finestre operative se collabora, ma i sabotatori hanno compromesso i controlli.",
-        "collected_clue_ids": [
-          "llm_clue_6",
-          "nuovo_clue_14"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T7",
-        "title": "T7",
-        "question": "La flotta romulana in avvicinamento sta venendo in soccorso della stazione di S'anra o ha un altro obiettivo?",
-        "true_answer": "La flotta è stata inviata dall'Alto Comando Romulano per eliminare S'anra e il suo equipaggio dopo aver intercettato comunicazioni sospette; non è una missione di soccorso ma un'esecuzione per tradimento, con ordini di distruggere ogni testimone inclusa la Renown.",
-        "collected_clue_ids": [
-          "llm_clue_7",
-          "nuovo_clue_15"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Qual è la vera natura dell'anomalia della nebulosa invertita al nadir e perché crea urgenza per evacuare l'area?",
-        "true_answer": "La nebulosa sta subendo un'inversione di polarità quantica che culminerà in un collasso spaziale catastrofico entro 48 ore; sia l'avamposto federale che la stazione romulana hanno scoperto il fenomeno ma lo hanno tenuto segreto per continuare le operazioni illegali finché possibile.",
-        "collected_clue_ids": [
-          "llm_clue_8",
-          "nuovo_clue_16"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_trappola",
-        "title": "T trappola",
-        "question": "Il segnale di soccorso potrebbe essere un'esca romulana orchestrata per catturare una nave della Federazione nella Zona Neutra?",
-        "true_answer": "No, il segnale non è una trappola ufficiale romulana; è un messaggio genuino dall'avamposto federale che S'anra ha intercettato e sfruttato per i propri scopi di diserzione, anche se alcuni ufficiali romulani lealisti vorrebbero usare la situazione come trappola.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_diserzione",
-        "title": "T diserzione",
-        "question": "Il Comandante S'anra sta realmente pianificando di disertare verso la Federazione usando l'emergenza come copertura?",
-        "true_answer": "Sì, S'anra ha pianificato meticolosamente la diserzione dopo aver perso fiducia nell'Impero Romulano; ha accumulato intelligence preziosa e sta usando la crisi del gas e l'arrivo della Renown come opportunità per negoziare asilo in cambio di informazioni strategiche.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_flotta",
-        "title": "T flotta",
-        "question": "La flotta romulana sta venendo a soccorrere S'anra o ha ricevuto ordini di eliminarla per tradimento?",
-        "true_answer": "La flotta romulana in avvicinamento non sta venendo a soccorrere S'anra ma a eliminarla per tradimento",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_tecnologia",
-        "title": "T tecnologia",
-        "question": "Cosa si nasconde dietro: T tecnologia?",
-        "true_answer": "Le tempeste boson nella nebulosa non sono naturali ma collegate alla tecnologia tholiana antica",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_cospirazone",
-        "title": "T cospirazone",
-        "question": "Cosa si nasconde dietro: T cospirazone?",
-        "true_answer": "Lt. Bexley Gracen ha informazioni compromettenti che collegano l'avamposto segreto a politiche interne della Federazione",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_sabotaggio",
-        "title": "T sabotaggio",
-        "question": "Cosa si nasconde dietro: T sabotaggio?",
-        "true_answer": "Il gas radioattivo che allaga la stazione è sabotaggio interno dei subordinati di S'anra per fermare la sua diserzione",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -19146,8 +18386,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 1.9
+    }
   },
   "live_game_state": null
 }
