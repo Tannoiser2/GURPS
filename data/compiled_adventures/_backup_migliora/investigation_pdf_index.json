@@ -44485,7 +44485,7 @@
         "id": "llm_clue_2",
         "label": "Vharn ucciso da Presunta Vampiro",
         "type": "forensic",
-        "thread_id": "T13",
+        "thread_id": "T3",
         "source_location": "Monastero",
         "reveals": "Una creatura soprannaturale si aggira nel monastero e ha già fatto una vittima",
         "payoff": "I PG sanno che devono agire rapidamente prima di altre vittime",
@@ -44521,7 +44521,7 @@
         "id": "llm_clue_3",
         "label": "San Eliodoro nella cripta ha già parlato con qualcuno",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T4",
         "source_location": "Cripta di San Eliodoro",
         "reveals": "Qualcuno ha già interrogato il santo prima dei PG, suggerendo indagini parallele",
         "payoff": "I PG possono usare magia per scoprire cosa è stato chiesto a San Eliodoro",
@@ -44557,7 +44557,7 @@
         "id": "llm_clue_4",
         "label": "Padre Brennan si comporta come un idiota maledetto dal Libro",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T5",
         "source_location": "Torre dell'Abate / Padre Brennan",
         "reveals": "L'abate stesso è sotto l'influenza del Libro/Demone, compromettendo la leadership del monastero",
         "payoff": "I PG non possono fidarsi completamente dell'abate e devono agire autonomamente",
@@ -44593,7 +44593,7 @@
         "id": "llm_clue_5",
         "label": "Il Rito della Nuova Luce è stato accorciato",
         "type": "contradiction",
-        "thread_id": "T11",
+        "thread_id": "T6",
         "source_location": "Tempio della Luce / Fratello Klaus",
         "reveals": "Un rituale cruciale per contenere il Demone è stato sabotato, indebolendo le difese",
         "payoff": "I PG devono scegliere se ripristinare il rito (provocando attacco) o trovare altro modo",
@@ -44629,7 +44629,7 @@
         "id": "llm_clue_6",
         "label": "Libro di appunti di Drusilio terminato prematuramente",
         "type": "physical_evidence",
-        "thread_id": "T2",
+        "thread_id": "T7",
         "source_location": "Scriptorium / Fratello Drusilio",
         "reveals": "Drusilio ha completato improvvisamente i suoi appunti e cambiato personalità, segno di influenza esterna",
         "payoff": "I PG possono leggere gli appunti per scoprire cosa ha scoperto prima del cambiamento",
@@ -44737,7 +44737,7 @@
         "id": "llm_clue_9",
         "label": "Cultista ninja avvistato in Biblioteca e ruba cibo dalla dispensa",
         "type": "scene_observation",
-        "thread_id": "T12",
+        "thread_id": "T10",
         "source_location": "Biblioteca / Sorella Genasia",
         "reveals": "Un infiltrato ostile si nasconde nel monastero, cerca informazioni e risorse",
         "payoff": "I PG possono tendere una trappola o seguire il cultista per scoprire i suoi piani",
@@ -44912,198 +44912,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "clue_rito_1",
-        "label": "Pagine strappate del Rito originale",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Il Rito è stato deliberatamente abbreviato rimuovendo protezioni specifiche",
-        "payoff": "Permette di capire che qualcuno ha sabotato le difese contro il demone",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_rito_2",
-        "label": "Drusilio posseduto mentre copiava il Rito",
-        "type": "behavior",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Drusilio è il medium attraverso cui il demone ha modificato il Rito",
-        "payoff": "Identifica chi ha materialmente accorciato il Rito, anche se inconsapevolmente",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_rito_3",
-        "label": "Padre Brennan ricorda vagamente l'originale",
-        "type": "testimony",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Conferma che il Rito è stato accorciato drasticamente",
-        "payoff": "Fornisce la prova testimoniale della manipolazione temporale del rituale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_ninja_1",
-        "label": "Simboli demoniaci graffiti nella Cripta",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Qualcuno sta preparando un rituale di evocazione nella Cripta",
-        "payoff": "Identifica il luogo dove il cultista ninja vuole liberare il demone",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_ninja_2",
-        "label": "Ingredienti rituali rubati dalla dispensa",
-        "type": "physical_evidence",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il ladro sta raccogliendo materiali per un rituale specifico",
-        "payoff": "Permette di dedurre che il cultista sta preparando un'evocazione, non solo nascondendosi",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_ninja_3",
-        "label": "Impronte di sandali ninja nel Tempio",
-        "type": "location_detail",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Il cultista usa un passaggio segreto tra Tempio e Cripta",
-        "payoff": "Svela la via che il ninja usa per muoversi inosservato e raggiungere il luogo del rituale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_vharn_1",
-        "label": "Appunti di Vharn sulla follia dei monaci",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Vharn aveva scoperto che il Libro causa la follia",
-        "payoff": "Spiega perché Vharn doveva essere eliminato - stava per scoprire tutta la verità",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "clue_vharn_2",
-        "label": "Segni di artigli sovrannaturali sul corpo",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Vharn è stato ucciso da una creatura demoniaca, non da un vampiro o un monaco impazzito",
-        "payoff": "Esclude le piste false e conferma l'origine sovrannaturale dell'assassinio",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -45114,11 +44922,11 @@
         "location_id": "p11_room_4",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Ha già letto tre pagine del Libro della Creazione. Ogni notte sogna di riscriverle e al risveglio trova nei suoi diari parole che non ricorda di aver scritto - profezie in lingue morte che si avverano il giorno dopo.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Guadagnare tempo celebrando messe ininterrotte nella cappella, convinto che la preghiera continua indebolisca il demone. Nasconde ai PG che tre monaci sono già scomparsi nella cripta.",
-        "fallback_plan": "Se il contenimento fallisce, attivare l'antica maledizione dei fondatori: sigillare l'Abbazia con tutti dentro (PG inclusi) usando il proprio sangue come sigillo vivente. Nessuno esce, il demone resta intrappolato.",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45134,16 +44942,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva i PG con sguardo compassionevole, offre loro ospitalità e cibo. Parla dei 'fratelli che hanno perso la via' come di malati bisognosi di preghiera.",
-          "medium": "Si barrica nello scriptorium con i monaci fedeli. Recita salmi protettivi mentre consulta freneticamente codici antichi cercando un rituale di contenimento.",
-          "high": "Rivela che il Libro ha già corrotto metà della comunità. Propone di sigillare l'ala infetta con fuoco sacro, sacrificando i fratelli posseduti per salvare il mondo.",
-          "extreme": "Tenta disperatamente di distruggere il Libro bruciando l'intera biblioteca, anche se questo significa liberare il demone anziché contenerlo. Preferisce morire da santo che vivere da complice."
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia nella fede ostentata, citando scritture e mostrando stigmate sanguinanti sulle mani - segno di grazia o corruzione incipiente?",
-          "se_corrotto": "Inizia a parlare in terza persona del 'guardiano fallito'. Gli occhi si velano di nero quando crede di non essere osservato.",
-          "se_i_pg_hanno_prove": "Crolla spiritualmente. Confessa di aver letto il Libro tre notti prima per 'comprendere il nemico' e ora teme di essere già perduto.",
-          "se_alleato": "Condivide la vera storia: ogni Abate da 300 anni ha custodito il segreto. Offre l'unico strumento rimasto - un pugnale benedetto forgiato con le lacrime del primo guardiano."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45158,7 +44966,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p16_npc_2",
@@ -45167,11 +44975,11 @@
         "location_id": "p11_room_5",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Ha letto accidentalmente una pagina del Libro tre settimane fa durante l'inventario della biblioteca. Da allora vede ombre con troppi arti negli angoli e sente voci che sussurrano il suo nome al contrario. È convinto che solo completando il rituale di Ludmilla queste visioni cesseranno.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Impedire ai PG di raggiungere la biblioteca antica e la cripta dove Ludmilla sta completando il rituale. Sbattere porte, spostare mobili, creare barricate.",
-        "fallback_plan": "Se i PG superano le sue difese, correre ad avvertire Ludmilla e aiutarla a completare il rituale prima che sia troppo tardi, convinto che sia l'unica salvezza.",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45187,16 +44995,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Rimane in disparte, osserva i PG con sospetto dalla finestra della sua cella. Risponde a monosillabi, nega qualsiasi stranezza. 'Tutto è come deve essere.'",
-          "medium": "Inizia a seguire i PG nei corridoi bui, bisbiglia frasi incomprensibili in latino. Si fa trovare davanti a porte che i PG stavano per aprire, bloccandole con il corpo.",
-          "high": "Confessa urlando che Ludmilla gli ha mostrato 'la verità scritta nelle pagine maledette'. Tenta di impedire fisicamente l'accesso alla biblioteca, brandisce un candelabro come arma.",
-          "extreme": "Si barrica nella cripta con il Libro della Creazione, cerca disperatamente di completare il rituale che Ludmilla gli ha insegnato per 'salvare l'Abbazia dalla corruzione'. Recita formule che fanno tremare le mura."
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Arretra verso le porte che deve proteggere, invoca Ludmilla come se fosse una santa. 'Non capite! Lei sola conosce la via!'",
-          "se_corrotto": "Già manipolato da Ludmilla attraverso visioni del Libro. Vede i PG come demoni venuti a profanare l'Abbazia.",
-          "se_i_pg_hanno_prove": "Crolla psicologicamente, ammette di aver visto Ludmilla leggere le pagine proibite, ma insiste che 'lei stava cercando di contenere il male, non liberarlo'.",
-          "se_alleato": "Impossibile conquistare la sua fiducia finché è sotto l'influenza di Ludmilla. Solo distruggendo le sue illusioni può tornare lucido."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45211,7 +45019,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p22_npc_1",
@@ -45220,11 +45028,11 @@
         "location_id": "p11_room_7",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Il demone non è esterno al Libro - È la volontà collettiva corrotta di tutti i copisti medievali che impazzirono trascrivendolo, le loro anime fuse in un'unica entità. Distruggere il Libro significherebbe liberare centinaia di spiriti tormentati, non uno solo. E una piccola parte di lui desidera disperatamente essere esorcizzato, pur negandolo.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Spingere Fratel Matteo, il monaco bibliotecario più devoto, a completare il Rituale dei Sette Sigilli durante la luna nuova. Questo trasferirà la sua essenza dal Libro al corpo del monaco, liberandolo dopo 600 anni di prigionia.",
-        "fallback_plan": "Se i PG intervengono prima del rituale, corrompere uno di loro facendogli leggere il Codice Inverso nascosto nelle marginalia del Libro. Il lettore diventerà il suo nuovo vascello mobile, permettendogli di lasciare l'Abbazia.",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45240,16 +45048,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva i PG con curiosità distaccata, lasciando cadere indizi sulla corruzione del Libro come fossero briciole per piccioni. Sussurra profezie ambigue in latino ecclesiastico.",
-          "medium": "Appare nei sogni dei PG mostrando visioni del monastero in fiamme e monaci che divorano se stessi. Offre conoscenza proibita in cambio di 'piccoli favori' - sangue versato sul Libro, parole pronunciate al contrario.",
-          "high": "Possiede temporaneamente un monaco per comunicare direttamente, gli occhi che lacrimano inchiostro nero. Propone un patto: aiutarlo a trasferirsi in un altro oggetto in cambio della salvezza dell'Abbazia.",
-          "extreme": "Scatena un'ondata di pazzia collettiva tra i monaci, trasformandoli in marionette che scrivono all'infinito pagine del Libro sulla propria carne. Minaccia di riscrivere l'esistenza dei PG cancellandoli dalla memoria di tutti."
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Ride con mille voci sovrapposte e si ritrae temporaneamente nel Libro, lasciando i monaci posseduti inerti e sanguinanti. Pianta semi di paranoia tra i PG tramite illusioni personali.",
-          "se_corrotto": "Impossibile corrompere ciò che è corruzione incarnata, ma può fingere debolezza per attirare un PG a toccare il Libro e creare un nuovo ospite.",
-          "se_i_pg_hanno_prove": "Diventa stranamente collaborativo, rivelando verità distorte sulla natura del Libro. Suggerisce che distruggerlo libererebbe qualcosa di peggiore - e potrebbe avere ragione.",
-          "se_alleato": "Non può essere veramente alleato, ma può fingere cooperazione. Offre potere attraverso il Libro: riscrivere piccole realtà, curare ferite mortali, vedere verità nascoste. Ogni uso lo rafforza."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45264,7 +45072,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p25_npc_1",
@@ -45273,11 +45081,11 @@
         "location_id": "p11_room_9",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Ha letto una lettera del 1347 che descrive come un precedente archivista tentò di sigillare il demone scrivendogli intorno con inchiostro benedetto. Quella notte l'archivista impazzì e si gettò dal campanile. La stessa calligrafia ora appare nei suoi sogni, obbligandolo a trascrivere formule in lingue che non conosce.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Monitorare la corrispondenza e i movimenti dei monaci per capire quando avverrà il rituale di liberazione del demone, senza intervenire direttamente per paura di ritorsioni",
-        "fallback_plan": "Se la situazione degenera, fuggire dall'Abbazia portando con sé le lettere più compromettenti per consegnarle alle autorità ecclesiastiche a Perugia",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45293,16 +45101,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Accoglie i PG con cortesia monastica, offrendo ospitalità e accesso alla biblioteca. Osserva attentamente quali sezioni consultano e quali domande pongono sul Libro.",
-          "medium": "Diventa evasivo sulle lettere che ha intercettato tra i monaci. Inizia a seguire i PG nei corridoi, prendendo appunti su un taccuino logoro. Nasconde documenti chiave quando si avvicinano.",
-          "high": "Confessa di aver letto corrispondenze compromettenti che descrivono visioni e rituali. Ammette di temere che i monaci stiano per compiere qualcosa di irreversibile, ma esita a rivelare tutto per fedeltà all'Ordine.",
-          "extreme": "Crolla psicologicamente, rivelando che ha bruciato alcune lettere per proteggere l'Abbazia dalla vergogna. Supplica i PG di fermare i monaci prima che il demone si manifesti completamente, confessando di aver visto le ombre muoversi da sole."
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica negli archivi, minacciando di distruggere le rimanenti lettere compromettenti se i PG non si ritirano. Trema visibilmente ma mantiene la posizione.",
-          "se_corrotto": "Rivela la posizione esatta delle lettere nascoste in cambio di protezione dall'ira dell'Abate. Tradisce i segreti epistolari dei monaci senza rimorso.",
-          "se_i_pg_hanno_prove": "Conferma tutto con sollievo, felice di non essere più solo a sapere. Diventa collaborativo, fornendo traduzioni dal latino e date precise degli eventi descritti nelle lettere.",
-          "se_alleato": "Porta i PG alla cella segreta dove ha nascosto le copie delle lettere più inquietanti. Offre la sua conoscenza della struttura dell'Abbazia per evitare i monaci impazziti."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45317,7 +45125,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p25_npc_2",
@@ -45326,11 +45134,11 @@
         "location_id": "p93_room_2",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Anche lui è dipendente dall'estratto di rosa da due anni. Ha iniziato ad assumerlo per 'comprendere meglio i pazienti' e ora sente sussurri che non provengono dai monaci ma dal Libro stesso, che gli ordina di preparare i vasi per il trapianto finale",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Continuare a somministrare l'estratto di rosa ai monaci per mantenere stabile la loro follia controllata, impedire che qualcuno scopra la serra segreta dove coltiva le varietà più potenti, osservare Ludmilla per capire se è anche lei dipendente",
-        "fallback_plan": "Se scoperto, incolpare il demone del Libro di aver corrotto le rose; se il rituale fallisce, fuggire con scorte sufficienti dell'estratto per vendere ai monasteri vicini come 'cura miracolosa'; in extremis, bere l'estratto puro e tentare di entrare in contatto diretto col demone",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45346,16 +45154,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Offre ai PG tisane calmanti nel giardino, osserva le loro reazioni alle rose bianche con sguardo clinico, menziona casualmente che 'alcune dipendenze sono benedizioni travestite'",
-          "medium": "Si ritira nella serra proibita, inizia a mescolare estratti dalle rose in ampolle sigillate, nega con fermezza l'accesso ai registri delle forniture del monastero degli ultimi tre anni",
-          "high": "Minaccia di rivelare a Ludmilla che i PG stanno indagando sulle sue attività, offre un 'accordo': silenzio in cambio di dosi controllate per tenere i monaci gestibili durante il rituale",
-          "extreme": "Brucia il giardino delle rose e tutti i registri botanici, tenta di avvelenare i PG con l'estratto concentrato spacciandolo per antidoto al demone, fugge verso le cripte conoscendo passaggi segreti"
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Diventa glaciale e metodico, rivela di aver documentato ogni sintomo di dipendenza dei monaci 'per scopi terapeutici', accusa i PG di non capire la necessità di mantenere l'ordine",
-          "se_corrotto": "Accetta denaro o favori in cambio di dosi pure dell'estratto, promette di sabotare i preparativi di Ludmilla ritardando o intensificando le dipendenze dei monaci chiave",
-          "se_i_pg_hanno_prove": "Crolla emotivamente, confessa di aver scoperto troppo tardi che le rose erano già infuse dal potere del Libro, che ora i monaci dipendono da esse per non impazzire completamente",
-          "se_alleato": "Condivide le sue ricerche segrete: le rose assorbono l'influenza demoniaca, ma creano dipendenza; offre un siero sperimentale che potrebbe liberare i monaci, ma con rischi ignoti"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45370,7 +45178,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p41_npc_1",
@@ -45379,11 +45187,11 @@
         "location_id": "p93_room_4",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Ha consultato il Libro una sola volta, tre anni fa, per salvare un novizio morente. Il ragazzo guarì ma si suicidò una settimana dopo. Da allora sogna il demone che gli sussurra: 'Sei già mio, fratello. Solo questione di tempo.'",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Monitorare Ludmilla e i monaci sospetti documentando ogni anomalia nel suo diario cifrato, evitare il contatto diretto col Libro, attendere l'arrivo di autorità esterne",
-        "fallback_plan": "Se il rituale è imminente, tentare di rubare una pagina cruciale dal Libro della Creazione durante la notte e fuggire verso Assisi per consegnarla al Vescovo",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45399,16 +45207,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva i PG con diffidenza velata da cortesia monastica, offre aiuto logistico ma devia domande dirette sul Libro con citazioni scritturali",
-          "medium": "Si ritira in preghiera ossessiva, balbetta contraddizioni sui 'segni' che ha visto, accenna a 'dipendenze pericolose' che i monaci hanno sviluppato verso il Libro",
-          "high": "Crolla emotivamente, confessa di aver spiato Ludmilla e i rituali notturni, supplica i PG di distruggere il Libro prima che 'la trasformazione sia completa'",
-          "extreme": "Tenta disperatamente di bruciare gli archivii monastici per nascondere i registri delle 'consultazioni' del Libro, urla che 'il demone conosce già tutti i loro nomi'"
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica nella biblioteca, usa la conoscenza dell'edificio per sfuggire, minaccia di suonare la campana d'allarme che 'sveglierà cose che dormono'",
-          "se_corrotto": "Rivela l'ubicazione della cripta segreta dove Ludmilla prepara il rituale, chiede in cambio di essere portato via prima dell'alba di San Michele",
-          "se_i_pg_hanno_prove": "Collabora fornendo il Codex Custodiae (registro delle manifestazioni demoniache dal 1347), ma esige protezione quando 'gli altri sapranno del tradimento'",
-          "se_alleato": "Guida i PG attraverso i passaggi nascosti, rivela i nomi dei tre monaci completamente posseduti, offre acqua benedetta consacrata prima della corruzione"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45423,7 +45231,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p54_npc_1",
@@ -45432,11 +45240,11 @@
         "location_id": "p11_room_2",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Ha già tentato questo rituale 12 anni fa, ma il trasferimento fallì uccidendo 23 innocenti. Porta i loro nomi tatuati sulla schiena in inchiostro fatto col proprio sangue. Ludmilla era sua novizia e lo odia per averla usata come esca",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Infiltrarsi nell'Abbazia travestito da pellegrino durante la cerimonia di liberazione, sostituire il Libro con una copia consacrata che incanali il demone nelle reliquie del Tempio invece di liberarlo",
-        "fallback_plan": "Se il piano fallisce, attivare il Protocollo Apocalisse: sigillare magicamente l'intero Monte Subasio in una bolla temporale, condannando tutti all'interno (monaci, demone, PG) a un loop eterno",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45452,16 +45260,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva con distacco monastico, offre tè alle erbe e risposte vaghe avvolte in parabole sulla Luce Interiore. Nega qualsiasi conoscenza del Libro oltre i 'miti popolari'",
-          "medium": "Si ritira in meditazione forzata, balbetta preghiere in lingue morte. I suoi occhi tradiscono terrore quando menzionano Ludmilla o il demone. Cerca di rimandare ogni confronto 'fino all'equinozio'",
-          "high": "Crolla psicologicamente, confessa che il Tempio ha BISOGNO del demone contenuto per alimentare le loro reliquie sacre. Minaccia scomunica e maledizioni ancestrali se interferiranno",
-          "extreme": "Tenta il suicidio rituale bevendo olio consacrato, urlando che 'la Luce deve nutrirsi dell'Ombra'. Rivela la posizione delle catacombe sotto l'Abbazia dove Ludmilla prepara il rituale"
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Invoca protezioni divine palesemente inefficaci, poi offre accesso agli archivi proibiti in cambio di silenzio sulla complicità del Tempio",
-          "se_corrotto": "Propone un patto blasfemo: aiutarli a trasferire il demone dal Libro a un nuovo ospite (suggerendo un PG) per preservare l'equilibrio",
-          "se_i_pg_hanno_prove": "Ammette che il Tempio monitora l'Abbazia da 300 anni, ricattabile con la minaccia di rivelare pubblicamente questa simbiosi parassitaria col male",
-          "se_alleato": "Fornisce il Sigillo di Contenimento Temporaneo, strumento che può congelare il demone per 7 giorni ma richiede il sacrificio di un ricordo prezioso di chi lo usa"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45476,7 +45284,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p54_npc_2",
@@ -45485,11 +45293,11 @@
         "location_id": "p11_room_6",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Porta nel sangue una frazione del vero nome del demone - sua nonna glielo tatuò in caratteri invisibili sulla schiena quando aveva sei anni. Il demone può sentirla quando si avvicina al Libro, e lei può sentire lui, come un secondo battito cardiaco.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Raggiungere la cripta sotto l'Abbazia prima dei PG per verificare se il Libro contiene davvero i nomi dei suoi antenati. Convincere i monaci lucidi a evacuare così da avere campo libero.",
-        "fallback_plan": "Se il demone si libera, usare il rituale di famiglia per legarlo temporaneamente a sé, diventando l'ancora vivente - un sacrificio che la renderebbe immortale ma prigioniera nell'Abbazia per sempre.",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45505,16 +45313,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva i PG con curiosità accademica, offrendo traduzione di manoscritti e storia dell'Abbazia. Sembra più interessata al Libro come oggetto di studio che come minaccia.",
-          "medium": "Diventa evasiva quando si parla di certi rituali. Insiste che l'Abbazia vada evacuata prima di qualsiasi intervento, guadagnando tempo per verificare cosa cerca davvero il demone.",
-          "high": "Confessa di aver fatto ricerche sul Libro per anni. Rivela che il demone potrebbe essere intrappolato definitivamente se usato il rituale giusto, ma serve qualcuno disposto a sostituire il sigillo vivente.",
-          "extreme": "Ammette di essere la discendente del monaco che originariamente sigillò il demone, e che sua nonna le sussurrava da bambina i veri nomi scritti nel Libro. Propone un patto disperato: lei può controllare il demone, ma solo se lo libera prima."
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia dietro autorità ecclesiastiche e accademiche. Minaccia di far chiudere le indagini tramite i suoi contatti in Vaticano.",
-          "se_corrotto": "Offre accesso a pagine proibite del Libro in cambio di lasciarla studiare il demone 'solo per poche ore' prima del sigillo finale.",
-          "se_i_pg_hanno_prove": "Crolla emotivamente. Confessa l'ossessione familiare e supplica di aiutarla a spezzare la maledizione di sangue che la lega al Libro.",
-          "se_alleato": "Diventa risorsa preziosa: conosce tutti i passaggi segreti dell'Abbazia e può leggere le iscrizioni demoniache, ma nasconde sempre qualcosa."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45529,7 +45337,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p61_npc_1",
@@ -45538,11 +45346,11 @@
         "location_id": "p11_room_6",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Custodisce un frammento dello stesso tipo di artefatto che distrusse suo fratello. Lo ha studiato per anni in segreto, convincendosi di essere l'unico abbastanza disciplinato da resistere alla corruzione. Ma sta iniziando a sentire sussurri nella sua mente durante la preghiera.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Infiltrare l'Abbazia con monaci fidati travestiti da pellegrini. Recuperare il Libro prima dei PG e trasferirlo nelle segrete del Tempio sotto sette sigilli. Neutralizzare i monaci posseduti con esorcismi forzati.",
-        "fallback_plan": "Se il demone si libera, attivare l'antico Rituale della Cenere che sigilla l'intera Abbazia in una bolla temporale - intrappolando dentro chiunque, demone e innocenti compresi, per cent'anni.",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45558,16 +45366,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva in silenzio, facendo domande sottili sui movimenti dei PG. Offre benedizioni e ospitalità mentre annota mentalmente ogni dettaglio.",
-          "medium": "Convoca riunioni urgenti citando 'presagi funesti'. Invia monaci fidati a sorvegliare l'Abbazia. Propone rituali di purificazione che richiedono la presenza dei PG sotto suo controllo.",
-          "high": "Dichiara l'Abbazia zona interdetta per 'contaminazione demoniaca'. Mobilita i fedeli del Tempio come milizia sacra. Accusa i PG di essere complici del demone se resistono.",
-          "extreme": "Tenta di distruggere il Libro della Creazione anche a costo di uccidere i monaci posseduti. Rivela di conoscere antichi sigilli per imprigionare sia il demone che chiunque lo abbia toccato - PG inclusi."
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia dietro l'autorità ecclesiastica. Minaccia scomunica ed esclusione. Se accantonato fisicamente, invoca protezioni divine genuine che possiede.",
-          "se_corrotto": "Impossibile. La sua ossessione per il controllo nasce da trauma personale, non da avidità. Finge di accettare per scoprire le vere intenzioni.",
-          "se_i_pg_hanno_prove": "Cambia tattica: propone alleanza temporanea dove lui coordina l'operazione. Esige che il Libro gli venga consegnato 'per custodia sicura' dopo.",
-          "se_alleato": "Condivide conoscenze sui sigilli antichi e punti deboli demoniaci. Pretende però di decidere la strategia finale e chiede giuramento di non usare mai il Libro."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45582,7 +45390,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p82_npc_1",
@@ -45591,11 +45399,11 @@
         "location_id": "p11_room_6",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Suo fratello, fra Benedetto, è il primo monaco ad essere stato posseduto e sta trascrivendo volontariamente le pagine maledette perché il demone gli ha promesso di curare la malattia degenerativa che lo stava uccidendo. Ha nascosto tre quaderni di trascrizioni demoniache sotto il proprio letto nella foresteria per impedire il completamento del rituale",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Monitorare costantemente i PG fingendosi servizievole, intercettare qualsiasi loro tentativo di raggiungere le celle dove i monaci trascrivono le invocazioni demoniache, guadagnare tempo per capire se possono davvero salvare suo fratello",
-        "fallback_plan": "Se i PG scoprono tutto, barattare informazioni vitali (posizione esatta del Libro, nomi dei monaci già completamente posseduti, orario del rituale finale) in cambio di una promessa solenne di tentare l'esorcismo prima della distruzione",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45611,16 +45419,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva con sospetto, fa domande indirette sui movimenti dei PG nell'abbazia, offre aiuto apparentemente disinteressato per rimanere vicino",
-          "medium": "Diventa protettivo verso specifiche aree del monastero, inventa scuse per allontanare i PG dalle celle dei monaci, inizia a seguirli furtivamente",
-          "high": "Confessa di aver notato 'strane dipendenze' tra i monaci, ammette di aver nascosto alcuni loro scritti deliranti, chiede disperatamente di poter parlare con Ludmilla prima che sia troppo tardi",
-          "extreme": "Crolla psicologicamente rivelando che uno dei monaci impazziti è suo fratello, supplica i PG di salvarlo prima di distruggere il Libro, minaccia di avvisare i monaci se tenteranno qualcosa"
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia nell'autorità ecclesiastica, minaccia di far intervenire il vescovo o di sigillare l'abbazia, usa la sua conoscenza dei passaggi segreti per sfuggire",
-          "se_corrotto": "Il demone potrebbe promettergli la guarigione del fratello in cambio di sabotaggio, inizierebbe a spostare oggetti rituali, alterare manoscritti, seminare discordia tra i PG",
-          "se_i_pg_hanno_prove": "Ammette tutto tra le lacrime, rivela che il fratello sta trascrivendo formule demoniache, offre la mappa completa dell'abbazia e le chiavi delle celle sigillate",
-          "se_alleato": "Diventa guida affidabile, condivide osservazioni cruciali sui pattern comportamentali dei monaci posseduti, sacrifica se stesso per proteggere il Libro nel momento critico"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45635,7 +45443,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p106_npc_1",
@@ -45647,8 +45455,8 @@
         "secret": "È il Demone Ombra Sovrano che infesta il Libro della Creazione da millenni, manipolando gli eventi del monastero",
         "agenda_pressure": 0,
         "fear": "Essere esorcizzato o intrappolato definitivamente nel Libro della Creazione",
-        "current_plan": "Completare il Rituale delle Sette Ombre usando i monaci posseduti come catalizzatori viventi, trasferendo la propria essenza dal Libro al corpo dell'Abate durante l'eclissi di luna",
-        "fallback_plan": "Se il rituale viene interrotto, frammentarsi in sette ombre minori che infesteranno altrettanti ospiti, ricostruendo lentamente il proprio potere attraverso una rete di possessioni dormienti sparse nel territorio",
+        "current_plan": "Indebolire il Rituale della Nuova Luce e corrompere un ospite del monastero per usarlo come nuovo ricettacolo",
+        "fallback_plan": "Attaccare direttamente se il rituale viene allungato o se scoperto prematuramente",
         "resources": [
           "accessi",
           "contatti",
@@ -45670,16 +45478,16 @@
           "Che San Eliodoro venga interrogato sui demoni"
         ],
         "pressure_response": {
-          "low": "Sussurra promesse melliflue attraverso le pagine del Libro, offrendo visioni di potere e conoscenza proibita ai monaci più deboli",
-          "medium": "Manifesta ombre viventi che strisciano dalle miniature del Libro, causando allucinazioni collettive e facendo impazzire chi resiste alla sua influenza",
-          "high": "Possiede completamente i monaci corrotti trasformandoli in marionette urlanti, usando i loro corpi per tracciare sigilli di liberazione con sangue e inchiostro sacro",
-          "extreme": "Lacera parzialmente il velo tra dimensioni, manifestandosi come massa tentacolare d'ombra che fuoriesce dal Libro, divorando le anime dei presenti per completare l'incarnazione"
+          "low": "Manipola sottilmente eventi e persone attraverso il Libro della Creazione",
+          "medium": "Invia il cultista ninja per eliminare testimoni e sabotare rituali",
+          "high": "Corrompe direttamente un monaco per usarlo come ricettacolo",
+          "critical": "Attacca direttamente i PG con tutti i poteri demoniaci disponibili"
         },
         "reaction_table": {
-          "se_minacciato": "Si ritira nelle pagine profonde del Libro, lasciando trappole mentali e visioni-esca; nei momenti disperati sacrifica i monaci posseduti come diversivo",
-          "se_corrotto": "Impossibile corromperlo ulteriormente, ma può fingere sottomissione per guadagnare tempo o ingannare chi crede di poterlo controllare",
-          "se_i_pg_hanno_prove": "Accelera il rituale di liberazione anche a costo di un'incarnazione imperfetta; scatena tutti i monaci posseduti simultaneamente in un assalto suicida",
-          "se_alleato": "Promette frammenti di verità cosmica e poteri oltre la comprensione umana, ma ogni 'dono' lega l'anima del ricevente sempre più al suo servizio eterno"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [
@@ -45722,8 +45530,8 @@
         "secret": "Conosce il rituale di esorcismo corretto ma è troppo svanito per ricordarlo chiaramente",
         "agenda_pressure": 0,
         "fear": "Perdere completamente lucidità e memoria su come sconfiggere il demone",
-        "current_plan": "Nella sua confusione, pattuglia ossessivamente il perimetro del monastero con l'ascia, uccidendo chiunque cerchi di entrare o uscire, convinto di star contenendo la contaminazione demoniaca.",
-        "fallback_plan": "Se il suo corpo cede, userà le ultime forze per incidere i simboli del rituale sulle porte della cripta con il proprio sangue, lasciando un indizio criptico ma decifrabile.",
+        "current_plan": "Protestare contro il Rituale della Nuova Luce troppo breve prima di impazzire completamente",
+        "fallback_plan": "Rimandare ai suoi scritti nel libro 'Esorcismi scelti' se non riesce a ricordare",
         "resources": [
           "accessi",
           "contatti",
@@ -45745,16 +45553,16 @@
           "Essere ucciso prima di trasmettere le conoscenze critiche"
         ],
         "pressure_response": {
-          "low": "Mormora preghiere sconnesse in latino, interrotte da singhiozzi. Risponde con frasi frammentarie, mescolando ricordi del rituale a visioni del demone. Stringe il suo rosario fino a farsi sanguinare le mani.",
-          "medium": "Urla citazioni apocalittiche della Bibbia, confondendo i PG con agenti del demone. Afferra l'ascia da boscaiolo e la brandisce minacciosamente, ma senza attaccare. Le lacrime rigano il suo volto mentre implora perdono a Dio.",
-          "high": "Entra in uno stato catatonico alternato a furia cieca. Attacca chiunque si avvicini con l'ascia, urlando 'Il fuoco! Solo il fuoco purifica!'. Cerca di appiccare incendi, convinto di star esorcizzando il monastero. Nelle pause lucide, biascica frammenti cruciali del rituale.",
-          "extreme": "Tenta il suicidio rituale davanti all'altare, credendosi l'unico sacrificio in grado di sigillare il demone. Se fermato, entra in trance profetica rivelando l'intero rituale in latino arcaico, prima di crollare esausto e forse morente."
+          "low": "Protesta verbalmente contro l'accorciamento del Rituale della Nuova Luce",
+          "medium": "Rimanda al suo libro 'Esorcismi scelti' e menziona la Cripta",
+          "high": "Entra in stato berserker difendendo il tempio con violenza",
+          "critical": "Impazzisce completamente ma combatte istintivamente il male"
         },
         "reaction_table": {
-          "se_minacciato": "Si accuccia in posizione fetale mormorando 'Mea culpa', ma se toccato scatta come una molla in attacco berserker con l'ascia, piangendo e pregando simultaneamente.",
-          "se_corrotto": "Il demone può amplificare la sua follia attraverso il Libro, trasformandolo in un assassino sacro convinto di star uccidendo manifestazioni demoniache invece di persone reali.",
-          "se_i_pg_hanno_prove": "Se mostrato un oggetto benedetto o un frammento del Libro originale non corrotto, ha un momento di lucidità dove traccia simboli del rituale sulla terra prima di ricadere nella follia.",
-          "se_alleato": "Nei brevi momenti di chiarezza mentale, guida i PG verso la biblioteca segreta dove è nascosto il grimorio con il rituale completo. Si offre come esca per il demone, sapendo di essere già perduto."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [
@@ -45784,11 +45592,11 @@
         "location_id": "p11_room_6",
         "status": "unintroduced",
         "goal": "Proteggere il monastero dalle minacce esterne",
-        "secret": "Ha già ucciso due monaci 'trasformati' nelle ultime 48 ore e ha nascosto i corpi nel pozzo. Non sa se fossero veramente posseduti o se sta impazzendo anche lui - sente le loro voci accusarlo ogni notte.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Morire senza scoprire la verità dietro le morti sospette",
-        "current_plan": "Mantenere sigillato il monastero fino all'arrivo del Vescovo (che non sa essere stato intercettato). Impedire a chiunque di raggiungere la torre della biblioteca.",
-        "fallback_plan": "Se la situazione degenera, bruciare l'intera ala est dell'Abbazia dove si trova il Libro, sacrificando se stesso e chiunque sia all'interno pur di contenere il demone.",
+        "current_plan": "Sorvegliare il perimetro del monastero e investigare sulle morti apparentemente naturali",
+        "fallback_plan": "Combattere fino alla morte contro gli aggressori se scoperto",
         "resources": [
           "accessi",
           "contatti",
@@ -45809,16 +45617,16 @@
           "Essere ingannato sulla natura delle morti"
         ],
         "pressure_response": {
-          "low": "Risponde con cortesia militare, ma osserva ogni movimento dei PG con mano sul pomolo della spada. Chiede documenti e lettere di transito.",
-          "medium": "Diventa brusco e diffidente. Cita regolamenti monastici e ordini dell'Abate. Minaccia l'arresto se i PG non collaborano immediatamente.",
-          "high": "Urla ordini contraddittori, suda copiosamente. Confonde i PG con 'gli invasori' o 'i corruttori'. Estrae l'arma tremando.",
-          "extreme": "Crolla in ginocchio piangendo, confessa di vedere ombre che strisciano dai libri. Implora perdono per aver lasciato entrare 'qualcosa' tre notti fa."
+          "low": "Aumenta la sorveglianza e interroga i monaci sulle morti",
+          "medium": "Coordina pattuglie notturne e richiede rinforzi",
+          "high": "Combatte direttamente minacce identificate",
+          "critical": "Sacrifica la vita per dare l'allarme e proteggere i monaci"
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica dietro il portone principale. Suona la campana d'allarme chiamando rinforzi che non arriveranno mai - gli altri monaci sono impazziti o morti.",
-          "se_corrotto": "Il demone gli sussurra attraverso le fessure del Libro. Inizia a parlare in latino medievale che non conosce, offrendo ai PG 'la conoscenza proibita'.",
-          "se_i_pg_hanno_prove": "Se mostrano evidenze della corruzione demoniaca, crolla psicologicamente. Ammette di aver sentito voci, di aver visto frate Benedetto mutare forma nel chiostro.",
-          "se_alleato": "Conduce i PG attraverso passaggi segreti dell'Abbazia. Conosce dove l'Abate tiene le chiavi della Biblioteca Proibita, ma teme di avvicinarsi."
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45842,11 +45650,11 @@
         "location_id": "p11_room_6",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
-        "secret": "Ha già letto frammenti del Libro della Creazione di nascosto e ora vede 'divergenze' nella realtà - piccole incongruenze che solo lui nota - non sa se è follia incipiente o se il demone sta già alterando il mondo",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo",
-        "current_plan": "Mappare segretamente tutte le connessioni tra monaci e Libro attraverso i registri della biblioteca, identificare il punto di rottura del PARADOSSO prima che Ludmilla o i PG intervengano caoticamente",
-        "fallback_plan": "Se il demone inizia a liberarsi, nascondere i tre volumi complementari al Libro della Creazione in luoghi diversi del Monte Subasio, rendendo impossibile usare il Libro completamente anche al demone stesso",
+        "current_plan": "bloccare l'accesso a Dipendenze e spostare le prove",
+        "fallback_plan": "ritirarsi verso Dipendenze usando un percorso secondario",
         "resources": [
           "accessi",
           "contatti",
@@ -45862,16 +45670,16 @@
           "che a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero riveli il suo ruolo"
         ],
         "pressure_response": {
-          "low": "Osserva con distacco professorale, cita passi dei manoscritti dell'Abbazia, offre aiuto bibliografico mantenendo le distanze emotive",
-          "medium": "Diventa evasivo, cambia discorso verso questioni teologiche astratte, si rifugia nella biblioteca sostenendo di dover 'verificare antiche profezie'",
-          "high": "Confessa parzialmente: ammette dipendenze sospette tra monaci e Libro, ma nega il PARADOSSO; cerca disperatamente di convincere i PG a lasciare l'Abbazia 'per la loro salvezza'",
-          "extreme": "Crolla psicologicamente rivelando tutto: il PARADOSSO renderebbe impossibile sigillare il demone se certe azioni vengono compiute; supplica i PG di non parlarne con Ludmilla o i monaci"
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica nella biblioteca, minaccia di bruciare i manoscritti chiave che spiegano come sigillare il demone, diventando ostaggio involontario della situazione",
-          "se_corrotto": "Il demone potrebbe promettergli conoscenze perdute sulla Creazione; tentennerebbe tradendo informazioni vitali sui punti deboli dei sigilli dell'Abbazia",
-          "se_i_pg_hanno_prove": "Collabora pienamente ma ossessivamente: redige mappe delle dipendenze, cronologie dei comportamenti dei monaci, cerca pattern nel PARADOSSO con fervore maniacale",
-          "se_alleato": "Diventa prezioso: conosce rituali di protezione minori, può decifrare le scritture del Libro, identifica quali monaci sono ancora lucidi e quali irrimediabilmente compromessi"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [],
@@ -45886,7 +45694,7 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": false
       },
       {
         "id": "p108_npc_2",
@@ -45898,8 +45706,8 @@
         "secret": "È un cultista demoniaco infiltrato nel monastero al servizio di Rednifhtap",
         "agenda_pressure": 0,
         "fear": "Essere catturato vivo e interrogato sui piani del demone",
-        "current_plan": "Attendere la notte del novilunio (tra 48 ore). Sabotare i cerchi di contenimento nell'abbazia mentre i monaci dormono drogati. Recitare i Sette Nomi Proibiti davanti al Libro aperto per liberare Rednifhtap",
-        "fallback_plan": "Se scoperto prematuramente, rapire Fratel Tommaso (il bibliotecario che conosce le parole di sigillo) e usarlo come ostaggio. In extremis, dare fuoco all'abbazia per creare caos e permettere al demone di sfuggire nel disordine",
+        "current_plan": "Rubare cibo dalla dispensa, tendere agguati nella biblioteca e dispensa, sabotare la Cripta",
+        "fallback_plan": "Fuggire nel piano delle ombre se scoperto, o eliminarsi per non tradire il demone",
         "resources": [
           "accessi",
           "contatti",
@@ -45921,16 +45729,16 @@
           "Lasciare prove del coinvolgimento demoniaco"
         ],
         "pressure_response": {
-          "low": "Finge devozione monastica, recita salmi in latino maccheronico mentre osserva i PG con sguardo serpentino. Offre aiuto discreto per guidarli lontano dalle zone sensibili",
-          "medium": "Inizia a sabotare sottilmente: spegne candele rituali, sparge polvere d'argento nei cerchi di protezione, sparisce nelle ombre quando interrogato direttamente",
-          "high": "Evoca ombre tangibili che attaccano come lame viventi. Si muove sui muri sfidando la gravità, sussurrando in lingua demoniaca. Gli occhi brillano di rosso sotto il cappuccio",
-          "extreme": "Si squarcia la tonaca rivelando sigilli demoniaci incisi nella carne. Tenta di strappare pagine dal Libro della Creazione per completare il rituale di liberazione di Rednifhtap, anche a costo della propria vita"
+          "low": "Osserva di nascosto dalla biblioteca e ruba rifornimenti",
+          "medium": "Tende agguati isolati a testimoni scomodi",
+          "high": "Usa poteri demoniaci e attacca direttamente per impedire scoperte",
+          "critical": "Si elimina per evitare cattura o evoca rinforzi demoniaci"
         },
         "reaction_table": {
-          "se_minacciato": "Dissolve il corpo fisico in sciame di ombre, riapparendo in un altro punto del monastero. Lascia dietro di sé solo una tonaca vuota e odore di zolfo",
-          "se_corrotto": "Impossibile corromperlo - è già completamente posseduto. Può fingere di cedere per attirare i PG in trappola nelle catacombe",
-          "se_i_pg_hanno_prove": "Accelera il piano: uccide i monaci testimoni rimasti, profana la cappella con sangue e tenta di completare il rituale prima dell'alba",
-          "se_alleato": "Può temporaneamente allearsi contro una minaccia comune (es. esorcista), ma tradisce al momento opportuno piantando un pugnale d'ombra nella schiena"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [
@@ -45968,8 +45776,8 @@
         "secret": "È una manifestazione del demone che infesta il Libro della Creazione, creato per eliminare testimoni scomodi",
         "agenda_pressure": 0,
         "fear": "Essere esposto alla luce solare diretta che lo renderebbe impotente",
-        "current_plan": "Eliminare Padre Ambrogio e Suor Chiara, ultimi testimoni della prima manifestazione demoniaca, prima che possano rivelare il rituale di contenimento originale",
-        "fallback_plan": "Se impedito dall'uccidere i testimoni, lo sciame cercherà di possedere un monaco per fargli distruggere i registri storici dell'abbazia che documentano la vera natura del Libro",
+        "current_plan": "Uccidere i vecchi servalieri facendo sembrare morti naturali, poi attaccare chi indaga nella biblioteca e dispensa",
+        "fallback_plan": "Agguati mirati contro PG isolati nelle zone buie del monastero (biblioteca, dispensa) usando furtività e telepatia",
         "resources": [
           "accessi",
           "contatti",
@@ -45991,16 +45799,16 @@
           "Attaccare durante il Rito della Nuova Luce quando è più debole"
         ],
         "pressure_response": {
-          "low": "Le pagine volteggiano in formazioni ipnotiche intorno ai monaci, sussurrando profezie in latino arcaico per alimentare la loro follia",
-          "medium": "Lo sciame si divide in spirali vorticose, attaccando simultaneamente da più direzioni con bordi affilati come rasoi, cercando di separare gli investigatori",
-          "high": "Le pagine si compattano formando pseudopodi cartacei che afferrano le vittime, mentre l'inchiostro demoniaco brucia la carne e penetra nelle ferite",
-          "extreme": "Lo sciame collassa su sé stesso diventando un vortice oscuro che risucchia aria e luce, mentre l'essenza demoniaca si manifesta parzialmente attraverso simboli fiammeggianti sulle pagine"
+          "low": "Osserva i PG da distanza usando percezione +20, studiando i loro movimenti e punti deboli",
+          "medium": "Tende agguati in zone buie (biblioteca, dispensa) sfruttando furtività +14 e attacco a sorpresa",
+          "high": "Coordina attacchi simultanei col cultista ninja, cerca di separare i PG uno alla volta",
+          "critical": "Fugge nelle zone più buie e remote del monastero, attende il calare della notte per attacchi disperati"
         },
         "reaction_table": {
-          "se_minacciato": "Si frantuma in centinaia di frammenti che si nascondono nelle fessure dell'abbazia, per riformarsi quando il pericolo passa",
-          "se_corrotto": "Non può essere corrotto - è già manifestazione pura di corruzione demoniaca, ma può fingere ritirata per ingannare",
-          "se_i_pg_hanno_prove": "Intensifica gli attacchi contro chi possiede frammenti del Libro originale o testimonianze dei vecchi servalieri, diventando ossessivo",
-          "se_alleato": "Impossibile. Può solo essere temporaneamente contenuto con sigilli sacri o fuoco benedetto, mai alleato"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [
@@ -46043,7 +45851,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46080,14 +45887,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46102,7 +45901,6 @@
           "llm_clue_9"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46134,17 +45932,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_scriptorium",
-          "loc_aule_studio"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46159,7 +45946,6 @@
           "llm_clue_6"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46192,17 +45978,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_biblioteca",
-          "loc_aule_studio"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46217,7 +45992,6 @@
           "llm_clue_13"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46249,17 +46023,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_biblioteca",
-          "loc_scriptorium"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46275,7 +46038,6 @@
           "llm_clue_11"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46308,17 +46070,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_cripta_eliodoro",
-          "loc_torre_abate"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46333,7 +46084,6 @@
           "llm_clue_3"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -46365,16 +46115,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_tempio_luce"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46390,7 +46130,6 @@
           "llm_clue_4"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46424,17 +46163,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_tempio_luce",
-          "loc_monastero_celle"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46449,7 +46177,6 @@
           "llm_clue_10"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46481,17 +46208,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_monastero_celle",
-          "loc_giardino"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46504,7 +46220,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46537,18 +46252,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_torre_abate",
-          "loc_refettorio_cucina",
-          "loc_dipendenze"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46563,7 +46266,6 @@
           "llm_clue_8"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -46595,17 +46297,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_refettorio_cucina",
-          "loc_dipendenze"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46620,7 +46311,6 @@
           "llm_clue_12"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -46653,17 +46343,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_abbazia",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_monastero_celle",
-          "loc_giardino"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -46681,29 +46360,24 @@
         "on_complete": "Il Demone completa il suo piano, possedendo completamente Folkart come nuovo ricettacolo e liberandosi dal Libro. L'Abbazia viene distrutta e il male si espande nelle terre circostanti.",
         "steps": [
           {
-            "value": 2,
-            "label": "Prima Corruzione",
-            "effect": "Vharn viene ucciso dalla Presunta Vampiro dopo aver scoperto qualcosa sul Libro. Il corpo dissanguato viene trovato nella sua cella, seminando paura tra i monaci."
+            "step": 2,
+            "world_state_change": "Vharn viene ucciso dalla Presunta Vampiro dopo aver scoperto qualcosa sul Libro",
+            "scene_prompt": "Il corpo di Vharn viene trovato dissanguato nella sua cella"
           },
           {
-            "value": 4,
-            "label": "Caduta nella Disperazione",
-            "effect": "Drusilio diventa depresso dopo aver usato il Libro per cercare risposte. Il suo libro di appunti termina bruscamente con frasi incoerenti. Appare cupo e taciturno, un cambiamento drastico rispetto al suo solito carattere ottimista."
+            "step": 4,
+            "world_state_change": "Drusilio diventa depresso dopo aver usato il Libro, il suo libro di appunti termina bruscamente",
+            "scene_prompt": "Drusilio appare cupo e taciturno, un cambiamento drastico rispetto al suo solito carattere ottimista"
           },
           {
-            "value": 6,
-            "label": "Protezioni Infrante",
-            "effect": "Il Rito della Nuova Luce viene accorciato a solo un'ora invece delle tre tradizionali. Durante la cerimonia Klaus protesta che è troppo breve. Le protezioni dell'Abbazia si indeboliscono visibilmente."
+            "step": 6,
+            "world_state_change": "Il Rito della Nuova Luce viene accorciato a solo un'ora, indebolendo le protezioni",
+            "scene_prompt": "Durante il Rito della Nuova Luce, Klaus protesta che la cerimonia è troppo breve"
           },
           {
-            "value": 8,
-            "label": "Il Ricettacolo si Prepara",
-            "effect": "Folkart, trasformato dall'odio per Vharn e manipolato dal Demone, mostra segni evidenti di possessione: sguardo vuoto, movimenti innaturali, mormorii in lingue antiche. La sua anima si sta spezzando."
-          },
-          {
-            "value": 10,
-            "label": "Liberazione Completa",
-            "effect": "Il Demone possiede completamente Folkart, usando il suo corpo come nuovo ricettacolo permanente. L'Abbazia collassa su se stessa mentre il male si diffonde come una piaga nelle terre circostanti."
+            "step": 8,
+            "world_state_change": "Folkart, trasformato dall'odio per Vharn, diventa il candidato perfetto come ricettacolo del Demone",
+            "scene_prompt": "Folkart mostra segni di possessione: sguardo vuoto, movimenti innaturali, mormorii in lingue antiche"
           }
         ],
         "clock_type": "terminal_defeat",
@@ -46714,13 +46388,13 @@
           "llm_clue_8",
           "llm_clue_10"
         ],
-        "resolution_condition": "I giocatori devono scoprire che il Libro è infestato dal Demone, capire che il Rito della Nuova Luce è stato accorciato e ripristinarlo alla durata corretta di tre ore, purificare Folkart dall'influenza demoniaca prima che la possessione sia completa, e sigillare nuovamente il Demone nel Libro con l'aiuto dei Servalieri superstiti.",
+        "resolution_condition": "I giocatori devono scoprire che il Libro è infestato dal Demone, capire che il Rito della Nuova Luce è stato accorciato e ripristinarlo alla durata corretta, impedendo al Demone di sfruttare Folkart c",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_4",
-        "discovery_hint": "L'aria dell'Abbazia sembra più pesante del normale, come se qualcosa di antico e malsano stesse trattenendo il respiro. Alcuni monaci si svegliano urlando da incubi che non riescono a ricordare.",
-        "ticks_per_failure": 2,
+        "discovery_hint": "L'atmosfera del monastero è opprimente, alcuni monaci sembrano comportarsi in modo strano e distratto",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 0,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -46734,29 +46408,19 @@
         "label": "Eliminazione dei Servalieri anziani",
         "value": 0,
         "max_value": 6,
-        "consequence": "Tutti i Servalieri anziani che conoscono il vero segreto dell'Abbazia vengono uccisi dalla Presunta Vampiro. La conoscenza del rituale di contenimento del Demone va persa, rendendo molto più difficile fermare la liberazione del male.",
+        "consequence": "Tutti i Servalieri anziani che conoscono il vero segreto dell'Abbazia vengono uccisi dalla Presunta Vampiro. La conoscenza del rituale di contenimento del Demone va persa, rendendo molto più difficile",
         "active": true,
-        "on_complete": "Tutti i Servalieri anziani che conoscono il vero segreto dell'Abbazia vengono uccisi dalla Presunta Vampiro. La conoscenza del rituale di contenimento del Demone va persa, rendendo molto più difficile fermare la liberazione del male.",
+        "on_complete": "Tutti i Servalieri anziani che conoscono il vero segreto dell'Abbazia vengono uccisi dalla Presunta Vampiro. La conoscenza del rituale di contenimento del Demone va persa, rendendo molto più difficile",
         "steps": [
           {
-            "value": 1,
-            "label": "Primo Caduto",
-            "effect": "Primo Servaliere anziano muore per presunta morte naturale nel sonno. Solo un'autopsia accurata rivelerebbe piccoli segni di morsi sul collo, nascosti sotto le vesti."
+            "step": 2,
+            "world_state_change": "Primo Servaliere anziano muore per presunta morte naturale",
+            "scene_prompt": "Un monaco anziano viene trovato morto nel suo letto, apparentemente di vecchiaia"
           },
           {
-            "value": 2,
-            "label": "Morte Sospetta",
-            "effect": "Secondo Servaliere anziano viene trovato morto nel suo letto, pallido e con espressione terrorizzata. I monaci iniziano a mormorare di maledizioni e presenze maligne."
-          },
-          {
-            "value": 4,
-            "label": "Testimone Eliminato",
-            "effect": "Vharn viene ucciso dopo aver scoperto la verità sul Libro. Il suo corpo dissanguato testimonia una morte violenta e innaturale. I suoi appunti sono spariti dalla sua cella."
-          },
-          {
-            "value": 6,
-            "label": "Conoscenza Perduta",
-            "effect": "L'ultimo Servaliere che conosce il rituale completo viene eliminato. La catena di trasmissione della conoscenza secolare si spezza definitivamente. Solo frammenti parziali rimangono negli archivi."
+            "step": 4,
+            "world_state_change": "Vharn viene ucciso dopo aver scoperto la verità sul Libro",
+            "scene_prompt": "Il corpo dissanguato di Vharn testimonia una morte violenta, non naturale"
           }
         ],
         "clock_type": "escalation",
@@ -46764,13 +46428,13 @@
           "llm_clue_2",
           "llm_clue_12"
         ],
-        "resolution_condition": "I giocatori devono identificare la Presunta Vampiro come assassina, proteggere fisicamente i Servalieri rimasti assegnando guardie o spostandoli in luoghi sicuri, e recuperare la conoscenza dai Servalieri sopravvissuti prima che sia troppo tardi. In alternativa, possono eliminare definitivamente la Presunta Vampiro.",
+        "resolution_condition": "I giocatori scoprono che le morti non sono naturali e proteggono i Servalieri rimasti, o identificano la Presunta Vampiro prima che completi la sua missione",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_12",
-        "discovery_hint": "I monaci più anziani sembrano camminare con passo più affaticato del solito, alcuni si toccano nervosamente il collo come se sentissero occhi addosso. Nelle celle si trovano amuleti protettivi che prima non c'erano.",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Alcuni monaci anziani sembrano stanchi e pallidi, come se fossero malati",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 1,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -46789,29 +46453,14 @@
         "on_complete": "Il cultista ninja riesce a parlare con San Eliodoro nella cripta prima dei giocatori, compromettendo una fonte cruciale di informazioni e rubando documenti importanti dalla Biblioteca.",
         "steps": [
           {
-            "value": 1,
-            "label": "Ricognizione Notturna",
-            "effect": "Il cultista esplora l'Abbazia durante la notte, mappando passaggi e orari delle ronde. Lascia tracce quasi impercettibili: una finestra socchiusa, impronte di fango nel chiostro."
+            "step": 2,
+            "world_state_change": "Il cultista viene avvistato nella Biblioteca",
+            "scene_prompt": "Una figura incappucciata scompare tra gli scaffali della Biblioteca"
           },
           {
-            "value": 2,
-            "label": "Primo Furto",
-            "effect": "Una figura incappucciata viene avvistata nella Biblioteca tra gli scaffali al crepuscolo. Sparisce prima di essere fermata. Il giorno dopo, alcuni tomi sulla demonologia risultano spostati o mancanti."
-          },
-          {
-            "value": 3,
-            "label": "Rifornimenti Rubati",
-            "effect": "Ludmilla nota che mancano provviste dalla dispensa: pane, formaggio, vino. Qualcuno si sta nascondendo nell'Abbazia e ha bisogno di sostentamento. Una coperta sparisce dal guardaroba."
-          },
-          {
-            "value": 4,
-            "label": "Infiltrazione Profonda",
-            "effect": "Il cultista raggiunge aree sempre più riservate: la Sala del Capitolo, l'ingresso della cripta. Lascia segni di scasso su serrature e porte. Klaus trova una corda da scalata legata a una finestra del secondo piano."
-          },
-          {
-            "value": 5,
-            "label": "Missione Compiuta",
-            "effect": "Il cultista raggiunge San Eliodoro nella cripta, estorcendo o corrompendo informazioni cruciali. Ruba i documenti più importanti dalla Biblioteca, inclusi rituali di sigillo. Scompare nell'ombra lasciando i giocatori un passo indietro."
+            "step": 3,
+            "world_state_change": "Il cultista ruba cibo dalla dispensa",
+            "scene_prompt": "Ludmilla nota che mancano provviste dalla dispensa, senza spiegazione"
           }
         ],
         "clock_type": "narrative",
@@ -46819,13 +46468,13 @@
           "llm_clue_9",
           "llm_clue_3"
         ],
-        "resolution_condition": "I giocatori devono individuare i segni della presenza del cultista, organizzare agguati nei luoghi chiave (Biblioteca, dispensa, cripta), oppure seguire le sue tracce fino al nascondiglio. Catturarlo o eliminarlo prima che raggiunga San Eliodoro ferma definitivamente il clock. Possono anche convincere Klaus a rafforzare la sicurezza delle aree sensibili.",
+        "resolution_condition": "I giocatori catturano o eliminano il cultista ninja durante uno degli agguati in Biblioteca o nella dispensa",
         "resolved": false,
         "auto_balance": true,
         "discovered": false,
         "discovery_clue_id": "llm_clue_9",
-        "discovery_hint": "Ombre che non dovrebbero esserci si allungano negli angoli del corridoio al tramonto. I cani del monastero abbaiano verso il nulla durante la notte. Libri vengono trovati aperti su leggii che erano stati chiusi la sera prima.",
-        "ticks_per_failure": 2,
+        "discovery_hint": "Ombre furtive si muovono negli angoli del monastero, libri vengono spostati misteriosamente",
+        "ticks_per_failure": 1,
         "ticks_per_partial": 0,
         "ticks_per_success": 0,
         "source_ref": {},
@@ -46867,211 +46516,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Chi ha accorciato il Rito?",
-        "question": "Come è stato manipolato il Rito della Nuova Luce e chi lo ha fatto?",
-        "true_answer": "Il demone nel Libro ha influenzato mentalmente i monaci dello Scriptorium per far accorciare il Rito, riducendo le protezioni che lo tenevano imprigionato",
-        "status": "hidden",
-        "required_clues": [
-          "clue_rito_1",
-          "clue_rito_2",
-          "clue_rito_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T2",
-          "T6"
-        ],
-        "linked_npcs": [
-          "Padre Brennan",
-          "Drusilio"
-        ],
-        "linked_locations": [
-          "Scriptorium",
-          "Biblioteca"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Cosa vuole il cultista ninja?",
-        "question": "Perché il cultista ninja si nasconde nell'Abbazia e qual è il suo obiettivo?",
-        "true_answer": "Il cultista ninja è stato attirato dal demone per completare il rituale di liberazione, rubando ingredienti specifici e preparando l'ultimo sacrificio",
-        "status": "hidden",
-        "required_clues": [
-          "clue_ninja_1",
-          "clue_ninja_2",
-          "clue_ninja_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T10"
-        ],
-        "linked_npcs": [],
-        "linked_locations": [
-          "Biblioteca",
-          "Tempio della Luce",
-          "Cripta di San Eliodoro"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Come è morto davvero Vharn?",
-        "question": "Chi o cosa ha ucciso Vharn e perché proprio lui?",
-        "true_answer": "Vharn stava scoprendo la connessione tra il Libro e la follia dei monaci, quindi il demone ha evocato una creatura simil-vampiro per eliminarlo prima che potesse avvisare qualcuno",
-        "status": "hidden",
-        "required_clues": [
-          "clue_vharn_1",
-          "clue_vharn_2"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [
-          "T3"
-        ],
-        "linked_npcs": [
-          "Folkart",
-          "Sile"
-        ],
-        "linked_locations": [
-          "Aule di Studio",
-          "Biblioteca"
-        ]
-      },
-      {
-        "id": "T1",
-        "title": "T1",
-        "question": "Quale percorso sicuro o condizione cruciale deve essere chiarita per procedere nell'indagine?",
-        "true_answer": "Parlando con i PG e confrontando le informazioni, emerge un paradosso temporale o logico che rivela una rotta sicura attraverso l'Abbazia, un rischio imminente da evitare, o una condizione necessaria per affrontare la minaccia demoniaca.",
-        "collected_clue_ids": [
-          "p114_clue_1"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T2",
-        "title": "T2",
-        "question": "Qual è il vero modo per fermare la minaccia del Libro della Creazione?",
-        "true_answer": "Il Libro della Creazione non può essere distrutto: è infestato da un demone che deve essere contenuto. Gli appunti incompiuti di Drusilio (frate Vharn) rivelano cosa aveva scoperto prima che qualcosa lo fermasse bruscamente.",
-        "collected_clue_ids": [
-          "llm_clue_1",
-          "llm_clue_6"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Quali tensioni personali hanno compromesso la sicurezza dell'Abbazia?",
-        "true_answer": "Lettere d'amore in elfico e rose rosse destinate a Sile rivelano un triangolo amoroso che ha generato conflitti profondi tra i monaci, portando a decisioni irrazionali e sabotaggio delle difese contro il demone.",
-        "collected_clue_ids": [
-          "llm_clue_7"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T9",
-        "title": "T9",
-        "question": "Folkart è un assassino o una vittima delle circostanze?",
-        "true_answer": "Folkart confessa di odiare profondamente Vharn dopo che Sile lo ha rifiutato. A seconda della ricostruzione temporale degli eventi, Folkart potrebbe essere il colpevole di un omicidio o una vittima manipolata dal demone.",
-        "collected_clue_ids": [
-          "llm_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T14",
-        "title": "T14",
-        "question": "Come si può raggiungere la camera segreta del Libro della Creazione?",
-        "true_answer": "Le antiche mappe dell'Abbazia studiate da Norgren rivelano passaggi segreti e corridoi nascosti che conducono alla camera dove il Libro della Creazione è custodito, evitando le zone infestate dai monaci impazziti.",
-        "collected_clue_ids": [
-          "llm_clue_13"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_libro_maledetto",
-        "title": "T libro maledetto",
-        "question": "Perché i monaci dell'Abbazia stanno impazzendo?",
-        "true_answer": "Il Libro della Creazione è infestato da un demone antico che maledice chiunque lo usi o vi si avvicini troppo, causando depressione profonda, follia e idiozia progressiva che corrompe mente e anima.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rituale_sabotato",
-        "title": "T rituale sabotato",
-        "question": "Perché le difese spirituali dell'Abbazia si sono indebolite?",
-        "true_answer": "Il Rito della Nuova Luce, cerimonia protettiva annuale, è stato deliberatamente accorciato o sabotato da qualcuno all'interno del monastero, indebolendo drasticamente la barriera mistica che conteneva il demone nel Libro.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_omicidio_vharn",
-        "title": "T omicidio vharn",
-        "question": "Chi ha veramente ucciso frate Vharn e perché?",
-        "true_answer": "Folkart ha assassinato Vharn per gelosia dopo il rifiuto di Sile, non è stato un vampiro o una creatura soprannaturale. L'omicidio è stato mascherato per sembrare opera di forze demoniache, depistando le indagini.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_cultista_infiltrato",
-        "title": "T cultista infiltrato",
-        "question": "C'è un traditore nascosto tra i monaci dell'Abbazia?",
-        "true_answer": "Un cultista si è infiltrato nell'Abbazia sotto falsa identità, cercando informazioni sul Libro della Creazione per conto di un potere oscuro esterno. Ha già interrogato e forse torturato San Eliodoro per estorcere segreti.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_scoperta_vharn",
-        "title": "T scoperta vharn",
-        "question": "Cosa aveva scoperto frate Vharn prima di morire?",
-        "true_answer": "Vharn aveva scoperto la verità completa sul demone che infesta il Libro della Creazione e stava per rivelare come contenere definitivamente la minaccia, ma le sue ricerche si sono interrotte bruscamente al momento della sua morte.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_piano_demone",
-        "title": "T piano demone",
-        "question": "Qual è l'obiettivo finale del demone e come sta agendo?",
-        "true_answer": "Il demone sta orchestrando eventi paradossali e contraddittori nell'Abbazia per seminare caos, follia e divisione tra i monaci, indebolendo così il monastero dall'interno per poter finalmente evadere dalla sua prigione millenaria nel Libro.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 8,
@@ -65159,8 +64604,7 @@
       "warnings": [
         "Indizi con contenuto OCR non valido (stat block o caratteri corrotti): p114_clue_1. Il testo del PDF non è stato estratto correttamente."
       ]
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
