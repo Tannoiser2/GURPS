@@ -107,7 +107,11 @@ def _enrich_one(path: pathlib.Path, run_doctor, audit, score, AdventureDefinitio
         enr_def.id = orig_id
 
     BACKUP.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(path, BACKUP / rel.replace("/", "_"))
+    backup_path = BACKUP / rel.replace("/", "_")
+    # Non sovrascrivere un backup esistente: deve restare la versione ORIGINALE,
+    # così un eventuale re-run non perde lo stato pristino.
+    if not backup_path.exists():
+        shutil.copy2(path, backup_path)
 
     data["adventure_definition"] = enr_def.model_dump()
     score_after = result.get("score_after")
