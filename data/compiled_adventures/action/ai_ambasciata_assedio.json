@@ -1148,12 +1148,39 @@
     "injected_clues": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 92,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 67,
+    "errors": [],
+    "warnings": [
+      "Clue clue_radio_escape non collegato a una revelation valida.",
+      "Clue clue_red_herring_driver non collegato a una revelation valida.",
+      "Location hallway_encounter senza almeno 3 feature concrete.",
+      "Location comms_room senza almeno 3 feature concrete.",
+      "Location ambassador_safe senza almeno 3 feature concrete.",
+      "survival_escape richiede almeno 2 routes o safe_nodes.",
+      "FinaleCondition finale_tunnel_escape dovrebbe richiedere almeno 2 clue."
+    ],
+    "suggestions": [
+      "Il countdown crea tensione reale — aggiornare ogni round",
+      "Aquila come antagonista pragmatico che non vuole uccidere — crea possibilità di negoziazione",
+      "Lorenzo come personaggio inaspettato — il vecchio custode che salva tutti"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 89,
+      "clock_operational_score": 33,
+      "finale_playability_score": 83,
+      "fiction_density_score": 81
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 5,
+      "locations": 7,
+      "actors": 4,
+      "clues": 8,
+      "revelations": 3
     }
   },
   "live_game_state": {

@@ -109,9 +109,10 @@ def _find_path(runtime_id: str) -> Path | None:
     root_path = STORE_DIR / filename
     if root_path.exists():
         return root_path
-    # Poi cerca nelle sottocartelle
+    # Poi cerca nelle sottocartelle (escluse quelle "di servizio" con prefisso _:
+    # _backup_*, _debug_pdf, _catalogo)
     for subfolder in STORE_DIR.iterdir():
-        if subfolder.is_dir():
+        if subfolder.is_dir() and not subfolder.name.startswith("_"):
             candidate = subfolder / filename
             if candidate.exists():
                 return candidate
@@ -162,7 +163,7 @@ def list_runtimes(genre_filter: str | None = None) -> list[dict]:
         # Root (file legacy) + tutte le sottocartelle (escluso _debug_pdf)
         search_dirs = [STORE_DIR] + [
             p for p in STORE_DIR.iterdir()
-            if p.is_dir() and p.name != "_debug_pdf"
+            if p.is_dir() and not p.name.startswith("_")
         ]
 
     seen: set[str] = set()

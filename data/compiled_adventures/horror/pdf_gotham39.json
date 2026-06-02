@@ -406,7 +406,8 @@
           "clue_costume_demone"
         ],
         "description": "L'apparizione del demone è un'illusione meccanica costruita da Crane.",
-        "thread_id": "T_illusione"
+        "thread_id": "T_illusione",
+        "statement": "L'apparizione del demone è un'illusione meccanica costruita da Crane."
       },
       {
         "id": "rev_crane_colpevole",
@@ -416,7 +417,8 @@
           "clue_lista_bersagli"
         ],
         "description": "Victor Crane ha ricostruito il trucco di Vayne per costruire un impero criminale.",
-        "thread_id": "T_crane"
+        "thread_id": "T_crane",
+        "statement": "Victor Crane ha ricostruito il trucco di Vayne per costruire un impero criminale."
       },
       {
         "id": "rev_rete_ricatto",
@@ -426,7 +428,8 @@
           "clue_contratto_crane"
         ],
         "description": "Crane controlla Gotham attraverso segreti e minacce sistematiche.",
-        "thread_id": "T_ricatto"
+        "thread_id": "T_ricatto",
+        "statement": "Crane controlla Gotham attraverso segreti e minacce sistematiche."
       }
     ],
     "finale_conditions": [
@@ -533,11 +536,84 @@
     "active_threads": []
   },
   "validation_report": {
-    "quality_gate": {
-      "passed": true,
-      "score": 100,
-      "critical": [],
-      "warnings": []
+    "valid": true,
+    "playable": false,
+    "playable_score": 2,
+    "errors": [],
+    "warnings": [
+      "Clue clue_specchio_rotto non collegato a una revelation valida.",
+      "Clue clue_specchio_rotto senza source_location concreta.",
+      "Clue clue_specchio_rotto senza possible_actions.",
+      "Clue clue_specchio_rotto troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_diari_vayne non collegato a una revelation valida.",
+      "Clue clue_diari_vayne senza source_location concreta.",
+      "Clue clue_diari_vayne senza possible_actions.",
+      "Clue clue_diari_vayne troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_pagamenti_moran non collegato a una revelation valida.",
+      "Clue clue_pagamenti_moran senza source_location concreta.",
+      "Clue clue_pagamenti_moran senza possible_actions.",
+      "Clue clue_pagamenti_moran troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_lista_bersagli non collegato a una revelation valida.",
+      "Clue clue_lista_bersagli senza source_location concreta.",
+      "Clue clue_lista_bersagli senza possible_actions.",
+      "Clue clue_lista_bersagli troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_testimonianza_hayes non collegato a una revelation valida.",
+      "Clue clue_testimonianza_hayes senza source_location concreta.",
+      "Clue clue_testimonianza_hayes senza possible_actions.",
+      "Clue clue_testimonianza_hayes troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_costume_demone non collegato a una revelation valida.",
+      "Clue clue_costume_demone senza source_location concreta.",
+      "Clue clue_costume_demone senza possible_actions.",
+      "Clue clue_costume_demone troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_contratto_crane non collegato a una revelation valida.",
+      "Clue clue_contratto_crane senza source_location concreta.",
+      "Clue clue_contratto_crane senza possible_actions.",
+      "Clue clue_contratto_crane troppo astratta: manca immediate_information o hidden_implication.",
+      "Revelation rev_illusione non ha clue o condizioni.",
+      "Revelation rev_crane_colpevole non ha clue o condizioni.",
+      "Revelation rev_rete_ricatto non ha clue o condizioni.",
+      "FinaleCondition finale_arresta_crane non ha dipendenze esplicite.",
+      "FinaleCondition finale_distruggi_rete non ha dipendenze esplicite.",
+      "Actor actor_crane senza goal.",
+      "Actor actor_moran senza goal.",
+      "Actor actor_detective_hayes senza goal.",
+      "Ally actor_detective_hayes senza utility concreta.",
+      "Actor actor_widow_vayne senza goal.",
+      "Witness actor_widow_vayne senza informazione utile.",
+      "Actor actor_sicario_stone senza goal.",
+      "Location loc_commissariato senza almeno 3 feature concrete.",
+      "Location loc_commissariato senza visual_identity.",
+      "Location loc_quartier_generale_moran senza almeno 3 feature concrete.",
+      "Location loc_quartier_generale_moran senza visual_identity.",
+      "Location loc_casa_vayne senza almeno 3 feature concrete.",
+      "Location loc_casa_vayne senza visual_identity.",
+      "Location loc_teatro_abbandonato senza almeno 3 feature concrete.",
+      "Location loc_teatro_abbandonato senza visual_identity.",
+      "Location loc_porto senza almeno 3 feature concrete.",
+      "Location loc_porto senza visual_identity.",
+      "Location loc_covo_crane senza almeno 3 feature concrete.",
+      "Location loc_covo_crane senza visual_identity.",
+      "FinaleCondition finale_arresta_crane dovrebbe richiedere almeno 2 clue.",
+      "FinaleCondition finale_arresta_crane senza metodo/scelta concreta.",
+      "FinaleCondition finale_distruggi_rete dovrebbe richiedere almeno 2 clue.",
+      "FinaleCondition finale_distruggi_rete senza metodo/scelta concreta."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 25,
+      "npc_agenda_score": 75,
+      "location_playability_score": 25,
+      "clock_operational_score": 33,
+      "finale_playability_score": 0,
+      "fiction_density_score": 32
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 0,
+      "locations": 6,
+      "actors": 5,
+      "clues": 7,
+      "revelations": 3
     }
   }
 }

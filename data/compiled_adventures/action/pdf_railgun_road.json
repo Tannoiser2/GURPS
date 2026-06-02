@@ -1077,12 +1077,46 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 91,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 83,
+    "errors": [],
+    "warnings": [
+      "Clue clue_medcross_cargo non collegato a una revelation valida.",
+      "Clue clue_red_herring_wreck non collegato a una revelation valida."
+    ],
+    "suggestions": [
+      "Vera è il personaggio più interessante — può diventare un alleato se i PG mostrano intelligenza",
+      "Chen è un dilemma morale: smascherarlo è giusto, ma condannarlo è complicato data la situazione della figlia",
+      "La tensione del clock è visibile: il Consiglio chiama ogni sessione con aggiornamenti sulle morti"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 87
+    },
+    "fidelity": {
+      "score": 96,
+      "target": 85,
+      "passes_target": true,
+      "source_card_counts": {},
+      "coverage": {
+        "locations": 100,
+        "actors": 100,
+        "clues": 100,
+        "clue_links": 78,
+        "finale": 100
+      }
+    },
+    "counts": {
+      "objectives": 6,
+      "locations": 5,
+      "actors": 3,
+      "clues": 9,
+      "revelations": 4
     }
   }
 }

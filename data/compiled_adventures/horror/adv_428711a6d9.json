@@ -1,0 +1,2411 @@
+{
+  "adventure_definition": {
+    "id": "adv_428711a6d9",
+    "title": "Il Sacrificio di Valmur",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "faction_sandbox",
+      "secondary_archetypes": [
+        "ritual_countdown",
+        "horror_survival"
+      ],
+      "confidence": 0.7,
+      "reason": "Matched runtime signals for faction_sandbox",
+      "definition": {
+        "id": "faction_sandbox",
+        "description": "Fazioni con obiettivi e reazioni offscreen.",
+        "required_modules": [
+          "factions",
+          "actors"
+        ],
+        "optional_modules": [
+          "clocks"
+        ],
+        "runtime_focus": [
+          "faction_pressure"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "behavior",
+          "testimony"
+        ],
+        "common_failure_modes": [
+          "faction_escalates"
+        ],
+        "ending_patterns": [
+          "balance_shift"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "mystery_horror",
+    "runtime_profiles": [
+      "faction_crisis",
+      "ritual_dungeon"
+    ],
+    "tone": "Horror industriale claustrofobico, con tensione politica palpabile e il peso opprimente di segreti sepolti sotto tonnellate di pietra",
+    "premise": "I tre personaggi sono stati convocati come testimoni neutrali a Valmur, città mineraria di confine, dove sta per essere ratificato un accordo storico: la Gilda dei Forgiatori cederà il controllo delle miniere di ferro alla Chiesa della Fiamma Purificatrice in cambio di protezione spirituale e immunità legale. Ma la cerimonia è stata rinviata tre volte. Il Magister della Chiesa sembra evitare il Gran Fabbro. I documenti ufficiali sono pronti, ma nessuno li firma. Nei vicoli si sussurra di una fossa comune scoperta nei tunnel più profondi.",
+    "initial_hook": "Il Sacrificio di Valmur I tre personaggi sono stati convocati come testimoni neutrali a Valmur, città mineraria di confine, dove sta per essere ratificato un accordo storico: la Gilda dei Forgiatori cederà il controllo delle miniere di ferro alla Chiesa della Fiamma Purificatrice in cambio di p",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Sedici anni fa, il Gran Fabbro Durven Karth e il Magister Orell Vask erano entrambi ingegneri civili sotto contratto con la Corona. Scoprirono che il giacimento di ferro conteneva un raro minerale velenoso che, se estratto, avrebbe contaminato le falde acquifere per generazioni. La Corona ordinò loro di nascondere il rapporto geologico e procedere comunque: serviva ferro per la guerra imminente. Durven e Orell obbedirono, falsificarono i documenti di sicurezza e supervisionarono l'apertura della miniera. Centinaia di minatori morirono nei primi cinque anni per avvelenamento, spacciati come incidenti o malattie comuni. Ora, con la guerra finita e nuove leggi ambientali in arrivo, entrambi cercano di scaricare la responsabilità legale sull'altro attraverso questo accordo: chi controlla formalmente la miniera sarà incolpato quando emergerà la verità. Nessuno dei due sa che una terza persona, la Custode degli Archivi Mirael Torne, ha conservato il rapporto geologico originale e sta orchestrando la loro mutua distruzione per vendicare suo padre, uno dei primi minatori morti.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Esporre pubblicamente il crimine originale presentando il rapporto geologico autentico durante la cerimonia di ratifica, costringendo entrambe le parti a rispondere davanti alla legge invece di scaricarsi reciprocamente la colpa",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Esporre pubblicamente il crimine originale presentando il rapporto geologico autentico durante la cerimonia di ratifica, costringendo entrambe le parti a rispondere davanti alla legge invece di scaricarsi reciprocamente la colpa"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Centinaia di persone sono morte in un periodo specifico e poi le morti si sono fermate bruscamente Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+        "required_clues": [
+          "clue_1",
+          "clue_3",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Indica che il pericolo era legato a una zona specifica della miniera, non a incidenti casuali / Conferma che le morti erano sistematiche e legate a una contaminazione nascosta",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Il Magister è terrorizzato da qualcosa legato al passato della miniera Orell ha preparato una difesa legale per presentarsi come vittima costretta",
+        "required_clues": [
+          "clue_2",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Suggerisce che è personalmente coinvolto in eventi specifici, non solo un acquirente neutrale / Inizialmente sembra scagionare Orell, ma un esame attento rivela l'alterazione",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+        "required_clues": [
+          "clue_3"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Prova che entrambi erano complici consapevoli, e che esiste un 'rapporto Torne' originale",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Registro delle Morti Anomale",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Sala di Lettura Principale",
+        "reveals": "Centinaia di persone sono morte in un periodo specifico e poi le morti si sono fermate bruscamente",
+        "payoff": "Indica che il pericolo era legato a una zona specifica della miniera, non a incidenti casuali",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un registro polveroso nella biblioteca mostra un picco improvviso di decessi tra i minatori tra 11 e 16 anni fa. Le cause di morte variano ('crollo'",
+        "hidden_implication": "Centinaia di persone sono morte in un periodo specifico e poi le morti si sono fermate bruscamente",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_2",
+        "label": "Comportamento Evasivo del Magister",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Reliquiario della Fiamma",
+        "reveals": "Il Magister è terrorizzato da qualcosa legato al passato della miniera",
+        "payoff": "Suggerisce che è personalmente coinvolto in eventi specifici, non solo un acquirente neutrale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Durante i colloqui preparatori",
+        "hidden_implication": "Il Magister è terrorizzato da qualcosa legato al passato della miniera",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_3",
+        "label": "Diario del Fabbro",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "Sala del Martello",
+        "reveals": "Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+        "payoff": "Prova che entrambi erano complici consapevoli, e che esiste un 'rapporto Torne' originale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Un diario personale nascosto nella fucina privata di Durven. Contiene annotazioni dettagliate: 'Il rapporto Torne-Vask consiglia chiusura immediata. Coronel Marthis ordina procedere. Orell ha firmato la revisione.",
+        "hidden_implication": "Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_4",
+        "label": "Testimonianza del Minatore Vedovo",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "La Piccozza Spezzata",
+        "reveals": "I sintomi delle vittime erano coerenti con avvelenamento da metalli pesanti, non incidenti casuali",
+        "payoff": "Conferma che le morti erano sistematiche e legate a una contaminazione nascosta",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un anziano minatore in pensione",
+        "hidden_implication": "I sintomi delle vittime erano coerenti con avvelenamento da metalli pesanti, non incidenti casuali",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_5",
+        "label": "Contratto Falsificato nel Reliquiario",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Reliquiario della Fiamma",
+        "reveals": "Orell ha preparato una difesa legale per presentarsi come vittima costretta",
+        "payoff": "Inizialmente sembra scagionare Orell, ma un esame attento rivela l'alterazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Un documento custodito nel reliquiario presenta il contratto originale con la Corona. La firma di Orell Vask appare incerta",
+        "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+        "unlocks": [
+          "antagonist_pressure",
+          "thread_responsabile"
+        ],
+        "possible_actions": [
+          "verificare la firma",
+          "confrontare gli orari",
+          "interrogare il responsabile dei registri"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_6",
+        "label": "Rapporto Geologico Originale",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Piazza neutrale",
+        "reveals": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+        "payoff": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+        "hidden_implication": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_7",
+        "label": "Corrispondenza Privata di Mirael",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Qualcuno ha manipolato entrambe le parti facendole credere che l'altra possieda prove incriminanti",
+        "payoff": "Identifica Mirael come orchestratrice segreta del confronto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Calendario Sincronizzato",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il timing dell'accordo non è casuale ma studiato per coincidere con un cambiamento legislativo cruciale",
+        "payoff": "Permette di dedurre che qualcuno conosce sia il contenuto delle leggi che i segreti delle miniere",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Medaglione del Minatore",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Mirael ha una connessione personale con le vittime della miniera e ha collezionato documentazione sulle morti",
+        "payoff": "Rivela il movente personale di vendetta di Mirael",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Campioni Mineralogici Sequestrati",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Il giacimento contiene un minerale specifico noto per la sua tossicità, e qualcuno sapeva e ha nascosto questa informazione",
+        "payoff": "Fornisce la prova fisica del pericolo geologico e della sua deliberata occultazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Ordine di Soppressione della Corona",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "La Corona ordinò esplicitamente di nascondere informazioni sulle miniere durante la guerra",
+        "payoff": "Spiega perché ingegneri rispettabili falsificarono documenti e identifica il mandante originale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Registro Pagamenti Mensili al Sergente",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Il comandante della guardia riceve denaro dalla Gilda, suggerendo corruzione",
+        "payoff": "Spiega perché le indagini sulle morti furono ostacolate e identifica Drenn come ostacolo corrotto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Sermone sulla Purificazione del Passato",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Vask cerca di costruire una narrativa teologica che scarichi la responsabilità su gestioni precedenti",
+        "payoff": "Mostra che Vask sta preparando una difesa pubblica anticipata",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Gran Fabbro Durven Karth",
+        "role": "Leader della Gilda dei Forgiatori, co-responsabile del crimine originale",
+        "location_id": "Sala del Martello",
+        "status": "unintroduced",
+        "goal": "Vuole far firmare l'accordo alla Chiesa per trasferirle la proprietà legale della miniera prima che emergano le morti sospette, salvando la Gilda dalla bancarotta e sé stesso dalla prigione",
+        "secret": "Conserva ancora il proprio diario personale dell'epoca in cui falsificò i rapporti, nascosto nella fucina privata. Lo usa come assicurazione contro la Chiesa, ma è anche la prova della sua colpa",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+        "current_plan": "Far firmare l'accordo entro 48 ore durante la cerimonia pubblica, trasferendo formalmente la miniera (e la responsabilità legale delle morti) alla Chiesa. Immediatamente dopo, partire per un 'pellegrinaggio di ringraziamento' che è in realtà una fuga permanente verso le città meridionali con i fondi della liquidazione.",
+        "fallback_plan": "Se l'accordo fallisce: usare il diario come ricatto per estorcere alla Chiesa fondi sufficienti per saldare i debiti della Gilda e fuggire. Se anche questo fallisce: inscenare la propria morte in un 'incidente di fucina', lasciando un cadavere carbonizzato irriconoscibile (apprendista sacrificato), mentre fugge attraverso i tunnel minerari segreti verso il confine.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole far firmare l'accordo alla Chiesa per trasferirle la proprietà legale della miniera prima che emergano le morti sospette, salvando la Gilda dalla bancarotta e sé stesso dalla prigione"
+        ],
+        "avoids": [
+          "che Registro delle Morti Anomale riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un atteggiamento autorevole e paternalistico, enfatizzando i benefici economici dell'accordo per Valmur. Devia domande scomode citando 'antichi diritti della Gilda' e 'procedure consolidate'. Si tocca nervosamente l'anello con il sigillo della fucina quando mente.",
+          "medium": "Diventa difensivo, accusa i PG di voler sabotare la prosperità di Valmur per interessi esterni. Inizia a bere pesantemente dalla sua flask d'argento. Menziona casualmente che 'alcuni documenti storici potrebbero imbarazzare anche la Chiesa' - un velato ricatto.",
+          "high": "Si ritira nella sua fucina privata, barricandosi. Minaccia apertamente di rivelare alla Chiesa che anche loro sapevano delle morti (bluff parziale). Invia apprendisti fidati a recuperare il diario nascosto per usarlo come leva o distruggerlo. Sudorazione profusa, mani tremanti.",
+          "extreme": "Tenta disperatamente di bruciare il diario nelle forge, rischiando di causare un incendio. Se bloccato, crolla psicologicamente: confessa tutto piangendo, incolpando la pressione dei creditori della Gilda. Potrebbe tentare il suicidio gettandosi nelle fornaci piuttosto che affrontare la prigione e il disonore pubblico."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva i suoi uomini più fedeli (5-6 forgiatori veterani) per intimidire i PG. Se minacciato legalmente, accelera la firma dell'accordo in segreto durante la notte, corrompendo il notaio. Se minacciato fisicamente, si rifugia nel quartiere della Gilda dove i suoi hanno autorità de facto.",
+          "se_corrotto": "Accetta denaro solo se accompagnato da garanzie scritte di immunità. Preferisce scambi di favori: offre armi mastro-forgiate, accesso alle vene minerarie inesplorate, o informazioni compromettenti su funzionari della Chiesa corrotti. Vuole complici, non semplici acquirenti del suo silenzio.",
+          "se_i_pg_hanno_prove": "Prima nega, poi cerca di negoziare: 'Il diario contiene anche nomi della Chiesa che chiusero un occhio'. Propone di sparire volontariamente in esilio, lasciando la Gilda al suo vice onesto, in cambio della distruzione delle prove. Se rifiutato, tenta di rubare/distruggere le prove dei PG durante la notte.",
+          "se_alleato": "Diventa eccessivamente generoso e confidenziale, rivelando tensioni interne alla Chiesa e manovre politiche. Offre ai PG un 'contratto di consulenza' lucrativo per legittimare pagamenti. Li avverte sinceramente dei pericoli nelle miniere profonde. Potrebbe confessare parzialmente, presentandosi come capro espiatorio di un sistema corrotto più grande."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Magister Orell Vask",
+        "role": "Alto prelato della Chiesa della Fiamma Purificatrice, co-responsabile del crimine originale",
+        "location_id": "Reliquiario della Fiamma",
+        "status": "unintroduced",
+        "goal": "Vuole modificare l'accordo per far ricadere la responsabilità storica della miniera sulla Gilda, posizionando la Chiesa come 'redentrice' che ripulisce i peccati altrui. Teme che le sue ambizioni di diventare Sommo Pontefice crollino se emerge il suo coinvolgimento",
+        "secret": "Ha pagato un falsario per creare una versione del contratto originale con la Corona dove la sua firma appare coercita, come se fosse stato costretto. Il documento è custodito nel reliquiario della Cattedrale",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+        "current_plan": "Durante la cerimonia di ratifica, presentare pubblicamente il contratto falsificato dal reliquiario come 'prova storica ritrovata' che dimostra la coercizione della Chiesa da parte della Corona e la piena responsabilità della Gilda. Orchestrare l'intervento del Vescovo Ausiliario che 'confermerà' la scoperta, spingendo la Gilda ad accettare termini più onerosi. Usare il successo per ottenere voti nel prossimo conclave pontificio.",
+        "fallback_plan": "Se il documento falso viene contestato o scoperto, incolpare il falsario (che verrà trovato misteriosamente morto 'suicida' nelle miniere) e sostenere di essere stato ingannato da un complotto anti-ecclesiastico. Invocare un'inchiesta interna della Chiesa che richiederà anni, bloccando l'accordo. In extremis, bruciare l'intero reliquiario e accusare la Gilda di sacrilegio, trasformando la questione in una crociata religiosa che gli garantirà comunque visibilità politica.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole modificare l'accordo per far ricadere la responsabilità storica della miniera sulla Gilda, posizionando la Chiesa come 'redentrice' che ripulisce i peccati altrui. Teme che le sue ambizioni di diventare Sommo Pontefice crollino se emerge il suo coinvolgimento"
+        ],
+        "avoids": [
+          "che Registro delle Morti Anomale riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un contegno sacerdotale impeccabile, benedice i presenti e sottolinea ripetutamente come la Chiesa sia 'strumento di redenzione per i peccati del passato'. Fa riferimenti vaghi a 'responsabilità storiche mai pienamente chiarite' riguardo alla Gilda.",
+          "medium": "Inizia a sudare sotto le vesti cerimoniali. Chiede ripetutamente di verificare 'la documentazione originale autentica' custodita nel reliquiario. Insinua che esistono 'versioni contaminate' dei contratti e che solo la Chiesa possiede quella vera. Evoca l'autorità del Sommo Pontefice.",
+          "high": "Si aggrappa al simbolo della Fiamma al collo con mani tremanti. Accusa apertamente i PG di blasfemia e complotto contro la Chiesa. Ordina ai templari presenti di scortarlo immediatamente alla Cattedrale 'per salvaguardare le sacre reliquie'. Minaccia scomunica.",
+          "extreme": "Crolla in lacrime davanti all'altare, confessando che 'fu costretto dalla Corona sotto minaccia di eresia' a firmare. Supplica i PG di non rovinare la sua vocazione, offre di far 'sparire' il documento falso e ritirarsi in un monastero remoto se lo lasciano andare. Se rifiutano, tenta di bruciare personalmente il reliquiario."
+        },
+        "reaction_table": {
+          "se_minacciato": "Convoca immediatamente i templari della Fiamma come scorta personale. Se la minaccia è fisica, si barrica nella Cattedrale invocando diritto di santuario. Se è politica, minaccia di denunciare pubblicamente i PG come eretici al servizio della Gilda.",
+          "se_corrotto": "Finge di accettare solo per guadagnare tempo. Prende ciò che gli viene offerto ma pianifica immediatamente di denunciare il corruttore come 'agente di forze oscure che tentano di contaminare la Chiesa'. Usa l'episodio per rafforzare la sua narrativa di vittima.",
+          "se_i_pg_hanno_prove": "Nega categoricamente l'autenticità di qualsiasi documento che non provenga dal reliquiario della Cattedrale. Afferma che il falsario (che in realtà lavora per lui) è un noto criminale al soldo della Gilda. Se le prove sono schiaccianti, passa al piano B: sostenere che agì 'sotto ordini segreti del Sommo Pontefice stesso'.",
+          "se_alleato": "Si impossessa del falso documento dal reliquiario durante la cerimonia di ratifica e lo sostituisce con l'originale che distrugge subito dopo. Assicura ai PG posizioni privilegiate come 'Guardiani della Fiamma' in cambio del loro silenzio. Promette che la Chiesa si assumerà formalmente la responsabilità ma solo in forma simbolica."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Custode Mirael Torne",
+        "role": "Archivista capo della Biblioteca Civica, vendicatrice nascosta",
+        "location_id": "Sala di Lettura Principale",
+        "status": "unintroduced",
+        "goal": "Vuole distruggere entrambi gli uomini che hanno ucciso suo padre e centinaia di minatori. Sta aspettando il momento perfetto per rilasciare il rapporto geologico autentico che ha protetto per anni",
+        "secret": "Ha segretamente orchestrato l'invio di lettere anonime a entrambe le parti, insinuando che l'altro vuole tradire l'accordo. È lei la fonte della tensione crescente. Possiede anche una lista dei minatori morti, compilata con cura ossessiva",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+        "current_plan": "Continuare a fomentare sospetti reciproci attraverso lettere anonime e voci sussurrate fino alla cerimonia. Durante la ratifica pubblica, quando tutti i testimoni e autorità sono presenti, rivelare il rapporto geologico autentico che prova la colpevolezza condivisa. Leggere ogni nome della lista mentre le guardie la trascinano via, assicurandosi che la verità sia testimoniata pubblicamente e l'accordo venga distrutto.",
+        "fallback_plan": "Se scoperta prima della cerimonia, attivare i contatti esterni per rilasciare il rapporto alla stampa regionale. Se necessario, inscenare la propria morte apparente nell'archivio (incendio controllato) e fuggire per testimoniare nei tribunali della capitale, portando con sé gli originali. In extremis, consegnare tutto ai PG se sembrano giusti, anche a costo della propria vendetta personale, purché la verità emerga.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole distruggere entrambi gli uomini che hanno ucciso suo padre e centinaia di minatori. Sta aspettando il momento perfetto per rilasciare il rapporto geologico autentico che ha protetto per anni"
+        ],
+        "avoids": [
+          "che Registro delle Morti Anomale riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mirael mantiene il suo ruolo di archivista diligente, offrendo documenti pubblici e sottolineando le 'discrepanze storiche' nei registri minerari. Menziona casualmente i nomi dei morti come se fossero solo statistiche.",
+          "medium": "Inizia a lasciare indizi deliberati: documenti 'dimenticati' aperti sulla sua scrivania, conversazioni dove nomina date specifiche dell'incidente. Osserva intensamente le reazioni altrui quando parla del crollo della miniera. Le sue mani tremano impercettibilmente quando maneggia la lista dei morti.",
+          "high": "Diventa emotivamente instabile. Cita a memoria i nomi dei minatori morti, incluso suo padre. Accusa velatamente entrambe le parti di essere 'costruite sul sangue'. Potrebbe essere vista di notte presso i memoriali improvvisati dei caduti, o seguire ossessivamente i due responsabili.",
+          "extreme": "Rilascia pubblicamente il rapporto geologico autentico durante la cerimonia di ratifica, rivelando che entrambi i leader sapevano del pericolo e hanno scelto il profitto. Legge ad alta voce tutti i 247 nomi della lista mentre brandisce la penna di suo padre. Se bloccata, tenta di incendiare gli archivi per distruggere le prove del loro accordo corrotto."
+        },
+        "reaction_table": {
+          "se_minacciato": "Ride amaramente e chiede 'Come mio padre? Sepolto vivo sotto 300 metri di roccia?'. Rivela di aver già distribuito copie del rapporto a contatti esterni con istruzioni di pubblicarlo se le accade qualcosa. Il suo martirio completerebbe la vendetta.",
+          "se_corrotto": "Finge interesse, chiede cifre specifiche mentre annota tutto. Poi usa queste offerte come ulteriore prova della colpevolezza. 'Quanto vale una vita? Mio padre valeva questo?' Potrebbe fingere di accettare per avvicinarsi ai bersagli.",
+          "se_i_pg_hanno_prove": "Crolla emotivamente, ammettendo tutto tra le lacrime. Mostra la lista dei morti con annotazioni personali su ciascuno. 'Dovevano pagare. Tutti dovevano sapere.' Chiede solo di poter leggere i nomi pubblicamente prima di essere arrestata. Potrebbe ancora avere il rapporto nascosto come ultima carta.",
+          "se_alleato": "Diffidente inizialmente, testa la loro sincerità chiedendo di recitare alcuni nomi dalla lista. Se convinta, condivide tutto: il rapporto originale, le lettere false che ha scritto, i movimenti dei due leader. 'Aiutatemi a far sì che non sia morto invano. Che nessuno di loro sia morto invano.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Sergente Kael Drenn",
+        "role": "Comandante della Guardia Cittadina, ostacolo corrotto",
+        "location_id": "Ufficio del Comandante",
+        "status": "unintroduced",
+        "goal": "È stato pagato sia dalla Gilda che dalla Chiesa per sopprimere testimoni scomodi e far sparire prove. Vuole che l'accordo si concluda rapidamente in qualsiasi modo così può intascare il saldo finale e andarsene dalla città",
+        "secret": "Ha personalmente arrestato e fatto sparire tre ex-minatori che stavano parlando troppo delle morti sospette. I corpi sono murati in una sezione della Prigione Bassa mai ispezionata",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+        "current_plan": "Mantenere i PG sotto sorveglianza costante fino alla ratifica dell'accordo (3 giorni). Impedire qualsiasi accesso alla Prigione Bassa o ai registri di detenzione. Ricevere il pagamento finale (1000 corone) e lasciare Valmur con l'identità falsa già preparata prima che i corpi vengano scoperti.",
+        "fallback_plan": "Se i PG scoprono i corpi o le prove dei pagamenti: incolpare il Vice-Comandante Torrhen (già morto in un incidente in miniera la settimana scorsa). Bruciare la Prigione Bassa sostenendo una rivolta dei detenuti, eliminando tutte le prove. Fuggire verso il Passo di Ferro con i documenti falsi e il denaro già nascosto, lasciando che Gilda e Chiesa si occupino del disastro.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "È stato pagato sia dalla Gilda che dalla Chiesa per sopprimere testimoni scomodi e far sparire prove. Vuole che l'accordo si concluda rapidamente in qualsiasi modo così può intascare il saldo finale e andarsene dalla città"
+        ],
+        "avoids": [
+          "che Registro delle Morti Anomale riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Intimidisce i PG con pattuglie continue, perquisizioni 'di routine' e sottili minacce velate sulla loro sicurezza a Valmur. Fa capire che gli estranei non sono ben visti.",
+          "medium": "Arresta uno dei PG con accuse fabbricate (possesso di oggetti rubati dalle miniere, disturbo dell'ordine pubblico). Li tiene separati nella Prigione Alta per interrogatori 'ufficiali' che durano ore, cercando di capire cosa sanno.",
+          "high": "Organizza un'imboscata notturna usando criminali locali vestiti da minatori ubriachi. Se fallisce, fa sparire prove chiave dalle loro stanze e pianta documenti compromettenti che li collegano a sabotatori anti-accordo.",
+          "extreme": "Tenta di farli arrestare e murare nella Prigione Bassa insieme agli altri testimoni. Se impossibile, organizza un 'incidente minerario' durante una loro visita ispettiva alle gallerie, sigillando l'accesso con esplosivi."
+        },
+        "reaction_table": {
+          "se_minacciato": "Diventa violento e irrazionale. Convoca immediatamente la guardia leale e tenta un arresto di massa per 'tradimento e cospirazione'. Brucia documenti compromettenti nel suo ufficio.",
+          "se_corrotto": "Accetta tangenti solo se superiori a 500 corone d'oro E i PG lasciano Valmur entro l'alba. Usa il denaro per preparare la sua fuga, ma prima avvelena la loro ultima cena come 'assicurazione'.",
+          "se_i_pg_hanno_prove": "Nega tutto con sicurezza burocratica. Sostiene che i minatori scomparsi erano sabotatori ricercati, fuggiti dalla città. Offre l'accesso alla Prigione Alta ma MAI alla Bassa, sostenendo sia pericolante.",
+          "se_alleato": "Impossibile. Troppo compromesso. Al massimo finge collaborazione per scoprire cosa sanno, poi agisce per eliminarli. L'unico scenario di alleanza è se tradisce completamente Gilda E Chiesa in cambio di amnistia totale."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ai_1",
+        "name": "Piazza neutrale",
+        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [
+          "clue_6"
+        ],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "strategic",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_2",
+        "name": "Sede fazione A",
+        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_3",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_3",
+        "name": "Sede fazione B",
+        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_4",
+        "name": "Mercato delle informazioni",
+        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "indagine e orientamento",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_2",
+          "loc_ai_3",
+          "loc_ai_5"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      },
+      {
+        "id": "loc_ai_5",
+        "name": "Luogo del confronto",
+        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {
+          "enabled": true,
+          "features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+        },
+        "access_requirements": [],
+        "type": "finale",
+        "access_state": "open",
+        "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
+        "gameplay_function": "finale/confronto",
+        "concrete_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache",
+          "scaffali pieni di fascicoli"
+        ],
+        "hazards": [
+          "folla curiosa",
+          "telefono che squilla nel momento sbagliato"
+        ],
+        "exits": [
+          "corridoio principale",
+          "passaggio laterale o manutenzione"
+        ],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [
+          "scrivanie rovesciate",
+          "archivi metallici",
+          "vetrate opache"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "loc_ai_1",
+        "location_type": "regional",
+        "connections_to": [
+          "loc_ai_4"
+        ],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.72
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Ogni giorno che passa, i tentativi di insabbiamento diventano più violenti: testimoni scompaiono, documenti bruciano, e i PG stessi diventano bersagli. Entro 10 giorni la ratifica avverrà in privato, seppellendo per sempre la verità",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "piano completato se nessuno interviene",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Pressioni Iniziali",
+            "effect": "Un testimone secondario sparisce dalla locanda. Le guardie cittadine iniziano a pattugliare con più insistenza le vie verso l'archivio della Gilda. Qualcuno sta chiaramente osservando i movimenti dei PG."
+          },
+          {
+            "value": 4,
+            "label": "Intimidazione Diretta",
+            "effect": "Un incendio 'accidentale' distrugge parte dei registri pubblici. I PG ricevono minacce velate o trovano simboli inquietanti presso i loro alloggi. Un alleato viene aggredito o arrestato con false accuse."
+          },
+          {
+            "value": 6,
+            "label": "Eliminazione Sistematica",
+            "effect": "Un testimone chiave viene trovato morto in circostanze sospette. Gli accessi alle miniere e agli archivi vengono blindati. Mercenari o sicari iniziano a braccare attivamente i PG e chiunque abbia parlato con loro."
+          },
+          {
+            "value": 8,
+            "label": "Lockdown Totale",
+            "effect": "Valmur viene messa in stato di emergenza. Le porte della città sono sorvegliate, nessuno può entrare o uscire senza autorizzazione. Gli ultimi documenti compromettenti vengono trasferiti o distrutti. I PG sono ricercati come agitatori."
+          },
+          {
+            "value": 10,
+            "label": "Ratifica Segreta",
+            "effect": "L'accordo viene ratificato in una cerimonia privata e blindata. Ogni prova è stata cancellata o resa inaccessibile. I sopravvissuti che conoscono la verità sono costretti al silenzio permanente o all'esilio. La corruzione è ora istituzionalizzata."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Scoprire l'identità del mandante dietro l'insabbiamento",
+          "Recuperare prove incontrovertibili della corruzione prima che vengano distrutte",
+          "Ottenere protezione o asilo per i testimoni chiave",
+          "Portare le prove davanti a un'autorità neutrale o alla popolazione prima della ratifica"
+        ],
+        "resolution_condition": "I PG devono esporre pubblicamente la corruzione con prove concrete prima che la ratifica avvenga, oppure devono convincere una fazione terza abbastanza potente (Corona, Tempio, Gilda rivale) a intervenire e bloccare l'accordo",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Nei vicoli di Valmur si sussurra di carri che partono di notte carichi di casse sigillate. Le campane della città hanno iniziato a suonare con un ritmo diverso, più urgente. Qualcuno sta bruciando documenti nei cortili privati, e l'odore di carta e inchiostro bruciato permea l'aria serale.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Patto Cenere Fredda tre personaggi sono",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "Chi sta orchestrando il confronto?",
+        "question": "Perché proprio ora viene firmato questo accordo e chi ne trae beneficio reale?",
+        "true_answer": "Mirael Torne ha manipolato entrambe le fazioni per far firmare l'accordo esattamente quando le nuove leggi ambientali entreranno in vigore, assicurandosi che entrambi i colpevoli siano esposti pubblicamente",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1",
+          "T2"
+        ],
+        "linked_npcs": [
+          "Custode Mirael Torne",
+          "Gran Fabbro Durven Karth",
+          "Magister Orell Vask"
+        ],
+        "linked_locations": [
+          "Sede fazione A",
+          "Sede fazione B",
+          "Mercato delle informazioni"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Cosa nasconde il giacimento?",
+        "question": "Perché così tanti minatori sono morti nei primi anni e perché nessuno ha indagato?",
+        "true_answer": "Il giacimento contiene arsenopirite, un minerale che rilascia arsenico nelle acque. Il rapporto geologico fu soppresso dalla Corona e i morti furono classificati come incidenti per necessità belliche",
+        "status": "hidden",
+        "required_clues": [
+          "clue_1",
+          "clue_6",
+          "clue_10",
+          "clue_11"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Gran Fabbro Durven Karth",
+          "Magister Orell Vask",
+          "Custode Mirael Torne"
+        ],
+        "linked_locations": [
+          "Mercato delle informazioni",
+          "Sede fazione B"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Registro delle Morti Anomale?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Comportamento Evasivo del Magister?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Diario del Fabbro?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Piazza neutrale",
+          "to": "Luogo del confronto"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Piazza neutrale",
+          "to": "Luogo del confronto"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Luogo del confronto",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "mystery_horror",
+      "tone": "mystery horror",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "trap activation",
+        "guardian attack",
+        "ritual clock advances",
+        "boss signs awaken",
+        "room changes state",
+        "curse intensifies",
+        "danger scene",
+        "fear spike",
+        "witness panic",
+        "haunting sign"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "boss fully awakens without trigger",
+        "ritual completes without clock",
+        "party death cutscene",
+        "cosmic finale without clues",
+        "monster truth revealed too early"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_5702a141a9",
+      "title": "Il Patto della Cenere Fredda",
+      "genre": "mystery_horror",
+      "detected_genre": "mystery_horror",
+      "premise": "I tre personaggi sono stati convocati come testimoni neutrali a Valmur, città mineraria di confine, dove sta per essere ratificato un accordo storico: la Gilda dei Forgiatori cederà il controllo delle miniere di ferro alla Chiesa della Fiamma Purificatrice in cambio di protezione spirituale e immunità legale. Ma la cerimonia è stata rinviata tre volte. Il Magister della Chiesa sembra evitare il Gran Fabbro. I documenti ufficiali sono pronti, ma nessuno li firma. Nei vicoli si sussurra di una fossa comune scoperta nei tunnel più profondi.",
+      "hidden_truth": "Sedici anni fa, il Gran Fabbro Durven Karth e il Magister Orell Vask erano entrambi ingegneri civili sotto contratto con la Corona. Scoprirono che il giacimento di ferro conteneva un raro minerale velenoso che, se estratto, avrebbe contaminato le falde acquifere per generazioni. La Corona ordinò loro di nascondere il rapporto geologico e procedere comunque: serviva ferro per la guerra imminente. Durven e Orell obbedirono, falsificarono i documenti di sicurezza e supervisionarono l'apertura della miniera. Centinaia di minatori morirono nei primi cinque anni per avvelenamento, spacciati come incidenti o malattie comuni. Ora, con la guerra finita e nuove leggi ambientali in arrivo, entrambi cercano di scaricare la responsabilità legale sull'altro attraverso questo accordo: chi controlla formalmente la miniera sarà incolpato quando emergerà la verità. Nessuno dei due sa che una terza persona, la Custode degli Archivi Mirael Torne, ha conservato il rapporto geologico originale e sta orchestrando la loro mutua distruzione per vendicare suo padre, uno dei primi minatori morti.",
+      "win_condition": "Esporre pubblicamente il crimine originale presentando il rapporto geologico autentico durante la cerimonia di ratifica, costringendo entrambe le parti a rispondere davanti alla legge invece di scaricarsi reciprocamente la colpa",
+      "threat_description": "Ogni giorno che passa, i tentativi di insabbiamento diventano più violenti: testimoni scompaiono, documenti bruciano, e i PG stessi diventano bersagli. Entro 10 giorni la ratifica avverrà in privato, seppellendo per sempre la verità",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "faction_sandbox",
+        "secondary_archetypes": [
+          "ritual_countdown",
+          "horror_survival"
+        ],
+        "confidence": 0.7,
+        "reason": "Matched runtime signals for faction_sandbox",
+        "definition": {
+          "id": "faction_sandbox",
+          "description": "Fazioni con obiettivi e reazioni offscreen.",
+          "required_modules": [
+            "factions",
+            "actors"
+          ],
+          "optional_modules": [
+            "clocks"
+          ],
+          "runtime_focus": [
+            "faction_pressure"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "behavior",
+            "testimony"
+          ],
+          "common_failure_modes": [
+            "faction_escalates"
+          ],
+          "ending_patterns": [
+            "balance_shift"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_5702a141a9",
+      "adventure_canon": {
+        "core_truth": "Sedici anni fa, il Gran Fabbro Durven Karth e il Magister Orell Vask erano entrambi ingegneri civili sotto contratto con la Corona. Scoprirono che il giacimento di ferro conteneva un raro minerale velenoso che, se estratto, avrebbe contaminato le falde acquifere per generazioni. La Corona ordinò loro di nascondere il rapporto geologico e procedere comunque: serviva ferro per la guerra imminente. Durven e Orell obbedirono, falsificarono i documenti di sicurezza e supervisionarono l'apertura della miniera. Centinaia di minatori morirono nei primi cinque anni per avvelenamento, spacciati come incidenti o malattie comuni. Ora, con la guerra finita e nuove leggi ambientali in arrivo, entrambi cercano di scaricare la responsabilità legale sull'altro attraverso questo accordo: chi controlla formalmente la miniera sarà incolpato quando emergerà la verità. Nessuno dei due sa che una terza persona, la Custode degli Archivi Mirael Torne, ha conservato il rapporto geologico originale e sta orchestrando la loro mutua distruzione per vendicare suo padre, uno dei primi minatori morti.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Piazza neutrale",
+          "Sede fazione A",
+          "Sede fazione B",
+          "Mercato delle informazioni",
+          "Luogo del confronto"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Patto Cenere Fredda tre personaggi sono"
+        ],
+        "genre_profile": {
+          "id": "mystery_horror",
+          "tone": "mystery horror",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "trap activation",
+            "guardian attack",
+            "ritual clock advances",
+            "boss signs awaken",
+            "room changes state",
+            "curse intensifies",
+            "danger scene",
+            "fear spike",
+            "witness panic",
+            "haunting sign"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "boss fully awakens without trigger",
+            "ritual completes without clock",
+            "party death cutscene",
+            "cosmic finale without clues",
+            "monster truth revealed too early"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Registro delle Morti Anomale",
+          "question": "Dove conduce Registro delle Morti Anomale?",
+          "true_answer": "Centinaia di persone sono morte in un periodo specifico e poi le morti si sono fermate bruscamente Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+          "required_clues": [
+            "clue_1",
+            "clue_3",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Indica che il pericolo era legato a una zona specifica della miniera, non a incidenti casuali / Conferma che le morti erano sistematiche e legate a una contaminazione nascosta",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Comportamento Evasivo del Magister",
+          "question": "Dove conduce Comportamento Evasivo del Magister?",
+          "true_answer": "Il Magister è terrorizzato da qualcosa legato al passato della miniera Orell ha preparato una difesa legale per presentarsi come vittima costretta",
+          "required_clues": [
+            "clue_2",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Suggerisce che è personalmente coinvolto in eventi specifici, non solo un acquirente neutrale / Inizialmente sembra scagionare Orell, ma un esame attento rivela l'alterazione",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Che cosa dimostra Diario del Fabbro",
+          "question": "Che cosa dimostra Diario del Fabbro?",
+          "true_answer": "Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+          "required_clues": [
+            "clue_3"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Prova che entrambi erano complici consapevoli, e che esiste un 'rapporto Torne' originale",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Registro delle Morti Anomale",
+          "text": "Registro delle Morti Anomale",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Centinaia di persone sono morte in un periodo specifico e poi le morti si sono fermate bruscamente",
+          "payoff": "Indica che il pericolo era legato a una zona specifica della miniera, non a incidenti casuali",
+          "location": "Sala di Lettura Principale",
+          "immediate_information": "Un registro polveroso nella biblioteca mostra un picco improvviso di decessi tra i minatori tra 11 e 16 anni fa. Le cause di morte variano ('crollo'",
+          "hidden_implication": "Centinaia di persone sono morte in un periodo specifico e poi le morti si sono fermate bruscamente",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Comportamento Evasivo del Magister",
+          "text": "Comportamento Evasivo del Magister",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Il Magister è terrorizzato da qualcosa legato al passato della miniera",
+          "payoff": "Suggerisce che è personalmente coinvolto in eventi specifici, non solo un acquirente neutrale",
+          "location": "Reliquiario della Fiamma",
+          "immediate_information": "Durante i colloqui preparatori",
+          "hidden_implication": "Il Magister è terrorizzato da qualcosa legato al passato della miniera",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Diario del Fabbro",
+          "text": "Diario del Fabbro",
+          "type": "document",
+          "thread_id": "T3",
+          "reveals": "Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+          "payoff": "Prova che entrambi erano complici consapevoli, e che esiste un 'rapporto Torne' originale",
+          "location": "Sala del Martello",
+          "immediate_information": "Un diario personale nascosto nella fucina privata di Durven. Contiene annotazioni dettagliate: 'Il rapporto Torne-Vask consiglia chiusura immediata. Coronel Marthis ordina procedere. Orell ha firmato la revisione.",
+          "hidden_implication": "Durven e Orell lavorarono insieme sotto ordine della Corona per nascondere un pericolo geologico",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Testimonianza del Minatore Vedovo",
+          "text": "Testimonianza del Minatore Vedovo",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "I sintomi delle vittime erano coerenti con avvelenamento da metalli pesanti, non incidenti casuali",
+          "payoff": "Conferma che le morti erano sistematiche e legate a una contaminazione nascosta",
+          "location": "La Piccozza Spezzata",
+          "immediate_information": "Un anziano minatore in pensione",
+          "hidden_implication": "I sintomi delle vittime erano coerenti con avvelenamento da metalli pesanti, non incidenti casuali",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Contratto Falsificato nel Reliquiario",
+          "text": "Contratto Falsificato nel Reliquiario",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Orell ha preparato una difesa legale per presentarsi come vittima costretta",
+          "payoff": "Inizialmente sembra scagionare Orell, ma un esame attento rivela l'alterazione",
+          "location": "Reliquiario della Fiamma",
+          "immediate_information": "Un documento custodito nel reliquiario presenta il contratto originale con la Corona. La firma di Orell Vask appare incerta",
+          "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+          "unlocks": [
+            "antagonist_pressure",
+            "thread_responsabile"
+          ],
+          "possible_actions": [
+            "verificare la firma",
+            "confrontare gli orari",
+            "interrogare il responsabile dei registri"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Rapporto Geologico Originale",
+          "text": "Rapporto Geologico Originale",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+          "payoff": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+          "location": "Piazza neutrale",
+          "immediate_information": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+          "hidden_implication": "Un documento sigillato nascosto negli archivi profondi della biblioteca",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Gran Fabbro Durven Karth",
+          "role": "Leader della Gilda dei Forgiatori, co-responsabile del crimine originale",
+          "description": "Vuole far firmare l'accordo alla Chiesa per trasferirle la proprietà legale della miniera prima che emergano le morti sospette, salvando la Gilda dalla bancarotta e sé stesso dalla prigione",
+          "location": "Sala del Martello",
+          "secret": "Conserva ancora il proprio diario personale dell'epoca in cui falsificò i rapporti, nascosto nella fucina privata. Lo usa come assicurazione contro la Chiesa, ma è anche la prova della sua colpa",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole far firmare l'accordo alla Chiesa per trasferirle la proprietà legale della miniera prima che emergano le morti sospette, salvando la Gilda dalla bancarotta e sé stesso dalla prigione",
+            "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole far firmare l'accordo alla Chiesa per trasferirle la proprietà legale della miniera prima che emergano le morti sospette, salvando la Gilda dalla bancarotta e sé stesso dalla prigione"
+            ],
+            "avoids": [
+              "che Registro delle Morti Anomale riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Conserva ancora il proprio diario personale dell'epoca in cui falsificò i rapporti, nascosto nella fucina privata. Lo usa come assicurazione contro la Chiesa, ma è anche la prova della sua colpa",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Magister Orell Vask",
+          "role": "Alto prelato della Chiesa della Fiamma Purificatrice, co-responsabile del crimine originale",
+          "description": "Vuole modificare l'accordo per far ricadere la responsabilità storica della miniera sulla Gilda, posizionando la Chiesa come 'redentrice' che ripulisce i peccati altrui. Teme che le sue ambizioni di diventare Sommo Pontefice crollino se emerge il suo coinvolgimento",
+          "location": "Reliquiario della Fiamma",
+          "secret": "Ha pagato un falsario per creare una versione del contratto originale con la Corona dove la sua firma appare coercita, come se fosse stato costretto. Il documento è custodito nel reliquiario della Cattedrale",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole modificare l'accordo per far ricadere la responsabilità storica della miniera sulla Gilda, posizionando la Chiesa come 'redentrice' che ripulisce i peccati altrui. Teme che le sue ambizioni di diventare Sommo Pontefice crollino se emerge il suo coinvolgimento",
+            "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole modificare l'accordo per far ricadere la responsabilità storica della miniera sulla Gilda, posizionando la Chiesa come 'redentrice' che ripulisce i peccati altrui. Teme che le sue ambizioni di diventare Sommo Pontefice crollino se emerge il suo coinvolgimento"
+            ],
+            "avoids": [
+              "che Registro delle Morti Anomale riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha pagato un falsario per creare una versione del contratto originale con la Corona dove la sua firma appare coercita, come se fosse stato costretto. Il documento è custodito nel reliquiario della Cattedrale",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Custode Mirael Torne",
+          "role": "Archivista capo della Biblioteca Civica, vendicatrice nascosta",
+          "description": "Vuole distruggere entrambi gli uomini che hanno ucciso suo padre e centinaia di minatori. Sta aspettando il momento perfetto per rilasciare il rapporto geologico autentico che ha protetto per anni",
+          "location": "Sala di Lettura Principale",
+          "secret": "Ha segretamente orchestrato l'invio di lettere anonime a entrambe le parti, insinuando che l'altro vuole tradire l'accordo. È lei la fonte della tensione crescente. Possiede anche una lista dei minatori morti, compilata con cura ossessiva",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole distruggere entrambi gli uomini che hanno ucciso suo padre e centinaia di minatori. Sta aspettando il momento perfetto per rilasciare il rapporto geologico autentico che ha protetto per anni",
+            "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole distruggere entrambi gli uomini che hanno ucciso suo padre e centinaia di minatori. Sta aspettando il momento perfetto per rilasciare il rapporto geologico autentico che ha protetto per anni"
+            ],
+            "avoids": [
+              "che Registro delle Morti Anomale riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha segretamente orchestrato l'invio di lettere anonime a entrambe le parti, insinuando che l'altro vuole tradire l'accordo. È lei la fonte della tensione crescente. Possiede anche una lista dei minatori morti, compilata con cura ossessiva",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Sergente Kael Drenn",
+          "role": "Comandante della Guardia Cittadina, ostacolo corrotto",
+          "description": "È stato pagato sia dalla Gilda che dalla Chiesa per sopprimere testimoni scomodi e far sparire prove. Vuole che l'accordo si concluda rapidamente in qualsiasi modo così può intascare il saldo finale e andarsene dalla città",
+          "location": "Ufficio del Comandante",
+          "secret": "Ha personalmente arrestato e fatto sparire tre ex-minatori che stavano parlando troppo delle morti sospette. I corpi sono murati in una sezione della Prigione Bassa mai ispezionata",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "È stato pagato sia dalla Gilda che dalla Chiesa per sopprimere testimoni scomodi e far sparire prove. Vuole che l'accordo si concluda rapidamente in qualsiasi modo così può intascare il saldo finale e andarsene dalla città",
+            "fear": "che Registro delle Morti Anomale riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+            "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "È stato pagato sia dalla Gilda che dalla Chiesa per sopprimere testimoni scomodi e far sparire prove. Vuole che l'accordo si concluda rapidamente in qualsiasi modo così può intascare il saldo finale e andarsene dalla città"
+            ],
+            "avoids": [
+              "che Registro delle Morti Anomale riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha personalmente arrestato e fatto sparire tre ex-minatori che stavano parlando troppo delle morti sospette. I corpi sono murati in una sezione della Prigione Bassa mai ispezionata",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Piazza neutrale",
+          "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+          "type": "entry",
+          "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [
+            "clue_6"
+          ],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Sede fazione A",
+          "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sede fazione B",
+          "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Mercato delle informazioni",
+          "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
+          "type": "site",
+          "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Luogo del confronto",
+          "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
+          "type": "finale",
+          "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "Ogni giorno che passa, i tentativi di insabbiamento diventano più violenti: testimoni scompaiono, documenti bruciano, e i PG stessi diventano bersagli. Entro 10 giorni la ratifica avverrà in privato, seppellendo per sempre la verità",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_5702a141a9",
+    "current_scene_id": "loc_ai_1",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Sala del Martello",
+        "agenda_pressure": 0,
+        "goal": "Vuole far firmare l'accordo alla Chiesa per trasferirle la proprietà legale della miniera prima che emergano le morti sospette, salvando la Gilda dalla bancarotta e sé stesso dalla prigione",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Reliquiario della Fiamma",
+        "agenda_pressure": 0,
+        "goal": "Vuole modificare l'accordo per far ricadere la responsabilità storica della miniera sulla Gilda, posizionando la Chiesa come 'redentrice' che ripulisce i peccati altrui. Teme che le sue ambizioni di diventare Sommo Pontefice crollino se emerge il suo coinvolgimento",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Sala di Lettura Principale",
+        "agenda_pressure": 0,
+        "goal": "Vuole distruggere entrambi gli uomini che hanno ucciso suo padre e centinaia di minatori. Sta aspettando il momento perfetto per rilasciare il rapporto geologico autentico che ha protetto per anni",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Ufficio del Comandante",
+        "agenda_pressure": 0,
+        "goal": "È stato pagato sia dalla Gilda che dalla Chiesa per sopprimere testimoni scomodi e far sparire prove. Vuole che l'accordo si concluda rapidamente in qualsiasi modo così può intascare il saldo finale e andarsene dalla città",
+        "current_plan": "bloccare l'accesso a Luogo del confronto e spostare le prove",
+        "fallback_plan": "ritirarsi verso Luogo del confronto usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ai_1": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_3": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_4": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ai_5": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T3"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T1"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T3": [
+        "T3"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 88,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Sala del Martello.",
+      "Actor npc_2 ha location non riconosciuta: Reliquiario della Fiamma.",
+      "Actor npc_3 ha location non riconosciuta: Sala di Lettura Principale.",
+      "Actor npc_4 ha location non riconosciuta: Ufficio del Comandante.",
+      "faction_crisis richiede almeno 2 factions.",
+      "ritual_dungeon richiede ritual_conditions o special_items."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 3
+    }
+  }
+}

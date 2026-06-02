@@ -1236,12 +1236,46 @@
     ]
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 89,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 83,
+    "errors": [],
+    "warnings": [
+      "Clue clue_shell non collegato a una revelation valida.",
+      "Clue clue_red_herring_rival non collegato a una revelation valida."
+    ],
+    "suggestions": [
+      "La visita all'Oracolo è quasi obbligatoria ma costa tempo — tensione reale",
+      "Lysander può essere convinto con la paura degli dei: 'Vuoi che Poseidone ti punisca?'",
+      "Il mostro può apparire come momento di terrore durante l'avventura, non solo alla fine — costringendo i PG a fuggire"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 87
+    },
+    "fidelity": {
+      "score": 94,
+      "target": 85,
+      "passes_target": true,
+      "source_card_counts": {},
+      "coverage": {
+        "locations": 100,
+        "actors": 100,
+        "clues": 100,
+        "clue_links": 71,
+        "finale": 100
+      }
+    },
+    "counts": {
+      "objectives": 5,
+      "locations": 7,
+      "actors": 4,
+      "clues": 7,
+      "revelations": 4
     }
   },
   "live_game_state": {

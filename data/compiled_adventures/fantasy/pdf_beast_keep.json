@@ -951,12 +951,46 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 88,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 82,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_tracks non collegato a una revelation valida.",
+      "Location keep_library senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "La scena dei corpi disposti è il momento più impattante — usarla bene cambia tutto il mood",
+      "Vorn di giorno è tragico: un cavaliere nobile intrappolato in un incubo — i PG devono decidere se salvarlo o ucciderlo",
+      "Il sigillo richiede un check di magia o la procedura esatta dal diario — crea dipendenza tra i clue"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 96,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 86
+    },
+    "fidelity": {
+      "score": 97,
+      "target": 85,
+      "passes_target": true,
+      "source_card_counts": {},
+      "coverage": {
+        "locations": 100,
+        "actors": 100,
+        "clues": 100,
+        "clue_links": 86,
+        "finale": 100
+      }
+    },
+    "counts": {
+      "objectives": 5,
+      "locations": 6,
+      "actors": 2,
+      "clues": 7,
+      "revelations": 4
     }
   }
 }

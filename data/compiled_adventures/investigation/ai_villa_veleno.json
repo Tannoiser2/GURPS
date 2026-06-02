@@ -982,12 +982,37 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 90,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 74,
+    "errors": [],
+    "warnings": [
+      "Clue clue_aconitine_source non collegato a una revelation valida.",
+      "Clue clue_red_herring_wine non collegato a una revelation valida.",
+      "Location villa_kitchen senza almeno 3 feature concrete.",
+      "Location villa_cellar senza almeno 3 feature concrete.",
+      "Location notary_office senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Rossana è brillante — mantenerla plausibilmente innocente fino alla fine crea tensione",
+      "Il cuoco Osvaldo può essere il punto debole — sotto pressione confessa",
+      "Il finale è a scelta: confronto privato o tribunale pubblico"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 88,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 84
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 5,
+      "locations": 6,
+      "actors": 3,
+      "clues": 8,
+      "revelations": 3
     }
   }
 }

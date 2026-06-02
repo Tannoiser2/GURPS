@@ -1096,12 +1096,39 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 91,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 69,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_storm non collegato a una revelation valida.",
+      "Location harbor_tavern senza almeno 3 feature concrete.",
+      "Location east_pier senza almeno 3 feature concrete.",
+      "Location municipal_office senza almeno 3 feature concrete.",
+      "Location carabinieri_station senza almeno 3 feature concrete.",
+      "Location post_office senza almeno 3 feature concrete.",
+      "Location harbor_office senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Giovanni il figlio è il personaggio più empatico — il suo rapporto con i PG può diventare il cuore emotivo",
+      "Corsetti e Tagliafierro funzionano meglio se sembrano genuinamente cordiali finché non vengono pressati",
+      "Il momento della corsa all'isola prima della prossima intercettazione è il climax naturale"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 81,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 83
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 6,
+      "locations": 8,
+      "actors": 3,
+      "clues": 7,
+      "revelations": 4
     }
   }
 }

@@ -1165,12 +1165,45 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 90,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 85,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_fever non collegato a una revelation valida."
+    ],
+    "suggestions": [
+      "L'entità si manifesta principalmente come ombre animate e rumori nelle pareti",
+      "Tomás è la chiave per trovare Marie — trattarlo con rispetto è fondamentale",
+      "Wade nel finale è un nemico terrificante: fisicamente capace ma psicologicamente spezzato"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 87
+    },
+    "fidelity": {
+      "score": 98,
+      "target": 85,
+      "passes_target": true,
+      "source_card_counts": {},
+      "coverage": {
+        "locations": 100,
+        "actors": 100,
+        "clues": 100,
+        "clue_links": 88,
+        "finale": 100
+      }
+    },
+    "counts": {
+      "objectives": 5,
+      "locations": 7,
+      "actors": 4,
+      "clues": 8,
+      "revelations": 4
     }
   }
 }

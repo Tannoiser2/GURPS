@@ -388,7 +388,8 @@
           "clue_confessione_celia"
         ],
         "description": "Il bersaglio è in Italia, non in Montenegro come creduto.",
-        "thread_id": "T_nachtnebel"
+        "thread_id": "T_nachtnebel",
+        "statement": "Il bersaglio è in Italia, non in Montenegro come creduto."
       },
       {
         "id": "rev_gia_distribuito",
@@ -398,7 +399,8 @@
           "clue_agenti_infiltrati"
         ],
         "description": "La minaccia è più grande del previsto: tre dormiente hanno già la droga.",
-        "thread_id": "T_distribuzione"
+        "thread_id": "T_distribuzione",
+        "statement": "La minaccia è più grande del previsto: tre dormiente hanno già la droga."
       },
       {
         "id": "rev_celia_interesse",
@@ -407,7 +409,8 @@
           "clue_debiti_celia"
         ],
         "description": "Célia collabora per salvarsi dai creditori, non perché vuole aiutare.",
-        "thread_id": "T_celia"
+        "thread_id": "T_celia",
+        "statement": "Célia collabora per salvarsi dai creditori, non perché vuole aiutare."
       }
     ],
     "finale_conditions": [
@@ -626,11 +629,81 @@
     "injected_clues": []
   },
   "validation_report": {
-    "quality_gate": {
-      "passed": true,
-      "score": 100,
-      "critical": [],
-      "warnings": []
+    "valid": true,
+    "playable": false,
+    "playable_score": 2,
+    "errors": [],
+    "warnings": [
+      "Clue clue_campione_droga non collegato a una revelation valida.",
+      "Clue clue_campione_droga senza source_location concreta.",
+      "Clue clue_campione_droga senza possible_actions.",
+      "Clue clue_campione_droga troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_dossier_petrov non collegato a una revelation valida.",
+      "Clue clue_dossier_petrov senza source_location concreta.",
+      "Clue clue_dossier_petrov senza possible_actions.",
+      "Clue clue_dossier_petrov troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_confessione_celia non collegato a una revelation valida.",
+      "Clue clue_confessione_celia senza source_location concreta.",
+      "Clue clue_confessione_celia senza possible_actions.",
+      "Clue clue_confessione_celia troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_debiti_celia non collegato a una revelation valida.",
+      "Clue clue_debiti_celia senza source_location concreta.",
+      "Clue clue_debiti_celia senza possible_actions.",
+      "Clue clue_debiti_celia troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_formula_laboratorio non collegato a una revelation valida.",
+      "Clue clue_formula_laboratorio senza source_location concreta.",
+      "Clue clue_formula_laboratorio senza possible_actions.",
+      "Clue clue_formula_laboratorio troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_agenti_infiltrati non collegato a una revelation valida.",
+      "Clue clue_agenti_infiltrati senza source_location concreta.",
+      "Clue clue_agenti_infiltrati senza possible_actions.",
+      "Clue clue_agenti_infiltrati troppo astratta: manca immediate_information o hidden_implication.",
+      "Clue clue_via_fuga_boris non collegato a una revelation valida.",
+      "Clue clue_via_fuga_boris senza source_location concreta.",
+      "Clue clue_via_fuga_boris senza possible_actions.",
+      "Clue clue_via_fuga_boris troppo astratta: manca immediate_information o hidden_implication.",
+      "Revelation rev_merano non ha clue o condizioni.",
+      "Revelation rev_gia_distribuito non ha clue o condizioni.",
+      "Revelation rev_celia_interesse non ha clue o condizioni.",
+      "FinaleCondition finale_cattura_nachtnebel non ha dipendenze esplicite.",
+      "FinaleCondition finale_lista_agenti non ha dipendenze esplicite.",
+      "Actor actor_nachtnebel senza goal.",
+      "Actor actor_celia senza goal.",
+      "Actor actor_colonel_petrov senza goal.",
+      "Actor actor_handler_mi6 senza goal.",
+      "Ally actor_handler_mi6 senza utility concreta.",
+      "Actor actor_boris_criminale senza goal.",
+      "Location loc_nave senza almeno 3 feature concrete.",
+      "Location loc_nave senza visual_identity.",
+      "Location loc_kotor senza almeno 3 feature concrete.",
+      "Location loc_kotor senza visual_identity.",
+      "Location loc_villa_merano senza almeno 3 feature concrete.",
+      "Location loc_villa_merano senza visual_identity.",
+      "Location loc_montagna_confine senza almeno 3 feature concrete.",
+      "Location loc_montagna_confine senza visual_identity.",
+      "Location loc_laboratorio senza almeno 3 feature concrete.",
+      "Location loc_laboratorio senza visual_identity.",
+      "FinaleCondition finale_cattura_nachtnebel dovrebbe richiedere almeno 2 clue.",
+      "FinaleCondition finale_cattura_nachtnebel senza metodo/scelta concreta.",
+      "FinaleCondition finale_lista_agenti dovrebbe richiedere almeno 2 clue.",
+      "FinaleCondition finale_lista_agenti senza metodo/scelta concreta."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 25,
+      "npc_agenda_score": 75,
+      "location_playability_score": 25,
+      "clock_operational_score": 33,
+      "finale_playability_score": 0,
+      "fiction_density_score": 32
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 0,
+      "locations": 5,
+      "actors": 5,
+      "clues": 7,
+      "revelations": 3
     }
   },
   "live_game_state": {

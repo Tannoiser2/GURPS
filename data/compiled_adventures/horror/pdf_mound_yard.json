@@ -1224,14 +1224,43 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 88,
-      "issues": [],
-      "warnings": [
-        "Faction count bassa (1) — normale per avventura small-town"
-      ]
+    "valid": true,
+    "playable": true,
+    "playable_score": 87,
+    "errors": [],
+    "warnings": [],
+    "suggestions": [
+      "La notte i PG possono sentire un ronzio basso dalla terra vicino ai tumuli",
+      "Silas può diventare un mentore cruciale se i PG lo trattano con rispetto",
+      "Il rituale richiede cooperazione — ottimo per creare tensione tra PG su chi va dove"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 87
+    },
+    "fidelity": {
+      "score": 100,
+      "target": 85,
+      "passes_target": true,
+      "source_card_counts": {},
+      "coverage": {
+        "locations": 100,
+        "actors": 100,
+        "clues": 100,
+        "clue_links": 100,
+        "finale": 100
+      }
+    },
+    "counts": {
+      "objectives": 5,
+      "locations": 7,
+      "actors": 4,
+      "clues": 10,
+      "revelations": 4
     }
   }
 }

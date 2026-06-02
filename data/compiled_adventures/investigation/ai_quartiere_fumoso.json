@@ -1082,12 +1082,38 @@
     "injected_clues": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 91,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 72,
+    "errors": [],
+    "warnings": [
+      "Clue clue_berni_apartment non collegato a una revelation valida.",
+      "Clue clue_red_herring_note non collegato a una revelation valida.",
+      "Actor actor_monahan ha location non riconosciuta: monahan_club.",
+      "Location restaurant_office senza almeno 3 feature concrete.",
+      "Location police_precinct senza almeno 3 feature concrete.",
+      "Location berni_apartment senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Doyle come presenza minacciosa nelle strade crea tensione costante",
+      "Berni è vulnerabile — la corsa per arrivarci prima di Monahan è il climax",
+      "La scelta finale (feds vs stampa) definisce il tono morale dell'avventura"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 89,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 84
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 5,
+      "locations": 7,
+      "actors": 3,
+      "clues": 7,
+      "revelations": 3
     }
   },
   "live_game_state": {

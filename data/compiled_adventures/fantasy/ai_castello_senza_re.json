@@ -980,12 +980,37 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 90,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 73,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_jealous non collegato a una revelation valida.",
+      "Location mira_chamber senza almeno 3 feature concrete.",
+      "Location voss_chamber senza almeno 3 feature concrete.",
+      "Location castle_tower senza almeno 3 feature concrete.",
+      "Location castle_dungeon senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Il timer del voto crea urgenza strutturale costante",
+      "Mira è più interessante di Voss — ha fatto una scelta difficile per la sua casata",
+      "Thornwood può diventare un re buono se Voss viene smascherato — l'elezione onesta è la vittoria"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 80,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 83
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 5,
+      "locations": 5,
+      "actors": 3,
+      "clues": 7,
+      "revelations": 3
     }
   }
 }

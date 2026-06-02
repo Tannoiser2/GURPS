@@ -956,12 +956,36 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 90,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 76,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_jewish non collegato a una revelation valida.",
+      "Location bishop_study senza almeno 3 feature concrete.",
+      "Location jewish_quarter senza almeno 3 feature concrete.",
+      "Location inn_outside senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Il simbolo ebraico falso è il cuore del dilemma morale — chi lo vede ci crede subito",
+      "Godfrey come antagonista simpatetico: non era malvagio, solo avido e spaventato",
+      "Il confronto con Matteo con le prove è catartico — ma lui deve scegliere di credere ai PG"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 88,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 84
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 6,
+      "locations": 6,
+      "actors": 3,
+      "clues": 6,
+      "revelations": 3
     }
   }
 }

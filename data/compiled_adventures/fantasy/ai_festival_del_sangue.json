@@ -1113,12 +1113,36 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 92,
-      "issues": [],
-      "warnings": []
+    "valid": true,
+    "playable": true,
+    "playable_score": 78,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_rivalry non collegato a una revelation valida.",
+      "Actor actor_vane ha location non riconosciuta: festival_center.",
+      "Actor actor_mira ha location non riconosciuta: tunnel_cells.",
+      "Location inn_room senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Il festival in corso crea contrasto surreale — musica e festa sopra, orrore sotto",
+      "Vane come antagonista tragico — non è sadico, crede genuinamente di proteggere la città",
+      "Il nuovo patto con l'entità è il finale più soddisfacente — risolve tutto senza violenza"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 96,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 86
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 6,
+      "locations": 7,
+      "actors": 3,
+      "clues": 9,
+      "revelations": 4
     }
   }
 }

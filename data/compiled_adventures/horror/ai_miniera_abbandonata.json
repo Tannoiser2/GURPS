@@ -815,14 +815,34 @@
     "history": []
   },
   "validation_report": {
-    "passed": true,
-    "quality_gate": {
-      "passed": true,
-      "score": 87,
-      "issues": [],
-      "warnings": [
-        "2 threads — accettabile per avventura survival diretta"
-      ]
+    "valid": true,
+    "playable": true,
+    "playable_score": 82,
+    "errors": [],
+    "warnings": [
+      "Clue clue_red_herring_gas non collegato a una revelation valida.",
+      "Location mine_office senza almeno 3 feature concrete."
+    ],
+    "suggestions": [
+      "Le creature non vanno mai viste chiaramente — solo sentite e scorte brevemente",
+      "La gestione della luce come risorsa crea tensione meccanica costante",
+      "Il salvataggio di Danny è un percorso a ritroso con creature più aggressive"
+    ],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 95,
+      "clock_operational_score": 33,
+      "finale_playability_score": 100,
+      "fiction_density_score": 86
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 5,
+      "locations": 5,
+      "actors": 2,
+      "clues": 6,
+      "revelations": 3
     }
   }
 }
