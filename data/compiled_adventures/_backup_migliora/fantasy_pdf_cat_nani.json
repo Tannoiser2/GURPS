@@ -1680,7 +1680,7 @@
         "id": "llm_clue_1",
         "label": "Aquile con teste d'uomo avvistate sulle montagne Zarak",
         "type": "scene_observation",
-        "thread_id": "T2",
+        "thread_id": "T1",
         "source_location": "catacombe_stanza_1",
         "reveals": "Creature ibride sorvegliano l'area delle montagne Zarak",
         "payoff": "I PG sanno di essere osservati e potrebbero prepararsi a ulteriori incontri",
@@ -1788,7 +1788,7 @@
         "id": "llm_clue_4",
         "label": "Diceria: maghi malvagi preparano incantesimo per il grande antico",
         "type": "testimony",
-        "thread_id": "T13",
+        "thread_id": "T4",
         "source_location": "serakis",
         "reveals": "Esiste una cospirazione magica in corso per resuscitare un'entità antica e potente",
         "payoff": "I PG capiscono la posta in gioco e potrebbero cercare di fermare il rituale",
@@ -1860,7 +1860,7 @@
         "id": "llm_clue_6",
         "label": "Bracciale d'argento maledetto nella stanza 5",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T6",
         "source_location": "catacombe_stanza_1",
         "reveals": "Il bracciale è un oggetto maledetto che infligge malattia a chi lo indossa",
         "payoff": "I PG devono decidere se portarlo via con precauzioni o lasciarlo, rischiando di ammalarsi",
@@ -1968,7 +1968,7 @@
         "id": "llm_clue_9",
         "label": "Corpo umano smembrato nella stanza 9 che diventa vampiro",
         "type": "physical_evidence",
-        "thread_id": "T13",
+        "thread_id": "T9",
         "source_location": "catacombe_stanza_1",
         "reveals": "Il corpo è una trappola non-morta che si riattiva al contatto fisico",
         "payoff": "I PG devono evitare il contatto o prepararsi a combattere un non-morto potente",
@@ -2071,174 +2071,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Resti di esploratori nella Stanza delle Tre Nicchie",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Il gruppo precedente è morto qui, terrorizzato da qualcosa",
-        "payoff": "Conferma che la minaccia è nella Stanza delle Tre Nicchie e colpisce improvvisamente",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Diario di un esploratore morto",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "Un'entità spettrale immune alle armi normali ha ucciso il gruppo e la loro guida",
-        "payoff": "Prepara i PG alla natura incorporea dello Spettro e conferma che Ben morirà qui",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Scudo respinto dalla barriera invisibile",
-        "type": "location_detail",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Esiste una barriera magica che respinge specificatamente il metallo",
-        "payoff": "Conferma il significato della poesia e indica che bisogna togliersi l'equipaggiamento metallico",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Iscrizioni naniche sulle pareti delle catacombe",
-        "type": "document",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Le catacombe proteggono deliberatamente qualcosa di sacro con guardiani permanenti",
-        "payoff": "Spiega perché ci sono non-morti e trappole: non è un'infestazione casuale ma una difesa intenzionale",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Simboli necromatici nelle nicchie",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Lo spettro è stato deliberatamente legato a questa stanza come guardiano",
-        "payoff": "Conferma che i non-morti sono difese intenzionali, non incidenti",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Avvertimento di Ben prima di entrare",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "I nani sanno che le catacombe contengono un segreto pericoloso intenzionalmente sepolto",
-        "payoff": "Fornisce contesto: questa non è una normale cripta ma un deposito sigillato",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Cadavere smembrato con segni rituali",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Il vampiro è un altro guardiano creato magicamente, non una vittima casuale",
-        "payoff": "Completa il quadro: tutti i non-morti sono difese magiche intenzionali",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -2311,8 +2143,8 @@
         "secret": "È uno spettro completamente etereo che non può realmente danneggiare fisicamente i PG, solo tagliare il ponte",
         "agenda_pressure": 0,
         "fear": "Che i PG scoprano la sua natura eterea prima di poter agire",
-        "current_plan": "Bloccare i viaggiatori sul ponte di corda terrorizzandoli con minacce spettrali finché non abbandonano i loro beni sul ponte, che poi 'scompaiono' misteriosamente",
-        "fallback_plan": "Se i PG scoprono la sua natura eterea, usare la minaccia reale di tagliare il ponte per estorcere comunque un tributo, poi sparire nelle nebbie montane",
+        "current_plan": "Bloccare i PG sul ponte di corda dove sono vulnerabili e intrappolati, estorcere tutti i loro beni con minacce sempre più aggressive, usando la capacità di tagliare le corde come unica vera arma",
+        "fallback_plan": "Se i PG scoprono che è etereo e non può danneggiarli direttamente, distruggere completamente il ponte per vendetta e impedire loro di raggiungere le catacombe, condannandoli a trovare un percorso alternativo lungo giorni",
         "resources": [
           "accessi",
           "contatti",
@@ -2334,16 +2166,16 @@
           "Perdere l'opportunità di derubare i viaggiatori"
         ],
         "pressure_response": {
-          "low": "Minaccia con voce spettrale e gesti drammatici, facendo tintinnare catene invisibili e mostrando la sua sciabola fosforescente",
-          "medium": "Ordina ai suoi compari fantasma di circondare i PG sul ponte, creando illusioni di tocchi gelidi e sussurri terrorizzanti",
-          "high": "Simula attacchi violenti passando attraverso i PG lasciandoli intatti ma terrorizzati, urla che taglierà il ponte se non obbediscono immediatamente",
-          "extreme": "Taglia effettivamente le corde del ponte per far precipitare i PG, unica vera minaccia che può attuare, sperando che cedano prima del crollo totale"
+          "low": "Appare come spettro minaccioso sul ponte, brandendo sciabola eterea e urlando pretese di pedaggio con voce cavernosa, contando sul terrore per ottenere obbedienza immediata",
+          "medium": "Finge di prepararsi a colpire i PG con gesti teatrali, facendo gemere il ponte e tagliando qualche corda laterale per dimostrare la 'potenza' della sua lama spettrale",
+          "high": "Taglia improvvisamente una delle corde portanti del ponte facendolo oscillare pericolosamente, minacciando di farlo crollare completamente se non gettano tutti i loro beni nel baratro",
+          "extreme": "Recide tutte le corde da un lato facendo pendere il ponte verticalmente, urlando che li lascerà cadere nell'abisso uno ad uno finché non gli consegnano ogni singolo oggetto magico e prezioso"
         },
         "reaction_table": {
-          "se_minacciato": "Diventa isterico e teatrale, attraversa i PG ripetutamente per intimidirli, ma evita accuratamente ogni vera prova fisica della sua natura eterea",
-          "se_corrotto": "Finge interesse ma chiede solo oggetti che può 'vedere portare via dai suoi uomini', mai toccarli direttamente, inventa scuse elaborate",
-          "se_i_pg_hanno_prove": "Ride amaramente ammettendo la sua condanna eterna, supplica di essere ricordato come fu in vita, offre informazioni sulle catacombe in cambio di una promessa",
-          "se_alleato": "Condivide la sua maledizione: è legato al ponte da mille anni, avverte dei veri pericoli nelle catacombe dove anche lui morì durante il Banestorm"
+          "se_minacciato": "Rincula teatralmente fingendo paura, poi ride beffardo sostenendo di essere già morto e invulnerabile, intensificando le minacce sul ponte",
+          "se_corrotto": "Pretende sempre di più con avidità crescente, mai soddisfatto, rivelando involontariamente la sua natura spettrale nell'afferrare goffamente oggetti solidi",
+          "se_i_pg_hanno_prove": "Se smascherato come etereo, diventa furioso e disperato, tagliando le corde del ponte per vendetta prima di dissolversi urlando maledizioni sui tesori delle catacombe",
+          "se_alleato": "Impossibile: è troppo consumato dall'avidità post-morte e dalla frustrazione di non poter toccare il tesoro che bramava in vita"
         },
         "pressure_events": [],
         "relationships": [
@@ -2367,11 +2199,11 @@
         "location_id": "catacombe_stanza_1",
         "status": "unintroduced",
         "goal": "Uccidere immediatamente Ben Spaccamontagne nella stanza 2",
-        "secret": "Lo spettro confonde Ben con un antico comandante che mille anni fa guidò i nani in una trappola durante il Banestorm - Ben potrebbe essere un discendente o semplicemente somigliare troppo. Lo spettro ha dimenticato la verità attraverso i secoli di tormento, e una parte residua della sua anima nanica desidera disperatamente essere liberata dall'ossessione",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Essere esorcizzato o distrutto dai PG prima di completare l'attacco",
-        "current_plan": "Attendere che il gruppo entri nella stanza 2 delle catacombe, dove la sua essenza è più forte, poi manifestarsi improvvisamente per uccidere Ben con tocco spettrale prima che possa reagire o fuggire",
-        "fallback_plan": "Se fallisce l'attacco iniziale, tormentare Ben con visioni e attacchi notturni durante tutto il viaggio nelle catacombe, indebolendolo progressivamente fino a poterlo reclamare, anche possedendo altri cadaveri come tramiti",
+        "current_plan": "Attendere che Ben entri nella stanza 2 delle catacombe, quindi manifestarsi istantaneamente alle sue spalle e trafiggergli il cuore con un tocco gelido che congela l'anima prima che possa gridare aiuto.",
+        "fallback_plan": "Se Ben viene protetto o allontanato, lo Spettro lo perseguiterà attraverso le catacombe usando il suo legame con le mura antiche. Apparirà ripetutamente da soffitti, pavimenti e muri finché Ben non sarà isolato o i PG non scopriranno come spezzare la maledizione.",
         "resources": [
           "accessi",
           "contatti",
@@ -2393,16 +2225,16 @@
           "Essere allontanato dalla stanza 2"
         ],
         "pressure_response": {
-          "low": "Rimane nascosto nelle ombre della stanza 2, sussurrando antiche maledizioni in nanico e manifestando freddo innaturale per attirare Ben lontano dal gruppo",
-          "medium": "Si materializza parzialmente creando illusioni di nani morti che accusano Ben di tradimento, tentando di separarlo fisicamente dai PG mentre drena calore e speranza dall'ambiente",
-          "high": "Attacca direttamente Ben con tocchi necrotici e urla spettrali assordanti, ignorando completamente i PG a meno che non si frappongano tra lui e il suo obiettivo",
-          "extreme": "Si fonde con le pareti della catacomba per inseguire Ben ovunque, possedendo temporaneamente cadaveri nanici antichi per bloccare le vie di fuga e trascinare Ben nell'aldilà"
+          "low": "Lo Spettro resta immobile nelle ombre della stanza 2, la sua presenza è appena percepibile come un freddo innaturale. Attende pazientemente che Ben entri nel suo raggio d'azione.",
+          "medium": "Manifesta parzialmente la sua forma eterea, creando un'aura di terrore gelido. Emette sussurri in nanico antico che riecheggiano nelle catacombe: 'Ben... traditore... devi pagare...'",
+          "high": "Si materializza completamente davanti a Ben, il volto spettrale contorto in un'espressione di odio millenario. Attacca con tocchi gelidi che prosciugano la vita, ignorando completamente gli altri PG a meno che non proteggano il suo bersaglio.",
+          "extreme": "Scatena tutta la sua furia non-morta, evocando echi spettrali di altri nani caduti nel Banestorm per sopraffare chiunque si frapponga tra lui e Ben. Insegue Ben attraverso le catacombe senza tregua."
         },
         "reaction_table": {
-          "se_minacciato": "Ride amaramente e dichiara che solo Ben deve pagare per un crimine dimenticato, offrendo di risparmiare tutti gli altri se glielo consegnano",
-          "se_corrotto": "Non può essere corrotto - è pura vendetta condensata, ma potrebbe essere temporaneamente placato se i PG scoprono e correggono l'antico torto subito",
-          "se_i_pg_hanno_prove": "Se i PG dimostrano che Ben è innocente o che lo spettro cerca vendetta sulla persona sbagliata, esita manifestando confusione e dolore",
-          "se_alleato": "Impossibile come alleato finché Ben vive, ma se Ben muore o viene allontanato permanentemente, potrebbe diventare un guardiano tormentato delle catacombe"
+          "se_minacciato": "Se attaccato prima di raggiungere Ben, si dissolve attraverso i muri e riappare più vicino al suo vero obiettivo. Non si lascia distrarre dalla propria incolumità.",
+          "se_corrotto": "Non può essere corrotto o ragionato. La sua esistenza è vincolata a un'unica ossessione: Ben Spaccamontagne deve morire per un torto commesso mille anni fa da un suo antenato.",
+          "se_i_pg_hanno_prove": "Se i PG scoprono un antico sigillo nanico o la vera storia del tradimento nella stanza 1, lo Spettro può essere momentaneamente respinto pronunciando il nome del suo clan dimenticato.",
+          "se_alleato": "L'unico modo per 'allearlo' è consegnare Ben al suo destino. Se Ben muore per sua mano, lo Spettro si dissolve in pace e benedice i PG con la conoscenza di un tesoro nascosto."
         },
         "pressure_events": [],
         "relationships": [],
@@ -2423,8 +2255,8 @@
         "secret": "Può ricomporsi istantaneamente in un turno se anche un solo pezzo viene toccato",
         "agenda_pressure": 0,
         "fear": "Che i PG escano dalla stanza prima che possa ricomporsi completamente",
-        "current_plan": "Attendere pazientemente che qualche esploratore, mosso da curiosità o pietà, tocchi anche solo un frammento del suo corpo smembrato per riacquisire forma completa.",
-        "fallback_plan": "Se i PG tentano di fuggire dopo averlo risvegliato, lancerà parti di sé stesso contro di loro, poi si ricomporrà lentamente strisciando pezzo per pezzo verso l'uscita.",
+        "current_plan": "Attendere pazientemente smembrato che qualcuno tocchi un pezzo o entri nella stanza 9, ricomporsi istantaneamente e attaccare per nutrirsi del primo sangue in secoli",
+        "fallback_plan": "Se i PG fuggono dalle catacombe, inseguirli attraverso i tunnel usando la capacità di smembrarsi per passare attraverso fessure, o rimanere nascosto finché non tornano o arrivano altri visitatori",
         "resources": [
           "accessi",
           "contatti",
@@ -2446,16 +2278,16 @@
           "Che i PG fuggano dalla piccola stanza"
         ],
         "pressure_response": {
-          "low": "Rimane immobile, smembrato in pezzi sparsi nella stanza, fingendosi solo resti antichi. Un dito potrebbe muoversi impercettibilmente.",
-          "medium": "Se i PG si avvicinano troppo ai pezzi, inizia a far cadere polvere dal soffitto e creare correnti d'aria innaturali per spingerli a toccare qualche frammento.",
-          "high": "Fa rotolare attivamente verso i PG un dito o un braccio staccato, cercando il contatto fisico. Emette sibili gutturali dalle fauci separate dal corpo.",
-          "extreme": "Se anche un solo pezzo viene toccato, si ricompone istantaneamente in un turbine di carne morta e attacca con ferocia disperata, cercando di trascinare le vittime verso gli altri pezzi sparsi."
+          "low": "Rimane smembrato e immobile nelle varie stanze delle catacombe, i pezzi sembrano ossa antiche o resti mummificati innocui",
+          "medium": "Se un PG tocca anche solo un frammento, si ricompone istantaneamente nella stanza 9, emettendo un sibilo gutturale che echeggia nelle catacombe",
+          "high": "Attacca ferocemente chiunque sia nella stanza 9, usando artigli e zanne, cercando di trascinare le vittime negli angoli bui per nutrirsi",
+          "extreme": "Se gravemente ferito, si smembra volontariamente spargendo i pezzi in fuga attraverso le catacombe, ogni frammento striscia autonomamente verso nascondigli diversi per rigenerarsi"
         },
         "reaction_table": {
-          "se_minacciato": "Disperde ulteriormente i propri pezzi per la stanza, rendendosi più difficile da distruggere completamente. Sacrifica arti come esche.",
-          "se_corrotto": "Non può essere corrotto - è mosso solo da fame millenaria e follia. Potrebbe però essere ingannato disperdendo i suoi pezzi in contenitori separati.",
-          "se_i_pg_hanno_prove": "Non comprende più il linguaggio o la ragione. Reagisce solo a movimento, calore e contatto fisico.",
-          "se_alleato": "Impossibile - è una creatura completamente degradata dalla non-morte. L'unico suo 'alleato' è chiunque tocchi i suoi resti innescando la ricomposizione."
+          "se_minacciato": "Si smembra tatticamente lasciando pezzi-esca mentre il torso principale fugge, poi si ricompone quando i PG abbassano la guardia",
+          "se_corrotto": "Non può essere corrotto - è una creatura non-morta animata solo da fame di sangue e dall'eco della maledizione del Banestorm",
+          "se_i_pg_hanno_prove": "Se scoprono che ogni pezzo può ricomporlo, potrebbe fingere di essere 'morto definitivamente' per poi ricomporsi quando raccolgono i frammenti come trofei",
+          "se_alleato": "Impossibile come alleato - è un predatore puro senza intelletto residuo, solo istinto di caccia e fame millenni di vampiro delle catacombe"
         },
         "pressure_events": [],
         "relationships": [],
@@ -2479,7 +2311,6 @@
           "llm_clue_4"
         ],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -2512,16 +2343,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "ponte_di_corda"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2534,7 +2355,6 @@
         "status": "unknown",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "outdoor",
@@ -2565,16 +2385,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "serakis"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2601,7 +2411,6 @@
           "capo_pirata",
           "spettro_catacombe"
         ],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -2632,16 +2441,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_2"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2654,7 +2453,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -2685,17 +2483,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_1",
-          "catacombe_stanza_3"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2708,7 +2495,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -2738,17 +2524,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_2",
-          "catacombe_stanza_5"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2761,7 +2536,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -2791,17 +2565,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_3",
-          "catacombe_stanza_6"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2814,7 +2577,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -2845,17 +2607,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_5",
-          "catacombe_stanza_7"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2868,7 +2619,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -2899,17 +2649,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_6",
-          "catacombe_stanza_8"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2922,7 +2661,6 @@
         "status": "hidden",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -2954,17 +2692,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_7",
-          "catacombe_stanza_9"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -2979,7 +2706,6 @@
         "contains_actors": [
           "vampiro_smembrato"
         ],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "dungeon",
@@ -3009,16 +2735,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "ponte_di_corda",
-        "location_type": "local",
-        "connections_to": [
-          "catacombe_stanza_8"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -3190,207 +2906,7 @@
         "concrete_choice": "Confessare ai nani che Ben è morto durante l'esplorazione per cause della spedizione e negoziare una riparazione o accettare le conseguenze"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "Cosa è successo ai visitatori scomparsi?",
-        "question": "Quale minaccia ha ucciso il gruppo precedente di esploratori?",
-        "true_answer": "Lo Spettro delle Catacombe nella Stanza delle Tre Nicchie ha ucciso i visitatori precedenti, inclusa la loro guida, e ora attacca chiunque entri",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_3",
-          "llm_clue_5",
-          "nuovo_clue_1",
-          "nuovo_clue_2"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Spettro delle Catacombe",
-          "Ben Spaccamontagne"
-        ],
-        "linked_locations": [
-          "Stanza delle Tre Nicchie"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Come raggiungere il sangue di Shaltar?",
-        "question": "Come superare la protezione magica dell'altare per ottenere il calice?",
-        "true_answer": "La barriera anti-metallo dell'altare respinge armi e armature metalliche; bisogna avvicinarsi senza equipaggiamento metallico e usare l'anello nella fessura per disattivare la protezione",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_7",
-          "llm_clue_8",
-          "llm_clue_10",
-          "nuovo_clue_3"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "linked_locations": [
-          "Cripta dei Quattro Nani"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Qual è la vera natura del pericolo nelle catacombe?",
-        "question": "Perché le catacombe sono così pericolose e chi ha creato queste difese?",
-        "true_answer": "Le catacombe sono state trasformate in una tomba-trappola per proteggere il sangue di Shaltar; i non-morti sono guardiani creati da magia necomantica, e le trappole anti-metallo sono state progettate contro saccheggiatori armati",
-        "status": "hidden",
-        "required_clues": [
-          "nuovo_clue_4",
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "nuovo_clue_7"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Spettro delle Catacombe",
-          "Vampiro Smembrato"
-        ],
-        "linked_locations": [
-          "Cripta dei Quattro Nani",
-          "Stanza delle Tre Nicchie"
-        ]
-      },
-      {
-        "id": "T2",
-        "title": "T2",
-        "question": "Chi o cosa sta sorvegliando il percorso verso le catacombe e quali sono le loro intenzioni?",
-        "true_answer": "Le aquile con teste d'uomo e i pirati eterei sono guardiani soprannaturali che sorvegliano l'accesso alle catacombe. Sono troppo potenti per essere affrontati in combattimento diretto; i PG devono evitarli, negoziarci o fuggire strategicamente.",
-        "collected_clue_ids": [
-          "llm_clue_1",
-          "llm_clue_2"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T3",
-        "title": "T3",
-        "question": "Cosa è successo al gruppo di visitatori precedente che non è più tornato dalle catacombe?",
-        "true_answer": "Il gruppo precedente è rimasto intrappolato nelle catacombe e probabilmente è morto o è stato trasformato in non-morti. Le loro tracce possono fornire indizi vitali sui pericoli che attendono i PG all'interno.",
-        "collected_clue_ids": [
-          "llm_clue_3"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T5",
-        "title": "T5",
-        "question": "Come possono i PG uscire dalle catacombe dopo la morte della loro guida Ben?",
-        "true_answer": "Con Ben morto per mano dello spettro, i PG devono navigare le catacombe da soli e trovare un'uscita alternativa. Al loro ritorno, dovranno affrontare le guardie naniche sospettose che li accuseranno della morte della guida.",
-        "collected_clue_ids": [
-          "llm_clue_5"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T7",
-        "title": "T7",
-        "question": "Come si può attraversare la nebbia misteriosa descritta nella poesia dell'altare?",
-        "true_answer": "La poesia rivela che il metallo attrae o attiva la nebbia mortale. I PG devono abbandonare tutte le armi e armature metalliche per attraversare la nebbia in sicurezza e procedere nelle catacombe.",
-        "collected_clue_ids": [
-          "llm_clue_7"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T8",
-        "title": "T8",
-        "question": "Qual è il vero scopo del calice d'oro contenente il sangue magico di Shaltar?",
-        "true_answer": "Il sangue magico di Shaltar nel calice d'oro è l'ingrediente chiave per completare o impedire un pericoloso rituale dedicato a un grande antico. Ottenere il calice è cruciale per la missione dei PG.",
-        "collected_clue_ids": [
-          "llm_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T10",
-        "title": "T10",
-        "question": "A cosa serve l'anello trovato nella fessura dell'altare della stanza 8?",
-        "true_answer": "L'anello e la fessura dell'altare formano un meccanismo di evacuazione d'emergenza che permette ai PG di fuggire rapidamente dalle catacombe quando affrontano un pericolo mortale imminente.",
-        "collected_clue_ids": [
-          "llm_clue_10"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rituale",
-        "title": "T rituale",
-        "question": "Perché le catacombe sono state riaperte ai visitatori dopo tanto tempo?",
-        "true_answer": "Le catacombe sono in realtà una trappola mortale orchestrata da maghi malvagi. Ogni gruppo di visitatori viene sacrificato in un rituale per evocare o nutrire un grande antico, usando il sangue magico di Shaltar come catalizzatore.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_maledizione",
-        "title": "T maledizione",
-        "question": "Qual è il destino di coloro che toccano o prendono gli oggetti trovati nelle catacombe?",
-        "true_answer": "Gli oggetti nelle catacombe sono maledetti per trasformare i visitatori in non-morti. Questi non-morti diventano guardiani eterni delle catacombe, alimentando perpetuamente le difese magiche del luogo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_tradimento",
-        "title": "T tradimento",
-        "question": "La morte di Ben lo spettro è stata davvero un incidente?",
-        "true_answer": "Ben era segretamente complice dei maghi malvagi. La sua morte per mano dello spettro era pianificata come parte del rituale di sangue, rendendo la sua guida un tradimento premeditato sin dall'inizio.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_soluzione",
-        "title": "T soluzione",
-        "question": "Esiste un modo per neutralizzare definitivamente la minaccia delle catacombe?",
-        "true_answer": "L'anello della stanza 8 non serve solo per fuggire, ma è la chiave magica per sigillare definitivamente le catacombe. Usandolo correttamente, i PG possono impedire per sempre l'utilizzo del sangue di Shaltar e fermare i rituali.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_guardiani",
-        "title": "T guardiani",
-        "question": "Perché creature soprannaturali come le aquile con teste d'uomo sorvegliano le montagne Zarak?",
-        "true_answer": "Questi guardiani sono stati evocati e vincolati dai maghi malvagi per proteggere l'accesso alle catacombe e impedire che qualcuno interferisca con il loro piano di sacrificio rituale per il grande antico.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 9,
@@ -5453,8 +4969,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
