@@ -8997,7 +8997,7 @@
         "id": "llm_clue_1",
         "label": "Teste decapitate mancanti",
         "type": "forensic",
-        "thread_id": "T13",
+        "thread_id": "T1",
         "source_location": "The Scene of the Killings",
         "reveals": "Le vittime sono state decapitate in modo violento e le teste sono scomparse",
         "payoff": "I PG capiscono che non si tratta di un normale omicidio ma di qualcosa di soprannaturale",
@@ -9033,7 +9033,7 @@
         "id": "llm_clue_2",
         "label": "Omicidi silenziosi",
         "type": "scene_observation",
-        "thread_id": "T13",
+        "thread_id": "T2",
         "source_location": "The Scene of the Killings",
         "reveals": "Gli omicidi sono stati completamente silenziosi nonostante la violenza",
         "payoff": "I PG capiscono che il killer ha capacità soprannaturali e può colpire senza preavviso",
@@ -9105,7 +9105,7 @@
         "id": "llm_clue_4",
         "label": "Candela nera di maiale acquistata dalle vittime",
         "type": "physical_evidence",
-        "thread_id": "T11",
+        "thread_id": "T4",
         "source_location": "The Scene of the Killings",
         "reveals": "Le vittime possedevano una candela occulta di origine misteriosa",
         "payoff": "I PG collegano le candele del Candleman agli omicidi e possono rintracciare il produttore",
@@ -9141,7 +9141,7 @@
         "id": "llm_clue_5",
         "label": "Consegne di candele nere al negozio",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T5",
         "source_location": "Part 2: Working the Town",
         "reveals": "Il negozio locale è il punto di distribuzione delle candele maledette",
         "payoff": "I PG identificano la fonte delle candele e possono risalire al Candleman",
@@ -9177,7 +9177,7 @@
         "id": "llm_clue_6",
         "label": "La vedova Gardner acquista candele nere",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T6",
         "source_location": "Part 2: Working the Town",
         "reveals": "Harriet Gardner, la vedova influente, è cliente delle candele occulte",
         "payoff": "I PG scoprono che qualcuno sta intenzionalmente usando le candele contro l'orfanotrofio",
@@ -9213,7 +9213,7 @@
         "id": "llm_clue_7",
         "label": "Marito della vedova ucciso nel bordello",
         "type": "testimony",
-        "thread_id": "T12",
+        "thread_id": "T7",
         "source_location": "Harriet's Motives",
         "reveals": "La vedova vuole distruggere l'orfanotrofio per vendetta usando magia nera",
         "payoff": "I PG capiscono il movente e possono fermare la vedova prima che accenda altre candele",
@@ -9249,7 +9249,7 @@
         "id": "llm_clue_8",
         "label": "Candele fatte con grasso di maiali nutriti con cadaveri",
         "type": "scene_observation",
-        "thread_id": "T11",
+        "thread_id": "T8",
         "source_location": "The Candleman's Hog Farm",
         "reveals": "Le candele sono create attraverso necrofagia ritualistica e hanno poteri maledetti",
         "payoff": "I PG comprendono l'origine del male e possono distruggere la fonte",
@@ -9285,7 +9285,7 @@
         "id": "llm_clue_9",
         "label": "Ubicazione del Candleman in un canyon",
         "type": "testimony",
-        "thread_id": "T11",
+        "thread_id": "T9",
         "source_location": "Part 2: Working the Town",
         "reveals": "La posizione del produttore delle candele maledette è un canyon remoto",
         "payoff": "I PG possono pianificare una spedizione per fermare la fonte delle candele",
@@ -9321,7 +9321,7 @@
         "id": "llm_clue_10",
         "label": "L'Innominate Man tornerà per altre teste innocenti",
         "type": "document",
-        "thread_id": "T3",
+        "thread_id": "T10",
         "source_location": "The Candleman's Cabin",
         "reveals": "La creatura evocata dalle candele tornerà per uccidere ancora",
         "payoff": "I PG devono correre contro il tempo per tornare e proteggere gli orfani",
@@ -9424,222 +9424,6 @@
         "inferred_payoff": false,
         "confidence": 0.75,
         "llm_extracted": true
-      },
-      {
-        "id": "nuovo_clue_1",
-        "label": "Ossa umane nel porcile del Candleman",
-        "type": "physical_evidence",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "I maiali del Candleman sono stati nutriti con carne umana",
-        "payoff": "Conferma che le candele sono fatte con grasso di maiali cannibali, spiegando la loro natura maledetta",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_2",
-        "label": "Registro delle vendite del General Store",
-        "type": "document",
-        "thread_id": "T11",
-        "source_location": "",
-        "reveals": "C'è una connessione commerciale tra il Candleman, il negozio e Harriet Gardner",
-        "payoff": "Identifica il canale di distribuzione delle candele maledette e il ruolo di Harriet",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_3",
-        "label": "Diario di Harriet Gardner",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Harriet cerca vendetta contro tutti coloro che frequentavano il bordello di St. Cecilia",
-        "payoff": "Rivela il movente e il piano di Harriet di usare le candele come arma di vendetta selettiva",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_4",
-        "label": "Lista dei peccatori di Harriet",
-        "type": "document",
-        "thread_id": "T12",
-        "source_location": "",
-        "reveals": "Harriet sta selezionando sistematicamente le vittime tra gli ex clienti del bordello",
-        "payoff": "Permette di identificare le prossime vittime potenziali e conferma Harriet come mandante",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_5",
-        "label": "Simboli occulti sul pavimento dell'orfanotrofio",
-        "type": "physical_evidence",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Gli omicidi non sono casuali ma legati a rituali occulti specifici della location",
-        "payoff": "Conferma che l'edificio stesso è parte del rituale di evocazione",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_6",
-        "label": "Testimonianza delle suore sul passato oscuro",
-        "type": "testimony",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Il bordello aveva già una storia di morti misteriose prima di diventare orfanotrofio",
-        "payoff": "Spiega perché l'Innominate Man è legato a questo specifico edificio e alla sua storia maledetta",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_7",
-        "label": "Comportamento nervoso di Holly Watling",
-        "type": "behavior",
-        "thread_id": "T13",
-        "source_location": "",
-        "reveals": "Holly ha assistito all'evocazione dell'Innominate Man e sa che le candele sono il trigger",
-        "payoff": "Testimone oculare che può descrivere la manifestazione dell'entità se viene rassicurata",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_8",
-        "label": "Odore nauseabondo delle candele nere",
-        "type": "physical_evidence",
-        "thread_id": "T4",
-        "source_location": "",
-        "reveals": "Le candele sono fatte con materiale organico in decomposizione o contaminato",
-        "payoff": "Indizio sensoriale che qualcosa non è naturale nella composizione delle candele",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
-      },
-      {
-        "id": "nuovo_clue_9",
-        "label": "Direzione delle consegne notturne",
-        "type": "testimony",
-        "thread_id": "T9",
-        "source_location": "",
-        "reveals": "La base operativa del Candleman si trova nel canyon a nord-ovest della città",
-        "payoff": "Fornisce la direzione precisa per localizzare il Candleman e il suo laboratorio",
-        "state": "hidden",
-        "progress_ticks": 0,
-        "is_required": true,
-        "revelation_ids": [],
-        "immediate_information": "",
-        "hidden_implication": "",
-        "unlocks": [],
-        "possible_actions": [],
-        "wrong_interpretations": [],
-        "source_ref": {},
-        "source_status": "generated",
-        "is_preserved_from_pdf": false,
-        "inferred_payoff": false,
-        "confidence": 1.0,
-        "llm_extracted": false
       }
     ],
     "actors": [
@@ -9650,11 +9434,11 @@
         "location_id": "section_1",
         "status": "unintroduced",
         "goal": "Delegare l'indagine sui due omicidi ai PG prima di partire per Santa Fe per il matrimonio della sorella",
-        "secret": "Ha visitato il bordello di St Cecilia regolarmente per anni—non per i servizi, ma per giocare a poker nel retrobottega con altri notabili della città. Teme che i registri o testimoni del vecchio bordello possano emergere durante l'indagine, rovinando il suo matrimonio imminente con una vedova rispettabile di Santa Fe che crede sia sempre stato un uomo di stretta moralità.",
+        "secret": "",
         "agenda_pressure": 0,
         "fear": "Che le decapitazioni distruggano la sua reputazione appena guadagnata e che Tunis precipiti nel caos durante la sua assenza",
-        "current_plan": "Convincere i PG ad accettare l'indagine entro oggi, delegare tutto al suo deputy senior Buck Thornton, partire domani all'alba per Santa Fe con la coscienza relativamente pulita e la speranza che il caso si risolva da solo.",
-        "fallback_plan": "Se i PG rifiutano o la situazione degenera prima della sua partenza, telegraferà a Santa Fe chiedendo l'intervento dei Marshal federali, scaricando così la responsabilità ma rovinando la sua reputazione presso il Governatore che voleva 'discrezione locale'.",
+        "current_plan": "Nominare i PG come investigatori speciali temporanei, fornire loro badge e autorità limitata, poi partire per Santa Fe come previsto contando che risolvano tutto in sua assenza. Lasciare il deputato Morales a fare da contatto",
+        "fallback_plan": "Se la situazione peggiora prima della sua partenza, telegrafare al Marshal territoriale a Santa Fe chiedendo rinforzi, rovinando così il matrimonio della sorella ma salvando la sua carriera. In extremis, dare fuoco agli archivi del bordello e incolpare vagabondi messicani",
         "resources": [
           "accessi",
           "contatti",
@@ -9676,16 +9460,16 @@
           "Apparire incompetente di fronte ai cittadini"
         ],
         "pressure_response": {
-          "low": "Mantiene un contegno professionale e cordiale, offre whisky e sigari mentre spiega la situazione con tono paterno. Minimizza la gravità degli omicidi chiamandoli 'disgrazie' e assicura che si tratta di briganti o vagabondi.",
-          "medium": "Diventa brusco e sbrigativo, consulta ossessivamente l'orologio da taschino. Aumenta la ricompensa offerta e accenna vagamente a 'opportunità future' se i PG risolvono tutto prima della sua partenza. Inizia a sudare visibilmente.",
-          "high": "Alza la voce rivelando frustrazione, ammette che il Governatore gli ha scritto personalmente chiedendo risposte. Confessa che sua sorella lo odierà se manca il matrimonio, ma che perderà il distintivo se non risolve il caso. Offre accesso completo all'ufficio e ai suoi deputy.",
-          "extreme": "Crolla sulla sedia ammettendo di aver trovato strani simboli sulla scena del crimine che ha nascosto per paura che lo prendessero per pazzo. Rivela che una delle vittime era suo informatore e che teme che qualcuno stia prendendo di mira chi sa troppo sul vecchio bordello."
+          "low": "Minimizza gli omicidi come 'tragedia isolata' e insiste che tutto è sotto controllo. Offre whiskey e chiede ai PG di fare rapporto direttamente a lui prima di condividere informazioni con altri",
+          "medium": "Diventa difensivo sulla sua decisione di partire per Santa Fe. Menziona che 'le suore sono brave donne' e che 'il bordello aveva nemici'. Inizia a sudare e controllare l'orologio da tasca ossessivamente",
+          "high": "Ammette di aver ricevuto pressioni dal Vescovo per chiudere velocemente il caso. Rivela dettagli sulle decapitazioni che non aveva condiviso: le teste sono sparite e sui corpi c'erano strani segni di bruciature",
+          "extreme": "Crolla emotivamente, confessa di aver visto qualcosa di 'innaturale' sulla scena del crimine la prima notte - ombre che si muovevano contro la luce delle lampade. Supplica i PG di risolvere tutto prima del suo ritorno perché teme per la sua reputazione e sanità mentale"
         },
         "reaction_table": {
-          "se_minacciato": "Porta la mano alla fondina ma non estrae, si appella alla sua autorità legale. Se la minaccia persiste, chiama i suoi tre deputy che pattugliano fuori. Annota mentalmente i volti per future ritorsioni.",
-          "se_corrotto": "Finge indignazione ma ascolta l'offerta. Se sostanziosa (100+ dollari), accetta di 'dimenticare' dettagli minori o fornire informazioni riservate, giustificandosi che 'un uomo deve pensare al suo futuro'.",
-          "se_i_pg_hanno_prove": "Si irrigidisce, chiede di vedere tutto immediatamente. Se le prove sono solide, diventa cooperativo e condivide tutto quello che sa, compreso il suo segreto sui simboli. Vede nei PG la sua salvezza.",
-          "se_alleato": "Diventa sorprendentemente vulnerabile, confida le sue paure sul caso e sulla città. Offre il suo cavallo migliore, munizioni gratuite dal deposito, e promette di coprire le spalle dei PG con le autorità territoriali."
+          "se_minacciato": "Mette mano alla stella e ricorda ai PG della sua autorità, ma la voce trema. Minaccia di arrestarli per ostruzione, ma è chiaramente bluffando - ha troppo bisogno che risolvano il caso",
+          "se_corrotto": "Rifiuta denaro ma accetta 'favori futuri non specificati'. Diventa più loquace sul passato scandaloso del bordello e sui 'rituali strani' di cui si vociferava negli anni di Madame Laveau",
+          "se_i_pg_hanno_prove": "Diventa pallido e nervoso. Chiede di vedere tutto 'ufficialmente' ma poi suggerisce di bruciare prove troppo 'disturbanti' per non causare panico. Offre badge deputati temporanei per legittimare le loro azioni",
+          "se_alleato": "Condivide la sua flask personale e ammette che 'questo territorio ha cose che la legge non può gestire'. Fornisce chiavi dell'orfanotrofio e accesso agli archivi sui precedenti proprietari del bordello"
         },
         "pressure_events": [],
         "relationships": [
@@ -9712,8 +9496,8 @@
         "secret": "Gestiva il bordello con disciplina ferrea e conosce i segreti oscuri di molti cittadini rispettabili di Tunis, inclusi i nemici della conversione",
         "agenda_pressure": 0,
         "fear": "Che gli omicidi facciano chiudere l'orfanotrofio e distruggano la sua redenzione agli occhi della comunità",
-        "current_plan": "Mantenere l'orfanotrofio operativo a ogni costo, usando il ricatto per silenziare chi indaga. Contemporaneamente, cerca di convincere Madre Superiora a sigillare definitivamente le cantine.",
-        "fallback_plan": "Se l'orfanotrofio viene chiuso, rivelerà pubblicamente tutti gli scandali della città in un ultimo atto di vendetta, distruggendo l'élite di Tunis che ora finge rispettabilità",
+        "current_plan": "Mantenere le apparenze dell'orfanotrofio rispettabile mentre protegge le suore e il loro segreto. Usa i registri nascosti del bordello come assicurazione contro chiunque indaghi troppo. Monitora i bambini e le ex prostitute per evitare fughe di notizie.",
+        "fallback_plan": "Se la situazione diventa insostenibile, bruciare tutti i registri del bordello e accusare pubblicamente uno dei vecchi clienti potenti di essere responsabile degli omicidi, usando le prove accumulate in anni di attività. Fuggire a Santa Fe con i fondi nascosti prima che la verità sulle suore emerga completamente.",
         "resources": [
           "accessi",
           "contatti",
@@ -9735,16 +9519,16 @@
           "Il ritorno alla sua vecchia vita come maîtresse"
         ],
         "pressure_response": {
-          "low": "Risponde con cortesia formale e riferimenti biblici, sottolineando la nobiltà della missione caritatevole. Offre tè e biscotti, mostrando l'orfanotrofio come esempio di redenzione.",
-          "medium": "Diventa fredda e tagliente. Ricorda ai PG i 'sacrifici' fatti da persone rispettabili per questa causa. Accenna velatamente a conoscere segreti che potrebbero rovinare reputazioni se l'orfanotrofio venisse screditato.",
-          "high": "Gli occhi si induriscono con la spietatezza della vecchia maîtresse. Nomina esplicitamente cittadini influenti e i loro 'peccati passati'. Minaccia di rivelare tutto se continuano a indagare, rovinando metà della città.",
-          "extreme": "Crolla parzialmente, ammettendo che 'qualcosa di antico' dormiva nelle fondamenta del bordello. Confessa che tre bambini dell'orfanotrofio sono scomparsi nelle cantine, ma le suore le hanno proibito di parlarne per non compromettere l'opera pia."
+          "low": "Risponde con cortesia formale, enfatizzando la missione caritatevole dell'orfanotrofio. Offre tè e biscotti mentre mostra con orgoglio i dormitori puliti e i bambini ben curati. Sottolinea la benedizione della conversione.",
+          "medium": "Il tono si irrigidisce. Ricorda ai visitatori che molte persone rispettabili di Tunis sostengono l'orfanotrofio e non gradirebbero voci scandalose. Menziona casualmente nomi di cittadini influenti, lasciando intendere connessioni pericolose.",
+          "high": "Gli occhi si induriscono rivelando la madame che era. Minaccia velate: 'Ho gestito questo luogo per anni. Conosco ogni segreto sussurrato tra queste mura. Il giudice Patterson, il sindaco Hewitt... tutti hanno scheletri che preferirebbero restassero sepolti.'",
+          "extreme": "Crolla la facciata religiosa. Ammette che la conversione nasconde qualcosa di più oscuro: 'Le suore non sono quello che sembrano. Il sangue versato qui non è finito con la chiusura del bordello. Se scavate troppo, sarete i prossimi a perdere la testa. Letteralmente.'"
         },
         "reaction_table": {
-          "se_minacciato": "Attiva immediatamente la sua rete di ricattati: il sindaco, il giudice e il banchiere interverranno per ostacolare i PG con mezzi legali e sociali",
-          "se_corrotto": "Impossibile comprarla con denaro, ma può essere convinta se i PG giurano di proteggere i bambini rimasti e mantenere il segreto sugli scandali della città",
-          "se_i_pg_hanno_prove": "Collabora pienamente, fornendo mappe delle cantine segrete e ammettendo che strani rumori vengono dal sottosuolo da quando hanno convertito la 'stanza rossa' in cappella",
-          "se_alleato": "Diventa una risorsa preziosa: conosce ogni passaggio segreto del palazzo e può identificare quali 'clienti' potrebbero aver risvegliato qualcosa di oscuro con i loro rituali depravati"
+          "se_minacciato": "Convoca discretamente uno o più 'benefattori' dell'orfanotrofio - uomini potenti che hanno molto da perdere se i segreti del vecchio bordello emergono. Fa sparire documenti compromettenti dalla sua cassaforte personale.",
+          "se_corrotto": "Accetta denaro ma non tradisce mai le suore completamente. Può rivelare segreti sui clienti del bordello o indicare dove sono nascosti registri compromettenti, ma protegge il vero scopo della 'conversione'.",
+          "se_i_pg_hanno_prove": "Crolla parzialmente e negozia. Offre un capro espiatorio - forse un cliente violento del passato o un nemico della conversione - e informazioni parziali sul rituale che le suore stanno compiendo nel seminterrato, in cambio di protezione.",
+          "se_alleato": "Rivela che le 'orfane' più grandi sono ex prostitute che conoscevano troppo. Le suore le tengono prigioniere. Confessa che Suor Cecilia sta usando gli omicidi per completare un rituale di espiazione blasfema che richiede teste di peccatori."
         },
         "pressure_events": [],
         "relationships": [
@@ -9776,8 +9560,8 @@
         "secret": "Ha comprato candele nere dal Candlemaker per invocare forze oscure che distruggano l'edificio, ma non si aspettava le decapitazioni",
         "agenda_pressure": 0,
         "fear": "Che il luogo dove suo marito è stato ucciso continui a esistere e profanare la sua memoria",
-        "current_plan": "Fingere shock per le decapitazioni mentre attende che gli 'incidenti' costringano le suore ad abbandonare l'edificio, quindi ricomprarlo attraverso un prestanome e demolirlo per sempre",
-        "fallback_plan": "Se scoperta, accusare il Candlemaker di averla ingannata e usata, offrire tutta la sua ricchezza per esorcismi e riparazioni, fuggire verso Est dal Territory se tutto fallisce",
+        "current_plan": "Attendere che le tre candele rimanenti brucino completamente durante la veglia funebre per le vittime, completando il rituale di dissoluzione che farà crollare le fondamenta dell'edificio",
+        "fallback_plan": "Se scoperta, incolpare completamente il Candlemaker e offrirsi di aiutare a fermarlo, mentre segretamente accende l'ultima candela maestra nascosta nella cripta sotto l'ex bordello",
         "resources": [
           "accessi",
           "contatti",
@@ -9799,16 +9583,16 @@
           "Perdere la sua posizione sociale come vedova rispettabile"
         ],
         "pressure_response": {
-          "low": "Mantiene un'aria di rispettabilità borghese, esprime preoccupazione per le decapitazioni come cittadina modello, partecipa alle veglie di preghiera mentre osserva nervosamente l'orfanotrofio",
-          "medium": "Diventa difensiva e rigida, insiste sulla sua reputazione irreprensibile, accusa le suore di aver portato la maledizione con loro, inizia a visitare il Candlemaker di notte per chiedere come fermare ciò che ha scatenato",
-          "high": "Crolla psicologicamente, confessa tra singhiozzi di aver solo voluto recuperare la proprietà della sua famiglia, nega responsabilità per le morti, supplica che le candele dovevano solo causare piccoli incidenti",
-          "extreme": "Impazzisce completamente, si barrica nell'ex bordello con tutte le candele rimaste accese, urla che preferisce bruciare tutto piuttosto che lasciare le suore vincere, rischia di incendiare l'intero isolato con i bambini dentro"
+          "low": "Harriet mantiene un'aria rispettabile da vedova benestante, offrendo tè e parlando con nostalgia di quando il bordello era 'un'istituzione rispettata' prima che le suore lo profanassero",
+          "medium": "Diventa nervosa e difensiva, insistendo che le candele erano solo per commemorare i morti del bordello, accusando le suore di aver portato la maledizione con la loro ipocrisia",
+          "high": "Crolla emotivamente, confessando di aver comprato le candele dal Candlemaker per 'purificare' l'edificio dalle suore, ma giurando terrorizzata di non aver mai voluto uccidere nessuno",
+          "extreme": "In preda al panico, rivela dove ha nascosto le candele rimanenti nell'ex camera della Madame, supplicando protezione dal Candlemaker che ora viene a reclamare il suo debito in sangue"
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugia nella sua posizione sociale, minaccia di far intervenire lo sceriffo e i cittadini influenti, ma tradisce panico negli occhi quando si menzionano le candele",
-          "se_corrotto": "Offre denaro sostanzioso per far sparire prove, propone di donare fondi alla chiesa, diventa disperatamente generosa pur di proteggere il suo segreto",
-          "se_i_pg_hanno_prove": "Prima nega tutto con veemenza aristocratica, poi crolla ammettendo che il bordello apparteneva a suo padre e voleva cancellare quella vergogna, non prevedeva la carneficina",
-          "se_alleato": "Rivela che suo padre morì rovinato quando il bordello fu esposto, lei voleva solo giustizia privata, chiede aiuto per spegnere le candele che ormai hanno vita propria"
+          "se_minacciato": "Cerca di fuggire verso la sua tenuta fuori città, dove ha preparato un nascondiglio segreto nell'ex stalla del bordello che ha acquistato all'asta",
+          "se_corrotto": "Offre denaro sostanzioso e rivela che altre tre candele sono ancora nascoste nell'orfanotrofio, pronte ad essere attivate durante la luna nuova di domani",
+          "se_i_pg_hanno_prove": "Ammette tutto piangendo, spiegando che voleva vendicarsi delle suore per aver distrutto l'unico posto dove sua figlia illegittima era stata accettata prima di morire",
+          "se_alleato": "Porta i PG dal Candlemaker fingendo di voler testimoniare contro di lui, ma in realtà sperando che lui completi il rituale prima che possano fermarlo"
         },
         "pressure_events": [],
         "relationships": [
@@ -9840,8 +9624,8 @@
         "secret": "Crea le candele nere da maiali nutriti con carne umana; ogni candela produce un effetto oscuro specifico quando accesa",
         "agenda_pressure": 0,
         "fear": "Che le autorità scoprano i suoi metodi e lo arrestino o lincino, distruggendo la sua operazione",
-        "current_plan": "Rifornire discretamente le Suore con candele che producono allucinazioni sottili, portandole gradualmente alla follia. Una volta screditate, riprenderà il controllo dell'edificio dove ha sepolto il suo 'archivio' di formule sotto il pavimento della cantina",
-        "fallback_plan": "Fuggire a El Paso con il suo libro di ricette occulte e abbastanza capitale per ricominciare. Ha già preparato una carrozza con provviste e tre maiali 'speciali' ben nutriti",
+        "current_plan": "Continuare a produrre candele nel suo canyon isolato, protetto da uomini pericolosi, e venderle a clienti selezionati",
+        "fallback_plan": "Se minacciato, usare le sue guardie per eliminare gli intrusi e bruciare prove compromettenti prima di fuggire",
         "resources": [
           "accessi",
           "contatti",
@@ -9863,16 +9647,16 @@
           "Che i clienti scoprano esattamente cosa contengono le candele"
         ],
         "pressure_response": {
-          "low": "Continua le sue attività normalmente, vendendo candele 'speciali' solo a clienti fidati. Si presenta come umile ceraio che rifornisce chiese e famiglie rispettabili",
-          "medium": "Inizia a bruciare prove nel suo laboratorio dietro la bottega. Sposta i maiali in una location remota nel deserto. Offre candele gratuite alle Suore per insinuarsi nella loro fiducia",
-          "high": "Accusa pubblicamente le Suore di stregoneria, sostenendo che le sue candele benedette rivelano la loro vera natura. Organizza una folla di clienti devoti per proteggere la sua bottega",
-          "extreme": "Accende simultaneamente tutte le candele nere rimaste in un rituale disperato per evocare qualcosa che lo protegga. Minaccia di rivelare i peccati nascosti di ogni notabile della città che possiede le sue candele"
+          "low": "Nega di conoscere gli omicidi e descrive le sue candele come semplici prodotti artigianali",
+          "medium": "Offre denaro o candele speciali ai PG per lasciarli in pace",
+          "high": "Ordina alle sue guardie di intimidire o attaccare i PG, minaccia ritorsioni occulte",
+          "critical": "Scatena i suoi uomini in un attacco letale e accende candele maledette per creare caos e distruzione"
         },
         "reaction_table": {
-          "se_minacciato": "Sorride paternamente e offre una candela 'speciale' in dono, sussurrando che rivelerà cosa il PG desidera veramente vedere. La cera contiene tracce di oppio",
-          "se_corrotto": "Propone una partnership: le sue candele possono mostrare dove sono sepolti i tesori dei morti, o far confessare i colpevoli, o far innamorare chi si desidera",
-          "se_i_pg_hanno_prove": "Ammette tutto con calma inquietante, spiegando che sta semplicemente riciclando ciò che la frontiera scarta. Chiede: 'Quanti cadaveri marciscono già nel deserto senza scopo?'",
-          "se_alleato": "Rivela l'ubicazione dell'allevamento segreto di maiali e offre una candela che 'mostra i morti per quello che erano veramente' quando accesa vicino ai resti delle vittime"
+          "helped": "offre accesso, informazione o copertura",
+          "threatened": "resiste o chiama rinforzi",
+          "deceived": "collabora finche non nota la contraddizione",
+          "exposed": "rivela il proprio segreto o fugge"
         },
         "pressure_events": [],
         "relationships": [
@@ -9899,8 +9683,8 @@
         "secret": "È un'entità mostruosa creata dalla rabbia e vergogna della città stessa, non un assassino umano; può tornare finché esistono le candele",
         "agenda_pressure": 0,
         "fear": "Essere dissipato o esorcizzato prima di completare la sua vendetta contro tutti coloro legati al bordello",
-        "current_plan": "Completare la lista di tutti coloro che hanno 'profanato' Tunis con la loro lussuria: ex clienti, le prostitute sopravvissute, infine Madre Superiora per aver osato 'purificare' il luogo del peccato invece di bruciarlo",
-        "fallback_plan": "Se scoperto o ostacolato, rifugiarsi fisicamente nell'orfanotrofio dove le candele benedette ardono nella cappella. Possedere gli orfani uno per uno, usando i loro corpi innocenti come scudi viventi e nuovi strumenti di vendetta",
+        "current_plan": "Completare la lista di sette vittime: i tre consiglieri comunali e il predicatore che spinsero per la chiusura del bordello (ma erano clienti abituali), il vecchio sceriffo che accettò tangenti, e due delle suore che erano ex prostitute del bordello stesso ma ora negano il passato. Ogni decapitazione avviene in luoghi simbolici legati alla loro ipocrisia.",
+        "fallback_plan": "Se impedito di completare la lista, bruciare completamente l'orfanotrofio durante la notte, sacrificando tutto e tutti all'interno come offerta alla memoria profanata del bordello. Se anche questo fallisce, ritirarsi nelle candele dormienti, aspettando anni o decenni finché Tunis non dimentica, per poi ricominciare il ciclo di vendetta.",
         "resources": [
           "accessi",
           "contatti",
@@ -9922,16 +9706,16 @@
           "Che la città riconosca e superi la sua vergogna collettiva"
         ],
         "pressure_response": {
-          "low": "Si manifesta solo di notte, lasciando indizi criptici: candele accese in luoghi strani, sussurri collettivi che sembrano provenire da più bocche, ombre che si moltiplicano nei vicoli",
-          "medium": "Accelera gli omicidi, colpendo chiunque abbia frequentato il bordello. Appare come figura incappucciata che mormora i peccati delle vittime prima di decapitarle. Le candele nel suo rifugio bruciano più violentemente",
-          "high": "Si sdoppia in multiple manifestazioni simultanee, attaccando in pieno giorno. La sua voce diventa un coro di condanne moralistiche. Inizia a prendere di mira le suore e gli orfani, incarnazioni viventi della 'falsa redenzione'",
-          "extreme": "Si dissolve in un'orda di entità urlanti che invadono l'orfanotrofio, cercando di bruciare tutto. Se tutte le candele sono minacciate, si manifesta come massa deforme di corpi fusi che urla la vergogna di ogni singolo cittadino di Tunis"
+          "low": "Osserva da lontano, manifestandosi come ombra sfocata nei vicoli. Lascia tracce sottili: cappelli abbandonati, macchie di cera nera sui muri, impronte di stivali che si fermano bruscamente senza continuare.",
+          "medium": "Intensifica le apparizioni notturne. Si manifesta parzialmente davanti a testimoni ubriachi o isolati, sempre avvolto in mantello scuro. Lascia candele nere accese davanti alle case di ex clienti del bordello come avvertimento silenzioso.",
+          "high": "Attacca apertamente durante la notte, decapitando la prossima vittima in modo spettacolare e pubblico. Il corpo senza testa viene lasciato davanti all'orfanotrofio. La testa compare in chiesa durante la messa domenicale, con una candela nera conficcata in bocca.",
+          "extreme": "Si manifesta simultaneamente in più luoghi di Tunis, moltiplicandosi attraverso ogni candela nera accesa. Assedia l'orfanotrofio stesso, cercando di profanare il luogo che ha soppiantato il bordello. Le suore diventano bersagli prioritari come simboli della 'purificazione ipocrita'."
         },
         "reaction_table": {
-          "se_minacciato": "Retrocede nelle ombre, dissolvendosi in fumo nero che puzza di cera e sangue. Riappare dove brucia una candela, rigenerato. Sussurra: 'La città ricorda. La città non perdona.'",
-          "se_corrotto": "Impossibile corrompere un'entità nata dalla colpa collettiva. Ogni tentativo di negoziazione fa emergere la voce specifica del PG nel coro delle sue condanne, rivelandone i peccati segreti",
-          "se_i_pg_hanno_prove": "Diventa ossessionato da chi indaga sulle candele. Appare nei loro sogni come specchio dei loro fallimenti morali. Cerca di eliminarli prima che scoprano il suo legame con l'orfanotrofio",
-          "se_alleato": "Non può avere alleati consapevoli, ma manipola i cittadini più repressi e vergognosi di Tunis, facendoli agire come suoi occhi. Essi non ricordano cosa fanno sotto la sua influenza"
+          "se_minacciato": "Non può essere veramente minacciato fisicamente. Se 'ucciso', si dissolve in fumo nero che si riassorbe nelle candele. Riappare la notte seguente, ancora più furioso. Solo distruggere tutte le candele nere sparse per Tunis può fermarlo temporaneamente.",
+          "se_corrotto": "Non può essere corrotto: è già corruzione incarnata. Qualsiasi tentativo di patteggiare risulta in visioni traumatiche della vergogna e dell'ipocrisia del negoziatore, costringendolo a confrontare i propri peccati nascosti legati al bordello.",
+          "se_i_pg_hanno_prove": "Le prove fisiche non significano nulla per lui. Se i PG scoprono la sua natura (candele, vergogna collettiva), accelera il piano di vendetta. Inizia a colpire chiunque indaghi, considerandoli complici dell'ipocrisia cittadina che vuole nascondere il passato.",
+          "se_alleato": "Impossibile come alleato razionale. Potrebbe però 'risparmiare' chi pubblicamente ammette la propria ipocrisia o il proprio legame con il bordello, riconoscendo in loro una forma di 'onestà'. Ma rimane imprevedibile e pericoloso."
         },
         "pressure_events": [],
         "relationships": [
@@ -9963,8 +9747,8 @@
         "secret": "Ha visto chiaramente l'Innominate Man nella sua stanza ma ha troppa paura per descriverlo accuratamente",
         "agenda_pressure": 0,
         "fear": "Che nessuno le creda o che la puniscano per aver detto bugie",
-        "current_plan": "Evitare di essere sola, specialmente di notte. Rimanere sempre in vista di altre bambine. Fingere che tutto sia normale davanti alle suore mentre cerca disperatamente un adulto che possa proteggerla senza punirla.",
-        "fallback_plan": "Se nessuno la crede o la protegge, tenterà di fuggire dall'orfanotrofio durante il giorno, anche senza meta. Preferisce morire nel deserto piuttosto che passare un'altra notte nella sua stanza.",
+        "current_plan": "Rimanere invisibile e silenziosa, obbedire a ogni ordine delle suore, pregare ogni notte che l'Innominate Man dimentichi il suo volto e vada a prendere qualcun'altra",
+        "fallback_plan": "Se l'Innominate Man ritorna o se le suore scoprono che ha parlato, scappare dall'orfanotrofio di notte e nascondersi nelle rovine del vecchio bordello dove forse può trovare un posto dove Lui non guarda",
         "resources": [
           "accessi",
           "contatti",
@@ -9986,16 +9770,16 @@
           "Rivedere l'uomo strano della sua stanza"
         ],
         "pressure_response": {
-          "low": "Abbassa lo sguardo, giocherella nervosamente con il bordo del grembiule, risponde con monosillabi. Accenna a 'rumori strani' ma si ferma subito, controllando che le suore non stiano ascoltando.",
-          "medium": "Inizia a piangere silenziosamente, stringendosi le braccia attorno al corpo. Sussurra frammenti confusi: 'Era alto... troppo alto... le sue mani...' ma poi si blocca terrorizzata, come se ricordare fosse fisicamente doloroso.",
-          "high": "Crolla emotivamente, confessa di aver visto l'uomo entrare nella stanza, ma quando deve descriverlo inizia a tremare violentemente. Le parole le escono distorte: 'Non aveva... non posso... Madre Superiora dice che mento!' Implora di essere creduta ma non riesce a completare la descrizione.",
-          "extreme": "Entra in uno stato catatonico, fissando il vuoto. Ripete ossessivamente: 'L'ho visto, l'ho visto, l'ho visto...' dondolandosi avanti e indietro. Se forzata ulteriormente, urla dettagli frammentari incomprensibili prima di svenire o fuggire in preda al panico totale."
+          "low": "Abbassa lo sguardo e gioca nervosamente con l'orlo del grembiule, sussurrando che quella notte dormiva e non ha visto nulla, Suor Magdalene l'ha detto a tutte",
+          "medium": "Scoppia in lacrime silenziose e ammette di aver visto qualcosa di terribile, un uomo alto e storto, ma se le suore scoprono che era sveglia la chiuderanno nel ripostiglio buio per tre giorni",
+          "high": "Crolla completamente, confessa tra singhiozzi di averlo visto attraverso la fessura della porta: indossava un cappello nero largo, si muoveva tutto storto come un ragno, e dove c'era la sua faccia c'era solo un vuoto scuro che faceva male agli occhi guardarlo",
+          "extreme": "Urla istericamente che l'Innominate Man è tornato stanotte, ha graffiato alla sua finestra, sa che lei ha parlato e ora verrà a prenderla come ha fatto con Madre Superiora prima che arrivassero le suore"
         },
         "reaction_table": {
-          "se_minacciato": "Si rannicchia in posizione fetale, coprendosi la testa con le braccia. Nega tutto ciò che ha detto in preda al terrore di ulteriori punizioni, sia dalle suore che dall'Innominate Man stesso.",
-          "se_corrotto": "Dolcezza e pazienza la aprono lentamente. Cibo, un giocattolo, o semplice gentilezza la fanno piangere di sollievo. Rivela dettagli parziali ma ancora censurati dalla paura: 'Aveva qualcosa di sbagliato... negli occhi... nelle mani...'",
-          "se_i_pg_hanno_prove": "Se mostrano di sapere già qualcosa sull'Innominate Man, si aggrappa a loro disperatamente. Conferma ciò che sanno con cenni del capo, ma ancora non riesce a descriverlo completamente. Implora: 'Non lasciatemi qui sola stanotte.'",
-          "se_alleato": "Diventa la loro ombra, seguendoli ovunque. Disegna compulsivamente immagini disturbate della figura invece di descriverla a parole. I disegni mostrano un uomo sproporzionato con dettagli anatomicamente impossibili che lei stessa non comprende."
+          "se_minacciato": "Si rannicchia in posizione fetale succhiandosi il pollice, smette completamente di parlare e fissa il vuoto dondolandosi avanti e indietro",
+          "se_corrotto": "Se le viene offerto cibo dolce o la promessa di protezione dall'Innominate Man, disegna con carboncino tremante la figura storta che ha visto, ma rifiuta di guardare il disegno una volta finito",
+          "se_i_pg_hanno_prove": "Riconosce immediatamente oggetti legati all'Innominate Man (cappello, frammenti di ossa, simboli) e vomita violentemente, poi chiede disperata se possono davvero fermarlo",
+          "se_alleato": "Si aggrappa fisicamente alla persona fidata, rivela che altre tre bambine hanno visto cose simili ma Suor Magdalene le ha punite severamente, sussurra che di notte sentono passi nel corridoio che nessun adulto sente"
         },
         "pressure_events": [],
         "relationships": [
@@ -10022,8 +9806,8 @@
         "secret": "Era un cliente abituale del bordello di Holly Watling e teme che questo venga scoperto pubblicamente",
         "agenda_pressure": 0,
         "fear": "Che Tunis diventi un posto senza legge e violento come durante i suoi giorni da soldato",
-        "current_plan": "Dirigere le indagini verso sospetti esterni alla comunità rispettabile di Tunis, mentre brucia discretamente qualsiasi registro che Holly Watling potrebbe aver tenuto sui suoi clienti",
-        "fallback_plan": "Se scoperto, incolpare tutto su un 'momento di debolezza morale' prima del suo matrimonio, accusare le Suore di aver scatenato forze maligne chiudendo il bordello in modo sacrilego",
+        "current_plan": "Monitorare strettamente le indagini per assicurarsi che nessuno colleghi i delitti al passato del bordello. Mantenere le suore isolate e scoraggiare testimoni dal parlare dei 'vecchi tempi' usando la sua autorità.",
+        "fallback_plan": "Se la sua frequentazione sta per essere rivelata, incolpare un cliente morto o partito (magari uno dei decapitati) di crimini peggiori al bordello. In extremis, fingere un crollo nervoso e dimettersi, lasciando Tunis prima che emergano tutti i dettagli.",
         "resources": [
           "accessi",
           "contatti",
@@ -10045,16 +9829,16 @@
           "Che l'autorità federale si interessi troppo a Tunis"
         ],
         "pressure_response": {
-          "low": "Mantiene un contegno professionale e cordiale, offrendo la piena collaborazione delle autorità locali. Sottolinea l'importanza di risolvere questi crimini orribili per il bene della comunità.",
-          "medium": "Diventa nervoso quando si parla del vecchio bordello, cambia argomento bruscamente. Inizia a sudare se interrogato sui suoi movimenti notturni. Suggerisce di concentrarsi su vagabondi o nativi come sospetti.",
-          "high": "Si agita visibilmente, la mano trema verso la fondina. Offre denaro o favori per 'chiudere certe linee d'indagine'. Minaccia velatamente conseguenze per chi 'diffama cittadini rispettabili' senza prove concrete.",
-          "extreme": "Crolla psicologicamente, ammette tra le lacrime le sue visite al bordello ma giura di non aver ucciso nessuno. Potrebbe tentare di eliminare testimoni o fuggire a cavallo verso il Messico durante la notte."
+          "low": "Collabora con le indagini mantenendo un tono professionale, deviando sottilmente l'attenzione dal bordello verso altre piste. Suggerisce che i problemi potrebbero venire da fuori città.",
+          "medium": "Diventa difensivo riguardo al passato di Tunis, insiste che 'certi affari privati dei cittadini rispettabili' non sono rilevanti. Inizia a intimidire testimoni che potrebbero parlare del bordello.",
+          "high": "Minaccia apertamente chi scava troppo nel passato del bordello. Falsifica documenti o nasconde prove. Considera di incastrare un vagabondo o forestiero per i delitti pur di chiudere il caso.",
+          "extreme": "Pronto a eliminare chiunque possa rivelare la sua frequentazione del bordello. Potrebbe orchestrare un terzo omicidio per sviare le indagini o fare pressione violenta sulle suore per farle lasciare la città."
         },
         "reaction_table": {
-          "se_minacciato": "Usa la sua autorità per intimidire, arresta i PG con accuse pretestuose di disturbo della quiete pubblica o interferenza con le indagini ufficiali",
-          "se_corrotto": "Accetta tangenti sostanziose in cambio di informazioni parziali, ma tradisce chi lo corrompe se la pressione pubblica diventa insostenibile",
-          "se_i_pg_hanno_prove": "Tenta disperatamente di negoziare: offrirà tutto ciò che sa sulle Suore e sui clienti del bordello in cambio del silenzio sulla sua identità",
-          "se_alleato": "Fornisce accesso ai registri della città e protezione legale, ma continua a deviare ogni indagine che si avvicini al suo passato al bordello"
+          "se_minacciato": "Passa dall'autorità allo sconforto: prima nega con veemenza, poi cerca disperatamente di negoziare il silenzio offrendo protezione, favori o denaro. Se respinto, diventa pericoloso.",
+          "se_corrotto": "Accetta riluttante se gli si offre una via d'uscita che preservi la sua reputazione. Fornisce accesso limitato alle indagini passate o informazioni su altri clienti del bordello in cambio di discrezione.",
+          "se_i_pg_hanno_prove": "Crolla psicologicamente. Ammette la sua frequentazione ma giura di non aver ucciso nessuno. Rivela altri segreti oscuri del bordello e dei suoi clienti nella speranza di trovare il vero colpevole.",
+          "se_alleato": "Diventa un risorsa preziosa: condivide conoscenze intime sulla struttura del vecchio bordello, sui rituali strani che Holly Watling conduceva, e sui clienti influenti che vorrebbero l'orfanotrofio chiuso."
         },
         "pressure_events": [],
         "relationships": [
@@ -10086,8 +9870,8 @@
         "secret": "È effettivamente una spia dei Pinkerton E gestisce affari segreti per il governo messicano contemporaneamente, giocando su entrambi i fronti",
         "agenda_pressure": 0,
         "fear": "Che le sue vere affiliazioni (massone/Pinkerton/governo messicano) vengano esposte pubblicamente",
-        "current_plan": "Usare l'indagine sulle decapitazioni per identificare e neutralizzare chiunque sappia dei suoi doppi giochi. Contemporaneamente, scoprire se le candele nere collegano al carico di 'reliquie' che ha fatto transitare dal Messico tre mesi fa per conto di certi prelati corrotti.",
-        "fallback_plan": "Se esposto, incolpare tutto su Padre Martínez (collaboratore messicano già morto convenientemente) e fuggire a El Paso con documenti che garantiscono immunità da entrambi i governi. Ha 5000 dollari in oro sepolti presso il vecchio cimitero apache.",
+        "current_plan": "Infiltrare un informatore travestito da donatore nell'orfanotrofio per scoprire il collegamento tra le decapitazioni e le candele nere. Simultaneamente inviare rapporti contraddittori a Pinkerton e Messico per mantenere entrambe le coperture intatte.",
+        "fallback_plan": "Se la doppia identità viene esposta, inscenare la propria morte in un 'incidente' al confine, riemergendo sei mesi dopo a San Francisco con nome falso e fondi nascosti in una banca di Tucson. Ha già preparato documenti e un sosia cadaverico.",
         "resources": [
           "accessi",
           "contatti",
@@ -10109,16 +9893,16 @@
           "Essere direttamente collegato ai delitti"
         ],
         "pressure_response": {
-          "low": "Offre sigari cubani e whiskey di contrabbando, parlando vagamente di 'preoccupazioni civiche' mentre sonda cosa sanno i PG. Suggerisce generose ricompense per informazioni discrete.",
-          "medium": "Minaccia velatamente di far arrivare 'certi telegrammi a Washington e Città del Messico' che potrebbero rovinare carriere. Tenta di comprare il silenzio con somme considerevoli o favori politici.",
-          "high": "Mobilita i suoi contatti Pinkerton per intimidire o arrestare i PG con accuse fabbricate. Contemporaneamente avverte i suoi collaboratori messicani di prepararsi a 'bruciare ponti' e far sparire prove.",
-          "extreme": "Organizza un'imboscata mortale usando mercenari messicani travestiti da banditi, mentre prepara documenti falsificati per incolpare i PG delle decapitazioni. Pronto a fuggire oltre il confine con oro e segreti."
+          "low": "Offre denaro e contatti influenti per investigare l'orfanotrofio, mantenendo distanza personale. Suggerisce che 'certi elementi messicani' potrebbero essere coinvolti, deviando sospetti.",
+          "medium": "Invia telegrammi cifrati ai suoi contatti Pinkerton chiedendo dossier sulle Suore. Simultaneamente avverte i suoi referenti a Chihuahua che 'forze occulte' minacciano gli interessi di confine. Inizia a far sparire documenti compromettenti.",
+          "high": "Organizza un falso attentato contro se stesso per sembrare vittima. Accusa pubblicamente agitatori anarchici messicani mentre segretamente ordina ai Pinkerton di eliminare testimoni scomodi. Prepara fuga verso El Paso con documenti falsificati.",
+          "extreme": "Tenta di bruciare l'orfanotrofio con presunte 'prove' che incolpano i suoi nemici politici. Se scoperto, rivela selettivamente la sua affiliazione Pinkerton tradendo i messicani, o viceversa, sacrificando chiunque pur di sopravvivere. Ha sempre una derringer nascosta."
         },
         "reaction_table": {
-          "se_minacciato": "Diventa glaciale e calcolatore, la mano sinistra tamburella nervosamente sul tavolo (tic rivelatore). Comincia immediatamente a calcolare chi sacrificare per salvarsi.",
-          "se_corrotto": "Ride con disprezzo sincero - ha visto troppo per cadere in trappole semplici. Ma se l'offerta è davvero unica (informazioni su rivali, accesso a segreti governativi), diventa intensamente interessato.",
-          "se_i_pg_hanno_prove": "Si complimenta freddamente per la loro abilità investigativa, poi offre partnership: 'Persone capaci come voi dovrebbero lavorare CON me, non contro'. Se rifiutano, inizia immediatamente il piano di eliminazione.",
-          "se_alleato": "Condivide informazioni parziali (mai tutto), fornisce risorse e contatti. Ma tiene sempre un 'assicurazione' - qualche dettaglio compromettente sui PG per controllo futuro."
+          "se_minacciato": "Sorride cordialmente mentre la mano scivola verso la pistola. Offre immediatamente tangenti generose, citando 'malintesi'. Se rifiutato, minaccia vagamente di 'contatti a Santa Fe e oltre il Rio Grande'.",
+          "se_corrotto": "Accetta con entusiasmo ma documenta tutto segretamente per ricatto futuro. Fornisce informazioni parzialmente vere mescolate a disinformazione, testando la lealtà del corruttore.",
+          "se_i_pg_hanno_prove": "Nega tutto inizialmente, poi ammette UNA affiliazione (Pinkerton o Messico) dipendendo da chi sembra più forte, presentandosi come patriota infiltrato. L'altra identità resta nascosta fino alla morte.",
+          "se_alleato": "Condivide intelligence selezionata su movimenti sospetti presso l'orfanotrofio. Suggerisce che Madre Superiora potrebbe avere 'passato in Messico'. Usa gli alleati come scudi e capri espiatori sacrificabili."
         },
         "pressure_events": [],
         "relationships": [
@@ -10150,8 +9934,8 @@
         "secret": "Non è solo un informatore ma un agente del governo messicano incaricato di eliminare elementi corrotti che danneggiano gli interessi messicani",
         "agenda_pressure": 0,
         "fear": "Che il proprietario della miniera scopra il piano contro di lui e lo faccia uccidere prima",
-        "current_plan": "Manipolare i PG affinché eliminino Thornton durante un'apparente indagine sulle decapitazioni, poi recuperare gli artefatti aztechi prima che il governo americano se ne appropri",
-        "fallback_plan": "Se i PG rifiutano, assumere pistoleros messicani per assaltare la miniera, incolpando banditi apache. Se necessario, bruciare tutto e fuggire in Messico con almeno il Codice Xochipilli",
+        "current_plan": "Manipolare i PG affinché assassinino Cyrus Blackwell durante un'apparente investigazione sui decapitati. Far sembrare tutto un regolamento di conti legato al culto, mentre lui documenta tutto per il suo governo e si prende il merito dell'operazione.",
+        "fallback_plan": "Se i PG rifiutano o scoprono troppo, incolpare pubblicamente Blackwell per i decapitati e orchestrare una rivolta dei minatori messicani. Nell'inevitabile caos, eliminare personalmente Blackwell e far ricadere le morti rituali su un capro espiatorio già morto o folle.",
         "resources": [
           "accessi",
           "contatti",
@@ -10173,16 +9957,16 @@
           "Essere coinvolto direttamente nei delitti del bordello"
         ],
         "pressure_response": {
-          "low": "Offre informazioni vaghe sul Candleman mescolate a pettegolezzi locali, sorseggiando mescal e accennando a «coincidenze interessanti» tra le decapitazioni e certi rituali aztechi",
-          "medium": "Rivela che il proprietario della miniera, Thornton, importa oggetti pre-colombiani dal Messico e che uno dei decapitati era sua guardia personale. Chiede esplicitamente l'eliminazione di Thornton",
-          "high": "Ammette di lavorare per il governo messicano e mostra documenti che collegano Thornton al contrabbando di artefatti sacri aztechi. Offre denaro oltre alle informazioni sul Candleman",
-          "extreme": "Confessa che Thornton ha risvegliato qualcosa nelle miniere usando gli artefatti rubati, e che il governo messicano vuole che sparisca prima che lo scandalo esploda. Rivela la vera identità del Candleman"
+          "low": "Offre informazioni vaghe sul Candleman e sugli omicidi, suggerendo che tutto è collegato alla miniera d'argento e ai rituali blasfemi che avvenivano al bordello. Mantiene un atteggiamento affabile da informatore locale.",
+          "medium": "Rivela che il proprietario della miniera, Cyrus Blackwell, faceva parte di una società segreta che usava il bordello per riti osceni. Propone uno scambio equo: loro eliminano Blackwell, lui fornisce i nomi dei membri sopravvissuti del culto e la posizione del Candleman.",
+          "high": "Ammette di essere un agente del governo messicano incaricato di ripulire il territorio dai corrotti che sfruttano lavoratori messicani. Confessa che Blackwell ha rapito bambini messicani per i rituali e che le Suore potrebbero essere le prossime vittime. Offre armi e supporto logistico.",
+          "extreme": "Rivela che il suo governo sa dell'entità demoniaca evocata al bordello e che Blackwell cerca di richiamarla attraverso i sacrifici. Se i PG non agiscono, lui farà intervenire l'esercito messicano, causando un incidente internazionale. Minaccia di denunciarli come complici se rifiutano."
         },
         "reaction_table": {
-          "se_minacciato": "Scompare nel barrio messicano dove ha decine di alleati. Riappare solo quando i PG hanno bisogno disperato delle sue informazioni, raddoppiando il prezzo",
-          "se_corrotto": "Finge di accettare ma avvelena lentamente il corruttore con arsenico nel whisky. «Gli affari sono affari, amigo, ma l'onore è onore»",
-          "se_i_pg_hanno_prove": "Cambia tattica: offre un'alleanza completa rivelando che anche le Suore potrebbero essere coinvolte nel traffico di artefatti attraverso l'orfanotrofio",
-          "se_alleato": "Fornisce armi messicane, contatti nel barrio e mappe delle gallerie segrete sotto Tunis. Combatte al loro fianco ma sempre con una via di fuga pronta"
+          "se_minacciato": "Attiva una rete di sicari messicani nascosti a Tunis. Scompare nel nulla lasciando falsi indizi che incolpano i PG per gli omicidi. Fa arrivare al marshal locale prove contraffatte del loro coinvolgimento.",
+          "se_corrotto": "Finge di accettare, poi usa i PG come capri espiatori. Organizza un'imboscata alla miniera dove sia loro che Blackwell verranno eliminati dai suoi uomini, facendola sembrare una sparatoria tra criminali.",
+          "se_i_pg_hanno_prove": "Negozia apertamente la sua immunità diplomatica. Offre documenti ufficiali che collegano Blackwell ai cartelli messicani del crimine e al traffico di bambini. Propone un'alleanza formale con vantaggi economici considerevoli.",
+          "se_alleato": "Diventa un contatto permanente, fornisce accesso a intelligence governativa sui culti occulti nel Southwest. Garantisce protezione e rifugio in territorio messicano. Condivide che le Suore di Santa Cecilia potrebbero non essere ciò che sembrano."
         },
         "pressure_events": [],
         "relationships": [
@@ -10214,8 +9998,8 @@
         "secret": "Sapeva che le candele erano strane e potenzialmente pericolose ma le ha vendute comunque per profitto, ora si sente colpevole",
         "agenda_pressure": 0,
         "fear": "Essere arrestato o linciato come complice degli omicidi per aver venduto le candele",
-        "current_plan": "Fingere ignoranza totale mentre cerca disperatamente di bruciare le candele rimaste senza farsi notare, sperando che nessuno colleghi lui ai delitti",
-        "fallback_plan": "Se scoperto, collaborare completamente con le autorità e pregare che il Candleman venga fermato prima che venga a cercarlo per silenzio",
+        "current_plan": "Nascondere le candele nere rimanenti nella cantina sotto sacchi di farina. Evitare l'orfanotrofio e le suore. Chiudere bottega e lasciare Tunis con la diligenza di giovedì con la scusa di visitare fornitori a Santa Fe.",
+        "fallback_plan": "Se il Candleman viene a reclamare le candele o la sua complicità viene scoperta, consegnerà tutto allo sceriffo accusando il forestiero misterioso. Se questo fallisce, si unirà a una carovana diretta in California cambiando identità.",
         "resources": [
           "accessi",
           "contatti",
@@ -10237,16 +10021,16 @@
           "Perdere il suo negozio o la reputazione"
         ],
         "pressure_response": {
-          "low": "Nervoso ma collaborativo, offre informazioni sulle candele nere vendute a 'un tipo strano con cappello a cilindro' circa un mese fa. Minimizza la sua responsabilità: 'Erano solo candele, come potevo sapere?'",
-          "medium": "Suda visibilmente, ammette di aver notato che le candele 'puzzavano di qualcosa di sbagliato, come carne bruciata' ma insiste che aveva bisogno dei soldi. Offre di mostrare dove tiene le ultime tre candele rimaste nel retrobottega.",
-          "high": "Crolla piangendo, confessa tutto: il Candleman gli ha pagato il doppio per non fare domande e per dirgli chi comprava certi oggetti rituali. Rivela che l'uomo tornava sempre al tramonto e che le sue impronte lasciavano cera nera sul pavimento.",
-          "extreme": "Terrorizzato, urla che il Candleman 'non è umano, ho visto le sue mani sciogliersi e riformarsi!' Ammette di avergli detto dei movimenti delle suore e degli investigatori. Supplica protezione, offrendo di fare da esca per catturarlo."
+          "low": "Cerca di apparire normale, consigliando candele comuni ai clienti. Diventa nervoso se qualcuno chiede di quelle nere, dicendo che sono esaurite.",
+          "medium": "Suda freddo e balbetta scuse. Offre informazioni parziali: 'Un forestiero me le lasciò in conto vendita, non so chi fosse davvero'. Chiude bottega prima del solito.",
+          "high": "Crolla emotivamente, ammette di aver venduto le candele maledette sapendo che erano strane. Rivela dove ha nascosto quelle rimaste e implora protezione dalla legge e dal Candleman.",
+          "extreme": "Impazzito dal terrore, tenta di bruciare il proprio negozio con le candele rimaste dentro, urlando 'Deve bruciare tutto prima che lui torni per me!'. Pronto a suicidarsi piuttosto che affrontare il Candleman."
         },
         "reaction_table": {
-          "se_minacciato": "Si barrica nel negozio con il fucile, minaccia di sparare ma trema troppo per mirare bene. Può essere convinto che i PG sono la sua unica salvezza.",
-          "se_corrotto": "Rifiuta denaro ('Non voglio altro sangue sulle mani!') ma accetta protezione o promesse scritte di immunità legale in cambio di totale collaborazione.",
-          "se_i_pg_hanno_prove": "Riconosce immediatamente oggetti legati alle candele nere o al Candleman. Si inginocchia implorando perdono, offre tutto quello che sa per evitare l'arresto o la vendetta del Candleman.",
-          "se_alleato": "Diventa risorsa preziosa: conosce gli orari del Candleman, può preparare una trappola nel negozio, e offre sale benedetto e vecchie cartucce d'argento che tiene 'per i lupi'."
+          "se_minacciato": "Si chiude a riccio e mente malamente, ma se minacciato di essere consegnato allo sceriffo come complice negli omicidi, offre di collaborare in cambio di immunità.",
+          "se_corrotto": "Rifiuta denaro con disgusto - 'Il profitto mi ha già dannato l'anima!' - ma accetta protezione fisica o una via di fuga da Tunis in cambio di informazioni complete.",
+          "se_i_pg_hanno_prove": "Riconosce immediatamente una candela nera se mostrata. Si accascia e confessa tutto: il forestiero con l'odore di cera e morte, le dodici candele consegnate, i tre dollari di profitto che ora maledice.",
+          "se_alleato": "Fornisce la descrizione dettagliata del Candleman, mostra il registro delle vendite (comprate da Sister Agnes), consegna le quattro candele rimaste e avverte: 'Non accendetele mai dopo mezzanotte'."
         },
         "pressure_events": [],
         "relationships": [
@@ -10278,8 +10062,8 @@
         "secret": "Sanno che l'edificio era un bordello famigerato e temono che la sua storia blasfema attiri forze oscure",
         "agenda_pressure": 0,
         "fear": "Che l'orfanotrofio venga chiuso o che gli orfani siano in pericolo a causa della natura maledetta dell'edificio",
-        "current_plan": "Mantenere la facciata di normalità attraverso routine rigide di preghiera e disciplina, mentre segretamente cercano segni di corruzione demoniaca tra i bambini e nell'edificio stesso.",
-        "fallback_plan": "Se la situazione peggiora, far evacuare gli orfani nottetempo verso Santa Fe con l'aiuto del vescovo, poi dare fuoco all'edificio consacrandolo con acqua santa e sale.",
+        "current_plan": "Mantenere gli orfani all'interno durante le ore notturne, intensificare preghiere e benedizioni, nascondere ai cittadini e allo sceriffo i fenomeni soprannaturali per evitare che chiudano l'orfanotrofio",
+        "fallback_plan": "Se la situazione peggiora: contattare segretamente Padre Ezekiel dalla missione di Santa Fe che ha esperienza con esorcismi, preparare una fuga notturna degli orfani verso il convento di Albuquerque attraverso il deserto",
         "resources": [
           "accessi",
           "contatti",
@@ -10301,16 +10085,16 @@
           "Che la comunità le consideri responsabili o maledette"
         ],
         "pressure_response": {
-          "low": "Rispondono con gentilezza controllata, offrono tè e biscotti, citano passi biblici sulla carità. Sottolineano quanto gli orfani abbiano bisogno di stabilità e preghiera.",
-          "medium": "Si stringono nervosamente il rosario, evitano lo sguardo quando si menziona il passato dell'edificio. Suor Magdalene inizia a piangere, balbettando che 'non è colpa loro se questo posto è maledetto'.",
-          "high": "Confessano tra singhiozzi di aver trovato oggetti blasfemi murati nelle fondamenta - feticci pagani, dagherrotipi osceni con simboli cabalistici. Li hanno bruciati in segreto, temendo che la Chiesa chiudesse tutto.",
-          "extreme": "Rivelano che una delle orfane, la piccola Constance, parla nel sonno in lingue morte e ha disegnato il volto delle vittime giorni prima degli omicidi. Vogliono esorcizzarla ma temono lo scandalo."
+          "low": "Recitano rosari incessanti, evitano di parlare della storia del bordello, insistono che gli omicidi sono opera di vagabondi o banditi esterni",
+          "medium": "Cominciano a sigillare stanze dell'edificio dove sentono 'presenze', proibiscono agli orfani di entrare nel seminterrato, spruzzano acqua santa ovunque compulsivamente",
+          "high": "Suor Margherita confessa tra le lacrime di aver trovato simboli osceni che appaiono spontaneamente sui muri, ammettono di sentire risate femminili di notte dal vecchio salone",
+          "extreme": "Tentano disperatamente di evacuare gli orfani prima del tramonto, rivelano che Madre Superiora ha iniziato a parlare con una 'voce' e che l'edificio stesso 'ricorda' i suoi peccati"
         },
         "reaction_table": {
-          "se_minacciato": "Si rifugiano nella cappella trasformata dalla vecchia sala principale, pregano ad alta voce in latino, rifiutandosi di uscire. Suor Beatrice impugna un candelabro come arma improvvisata.",
-          "se_corrotto": "Impossibile corromperle con denaro, ma si piegano se minacciate di rivelare pubblicamente la natura maledetta del luogo - accettano piccoli compromessi pur di non vedere gli orfani dispersi.",
-          "se_i_pg_hanno_prove": "Crollano completamente, ammettono ogni sospetto taciuto. Chiedono aiuto disperato per salvare le anime innocenti degli orfani prima che l'edificio li contamini tutti.",
-          "se_alleato": "Forniscono accesso completo all'edificio di notte, rivelano dove hanno trovato gli oggetti maledetti, condividono il diario della precedente madam trovato sotto un'asse del pavimento - pieno di strani rituali."
+          "se_minacciato": "Si stringono insieme pregando ad alta voce, formano un cerchio protettivo attorno agli orfani, brandiscono crocifissi con mani tremanti ma determinate",
+          "se_corrotto": "Suor Agnes comincia a vestirsi con indumenti rossi trovati nella soffitta, sussurra che 'Santa Cecilia non può sentirci qui, solo Lei può', i loro rosari si spezzano inspiegabilmente",
+          "se_i_pg_hanno_prove": "Crollano in confessione: sapevano dei riti blasfemi che Madame Delacroix praticava nel bordello, hanno trovato il suo diario murato nella cappella improvvisata, temono che la consacrazione dell'edificio l'abbia svegliata",
+          "se_alleato": "Forniscono la chiave del seminterrato sigillato, rivelano che le due vittime decapitate erano ex clienti abituali del bordello, mostrano gli strani sogni identici che tutte hanno: una donna senza testa che canta opera in francese"
         },
         "pressure_events": [],
         "relationships": [
@@ -10342,8 +10126,8 @@
         "secret": "Gestisce la miniera d'argento in modo brutale e corrotto, sfruttando lavoratori e probabilmente commettendo omicidi per profitto",
         "agenda_pressure": 0,
         "fear": "Essere assassinato dalla spia messicana o essere esposto per i suoi crimini nella gestione della miniera",
-        "current_plan": "Completare l'ultimo carico di argento raffinato entro tre giorni e partire per Città del Messico prima che qualcuno colleghi le decapitazioni ai corpi murati nel bordello. Evitare qualsiasi contatto con le suore.",
-        "fallback_plan": "Se scoperto, incolpare tutto sul suo caposquadra defunto (una delle vittime decapitate) e fuggire immediatamente attraverso il confine messicano usando la rete di contrabbando che già utilizza per l'argento grezzo non dichiarato.",
+        "current_plan": "Concludere gli ultimi affari a Tunis entro tre giorni, riscuotere i debiti da Don Esquivel, caricare l'ultimo carico d'argento e tornare in Messico prima che le autorità territoriali inizino a indagare sulle sue attività illegali.",
+        "fallback_plan": "Se la situazione degenera o le decapitazioni vengono collegate alla sua rete criminale, abbandonerà tutto a Tunis. Ha preparato cavalli freschi e provviste per una fuga notturna verso Chihuahua, dove ha contatti che possono nasconderlo. In extremis, farà ricadere tutte le colpe su Don Esquivel e testimonierà contro di lui per salvare se stesso.",
         "resources": [
           "accessi",
           "contatti",
@@ -10365,16 +10149,16 @@
           "Attirare l'attenzione dello sceriffo o di investigatori"
         ],
         "pressure_response": {
-          "low": "Cortese ma distante, offre sigari e bourbon del Tennessee. Parla dei suoi 'investimenti legittimi' e della sua filantropia, menzionando donazioni alle suore. Devia ogni domanda scomoda verso i suoi avvocati a Santa Fe.",
-          "medium": "Diventa irritabile e condiscendente. 'Gringos che fanno domande finiscono nel deserto'. Accenna ai suoi contatti con lo sceriffo e il giudice territoriale. Inizia a sudare copiosamente nonostante il clima.",
-          "high": "Minacce dirette attraverso i suoi pistoleros. Offre una grossa tangente in argento grezzo. Rivela nervosamente che 'certe persone a Tunis sanno cose che non dovrebbero sapere' e che 'il bordello custodiva segreti pericolosi'.",
-          "extreme": "Crolla psicologicamente, confessando che ha fatto uccidere sei minatori messicani che avevano scoperto 'qualcosa' nei tunnel sotto la miniera. Implora protezione: 'Le suore sanno tutto! Hanno trovato i corpi che avevamo murato nel vecchio bordello!'"
+          "low": "Mantiene un'aria di rispettabilità, offre sigari e mezcal. Parla vagamente degli 'sfortunati incidenti' a Tunis, minimizza la sua presenza in città come 'semplici affari'. Devia le domande sulla miniera verso questioni commerciali banali.",
+          "medium": "Diventa nervoso e difensivo. Suda copiosamente, si pulisce le mani continuamente. Accenna che 'certe cose a Tunis erano già marce prima che arrivassi' e che 'le suore hanno disturbato qualcosa che doveva restare sepolto'. Inizia a insinuare che le decapitazioni potrebbero essere collegate al vecchio bordello.",
+          "high": "Crolla parzialmente. Ammette di aver pagato Don Esquivel per 'smaltire problemi' alla miniera. Rivela che alcuni lavoratori morti sono stati sepolti in fosse comuni vicino a Tunis. Giura di non sapere nulla delle decapitazioni, ma menziona che 'certi rituali al bordello attiravano entità pericolose'.",
+          "extreme": "Terrorizzato, confessa tutto piangendo. Ammette omicidi alla miniera, corruzione, traffico di corpi. Rivela che il bordello era un luogo di culto oscuro gestito da Madame Laveau, e che lui pagava per protezione. Supplica aiuto: 'Qualcosa si è risvegliato quando le suore hanno profanato il luogo. Ci ucciderà tutti. La Madame tornerà per vendetta!'"
         },
         "reaction_table": {
-          "se_minacciato": "Chiama immediatamente i suoi quattro guardaspalle armati e tenta di far arrestare i PG per 'diffamazione e disturbo della pace'. Se fallisce, fugge verso il Messico quella notte stessa.",
-          "se_corrotto": "Accetta se la somma supera i 500 dollari d'argento. Rivela che due settimane prima delle decapitazioni, ha visto Suor Agatha entrare nei tunnel della miniera di notte con una lanterna rossa. Non ha osato seguirla.",
-          "se_i_pg_hanno_prove": "Diventa un alleato disperato. Offre l'accesso ai tunnel della miniera e ammette che il bordello era collegato alla miniera attraverso passaggi sotterranei usati per far sparire 'testimoni scomodi'.",
-          "se_alleato": "Fornisce mappe incomplete dei tunnel e confessa che i suoi uomini hanno sentito canti strani provenire dall'orfanotrofio nelle notti di luna nuova. Vuole solo fuggire vivo da Tunis."
+          "se_minacciato": "Tenta di comprare il silenzio con argento dalla miniera. Se fallisce, ordina ai suoi scagnozzi messicani di eliminare i testimoni. Come ultima risorsa, fugge verso il confine messicano nella notte.",
+          "se_corrotto": "Accetta volentieri tangenti generose. Fornisce argento, informazioni su Don Esquivel e sulla rete criminale locale. Offre accesso alla miniera e documenti compromettenti su altri corrotti, pur di proteggere se stesso.",
+          "se_i_pg_hanno_prove": "Cerca disperatamente di negoziare. Offre testimonianza contro Don Esquivel e altri complici. Rivela la posizione delle fosse comuni e i nomi dei mandanti. Propone di lasciare Tunis immediatamente e per sempre in cambio dell'immunità.",
+          "se_alleato": "Diventa una risorsa preziosa ma inaffidabile. Fornisce finanziamenti, uomini armati, rifugio nella miniera. Condivide conoscenze sul passato oscuro del bordello e sui rituali di Madame Laveau. Tuttavia, lo farà solo finché conviene ai suoi interessi."
         },
         "pressure_events": [],
         "relationships": [
@@ -10401,7 +10185,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "urban",
@@ -10434,16 +10217,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "candlemaker_canyon"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10456,7 +10229,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -10487,18 +10259,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tunis",
-        "location_type": "regional",
-        "connections_to": [
-          "general_store",
-          "bangtail_saloon",
-          "harriet_gardner_residence"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10511,7 +10271,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -10541,18 +10300,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tunis",
-        "location_type": "regional",
-        "connections_to": [
-          "st_cecilias_orphanage",
-          "bangtail_saloon",
-          "harriet_gardner_residence"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10565,7 +10312,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -10596,18 +10342,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tunis",
-        "location_type": "regional",
-        "connections_to": [
-          "st_cecilias_orphanage",
-          "general_store",
-          "harriet_gardner_residence"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10620,7 +10354,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "wilderness",
@@ -10651,16 +10384,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [
-          "tunis"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10673,7 +10396,6 @@
         "status": "known",
         "contains_clues": [],
         "contains_actors": [],
-        "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "indoor",
@@ -10703,18 +10425,6 @@
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "tunis",
-        "location_type": "regional",
-        "connections_to": [
-          "st_cecilias_orphanage",
-          "general_store",
-          "bangtail_saloon"
-        ],
-        "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
@@ -10877,171 +10587,7 @@
         "concrete_choice": "scegliere una risoluzione basata sugli elementi preservati"
       }
     ],
-    "story_threads": [
-      {
-        "id": "T11",
-        "title": "L'origine delle candele maledette",
-        "question": "Chi produce le candele nere e come acquisiscono il loro potere omicida?",
-        "true_answer": "Il Candleman le produce nel canyon usando grasso di maiali nutriti con cadaveri umani, probabilmente vittime del vecchio bordello",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_8",
-          "llm_clue_9",
-          "nuovo_clue_1",
-          "nuovo_clue_2"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "The Candleman"
-        ],
-        "linked_locations": [
-          "Candlemaker's Canyon",
-          "General Store"
-        ]
-      },
-      {
-        "id": "T12",
-        "title": "Il movente di Harriet Gardner",
-        "question": "Perché Harriet Gardner ha distribuito le candele maledette e cosa vuole ottenere?",
-        "true_answer": "Harriet vuole vendicare la morte del marito nel bordello facendo uccidere dall'Innominate Man tutti coloro che lo frequentavano",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_6",
-          "llm_clue_7",
-          "nuovo_clue_3",
-          "nuovo_clue_4"
-        ],
-        "minimum_clues_to_deduce": 3,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Harriet Gardner",
-          "The Candleman"
-        ],
-        "linked_locations": [
-          "Harriet Gardner's Residence",
-          "St. Cecilia's Orphanage"
-        ]
-      },
-      {
-        "id": "T13",
-        "title": "Il legame tra bordello e orfanotrofio",
-        "question": "Perché gli omicidi avvengono proprio nell'ex bordello trasformato in orfanotrofio?",
-        "true_answer": "L'Innominate Man è evocato dalla rabbia collettiva della città verso il bordello e può manifestarsi solo dove il peccato originale è avvenuto",
-        "status": "hidden",
-        "required_clues": [
-          "llm_clue_1",
-          "nuovo_clue_5",
-          "nuovo_clue_6",
-          "nuovo_clue_7"
-        ],
-        "minimum_clues_to_deduce": 2,
-        "parent_thread_ids": [],
-        "linked_npcs": [
-          "Holly Watling",
-          "Sheriff Robert Clanton Hume"
-        ],
-        "linked_locations": [
-          "St. Cecilia's Orphanage"
-        ]
-      },
-      {
-        "id": "T3",
-        "title": "T3",
-        "question": "Chi o cosa ha terrorizzato l'orfana e tornerà a colpire ancora?",
-        "true_answer": "L'orfana ha visto l'Innominate Man, un'entità soprannaturale decapitatrice. La creatura tornerà all'orfanotrofio per mietere altre vittime innocenti se non viene fermata in tempo.",
-        "collected_clue_ids": [
-          "llm_clue_3",
-          "llm_clue_10"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T4",
-        "title": "T4",
-        "question": "Cosa rende le candele nere così inquietanti e innaturali?",
-        "true_answer": "L'odore nauseabondo delle candele nere rivela che non sono normali candele di cera o sego, ma contengono ingredienti di origine soprannaturale e malvagia.",
-        "collected_clue_ids": [
-          "nuovo_clue_8"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T9",
-        "title": "T9",
-        "question": "Dove vengono prodotte e da dove provengono le candele nere?",
-        "true_answer": "Seguendo la direzione delle consegne notturne, i giocatori possono localizzare la fattoria isolata del Candleman, dove vengono fabbricate le candele occulte.",
-        "collected_clue_ids": [
-          "nuovo_clue_9"
-        ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_candele_occulte",
-        "title": "T candele occulte",
-        "question": "Qual è la vera composizione delle candele nere e quali poteri possiedono?",
-        "true_answer": "Le candele nere sono fabbricate con grasso di maiali nutriti con carne di cadaveri umani. Questa composizione blasfema conferisce loro proprietà occulte malefiche in grado di evocare forze soprannaturali.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_vendetta_vedova",
-        "title": "T vendetta vedova",
-        "question": "Chi sta dietro agli omicidi e qual è il movente?",
-        "true_answer": "La vedova Gardner sta orchestrando le morti usando le candele nere maledette. Suo marito fu ucciso nel bordello anni prima, e ora che è diventato un orfanotrofio, lei cerca vendetta contro quel luogo maledetto.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_entita_innominata",
-        "title": "T entita innominata",
-        "question": "Qual è la natura dell'assassino e come compie i suoi omicidi?",
-        "true_answer": "L'Innominate Man è un'entità soprannaturale evocata attraverso le candele nere. Si manifesta nel silenzio della notte e decapita le sue vittime senza lasciare tracce fisiche tradizionali.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_origine_entita",
-        "title": "T origine entita",
-        "question": "Da dove proviene l'Innominate Man e perché esiste?",
-        "true_answer": "L'Innominate Man non è un demone esterno, ma una manifestazione oscura nata dalla vergogna, rabbia e ipocrisia collettiva degli abitanti di Tunis verso il bordello di St. Cecilia. È il peccato della città fatto carne.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_operazioni_candleman",
-        "title": "T operazioni candleman",
-        "question": "Come opera il Candleman e qual è il suo ruolo in questa vicenda?",
-        "true_answer": "Il Candleman gestisce una fattoria isolata dove alleva maiali nutriti con cadaveri umani. Usa pratiche necromantiche per trasformare il loro grasso in candele occulte che vende a clienti che cercano poteri oscuri, come la vedova Gardner.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      }
-    ],
-    "map_state": {},
+    "story_threads": [],
     "genre_runtime": {
       "pdf_structure_counts": {
         "rooms": 0,
@@ -15749,8 +15295,7 @@
       "score": 100,
       "critical": [],
       "warnings": []
-    },
-    "doctor_score": 0.0
+    }
   },
   "live_game_state": null
 }
