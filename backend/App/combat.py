@@ -11,7 +11,7 @@ All-Out Attack/Defense dichiarati come action_type sul Player prima del tiro.
 
 import random
 from .models import AttackResult, CombatDefenseRequest, Player, SceneEntity, Wound
-from .data_advantages import advantage_dodge_bonus, advantage_death_threshold_mult, advantage_combat_penalty, advantage_ignores_shock
+from .data_advantages import advantage_dodge_bonus, advantage_death_threshold_mult, advantage_ignores_shock
 
 # ─── Distribuzione esatta 3d6 (216 combinazioni) ────────────────────────────
 _3D6_OUTCOMES: dict[int, int] = {

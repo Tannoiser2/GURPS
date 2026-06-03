@@ -953,8 +953,6 @@ def extract_factions_with_llm(
     if not _llm_extractors_enabled():
         return None
 
-    from .claude_service import _call_active_provider  # type: ignore[attr-defined]
-
     excerpt = text[:6000]
     npcs_text = "\n".join(
         f"- {a.get('name','')} ({a.get('role','')}): {(a.get('agenda') or a.get('goal') or '')[:80]}"
