@@ -10,9 +10,49 @@ import unittest
 
 from App.equipment_coherence import (
     validate_gear_for_genre,
+    filter_gear_for_genre,
     assign_starter_items,
     starter_item_names,
 )
+
+
+class TestFilterGearForGenre(unittest.TestCase):
+    def test_pistol_stripped_from_fantasy(self):
+        kept, removed = filter_gear_for_genre(
+            ["pistola", "spada", "kit_medico", "torcia"], "fantasy")
+        self.assertNotIn("pistola", kept)
+        self.assertIn("pistola", removed)
+        self.assertEqual(kept, ["spada", "kit_medico", "torcia"])
+
+    def test_fantasy_gear_untouched(self):
+        kept, removed = filter_gear_for_genre(
+            ["arco lungo", "grimorio", "pugnale"], "fantasy")
+        self.assertEqual(removed, [])
+
+    def test_modern_gear_kept_in_action(self):
+        kept, removed = filter_gear_for_genre(
+            ["pistola", "fucile d'assalto", "radio_tattica"], "action")
+        self.assertEqual(removed, [])
+
+    def test_unknown_genre_not_filtered(self):
+        kept, removed = filter_gear_for_genre(["pistola", "spada"], "genere_ignoto")
+        self.assertEqual(removed, [])
+        self.assertEqual(kept, ["pistola", "spada"])
+
+
+class TestEquipFunnelCoherence(unittest.TestCase):
+    def test_fantasy_pc_never_equips_firearm(self):
+        from App.engine import _equip_player_from_items
+        from App.models import Player
+        p = Player(id=1, name="Thalgar", role="Guerriero", archetype="warrior",
+                   stats={"forza": 12, "agilita": 11, "intelligenza": 10, "empatia": 10},
+                   items=["pistola", "spada", "kit_medico"])
+        _equip_player_from_items(p, "fantasy")
+        self.assertNotIn("pistola", p.items)
+        weapons = [e.name.lower() for e in p.equipment if e.category == "weapon"]
+        self.assertFalse(any("pistola" in w or "9mm" in w for w in weapons),
+                         f"arma da fuoco equipaggiata in fantasy: {weapons}")
+        self.assertTrue(weapons, "il PG dovrebbe comunque avere un'arma coerente")
 
 
 class TestValidateGearForGenre(unittest.TestCase):

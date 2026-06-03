@@ -270,6 +270,20 @@ def _equip_player_from_items(player: "Player", genre: str = "") -> None:
     from .models import EquipmentItem, Action
     import uuid
 
+    # Coerenza col genere: scarta gli item/armi anacronistici (es. pistola in
+    # fantasy) PRIMA di trasformarli in armi equipaggiate. L'auto-equip più sotto
+    # fornirà poi un'arma coerente con archetipo/genere.
+    if genre and player.items:
+        try:
+            from .equipment_coherence import filter_gear_for_genre
+            kept, removed = filter_gear_for_genre(list(player.items), genre)
+            if removed:
+                player.items = kept
+                print(f"[equip] {player.name}: rimossi item incoerenti col genere "
+                      f"'{genre}': {removed}")
+        except Exception as _e:
+            print(f"[equip] filtro coerenza saltato: {_e}")
+
     existing_weapon_ids = {a.weapon_id for a in player.actions if a.weapon_id}
     existing_eq_ids = {it.id for it in player.equipment}
 

@@ -125,6 +125,39 @@ def validate_gear_for_genre(item_names: list[str], genre: str) -> list[str]:
     return warnings
 
 
+def filter_gear_for_genre(item_names: list[str], genre: str) -> tuple[list[str], list[str]]:
+    """Rimuove gli item/armi non coerenti col genere (enforcement, non solo warning).
+
+    Ritorna ``(kept, removed)``. A differenza di :func:`validate_gear_for_genre`,
+    questa **scarta** davvero gli oggetti incoerenti — così una pistola non resta
+    nell'inventario di un PG fantasy. Gli item universali (senza ``eras``) e i
+    generi sconosciuti (nessuna era mappata) vengono lasciati intatti.
+    """
+    era_set = set(GENRE_ERA_MAP.get(genre, []))
+    if not era_set:
+        return list(item_names), []  # genere sconosciuto: non filtriamo
+    kept: list[str] = []
+    removed: list[str] = []
+    for raw in item_names:
+        wid = item_to_weapon_id(raw)
+        if wid:
+            weapon = WEAPON_BY_ID.get(wid)
+            w_eras = set(weapon.get("eras", [])) if weapon else set()
+            if w_eras and not (w_eras & era_set):
+                removed.append(raw)
+                continue
+            kept.append(raw)
+            continue
+        iid = _item_name_to_id(raw) or (raw if raw in ITEM_CATALOG else None)
+        if iid:
+            i_eras = set(ITEM_CATALOG.get(iid, {}).get("eras", []))
+            if i_eras and not (i_eras & era_set):
+                removed.append(raw)
+                continue
+        kept.append(raw)
+    return kept, removed
+
+
 # ─── Assegnazione equipaggiamento iniziale ────────────────────────────────────
 
 def assign_starter_items(archetype: str, genre: str) -> list[str]:
