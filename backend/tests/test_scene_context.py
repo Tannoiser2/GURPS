@@ -11,6 +11,7 @@ from App.scene_context import (
     actions_for_scene,
     current_location,
     present_actors_at,
+    present_or_anchored_opening_actors,
     visible_clues_at,
 )
 
@@ -61,6 +62,51 @@ def _build_definition() -> AdventureDefinition:
         clues=clues,
         actors=actors,
     )
+
+
+class OpeningActorAnchoringTests(unittest.TestCase):
+    def _prison(self):
+        return AdventureDefinition(
+            id="adv_prison", title="Prigione",
+            locations=[LocationState(id="cella_1", name="Cella")],
+            actors=[
+                ActorState(id="marta", name="Marta", role="ally", location_id=""),
+                ActorState(id="gurk", name="Gurk", role="antagonist", location_id=""),
+                ActorState(id="pale", name="Pale", role="neutral", location_id="sala_consiglio"),
+            ],
+        )
+
+    def test_borrows_only_nonhostile_locationless_actor(self):
+        d = self._prison()
+        present = present_or_anchored_opening_actors(d)
+        # Marta (ally, senza location) viene ancorata; Gurk (antagonista) no;
+        # Pale è collocato altrove e non viene tirato in cella.
+        self.assertEqual([a.name for a in present], ["Marta"])
+        self.assertEqual(d.actors[0].location_id, "cella_1")  # ancorata
+        self.assertEqual(d.actors[1].location_id, "")          # villain off-stage
+
+    def test_opening_actors_are_present_in_play(self):
+        # Regressione: nessun PNG fantasma — chi è nell'apertura deve esserci in gioco.
+        d = self._prison()
+        present = present_or_anchored_opening_actors(d)
+        rt = AdventureRuntimeState(definition_id=d.id, current_scene_id="cella_1")
+        in_play = {a.name for a in present_actors_at(rt, d, "cella_1")}
+        for actor in present:
+            self.assertIn(actor.name, in_play)
+        self.assertNotIn("Gurk", in_play)
+
+    def test_no_anchoring_when_scene_already_populated(self):
+        d = AdventureDefinition(
+            id="a2", title="t",
+            locations=[LocationState(id="hall", name="Hall")],
+            actors=[
+                ActorState(id="x", name="Cleo", role="witness", location_id="hall"),
+                ActorState(id="v", name="Boss", role="villain", location_id=""),
+            ],
+        )
+        present = present_or_anchored_opening_actors(d)
+        self.assertEqual([a.name for a in present], ["Cleo"])
+        self.assertEqual(d.actors[1].location_id, "")  # villain non ancorato
 
 
 class SceneContextVisibilityTests(unittest.TestCase):

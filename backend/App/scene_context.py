@@ -232,9 +232,51 @@ def _skill_hint_for_clue_type(clue_type: str) -> str | None:
     }.get(clue_type)
 
 
+# Ruoli ostili che NON vanno mai co-locati con i PG nella scena d'apertura.
+_HOSTILE_ROLE_MARKERS = (
+    "antagonist", "antagonista", "villain", "nemic", "enemy", "ostil", "hostile",
+    "rival", "tradit", "complice", "assassin", "killer", "sicario", "carnefice",
+)
+
+
+def present_or_anchored_opening_actors(definition: AdventureDefinition) -> list[ActorState]:
+    """PNG da presentare nella scena d'apertura, coerenti con il gioco reale.
+
+    Restituisce gli attori realmente collocati nella prima location. Se non ce
+    n'è nessuno, invece di "prestare" i primi attori a caso — che poi sparirebbero
+    in gioco, perché :func:`present_actors_at` filtra per location (è il bug per
+    cui un PNG come "Marta" veniva presentato in cella e poi dichiarato assente) —
+    ancora alla scena iniziale fino a 2 PNG **non ostili e senza location**,
+    impostandone ``location_id``. Così restano presenti e interagibili, e un
+    antagonista non finisce mai nella cella di partenza.
+    """
+    first_loc = definition.locations[0] if definition.locations else None
+    first_loc_id = first_loc.id if first_loc else ""
+
+    def _here(a: ActorState) -> bool:
+        return bool(a.location_id) and (
+            a.location_id == first_loc_id
+            or (first_loc is not None and a.location_id == first_loc.name)
+        )
+
+    actors_here = [a for a in (definition.actors or []) if _here(a)]
+    if not actors_here and first_loc_id:
+        for a in (definition.actors or []):
+            if a.location_id:
+                continue
+            if any(h in str(a.role or "").lower() for h in _HOSTILE_ROLE_MARKERS):
+                continue
+            a.location_id = first_loc_id  # àncora: coerenza apertura <-> gioco
+            actors_here.append(a)
+            if len(actors_here) >= 2:
+                break
+    return actors_here
+
+
 __all__ = [
     "visible_clues_at",
     "present_actors_at",
     "actions_for_scene",
     "current_location",
+    "present_or_anchored_opening_actors",
 ]
