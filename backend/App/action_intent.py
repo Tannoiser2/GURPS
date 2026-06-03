@@ -48,7 +48,7 @@ INTENT_WEIGHTS: dict[str, dict[str, float]] = {
     "persuasion": {"convince": 2.0, "persuade": 2.0, "talk": 1.2, "ask": 1.0, "calmly": 1.0, "appeal": 1.4, "negotiate": 1.5, "convinc": 2.0, "persuad": 2.0, "parl": 1.2, "chied": 1.0, "negozi": 1.5},
     "intimidation": {"threaten": 2.4, "menace": 2.0, "scare": 1.7, "pressure": 1.3, "threat": 1.5, "minacc": 2.4, "intimid": 2.2, "spavent": 1.7},
     "deception": {"lie": 2.2, "deceive": 2.0, "bluff": 2.0, "fake": 1.5, "false identity": 2.2, "disguise": 1.4, "ment": 2.0, "ingann": 2.0, "fing": 1.5},
-    "empathy": {"understand emotional": 2.3, "read emotion": 2.2, "emotional state": 2.0, "feelings": 1.7, "mood": 1.4, "calm": 1.8, "terrified": 1.4, "child": 0.8, "capire emoz": 2.0, "reazione emotiva": 2.0},
+    "empathy": {"understand emotional": 2.3, "read emotion": 2.2, "emotional state": 2.0, "feelings": 1.7, "mood": 1.4, "calm": 1.8, "terrified": 1.4, "child": 0.8, "capire emoz": 2.0, "reazione emotiva": 2.0, "empat": 2.2, "emozion": 2.1, "leggere le emozion": 2.4, "stato d'animo": 1.9, "sentiment": 1.6, "intenzion": 1.1, "umore": 1.4, "intuir": 1.4, "fidarsi": 1.0},
     "interrogation": {"question": 2.0, "interrogate": 2.0, "witness": 0.2, "suspect": 0.4, "ask witness": 2.0, "interrog": 2.0, "testimone": 0.2, "sospett": 0.4},
     "stealth": {"hide": 2.2, "sneak": 2.2, "avoid detection": 2.4, "patrol": 1.0, "silently": 1.4, "shadow": 1.0, "nascond": 2.2, "furtiv": 2.2, "silenz": 1.6, "pattuglia": 1.0},
     "stealth_tracking": {"follow secretly": 2.4, "follow": 1.4, "secretly": 0.8, "tail": 2.0, "shadow suspect": 2.0, "track without": 2.0, "pedin": 2.0, "seguire di nascosto": 2.2},
@@ -57,7 +57,7 @@ INTENT_WEIGHTS: dict[str, dict[str, float]] = {
     "movement": {"climb": 1.8, "jump": 1.7, "run": 1.2, "cross": 1.1, "swim": 1.8, "arramp": 1.8, "salt": 1.7, "corr": 1.2, "nuot": 1.8},
     "combat_melee": {"attack": 2.2, "strike": 2.0, "stab": 2.2, "slash": 2.0, "charge": 1.8, "tackle": 1.8, "cultist": 0.5, "attacc": 2.2, "colp": 2.0, "pugnal": 2.2, "caric": 1.8},
     "combat_ranged": {"shoot": 2.4, "fire": 2.0, "rifle": 1.8, "pistol": 1.8, "bow": 1.8, "arrow": 1.5, "spar": 2.4, "fucile": 1.8, "pistola": 1.8, "arco": 1.8},
-    "defense": {"protect": 1.8, "defend": 1.8, "shield": 1.5, "resist": 1.4, "blast": 1.0, "cover ally": 1.5, "protegg": 1.8, "difend": 1.8, "resist": 1.4},
+    "defense": {"protect": 1.8, "defend": 1.8, "shield": 1.5, "resist": 1.4, "blast": 1.0, "cover ally": 1.5, "protegg": 1.8, "difend": 1.8, "schiv": 2.2, "parar": 1.4},
     "leadership": {"command": 1.8, "coordinate": 1.7, "lead": 1.5, "plan": 1.3, "order": 1.2, "comand": 1.8, "coordin": 1.7, "guid": 1.4},
     "lore": {"ritual": 1.5, "occult": 1.6, "myth": 1.3, "legend": 1.2, "rune": 1.4, "ritual": 1.5, "occult": 1.6, "runa": 1.4},
 }
@@ -66,7 +66,7 @@ TARGET_WEIGHTS: dict[str, dict[str, float]] = {
     "corpse": {"investigate": 1.0, "medical": 0.8, "intimidation": -2.0, "combat_melee": -1.5, "combat_ranged": -1.5},
     "document": {"research": 1.2, "investigate": 0.8, "combat_melee": -2.0, "stealth": -1.2},
     "witness": {"interrogation": 0.3, "persuasion": 0.7, "empathy": 0.7, "stealth": -1.0},
-    "suspect": {"interrogation": 0.5, "persuasion": 0.4, "intimidation": 0.3, "stealth_tracking": 0.4, "observe": 0.5},
+    "suspect": {"interrogation": 0.5, "persuasion": 0.4, "intimidation": 0.3, "stealth_tracking": 0.4, "observe": 0.5, "empathy": 0.5},
     "machine": {"technical": 1.4, "investigate": 0.3, "seduction": -2.0},
     "lock": {"force": 0.8, "technical": 0.6, "stealth": -0.4},
     "enemy": {"combat_melee": 0.5, "combat_ranged": 0.5, "stealth": 0.2, "persuasion": -0.2},
@@ -192,6 +192,9 @@ def extract_action_intent(action_text: str, context: dict[str, Any] | None = Non
     elif not any(_contains(blob, w) for w in COMBAT_VERBS):
         scores["combat_melee"] -= 3.0
         scores["combat_ranged"] -= 3.0
+        # 'difesa' (schivare/parare) fuori da un combattimento richiede evidenza forte:
+        # evita che parole come "proteggendo" (riferite a un PNG) facciano scegliere schivare.
+        scores["defense"] -= 0.9
 
     best_intent, best_score = max(scores.items(), key=lambda item: item[1])
     if best_score <= 0:
