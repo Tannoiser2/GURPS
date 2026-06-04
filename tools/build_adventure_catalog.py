@@ -28,6 +28,24 @@ CATALOG = STORE / "_catalogo"
 
 # Riusa la mappa genere→cartella dell'app per restare coerenti.
 sys.path.insert(0, str(ROOT / "backend"))
+
+# Punteggio qualità REALE dal Doctor (audit live), non il playable_score salvato
+# a generazione (che era troppo indulgente e non rifletteva la giocabilità vera).
+from unittest.mock import MagicMock as _MagicMock  # noqa: E402
+for _m in ("anthropic", "openai", "google", "google.genai", "google.auth"):
+    sys.modules.setdefault(_m, _MagicMock())
+try:
+    from App.adventure_doctor import audit as _audit, score as _doctor_raw  # type: ignore
+
+    def _doctor_score(ad: dict):
+        try:
+            return round(_doctor_raw(_audit(ad)) * 10)  # 0-10 → 0-100
+        except Exception:
+            return None
+except Exception:  # backend non importabile → nessun punteggio
+    def _doctor_score(ad: dict):
+        return None
+
 try:
     from App.adventure_runtime_store import genre_folder  # type: ignore
 except Exception:  # fallback minimale se il backend non è importabile
@@ -96,7 +114,7 @@ def collect():
             folder = genre_folder(ad.get("genre") or theme_dir.name)
             code_theme = THEME_CODE.get(folder, "OTH")
             src = source_code(ad, jf.stem)
-            score = vr.get("playable_score")
+            score = _doctor_score(ad)  # punteggio Doctor live (0-100), non playable_score
             score_txt = f"{int(score):02d}" if isinstance(score, (int, float)) else "NA"
             broken = vr.get("valid") is False          # invalida -> _ROTTE
             unplayable = not broken and vr.get("playable") is False  # valida ma non giocabile
