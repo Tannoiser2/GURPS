@@ -149,6 +149,7 @@ def main():
     try:
         from App.adventure_doctor import run_doctor, audit, score
         from App.runtime_models import AdventureDefinition
+        from App.claude_service import reset_session_token_stats, format_cost_summary
         print("✅ Moduli caricati\n")
     except ImportError as e:
         print(f"❌ Errore import: {e}")
@@ -161,6 +162,7 @@ def main():
           + (f"  (skip se score ≥ {args.skip_above})" if args.skip_above else ""))
 
     ok = skip = fail = 0
+    reset_session_token_stats()
     for path in targets:
         if not path.exists():
             print(f"[FAIL] {path} — file non trovato")
@@ -174,6 +176,7 @@ def main():
 
     print(f"\n{'='*50}")
     print(f"Completato: {ok} arricchite, {skip} saltate, {fail} fallite")
+    print(format_cost_summary(f"({ok} arricchite)"))
     if fail > 0 and ok == 0:
         sys.exit(1)
 

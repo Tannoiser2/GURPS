@@ -6,6 +6,7 @@ import os
 import base64
 import io
 import re
+import threading
 import anthropic
 from dotenv import load_dotenv
 load_dotenv(override=True)
@@ -75,6 +76,9 @@ _session_tokens: dict = {
     "cache_read_tokens": 0, "cache_write_tokens": 0, "cache_savings_usd": 0.0,
 }
 
+# Protegge i contatori sopra dalle chiamate AI concorrenti (es. doctor parallelo).
+_usage_lock = threading.Lock()
+
 # R4: soglia warning token — sopra questa soglia il turno include un avviso
 _TOKEN_BUDGET_WARN = int(os.getenv("TOKEN_BUDGET_WARN", "80000"))
 _TOKEN_BUDGET_HARD = int(os.getenv("TOKEN_BUDGET_HARD", "0"))  # 0 = nessun hard cap
@@ -125,13 +129,14 @@ def get_last_request_tokens() -> dict:
 def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
     prices = _PRICE_PER_M.get(model, {"input": 0.0, "output": 0.0})
     cost = (input_tokens * prices["input"] + output_tokens * prices["output"]) / 1_000_000
-    _session_tokens["input"] += input_tokens
-    _session_tokens["output"] += output_tokens
-    _session_tokens["cost_usd"] += cost
-    _session_tokens["calls"] += 1
-    _last_request_tokens["input"] += input_tokens
-    _last_request_tokens["output"] += output_tokens
-    _last_request_tokens["cost_usd"] += cost
+    with _usage_lock:
+        _session_tokens["input"] += input_tokens
+        _session_tokens["output"] += output_tokens
+        _session_tokens["cost_usd"] += cost
+        _session_tokens["calls"] += 1
+        _last_request_tokens["input"] += input_tokens
+        _last_request_tokens["output"] += output_tokens
+        _last_request_tokens["cost_usd"] += cost
 
 
 def _record_usage_cached(model: str, input_tokens: int, output_tokens: int,
@@ -146,18 +151,19 @@ def _record_usage_cached(model: str, input_tokens: int, output_tokens: int,
     # Saving vs. no caching: token that were served from cache at 0.1x price
     savings = cache_read * (prices["input"] - prices.get("cache_read", 0.0)) / 1_000_000
 
-    _session_tokens["input"] += input_tokens
-    _session_tokens["output"] += output_tokens
-    _session_tokens["cost_usd"] += total_cost
-    _session_tokens["calls"] += 1
-    _session_tokens["cache_read_tokens"] = _session_tokens.get("cache_read_tokens", 0) + cache_read
-    _session_tokens["cache_write_tokens"] = _session_tokens.get("cache_write_tokens", 0) + cache_write
-    _session_tokens["cache_savings_usd"] = _session_tokens.get("cache_savings_usd", 0.0) + savings
+    with _usage_lock:
+        _session_tokens["input"] += input_tokens
+        _session_tokens["output"] += output_tokens
+        _session_tokens["cost_usd"] += total_cost
+        _session_tokens["calls"] += 1
+        _session_tokens["cache_read_tokens"] = _session_tokens.get("cache_read_tokens", 0) + cache_read
+        _session_tokens["cache_write_tokens"] = _session_tokens.get("cache_write_tokens", 0) + cache_write
+        _session_tokens["cache_savings_usd"] = _session_tokens.get("cache_savings_usd", 0.0) + savings
 
-    _last_request_tokens["input"] += input_tokens
-    _last_request_tokens["output"] += output_tokens
-    _last_request_tokens["cost_usd"] += total_cost
-    _last_request_tokens["calls"] += 1
+        _last_request_tokens["input"] += input_tokens
+        _last_request_tokens["output"] += output_tokens
+        _last_request_tokens["cost_usd"] += total_cost
+        _last_request_tokens["calls"] += 1
 
 
 def get_session_token_stats() -> dict:
@@ -183,8 +189,26 @@ def get_session_token_stats() -> dict:
 def reset_session_token_stats() -> None:
     for k in ("input", "output", "cost_usd", "calls", "errors"):
         _session_tokens[k] = 0.0 if k in ("cost_usd",) else 0
+    for k in ("cache_read_tokens", "cache_write_tokens", "cache_savings_usd"):
+        _session_tokens[k] = 0.0 if k == "cache_savings_usd" else 0
     for k in ("count", "cost_usd"):
         _session_images[k] = 0.0 if k == "cost_usd" else 0
+
+
+def format_cost_summary(label: str = "") -> str:
+    """Riepilogo leggibile di costo/token della sessione corrente, per i log dei
+    workflow di generazione (visibilità immediata sulla spesa di ogni run)."""
+    s = get_session_token_stats()
+    head = f"💰 Costo run{(' ' + label) if label else ''}: ${s['total_cost_usd']:.4f}"
+    lines = [
+        head,
+        f"   chiamate AI: {s['calls']}  |  token in/out: {s['input_tokens']}/{s['output_tokens']}",
+    ]
+    if s.get("cache_savings_usd"):
+        lines.append(f"   risparmio da cache: ${s['cache_savings_usd']:.4f}")
+    if s.get("image_count"):
+        lines.append(f"   immagini: {s['image_count']} (${s['image_cost_usd']:.4f})")
+    return "\n".join(lines)
 
 
 def get_token_budget_status() -> dict:
