@@ -33,6 +33,22 @@ async function safeFetch(url, opts) {
 }
 const VERCEL_PDF_UPLOAD_LIMIT_BYTES = 4 * 1024 * 1024;
 
+// Su iOS Safari una fetch fallita (es. backend Render in avvio / cold-start)
+// arriva con messaggi criptici come "The string did not match the expected
+// pattern." o "Load failed". Questi helper li riconoscono e li traducono in un
+// messaggio leggibile invece di mostrarli grezzi all'utente.
+function isNetworkError(e) {
+  const m = (e && e.message) || String(e || "");
+  return m === "Load failed" || m === "Failed to fetch"
+    || m.includes("NetworkError") || m.includes("did not match the expected pattern");
+}
+function friendlyFetchError(e, fallback) {
+  if (isNetworkError(e)) {
+    return "Impossibile raggiungere il server: potrebbe essere in avvio. Riprova tra qualche secondo.";
+  }
+  return (e && e.message) || fallback || "Errore di rete.";
+}
+
 const STAT_ICON = { forza: "💪", agilita: "🏃", intelligenza: "🧠", empatia: "💙" };
 const STAT_LABEL = { forza: "FO", agilita: "DE", intelligenza: "IN", empatia: "SA" };
 
@@ -2187,6 +2203,8 @@ function SetupScreen({ onStart }) {
     let def = JSON.parse(JSON.stringify(adventure.adventure_definition));
 
     try {
+      // Warmup ping: sveglia Render prima delle chiamate mappe (free tier dorme dopo 15min)
+      try { await safeFetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
       // 1. Overview map
       const currentOverview = def.map_state?.image_b64;
       if (!currentOverview) {
@@ -2223,7 +2241,7 @@ function SetupScreen({ onStart }) {
               errors.push("overview: nessuna immagine restituita (provider indisponibile?)");
             }
           } catch (e) {
-            errors.push(`overview: ${e?.message || e}`);
+            errors.push(`overview: ${isNetworkError(e) ? "server in avvio, riprova" : (e?.message || e)}`);
             console.error("[preGenerateMaps] overview error:", e);
           }
         }
@@ -2264,7 +2282,7 @@ function SetupScreen({ onStart }) {
             errors.push(`tactical_${loc.id}: nessuna immagine restituita`);
           }
         } catch (e) {
-          errors.push(`tactical_${loc.id}: ${e?.message || e}`);
+          errors.push(`tactical_${loc.id}: ${isNetworkError(e) ? "server in avvio, riprova" : (e?.message || e)}`);
           console.error(`[preGenerateMaps] tactical ${loc.id} error:`, e);
         }
       }
@@ -2277,7 +2295,7 @@ function SetupScreen({ onStart }) {
       return enriched;
     } catch (e) {
       console.error("[preGenerateMaps] fatal error:", e);
-      setMapsResult({ generated, errors: [...errors, String(e?.message || e)] });
+      setMapsResult({ generated, errors: [...errors, isNetworkError(e) ? "server in avvio, riprova" : String(e?.message || e)] });
     } finally {
       setMapsLoading(false);
     }
@@ -2687,7 +2705,9 @@ function SetupScreen({ onStart }) {
     setLoading(true);
     setJsonError("");
     try {
-      const created = await fetch(`${API_URL_DIRECT}/game/adventure/create`, {
+      // Warmup ping: sveglia Render prima della generazione (free tier dorme dopo 15min)
+      try { await safeFetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
+      const created = await safeFetch(`${API_URL_DIRECT}/game/adventure/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ genre: g, players: [], scale: adventureScale }),
@@ -2729,7 +2749,7 @@ function SetupScreen({ onStart }) {
       await preGenerateMaps(created);
       setStep("review");
     } catch (e) {
-      setJsonError(e.message || "Impossibile generare l'avventura.");
+      setJsonError(friendlyFetchError(e, "Impossibile generare l'avventura."));
     }
     setLoading(false);
   }
