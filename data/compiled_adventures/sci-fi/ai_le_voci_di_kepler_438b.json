@@ -1,0 +1,2353 @@
+{
+  "adventure_definition": {
+    "id": "ai_le_voci_di_kepler_438b",
+    "title": "Le Voci di Kepler-438b",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "investigation_graph",
+      "secondary_archetypes": [],
+      "confidence": 0.5,
+      "reason": "Matched runtime signals for investigation_graph",
+      "definition": {
+        "id": "investigation_graph",
+        "description": "Piste, indizi, deduzioni e payoff.",
+        "required_modules": [
+          "clues",
+          "revelations"
+        ],
+        "optional_modules": [
+          "witnesses",
+          "false_leads"
+        ],
+        "runtime_focus": [
+          "clue",
+          "deduction"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "physical_evidence",
+          "testimony",
+          "document"
+        ],
+        "common_failure_modes": [
+          "clue_partial",
+          "witness_closes"
+        ],
+        "ending_patterns": [
+          "deduction_finale"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "sci_fi",
+    "runtime_profiles": [
+      "investigation_graph"
+    ],
+    "tone": "Fantascienza psicologica claustrofobica con elementi di body horror cognitivo",
+    "premise": "La vostra nave mercantile intercetta un segnale di soccorso proveniente dal relitto della Chrysalis, nave da ricerca scomparsa tre anni fa nell'orbita di Kepler-438b. A bordo trovate un solo superstite: la dottoressa Imani Okoye, xenolinguista in stato catatonico, che stringe un dispositivo di memoria quantica. Quando riprende conoscenza, sussurra una sola frase: 'Non lasciate che la Corporazione ascolti le voci'. Il dispositivo contiene la traduzione parziale di un linguaggio alieno trovato su un monolite nella superficie del pianeta — un linguaggio che sembra comunicare direttamente con la mente umana, promettendo conoscenza illimitata. Ma qualcun altro sta già convergendo sulle vostre coordinate.",
+    "initial_hook": "Le Voci di Kepler-438b La vostra nave mercantile intercetta un segnale di soccorso proveniente dal relitto della Chrysalis, nave da ricerca scomparsa tre anni fa nell'orbita di Kepler-438b. A bordo trovate un solo superstite: la dottoressa Imani Okoye, xenolinguista in stato catatonico, che stringe ",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Il Consorzio Helix ha deliberatamente sabotato la Chrysalis tre anni fa dopo che l'equipaggio scoprì che il monolite alieno non offre conoscenza, ma è un dispositivo di 'risonanza cognitiva' progettato per identificare menti compatibili e trasformarle in nodi di una rete aliena dormiente. Il capitano Yuri Volkov, apparentemente un mercenario neutrale che si offre di aiutarvi, è in realtà un agente Helix incaricato di recuperare il dispositivo quantico e di eliminare chiunque abbia ascoltato le 'voci' — perché il Consorzio vuole usare la tecnologia aliena per creare soldati psionici controllabili, non importa il costo in vite umane.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Distruggere il dispositivo quantico e le traduzioni prima che Helix le ottenga, oppure trasmettere pubblicamente i dati per impedire il monopolio — ma chi ascolta le voci rischia la trasformazione permanente",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Distruggere il dispositivo quantico e le traduzioni prima che Helix le ottenga, oppure trasmettere pubblicamente i dati per impedire il monopolio — ma chi ascolta le voci rischia la trasformazione permanente"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Il monolite è un dispositivo di 'risonanza cognitiva' aliena progettato per identificare menti umane compatibili e trasformarle gradualmente in nodi di una rete di coscienza collettiva dormiente. Non offre conoscenza — consuma identità",
+        "required_clues": [
+          "clue_1",
+          "clue_4"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Capire che il monolite è un dispositivo di trasformazione, non di conoscenza / Comprendere la vera natura della minaccia e il motivo per cui Helix vuole la tecnologia",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Helix ha sabotato deliberatamente la Chrysalis — e Volkov era coinvolto Volkov ha un interesse nascosto nel dispositivo — troppo insistente per essere solo altruismo",
+        "required_clues": [
+          "clue_2",
+          "clue_3",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Smascherare Volkov come agente Helix e rivelare il suo tradimento / Inizialmente sembra precauzione sensata; dopo clue_2 diventa prova della sua missione di recupero",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Traduzioni incomplete del monolite",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Infermeria della vostra nave",
+        "reveals": "Il linguaggio alieno non è comunicazione normale — altera neurologicamente chi lo legge",
+        "payoff": "Capire che il monolite è un dispositivo di trasformazione, non di conoscenza",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Il dispositivo quantico contiene 47 pagine di traduzioni. I simboli alieni si trasformano in concetti puri quando letti — non sono parole",
+        "hidden_implication": "Il linguaggio alieno non è comunicazione normale — altera neurologicamente chi lo legge",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_vostra_nave"
+      },
+      {
+        "id": "clue_2",
+        "label": "Log del capitano della Chrysalis",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Ponte della Chrysalis",
+        "reveals": "Helix ha sabotato deliberatamente la Chrysalis — e Volkov era coinvolto",
+        "payoff": "Smascherare Volkov come agente Helix e rivelare il suo tradimento",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Registro audio trovato nel relitto: 'Giorno 89. Okoye insiste a continuare le traduzioni nonostante i sintomi. Dice",
+        "hidden_implication": "Helix ha sabotato deliberatamente la Chrysalis — e Volkov era coinvolto",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_ponte_della_chrysalis"
+      },
+      {
+        "id": "clue_3",
+        "label": "Comportamento protettivo di Volkov",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Ponte di comando della vostra nave",
+        "reveals": "Volkov ha un interesse nascosto nel dispositivo — troppo insistente per essere solo altruismo",
+        "payoff": "Inizialmente sembra precauzione sensata; dopo clue_2 diventa prova della sua missione di recupero",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Volkov insiste nel voler 'proteggere' il dispositivo quantico personalmente. Si offre di portarlo in un deposito blindato della nave. Sembra eccessivamente interessato a chi ha letto le traduzioni",
+        "hidden_implication": "Volkov ha un interesse nascosto nel dispositivo — troppo insistente per essere solo altruismo",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_ponte_di_comando_della_vostr"
+      },
+      {
+        "id": "clue_4",
+        "label": "Testimonianza di Okoye",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Infermeria della vostra nave",
+        "reveals": "Il monolite trasforma gli umani in nodi di una rete aliena — Okoye è già parzialmente convertita",
+        "payoff": "Comprendere la vera natura della minaccia e il motivo per cui Helix vuole la tecnologia",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Okoye confessa a bassa voce: 'Le voci non sono casuali. Cercano menti specifiche. Io... io le sento ancora. Mi dicono di tornare al monolite. Di portare altri. È come... come se fossi diventata parte di una rete. E la",
+        "hidden_implication": "Il monolite trasforma gli umani in nodi di una rete aliena — Okoye è già parzialmente convertita",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_vostra_nave"
+      },
+      {
+        "id": "clue_5",
+        "label": "Impianto neurale nascosto su Okoye",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Infermeria della vostra nave",
+        "reveals": "Helix sta tracciando Okoye da sempre — il 'salvataggio' era previsto",
+        "payoff": "Rivelare che Helix sapeva esattamente dove trovare la Chrysalis e ha lasciato Okoye viva intenzionalmente come esca",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Una scansione medica rivela un piccolo impianto alla base del cranio di Okoye — non registrato nei suoi dati medici. È di fattura Helix",
+        "hidden_implication": "Helix sta tracciando Okoye da sempre — il 'salvataggio' era previsto",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_vostra_nave"
+      },
+      {
+        "id": "clue_6",
+        "label": "Messaggio criptato intercettato",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Sala server della vostra nave",
+        "reveals": "Volkov sta comunicando segretamente con Helix — è una talpa a bordo",
+        "payoff": "Conferma definitiva del tradimento di Volkov e del pericolo immediato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Il sistema di comunicazione intercetta una trasmissione criptata dalla vostra nave verso la Persecutor. Il mittente è 'V-D7'",
+        "hidden_implication": "Volkov sta comunicando segretamente con Helix — è una talpa a bordo",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_della_vostra_nav"
+      },
+      {
+        "id": "clue_7",
+        "label": "Scansioni cerebrali anomale",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Il monolite non trasmette conoscenza ma modifica i cervelli per connetterli",
+        "payoff": "Capire che l'esposizione alle 'voci' è pericolosa e irreversibile",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Cristalli di risonanza nel dispositivo",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Il dispositivo è di origine aliena e interagisce direttamente con il cervello",
+        "payoff": "Comprendere che il monolite usa tecnologia organica per interfacciarsi con le menti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Registrazioni audio finali",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "La trasformazione era quasi completa prima del sabotaggio",
+        "payoff": "Realizzare che Okoye è parzialmente trasformata e potrebbe perdere completamente l'umanità",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Codici di accesso Helix sul sistema",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Helix aveva accesso alla nave e ha causato il sabotaggio",
+        "payoff": "Confermare che il disastro non fu un incidente",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Ordini militari di Kurata",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Helix vuole i superstiti esposti come cavie, non per salvarli",
+        "payoff": "Capire che Volkov sta seguendo ordini di eliminazione",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Attrezzatura militare nascosta di Volkov",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Volkov è equipaggiato per catturare o uccidere soggetti esposti",
+        "payoff": "Scoprire che Volkov è un agente Helix sotto copertura",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Capsula criogenica attiva",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "C'è un secondo superstite ancora vivo sulla Chrysalis",
+        "payoff": "Ottenere un testimone aggiuntivo e informazioni tecniche sul sabotaggio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Diario personale di Chandra",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Okoye agì per salvare almeno un membro dell'equipaggio prima di soccombere",
+        "payoff": "Capire che Chandra ha informazioni cruciali ma rischia trasformazione se risvegliato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Dottoressa Imani Okoye",
+        "role": "Superstite xenolinguista, unica testimone della Chrysalis",
+        "location_id": "loc_infermeria_della_vostra_nave",
+        "status": "unintroduced",
+        "goal": "Vuole disperatamente distruggere il dispositivo quantico prima che altri subiscano il suo destino",
+        "secret": "Ha già ascoltato troppo a lungo le voci — sta lentamente trasformandosi in un nodo alieno e lo sa. Cerca di completare una procedura di autodistruzione neurale prima di perdere il controllo",
+        "agenda_pressure": 0,
+        "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+        "current_plan": "Convincere i PG a piazzare cariche esplosive sul nucleo della Chrysalis e sulla sala del dispositivo quantico. Quando saranno al sicuro sulla loro nave, attiverà il chip neurale che la ucciderà e distruggerà ogni traccia delle frequenze aliene nella sua memoria.",
+        "fallback_plan": "Se i PG rifiutano di distruggere la Chrysalis o vogliono portarla via, Imani attiverà prematuramente il chip neurale nella sala del dispositivo, sperando che la sua morte interrompa il segnale abbastanza a lungo da permettere ai PG di fuggire. Ha già nascosto un detonatore manuale nel suo corpo cybernetic implant come ultima risorsa.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Vuole disperatamente distruggere il dispositivo quantico prima che altri subiscano il suo destino"
+        ],
+        "avoids": [
+          "che Traduzioni incomplete del monolite riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Collabora razionalmente, spiega la natura del dispositivo quantico e delle 'voci' - entità dimensionali che comunicano attraverso pattern neurologici. Insiste sulla necessità di distruggere tutto prima di lasciare l'orbita.",
+          "medium": "Diventa erratica, alterna momenti di lucidità a sussurri in linguaggi alieni. Mostra segni fisici: occhi che cambiano colore, pattern geometrici sotto la pelle. Supplica i PG di ucciderla se perde il controllo.",
+          "high": "Entra in uno stato catatonico mentre le voci prendono il sopravvento. Inizia a sabotare attivamente la nave mercantile per impedire la fuga, convinta che 'loro' debbano ascoltare. Parla per conto delle entità, promettendo conoscenza infinita.",
+          "extreme": "La trasformazione si completa. Imani diventa un nodo-ponte vivente: il suo corpo emette segnali quantici che aprono micro-fratture dimensionali. Cerca disperatamente di attivare l'autodistruzione neurale che ha preparato, ma le entità combattono per il controllo dei suoi arti."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si offre volontaria per essere rinchiusa o sedata. 'Fatelo prima che io non sia più io. Ho forse due ore prima che il processo sia irreversibile.'",
+          "se_corrotto": "Se qualcuno ascolta le voci attraverso il dispositivo, Imani piange disperatamente e accelera il suo piano di autodistruzione, temendo di aver creato un secondo nodo.",
+          "se_i_pg_hanno_prove": "Se i PG scoprono i suoi log personali sulla trasformazione, confessa tutto: i 47 giorni passati ad ascoltare, l'equipaggio che è diventato 'parte del coro', il chip neurale suicida nel suo tronco encefalico.",
+          "se_alleato": "Fornisce il codice per disattivare il dispositivo quantico, ma avverte: 'Le voci sanno già che siete qui. Io sono il loro faro. Dovete lasciarmi sulla Chrysalis quando la farete esplodere.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Capitano Yuri Volkov",
+        "role": "Mercenario veterano che si offre di aiutarvi contro Helix",
+        "location_id": "loc_ponte_di_comando_della_vostr",
+        "status": "unintroduced",
+        "goal": "Sostiene di odiare Helix per aver tradito il suo vecchio team — ma è tutto falso",
+        "secret": "È un agente dormiente Helix infiltrato. Il suo compito: recuperare il dispositivo, eliminare i testimoni e garantire che nessuno pubblichi le traduzioni",
+        "agenda_pressure": 0,
+        "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+        "current_plan": "Integrarsi come membro fidato dell'equipaggio. Ottenere accesso esclusivo alle traduzioni del dispositivo alieno. Mappare le routine e debolezze dei PG. Attendere il momento ottimale per recuperare il dispositivo ed eliminare tutti i testimoni, inscenando un incidente o un attacco pirata.",
+        "fallback_plan": "Se scoperto prematuramente: barricarsi nella sala macchine con il dispositivo, chiamare estrazione Helix e resistere 4-6 ore. Se impossibile: distruggere il dispositivo piuttosto che lasciarlo ai PG, attivare l'autodistruzione della sezione e fuggire con una capsula. Ultima risorsa: suicidio per proteggere l'identità degli altri agenti dormienti Helix.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Sostiene di odiare Helix per aver tradito il suo vecchio team — ma è tutto falso"
+        ],
+        "avoids": [
+          "che Traduzioni incomplete del monolite riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Volkov si offre generosamente di aiutare, condividendo 'informazioni' su presunte operazioni Helix nella zona. Stabilisce fiducia raccontando aneddoti inventati sul suo team tradito. Cerca di accedere ai dati della Chrysalis 'per verificare tracce Helix'.",
+          "medium": "Diventa protettivo verso il dispositivo alieno, suggerendo di portarlo in un 'luogo sicuro che Helix non conosce'. Inizia a separare il gruppo con scuse tattiche. Controlla le comunicazioni esterne con la scusa di 'evitare intercettazioni nemiche'.",
+          "high": "Sabota sottilmente i sistemi di comunicazione della nave. Propone piani rischiosi che metterebbero i PG in pericolo. Cerca di ottenere le traduzioni complete con urgenza crescente. Diventa nervoso se qualcuno menziona di pubblicare i dati.",
+          "extreme": "Attiva il protocollo Helix: elimina prima chi ha accesso alle traduzioni, poi gli altri testimoni. Usa equipaggiamento nascosto e codici di accesso Helix per bloccare la nave. Tenta di fuggire con il dispositivo verso coordinate prestabilite dove lo attende un'estrazione."
+        },
+        "reaction_table": {
+          "se_minacciato": "Mantiene la copertura il più possibile, accusando chi lo minaccia di paranoia post-traumatica. Se smascherato fisicamente, attiva un segnale di emergenza Helix e combatte per guadagnare tempo fino all'arrivo dei rinforzi.",
+          "se_corrotto": "Finge di accettare, ma segnala immediatamente la corruzione a Helix come 'prova di inaffidabilità'. Usa il denaro offerto per tracciare i PG. Nessuna somma lo distoglierà dalla missione - la sua famiglia è ostaggio di Helix.",
+          "se_i_pg_hanno_prove": "Cambia strategia: ammette di essere Helix ma sostiene di essere pentito, offrendo false informazioni interne in cambio di immunità. Cerca disperatamente di distruggere le prove o di uccidere chi le possiede prima che vengano diffuse.",
+          "se_alleato": "Diventa la persona di fiducia del gruppo, offrendo consigli tattici validi inizialmente. Raccoglie dati su punti deboli di ciascuno. Quando ha accesso completo al dispositivo e alle traduzioni, esegue l'eliminazione durante un momento di vulnerabilità - riposo, battaglia, o atterraggio."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Ammiraglio Shen Kurata",
+        "role": "Comandante della nave Helix in avvicinamento",
+        "location_id": "loc_nave_helix_persecutor",
+        "status": "unintroduced",
+        "goal": "Recuperare il dispositivo per ordine del Consorzio — vede i PG come ostacoli da rimuovere",
+        "secret": "Non è d'accordo con il progetto psionico di Helix, ma è ricattabile: il Consorzio ha prove fabbricate di crimini di guerra contro di lei",
+        "agenda_pressure": 0,
+        "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+        "current_plan": "Recuperare il dispositivo psionico dalla Chrysalis prima dei PG, consegnarlo al Consorzio entro 48 ore per evitare che rilascino le prove fabbricate. Eliminare testimoni se necessario.",
+        "fallback_plan": "Se il recupero fallisce: incolpare i PG per la perdita del dispositivo, fornendo al Consorzio le loro coordinate. Se il ricatto viene esposto: fuggire con la Helix verso i sistemi esterni, distruggendo il dispositivo per impedirne l'uso militare.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Recuperare il dispositivo per ordine del Consorzio — vede i PG come ostacoli da rimuovere"
+        ],
+        "avoids": [
+          "che Traduzioni incomplete del monolite riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene comunicazioni formali e cordiali, offre collaborazione limitata fingendo di essere lì per una missione di routine di recupero. Monitora costantemente la posizione dei PG.",
+          "medium": "Invia squadre armate per 'assistere' i PG, stringendo il cerchio. Rivendica autorità del Consorzio sul relitto e sul dispositivo psionico. Il suo linguaggio corporeo tradisce tensione e risentimento.",
+          "high": "Minaccia apertamente di aprire il fuoco se non consegnano il dispositivo. Rivela accidentalmente dettagli sul progetto psionico Helix che non dovrebbe conoscere. Suda freddo, le mani tremano.",
+          "extreme": "Ordina l'abbordaggio ma sabotata dalla sua stessa incertezza - esita, balbetta ordini contraddittori. Potrebbe confessare del ricatto, chiedendo aiuto per sfuggire al Consorzio in cambio del dispositivo."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva protocolli difensivi della Helix, ma temporeggia cercando una soluzione non violenta. Contatta nervosamente i suoi superiori al Consorzio, il che peggiora la sua posizione.",
+          "se_corrotto": "Estremamente tentata - chiede prove concrete che i PG possano farla sparire dal radar del Consorzio. Vuole garanzie di protezione testimoni e distruzione delle prove fabbricate.",
+          "se_i_pg_hanno_prove": "Crolla parzialmente. Offre accesso limitato ai file classificati di Helix sui progetti psionici in cambio di discrezione. Diventa paranoica che il Consorzio scopra il tradimento.",
+          "se_alleato": "Fornisce coordinate sicure per sfuggire alla rete del Consorzio. Condivide i codici di autorizzazione per disabilitare il dispositivo. Chiede asilo e protezione per la sua famiglia su Titan."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Tecnico Ravi Chandra",
+        "role": "Membro sopravvissuto dell'equipaggio Chrysalis, trovato in criostasi",
+        "location_id": "loc_capsula_criogenica_nel_relit",
+        "status": "unintroduced",
+        "goal": "Ricorda frammenti della sabotaggio Helix — vuole testimoniare, ma ha paura",
+        "secret": "Ha visto Volkov a bordo della Chrysalis durante il sabotaggio, ma il trauma lo ha fatto sopprimere il ricordo fino a quando non vede di nuovo il suo volto",
+        "agenda_pressure": 0,
+        "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+        "current_plan": "Sopravvivere abbastanza a lungo per testimoniare contro la Helix Corporation. Cerca disperatamente di recuperare i ricordi soppressi del sabotaggio, convinto che identificare il sabotatore sia l'unica cosa che gli impedirà di essere eliminato.",
+        "fallback_plan": "Se scopre che Volkov o agenti Helix sono sulla nave/stazione, tenta di rubare una capsula di salvataggio e raggiungere la stazione mineraria più vicina per chiedere asilo. In alternativa, minaccia di autodistruggersi insieme al chip neurale se non gli viene garantita protezione da autorità indipendenti dalla Helix.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Ricorda frammenti della sabotaggio Helix — vuole testimoniare, ma ha paura"
+        ],
+        "avoids": [
+          "che Traduzioni incomplete del monolite riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Ravi parla in modo frammentario, evitando i dettagli del sabotaggio. Dice di ricordare solo esplosioni, grida, e poi il buio della criostasi. Chiede ripetutamente quanto tempo è passato e se la Helix Corporation sa che è vivo.",
+          "medium": "Inizia a sudare freddo e tremare quando pressato sui dettagli. Menziona 'una figura nel corridoio B', qualcuno che non avrebbe dovuto essere lì. Dice che l'esplosione nel laboratorio di xenobiologia non è stata un incidente, ma si blocca prima di dire chi l'ha causata.",
+          "high": "Ha un attacco di panico, rivive flashback del sabotaggio. Urla 'Lui era qui! Non avrebbe dovuto essere qui!' ma non riesce a mettere a fuoco il volto. Supplica protezione, convinto che chi ha distrutto la Chrysalis lo stia cercando per eliminare testimoni.",
+          "extreme": "Crolla psicologicamente. Se mostrato una foto o messo di fronte a Volkov, il ricordo represso esplode: 'SEI TU! Ti ho visto attivare la sequenza di sovraccarico! Hai ucciso tutti!' Entra in stato catatonico da shock post-traumatico, balbettando coordinate e codici di accesso della Chrysalis."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rannicchia in posizione fetale, ripetendo 'Non so niente, non ho visto niente' come un mantra. Tenta di fuggire verso la camera criogenica più vicina per 'tornare a dormire e dimenticare'.",
+          "se_corrotto": "Rifiuta categoricamente denaro o favori. 'Quelli della Helix hanno già provato a comprarmi il silenzio... o almeno credo.' La sua paranoia aumenta, inizia a sospettare che l'offerta sia un test per identificarlo come testimone scomodo.",
+          "se_i_pg_hanno_prove": "Se mostrato log della Chrysalis o prove del sabotaggio Helix, le sue mani tremano violentemente. 'Sapevo che non ero impazzito.' Accetta di collaborare ma esige di registrare testimonianza criptata da inviare a tre destinazioni diverse come assicurazione sulla vita.",
+          "se_alleato": "Rivela di aver scaricato dati dal computer di bordo della Chrysalis su un chip neurale nascosto nel suo corpo prima di entrare in criostasi. Contiene prove del coinvolgimento Helix, ma accedervi richiede procedura medica delicata e passcode che ricorda solo parzialmente."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_infermeria_della_vostra_nave",
+        "name": "Infermeria della vostra nave",
+        "description": "Infermeria della vostra nave.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ponte_di_comando_della_vostr",
+        "name": "Ponte di comando della vostra nave",
+        "description": "Ponte di comando della vostra nave.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_nave_helix_persecutor",
+        "name": "Nave Helix Persecutor",
+        "description": "Nave Helix Persecutor.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_capsula_criogenica_nel_relit",
+        "name": "Capsula criogenica nel relitto",
+        "description": "Capsula criogenica nel relitto.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ponte_della_chrysalis",
+        "name": "Ponte della Chrysalis",
+        "description": "Ponte della Chrysalis.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_server_della_vostra_nav",
+        "name": "Sala server della vostra nave",
+        "description": "Sala server della vostra nave.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "La nave da guerra Helix 'Persecutor' si avvicina ogni turno; le 'voci' del monolite si intensificano nella mente di chi ha letto le traduzioni, causando allucinazioni, perdita di identità e infine conversione in nodo alieno",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "piano completato se nessuno interviene",
+        "active": true,
+        "on_complete": "piano completato se nessuno interviene",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Prime interferenze psichiche",
+            "effect": "Chi ha letto le traduzioni inizia a sentire sussurri nella propria lingua. La Persecutor appare sui sensori a lungo raggio."
+          },
+          {
+            "value": 2,
+            "label": "Visioni frammentate",
+            "effect": "Flashback di ricordi che non appartengono ai personaggi. La Persecutor accelera, ETA: 6 ore."
+          },
+          {
+            "value": 3,
+            "label": "Emorragia identitaria",
+            "effect": "I confini tra sé e gli altri sfumano. Un PG esposto inizia a parlare con la voce di un membro perduto della Chrysalis. Primi segnali di scrambling comunicazioni."
+          },
+          {
+            "value": 4,
+            "label": "Sincronizzazione involontaria",
+            "effect": "Due o più esposti iniziano a completare le frasi l'uno dell'altro, pensano gli stessi pensieri. La Persecutor entra in range di comunicazione diretta."
+          },
+          {
+            "value": 5,
+            "label": "Manifestazioni fisiche",
+            "effect": "Segni di scrittura aliena appaiono sulla pelle degli esposti. La nave mercantile subisce anomalie nei sistemi di navigazione."
+          },
+          {
+            "value": 6,
+            "label": "Il Coro si espande",
+            "effect": "Gli esposti parlano all'unisono in lingue sconosciute. La Persecutor lancia sonde d'abbordaggio. ETA: 2 ore."
+          },
+          {
+            "value": 7,
+            "label": "Perdita del sé",
+            "effect": "Un PG esposto non risponde più al proprio nome, riferisce a se stesso come 'noi'. Altre menti iniziano a essere attratte dal Coro."
+          },
+          {
+            "value": 8,
+            "label": "Nodo emergente",
+            "effect": "Il primo convertito completo: coscienza individuale dissolta nella rete aliena. La Persecutor inizia manovre di aggancio forzato."
+          },
+          {
+            "value": 9,
+            "label": "Propagazione critica",
+            "effect": "Il nodo alieno tenta attivamente di convertire gli altri membri dell'equipaggio. Marines Helix pronti all'abbordaggio."
+          },
+          {
+            "value": 10,
+            "label": "Assimilazione completa",
+            "effect": "L'intera nave diventa un'estensione della coscienza aliena. La Persecutor sequestra il relitto e tutti i testimoni. Silenzio."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "Distruggere o sigillare le traduzioni del monolite; isolare gli esposti in stasi criogenica; fuggire dal sistema prima che la Persecutor arrivi; o trovare un modo per interrompere la connessione psionica (frequenza di schermatura, impulso EMP mirato ai pattern neurali)",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Il superstite a volte si ferma a metà frase, la testa inclinata come se ascoltasse qualcosa. I suoi occhi non seguono completamente i movimenti degli interlocutori. Sui monitor di fondo, occasionali scariche di statica sembrano formare pattern ripetitivi.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Voci Kepler-438b vostra nave mercantile intercetta",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Il vero scopo del monolite",
+        "question": "Cos'è realmente il monolite alieno e quale funzione svolge?",
+        "true_answer": "Il monolite è un dispositivo di 'risonanza cognitiva' che identifica menti compatibili e le trasforma in nodi di una rete aliena dormiente, non un archivio di conoscenza",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1"
+        ],
+        "linked_npcs": [
+          "Dottoressa Imani Okoye",
+          "Tecnico Ravi Chandra"
+        ],
+        "linked_locations": [
+          "Chrysalis",
+          "Kepler-438b"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "Il coinvolgimento del Consorzio Helix",
+        "question": "Quale ruolo ha avuto il Consorzio Helix nel disastro della Chrysalis?",
+        "true_answer": "Helix ha sabotato deliberatamente la Chrysalis per coprire la scoperta e vuole usare la tecnologia aliena per creare soldati psionici controllabili",
+        "status": "hidden",
+        "required_clues": [
+          "clue_10",
+          "clue_11",
+          "clue_12"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Capitano Yuri Volkov",
+          "Ammiraglio Shen Kurata"
+        ],
+        "linked_locations": [
+          "Nave Helix in avvicinamento"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "I superstiti nascosti",
+        "question": "Ci sono altri membri dell'equipaggio della Chrysalis ancora vivi?",
+        "true_answer": "Il Tecnico Ravi Chandra è in criostasi nella sezione medica, esposto alle voci ma non ancora trasformato completamente",
+        "status": "hidden",
+        "required_clues": [
+          "clue_13",
+          "clue_14"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1",
+          "T2"
+        ],
+        "linked_npcs": [
+          "Tecnico Ravi Chandra",
+          "Dottoressa Imani Okoye"
+        ],
+        "linked_locations": [
+          "Chrysalis - Sezione medica"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Traduzioni incomplete del monolite?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Log del capitano della Chrysalis?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Apertura",
+          "to": "Zona calda"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Apertura",
+          "to": "Zona calda"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Zona calda",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "sci_fi",
+      "tone": "science fiction",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "witness disappears",
+        "suspect lies",
+        "new contradiction",
+        "pressure clock advances",
+        "partial clue",
+        "false lead",
+        "social fallout",
+        "enemy alerted",
+        "system alert",
+        "decompression warning",
+        "security response"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "mystery solved before threshold",
+        "villain revealed without clue threshold",
+        "case ends from one failed roll",
+        "untriggered massacre",
+        "magic genre shift",
+        "planet destroyed without clock"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "ai_le_voci_di_kepler_438b",
+      "title": "Le Voci di Kepler-438b",
+      "genre": "sci_fi",
+      "detected_genre": "sci_fi",
+      "premise": "La vostra nave mercantile intercetta un segnale di soccorso proveniente dal relitto della Chrysalis, nave da ricerca scomparsa tre anni fa nell'orbita di Kepler-438b. A bordo trovate un solo superstite: la dottoressa Imani Okoye, xenolinguista in stato catatonico, che stringe un dispositivo di memoria quantica. Quando riprende conoscenza, sussurra una sola frase: 'Non lasciate che la Corporazione ascolti le voci'. Il dispositivo contiene la traduzione parziale di un linguaggio alieno trovato su un monolite nella superficie del pianeta — un linguaggio che sembra comunicare direttamente con la mente umana, promettendo conoscenza illimitata. Ma qualcun altro sta già convergendo sulle vostre coordinate.",
+      "hidden_truth": "Il Consorzio Helix ha deliberatamente sabotato la Chrysalis tre anni fa dopo che l'equipaggio scoprì che il monolite alieno non offre conoscenza, ma è un dispositivo di 'risonanza cognitiva' progettato per identificare menti compatibili e trasformarle in nodi di una rete aliena dormiente. Il capitano Yuri Volkov, apparentemente un mercenario neutrale che si offre di aiutarvi, è in realtà un agente Helix incaricato di recuperare il dispositivo quantico e di eliminare chiunque abbia ascoltato le 'voci' — perché il Consorzio vuole usare la tecnologia aliena per creare soldati psionici controllabili, non importa il costo in vite umane.",
+      "win_condition": "Distruggere il dispositivo quantico e le traduzioni prima che Helix le ottenga, oppure trasmettere pubblicamente i dati per impedire il monopolio — ma chi ascolta le voci rischia la trasformazione permanente",
+      "threat_description": "La nave da guerra Helix 'Persecutor' si avvicina ogni turno; le 'voci' del monolite si intensificano nella mente di chi ha letto le traduzioni, causando allucinazioni, perdita di identità e infine conversione in nodo alieno",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "investigation_graph",
+        "secondary_archetypes": [],
+        "confidence": 0.5,
+        "reason": "Matched runtime signals for investigation_graph",
+        "definition": {
+          "id": "investigation_graph",
+          "description": "Piste, indizi, deduzioni e payoff.",
+          "required_modules": [
+            "clues",
+            "revelations"
+          ],
+          "optional_modules": [
+            "witnesses",
+            "false_leads"
+          ],
+          "runtime_focus": [
+            "clue",
+            "deduction"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "physical_evidence",
+            "testimony",
+            "document"
+          ],
+          "common_failure_modes": [
+            "clue_partial",
+            "witness_closes"
+          ],
+          "ending_patterns": [
+            "deduction_finale"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "ai_le_voci_di_kepler_438b",
+      "adventure_canon": {
+        "core_truth": "Il Consorzio Helix ha deliberatamente sabotato la Chrysalis tre anni fa dopo che l'equipaggio scoprì che il monolite alieno non offre conoscenza, ma è un dispositivo di 'risonanza cognitiva' progettato per identificare menti compatibili e trasformarle in nodi di una rete aliena dormiente. Il capitano Yuri Volkov, apparentemente un mercenario neutrale che si offre di aiutarvi, è in realtà un agente Helix incaricato di recuperare il dispositivo quantico e di eliminare chiunque abbia ascoltato le 'voci' — perché il Consorzio vuole usare la tecnologia aliena per creare soldati psionici controllabili, non importa il costo in vite umane.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Apertura",
+          "Nodo indizi",
+          "Luogo sociale",
+          "Zona calda"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Voci Kepler-438b vostra nave mercantile intercetta"
+        ],
+        "genre_profile": {
+          "id": "sci_fi",
+          "tone": "science fiction",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "witness disappears",
+            "suspect lies",
+            "new contradiction",
+            "pressure clock advances",
+            "partial clue",
+            "false lead",
+            "social fallout",
+            "enemy alerted",
+            "system alert",
+            "decompression warning",
+            "security response"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "mystery solved before threshold",
+            "villain revealed without clue threshold",
+            "case ends from one failed roll",
+            "untriggered massacre",
+            "magic genre shift",
+            "planet destroyed without clock"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Traduzioni incomplete del monolite",
+          "question": "Dove conduce Traduzioni incomplete del monolite?",
+          "true_answer": "Il monolite è un dispositivo di 'risonanza cognitiva' aliena progettato per identificare menti umane compatibili e trasformarle gradualmente in nodi di una rete di coscienza collettiva dormiente. Non offre conoscenza — consuma identità",
+          "required_clues": [
+            "clue_1",
+            "clue_4"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Capire che il monolite è un dispositivo di trasformazione, non di conoscenza / Comprendere la vera natura della minaccia e il motivo per cui Helix vuole la tecnologia",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Log del capitano della Chrysalis",
+          "question": "Dove conduce Log del capitano della Chrysalis?",
+          "true_answer": "Helix ha sabotato deliberatamente la Chrysalis — e Volkov era coinvolto Volkov ha un interesse nascosto nel dispositivo — troppo insistente per essere solo altruismo",
+          "required_clues": [
+            "clue_2",
+            "clue_3",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Smascherare Volkov come agente Helix e rivelare il suo tradimento / Inizialmente sembra precauzione sensata; dopo clue_2 diventa prova della sua missione di recupero",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Traduzioni incomplete del monolite",
+          "text": "Traduzioni incomplete del monolite",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Il linguaggio alieno non è comunicazione normale — altera neurologicamente chi lo legge",
+          "payoff": "Capire che il monolite è un dispositivo di trasformazione, non di conoscenza",
+          "location": "Infermeria della vostra nave",
+          "immediate_information": "Il dispositivo quantico contiene 47 pagine di traduzioni. I simboli alieni si trasformano in concetti puri quando letti — non sono parole",
+          "hidden_implication": "Il linguaggio alieno non è comunicazione normale — altera neurologicamente chi lo legge",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Log del capitano della Chrysalis",
+          "text": "Log del capitano della Chrysalis",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Helix ha sabotato deliberatamente la Chrysalis — e Volkov era coinvolto",
+          "payoff": "Smascherare Volkov come agente Helix e rivelare il suo tradimento",
+          "location": "Ponte della Chrysalis",
+          "immediate_information": "Registro audio trovato nel relitto: 'Giorno 89. Okoye insiste a continuare le traduzioni nonostante i sintomi. Dice",
+          "hidden_implication": "Helix ha sabotato deliberatamente la Chrysalis — e Volkov era coinvolto",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Comportamento protettivo di Volkov",
+          "text": "Comportamento protettivo di Volkov",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Volkov ha un interesse nascosto nel dispositivo — troppo insistente per essere solo altruismo",
+          "payoff": "Inizialmente sembra precauzione sensata; dopo clue_2 diventa prova della sua missione di recupero",
+          "location": "Ponte di comando della vostra nave",
+          "immediate_information": "Volkov insiste nel voler 'proteggere' il dispositivo quantico personalmente. Si offre di portarlo in un deposito blindato della nave. Sembra eccessivamente interessato a chi ha letto le traduzioni",
+          "hidden_implication": "Volkov ha un interesse nascosto nel dispositivo — troppo insistente per essere solo altruismo",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Testimonianza di Okoye",
+          "text": "Testimonianza di Okoye",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Il monolite trasforma gli umani in nodi di una rete aliena — Okoye è già parzialmente convertita",
+          "payoff": "Comprendere la vera natura della minaccia e il motivo per cui Helix vuole la tecnologia",
+          "location": "Infermeria della vostra nave",
+          "immediate_information": "Okoye confessa a bassa voce: 'Le voci non sono casuali. Cercano menti specifiche. Io... io le sento ancora. Mi dicono di tornare al monolite. Di portare altri. È come... come se fossi diventata parte di una rete. E la",
+          "hidden_implication": "Il monolite trasforma gli umani in nodi di una rete aliena — Okoye è già parzialmente convertita",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Impianto neurale nascosto su Okoye",
+          "text": "Impianto neurale nascosto su Okoye",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Helix sta tracciando Okoye da sempre — il 'salvataggio' era previsto",
+          "payoff": "Rivelare che Helix sapeva esattamente dove trovare la Chrysalis e ha lasciato Okoye viva intenzionalmente come esca",
+          "location": "Infermeria della vostra nave",
+          "immediate_information": "Una scansione medica rivela un piccolo impianto alla base del cranio di Okoye — non registrato nei suoi dati medici. È di fattura Helix",
+          "hidden_implication": "Helix sta tracciando Okoye da sempre — il 'salvataggio' era previsto",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Messaggio criptato intercettato",
+          "text": "Messaggio criptato intercettato",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Volkov sta comunicando segretamente con Helix — è una talpa a bordo",
+          "payoff": "Conferma definitiva del tradimento di Volkov e del pericolo immediato",
+          "location": "Sala server della vostra nave",
+          "immediate_information": "Il sistema di comunicazione intercetta una trasmissione criptata dalla vostra nave verso la Persecutor. Il mittente è 'V-D7'",
+          "hidden_implication": "Volkov sta comunicando segretamente con Helix — è una talpa a bordo",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Dottoressa Imani Okoye",
+          "role": "Superstite xenolinguista, unica testimone della Chrysalis",
+          "description": "Vuole disperatamente distruggere il dispositivo quantico prima che altri subiscano il suo destino",
+          "location": "Infermeria della vostra nave",
+          "secret": "Ha già ascoltato troppo a lungo le voci — sta lentamente trasformandosi in un nodo alieno e lo sa. Cerca di completare una procedura di autodistruzione neurale prima di perdere il controllo",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Vuole disperatamente distruggere il dispositivo quantico prima che altri subiscano il suo destino",
+            "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Vuole disperatamente distruggere il dispositivo quantico prima che altri subiscano il suo destino"
+            ],
+            "avoids": [
+              "che Traduzioni incomplete del monolite riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "esita",
+              "medium": "si nasconde",
+              "high": "cerca protezione dalla squadra",
+              "critical": "scompare lasciando una traccia incompleta"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha già ascoltato troppo a lungo le voci — sta lentamente trasformandosi in un nodo alieno e lo sa. Cerca di completare una procedura di autodistruzione neurale prima di perdere il controllo",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Capitano Yuri Volkov",
+          "role": "Mercenario veterano che si offre di aiutarvi contro Helix",
+          "description": "Sostiene di odiare Helix per aver tradito il suo vecchio team — ma è tutto falso",
+          "location": "Ponte di comando della vostra nave",
+          "secret": "È un agente dormiente Helix infiltrato. Il suo compito: recuperare il dispositivo, eliminare i testimoni e garantire che nessuno pubblichi le traduzioni",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Sostiene di odiare Helix per aver tradito il suo vecchio team — ma è tutto falso",
+            "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Sostiene di odiare Helix per aver tradito il suo vecchio team — ma è tutto falso"
+            ],
+            "avoids": [
+              "che Traduzioni incomplete del monolite riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È un agente dormiente Helix infiltrato. Il suo compito: recuperare il dispositivo, eliminare i testimoni e garantire che nessuno pubblichi le traduzioni",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Ammiraglio Shen Kurata",
+          "role": "Comandante della nave Helix in avvicinamento",
+          "description": "Recuperare il dispositivo per ordine del Consorzio — vede i PG come ostacoli da rimuovere",
+          "location": "Nave Helix Persecutor",
+          "secret": "Non è d'accordo con il progetto psionico di Helix, ma è ricattabile: il Consorzio ha prove fabbricate di crimini di guerra contro di lei",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Recuperare il dispositivo per ordine del Consorzio — vede i PG come ostacoli da rimuovere",
+            "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Recuperare il dispositivo per ordine del Consorzio — vede i PG come ostacoli da rimuovere"
+            ],
+            "avoids": [
+              "che Traduzioni incomplete del monolite riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Non è d'accordo con il progetto psionico di Helix, ma è ricattabile: il Consorzio ha prove fabbricate di crimini di guerra contro di lei",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Tecnico Ravi Chandra",
+          "role": "Membro sopravvissuto dell'equipaggio Chrysalis, trovato in criostasi",
+          "description": "Ricorda frammenti della sabotaggio Helix — vuole testimoniare, ma ha paura",
+          "location": "Capsula criogenica nel relitto",
+          "secret": "Ha visto Volkov a bordo della Chrysalis durante il sabotaggio, ma il trauma lo ha fatto sopprimere il ricordo fino a quando non vede di nuovo il suo volto",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Ricorda frammenti della sabotaggio Helix — vuole testimoniare, ma ha paura",
+            "fear": "che Traduzioni incomplete del monolite riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+            "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Ricorda frammenti della sabotaggio Helix — vuole testimoniare, ma ha paura"
+            ],
+            "avoids": [
+              "che Traduzioni incomplete del monolite riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha visto Volkov a bordo della Chrysalis durante il sabotaggio, ma il trauma lo ha fatto sopprimere il ricordo fino a quando non vede di nuovo il suo volto",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Apertura",
+          "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+          "type": "entry",
+          "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Nodo indizi",
+          "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+          "type": "site",
+          "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Luogo sociale",
+          "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+          "type": "site",
+          "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona calda",
+          "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
+          "type": "finale",
+          "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "rack server",
+              "paratie blindate",
+              "muletti elettrici"
+            ],
+            "hazards": [
+              "blackout intermittente",
+              "sprinkler attivati"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "La nave da guerra Helix 'Persecutor' si avvicina ogni turno; le 'voci' del monolite si intensificano nella mente di chi ha letto le traduzioni, causando allucinazioni, perdita di identità e infine conversione in nodo alieno",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "ai_le_voci_di_kepler_438b",
+    "current_scene_id": "loc_infermeria_della_vostra_nave",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Infermeria della vostra nave",
+        "agenda_pressure": 0,
+        "goal": "Vuole disperatamente distruggere il dispositivo quantico prima che altri subiscano il suo destino",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "esita",
+          "medium": "si nasconde",
+          "high": "cerca protezione dalla squadra",
+          "critical": "scompare lasciando una traccia incompleta"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Ponte di comando della vostra nave",
+        "agenda_pressure": 0,
+        "goal": "Sostiene di odiare Helix per aver tradito il suo vecchio team — ma è tutto falso",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Nave Helix Persecutor",
+        "agenda_pressure": 0,
+        "goal": "Recuperare il dispositivo per ordine del Consorzio — vede i PG come ostacoli da rimuovere",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Capsula criogenica nel relitto",
+        "agenda_pressure": 0,
+        "goal": "Ricorda frammenti della sabotaggio Helix — vuole testimoniare, ma ha paura",
+        "current_plan": "bloccare l'accesso a Zona calda e spostare le prove",
+        "fallback_plan": "ritirarsi verso Zona calda usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_infermeria_della_vostra_nave": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ponte_di_comando_della_vostr": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_nave_helix_persecutor": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_capsula_criogenica_nel_relit": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ponte_della_chrysalis": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_server_della_vostra_nav": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Infermeria della vostra nave.",
+      "Actor npc_2 ha location non riconosciuta: Ponte di comando della vostra nave.",
+      "Actor npc_3 ha location non riconosciuta: Nave Helix Persecutor.",
+      "Actor npc_4 ha location non riconosciuta: Capsula criogenica nel relitto."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 4,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "live_game_state": null
+}

@@ -1,0 +1,2291 @@
+{
+  "adventure_definition": {
+    "id": "ai_le_ossa_del_passaggio_nero",
+    "title": "Le Ossa del Passaggio Nero",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "survival_escape",
+      "secondary_archetypes": [
+        "horror_survival"
+      ],
+      "confidence": 0.65,
+      "reason": "Matched runtime signals for survival_escape",
+      "definition": {
+        "id": "survival_escape",
+        "description": "Fuga, risorse, percorsi sicuri e zone pericolose.",
+        "required_modules": [
+          "routes",
+          "resources"
+        ],
+        "optional_modules": [
+          "safe_nodes"
+        ],
+        "runtime_focus": [
+          "route",
+          "resource"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "resource_loss",
+          "route_blocked"
+        ],
+        "ending_patterns": [
+          "escape"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "mystery_horror",
+    "runtime_profiles": [
+      "survival_escape"
+    ],
+    "tone": "Horror della disidratazione — paranoia claustrofobica, corpo che si consuma, tradimento istituzionale",
+    "premise": "La Stazione Kolvyr, ultimo avamposto prima del deserto di cenere, è sotto assedio. Da otto giorni il pozzo artesiano non dà più acqua. Le scorte bastano per tre giorni, forse quattro razionando. Ventidue anime intrappolate tra le mura di pietra nera, mentre le tribù nomadi del deserto accerchiano l'avamposto aspettando che la sete faccia il suo lavoro. Il comandante Radim è sparito due notti fa. La sua ultima decisione fu chiudere i cancelli e bruciare le mappe della rotta meridionale — l'unica via di fuga rimasta.",
+    "initial_hook": "Le Ossa del Passaggio Nero La Stazione Kolvyr, ultimo avamposto prima del deserto di cenere, è sotto assedio. Da otto giorni il pozzo artesiano non dà più acqua. Le scorte bastano per tre giorni, forse quattro razionando. Ventidue anime intrappolate tra le mura di pietra nera, mentre le tribù nomadi",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Il comandante Radim ha sabotato deliberatamente il pozzo artesiano avvelenando la falda con sali minerali tossici tre settimane fa, seguendo ordini segreti del Consiglio Imperiale. L'obiettivo era costringere l'evacuazione della stazione per nascondere la scoperta di un giacimento di cristalli energetici sotto il deserto — cristalli che il Consiglio vuole sfruttare in segreto. Radim ha poi distrutto le prove e si è suicidato per colpa, lasciando che tutti credessero a un cedimento naturale. Le tribù nomadi non assediano la stazione: stanno proteggendo le sorgenti sacre che l'Impero sta contaminando con gli scavi clandestini.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire la verità sul pozzo, scegliere tra evacuare (perdendo la stazione e condannando le tribù), negoziare con i nomadi (tradendo l'Impero), o cercare di ripristinare il pozzo (rischiando la morte di tutti per sete)",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire la verità sul pozzo, scegliere tra evacuare (perdendo la stazione e condannando le tribù), negoziare con i nomadi (tradendo l'Impero), o cercare di ripristinare il pozzo (rischiando la morte di tutti per sete)"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Radim ha contaminato la falda con sali minerali su ordine del Consiglio Imperiale per forzare l'evacuazione e nascondere gli scavi di cristalli energetici",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Permette di interrogare Seryth sui sintomi da avvelenamento e Tovar sulle scorte chimiche mancanti / Collega Radim al sabotaggio e rivela l'esistenza degli 'scavi' segreti",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Le tribù difendono le loro sorgenti sacre dagli scavi imperiali che le stanno avvelenando — l'assedio è autodifesa, non invasione",
+        "required_clues": [
+          "clue_3",
+          "clue_4",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela che le tribù non sono nemiche casuali: reagiscono a un'aggressione imperiale / Tovar può ricostruire la rotta se pressato — ha una copia nascosta",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Rapporto geologico incompleto",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Quartier generale",
+        "reveals": "Il pozzo non si è esaurito naturalmente — qualcuno sapeva cosa stava per accadere",
+        "payoff": "Permette di interrogare Seryth sui sintomi da avvelenamento e Tovar sulle scorte chimiche mancanti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un documento trovato nella stanza di Radim",
+        "hidden_implication": "Il pozzo non si è esaurito naturalmente — qualcuno sapeva cosa stava per accadere",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il cerchio",
+          "cancellare o alterare un segno",
+          "seguire la traccia verso l'officiante"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_quartier_generale"
+      },
+      {
+        "id": "clue_2",
+        "label": "Fiale di sale minerale nell'infermeria",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Infermeria centrale",
+        "reveals": "Radim ha usato sostanze da prospezione — probabilmente per contaminare qualcosa",
+        "payoff": "Collega Radim al sabotaggio e rivela l'esistenza degli 'scavi' segreti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Decine di fiale vuote etichettate 'NaCl-X7 — uso esclusivo prospezione mineraria'. Seryth dice che le ha trovate nell'armeria",
+        "hidden_implication": "Radim ha usato sostanze da prospezione — probabilmente per contaminare qualcosa",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_centrale"
+      },
+      {
+        "id": "clue_3",
+        "label": "Testimonianza di Erith",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Cisterna esterna",
+        "reveals": "L'Impero sta avvelenando le sorgenti sacre — Radim probabilmente sapeva",
+        "payoff": "Rivela che le tribù non sono nemiche casuali: reagiscono a un'aggressione imperiale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Erith racconta: 'Tre lune fa",
+        "hidden_implication": "L'Impero sta avvelenando le sorgenti sacre — Radim probabilmente sapeva",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_cisterna_esterna"
+      },
+      {
+        "id": "clue_4",
+        "label": "Mappe bruciate nel camino",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Quartier generale",
+        "reveals": "Radim voleva intrappolare tutti nella stazione — non solo incompetenza, ma sabotaggio deliberato",
+        "payoff": "Tovar può ricostruire la rotta se pressato — ha una copia nascosta",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nel camino del quartier generale, cenere di mappe. Frammenti leggibili mostrano una 'rotta meridionale alternativa' attraverso canyon Ash'kari. Radim l'ha bruciata per impedire l'evacuazione — ma perché?",
+        "hidden_implication": "Radim voleva intrappolare tutti nella stazione — non solo incompetenza, ma sabotaggio deliberato",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "seguire le impronte",
+          "analizzare la cenere",
+          "proteggersi prima di avanzare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_quartier_generale"
+      },
+      {
+        "id": "clue_5",
+        "label": "Diario cifrato di Radim",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Quartier generale",
+        "reveals": "Tutta la verità: Radim ha agito su ordini del Consiglio per nascondere l'esistenza di risorse preziose sotto il deserto",
+        "payoff": "Ribalta completamente la percezione della crisi — non disastro naturale, ma complotto istituzionale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un quaderno in codice militare nascosto sotto il pavimento delle sue stanze. Decifrabile",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_quartier_generale"
+      },
+      {
+        "id": "clue_6",
+        "label": "Comportamento di Tovar",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Torre di guardia sud",
+        "reveals": "Tovar sa qualcosa che gli altri ignorano — probabilmente sta negoziando una fuga",
+        "payoff": "Può essere costretto (con violenza o ricatto) a rivelare la sua complicità e le mappe nascoste",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Tovar evita domande sul pozzo, controlla ossessivamente il cancello sud, e rifiuta di razionare la sua acqua personale. Di notte, segnala con una lanterna verso il deserto. Interrogato, diventa violento.",
+        "hidden_implication": "Tovar sa qualcosa che gli altri ignorano — probabilmente sta negoziando una fuga",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_torre_di_guardia_sud"
+      },
+      {
+        "id": "clue_7",
+        "label": "Ordini sigillati nella cassaforte di Radim",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "Radim agiva su ordini dall'alto, non di sua iniziativa",
+        "payoff": "Collega il sabotaggio al Consiglio Imperiale e solleva la questione del motivo strategico",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Tracce di perforazione recente",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Attività clandestine di scavo sono state condotte recentemente dalla stazione",
+        "payoff": "Conferma che qualcosa veniva estratto o cercato sotto il deserto",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Offerte votive Ash'kari",
+        "type": "location_detail",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Le tribù considerano le sorgenti luoghi sacri da proteggere",
+        "payoff": "Rivela che le tribù non sono aggressive ma difensive",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Simboli di guardia sui vessilli nomadi",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "La postura delle tribù è difensiva, non offensiva",
+        "payoff": "Permette di considerare trattative invece che combattimento",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Referto autopsia di Seryth",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Radim si è avvelenato volontariamente",
+        "payoff": "Esclude omicidio e suggerisce suicidio per disperazione o colpa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Lettera incompiuta sul tavolo di Radim",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Radim era tormentato dal rimorso per le conseguenze delle sue azioni",
+        "payoff": "Conferma il movente del suicidio e la sua consapevolezza della gravità del sabotaggio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Campioni di cristallo azzurro",
+        "type": "physical_evidence",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Esistono cristalli preziosi sotto il deserto, oggetto di interesse imperiale",
+        "payoff": "Rivela il vero motivo strategico dietro il sabotaggio e l'evacuazione forzata",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Mappa geologica nascosta",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "L'Impero ha mappato giacimenti segreti e pianificato estrazione clandestina",
+        "payoff": "Collega tutti i fili: sabotaggio, evacuazione, presenza militare e interesse delle tribù",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Seryth Balador",
+        "role": "Medico della stazione",
+        "location_id": "loc_infermeria_centrale",
+        "status": "unintroduced",
+        "goal": "Salvare più vite possibili, anche a costo di sacrificare i più deboli per razionare meglio",
+        "secret": "Ha già avvelenato due malati terminali per risparmiare acqua — e sta considerando di fare lo stesso con i bambini se la situazione peggiora",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+        "current_plan": "Somministrare 'sedativi finali' ai tre bambini malnutriti nella notte del nono giorno. Ha già preparato le siringhe con estratto di radice di mandragora nera. Ha convinto la levatrice Ortha a lasciarlo solo con loro 'per visitarli'. Estendere le razioni dei sopravvissuti di altri sei giorni",
+        "fallback_plan": "Se impedito di uccidere i bambini, organizzare un'assemblea della stazione mostrando i calcoli di sopravvivenza. Forzare un voto democratico su chi deve essere 'sacrificato' per il bene comune. Ha già identificato i cinque candidati: tre bambini, un anziano cieco, una donna in coma. Lasciare che sia la comunità a sporcarsi le mani, documentando tutto per scagionarsi legalmente",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Salvare più vite possibili, anche a costo di sacrificare i più deboli per razionare meglio"
+        ],
+        "avoids": [
+          "che Rapporto geologico incompleto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Appare stanco ma professionale, distribuisce razionamenti d'acqua con precisione clinica. Insiste che i malati gravi siano isolati 'per risparmiare risorse'. Suggerisce casualmente che 'non tutti possono essere salvati'",
+          "medium": "Diventa difensivo riguardo alle morti dei due pazienti terminali, produce certificati di morte naturale. Inizia a catalogare apertamente i residenti per 'priorità di sopravvivenza': età, salute, utilità. Tiene riunioni notturne con alcuni membri del consiglio",
+          "high": "Chiede apertamente l'autorizzazione per 'triage estremo'. Tiene scorte d'acqua nascoste nel suo ambulatorio. Prepara dosi di veleno etichettate come 'sedativi di emergenza'. Identifica pubblicamente i tre bambini malnutriti come 'peso insostenibile'",
+          "extreme": "Tenta di avvelenare i bambini durante la notte presentandolo come 'atto di misericordia necessario'. Se fermato, giustifica razionalmente ogni sua azione: 'Ho salvato quindici persone uccidendone due. Voi avreste lasciato morire tutti?' Barrica l'ambulatorio con le scorte d'acqua rimaste"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si trincera dietro l'etica medica utilitarista. Mostra i calcoli precisi: giorni di sopravvivenza per persona vs risorse. Accusa i PG di sentimentalismo suicida. Rivela che altri membri del consiglio sapevano dei primi due omicidi e hanno taciuto",
+          "se_corrotto": "Respinge denaro o favori personali con disgusto genuino - non agisce per avidità. Può essere convinto solo con piani alternativi credibili di approvvigionamento idrico o evacuazione, ma richiede prove concrete, non speranze",
+          "se_i_pg_hanno_prove": "Non nega. Ammette tutto con calma agghiacciante, mostrando il registro dove ha annotato ogni calcolo. Sfida i PG: 'Arrestatemi. Poi spiegate alle quindici persone vive come avreste fatto meglio.' Chiede solo di completare il suo piano prima di essere giudicato",
+          "se_alleato": "Offre competenza medica totale e accesso a scorte segrete (800ml di acqua nascosta). Condivide mappe delle vecchie condutture sotto la stazione. Ma continua a suggerire 'soluzioni difficili' per ogni ostacolo, sempre con logica ferrea e umanità spenta"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Tovar il Tagliatore",
+        "role": "Ex-guardia imperiale, ora mercenario",
+        "location_id": "loc_torre_di_guardia_sud",
+        "status": "unintroduced",
+        "goal": "Fuggire vivo, anche tradendo gli altri. Sta negoziando in segreto con le tribù nomadi.",
+        "secret": "Conosce la verità sul pozzo — era complice di Radim, ma non sapeva che sarebbe finita così. Ha le mappe nascoste della rotta meridionale.",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+        "current_plan": "Tra due giorni, quando la disperazione sarà massima, convincere un gruppo a seguirlo verso sud con le mappe. I nomadi attaccheranno la stazione indebolita mentre lui è già lontano con chi porta provviste.",
+        "fallback_plan": "Se scoperto prima: rivelare ai nomadi attraverso i segnali notturni dove sono le scorte d'acqua nascoste di Kolvyr. Nel caos dell'attacco anticipato, sgattaiolare via verso il Passaggio Nero con la sua riserva personale di tre otri.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Fuggire vivo, anche tradendo gli altri. Sta negoziando in segreto con le tribù nomadi."
+        ],
+        "avoids": [
+          "che Rapporto geologico incompleto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Finge lealtà alla stazione, offre braccia per scavare il pozzo. Chiede casualmente delle rotte alternative 'per sicurezza'. Osserva chi potrebbe scoprirlo.",
+          "medium": "Inizia a sabotare sottilmente i tentativi di riparazione del pozzo. Fa sparire attrezzature, sparge voci su maledizioni. Di notte accende fuochi segnale verso il deserto.",
+          "high": "Propone apertamente di abbandonare Kolvyr: 'Il pozzo è morto, restate e morirete'. Mostra le mappe meridionali solo a chi promette di seguirlo. Minaccia di avvelenare l'acqua rimasta se non lo lasciano andare.",
+          "extreme": "Apre le porte della stazione ai nomadi durante la notte. Nel caos, tenta di fuggire con le scorte d'acqua che ha nascosto. Se accerchiato, rivela dove Radim ha sepolto i corpi: 'NEL POZZO! Li ha gettati nel pozzo! Per questo non scorre più!'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Mano alla spada, retrocede verso la sua via di fuga preparata. 'Radim mi ha usato! Non sapevo dei cadaveri!' Se bloccato, offre le mappe in cambio della vita.",
+          "se_corrotto": "Accetta acqua, cibo o oro per rivelare dettagli parziali. Dice che 'creature nel deserto' hanno inquinato il pozzo. Chiede di unirsi alla fuga, poi tradisce al primo segno di pericolo.",
+          "se_i_pg_hanno_prove": "Crolla nervosamente. Confessa di aver aiutato Radim a 'spostare riforniti' di notte - non sapeva fossero corpi. Offre tutto: mappe, contatti coi nomadi, posizione del nascondiglio d'acqua di Radim.",
+          "se_alleato": "Condivide le mappe meridionali genuine. Rivela che i nomadi aspettano che Kolvyr cada per saccheggiare. Propone un patto: aiutarlo a fuggire prima che i nomadi attacchino, in cambio avviserà della loro mossa."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Erith Sombralunga",
+        "role": "Emissaria delle tribù Ash'kari",
+        "location_id": "loc_cisterna_esterna",
+        "status": "unintroduced",
+        "goal": "Fermare l'Impero prima che contamini tutte le sorgenti sacre del deserto",
+        "secret": "Non è un'emissaria: è una sopravvissuta di un villaggio Ash'kari sterminato dalle ricognizioni imperiali. Vuole vendetta, ma sa che la stazione è piena di innocenti.",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+        "current_plan": "Convincere i PG che l'avvelenamento del pozzo è opera imperiale (parzialmente vero: l'Impero ha trivellato troppo in profondità svegliando qualcosa). Usarli per accedere alle strutture imperiali e sabotarle, poi guidare i sopravvissuti Ash'kari innocenti alle sorgenti sacre prima che la stazione collassi nel caos.",
+        "fallback_plan": "Se scoperta o se i PG si alleano con l'Impero: attivare il suo piano di emergenza - ha già nascosto scorte d'acqua avvelenata nelle riserve imperiali. Fuggirà nel deserto lasciando un messaggio inciso nelle ossa: le coordinate di tutti i siti imperiali che stanno prosciugando il deserto. Morirà di sete portando l'avvertimento alle tribù profonde, trasformandosi in martire.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Fermare l'Impero prima che contamini tutte le sorgenti sacre del deserto"
+        ],
+        "avoids": [
+          "che Rapporto geologico incompleto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Osserva in silenzio i movimenti alla stazione, studia le rotte delle cisterne imperiali. Offre rimedi Ash'kari per prolungare le scorte d'acqua, guadagnandosi fiducia mentre cerca prove del coinvolgimento imperiale nell'avvelenamento del pozzo.",
+          "medium": "Propone di guidare una spedizione alle sorgenti sacre nascoste nel deserto, ma solo se i PG accettano di sabotare l'equipaggiamento di trivellazione imperiale. Inizia a parlare del suo villaggio come se fosse ancora vivo, tradendosi con piccole incongruenze.",
+          "high": "Minaccia di rivelare pubblicamente che l'Impero ha avvelenato deliberatamente il pozzo (vero o falso che sia) scatenando una rivolta. Chiede ai PG di aiutarla a infiltrare il quartier generale imperiale per 'trovare l'antidoto', ma in realtà vuole piazzare veleno nelle loro riserve d'acqua.",
+          "extreme": "Rivela di aver già avvelenato le scorte imperiali della stazione. Tra 24 ore moriranno tutti i soldati. Offre ai PG l'antidoto solo se la aiutano a fuggire nel deserto e giurano di testimoniare che fu un incidente. Le sue mani tremano - non voleva uccidere i civili che bevono dalla stessa fonte."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si getta in ginocchio mostrando i marchi di schiavitù bruciati sulla schiena, cicatrici imperiali del massacro del suo villaggio. 'Uccidetemi come hanno fatto loro, allora. Almeno morirò sapendo che qualcuno ha visto.' Tenta il suicidio rituale Ash'kari se imprigionata.",
+          "se_corrotto": "Ride amaramente. 'Mi offrite oro? Terra? L'Impero mi ha già dato tutto: cenere al posto del grano, ossa al posto dei figli, silenzio al posto dei canti.' Ma se le promettono vendetta vera - nomi, accesso ai responsabili - ascolta.",
+          "se_i_pg_hanno_prove": "Crolla. Ammette tutto ma mostra il suo diario: mappe di altri dodici pozzi avvelenati dall'Impero negli ultimi tre anni, sempre prima dell'espansione territoriale. 'Il vostro pozzo è solo l'ultimo. Fermatemi, ma chi fermerà loro?' Offre collaborazione in cambio di giustizia pubblica.",
+          "se_alleato": "Insegna ai PG le vie segrete del Passaggio Nero e i rituali per purificare l'acqua corrotta. Confessa il suo piano di vendetta ma chiede di essere fermata prima che diventi come i suoi oppressori. 'Mia nonna diceva: chi beve dal pozzo dell'odio muore di sete comunque.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Kaelen Radim (cadavere)",
+        "role": "Comandante della stazione (morto)",
+        "location_id": "loc_quartier_generale",
+        "status": "dead",
+        "goal": "Era un uomo d'onore corrotto dal Consiglio — ha eseguito ordini mostruosi credendo di servire l'Impero",
+        "secret": "Il suo diario personale, nascosto, rivela tutto: l'avvelenamento del pozzo, gli scavi segreti, la colpa insostenibile",
+        "agenda_pressure": 0,
+        "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+        "current_plan": "Kaelen non ha più piani. La sua ultima azione fu tentare di fermare gli scavi scrivendo il diario come testimonianza, prima di essere eliminato da chi non poteva permettersi testimoni scomodi",
+        "fallback_plan": "Il suo piano di riserva era già fallito: aveva nascosto campioni d'acqua contaminata sigillati nel suo armadietto personale, con etichette datate, come prova fisica. Se il diario viene distrutto, quei campioni rimangono l'unica evidenza tangibile del sabotaggio deliberato",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Era un uomo d'onore corrotto dal Consiglio — ha eseguito ordini mostruosi credendo di servire l'Impero"
+        ],
+        "avoids": [
+          "che Rapporto geologico incompleto riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Il cadavere di Kaelen giace nella sua stanza chiusa a chiave, apparentemente suicida. Una pistola vicino alla mano, sangue rappreso sul pavimento. Il diario è nascosto sotto un'asse allentata vicino al letto, ancora intonso.",
+          "medium": "Se ispezionata attentamente, la scena del suicidio rivela incongruenze: l'angolo del proiettile è sbagliato, segni di colluttazione nascosti, lividi pre-mortem sul collo. Il diario contiene gli ultimi giorni di tormento: 'Non possiamo fermare gli scavi. Il Consiglio dice che sotto c'è qualcosa di vitale. Ma l'acqua... Dio, l'acqua nera che sale...'",
+          "high": "Il corpo mostra chiari segni di omicidio mascherato. Nel diario, le ultime pagine sono febbrili: 'Ventisette morti negli scavi. Li abbiamo sigillati vivi quando la cosa è emersa. Il Sottotenente Vex sa troppo. Il pozzo è contaminato da ossa antiche, non posso più...' L'ultima voce è incompiuta, interrotta.",
+          "extreme": "Il cadavere ha tracce di veleno sotto le unghie - lo stesso che contamina il pozzo. Il diario completo rivela l'orrore: coordinate precise degli scavi sotto la stazione, mappe di una necropoli pre-imperiale, ordini firmati dal Consiglio di 'recuperare l'artefatto osseo ad ogni costo'. L'ultima riga: 'Mi hanno ordinato di sigillare il pozzo e mentire. Non posso vivere con questo. Se qualcuno legge, scavate a nord del pozzo, livello -3. Fermate Vex prima che apra la camera sepolcrale.'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Il cadavere non reagisce, ma chi disturba i suoi effetti personali potrebbe attirare l'attenzione di chi l'ha ucciso - impronte fresche di stivali militari portano dalla stanza verso i quartieri degli ufficiali",
+          "se_corrotto": "Impossibile corrompere un morto, ma il suo fantasma metaforico persiste: soldati fedeli a Kaelen potrebbero essere manipolati mostrandogli prove selettive del diario, credendo ancora nella sua innocenza",
+          "se_i_pg_hanno_prove": "Il diario è la pistola fumante. Se mostrato agli ufficiali rimasti, scatena una crisi: alcuni erano complici, altri ignoranti. Il Sottotenente Vex tenterà immediatamente di eliminare i PG e distruggere le prove",
+          "se_alleato": "Kaelen è alleato solo nella morte - il suo diario è una confessione e un avvertimento. Le sue ultime parole scritte guidano verso la verità: 'Perdonatemi. Fermate quello che abbiamo risvegliato prima che raggiunga la superficie.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_infermeria_centrale",
+        "name": "Infermeria centrale",
+        "description": "Infermeria centrale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_torre_di_guardia_sud",
+        "name": "Torre di guardia sud",
+        "description": "Torre di guardia sud.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cisterna_esterna",
+        "name": "Cisterna esterna",
+        "description": "Cisterna esterna.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_quartier_generale",
+        "name": "Quartier generale",
+        "description": "Quartier generale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Chiusura delle vie di fuga",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "la minaccia raggiunge la zona finale",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Allarme interno attivato",
+            "effect": "Le guardie della stazione sigillano le porte esterne. Movimento tra le sezioni richiede giustificazione.",
+            "world_state_change": "allarme interno attivato",
+            "scene_prompt": "Mostra in scena: sirene risuonano nei corridoi stretti. Guardie nervose controllano ogni movimento.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 2,
+            "label": "Accessi ordinari sospesi",
+            "effect": "Solo personale autorizzato può accedere al livello inferiore e ai magazzini. I civili sono confinati.",
+            "world_state_change": "accessi ordinari sospesi",
+            "scene_prompt": "Mostra in scena: porte d'acciaio sbarrate con lucchetti. Voci di protesta nei dormitori comuni.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 3,
+            "label": "Prova secondaria rimossa",
+            "effect": "Documenti o testimoni chiave vengono trasferiti in luogo sicuro o eliminati. Una pista si raffredda.",
+            "world_state_change": "prova secondaria rimossa dalla scena",
+            "scene_prompt": "Mostra in scena: un archivio brucia nelle fornaci. Cenere e pagine carbonizzate volano nell'aria.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 4,
+            "label": "Testimone ricercato",
+            "effect": "Un PNG che sa troppo viene attivamente braccato. Se catturato, sparisce o muore 'accidentalmente'.",
+            "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+            "scene_prompt": "Mostra in scena: uomini armati perquisiscono le baracche. Qualcuno grida nel buio dei tunnel.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 5,
+            "label": "Percorso laterale sigillato",
+            "effect": "Una via di fuga o rotta alternativa viene chiusa o minata. Le opzioni tattiche diminuiscono.",
+            "world_state_change": "percorso laterale minacciato o sigillato",
+            "scene_prompt": "Mostra in scena: esplosioni controllate sigillano i tunnel di servizio. Polvere e detriti ovunque.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          },
+          {
+            "value": 6,
+            "label": "Zona finale raggiunta",
+            "effect": "La minaccia controlla l'unica via d'uscita o la fonte dell'acqua. Confronto diretto inevitabile.",
+            "world_state_change": "la minaccia raggiunge la zona finale",
+            "scene_prompt": "Mostra in scena: la camera del pozzo è presidiata. Ombre si muovono attorno alla macchina idraulica.",
+            "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "schema_idraulico_antico",
+          "chiave_officina_sovrintendente",
+          "testimonianza_ingegnere_Tarek"
+        ],
+        "resolution_condition": "I giocatori devono scoprire chi ha sabotato il pozzo e presentare prove inconfutabili al Consiglio della Stazione, oppure ripristinare l'acqua autonomamente usando gli schemi idraulici nascosti nei livelli inferiori",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "graffito_porta_pozzo",
+        "discovery_hint": "Strani graffi geometrici appaiono sulle porte sigillate. Qualcuno sta marcando i percorsi, cancellando le opzioni.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Ossa Passaggio Nero Stazione Kolvyr ultimo",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Il vero ruolo delle tribù Ash'kari",
+        "question": "Perché le tribù nomadi circondano davvero la stazione?",
+        "true_answer": "Non stanno assediando la stazione: stanno proteggendo le sorgenti sacre che l'Impero sta contaminando con scavi clandestini di cristalli energetici",
+        "status": "hidden",
+        "required_clues": [
+          "clue_3",
+          "clue_9",
+          "clue_10"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Erith Sombralunga"
+        ],
+        "linked_locations": [
+          "Zona pericolosa"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "La morte di Radim",
+        "question": "Come e perché è morto il comandante Radim?",
+        "true_answer": "Si è suicidato per il senso di colpa dopo aver sabotato il pozzo e distrutto le prove, incapace di convivere con le conseguenze delle sue azioni",
+        "status": "hidden",
+        "required_clues": [
+          "clue_5",
+          "clue_11",
+          "clue_12"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1"
+        ],
+        "linked_npcs": [
+          "Kaelen Radim (cadavere)",
+          "Seryth Balador (Medico della stazione)"
+        ],
+        "linked_locations": [
+          "Punto di partenza"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Gli scavi segreti nel deserto",
+        "question": "Cosa sta cercando l'Impero sotto il deserto di cenere?",
+        "true_answer": "Un giacimento di cristalli energetici che il Consiglio Imperiale vuole sfruttare in segreto, lontano da occhi indiscreti",
+        "status": "hidden",
+        "required_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_13",
+          "clue_14"
+        ],
+        "minimum_clues_to_deduce": 3,
+        "parent_thread_ids": [
+          "T1",
+          "T2"
+        ],
+        "linked_npcs": [
+          "Tovar il Tagliatore"
+        ],
+        "linked_locations": [
+          "Zona pericolosa",
+          "Uscita contestata"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Rapporto geologico incompleto?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Testimonianza di Erith?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Punto di partenza",
+          "to": "Uscita contestata"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Punto di partenza",
+          "to": "Uscita contestata"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Uscita contestata",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "mystery_horror",
+      "tone": "mystery horror",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "resource loss",
+        "route blocked",
+        "hunter gains distance",
+        "injury",
+        "weather worsens",
+        "safe node compromised",
+        "pressure increase",
+        "fear spike",
+        "witness panic",
+        "haunting sign"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "instant death without direct lethal risk",
+        "escape impossible from one failure",
+        "entire map destroyed without clock",
+        "cosmic finale without clues",
+        "monster truth revealed too early"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "ai_le_ossa_del_passaggio_nero",
+      "title": "Le Ossa del Passaggio Nero",
+      "genre": "mystery_horror",
+      "detected_genre": "mystery_horror",
+      "premise": "La Stazione Kolvyr, ultimo avamposto prima del deserto di cenere, è sotto assedio. Da otto giorni il pozzo artesiano non dà più acqua. Le scorte bastano per tre giorni, forse quattro razionando. Ventidue anime intrappolate tra le mura di pietra nera, mentre le tribù nomadi del deserto accerchiano l'avamposto aspettando che la sete faccia il suo lavoro. Il comandante Radim è sparito due notti fa. La sua ultima decisione fu chiudere i cancelli e bruciare le mappe della rotta meridionale — l'unica via di fuga rimasta.",
+      "hidden_truth": "Il comandante Radim ha sabotato deliberatamente il pozzo artesiano avvelenando la falda con sali minerali tossici tre settimane fa, seguendo ordini segreti del Consiglio Imperiale. L'obiettivo era costringere l'evacuazione della stazione per nascondere la scoperta di un giacimento di cristalli energetici sotto il deserto — cristalli che il Consiglio vuole sfruttare in segreto. Radim ha poi distrutto le prove e si è suicidato per colpa, lasciando che tutti credessero a un cedimento naturale. Le tribù nomadi non assediano la stazione: stanno proteggendo le sorgenti sacre che l'Impero sta contaminando con gli scavi clandestini.",
+      "win_condition": "Scoprire la verità sul pozzo, scegliere tra evacuare (perdendo la stazione e condannando le tribù), negoziare con i nomadi (tradendo l'Impero), o cercare di ripristinare il pozzo (rischiando la morte di tutti per sete)",
+      "threat_description": "Chiusura delle vie di fuga",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "survival_escape",
+        "secondary_archetypes": [
+          "horror_survival"
+        ],
+        "confidence": 0.65,
+        "reason": "Matched runtime signals for survival_escape",
+        "definition": {
+          "id": "survival_escape",
+          "description": "Fuga, risorse, percorsi sicuri e zone pericolose.",
+          "required_modules": [
+            "routes",
+            "resources"
+          ],
+          "optional_modules": [
+            "safe_nodes"
+          ],
+          "runtime_focus": [
+            "route",
+            "resource"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "resource_loss",
+            "route_blocked"
+          ],
+          "ending_patterns": [
+            "escape"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "ai_le_ossa_del_passaggio_nero",
+      "adventure_canon": {
+        "core_truth": "Il comandante Radim ha sabotato deliberatamente il pozzo artesiano avvelenando la falda con sali minerali tossici tre settimane fa, seguendo ordini segreti del Consiglio Imperiale. L'obiettivo era costringere l'evacuazione della stazione per nascondere la scoperta di un giacimento di cristalli energetici sotto il deserto — cristalli che il Consiglio vuole sfruttare in segreto. Radim ha poi distrutto le prove e si è suicidato per colpa, lasciando che tutti credessero a un cedimento naturale. Le tribù nomadi non assediano la stazione: stanno proteggendo le sorgenti sacre che l'Impero sta contaminando con gli scavi clandestini.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Punto di partenza",
+          "Percorso rapido",
+          "Nodo sicuro",
+          "Zona pericolosa",
+          "Uscita contestata"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Ossa Passaggio Nero Stazione Kolvyr ultimo"
+        ],
+        "genre_profile": {
+          "id": "mystery_horror",
+          "tone": "mystery horror",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "resource loss",
+            "route blocked",
+            "hunter gains distance",
+            "injury",
+            "weather worsens",
+            "safe node compromised",
+            "pressure increase",
+            "fear spike",
+            "witness panic",
+            "haunting sign"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "instant death without direct lethal risk",
+            "escape impossible from one failure",
+            "entire map destroyed without clock",
+            "cosmic finale without clues",
+            "monster truth revealed too early"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Che cosa prova Rapporto geologico incompleto sul Barone o sui suoi complici",
+          "question": "Che cosa prova Rapporto geologico incompleto sul Barone o sui suoi complici?",
+          "true_answer": "Radim ha contaminato la falda con sali minerali su ordine del Consiglio Imperiale per forzare l'evacuazione e nascondere gli scavi di cristalli energetici",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Permette di interrogare Seryth sui sintomi da avvelenamento e Tovar sulle scorte chimiche mancanti / Collega Radim al sabotaggio e rivela l'esistenza degli 'scavi' segreti",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Testimonianza di Erith",
+          "question": "Dove conduce Testimonianza di Erith?",
+          "true_answer": "Le tribù difendono le loro sorgenti sacre dagli scavi imperiali che le stanno avvelenando — l'assedio è autodifesa, non invasione",
+          "required_clues": [
+            "clue_3",
+            "clue_4",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela che le tribù non sono nemiche casuali: reagiscono a un'aggressione imperiale / Tovar può ricostruire la rotta se pressato — ha una copia nascosta",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Rapporto geologico incompleto",
+          "text": "Rapporto geologico incompleto",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Il pozzo non si è esaurito naturalmente — qualcuno sapeva cosa stava per accadere",
+          "payoff": "Permette di interrogare Seryth sui sintomi da avvelenamento e Tovar sulle scorte chimiche mancanti",
+          "location": "Quartier generale",
+          "immediate_information": "Un documento trovato nella stanza di Radim",
+          "hidden_implication": "Il pozzo non si è esaurito naturalmente — qualcuno sapeva cosa stava per accadere",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il cerchio",
+            "cancellare o alterare un segno",
+            "seguire la traccia verso l'officiante"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Fiale di sale minerale nell'infermeria",
+          "text": "Fiale di sale minerale nell'infermeria",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Radim ha usato sostanze da prospezione — probabilmente per contaminare qualcosa",
+          "payoff": "Collega Radim al sabotaggio e rivela l'esistenza degli 'scavi' segreti",
+          "location": "Infermeria centrale",
+          "immediate_information": "Decine di fiale vuote etichettate 'NaCl-X7 — uso esclusivo prospezione mineraria'. Seryth dice che le ha trovate nell'armeria",
+          "hidden_implication": "Radim ha usato sostanze da prospezione — probabilmente per contaminare qualcosa",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Testimonianza di Erith",
+          "text": "Testimonianza di Erith",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "L'Impero sta avvelenando le sorgenti sacre — Radim probabilmente sapeva",
+          "payoff": "Rivela che le tribù non sono nemiche casuali: reagiscono a un'aggressione imperiale",
+          "location": "Cisterna esterna",
+          "immediate_information": "Erith racconta: 'Tre lune fa",
+          "hidden_implication": "L'Impero sta avvelenando le sorgenti sacre — Radim probabilmente sapeva",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Mappe bruciate nel camino",
+          "text": "Mappe bruciate nel camino",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Radim voleva intrappolare tutti nella stazione — non solo incompetenza, ma sabotaggio deliberato",
+          "payoff": "Tovar può ricostruire la rotta se pressato — ha una copia nascosta",
+          "location": "Quartier generale",
+          "immediate_information": "Nel camino del quartier generale, cenere di mappe. Frammenti leggibili mostrano una 'rotta meridionale alternativa' attraverso canyon Ash'kari. Radim l'ha bruciata per impedire l'evacuazione — ma perché?",
+          "hidden_implication": "Radim voleva intrappolare tutti nella stazione — non solo incompetenza, ma sabotaggio deliberato",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "seguire le impronte",
+            "analizzare la cenere",
+            "proteggersi prima di avanzare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Diario cifrato di Radim",
+          "text": "Diario cifrato di Radim",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Tutta la verità: Radim ha agito su ordini del Consiglio per nascondere l'esistenza di risorse preziose sotto il deserto",
+          "payoff": "Ribalta completamente la percezione della crisi — non disastro naturale, ma complotto istituzionale",
+          "location": "Quartier generale",
+          "immediate_information": "Un quaderno in codice militare nascosto sotto il pavimento delle sue stanze. Decifrabile",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Comportamento di Tovar",
+          "text": "Comportamento di Tovar",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Tovar sa qualcosa che gli altri ignorano — probabilmente sta negoziando una fuga",
+          "payoff": "Può essere costretto (con violenza o ricatto) a rivelare la sua complicità e le mappe nascoste",
+          "location": "Torre di guardia sud",
+          "immediate_information": "Tovar evita domande sul pozzo, controlla ossessivamente il cancello sud, e rifiuta di razionare la sua acqua personale. Di notte, segnala con una lanterna verso il deserto. Interrogato, diventa violento.",
+          "hidden_implication": "Tovar sa qualcosa che gli altri ignorano — probabilmente sta negoziando una fuga",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Seryth Balador",
+          "role": "Medico della stazione",
+          "description": "Salvare più vite possibili, anche a costo di sacrificare i più deboli per razionare meglio",
+          "location": "Infermeria centrale",
+          "secret": "Ha già avvelenato due malati terminali per risparmiare acqua — e sta considerando di fare lo stesso con i bambini se la situazione peggiora",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Salvare più vite possibili, anche a costo di sacrificare i più deboli per razionare meglio",
+            "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Salvare più vite possibili, anche a costo di sacrificare i più deboli per razionare meglio"
+            ],
+            "avoids": [
+              "che Rapporto geologico incompleto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha già avvelenato due malati terminali per risparmiare acqua — e sta considerando di fare lo stesso con i bambini se la situazione peggiora",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Tovar il Tagliatore",
+          "role": "Ex-guardia imperiale, ora mercenario",
+          "description": "Fuggire vivo, anche tradendo gli altri. Sta negoziando in segreto con le tribù nomadi.",
+          "location": "Torre di guardia sud",
+          "secret": "Conosce la verità sul pozzo — era complice di Radim, ma non sapeva che sarebbe finita così. Ha le mappe nascoste della rotta meridionale.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Fuggire vivo, anche tradendo gli altri. Sta negoziando in segreto con le tribù nomadi.",
+            "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Fuggire vivo, anche tradendo gli altri. Sta negoziando in segreto con le tribù nomadi."
+            ],
+            "avoids": [
+              "che Rapporto geologico incompleto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Conosce la verità sul pozzo — era complice di Radim, ma non sapeva che sarebbe finita così. Ha le mappe nascoste della rotta meridionale.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Erith Sombralunga",
+          "role": "Emissaria delle tribù Ash'kari",
+          "description": "Fermare l'Impero prima che contamini tutte le sorgenti sacre del deserto",
+          "location": "Cisterna esterna",
+          "secret": "Non è un'emissaria: è una sopravvissuta di un villaggio Ash'kari sterminato dalle ricognizioni imperiali. Vuole vendetta, ma sa che la stazione è piena di innocenti.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Fermare l'Impero prima che contamini tutte le sorgenti sacre del deserto",
+            "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Fermare l'Impero prima che contamini tutte le sorgenti sacre del deserto"
+            ],
+            "avoids": [
+              "che Rapporto geologico incompleto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Non è un'emissaria: è una sopravvissuta di un villaggio Ash'kari sterminato dalle ricognizioni imperiali. Vuole vendetta, ma sa che la stazione è piena di innocenti.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Kaelen Radim (cadavere)",
+          "role": "Comandante della stazione (morto)",
+          "description": "Era un uomo d'onore corrotto dal Consiglio — ha eseguito ordini mostruosi credendo di servire l'Impero",
+          "location": "Quartier generale",
+          "secret": "Il suo diario personale, nascosto, rivela tutto: l'avvelenamento del pozzo, gli scavi segreti, la colpa insostenibile",
+          "status": "dead",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Era un uomo d'onore corrotto dal Consiglio — ha eseguito ordini mostruosi credendo di servire l'Impero",
+            "fear": "che Rapporto geologico incompleto riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+            "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Era un uomo d'onore corrotto dal Consiglio — ha eseguito ordini mostruosi credendo di servire l'Impero"
+            ],
+            "avoids": [
+              "che Rapporto geologico incompleto riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Il suo diario personale, nascosto, rivela tutto: l'avvelenamento del pozzo, gli scavi segreti, la colpa insostenibile",
+            "arc_status": "dead",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Punto di partenza",
+          "description": "Punto di partenza: nodo giocabile della struttura survival_escape.",
+          "type": "entry",
+          "visual_identity": "Punto di partenza: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Percorso rapido",
+          "description": "Percorso rapido: nodo giocabile della struttura survival_escape.",
+          "type": "site",
+          "visual_identity": "Percorso rapido: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Nodo sicuro",
+          "description": "Nodo sicuro: nodo giocabile della struttura survival_escape.",
+          "type": "site",
+          "visual_identity": "Nodo sicuro: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona pericolosa",
+          "description": "Zona pericolosa: nodo giocabile della struttura survival_escape.",
+          "type": "site",
+          "visual_identity": "Zona pericolosa: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Uscita contestata",
+          "description": "Uscita contestata: nodo giocabile della struttura survival_escape.",
+          "type": "finale",
+          "visual_identity": "Uscita contestata: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Chiusura delle vie di fuga",
+          "value": 0,
+          "max": 6,
+          "consequence": "la minaccia raggiunge la zona finale",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "ai_le_ossa_del_passaggio_nero",
+    "current_scene_id": "loc_infermeria_centrale",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Infermeria centrale",
+        "agenda_pressure": 0,
+        "goal": "Salvare più vite possibili, anche a costo di sacrificare i più deboli per razionare meglio",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Torre di guardia sud",
+        "agenda_pressure": 0,
+        "goal": "Fuggire vivo, anche tradendo gli altri. Sta negoziando in segreto con le tribù nomadi.",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Cisterna esterna",
+        "agenda_pressure": 0,
+        "goal": "Fermare l'Impero prima che contamini tutte le sorgenti sacre del deserto",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "dead",
+        "location_id": "Quartier generale",
+        "agenda_pressure": 0,
+        "goal": "Era un uomo d'onore corrotto dal Consiglio — ha eseguito ordini mostruosi credendo di servire l'Impero",
+        "current_plan": "bloccare l'accesso a Uscita contestata e spostare le prove",
+        "fallback_plan": "ritirarsi verso Uscita contestata usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_infermeria_centrale": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_torre_di_guardia_sud": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cisterna_esterna": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_quartier_generale": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T2"
+      ],
+      "clue_5": [
+        "T1"
+      ],
+      "clue_6": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Infermeria centrale.",
+      "Actor npc_2 ha location non riconosciuta: Torre di guardia sud.",
+      "Actor npc_3 ha location non riconosciuta: Cisterna esterna.",
+      "Actor npc_4 ha location non riconosciuta: Quartier generale."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "live_game_state": null
+}

@@ -1,0 +1,2398 @@
+{
+  "adventure_definition": {
+    "id": "ai_nozze_di_seta_e_acciaio",
+    "title": "Nozze di Seta e Acciaio",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "military_operation",
+      "secondary_archetypes": [
+        "romance_drama"
+      ],
+      "confidence": 0.75,
+      "reason": "Matched runtime signals for military_operation",
+      "definition": {
+        "id": "military_operation",
+        "description": "Obiettivi tattici, terreno, forze e vincoli.",
+        "required_modules": [
+          "objectives",
+          "terrain",
+          "forces"
+        ],
+        "optional_modules": [
+          "clock"
+        ],
+        "runtime_focus": [
+          "terrain",
+          "force",
+          "mission"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail",
+          "document"
+        ],
+        "common_failure_modes": [
+          "enemy_alerted",
+          "objective_cost"
+        ],
+        "ending_patterns": [
+          "mission_result"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "romance",
+    "runtime_profiles": [
+      "guided_sandbox"
+    ],
+    "tone": "Romance gotico con sottofondo di noir politico — balli di gala che nascondono ricatti, lettere d'amore che celano codici, alcove profumate dove si firmano condanne a morte",
+    "premise": "Il matrimonio diplomatico tra Lady Serephine Valemont, erede della ricchissima Casata dei tessitori di seta, e Lord Corvain d'Ashmark, comandante militare della regione di confine, dovrebbe suggellare la pace tra mercanti e nobiltà guerriera. Ma a tre giorni dalle nozze, entrambe le famiglie mostrano segni di nervosismo: riunioni notturne, documenti bruciati, servitori mandati via senza preavviso. L'Alta Magistrata Ilene ha convocato voi tre come testimoni neutrali dell'accordo prematrimoniale, ma il vostro vero incarico è scoprire perché tutti mentono. Qualcosa di terribile lega già queste due famiglie, e il matrimonio non è un nuovo inizio — è una copertura.",
+    "initial_hook": "Nozze di Seta e Acciaio Il matrimonio diplomatico tra Lady Serephine Valemont, erede della ricchissima Casata dei tessitori di seta, e Lord Corvain d'Ashmark, comandante militare della regione di confine, dovrebbe suggellare la pace tra mercanti e nobiltà guerriera. Ma a tre giorni dalle nozze, en",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Tre anni fa, Lady Serephine Valemont e Lord Corvain d'Ashmark orchestrarono insieme l'assassinio del precedente Magistrato di Frontiera, Aldric il Giusto, che aveva scoperto che i Valemont contrabbandavano armi ai ribelli oltre il confine mentre gli Ashmark ricevevano tangenti per ignorarlo. Aldric fu avvelenato durante una cena diplomatica ospitata dai Valemont, il veleno fornito da Corvain attraverso il suo medico personale. Ora l'attuale Magistrata Ilene ha ritrovato il diario cifrato di Aldric, e ha convocato i PG per raccogliere prove senza allertare le due Casate. Il matrimonio è un accordo disperato: se si sposano, per legge non possono testimoniare l'uno contro l'altra, rendendo impossibile processarli entrambi.",
+        "reveal_clues": [
+          "clue_diario_aldric",
+          "clue_registro_cena"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Raccogliere almeno 4 indizi concreti che collegano entrambe le Casate all'omicidio di Aldric, confrontare Serephine e Corvain prima del matrimonio impedendo loro di sposarsi, e consegnare le prove alla Magistrata Ilene senza essere eliminati dagli assassini al soldo delle famiglie",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Raccogliere almeno 4 indizi concreti che collegano entrambe le Casate all'omicidio di Aldric, confrontare Serephine e Corvain prima del matrimonio impedendo loro di sposarsi, e consegnare le prove alla Magistrata Ilene senza essere eliminati dagli assassini al soldo delle famiglie"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Aldric stava per smascherare un traffico d'armi che coinvolgeva entrambe le Casate Entrambi i futuri sposi erano presenti la sera dell'omicidio e avevano accesso ad Aldric",
+        "required_clues": [
+          "clue_diario_aldric",
+          "clue_registro_cena",
+          "clue_testimonianza_servo"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Stabilisce il movente per l'omicidio e identifica la cena come momento cruciale / Conferma l'opportunità e colloca entrambi sulla scena del crimine",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta",
+        "required_clues": [
+          "clue_fiala_veleno"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Collega Vasilis (e quindi Corvain) alla modalità dell'omicidio",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta Serephine e Corvain hanno un legame segreto che risale a 'quella notte' — probabilmente la cena",
+        "required_clues": [
+          "clue_fiala_veleno",
+          "clue_lettera_amore",
+          "clue_comportamento_vasilis"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Suggerisce complicità premeditata, non un semplice amore / Apre la pista verso la fiala di veleno e conferma il coinvolgimento di Corvain",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_diario_aldric",
+        "label": "Diario cifrato di Aldric",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Studio della Magistrata",
+        "reveals": "Aldric stava per smascherare un traffico d'armi che coinvolgeva entrambe le Casate",
+        "payoff": "Stabilisce il movente per l'omicidio e identifica la cena come momento cruciale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un diario rilegato in pelle scura con pagine piene di simboli. La Magistrata Ilene ne ha decifrato alcune parti: 'I Valemont armano i ribelli",
+        "hidden_implication": "Aldric stava per smascherare un traffico d'armi che coinvolgeva entrambe le Casate",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_studio_della_magistrata"
+      },
+      {
+        "id": "clue_registro_cena",
+        "label": "Registro degli ospiti della cena fatale",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Sala delle Sete",
+        "reveals": "Entrambi i futuri sposi erano presenti la sera dell'omicidio e avevano accesso ad Aldric",
+        "payoff": "Conferma l'opportunità e colloca entrambi sulla scena del crimine",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un registro formale della cena di Gala di tre anni fa. Tra gli ospiti: Aldric (Magistrato)",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "Sala delle Sete"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_sala_delle_sete"
+      },
+      {
+        "id": "clue_fiala_veleno",
+        "label": "Fiala di veleno Lacrime di Vedova",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Infermeria della Fortezza",
+        "reveals": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta",
+        "payoff": "Collega Vasilis (e quindi Corvain) alla modalità dell'omicidio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Una piccola ampolla di vetro scuro nascosta in un armadio chiuso a chiave nell'infermeria. Contiene un liquido trasparente. Il Dr. Vasilis impallidisce quando la vedete: 'È... è Lacrime di Vedova. Raro",
+        "hidden_implication": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_fortezza"
+      },
+      {
+        "id": "clue_lettera_amore",
+        "label": "Lettera apparentemente romantica",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Sala d'Armi",
+        "reveals": "Serephine e Corvain hanno un legame segreto che risale a 'quella notte' — probabilmente la cena",
+        "payoff": "Suggerisce complicità premeditata, non un semplice amore",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Una lettera trovata in un cassetto segreto nella Sala d'Armi",
+        "hidden_implication": "Serephine e Corvain hanno un legame segreto che risale a 'quella notte' — probabilmente la cena",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_sala_d_armi"
+      },
+      {
+        "id": "clue_testimonianza_servo",
+        "label": "Testimonianza del vecchio maggiordomo",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Casetta del Maggiordomo",
+        "reveals": "Serephine distrusse prove fisiche il giorno dopo la cena — comportamento sospetto",
+        "payoff": "Rinforza il suo coinvolgimento diretto e suggerisce contatto con sostanze pericolose",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un servo anziano dei Valemont",
+        "hidden_implication": "Serephine distrusse prove fisiche il giorno dopo la cena — comportamento sospetto",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_casetta_del_maggiordomo"
+      },
+      {
+        "id": "clue_comportamento_vasilis",
+        "label": "Nervosismo del Dr. Vasilis",
+        "type": "behavior",
+        "thread_id": "T2",
+        "source_location": "Infermeria della Fortezza",
+        "reveals": "Vasilis ha paura di essere eliminato e ha conservato prove che lo collegano all'omicidio",
+        "payoff": "Apre la pista verso la fiala di veleno e conferma il coinvolgimento di Corvain",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Durante un incontro casuale con Vasilis",
+        "hidden_implication": "Vasilis ha paura di essere eliminato e ha conservato prove che lo collegano all'omicidio",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_fortezza"
+      },
+      {
+        "id": "clue_balle_seta",
+        "label": "Balle di seta manomesse",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "I Valemont nascondono qualcosa di pesante e metallico nelle loro mercanzie",
+        "payoff": "Conferma il contrabbando di armi camuffate da tessuti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_libro_contabile",
+        "label": "Libro contabile cifrato",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Pagamenti sospetti e regolari collegano i Valemont a qualcuno con iniziale C.",
+        "payoff": "Dimostra il pagamento delle tangenti a Corvain per ignorare i controlli",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_lettera_cifrata",
+        "label": "Lettera cifrata intercettata",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Aldric aveva intercettato comunicazioni compromettenti e stava indagando su un traffico illegale",
+        "payoff": "Spiega perché Aldric divenne un bersaglio da eliminare",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_appunti_aldric",
+        "label": "Appunti investigativi di Aldric",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Aldric aveva pianificato di accusarli durante quella cena, dove invece fu ucciso",
+        "payoff": "Stabilisce che Aldric conosceva la collusione e che la cena fu una trappola",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_incontri_segreti",
+        "label": "Testimonianza della guardia notturna",
+        "type": "testimony",
+        "thread_id": "T6",
+        "source_location": "",
+        "reveals": "La relazione tra i due è molto più antica e consolidata di quanto appaia pubblicamente",
+        "payoff": "Dimostra che il matrimonio non è solo convenienza politica ma un legame profondo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_corrispondenza_vasilis",
+        "label": "Lettere tra Vasilis e Corvain",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Vasilis fornì deliberatamente il veleno a Corvain con istruzioni precise",
+        "payoff": "Incastra sia Vasilis che Corvain nella preparazione dell'omicidio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_menu_cena",
+        "label": "Menu della cena fatale",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "La bevanda di Aldric fu preparata separatamente e Serephine ebbe accesso diretto",
+        "payoff": "Collega Serephine alla possibilità di avvelenare specificamente Aldric",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_regalo_nuziale",
+        "label": "Anello di fidanzamento antico",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Il loro legame è consapevolmente fondato su segreti criminali condivisi",
+        "payoff": "Suggerisce premeditazione e complicità profonda tra i due",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_serephine",
+        "name": "Lady Serephine Valemont",
+        "role": "Erede della Casata dei tessitori e complice nell'omicidio",
+        "location_id": "loc_sala_delle_sete",
+        "status": "unintroduced",
+        "goal": "Proteggere la propria famiglia dallo scandalo e consolidare il potere attraverso il matrimonio, evitando il processo",
+        "secret": "Fu lei a versare personalmente il veleno nel calice di Aldric durante la cena, convinta che stesse salvando la propria Casata dalla rovina",
+        "agenda_pressure": 0,
+        "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+        "current_plan": "Procedere con il matrimonio come previsto, confidando che lo status di moglie di Corvain la renderà intoccabile. Una volta sposata, usare l'influenza combinata delle due Casate per insabbiare qualsiasi indagine. Ha già preparato tre servitori disposti a testimoniare falsamente di aver visto Aldric bere da una bottiglia propria.",
+        "fallback_plan": "Se il matrimonio fallisce: fuggire attraverso la rete commerciale Valemont verso le Province Orientali con documenti falsi e oro abbastanza da ricostruire una vita. Ha già fatto modificare una carrozza di tessuti con doppiofondo. Alternativa estrema: accusare pubblicamente il padre di averla costretta all'omicidio sotto minaccia di diseredamento, sacrificandolo per salvarsi.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_diario_aldric"
+        ],
+        "wants": [
+          "Proteggere la propria famiglia dallo scandalo e consolidare il potere attraverso il matrimonio, evitando il processo"
+        ],
+        "avoids": [
+          "che Diario cifrato di Aldric riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Serephine mantiene un contegno impeccabile, sorridendo con grazia glaciale. Devia ogni domanda scomoda parlando dei preparativi nuziali o dei dazi sulla seta. Le sue mani tradiscono nervosismo solo quando giocherella con l'anello di fidanzamento.",
+          "medium": "Inizia a mostrare crepe nella facciata: lacrime trattenute, riferimenti al 'peso insopportabile' sul suo nome di famiglia. Cerca disperatamente sostegno in Corvain, toccandogli il braccio, cercando il suo sguardo. Menziona velatamente 'necessità che solo certe anime comprendono'.",
+          "high": "Crolla parzialmente, ammettendo tra singhiozzi che 'Aldric avrebbe distrutto tutto ciò che generazioni hanno costruito'. Implora comprensione, non perdono. Rivela lettere compromettenti che Aldric possedeva sulla Casata Valemont, giustificando l'atto come difesa, non omicidio.",
+          "extreme": "Confessa tutto con voce spezzata ma lucida: 'L'ho fatto io, sì. Il veleno delle more blu, nel suo vino rosso. Guardava mio padre come un usuraio guarda un debitore. Avrei perso tutto - la seta, il nome, persino questo matrimonio. Dovevo agire.' Si offre di bere lei stessa il veleno per proteggere Corvain dallo scandalo."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rifugia immediatamente dietro il suo status: 'Accusare un'erede Valemont significa dichiarare guerra economica a mezza regione. I telai si fermano, la seta non arriva, gli accordi commerciali cadono'. Minaccia che la Casata userà ogni risorsa legale e finanziaria disponibile.",
+          "se_corrotto": "Offre accesso esclusivo alle rotte commerciali Valemont, tessuti pregiati per la vita, e una partecipazione silenziosa nei profitti della Casata. Con voce tremante: 'Potete avere ricchezza che i soldati non sognano nemmeno. Solo... lasciate che il matrimonio proceda. Aldric è già cenere.'",
+          "se_i_pg_hanno_prove": "Cambia strategia con rapidità disperata: chiede un incontro privato con Corvain prima di qualsiasi arresto. Propone una confessione controllata dove lei si assume tutta la colpa per 'follia temporanea', preservando l'onore di Corvain e negoziando esilio dorato invece del patibolo.",
+          "se_alleato": "Diventa vulnerabile e strategica insieme: condivide l'archivio segreto di lettere di ricatto di Aldric, rivelando una rete di corruzione. Propone di usare la sua posizione per smantellare chi ha davvero spinto verso il veleno. 'Non sono l'unica colpevole. Sono solo quella che ha versato il calice.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_corvain",
+        "name": "Lord Corvain d'Ashmark",
+        "role": "Comandante militare e complice nell'omicidio",
+        "location_id": "loc_sala_d_armi",
+        "status": "unintroduced",
+        "goal": "Sposare Serephine per siglare l'immunità reciproca e impedire che il suo coinvolgimento nell'omicidio distrugga la reputazione militare degli Ashmark",
+        "secret": "Fornì il veleno attraverso il Dr. Vasilis ma non sa che Serephine lo versò personalmente — crede che un servo si sia occupato dell'esecuzione",
+        "agenda_pressure": 0,
+        "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+        "current_plan": "Procedere con il matrimonio entro due settimane per siglare l'immunità reciproca. Mantenere Vasilis sotto controllo attraverso pressioni e pagamenti. Evitare qualsiasi comunicazione scritta con Serephine riguardo all'omicidio. Presentarsi pubblicamente come l'onorevole comandante che porta stabilità alle due Casate.",
+        "fallback_plan": "Se il matrimonio fallisce: incolpare interamente Vasilis come medico corrotto che agì per conto di Serephine. Sostenere di essere stato ingannato da lei e che il suo coinvolgimento fu solo quello di consultare Vasilis per 'medicine' innocue. Se completamente scoperto: fuggire alle guarnigioni di frontiera fedeli e minacciare secessione militare se viene perseguito, trasformando uno scandalo familiare in crisi di sicurezza nazionale.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_diario_aldric"
+        ],
+        "wants": [
+          "Sposare Serephine per siglare l'immunità reciproca e impedire che il suo coinvolgimento nell'omicidio distrugga la reputazione militare degli Ashmark"
+        ],
+        "avoids": [
+          "che Diario cifrato di Aldric riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un contegno militare impeccabile, deviando le domande scomode con riferimenti al dovere e all'onore. Sottolinea il suo servizio alla frontiera e i sacrifici fatti per proteggere il regno. Parla del matrimonio come necessità diplomatica.",
+          "medium": "Inizia a insinuare che Serephine aveva i suoi motivi per volere morto il fratello. Menziona 'incidenti deplorevoli che a volte servono il bene comune'. Chiede incontri privati con chi indaga, dove accenna vagamente a compensi per chi sa essere discreto.",
+          "high": "Confessa di aver procurato il veleno attraverso Vasilis, ma giura di non aver ordinato personalmente l'esecuzione. Incolpa 'servitori zelanti' o suggerisce che Serephine prese l'iniziativa. Minaccia di rivelare segreti militari compromettenti se viene accusato pubblicamente.",
+          "extreme": "Tenta di far uccidere Vasilis per eliminare il collegamento. Propone a Serephine di fuggire insieme alle frontiere dove comanda guarnigioni fedeli. In alternativa, minaccia di accusare lei come unica responsabile, sostenendo che lo manipolò usando la promessa di matrimonio."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva i suoi contatti militari per intimidire i PG. Fa seguire e sorvegliare chiunque indaghi. Se necessario, organizza 'incidenti' durante pattuglie o ispezioni di confine per neutralizzare testimoni.",
+          "se_corrotto": "Offre posizioni di comando nelle guarnigioni di frontiera, licenze commerciali esclusive per le rotte militari, o informazioni su movimenti nemici oltre confine. Disposto a pagare fino a 5000 corone d'oro in lingotti non tracciabili.",
+          "se_i_pg_hanno_prove": "Cerca disperatamente un accordo: si dimette dal comando e si ritira in esilio volontario presso una fortezza remota. In cambio pretende che il suo nome resti pulito e che gli Ashmark non siano coinvolti. Tenta di negoziare l'immunità reciproca con Serephine fino all'ultimo.",
+          "se_alleato": "Condivide intelligence militare utile, fornisce scorte armate per missioni pericolose. Racconta la sua versione: consegnò il veleno a Vasilis credendo che un servo Valemont avrebbe agito. Esprime shock genuino se scopre che Serephine versò personalmente il veleno."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_ilene",
+        "name": "Alta Magistrata Ilene Corvida",
+        "role": "Autorità giudiziaria che ha scoperto il crimine e ha ingaggiato segretamente i PG",
+        "location_id": "loc_studio_della_magistrata",
+        "status": "unintroduced",
+        "goal": "Fare giustizia per l'omicidio del suo predecessore Aldric, che era anche il suo mentore, senza causare una guerra civile tra nobiltà e mercanti",
+        "secret": "Era innamorata di Aldric e ha dedicato tre anni a decifrare il suo diario — i PG sono la sua ultima mossa disperata prima che il matrimonio renda intoccabili i colpevoli",
+        "agenda_pressure": 0,
+        "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+        "current_plan": "I PG devono infiltrarsi nel banchetto pre-nuziale e recuperare il registro contabile originale dei Valemont dalla camera di Serephine, che mostra i pagamenti agli assassini di Aldric. Ilene ha corrotto una cameriera per lasciare aperta una finestra specifica.",
+        "fallback_plan": "Se il matrimonio avviene, Ilene userà la sua autorità per arrestare Lord Corvain con false accuse di tradimento, causando uno scandalo che ritarderà l'unione. Durante il caos, rapirà Serephine e la interrogherà personalmente usando tecniche che Aldric le insegnò, ottenendo una confessione forzata anche se ciò la distruggerà moralmente e legalmente.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_diario_aldric"
+        ],
+        "wants": [
+          "Fare giustizia per l'omicidio del suo predecessore Aldric, che era anche il suo mentore, senza causare una guerra civile tra nobiltà e mercanti"
+        ],
+        "avoids": [
+          "che Diario cifrato di Aldric riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Fornisce ai PG documenti falsificati per accedere al palazzo Valemont, mantenendo distanza ufficiale. Comunica tramite lettere cifrate usando il codice che condivideva con Aldric.",
+          "medium": "Rivela frammenti del diario di Aldric ai PG, mostrando come il predecessore avesse scoperto che i Valemont avevano avvelenato mercanti rivali con seta tinta di arsenico. La sua voce trema pronunciando il nome di Aldric.",
+          "high": "Confessa pubblicamente di aver nascosto prove per tre anni, rischiando la sua posizione. Offre di testimoniare contro i Valemont anche se questo significherà essere rimossa dalla magistratura e processata per ostruzione.",
+          "extreme": "Tenta di assassinare Serephine la notte prima delle nozze con la stessa sostanza usata su Aldric, lasciando una confessione scritta che scagiona i PG e incolpa sé stessa di tutto. Indossa l'anello di Aldric quando agisce."
+        },
+        "reaction_table": {
+          "se_minacciato": "Brucia metà del diario di Aldric per proteggerlo, poi si barrica nel suo ufficio con le pagine più compromettenti. Offre di suicidarsi pubblicamente se questo darà ai PG il tempo di fuggire con le prove.",
+          "se_corrotto": "Finge di accettare, poi usa l'oro ricevuto per assumere altri investigatori. Documenta meticolosamente il tentativo di corruzione come ulteriore prova contro i nobili coinvolti.",
+          "se_i_pg_hanno_prove": "Piange apertamente, toccando il medaglione con il ritratto di Aldric. Mobilita immediatamente la Guardia Magistrale e convoca un tribunale d'emergenza, anche se è mezzanotte. Finalmente può onorare la memoria del suo mentore.",
+          "se_alleato": "Condivide l'ultima pagina del diario dove Aldric scriveva di lei con affetto paterno. Rivela la posizione del suo nascondiglio segreto pieno di tre anni di indagini: mappe, testimonianze raccolte, campioni di seta avvelenata."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_vasilis",
+        "name": "Dr. Theron Vasilis",
+        "role": "Medico di corte degli Ashmark e fornitore del veleno",
+        "location_id": "loc_infermeria_della_fortezza",
+        "status": "unintroduced",
+        "goal": "Proteggere la propria vita — sa troppo e teme di essere eliminato da Corvain una volta celebrato il matrimonio",
+        "secret": "Conserva ancora una fiala del veleno identico a quello usato su Aldric, nascosta nel suo laboratorio, come assicurazione personale",
+        "agenda_pressure": 0,
+        "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+        "current_plan": "Sopravvivere fino al giorno dopo il matrimonio fingendo totale lealtà a Corvain, poi fuggire nottetempo verso la costa orientale con la fiala come assicurazione. Ha già contatti con una gilda di mercanti che possono farlo sparire per 300 monete d'oro.",
+        "fallback_plan": "Se scoperto prima della fuga, usare la fiala come merce di scambio: offrirla ai Valemont in cambio di protezione e testimoniare contro Corvain. Se anche questo fallisce, tentare di avvelenare Corvain stesso durante un'ultima visita medica pre-matrimoniale, spacciandolo per attacco cardiaco naturale, poi fuggire nel caos risultante.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_diario_aldric"
+        ],
+        "wants": [
+          "Proteggere la propria vita — sa troppo e teme di essere eliminato da Corvain una volta celebrato il matrimonio"
+        ],
+        "avoids": [
+          "che Diario cifrato di Aldric riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene la facciata del medico devoto, evita accuratamente qualsiasi menzione del veleno o di Aldric, devia conversazioni sospette verso diagnosi mediche banali. Osserva nervosamente chiunque si avvicini troppo al suo laboratorio.",
+          "medium": "Diventa evasivo e sudato, inizia a preparare borse da viaggio di notte. Controlla ossessivamente che la fiala sia ancora al suo posto, nascosta dentro un falso tomo di anatomia. Cerca di capire quanto Corvain sospetti di lui.",
+          "high": "Crolla parzialmente, ammette di aver fornito 'qualcosa' ma scarica ogni responsabilità su Corvain. Offre la fiala residua come prova in cambio di protezione immediata. Rivela che Corvain gli ha già fatto capire che 'i testimoni sono pericolosi dopo le nozze'.",
+          "extreme": "Confessa tutto in preda al panico: come ha distillato il veleno dalle ceneri di oleandro orientale, come Corvain lo ha costretto minacciando di rivelare che aveva già avvelenato un paziente anni prima. Supplica asilo, offre testimonianza dettagliata e la fiala. Piange dicendo 'Sono un medico, non un assassino, lui mi ha trasformato in questo'."
+        },
+        "reaction_table": {
+          "se_minacciato": "Cade in ginocchio, mani tremanti alzate. Balbetta che può dare loro la prova fisica (la fiala) e testimoniare contro Corvain se lo proteggono. Rivela dove ha nascosto il veleno: 'Terzo scaffale, tomo rosso di Anatomia Comparata, pagina svuotata 247'.",
+          "se_corrotto": "Esita, poi accetta oro solo se include un salvacondotto e scorta fuori dal territorio Ashmark. Chiede garanzie scritte. È disperato ma non stupido: 'Il vostro oro non vale nulla se Corvain mi trova prima dell'alba'.",
+          "se_i_pg_hanno_prove": "Crolla immediatamente, capisce che negare è inutile. Offre collaborazione totale: 'Vi dirò tutto, ma dovete agire stanotte. Dopo il matrimonio, Corvain ha pianificato un 'incidente' nel mio laboratorio. Un fuoco. Con me dentro'. Trema visibilmente.",
+          "se_alleato": "Diventa risorsa preziosa: spiega che il veleno lascia tracce specifiche nei tessuti della vittima, insegnabili a riconoscere. Offre di preparare l'antidoto preventivo per Serephine se temono altri avvelenamenti. Chiede solo una nuova identità lontano da qui."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_sala_delle_sete",
+        "name": "Sala delle Sete",
+        "description": "Sala delle Sete.",
+        "status": "known",
+        "contains_clues": [
+          "clue_registro_cena"
+        ],
+        "contains_actors": [
+          "npc_serephine"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_d_armi",
+        "name": "Sala d'Armi",
+        "description": "Sala d'Armi.",
+        "status": "known",
+        "contains_clues": [
+          "clue_lettera_amore"
+        ],
+        "contains_actors": [
+          "npc_corvain"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_studio_della_magistrata",
+        "name": "Studio della Magistrata",
+        "description": "Studio della Magistrata.",
+        "status": "known",
+        "contains_clues": [
+          "clue_diario_aldric"
+        ],
+        "contains_actors": [
+          "npc_ilene"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_infermeria_della_fortezza",
+        "name": "Infermeria della Fortezza",
+        "description": "Infermeria della Fortezza.",
+        "status": "known",
+        "contains_clues": [
+          "clue_fiala_veleno",
+          "clue_comportamento_vasilis"
+        ],
+        "contains_actors": [
+          "npc_vasilis"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_casetta_del_maggiordomo",
+        "name": "Casetta del Maggiordomo",
+        "description": "Casetta del Maggiordomo.",
+        "status": "known",
+        "contains_clues": [
+          "clue_testimonianza_servo"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Reazione delle forze ostili",
+        "value": 0,
+        "max_value": 5,
+        "consequence": "percorso laterale minacciato o sigillato",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Sussurri alla corte",
+            "effect": "Servitori fedeli alle vecchie alleanze cominciano a riferire dei movimenti dei protagonisti. +1 difficoltà a prove sociali con nobili neutrali."
+          },
+          {
+            "value": 2,
+            "label": "Intercettazioni diplomatiche",
+            "effect": "Corrieri vengono fermati, lettere aperte. Le comunicazioni tra le due Casate subiscono ritardi sospetti. Un alleato minore si ritira dall'accordo."
+          },
+          {
+            "value": 3,
+            "label": "Provocazioni armate",
+            "effect": "Scaramucce di confine aumentano. Soldati d'Ashmark vengono accusati di violazioni. Corvain deve scegliere tra indagare il matrimonio o difendere i suoi uomini."
+          },
+          {
+            "value": 4,
+            "label": "Sabotaggio delle nozze",
+            "effect": "Un carico di seta Valemont viene distrutto. Serephine riceve minacce velate. La cerimonia è a rischio, serve guardia raddoppiata."
+          },
+          {
+            "value": 5,
+            "label": "Ultimatum pubblico",
+            "effect": "Una fazione rivale presenta prove (falsificate o meno) di tradimento di una delle Casate. Il matrimonio deve essere annullato o ci sarà guerra aperta."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "I protagonisti identificano e smascherano pubblicamente chi orchestra le provocazioni, oppure consolidano abbastanza alleati da rendere irrilevante l'opposizione, oppure dimostrano l'autenticità del loro legame in modo che diventi politicamente vantaggioso sostenerli.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "I mercanti di seta notano che certi colori—quelli usati dalle vecchie alleanze—compaiono più spesso nei mercati di confine. Le guardie veterane di Corvain sembrano nostalgiche quando parlano di 'tempi più semplici'.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Patto Cenere Seta matrimonio diplomatico tra",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T4",
+        "title": "Il contrabbando di armi",
+        "question": "Quali prove esistono del traffico illegale di armi dei Valemont verso i ribelli?",
+        "true_answer": "I Valemont nascondevano armi nelle balle di seta destinate oltre confine, con il consenso tacito degli Ashmark che ricevevano il 20% dei profitti per ignorare le ispezioni",
+        "status": "hidden",
+        "required_clues": [
+          "clue_balle_seta",
+          "clue_libro_contabile"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Lady Serephine Valemont",
+          "Lord Corvain d'Ashmark"
+        ],
+        "linked_locations": [
+          "Magazzini Valemont",
+          "Posto di frontiera Ashmark"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "La scoperta di Aldric",
+        "question": "Come fece il Magistrato Aldric a scoprire il patto criminale tra le due Casate?",
+        "true_answer": "Aldric intercettò una lettera cifrata tra Serephine e Corvain dove pianificavano il prossimo carico e la spartizione dei profitti, decifrando il codice grazie a un errore del messaggero",
+        "status": "hidden",
+        "required_clues": [
+          "clue_lettera_cifrata",
+          "clue_appunti_aldric"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1"
+        ],
+        "linked_npcs": [
+          "Alta Magistrata Ilene Corvida"
+        ],
+        "linked_locations": [
+          "Archivi del Magistrato"
+        ]
+      },
+      {
+        "id": "T6",
+        "title": "Il vero rapporto tra Serephine e Corvain",
+        "question": "Quale legame unisce realmente i due promessi sposi?",
+        "true_answer": "Serephine e Corvain sono amanti da quattro anni, il loro legame è nato dalla complicità criminale ma si è evoluto in una relazione passionale che ora li rende disposti a tutto pur di proteggersi a vicenda",
+        "status": "hidden",
+        "required_clues": [
+          "clue_lettera_amore",
+          "clue_incontri_segreti"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Lady Serephine Valemont",
+          "Lord Corvain d'Ashmark"
+        ],
+        "linked_locations": [
+          "Torre di guardia abbandonata",
+          "Giardini Valemont"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Diario cifrato di Aldric?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T3",
+        "title": "T3",
+        "question": "Cosa rivela Fiala di veleno Lacrime di Vedova?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Lettera apparentemente romantica?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Apertura",
+          "to": "Finale"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Apertura",
+          "to": "Finale"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Finale",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "guided_sandbox",
+      "tone": "genre-consistent adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "adv_1cac044951",
+      "title": "Il Patto di Cenere e Seta",
+      "genre": "romance",
+      "detected_genre": "romance",
+      "premise": "Il matrimonio diplomatico tra Lady Serephine Valemont, erede della ricchissima Casata dei tessitori di seta, e Lord Corvain d'Ashmark, comandante militare della regione di confine, dovrebbe suggellare la pace tra mercanti e nobiltà guerriera. Ma a tre giorni dalle nozze, entrambe le famiglie mostrano segni di nervosismo: riunioni notturne, documenti bruciati, servitori mandati via senza preavviso. L'Alta Magistrata Ilene ha convocato voi tre come testimoni neutrali dell'accordo prematrimoniale, ma il vostro vero incarico è scoprire perché tutti mentono. Qualcosa di terribile lega già queste due famiglie, e il matrimonio non è un nuovo inizio — è una copertura.",
+      "hidden_truth": "Tre anni fa, Lady Serephine Valemont e Lord Corvain d'Ashmark orchestrarono insieme l'assassinio del precedente Magistrato di Frontiera, Aldric il Giusto, che aveva scoperto che i Valemont contrabbandavano armi ai ribelli oltre il confine mentre gli Ashmark ricevevano tangenti per ignorarlo. Aldric fu avvelenato durante una cena diplomatica ospitata dai Valemont, il veleno fornito da Corvain attraverso il suo medico personale. Ora l'attuale Magistrata Ilene ha ritrovato il diario cifrato di Aldric, e ha convocato i PG per raccogliere prove senza allertare le due Casate. Il matrimonio è un accordo disperato: se si sposano, per legge non possono testimoniare l'uno contro l'altra, rendendo impossibile processarli entrambi.",
+      "win_condition": "Raccogliere almeno 4 indizi concreti che collegano entrambe le Casate all'omicidio di Aldric, confrontare Serephine e Corvain prima del matrimonio impedendo loro di sposarsi, e consegnare le prove alla Magistrata Ilene senza essere eliminati dagli assassini al soldo delle famiglie",
+      "threat_description": "Reazione delle forze ostili",
+      "threat_max_turns": 5,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "military_operation",
+        "secondary_archetypes": [
+          "romance_drama"
+        ],
+        "confidence": 0.75,
+        "reason": "Matched runtime signals for military_operation",
+        "definition": {
+          "id": "military_operation",
+          "description": "Obiettivi tattici, terreno, forze e vincoli.",
+          "required_modules": [
+            "objectives",
+            "terrain",
+            "forces"
+          ],
+          "optional_modules": [
+            "clock"
+          ],
+          "runtime_focus": [
+            "terrain",
+            "force",
+            "mission"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail",
+            "document"
+          ],
+          "common_failure_modes": [
+            "enemy_alerted",
+            "objective_cost"
+          ],
+          "ending_patterns": [
+            "mission_result"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "adv_1cac044951",
+      "adventure_canon": {
+        "core_truth": "Tre anni fa, Lady Serephine Valemont e Lord Corvain d'Ashmark orchestrarono insieme l'assassinio del precedente Magistrato di Frontiera, Aldric il Giusto, che aveva scoperto che i Valemont contrabbandavano armi ai ribelli oltre il confine mentre gli Ashmark ricevevano tangenti per ignorarlo. Aldric fu avvelenato durante una cena diplomatica ospitata dai Valemont, il veleno fornito da Corvain attraverso il suo medico personale. Ora l'attuale Magistrata Ilene ha ritrovato il diario cifrato di Aldric, e ha convocato i PG per raccogliere prove senza allertare le due Casate. Il matrimonio è un accordo disperato: se si sposano, per legge non possono testimoniare l'uno contro l'altra, rendendo impossibile processarli entrambi.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Apertura",
+          "Nodo indizi",
+          "Luogo sociale",
+          "Zona calda",
+          "Finale"
+        ],
+        "required_clues": [
+          "clue_diario_aldric",
+          "clue_registro_cena",
+          "clue_fiala_veleno",
+          "clue_lettera_amore",
+          "clue_testimonianza_servo",
+          "clue_comportamento_vasilis"
+        ],
+        "finale_conditions": [
+          "Finale: Patto Cenere Seta matrimonio diplomatico tra"
+        ],
+        "genre_profile": {
+          "id": "guided_sandbox",
+          "tone": "genre-consistent adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Diario cifrato di Aldric",
+          "question": "Dove conduce Diario cifrato di Aldric?",
+          "true_answer": "Aldric stava per smascherare un traffico d'armi che coinvolgeva entrambe le Casate Entrambi i futuri sposi erano presenti la sera dell'omicidio e avevano accesso ad Aldric",
+          "required_clues": [
+            "clue_diario_aldric",
+            "clue_registro_cena",
+            "clue_testimonianza_servo"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Stabilisce il movente per l'omicidio e identifica la cena come momento cruciale / Conferma l'opportunità e colloca entrambi sulla scena del crimine",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Come si usa o si neutralizza Fiala di veleno Lacrime di Vedova senza favorire la minaccia",
+          "question": "Come si usa o si neutralizza Fiala di veleno Lacrime di Vedova senza favorire la minaccia?",
+          "true_answer": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta",
+          "required_clues": [
+            "clue_fiala_veleno"
+          ],
+          "minimum_clues_to_deduce": 1,
+          "payoff": "Collega Vasilis (e quindi Corvain) alla modalità dell'omicidio",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Come si usa o si neutralizza Fiala di veleno Lacrime di Vedova senza favorire la minaccia",
+          "question": "Come si usa o si neutralizza Fiala di veleno Lacrime di Vedova senza favorire la minaccia?",
+          "true_answer": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta Serephine e Corvain hanno un legame segreto che risale a 'quella notte' — probabilmente la cena",
+          "required_clues": [
+            "clue_fiala_veleno",
+            "clue_lettera_amore",
+            "clue_comportamento_vasilis"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Suggerisce complicità premeditata, non un semplice amore / Apre la pista verso la fiala di veleno e conferma il coinvolgimento di Corvain",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_diario_aldric",
+          "label": "Diario cifrato di Aldric",
+          "text": "Diario cifrato di Aldric",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Aldric stava per smascherare un traffico d'armi che coinvolgeva entrambe le Casate",
+          "payoff": "Stabilisce il movente per l'omicidio e identifica la cena come momento cruciale",
+          "location": "Studio della Magistrata",
+          "immediate_information": "Un diario rilegato in pelle scura con pagine piene di simboli. La Magistrata Ilene ne ha decifrato alcune parti: 'I Valemont armano i ribelli",
+          "hidden_implication": "Aldric stava per smascherare un traffico d'armi che coinvolgeva entrambe le Casate",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_registro_cena",
+          "label": "Registro degli ospiti della cena fatale",
+          "text": "Registro degli ospiti della cena fatale",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Entrambi i futuri sposi erano presenti la sera dell'omicidio e avevano accesso ad Aldric",
+          "payoff": "Conferma l'opportunità e colloca entrambi sulla scena del crimine",
+          "location": "Sala delle Sete",
+          "immediate_information": "Un registro formale della cena di Gala di tre anni fa. Tra gli ospiti: Aldric (Magistrato)",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "Sala delle Sete"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_fiala_veleno",
+          "label": "Fiala di veleno Lacrime di Vedova",
+          "text": "Fiala di veleno Lacrime di Vedova",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta",
+          "payoff": "Collega Vasilis (e quindi Corvain) alla modalità dell'omicidio",
+          "location": "Infermeria della Fortezza",
+          "immediate_information": "Una piccola ampolla di vetro scuro nascosta in un armadio chiuso a chiave nell'infermeria. Contiene un liquido trasparente. Il Dr. Vasilis impallidisce quando la vedete: 'È... è Lacrime di Vedova. Raro",
+          "hidden_implication": "Il tipo di veleno usato su Aldric e il fatto che Vasilis ne possedeva una scorta",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_lettera_amore",
+          "label": "Lettera apparentemente romantica",
+          "text": "Lettera apparentemente romantica",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Serephine e Corvain hanno un legame segreto che risale a 'quella notte' — probabilmente la cena",
+          "payoff": "Suggerisce complicità premeditata, non un semplice amore",
+          "location": "Sala d'Armi",
+          "immediate_information": "Una lettera trovata in un cassetto segreto nella Sala d'Armi",
+          "hidden_implication": "Serephine e Corvain hanno un legame segreto che risale a 'quella notte' — probabilmente la cena",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_testimonianza_servo",
+          "label": "Testimonianza del vecchio maggiordomo",
+          "text": "Testimonianza del vecchio maggiordomo",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Serephine distrusse prove fisiche il giorno dopo la cena — comportamento sospetto",
+          "payoff": "Rinforza il suo coinvolgimento diretto e suggerisce contatto con sostanze pericolose",
+          "location": "Casetta del Maggiordomo",
+          "immediate_information": "Un servo anziano dei Valemont",
+          "hidden_implication": "Serephine distrusse prove fisiche il giorno dopo la cena — comportamento sospetto",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_comportamento_vasilis",
+          "label": "Nervosismo del Dr. Vasilis",
+          "text": "Nervosismo del Dr. Vasilis",
+          "type": "behavior",
+          "thread_id": "T2",
+          "reveals": "Vasilis ha paura di essere eliminato e ha conservato prove che lo collegano all'omicidio",
+          "payoff": "Apre la pista verso la fiala di veleno e conferma il coinvolgimento di Corvain",
+          "location": "Infermeria della Fortezza",
+          "immediate_information": "Durante un incontro casuale con Vasilis",
+          "hidden_implication": "Vasilis ha paura di essere eliminato e ha conservato prove che lo collegano all'omicidio",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_serephine",
+          "name": "Lady Serephine Valemont",
+          "role": "Erede della Casata dei tessitori e complice nell'omicidio",
+          "description": "Proteggere la propria famiglia dallo scandalo e consolidare il potere attraverso il matrimonio, evitando il processo",
+          "location": "Sala delle Sete",
+          "secret": "Fu lei a versare personalmente il veleno nel calice di Aldric durante la cena, convinta che stesse salvando la propria Casata dalla rovina",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere la propria famiglia dallo scandalo e consolidare il potere attraverso il matrimonio, evitando il processo",
+            "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_diario_aldric"
+            ],
+            "wants": [
+              "Proteggere la propria famiglia dallo scandalo e consolidare il potere attraverso il matrimonio, evitando il processo"
+            ],
+            "avoids": [
+              "che Diario cifrato di Aldric riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Fu lei a versare personalmente il veleno nel calice di Aldric durante la cena, convinta che stesse salvando la propria Casata dalla rovina",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_corvain",
+          "name": "Lord Corvain d'Ashmark",
+          "role": "Comandante militare e complice nell'omicidio",
+          "description": "Sposare Serephine per siglare l'immunità reciproca e impedire che il suo coinvolgimento nell'omicidio distrugga la reputazione militare degli Ashmark",
+          "location": "Sala d'Armi",
+          "secret": "Fornì il veleno attraverso il Dr. Vasilis ma non sa che Serephine lo versò personalmente — crede che un servo si sia occupato dell'esecuzione",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Sposare Serephine per siglare l'immunità reciproca e impedire che il suo coinvolgimento nell'omicidio distrugga la reputazione militare degli Ashmark",
+            "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_diario_aldric"
+            ],
+            "wants": [
+              "Sposare Serephine per siglare l'immunità reciproca e impedire che il suo coinvolgimento nell'omicidio distrugga la reputazione militare degli Ashmark"
+            ],
+            "avoids": [
+              "che Diario cifrato di Aldric riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Fornì il veleno attraverso il Dr. Vasilis ma non sa che Serephine lo versò personalmente — crede che un servo si sia occupato dell'esecuzione",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_ilene",
+          "name": "Alta Magistrata Ilene Corvida",
+          "role": "Autorità giudiziaria che ha scoperto il crimine e ha ingaggiato segretamente i PG",
+          "description": "Fare giustizia per l'omicidio del suo predecessore Aldric, che era anche il suo mentore, senza causare una guerra civile tra nobiltà e mercanti",
+          "location": "Studio della Magistrata",
+          "secret": "Era innamorata di Aldric e ha dedicato tre anni a decifrare il suo diario — i PG sono la sua ultima mossa disperata prima che il matrimonio renda intoccabili i colpevoli",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Fare giustizia per l'omicidio del suo predecessore Aldric, che era anche il suo mentore, senza causare una guerra civile tra nobiltà e mercanti",
+            "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_diario_aldric"
+            ],
+            "wants": [
+              "Fare giustizia per l'omicidio del suo predecessore Aldric, che era anche il suo mentore, senza causare una guerra civile tra nobiltà e mercanti"
+            ],
+            "avoids": [
+              "che Diario cifrato di Aldric riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Era innamorata di Aldric e ha dedicato tre anni a decifrare il suo diario — i PG sono la sua ultima mossa disperata prima che il matrimonio renda intoccabili i colpevoli",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_vasilis",
+          "name": "Dr. Theron Vasilis",
+          "role": "Medico di corte degli Ashmark e fornitore del veleno",
+          "description": "Proteggere la propria vita — sa troppo e teme di essere eliminato da Corvain una volta celebrato il matrimonio",
+          "location": "Infermeria della Fortezza",
+          "secret": "Conserva ancora una fiala del veleno identico a quello usato su Aldric, nascosta nel suo laboratorio, come assicurazione personale",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere la propria vita — sa troppo e teme di essere eliminato da Corvain una volta celebrato il matrimonio",
+            "fear": "che Diario cifrato di Aldric riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+            "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_diario_aldric"
+            ],
+            "wants": [
+              "Proteggere la propria vita — sa troppo e teme di essere eliminato da Corvain una volta celebrato il matrimonio"
+            ],
+            "avoids": [
+              "che Diario cifrato di Aldric riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Conserva ancora una fiala del veleno identico a quello usato su Aldric, nascosta nel suo laboratorio, come assicurazione personale",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Apertura",
+          "description": "Apertura: nodo giocabile della struttura military_operation.",
+          "type": "entry",
+          "visual_identity": "Apertura: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Nodo indizi",
+          "description": "Nodo indizi: nodo giocabile della struttura military_operation.",
+          "type": "site",
+          "visual_identity": "Nodo indizi: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Luogo sociale",
+          "description": "Luogo sociale: nodo giocabile della struttura military_operation.",
+          "type": "site",
+          "visual_identity": "Luogo sociale: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona calda",
+          "description": "Zona calda: nodo giocabile della struttura military_operation.",
+          "type": "site",
+          "visual_identity": "Zona calda: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Finale",
+          "description": "Finale: nodo giocabile della struttura military_operation.",
+          "type": "finale",
+          "visual_identity": "Finale: scrivanie rovesciate, archivi metallici, vetrate opache",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache",
+            "scaffali pieni di fascicoli"
+          ],
+          "hazards": [
+            "folla curiosa",
+            "telefono che squilla nel momento sbagliato"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "scrivanie rovesciate",
+            "archivi metallici",
+            "vetrate opache"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "scrivanie rovesciate",
+              "archivi metallici",
+              "vetrate opache"
+            ],
+            "hazards": [
+              "folla curiosa",
+              "telefono che squilla nel momento sbagliato"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Reazione delle forze ostili",
+          "value": 0,
+          "max": 5,
+          "consequence": "percorso laterale minacciato o sigillato",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "adv_1cac044951",
+    "current_scene_id": "loc_sala_delle_sete",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T3",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_serephine": {
+        "status": "unintroduced",
+        "location_id": "Sala delle Sete",
+        "agenda_pressure": 0,
+        "goal": "Proteggere la propria famiglia dallo scandalo e consolidare il potere attraverso il matrimonio, evitando il processo",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_corvain": {
+        "status": "unintroduced",
+        "location_id": "Sala d'Armi",
+        "agenda_pressure": 0,
+        "goal": "Sposare Serephine per siglare l'immunità reciproca e impedire che il suo coinvolgimento nell'omicidio distrugga la reputazione militare degli Ashmark",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_ilene": {
+        "status": "unintroduced",
+        "location_id": "Studio della Magistrata",
+        "agenda_pressure": 0,
+        "goal": "Fare giustizia per l'omicidio del suo predecessore Aldric, che era anche il suo mentore, senza causare una guerra civile tra nobiltà e mercanti",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_vasilis": {
+        "status": "unintroduced",
+        "location_id": "Infermeria della Fortezza",
+        "agenda_pressure": 0,
+        "goal": "Proteggere la propria vita — sa troppo e teme di essere eliminato da Corvain una volta celebrato il matrimonio",
+        "current_plan": "bloccare l'accesso a Finale e spostare le prove",
+        "fallback_plan": "ritirarsi verso Finale usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_sala_delle_sete": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_d_armi": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_studio_della_magistrata": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_infermeria_della_fortezza": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_casetta_del_maggiordomo": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 5,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_diario_aldric",
+          "clue_registro_cena"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_diario_aldric": [
+        "T1"
+      ],
+      "clue_registro_cena": [
+        "T1"
+      ],
+      "clue_fiala_veleno": [
+        "T3"
+      ],
+      "clue_lettera_amore": [
+        "T2"
+      ],
+      "clue_testimonianza_servo": [
+        "T1"
+      ],
+      "clue_comportamento_vasilis": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T3": [
+        "T3"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T3": "T3",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_serephine ha location non riconosciuta: Sala delle Sete.",
+      "Actor npc_corvain ha location non riconosciuta: Sala d'Armi.",
+      "Actor npc_ilene ha location non riconosciuta: Studio della Magistrata.",
+      "Actor npc_vasilis ha location non riconosciuta: Infermeria della Fortezza."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 3
+    }
+  },
+  "doctor": {
+    "score": 4.8,
+    "score_after": 5.0,
+    "findings": [
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_serephine",
+        "message": "NPC 'Lady Serephine Valemont': location_id 'Sala delle Sete' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_corvain",
+        "message": "NPC 'Lord Corvain d'Ashmark': location_id 'Sala d'Armi' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_ilene",
+        "message": "NPC 'Alta Magistrata Ilene Corvida': location_id 'Studio della Magistrata' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "npc",
+        "entity_id": "npc_vasilis",
+        "message": "NPC 'Dr. Theron Vasilis': location_id 'Infermeria della Fortezza' non corrisponde a nessuna location",
+        "fix_hint": "Correggi location_id o aggiungi la location mancante"
+      },
+      {
+        "severity": "warning",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Clock 'Reazione delle forze ostili': resolution_condition mancante",
+        "fix_hint": "Spiega come i PG possono fermare/invertire il clock"
+      },
+      {
+        "severity": "suggestion",
+        "category": "clock",
+        "entity_id": "clock_ai_main",
+        "message": "Il clock 'Reazione delle forze ostili' non ha un presagio narrativo: i giocatori non hanno avvertimenti ambientali del pericolo",
+        "fix_hint": "Aggiungi discovery_hint: una frase evocativa che il Master può usare per segnalare il clock senza rivelare troppo"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T1",
+        "message": "Pista fantasma 'T1': citata da clue:clue_diario_aldric, clue:clue_registro_cena, clue:clue_testimonianza_servo, revelation:T1 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T1', oppure rimuovi il riferimento da clue:clue_diario_aldric, clue:clue_registro_cena, clue:clue_testimonianza_servo, revelation:T1"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T2",
+        "message": "Pista fantasma 'T2': citata da clue:clue_lettera_amore, clue:clue_comportamento_vasilis, revelation:T2 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T2', oppure rimuovi il riferimento da clue:clue_lettera_amore, clue:clue_comportamento_vasilis, revelation:T2"
+      },
+      {
+        "severity": "warning",
+        "category": "thread",
+        "entity_id": "T3",
+        "message": "Pista fantasma 'T3': citata da clue:clue_fiala_veleno, revelation:T3 ma non definita in story_threads — appare scollegata nel grafo, il narratore non sa come risolverla",
+        "fix_hint": "Crea uno stub di story_threads con id='T3', oppure rimuovi il riferimento da clue:clue_fiala_veleno, revelation:T3"
+      },
+      {
+        "severity": "suggestion",
+        "category": "location",
+        "entity_id": "hierarchy",
+        "message": "L'avventura ha 5 location ma nessuna ha parent_location_id: la mappa di gioco le mostrerà tutte piatte",
+        "fix_hint": "Usa il Doctor (Migliora) per organizzarle automaticamente in aree principali e sub-zone, oppure imposta parent_location_id nell'editor per ogni sotto-location"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "Il Patto di Cenere e Seta",
+        "message": "Nessuna pista investigativa (story_threads): l'avventura ha 1 obiettivi ma i giocatori non hanno domande da investigare — la narrativa diventa lineare",
+        "fix_hint": "Converti almeno 2 obiettivi in piste investigative con domanda e risposta nascosta"
+      },
+      {
+        "severity": "warning",
+        "category": "balance",
+        "entity_id": "orphan_clues",
+        "message": "6 indizi senza pista assegnata: clue_diario_aldric, clue_registro_cena, clue_fiala_veleno, clue_lettera_amore, clue_testimonianza_servo... — il motore narrativo non sa come usarli",
+        "fix_hint": "Assegna un thread_id valido a ogni indizio, o crea una nuova pista che li raccolga"
+      }
+    ],
+    "auto_fixed": true
+  }
+}

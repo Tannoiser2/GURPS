@@ -1,0 +1,2365 @@
+{
+  "adventure_definition": {
+    "id": "ai_il_richiamo_del_branco_primordiale",
+    "title": "Il Richiamo del Branco Primordiale",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "wilderness_sandbox",
+      "secondary_archetypes": [
+        "horror_survival"
+      ],
+      "confidence": 0.65,
+      "reason": "Matched runtime signals for wilderness_sandbox",
+      "definition": {
+        "id": "wilderness_sandbox",
+        "description": "Luoghi liberi e rotte esplorative.",
+        "required_modules": [
+          "locations",
+          "routes"
+        ],
+        "optional_modules": [
+          "random_tables"
+        ],
+        "runtime_focus": [
+          "travel",
+          "survival"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "location_detail",
+          "testimony"
+        ],
+        "common_failure_modes": [
+          "lost",
+          "resource_loss"
+        ],
+        "ending_patterns": [
+          "discovered_site"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "guided_sandbox"
+    ],
+    "tone": "Tensione investigativa venata di meraviglia ancestrale — la foresta non è nemica ma giudice, i lupi non sono mostri ma messaggeri di un ordine più antico. Ogni indizio porta verso una verità scomoda: non c'è mostro da uccidere, ma un debito da riconoscere.",
+    "premise": "Il borgo di Valleluna, ai confini della Foresta di Thornvald, è stato teatro di quattro attacchi brutali in tre settimane. Lupi di dimensioni impossibili trascinano via bestiame e uomini, ma non per cibarsi: i corpi vengono deposti davanti al Vecchio Patto, un monolito coperto di muschio che nessuno ricordava più. I tre eroi sono giunti separatamente al borgo — Thorin seguendo voci di una maledizione antica, Alara per indagare su sparizioni legate al suo ordine, Okafor cercando un artefatto dimenticato — e si trovano nella piazza proprio mentre il quinto attacco scuote le mura di cinta all'alba.",
+    "initial_hook": "Il Richiamo del Branco Primordiale Il borgo di Valleluna, ai confini della Foresta di Thornvald, è stato teatro di quattro attacchi brutali in tre settimane. Lupi di dimensioni impossibili trascinano via bestiame e uomini, ma non per cibarsi: i corpi vengono deposti davanti al Vecchio Patto, un mono",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Settant'anni fa, il nonno dell'attuale sindaco Merek Vallond violò il Patto dei Guardiani Ferini: abbatté la Madre del Branco, una lupa bianca sacra che proteggeva il confine tra foresta e terre coltivate, per venderne la pelliccia a un mercante straniero. La sua progenie è ora maledetta: ogni primogenito Vallond è segnato da un marchio invisibile che richiama il Branco Primordiale finché il debito di sangue non viene saldato. Merek non sa nulla del crimine del nonno, ma suo figlio Andor, undicenne, porta il marchio più forte. Il lupo alfa che guida gli attacchi è lo spirito della Madre, tornata per reclamare ciò che le fu tolto: non vendetta, ma giustizia — il ritorno della terra rubata e il riconoscimento pubblico del torto.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Scoprire il crimine originale di Aldren Vallond, convincere Merek a riconoscere pubblicamente il torto davanti al Vecchio Patto, e restituire simbolicamente le terre rubate (il frutteto piantato sulla tana della Madre) alla foresta. Solo così il Branco si ritira.",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Scoprire il crimine originale di Aldren Vallond, convincere Merek a riconoscere pubblicamente il torto davanti al Vecchio Patto, e restituire simbolicamente le terre rubate (il frutteto piantato sulla tana della Madre) alla foresta. Solo così il Branco si ritira."
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Il Branco risponde alle spedizioni di caccia di Dargos, ma la vera causa degli attacchi è il debito di sangue mai saldato dalla famiglia Vallond.",
+        "required_clues": [
+          "clue_1",
+          "clue_3",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Suggerisce che i lupi seguono un ordine preciso, non istinto animale. / Inizialmente incolpa Dargos come possibile causa degli attacchi (vendetta del Branco), ma il twist rivelerà la verità.",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Aldren Vallond uccise deliberatamente una creatura sacra per profitto, ignorando gli avvertimenti del Custode.; Il frutteto sorge sulla tana sacra della Madre del Branco. La prosperità della famiglia Vallond è costruita letteralmente sul sa",
+        "required_clues": [
+          "clue_2",
+          "clue_5"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela il crimine originale e identifica il colpevole della maledizione. / Identifica il luogo che deve essere restituito per placare il Branco.",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Corpi non divorati",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Vecchio Patto",
+        "reveals": "Gli attacchi non sono motivati da fame, ma da un rituale o una rivendicazione simbolica.",
+        "payoff": "Suggerisce che i lupi seguono un ordine preciso, non istinto animale.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Le vittime degli attacchi mostrano ferite mortali",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_vecchio_patto"
+      },
+      {
+        "id": "clue_2",
+        "label": "Giornale di Aldren Vallond",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Cantina Vallond",
+        "reveals": "Aldren Vallond uccise deliberatamente una creatura sacra per profitto, ignorando gli avvertimenti del Custode.",
+        "payoff": "Rivela il crimine originale e identifica il colpevole della maledizione.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Un diario nascosto nella cantina della Residenza Vallond. L'ultima pagina",
+        "hidden_implication": "Aldren Vallond uccise deliberatamente una creatura sacra per profitto, ignorando gli avvertimenti del Custode.",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_cantina_vallond"
+      },
+      {
+        "id": "clue_3",
+        "label": "Strumenti da caccia insanguinati",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Armeria della Milizia",
+        "reveals": "Qualcuno sta organizzando spedizioni di caccia segrete contro i lupi.",
+        "payoff": "Inizialmente incolpa Dargos come possibile causa degli attacchi (vendetta del Branco), ma il twist rivelerà la verità.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Nella stanza posteriore dell'armeria, nascosti sotto un telo, giacciono coltelli, trappole e corde macchiate di sangue fresco. Alcune trappole hanno ciocche di pelo argentato ancora impigliate.",
+        "hidden_implication": "Qualcuno sta organizzando spedizioni di caccia segrete contro i lupi.",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "seguire le impronte",
+          "analizzare la cenere",
+          "proteggersi prima di avanzare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_armeria_della_milizia"
+      },
+      {
+        "id": "clue_4",
+        "label": "Testimonianza di Sora Sora",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Capanna di Sora",
+        "reveals": "Conferma il crimine di Aldren e introduce il concetto di 'debito maturo' — la maledizione colpisce dopo generazioni.",
+        "payoff": "Collega il passato al presente e identifica la famiglia Vallond come bersaglio.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Testimonianza di Sora Sora",
+        "hidden_implication": "Conferma il crimine di Aldren e introduce il concetto di 'debito maturo' — la maledizione colpisce dopo generazioni.",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_capanna_di_sora"
+      },
+      {
+        "id": "clue_5",
+        "label": "Marchio sul frutteto",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Frutteto Vallond",
+        "reveals": "Il frutteto sorge sulla tana sacra della Madre del Branco. La prosperità della famiglia Vallond è costruita letteralmente sul sacrilegio.",
+        "payoff": "Identifica il luogo che deve essere restituito per placare il Branco.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Al centro del frutteto Vallond, il più antico frassino del borgo è stato circondato da pietre. Scavando leggermente, emergono ossa di lupo e resti di un collare rituale. Il terreno emana un freddo innaturale.",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_frutteto_vallond"
+      },
+      {
+        "id": "clue_6",
+        "label": "Comportamento di Andor",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Residenza Vallond",
+        "reveals": "Andor è il bersaglio finale del Branco. Il marchio lo rende un'ancora spirituale per la Madre.",
+        "payoff": "Stabilisce l'urgenza: se il debito non viene saldato, Andor sarà reclamato.",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Andor, se osservato di notte, cammina in stato di trance verso il limite del borgo. Si ferma al muro di cinta e sussurra: 'Madre, sono qui. Prendi me, non loro.' La mattina non ricorda nulla.",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_residenza_vallond"
+      },
+      {
+        "id": "clue_7",
+        "label": "Iscrizioni sul monolito",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Il Patto originale riguardava una protezione mediata da un lupo bianco sacro",
+        "payoff": "Collega la lupa bianca al Patto e introduce il concetto di debito di sangue",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Ricordi di Sora sul Patto",
+        "type": "testimony",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "La sparizione della Guardiana coincide temporalmente con la famiglia Vallond",
+        "payoff": "Collega Aldren Vallond alla scomparsa della lupa bianca",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Pagina strappata dal diario",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Aldren uccise deliberatamente una creatura eccezionale per denaro",
+        "payoff": "Conferma il crimine originale e identifica il movente (avidità)",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Sogni di Andor",
+        "type": "testimony",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Andor è in contatto diretto con lo spirito della Madre del Branco",
+        "payoff": "Conferma che il marchio rende Andor un 'faro' per i lupi e rivela l'intenzione comunicativa dello spirito",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Marchio invisibile rivelato",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Il marchio è reale, ereditario, e presente su tutti i primogeniti Vallond",
+        "payoff": "Prova fisica della maledizione e permette di capire perché Andor è il bersaglio principale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Disposizione rituale dei corpi",
+        "type": "location_detail",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Gli attacchi non sono casuali o istintivi, ma seguono un protocollo simbolico",
+        "payoff": "Dimostra che i lupi agiscono sotto guida spirituale intelligente con uno scopo specifico",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Registro fondiario della tenuta",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "",
+        "reveals": "Aldren si appropriò illegalmente di terra sacra contemporaneamente all'uccisione della lupa",
+        "payoff": "Collega il furto di terra al crimine originale e rivela cosa significa 'restituzione'",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_14",
+        "label": "Sospetti di Dargos",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "",
+        "reveals": "C'è una correlazione temporale tra presenza di Andor e attacchi dei lupi",
+        "payoff": "Fornisce prova indiretta del marchio e spiega il pattern apparentemente casuale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Merek Vallond",
+        "role": "Sindaco di Valleluna e padre ignaro",
+        "location_id": "loc_residenza_vallond",
+        "status": "unintroduced",
+        "goal": "Proteggere suo figlio Andor e il borgo a ogni costo, senza comprendere che la minaccia ha radici nella sua famiglia.",
+        "secret": "Non sa che suo nonno Aldren commise il crimine originale. Ha ereditato il frutteto più prosperoso del borgo senza sapere che sorge sulla tana sacra della Madre del Branco.",
+        "agenda_pressure": 0,
+        "fear": "che Corpi non divorati riveli il suo ruolo",
+        "current_plan": "Mantenere Andor al sicuro nel borgo mentre coordina la difesa. Ha segretamente incaricato un mercenario di catturare un lupo vivo, sperando che un 'esperto' possa studiarlo e trovare una debolezza. Ignora completamente i sogni di Andor sulla 'madre che chiama'.",
+        "fallback_plan": "Se Valleluna diventa insostenibile, fuggire con Andor verso la città-stato di Crimvale, abbandonando il frutteto e il borgo. Ha già preparato una carrozza e scorta segreta. Se Andor viene ferito o trasformato, lo terrà nascosto e incatenato piuttosto che 'perderlo', diventando suo carceriere per amore.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere suo figlio Andor e il borgo a ogni costo, senza comprendere che la minaccia ha radici nella sua famiglia."
+        ],
+        "avoids": [
+          "che Corpi non divorati riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Organizza pattuglie armate di cittadini, offre ricompense ai cacciatori. Rassicura pubblicamente che la situazione è sotto controllo mentre privatamente teme per Andor.",
+          "medium": "Propone di abbattere la sezione di foresta confinante con il frutteto per creare una zona cuscinetto. Confina Andor in casa con guardie armate, ignaro che questo peggiora i suoi incubi e il richiamo.",
+          "high": "Ordina l'incendio controllato della Foresta di Thornvald nonostante le suppliche degli anziani. Tiene Andor incatenato nella cantina 'per la sua protezione', accelerando involontariamente la trasformazione.",
+          "extreme": "Accetta di sacrificare altri cittadini come esca per i lupi pur di salvare Andor. Se scopre la verità sul nonno, tenta di uccidere la Madre del Branco con ferro e fuoco, scatenando la furia totale del branco."
+        },
+        "reaction_table": {
+          "se_minacciato": "Usa la sua autorità per screditare chi lo accusa. Se minacciano il frutteto o Andor, arma una milizia personale. Diventa paranoico, vedendo nemici ovunque.",
+          "se_corrotto": "Impossibile corromperlo con denaro, ma promettergli una cura per gli 'incubi' di Andor o protezione magica per suo figlio lo rende manipolabile. Tradisce chiunque per salvare Andor.",
+          "se_i_pg_hanno_prove": "Nega furiosamente qualsiasi connessione col crimine del nonno. Se le prove lo schiacciano, offre di abbandonare il frutteto, ma rifiuta categoricamente che Andor debba 'pagare per peccati altrui'.",
+          "se_alleato": "Concede accesso totale agli archivi di famiglia e al frutteto. Diventa protettivo fino al soffocamento. Se capisce che Andor è la chiave, lo nasconde attivamente agli alleati, temendo vogliano sacrificarlo."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Sora Tennech",
+        "role": "Guaritrice ed ex-custode del Patto",
+        "location_id": "loc_capanna_di_sora",
+        "status": "unintroduced",
+        "goal": "Ripristinare l'equilibrio infranto prima che il Branco distrugga tutto. Sa che solo la verità può fermare gli spiriti.",
+        "secret": "Fu testimone bambina dell'uccisione della Madre. Suo padre, ultimo Custode del Patto, morì di crepacuore un anno dopo, incapace di fermare Aldren. Lei porta quel peso da settant'anni.",
+        "agenda_pressure": 0,
+        "fear": "che Corpi non divorati riveli il suo ruolo",
+        "current_plan": "Preparare in segreto il rituale di espiazione che suo padre avrebbe dovuto compiere settant'anni fa. Raccogliere erbe lunari e sangue del proprio sangue. Attendere la prossima luna piena per offrirsi come ponte tra mondi.",
+        "fallback_plan": "Se il rituale fallisce o i PG intervengono, guidarli alla tomba nascosta di suo padre dove è custodito il suo diario. Le pagine finali contengono il vero nome della Madre del Branco - l'unica parola che può fermare la vendetta o scatenarla definitivamente.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Ripristinare l'equilibrio infranto prima che il Branco distrugga tutto. Sa che solo la verità può fermare gli spiriti."
+        ],
+        "avoids": [
+          "che Corpi non divorati riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Cura le ferite del Branco in segreto, lascia offerte rituali al limitare del bosco. Parla per enigmi quando interrogata, protegge la memoria di suo padre.",
+          "medium": "Confessa di conoscere l'antica verità ma minimizza il suo ruolo. Rivela che Aldren uccise la Madre del Branco, ma omette che suo padre assistette impotente. Supplica i PG di trovare una soluzione pacifica.",
+          "high": "Crolla emotivamente, racconta tutta la verità tra le lacrime: vide suo padre paralizzato dalla paura mentre Aldren trafiggeva la Madre. Confessa di aver tradito il Patto per codardia ereditata. Offre di sacrificarsi al Branco come espiazione.",
+          "extreme": "Si reca da sola nel cuore di Thornvald di notte, disarmata, chiamando gli spiriti-lupo per nome. Offre la propria gola in riparazione del sangue di suo padre, sperando che la sua morte plachi la vendetta settantennale."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si ritira nella sua capanna, circondandosi di amuleti protettivi ormai inefficaci. Beve tisane di radice di oblio per cancellare i ricordi, ma gli spiriti le parlano comunque nei sogni.",
+          "se_corrotto": "Impossibile. Il suo legame col Branco è di colpa, non di potere. Potrebbe però essere manipolata a rivelare il rituale di riconciliazione che suo padre non ebbe il coraggio di compiere.",
+          "se_i_pg_hanno_prove": "Riconosce immediatamente oggetti legati al Patto (collare argenteo della Madre, coltello rituale di Aldren). Crolla in ginocchio, accarezza le reliquie piangendo. Rivela la locazione del tumulo dove fu sepolta la Madre.",
+          "se_alleato": "Guida i PG al Cerchio delle Pietre Lunari dove il Patto può essere rinnovato. Insegna loro le parole antiche in lingua-lupo. Avverte: il Branco esigerà un prezzo - verità, sangue o memoria."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Dargos Murrin",
+        "role": "Capitano della milizia e falso sospettato",
+        "location_id": "loc_armeria_della_milizia",
+        "status": "unintroduced",
+        "goal": "Eliminare la minaccia con la forza, rifiutando qualsiasi spiegazione 'mistica'. È ossessionato dal proteggere Valleluna dopo aver perso sua moglie nel secondo attacco.",
+        "secret": "Ha organizzato spedizioni notturne nella foresta per dare la caccia ai lupi. Tre dei suoi uomini non sono più tornati. Nasconde le perdite per non creare panico, facendo sembrare che siano desertori.",
+        "agenda_pressure": 0,
+        "fear": "che Corpi non divorati riveli il suo ruolo",
+        "current_plan": "Stanotte guiderà personalmente otto miliziani nelle Radure Occidentali dove sono avvenuti due attacchi. Ha preparato trappole a tagliola d'acciaio e balestre pesanti. Intende stabilire un perimetro e 'sterminare ogni lupo che respira'. Non ha informato il Consiglio del Borgo. Partenza al crepuscolo.",
+        "fallback_plan": "Se la spedizione fallisce (altri morti o fuga disordinata), Dargos pianifica di chiedere al Consiglio di bruciare la fascia esterna della Foresta di Thornvald. Se anche questo viene negato, prenderà volontari civili per una milizia non ufficiale - essenzialmente una folla inferocita con torce. Ultimo atto: se tutto fallisce e i lupi attaccano ancora, si incatenerà come esca nella piazza centrale con balestre nascoste attorno.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Eliminare la minaccia con la forza, rifiutando qualsiasi spiegazione 'mistica'. È ossessionato dal proteggere Valleluna dopo aver perso sua moglie nel secondo attacco."
+        ],
+        "avoids": [
+          "che Corpi non divorati riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Dargos collabora a denti stretti, fornendo informazioni minimali sugli attacchi. Insiste che i PG restino al borgo e lascino fare alla milizia. Mente sui numeri: dice che tutti i suoi uomini sono presenti, nascondendo le tre scomparse.",
+          "medium": "Diventa aggressivo e territoriale. Accusa i PG di intralciare le operazioni, minaccia arresti per 'ostruzione'. Organizza una grande battuta di caccia notturna per dimostrare la sua efficacia, ignorando gli avvertimenti. Beve pesantemente e menziona ossessivamente sua moglie morta.",
+          "high": "Crolla parzialmente: ammette delle perdite tra i suoi uomini ma le minimizza ('solo due, non tre'). Confessa di aver trovato equipaggiamento dilaniato ma nessun corpo. Oscilla tra rabbia cieca ('bruceremo l'intera foresta') e momenti di terrore paralizzante in cui fissa il bosco.",
+          "extreme": "Breakdown completo. Confessa tutto tra lacrime e urla: i tre uomini perduti, di aver sentito loro voci nella foresta che lo chiamavano con la voce di sua moglie, di aver visto impronte che da lupo diventavano umane. Si barrica nel suo ufficio o tenta un'incursione suicida nella foresta per 'finirla'."
+        },
+        "reaction_table": {
+          "se_minacciato": "Mano all'elsa della spada, chiama rinforzi. Se fisicamente, combatte con ferocia disperata. Se la sua reputazione è minacciata (rivelazione dei desertori), tenta di screditare i PG come 'seminatori di panico' o 'agenti dei lupi'. Può arrestarli con false accuse.",
+          "se_corrotto": "Impossibile con denaro - sputa alle offerte. Se i PG offrono di trovare chi ha ucciso sua moglie o promettono giustizia vera (non denaro), ascolta. Accetta aiuto solo se dimostrano competenza nel tracciare/combattere creature soprannaturali. Vuole vendetta, non oro.",
+          "se_i_pg_hanno_prove": "Se dimostrano che i lupi sono maledetti/licantropi, inizialmente nega furiosamente ('superstizioni da vecchie!'). Ma se le prove sono fisiche (argento funziona, impronte mutanti, testimoni credibili), la sua certezza crolla. Diventa un alleato disperato che accetta qualsiasi piano, anche magico.",
+          "se_alleato": "Diventa una risorsa preziosa: conosce ogni sentiero della foresta, mobilita la milizia come supporto, fornisce equipaggiamento. Ma resta impulsivo - può rovinare piani con azioni precipitose. Insiste per essere in prima linea 'per lei'. Protegge i PG con la sua vita se guadagnano il suo rispetto."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Andor Vallond",
+        "role": "Figlio di Merek e portatore del marchio",
+        "location_id": "loc_residenza_vallond",
+        "status": "unintroduced",
+        "goal": "Comprendere perché sogna una lupa bianca che lo chiama per nome ogni notte. È terrorizzato ma anche stranamente attratto dalla foresta.",
+        "secret": "Porta un marchio invisibile sulla nuca che solo gli spiriti ferini possono vedere. Negli ultimi tre giorni ha iniziato a parlare nel sonno in una lingua che nessuno riconosce — è l'antica lingua dei Custodi.",
+        "agenda_pressure": 0,
+        "fear": "che Corpi non divorati riveli il suo ruolo",
+        "current_plan": "Resistere al richiamo abbastanza a lungo da scoprire perché è stato scelto. Di notte si lega al letto con catene che nasconde sotto il materasso. Ha iniziato a tracciare i sogni in un diario segreto, cercando di capire cosa vuole veramente la lupa bianca. Sta considerando di entrare volontariamente nella foresta durante il giorno per affrontarla cosciente.",
+        "fallback_plan": "Se la trasformazione diventa inevitabile, Andor ha nascosto una daga d'argento rubata dalla fucina di suo padre sotto le assi del pavimento della sua camera. Intende usarla su se stesso prima del prossimo plenilunio. Ha scritto una lettera a Merek che spiega tutto, da consegnare solo se non dovesse sopravvivere. Come ultima risorsa, pianifica di farsi esiliare oltre Thornvald, sperando che allontanarsi da Valleluna infranga il legame - o almeno protegga il borgo da ciò che sta diventando.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Comprendere perché sogna una lupa bianca che lo chiama per nome ogni notte. È terrorizzato ma anche stranamente attratto dalla foresta."
+        ],
+        "avoids": [
+          "che Corpi non divorati riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Andor nasconde i suoi sogni e i risvegli notturni bagnato di sudore. Evita lo sguardo degli altri quando parlano degli attacchi, temendo che possano vedere in lui qualcosa di mostruoso. Di giorno aiuta il padre nella bottega, di notte lotta contro il richiamo che lo spinge verso Thornvald.",
+          "medium": "Inizia a svegliarsi con terra sotto le unghie e graffi sui vestiti che non ricorda di essersi procurato. Confida a suo padre Merek dei sogni, ma omette che la lupa bianca lo chiama 'Fratello della Prima Covata'. Il marchio sulla nuca pulsa dolorosamente quando i lupi ululano oltre il confine del bosco.",
+          "high": "Durante un attacco notturno, Andor si sveglia nudo ai margini della foresta senza memoria di come ci sia arrivato. Trova impronte di lupo che si trasformano in impronte umane - le sue. Supplica disperatamente aiuto, rivelando le parole in antica lingua che pronuncia nel sonno: 'Torna al branco, cucciolo perduto'. Il marchio diventa visibile, ardente come brace.",
+          "extreme": "La trasformazione inizia spontaneamente durante la luna piena. Andor fugge verso Thornvald urlando alla lupa bianca di lasciarlo in pace, mentre il suo corpo comincia a mutare. Si incatena volontariamente, implorando che lo uccidano prima che diventi come 'gli altri', rivelando che nei suoi sogni vede i volti di coloro che sono stati trascinati via - e sono ancora vivi, ma non più umani."
+        },
+        "reaction_table": {
+          "se_minacciato": "Scappa terrorizzato verso la foresta, poi si ferma confuso come se due volontà lottassero in lui. Grida 'Non sono uno di loro!' mentre il marchio sulla nuca si illumina di un bagliore argenteo visibile attraverso la pelle. Gli occhi lampeggiano giallo lupino per un istante.",
+          "se_corrotto": "Se qualcuno gli promette di liberarlo dalla maledizione con magia oscura, Andor accetta disperatamente. Ma l'antica lingua dei Custodi esce dalla sua bocca senza controllo, pronunciando un giuramento di sangue al branco che annulla qualsiasi altro vincolo. La lupa bianca appare nei sogni di chi ha tentato di corromperlo, vendicativa.",
+          "se_i_pg_hanno_prove": "Crolla piangendo quando gli mostrano evidenze del suo legame con gli attacchi. Rivela tutto: i sogni, la lingua, il fatto che può sentire i pensieri del branco quando dorme. Sussurra che la lupa bianca è 'l'Alfa Primordiale' e che lei dice che Valleluna sorge su terra sacra rubata ai Custodi secoli fa. Supplica di essere rinchiuso o ucciso prima del prossimo plenilunio.",
+          "se_alleato": "Diventa una guida riluttante ma preziosa. Può tradurre parzialmente l'antica lingua dei Custodi e percepisce quando il branco è vicino attraverso il marchio. Condivide che nei sogni la lupa gli mostra una caverna sotto Thornvald dove giace un'antica reliquia - un collare di zanne che permette ai Custodi di 'riclamare i figli perduti dell'uomo'. Vuole disperatamente trovare un modo per spezzare il legame senza morire."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_residenza_vallond",
+        "name": "Residenza Vallond",
+        "description": "Residenza Vallond.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_1",
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_capanna_di_sora",
+        "name": "Capanna di Sora",
+        "description": "Capanna di Sora.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_armeria_della_milizia",
+        "name": "Armeria della Milizia",
+        "description": "Armeria della Milizia.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_vecchio_patto",
+        "name": "Vecchio Patto",
+        "description": "Vecchio Patto.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cantina_vallond",
+        "name": "Cantina Vallond",
+        "description": "Cantina Vallond.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_frutteto_vallond",
+        "name": "Frutteto Vallond",
+        "description": "Frutteto Vallond.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_main",
+        "label": "Ogni notte il Branco si avvicina di più al centro abitato. Inizia con attacchi ai margini, poi penetra nelle vie secondarie, infine assedierà la piazza centrale. Se raggiunge la casa Vallond prima che la verità emerga, Andor verrà reclamato come pegno finale.",
+        "value": 0,
+        "max_value": 10,
+        "consequence": "Andor Vallond viene trascinato nella Foresta di Thornvald e il Patto Primordiale si completa, trasformandolo definitivamente in Alfa del Branco",
+        "active": true,
+        "on_complete": "Andor Vallond viene reclamato dal Branco e il borgo cade sotto l'influenza della Foresta",
+        "steps": [
+          {
+            "value": 2,
+            "label": "Attacchi ai margini del borgo",
+            "effect": "Stalle e ovili esterni devastati, famiglie contadine isolate vivono nel terrore. Tracce di lupi giganti ovunque, ma nessun corpo viene trovato intero."
+          },
+          {
+            "value": 4,
+            "label": "Penetrazione nelle vie secondarie",
+            "effect": "Il Branco entra nel borgo durante la notte. Case periferiche vengono segnate con graffi profondi. Gli abitanti parlano di ululati che sembrano chiamare qualcuno per nome."
+          },
+          {
+            "value": 6,
+            "label": "Primi attacchi in piazza",
+            "effect": "Un mercante viene trascinato via dalla locanda centrale. Le guardie che tentano di intervenire vengono ferite gravemente. Andor Vallond inizia a manifestare comportamenti strani."
+          },
+          {
+            "value": 8,
+            "label": "Assedio alla casa Vallond",
+            "effect": "Il Branco circonda la residenza dei Vallond. Andor sente il richiamo ancestrale del sangue licantropo. Gli abitanti capiscono che non è mai stato un attacco casuale."
+          },
+          {
+            "value": 10,
+            "label": "Il Pegno Finale",
+            "effect": "Andor si trasforma completamente e raggiunge il Branco. La Foresta di Thornvald avanza sui confini di Valleluna, reclamando il territorio come proprio."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Il diario nascosto di Mira Vallond che rivela il Patto Primordiale",
+          "Le cicatrici argentate sul corpo di Andor visibili solo al chiaro di luna",
+          "I segni runiche licantropi nella cripta sotto la casa Vallond",
+          "La testimonianza del vecchio cacciatore che conobbe la nonna di Andor"
+        ],
+        "resolution_condition": "I giocatori devono scoprire la natura del Patto Primordiale e convincere Andor ad accettare volontariamente la maledizione sotto condizioni controllate, oppure spezzare il vincolo di sangue attraverso un rituale nella Radura Sacra usando l'Argento Lunare e il sangue consenziente di un Vallond",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "clue_ululati_nominativi",
+        "discovery_hint": "Gli ululati nella notte sembrano formare sillabe comprensibili, come se i lupi stessero chiamando qualcuno che conoscono. I cani del borgo non abbaiano con rabbia, ma si accovacciano tremanti, sottomessi a un'autorità più antica.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 1,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": true,
+        "is_inferred": false,
+        "confidence": 1.0
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Richiamo Branco Primordiale borgo Valleluna confini",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Il Patto Violato",
+        "question": "Qual è la natura del Vecchio Patto e perché è stato violato?",
+        "true_answer": "Il Patto dei Guardiani Ferini proteggeva l'equilibrio tra uomini e foresta. Aldren Vallond lo violò uccidendo la Madre del Branco (lupa bianca sacra) per profitto, condannando la sua stirpe",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Sora Tennech",
+          "Merek Vallond"
+        ],
+        "linked_locations": [
+          "Vecchio Patto",
+          "Foresta di Thornvald"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "Il Marchio della Maledizione",
+        "question": "Perché i lupi si concentrano sulla famiglia Vallond e cosa cercano veramente?",
+        "true_answer": "Ogni primogenito Vallond porta un marchio spirituale che richiama il Branco. Lo spirito della Madre cerca giustizia: restituzione delle terre e riconoscimento pubblico del crimine",
+        "status": "hidden",
+        "required_clues": [
+          "clue_10",
+          "clue_11",
+          "clue_12"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Andor Vallond",
+          "Sora Tennech",
+          "Merek Vallond"
+        ],
+        "linked_locations": [
+          "Residenza Vallond",
+          "Vecchio Patto"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Corpi non divorati?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Giornale di Aldren Vallond?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Apertura",
+          "to": "Epilogo"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Apertura",
+          "to": "Epilogo"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Epilogo",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "fantasy",
+      "tone": "fantasy adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "ambush",
+        "chase",
+        "guardian attack",
+        "curse intensifies"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "sci-fi genre shift",
+        "cosmic apocalypse without trigger"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "ai_il_richiamo_del_branco_primordiale",
+      "title": "Il Richiamo del Branco Primordiale",
+      "genre": "fantasy",
+      "detected_genre": "fantasy",
+      "premise": "Il borgo di Valleluna, ai confini della Foresta di Thornvald, è stato teatro di quattro attacchi brutali in tre settimane. Lupi di dimensioni impossibili trascinano via bestiame e uomini, ma non per cibarsi: i corpi vengono deposti davanti al Vecchio Patto, un monolito coperto di muschio che nessuno ricordava più. I tre eroi sono giunti separatamente al borgo — Thorin seguendo voci di una maledizione antica, Alara per indagare su sparizioni legate al suo ordine, Okafor cercando un artefatto dimenticato — e si trovano nella piazza proprio mentre il quinto attacco scuote le mura di cinta all'alba.",
+      "hidden_truth": "Settant'anni fa, il nonno dell'attuale sindaco Merek Vallond violò il Patto dei Guardiani Ferini: abbatté la Madre del Branco, una lupa bianca sacra che proteggeva il confine tra foresta e terre coltivate, per venderne la pelliccia a un mercante straniero. La sua progenie è ora maledetta: ogni primogenito Vallond è segnato da un marchio invisibile che richiama il Branco Primordiale finché il debito di sangue non viene saldato. Merek non sa nulla del crimine del nonno, ma suo figlio Andor, undicenne, porta il marchio più forte. Il lupo alfa che guida gli attacchi è lo spirito della Madre, tornata per reclamare ciò che le fu tolto: non vendetta, ma giustizia — il ritorno della terra rubata e il riconoscimento pubblico del torto.",
+      "win_condition": "Scoprire il crimine originale di Aldren Vallond, convincere Merek a riconoscere pubblicamente il torto davanti al Vecchio Patto, e restituire simbolicamente le terre rubate (il frutteto piantato sulla tana della Madre) alla foresta. Solo così il Branco si ritira.",
+      "threat_description": "Ogni notte il Branco si avvicina di più al centro abitato. Inizia con attacchi ai margini, poi penetra nelle vie secondarie, infine assedierà la piazza centrale. Se raggiunge la casa Vallond prima che la verità emerga, Andor verrà reclamato come pegno finale.",
+      "threat_max_turns": 10,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "wilderness_sandbox",
+        "secondary_archetypes": [
+          "horror_survival"
+        ],
+        "confidence": 0.65,
+        "reason": "Matched runtime signals for wilderness_sandbox",
+        "definition": {
+          "id": "wilderness_sandbox",
+          "description": "Luoghi liberi e rotte esplorative.",
+          "required_modules": [
+            "locations",
+            "routes"
+          ],
+          "optional_modules": [
+            "random_tables"
+          ],
+          "runtime_focus": [
+            "travel",
+            "survival"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "location_detail",
+            "testimony"
+          ],
+          "common_failure_modes": [
+            "lost",
+            "resource_loss"
+          ],
+          "ending_patterns": [
+            "discovered_site"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "ai_il_richiamo_del_branco_primordiale",
+      "adventure_canon": {
+        "core_truth": "Settant'anni fa, il nonno dell'attuale sindaco Merek Vallond violò il Patto dei Guardiani Ferini: abbatté la Madre del Branco, una lupa bianca sacra che proteggeva il confine tra foresta e terre coltivate, per venderne la pelliccia a un mercante straniero. La sua progenie è ora maledetta: ogni primogenito Vallond è segnato da un marchio invisibile che richiama il Branco Primordiale finché il debito di sangue non viene saldato. Merek non sa nulla del crimine del nonno, ma suo figlio Andor, undicenne, porta il marchio più forte. Il lupo alfa che guida gli attacchi è lo spirito della Madre, tornata per reclamare ciò che le fu tolto: non vendetta, ma giustizia — il ritorno della terra rubata e il riconoscimento pubblico del torto.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Apertura",
+          "Nodo indizi",
+          "Luogo sociale",
+          "Zona calda",
+          "Finale",
+          "Epilogo"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Richiamo Branco Primordiale borgo Valleluna confini"
+        ],
+        "genre_profile": {
+          "id": "fantasy",
+          "tone": "fantasy adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "ambush",
+            "chase",
+            "guardian attack",
+            "curse intensifies"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "sci-fi genre shift",
+            "cosmic apocalypse without trigger"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Corpi non divorati",
+          "question": "Dove conduce Corpi non divorati?",
+          "true_answer": "Il Branco risponde alle spedizioni di caccia di Dargos, ma la vera causa degli attacchi è il debito di sangue mai saldato dalla famiglia Vallond.",
+          "required_clues": [
+            "clue_1",
+            "clue_3",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Suggerisce che i lupi seguono un ordine preciso, non istinto animale. / Inizialmente incolpa Dargos come possibile causa degli attacchi (vendetta del Branco), ma il twist rivelerà la verità.",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Come si usa o si neutralizza Giornale di Aldren Vallond senza favorire la minaccia",
+          "question": "Come si usa o si neutralizza Giornale di Aldren Vallond senza favorire la minaccia?",
+          "true_answer": "Aldren Vallond uccise deliberatamente una creatura sacra per profitto, ignorando gli avvertimenti del Custode.; Il frutteto sorge sulla tana sacra della Madre del Branco. La prosperità della famiglia Vallond è costruita letteralmente sul sa",
+          "required_clues": [
+            "clue_2",
+            "clue_5"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela il crimine originale e identifica il colpevole della maledizione. / Identifica il luogo che deve essere restituito per placare il Branco.",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Corpi non divorati",
+          "text": "Corpi non divorati",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Gli attacchi non sono motivati da fame, ma da un rituale o una rivendicazione simbolica.",
+          "payoff": "Suggerisce che i lupi seguono un ordine preciso, non istinto animale.",
+          "location": "Vecchio Patto",
+          "immediate_information": "Le vittime degli attacchi mostrano ferite mortali",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Giornale di Aldren Vallond",
+          "text": "Giornale di Aldren Vallond",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Aldren Vallond uccise deliberatamente una creatura sacra per profitto, ignorando gli avvertimenti del Custode.",
+          "payoff": "Rivela il crimine originale e identifica il colpevole della maledizione.",
+          "location": "Cantina Vallond",
+          "immediate_information": "Un diario nascosto nella cantina della Residenza Vallond. L'ultima pagina",
+          "hidden_implication": "Aldren Vallond uccise deliberatamente una creatura sacra per profitto, ignorando gli avvertimenti del Custode.",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Strumenti da caccia insanguinati",
+          "text": "Strumenti da caccia insanguinati",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Qualcuno sta organizzando spedizioni di caccia segrete contro i lupi.",
+          "payoff": "Inizialmente incolpa Dargos come possibile causa degli attacchi (vendetta del Branco), ma il twist rivelerà la verità.",
+          "location": "Armeria della Milizia",
+          "immediate_information": "Nella stanza posteriore dell'armeria, nascosti sotto un telo, giacciono coltelli, trappole e corde macchiate di sangue fresco. Alcune trappole hanno ciocche di pelo argentato ancora impigliate.",
+          "hidden_implication": "Qualcuno sta organizzando spedizioni di caccia segrete contro i lupi.",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "seguire le impronte",
+            "analizzare la cenere",
+            "proteggersi prima di avanzare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Testimonianza di Sora Sora",
+          "text": "Testimonianza di Sora Sora",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Conferma il crimine di Aldren e introduce il concetto di 'debito maturo' — la maledizione colpisce dopo generazioni.",
+          "payoff": "Collega il passato al presente e identifica la famiglia Vallond come bersaglio.",
+          "location": "Capanna di Sora",
+          "immediate_information": "Testimonianza di Sora Sora",
+          "hidden_implication": "Conferma il crimine di Aldren e introduce il concetto di 'debito maturo' — la maledizione colpisce dopo generazioni.",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Marchio sul frutteto",
+          "text": "Marchio sul frutteto",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Il frutteto sorge sulla tana sacra della Madre del Branco. La prosperità della famiglia Vallond è costruita letteralmente sul sacrilegio.",
+          "payoff": "Identifica il luogo che deve essere restituito per placare il Branco.",
+          "location": "Frutteto Vallond",
+          "immediate_information": "Al centro del frutteto Vallond, il più antico frassino del borgo è stato circondato da pietre. Scavando leggermente, emergono ossa di lupo e resti di un collare rituale. Il terreno emana un freddo innaturale.",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Comportamento di Andor",
+          "text": "Comportamento di Andor",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Andor è il bersaglio finale del Branco. Il marchio lo rende un'ancora spirituale per la Madre.",
+          "payoff": "Stabilisce l'urgenza: se il debito non viene saldato, Andor sarà reclamato.",
+          "location": "Residenza Vallond",
+          "immediate_information": "Andor, se osservato di notte, cammina in stato di trance verso il limite del borgo. Si ferma al muro di cinta e sussurra: 'Madre, sono qui. Prendi me, non loro.' La mattina non ricorda nulla.",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Merek Vallond",
+          "role": "Sindaco di Valleluna e padre ignaro",
+          "description": "Proteggere suo figlio Andor e il borgo a ogni costo, senza comprendere che la minaccia ha radici nella sua famiglia.",
+          "location": "Residenza Vallond",
+          "secret": "Non sa che suo nonno Aldren commise il crimine originale. Ha ereditato il frutteto più prosperoso del borgo senza sapere che sorge sulla tana sacra della Madre del Branco.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere suo figlio Andor e il borgo a ogni costo, senza comprendere che la minaccia ha radici nella sua famiglia.",
+            "fear": "che Corpi non divorati riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere suo figlio Andor e il borgo a ogni costo, senza comprendere che la minaccia ha radici nella sua famiglia."
+            ],
+            "avoids": [
+              "che Corpi non divorati riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Non sa che suo nonno Aldren commise il crimine originale. Ha ereditato il frutteto più prosperoso del borgo senza sapere che sorge sulla tana sacra della Madre del Branco.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Sora Tennech",
+          "role": "Guaritrice ed ex-custode del Patto",
+          "description": "Ripristinare l'equilibrio infranto prima che il Branco distrugga tutto. Sa che solo la verità può fermare gli spiriti.",
+          "location": "Capanna di Sora",
+          "secret": "Fu testimone bambina dell'uccisione della Madre. Suo padre, ultimo Custode del Patto, morì di crepacuore un anno dopo, incapace di fermare Aldren. Lei porta quel peso da settant'anni.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Ripristinare l'equilibrio infranto prima che il Branco distrugga tutto. Sa che solo la verità può fermare gli spiriti.",
+            "fear": "che Corpi non divorati riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Ripristinare l'equilibrio infranto prima che il Branco distrugga tutto. Sa che solo la verità può fermare gli spiriti."
+            ],
+            "avoids": [
+              "che Corpi non divorati riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Fu testimone bambina dell'uccisione della Madre. Suo padre, ultimo Custode del Patto, morì di crepacuore un anno dopo, incapace di fermare Aldren. Lei porta quel peso da settant'anni.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Dargos Murrin",
+          "role": "Capitano della milizia e falso sospettato",
+          "description": "Eliminare la minaccia con la forza, rifiutando qualsiasi spiegazione 'mistica'. È ossessionato dal proteggere Valleluna dopo aver perso sua moglie nel secondo attacco.",
+          "location": "Armeria della Milizia",
+          "secret": "Ha organizzato spedizioni notturne nella foresta per dare la caccia ai lupi. Tre dei suoi uomini non sono più tornati. Nasconde le perdite per non creare panico, facendo sembrare che siano desertori.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Eliminare la minaccia con la forza, rifiutando qualsiasi spiegazione 'mistica'. È ossessionato dal proteggere Valleluna dopo aver perso sua moglie nel secondo attacco.",
+            "fear": "che Corpi non divorati riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Eliminare la minaccia con la forza, rifiutando qualsiasi spiegazione 'mistica'. È ossessionato dal proteggere Valleluna dopo aver perso sua moglie nel secondo attacco."
+            ],
+            "avoids": [
+              "che Corpi non divorati riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha organizzato spedizioni notturne nella foresta per dare la caccia ai lupi. Tre dei suoi uomini non sono più tornati. Nasconde le perdite per non creare panico, facendo sembrare che siano desertori.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Andor Vallond",
+          "role": "Figlio di Merek e portatore del marchio",
+          "description": "Comprendere perché sogna una lupa bianca che lo chiama per nome ogni notte. È terrorizzato ma anche stranamente attratto dalla foresta.",
+          "location": "Residenza Vallond",
+          "secret": "Porta un marchio invisibile sulla nuca che solo gli spiriti ferini possono vedere. Negli ultimi tre giorni ha iniziato a parlare nel sonno in una lingua che nessuno riconosce — è l'antica lingua dei Custodi.",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Comprendere perché sogna una lupa bianca che lo chiama per nome ogni notte. È terrorizzato ma anche stranamente attratto dalla foresta.",
+            "fear": "che Corpi non divorati riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+            "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Comprendere perché sogna una lupa bianca che lo chiama per nome ogni notte. È terrorizzato ma anche stranamente attratto dalla foresta."
+            ],
+            "avoids": [
+              "che Corpi non divorati riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Porta un marchio invisibile sulla nuca che solo gli spiriti ferini possono vedere. Negli ultimi tre giorni ha iniziato a parlare nel sonno in una lingua che nessuno riconosce — è l'antica lingua dei Custodi.",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Apertura",
+          "description": "Apertura: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "entry",
+          "visual_identity": "Apertura: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Nodo indizi",
+          "description": "Nodo indizi: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Nodo indizi: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Luogo sociale",
+          "description": "Luogo sociale: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Luogo sociale: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Zona calda",
+          "description": "Zona calda: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Zona calda: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Finale",
+          "description": "Finale: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "site",
+          "visual_identity": "Finale: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "indagine e orientamento",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": false,
+          "tactical_map": {},
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_6",
+          "name": "Epilogo",
+          "description": "Epilogo: nodo giocabile della struttura wilderness_sandbox.",
+          "type": "finale",
+          "visual_identity": "Epilogo: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_main",
+          "label": "Ogni notte il Branco si avvicina di più al centro abitato. Inizia con attacchi ai margini, poi penetra nelle vie secondarie, infine assedierà la piazza centrale. Se raggiunge la casa Vallond prima che la verità emerga, Andor verrà reclamato come pegno finale.",
+          "value": 0,
+          "max": 10,
+          "consequence": "piano completato se nessuno interviene",
+          "on_complete": "piano completato se nessuno interviene",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 7,
+              "event": "prove trasferite o rese instabili",
+              "world_state_change": "prove trasferite o rese instabili",
+              "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 8,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 9,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 10,
+              "event": "piano completato se nessuno interviene",
+              "world_state_change": "piano completato se nessuno interviene",
+              "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": false,
+          "confidence": 1.0
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_main_step_1",
+          "clock_id": "clock_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_2",
+          "clock_id": "clock_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_3",
+          "clock_id": "clock_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_4",
+          "clock_id": "clock_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_5",
+          "clock_id": "clock_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_6",
+          "clock_id": "clock_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_7",
+          "clock_id": "clock_main",
+          "label": "prove trasferite o rese instabili",
+          "scene_prompt": "Mostra in scena: prove trasferite o rese instabili.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_8",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_9",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_main_step_10",
+          "clock_id": "clock_main",
+          "label": "piano completato se nessuno interviene",
+          "scene_prompt": "Mostra in scena: piano completato se nessuno interviene.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "ai_il_richiamo_del_branco_primordiale",
+    "current_scene_id": "loc_residenza_vallond",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Residenza Vallond",
+        "agenda_pressure": 0,
+        "goal": "Proteggere suo figlio Andor e il borgo a ogni costo, senza comprendere che la minaccia ha radici nella sua famiglia.",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Capanna di Sora",
+        "agenda_pressure": 0,
+        "goal": "Ripristinare l'equilibrio infranto prima che il Branco distrugga tutto. Sa che solo la verità può fermare gli spiriti.",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Armeria della Milizia",
+        "agenda_pressure": 0,
+        "goal": "Eliminare la minaccia con la forza, rifiutando qualsiasi spiegazione 'mistica'. È ossessionato dal proteggere Valleluna dopo aver perso sua moglie nel secondo attacco.",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Residenza Vallond",
+        "agenda_pressure": 0,
+        "goal": "Comprendere perché sogna una lupa bianca che lo chiama per nome ogni notte. È terrorizzato ma anche stranamente attratto dalla foresta.",
+        "current_plan": "bloccare l'accesso a Epilogo e spostare le prove",
+        "fallback_plan": "ritirarsi verso Epilogo usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_residenza_vallond": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_capanna_di_sora": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_armeria_della_milizia": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_vecchio_patto": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cantina_vallond": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_frutteto_vallond": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_main": {
+        "value": 0,
+        "max": 10,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T1"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T1"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 92,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Residenza Vallond.",
+      "Actor npc_2 ha location non riconosciuta: Capanna di Sora.",
+      "Actor npc_3 ha location non riconosciuta: Armeria della Milizia.",
+      "Actor npc_4 ha location non riconosciuta: Residenza Vallond."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 6,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "live_game_state": null
+}

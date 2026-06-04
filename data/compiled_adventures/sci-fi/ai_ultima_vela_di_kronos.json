@@ -1,0 +1,2360 @@
+{
+  "adventure_definition": {
+    "id": "ai_ultima_vela_di_kronos",
+    "title": "Ultima Vela di Kronos",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "heist",
+      "secondary_archetypes": [],
+      "confidence": 0.75,
+      "reason": "Matched runtime signals for heist",
+      "definition": {
+        "id": "heist",
+        "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+        "required_modules": [
+          "target",
+          "security_layers",
+          "routes"
+        ],
+        "optional_modules": [
+          "heat"
+        ],
+        "runtime_focus": [
+          "route",
+          "security",
+          "resource"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "document",
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "heat_tick",
+          "alarm"
+        ],
+        "ending_patterns": [
+          "extraction"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "sci_fi",
+    "runtime_profiles": [
+      "heist"
+    ],
+    "tone": "Fantascienza claustrofobica e disperata, con tensione sociale crescente e orrore tecnologico imminente",
+    "premise": "La stazione mineraria Kronos-7, ancorata all'asteroide VK-229, ha perso ogni comunicazione con la flotta corporativa tre settimane fa. Le razioni si esauriscono, i sistemi di riciclo dell'aria emettono allarmi rossi, e il consiglio stazionale è paralizzato da accuse incrociate. Voi siete parte dell'ultimo turno operativo: tecnici, guardie, o medici che devono scegliere se rimanere e morire insieme, o sacrificare qualcuno per salvare gli altri. Ma nel livello minerario inferiore, qualcosa sta per risvegliarsi — e nessuno sa che il vero conto alla rovescia è già iniziato.",
+    "initial_hook": "Ultima Vela di Kronos La stazione mineraria Kronos-7, ancorata all'asteroide VK-229, ha perso ogni comunicazione con la flotta corporativa tre settimane fa. Le razioni si esauriscono, i sistemi di riciclo dell'aria emettono allarmi rossi, e il consiglio stazionale è paralizzato da accuse incrociate.",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Il comandante Harrik Voss ha deliberatamente sabotato i trasmettitori e deviato le scorte alimentari verso un bunker segreto nel settore C-9, pianificando di far collassare la stazione per coprire il furto di un carico illegale di cristalli psionici estratti dalla zona interdetta. Il suo complice, il tecnico Yumi Sato, ha installato una carica temporizzata nel nucleo di fusione che esploderà in 10 turni, distruggendo ogni prova e uccidendo tutti i testimoni. Voss ha incolpato il Sindacato Minerario per il sabotaggio, sapendo che la comunità si sarebbe dilaniata da sola.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Disattivare la carica nel nucleo di fusione prima del turno 10 e smascherare Voss prima che fugga con i cristalli",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Disattivare la carica nel nucleo di fusione prima del turno 10 e smascherare Voss prima che fugga con i cristalli"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Il comandante Voss ha sabotato trasmissioni e scorte per isolare la stazione mentre rubava i cristalli psionici, incolpando falsamente il Sindacato",
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Restringe i sospetti a Voss o Yumi Sato / Conferma che qualcuno sta pianificando una fuga personale",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Yumi Sato ha installato una carica nel nucleo di fusione su ordine di Voss, programmata per detonare e distruggere ogni prova del furto",
+        "required_clues": [
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Rivela che la bomba esiste e chi l'ha piazzata — ma anche che Yumi potrebbe essere costretta / Svela il movente di Voss e la scala del crimine",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Registro delle trasmissioni cancellate",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Torre di comunicazione esterna",
+        "reveals": "Il blackout comunicazioni è stato sabotaggio intenzionale, non incidente",
+        "payoff": "Restringe i sospetti a Voss o Yumi Sato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un datapad nella stazione di comunicazione mostra file eliminati manualmente tre settimane fa — non un guasto tecnico. L'ultimo accesso è stato registrato alle 03:47",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "Torre di comunicazione esterna"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_torre_di_comunicazione_ester"
+      },
+      {
+        "id": "clue_2",
+        "label": "Contenitori vuoti nel settore C-9",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Deposito sigillato settore C-9",
+        "reveals": "Le scorte non sono esaurite — sono state nascoste intenzionalmente",
+        "payoff": "Conferma che qualcuno sta pianificando una fuga personale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Una pila di contenitori alimentari sigillati ma completamente vuoti",
+        "hidden_implication": "Le scorte non sono esaurite — sono state nascoste intenzionalmente",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_deposito_sigillato_settore_c"
+      },
+      {
+        "id": "clue_3",
+        "label": "Testimonianza di Malik Chandra",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Bar del sindacato minatori",
+        "reveals": "Voss ha accesso esclusivo al settore C-9 e vuole tenere tutti lontani",
+        "payoff": "Collega Voss al sabotaggio delle scorte",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Malik racconta di aver visto Voss entrare nel deposito C-9 di notte",
+        "hidden_implication": "Voss ha accesso esclusivo al settore C-9 e vuole tenere tutti lontani",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_bar_del_sindacato_minatori"
+      },
+      {
+        "id": "clue_4",
+        "label": "Schema elettrico modificato",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Ufficio tecnico di Yumi Sato",
+        "reveals": "Yumi ha installato un dispositivo temporizzato nel nucleo ma sembra conflittuale",
+        "payoff": "Rivela che la bomba esiste e chi l'ha piazzata — ma anche che Yumi potrebbe essere costretta",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nelle note personali di Yumi Sato c'è uno schema del nucleo di fusione con annotazioni in rosso: 'Innesco ritardato — 240 ore max'. La calligrafia trema. Accanto, una foto di una bambina con una maschera ospedaliera.",
+        "hidden_implication": "Yumi ha installato un dispositivo temporizzato nel nucleo ma sembra conflittuale",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_ufficio_tecnico_di_yumi_sato"
+      },
+      {
+        "id": "clue_5",
+        "label": "Cristalli psionici sigillati",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Deposito sigillato settore C-9",
+        "reveals": "Il vero obiettivo del sabotaggio: rubare cristalli illegali e coprire le tracce",
+        "payoff": "Svela il movente di Voss e la scala del crimine",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nel deposito C-9",
+        "hidden_implication": "Il vero obiettivo del sabotaggio: rubare cristalli illegali e coprire le tracce",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_deposito_sigillato_settore_c"
+      },
+      {
+        "id": "clue_6",
+        "label": "Rapporto medico occultato",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Infermeria centrale della stazione",
+        "reveals": "Il settore C-9 è una zona di estrazione illegale e pericolosa",
+        "payoff": "Conferma che Voss copriva operazioni criminali da settimane",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Nei file privati della Dott.ssa Koenig c'è un rapporto su cinque minatori ricoverati con avvelenamento da radiazioni psionica",
+        "hidden_implication": "Il settore C-9 è una zona di estrazione illegale e pericolosa",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_centrale_della_st"
+      },
+      {
+        "id": "clue_7",
+        "label": "Navetta con rifornimenti anomali",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "Qualcuno con autorità comando ha preparato una via di fuga personale",
+        "payoff": "Indica che Voss pianificava di abbandonare la stazione, non di morire con essa",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_8",
+        "label": "Coordinate pre-programmate",
+        "type": "document",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "La destinazione di fuga era un punto di incontro con acquirenti illegali",
+        "payoff": "Collega la fuga di Voss al commercio dei cristalli psionici rubati",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_9",
+        "label": "Contenitore criogenico vuoto",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "",
+        "reveals": "I cristalli rubati erano destinati a essere trasportati in condizioni speciali",
+        "payoff": "Conferma che i cristalli sono già stati spostati verso la via di fuga",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_10",
+        "label": "Log di accesso sospetti",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Qualcuno ha usato le credenziali di Malik per inviare messaggi compromettenti",
+        "payoff": "Dimostra che le prove contro il Sindacato sono state fabbricate",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_11",
+        "label": "Testimonianza della guardia notturna",
+        "type": "testimony",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Voss aveva accesso fisico all'alloggio e al terminale di Malik",
+        "payoff": "Collega direttamente Voss alla falsificazione delle prove",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_12",
+        "label": "Cartella clinica nascosta",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Sato ha maneggiato cristalli psionici poco prima del sabotaggio",
+        "payoff": "Collega direttamente Sato ai cristalli rubati e alla Dott.ssa Koenig come testimone",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_13",
+        "label": "Comportamento evasivo di Koenig",
+        "type": "behavior",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Koenig sa qualcosa ma ha paura di parlare apertamente",
+        "payoff": "Porta alla confessione che Voss l'ha minacciata per mantenere il silenzio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "",
+        "hidden_implication": "",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Comandante Harrik Voss",
+        "role": "Autorità suprema della stazione, ex-pilota militare",
+        "location_id": "loc_ponte_di_comando_centrale",
+        "status": "unintroduced",
+        "goal": "Rubare i cristalli psionici e sparire con una nuova identità prima che la corporazione scopra il traffico illegale",
+        "secret": "Ha piazzato la bomba nel nucleo e sta rallentando ogni tentativo di riparazione per guadagnare tempo",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+        "current_plan": "Completare il trasferimento degli ultimi 40kg di cristalli psionici nel compartimento schermato dello shuttle Falcon-2 entro 72 ore. Mantenere l'equipaggio occupato con false riparazioni del nucleo. Aspettare che le riserve d'aria scendano sotto il 15% per creare panico e disorganizzazione. Attivare il timer della bomba (6 ore), lanciare un SOS falso che indica coordinate sbagliate, fuggire verso la stazione contrabbandiera Sable Point nel settore Helios con la nuova identità 'Markus Rehn'.",
+        "fallback_plan": "Se scoperto prima del tempo: detonare immediatamente cariche secondarie nelle sezioni abitabili per costringere evacuazione caotica, usare il suo codice di comando per sigillare tutti gli hangar tranne il suo. Prendere in ostaggio il tecnico capo Yuna per forzare l'apertura delle porte esterne. Abbandonare parte del carico di cristalli se necessario. Rotta alternativa verso l'avamposto minerario indipendente di Tesseract Falls, dove ha contatti nel mercato nero. Se anche questo fallisce: autodistruggere lo shuttle con i cristalli e fingere la propria morte, usando una capsula di salvataggio nascosta per raggiungere il punto di recupero Delta-9 dove lo aspetta il suo complice.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Rubare i cristalli psionici e sparire con una nuova identità prima che la corporazione scopra il traffico illegale"
+        ],
+        "avoids": [
+          "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un'apparenza di comando risoluto, organizza turni di razionamento, tiene briefing quotidiani per mantenere il morale. Suggerisce di aspettare i soccorsi mentre segretamente trasferisce i cristalli nel suo shuttle personale.",
+          "medium": "Diventa irritabile e autoritario, accusa l'equipaggio di sabotaggio, ordina perquisizioni nelle cabine per 'trovare il responsabile'. Intensifica i trasferimenti notturni dei cristalli, falsifica rapporti tecnici per convincere tutti che le riparazioni richiedono più tempo.",
+          "high": "Dichiara la legge marziale, confina nei quartieri chi fa domande scomode, assume il controllo diretto delle comunicazioni. Accelera i preparativi di fuga, prepara lo shuttle con rotta verso il settore neutro Helios. Diventa paranoico e armato.",
+          "extreme": "Attiva l'evacuazione d'emergenza prematura sabotando ulteriormente i sistemi vitali, crea il caos per coprire la sua fuga. Pronto a silenziare permanentemente chiunque conosca la verità sui cristalli. Detona cariche secondarie per simulare un'esplosione accidentale del nucleo."
+        },
+        "reaction_table": {
+          "se_minacciato": "Usa la sua autorità per isolare chi lo minaccia, lo accusa di ammutinamento davanti all'equipaggio, lo confina in cella di sicurezza. Se la minaccia è fisica, non esita a usare la sua arma d'ordinanza dichiarando che il soggetto era 'psicoticamente instabile per la mancanza di ossigeno'.",
+          "se_corrotto": "Finge interesse, chiede dettagli sui 'motivi' del corruttore per capire cosa sa realmente. Può offrire un passaggio sul suo shuttle in cambio di silenzio, ma pianifica di espellerlo nello spazio appena lasciata la stazione. Accetta solo se vede un vantaggio tattico immediato.",
+          "se_i_pg_hanno_prove": "Passa immediatamente al piano B: anticipa la fuga di 48 ore, innesca l'autodistruzione del nucleo con timer ridotto a 2 ore, sigilla le sezioni della stazione per rallentare gli inseguitori. Prende ostaggi tra il personale chiave se necessario per garantirsi la via di fuga.",
+          "se_alleato": "Lo tiene vicino nelle operazioni 'sensibili', gli assegna compiti che lo allontanino dalle zone critiche (come ispezionare moduli esterni). Gli fornisce informazioni parziali per mantenerlo leale, promette una parte dei profitti o una raccomandazione corporativa. Lo usa come capro espiatorio di riserva."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Yumi Sato",
+        "role": "Tecnico capo dei sistemi energetici",
+        "location_id": "loc_sala_macchine_del_nucleo",
+        "status": "unintroduced",
+        "goal": "Proteggere la figlia malata sulla Terra pagando i debiti medici con il denaro del furto",
+        "secret": "Ha installato la carica su ordine di Voss ma non sapeva che avrebbe ucciso tutti — pensava fosse solo un diversivo",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+        "current_plan": "Riparare segretamente i sistemi di comunicazione per inviare un SOS anonimo, poi sabotare i log di manutenzione che la collegano alla carica esplosiva. Evitare qualsiasi indagine fino all'arrivo dei soccorsi.",
+        "fallback_plan": "Se scoperta, incolpare completamente Voss sostenendo di essere stata costretta sotto minaccia. Se l'arresto è inevitabile, tentare il suicidio per assicurare che l'assicurazione sulla vita paghi le cure di Akari.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere la figlia malata sulla Terra pagando i debiti medici con il denaro del furto"
+        ],
+        "avoids": [
+          "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un comportamento professionale, controlla nervosamente i pannelli energetici, evita il contatto visivo prolungato. Parla della sua figlia Akari solo se interrogata direttamente.",
+          "medium": "Si chiude nel suo ufficio tecnico, cerca di cancellare i log di accesso al reattore. Inizia a balbettare che 'doveva solo causare un blackout temporaneo, nient'altro'. Le mani tremano mentre lavora.",
+          "high": "Crolla emotivamente, confessa tra le lacrime che Voss le ha promesso 300.000 crediti per installare la carica. Mostra ologrammi della figlia in ospedale: 'Akari ha solo sette anni... senza il trattamento morirà entro sei mesi!'",
+          "extreme": "Tenta di sabotare definitivamente i sistemi vitali della stazione per coprire le prove, urlando che preferisce morire qui piuttosto che vedere Akari soffrire. Si barrica nella sala reattori con una chiave di sicurezza biometrica."
+        },
+        "reaction_table": {
+          "se_minacciato": "Offre i codici di accesso ai sistemi secondari in cambio di protezione. Rivela che Voss ha un complice nell'hangar che controlla le navette di emergenza.",
+          "se_corrotto": "Accetta di testimoniare contro Voss se i PG garantiscono il pagamento dei debiti medici di Akari. Fornisce la registrazione audio dell'ordine ricevuto da Voss.",
+          "se_i_pg_hanno_prove": "Si arrende completamente. Chiede solo di poter registrare un ultimo messaggio video per sua figlia prima di essere arrestata. Fornisce la posizione esatta della carica residua non detonata.",
+          "se_alleato": "Diventa cooperativa, usa le sue competenze per ripristinare i sistemi vitali critici. Rivela che Voss pianifica di far esplodere la stazione per eliminare testimoni prima dell'arrivo dei soccorsi."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Malik Chandra",
+        "role": "Rappresentante del Sindacato Minerario",
+        "location_id": "loc_bar_del_sindacato_minatori",
+        "status": "unintroduced",
+        "goal": "Scoprire chi ha sabotato la stazione per scagionare i minatori dalle accuse di Voss",
+        "secret": "Sa dove Voss nasconde le scorte ma ha paura di accusarlo apertamente senza prove, temendo una rappresaglia",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+        "current_plan": "Raccogliere prove fotografiche e testimonianze dei minatori sui movimenti sospetti di Voss, documentando ogni discrepanza nelle scorte. Quando avrà abbastanza elementi, presentarli ai PG o a qualsiasi autorità esterna credibile che arrivi sulla stazione.",
+        "fallback_plan": "Se Voss scopre le sue indagini o la situazione degenera, Malik organizzerà un ammutinamento dei minatori per prendere controllo delle scorte nascoste con la forza, barricandosi nel settore minerario e aspettando i soccorsi esterni mentre raziona le risorse recuperate.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Scoprire chi ha sabotato la stazione per scagionare i minatori dalle accuse di Voss"
+        ],
+        "avoids": [
+          "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Malik mantiene un contegno professionale, discutendo delle condizioni di lavoro deteriorate e dei sospetti che gravano sui minatori. Accenna vagamente a 'irregolarità nella distribuzione delle risorse' senza fare nomi.",
+          "medium": "Malik diventa nervoso e guarda ripetutamente verso i quartieri di Voss. Ammette che 'qualcuno nella catena di comando potrebbe avere accesso a scorte non registrate', ma insiste di non avere prove concrete. Chiede protezione in cambio di informazioni.",
+          "high": "Malik crolla sotto pressione e rivela la posizione esatta del deposito nascosto di Voss nel settore C-12, dietro i pannelli di manutenzione. Implora i PG di non menzionare il suo nome e racconta di aver visto Voss trasferire casse nella notte del blackout comunicazioni.",
+          "extreme": "In preda al panico, Malik confessa tutto: Voss ha sabotato deliberatamente i sistemi di comunicazione per prolungare l'isolamento e vendere le scorte al mercato nero. Offre di testimoniare formalmente se i PG garantiscono la sua evacuazione immediata dalla stazione prima che Voss scopra il tradimento."
+        },
+        "reaction_table": {
+          "se_minacciato": "Malik si chiude immediatamente a riccio, accusando i PG di voler incastrare i minatori come tutti gli altri. Minaccia di mobilitare i suoi compagni contro di loro, ma la sua voce tremante tradisce la paura più di Voss che dei PG stessi.",
+          "se_corrotto": "Malik rifiuta sdegnosamente crediti o favori: 'Non sono in vendita come certi bastardi corporativi'. Potrebbe però essere convinto con la promessa di un'indagine indipendente che scagioni definitivamente i minatori dalla responsabilità del sabotaggio.",
+          "se_i_pg_hanno_prove": "Gli occhi di Malik si illuminano vedendo prove concrete contro Voss. Diventa improvvisamente collaborativo, aggiungendo dettagli cruciali: orari dei movimenti di Voss, testimoni silenziosi, e la propria documentazione segreta sui consumi anomali delle scorte.",
+          "se_alleato": "Malik diventa un prezioso alleato, organizzando discretamente i minatori per sorvegliare Voss e garantire che non distrugga prove. Condivide mappe dettagliate dei tunnel di servizio e codici di accesso ai sistemi di monitoraggio ancora funzionanti."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Dott.ssa Isra Koenig",
+        "role": "Medico capo dell'infermeria",
+        "location_id": "loc_infermeria_centrale_della_st",
+        "status": "unintroduced",
+        "goal": "Salvare quante più vite possibile, anche se significa scegliere chi sacrificare",
+        "secret": "Ha scoperto tracce di radiazioni anomale nei pazienti del settore C-9 ma Voss le ha ordinato di tacere",
+        "agenda_pressure": 0,
+        "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+        "current_plan": "Continuare le cure palliative mantenendo il segreto, mentre raccoglie prove sufficienti per costringere Voss ad agire. Sta preparando un rapporto medico dettagliato da trasmettere alla flotta se le comunicazioni venissero ripristinate.",
+        "fallback_plan": "Se la situazione degenera, evacuare forzatamente i pazienti del C-9 verso il settore abitativo principale usando un codice rosso medico, costringendo Voss a spiegare pubblicamente perché quel settore era in quarantena non dichiarata.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Salvare quante più vite possibile, anche se significa scegliere chi sacrificare"
+        ],
+        "avoids": [
+          "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un atteggiamento professionale e compassionevole, visita regolarmente i pazienti e cataloga metodicamente i sintomi anomali. Evita domande dirette sulle radiazioni con risposte tecniche evasive.",
+          "medium": "Inizia a razionare segretamente i farmaci antidolorifici per i pazienti del C-9, mostrando segni di stress. Passa notti insonni a confrontare scansioni mediche che nasconde nel suo terminale privato criptato.",
+          "high": "Crolla emotivamente durante un triage, ammettendo tra le lacrime che 'alcuni non ce la faranno comunque'. Considera seriamente di violare l'ordine di Voss e trasmettere i dati sulle radiazioni ai PG o ad altri membri dell'equipaggio.",
+          "extreme": "Decide unilateralmente chi riceverà le ultime dosi di ioduro di potassio. Minaccia di rendere pubblici i dati sulle radiazioni attraverso l'interfono della stazione se Voss non autorizza un'evacuazione immediata del settore C-9."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si barrica nell'infermeria con i dati medici, minacciando di distruggere tutte le cartelle cliniche se non le garantiscono protezione. Usa i pazienti come leva morale: 'Senza di me, chi li curerà?'",
+          "se_corrotto": "Accetta qualsiasi cosa che garantisca cure mediche per i pazienti del C-9: accesso a scorte nascoste, priorità d'evacuazione, o anche solo la verità su cosa sta succedendo nell'asteroide.",
+          "se_i_pg_hanno_prove": "Collabora immediatamente, fornendo tutte le scansioni e analisi del sangue che dimostrano l'esposizione a radiazioni di origine sconosciuta. Rivela coordinate precise del punto zero nel settore C-9.",
+          "se_alleato": "Diventa una risorsa preziosa: fornisce accesso alle aree mediche riservate, falsifica rapporti sanitari per coprire i PG, e condivide la sua teoria che le radiazioni provengano da qualcosa estratto dall'asteroide."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_ponte_di_comando_centrale",
+        "name": "Ponte di comando centrale",
+        "description": "Ponte di comando centrale.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_1"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_macchine_del_nucleo",
+        "name": "Sala macchine del nucleo",
+        "description": "Sala macchine del nucleo.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_bar_del_sindacato_minatori",
+        "name": "Bar del sindacato minatori",
+        "description": "Bar del sindacato minatori.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_infermeria_centrale_della_st",
+        "name": "Infermeria centrale della stazione",
+        "description": "Infermeria centrale della stazione.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_torre_di_comunicazione_ester",
+        "name": "Torre di comunicazione esterna",
+        "description": "Torre di comunicazione esterna.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_deposito_sigillato_settore_c",
+        "name": "Deposito sigillato settore C-9",
+        "description": "Deposito sigillato settore C-9.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2",
+          "clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ufficio_tecnico_di_yumi_sato",
+        "name": "Ufficio tecnico di Yumi Sato",
+        "description": "Ufficio tecnico di Yumi Sato.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Heat della sicurezza",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "la minaccia raggiunge la zona finale",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Sensori anomali attivi",
+            "effect": "I sistemi di sorveglianza automatica rilevano movimento irregolare. Droni di pattuglia attivati nei corridoi principali."
+          },
+          {
+            "value": 2,
+            "label": "Protocollo Amber dichiarato",
+            "effect": "Gli accessi alle aree critiche richiedono autenticazione biometrica. Le porte di emergenza sono monitorate in tempo reale."
+          },
+          {
+            "value": 3,
+            "label": "Squadre di ricerca mobilitate",
+            "effect": "Pattuglie armate percorrono i settori vitali. Un testimone o complice viene interrogato. Alcune prove fisiche vengono rimosse o distrutte."
+          },
+          {
+            "value": 4,
+            "label": "Lockdown settoriale",
+            "effect": "Intere sezioni della stazione vengono sigillate. Le vie di fuga alternative sono bloccate o presidiate. Il tempo stringe."
+          },
+          {
+            "value": 5,
+            "label": "Caccia attiva iniziata",
+            "effect": "La minaccia conosce la posizione approssimativa dei PG. Ogni movimento lascia tracce. Le risorse per nascondersi si esauriscono."
+          },
+          {
+            "value": 6,
+            "label": "Confronto inevitabile",
+            "effect": "La minaccia raggiunge la zona finale. Non c'è più via di fuga: solo il confronto diretto può risolvere la situazione."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [
+          "Disattivare il sistema di sorveglianza centrale",
+          "Corrompere o convincere il capo della sicurezza",
+          "Eliminare le prove che collegano i PG agli eventi",
+          "Creare un diversivo che assorba tutte le risorse di sicurezza"
+        ],
+        "resolution_condition": "I giocatori devono neutralizzare la catena di comando della sicurezza, sabotare i sistemi di tracciamento, o eliminare ogni evidenza che li colleghi agli eventi sospetti prima che il clock raggiunga 6.",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Le luci nei corridoi lampeggiano secondo uno schema innaturale. Qualcuno sta osservando attraverso gli occhi elettronici della stazione.",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Ultima Vela Kronos stazione mineraria Kronos-7",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T3",
+        "title": "Il piano di evacuazione personale",
+        "question": "Come pianificava Voss di lasciare la stazione dopo l'esplosione?",
+        "true_answer": "Voss ha preparato una navetta di emergenza nascosta nel punto di osservazione, rifornita con il carburante deviato e coordinate pre-impostate per un punto di raccolta illegale",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_8",
+          "clue_9"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1",
+          "T2"
+        ],
+        "linked_npcs": [
+          "Comandante Harrik Voss",
+          "Yumi Sato"
+        ],
+        "linked_locations": [
+          "Punto di osservazione",
+          "Via di estrazione"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "La copertura del sabotaggio",
+        "question": "Come ha Voss incolpato il Sindacato senza prove dirette?",
+        "true_answer": "Voss ha falsificato comunicazioni interne usando il terminale di Malik Chandra durante un turno di notte, creando false prove di coordinamento tra minatori per sabotare i sistemi",
+        "status": "hidden",
+        "required_clues": [
+          "clue_10",
+          "clue_11"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T1"
+        ],
+        "linked_npcs": [
+          "Comandante Harrik Voss",
+          "Malik Chandra"
+        ],
+        "linked_locations": [
+          "Sicurezza interna",
+          "Ingresso di servizio"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Il testimone silenzioso",
+        "question": "Qualcuno ha visto qualcosa di sospetto prima del blackout?",
+        "true_answer": "La Dott.ssa Koenig ha curato Sato per ustioni da radiazione da cristalli psionici due settimane fa, ma Voss l'ha costretta al silenzio minacciando di tagliare le forniture mediche",
+        "status": "hidden",
+        "required_clues": [
+          "clue_6",
+          "clue_12",
+          "clue_13"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Dott.ssa Isra Koenig",
+          "Yumi Sato",
+          "Comandante Harrik Voss"
+        ],
+        "linked_locations": [
+          "Bersaglio: Ultima Vela Kronos stazione mineraria Kronos-7"
+        ]
+      },
+      {
+        "id": "T1",
+        "title": "T1",
+        "question": "Cosa rivela Registro delle trasmissioni cancellate?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      },
+      {
+        "id": "T2",
+        "title": "T2",
+        "question": "Cosa rivela Schema elettrico modificato?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Via di estrazione",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "sci_fi",
+      "tone": "science fiction",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "system alert",
+        "decompression warning",
+        "security response"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "magic genre shift",
+        "planet destroyed without clock"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "ai_ultima_vela_di_kronos",
+      "title": "Ultima Vela di Kronos",
+      "genre": "sci_fi",
+      "detected_genre": "sci_fi",
+      "premise": "La stazione mineraria Kronos-7, ancorata all'asteroide VK-229, ha perso ogni comunicazione con la flotta corporativa tre settimane fa. Le razioni si esauriscono, i sistemi di riciclo dell'aria emettono allarmi rossi, e il consiglio stazionale è paralizzato da accuse incrociate. Voi siete parte dell'ultimo turno operativo: tecnici, guardie, o medici che devono scegliere se rimanere e morire insieme, o sacrificare qualcuno per salvare gli altri. Ma nel livello minerario inferiore, qualcosa sta per risvegliarsi — e nessuno sa che il vero conto alla rovescia è già iniziato.",
+      "hidden_truth": "Il comandante Harrik Voss ha deliberatamente sabotato i trasmettitori e deviato le scorte alimentari verso un bunker segreto nel settore C-9, pianificando di far collassare la stazione per coprire il furto di un carico illegale di cristalli psionici estratti dalla zona interdetta. Il suo complice, il tecnico Yumi Sato, ha installato una carica temporizzata nel nucleo di fusione che esploderà in 10 turni, distruggendo ogni prova e uccidendo tutti i testimoni. Voss ha incolpato il Sindacato Minerario per il sabotaggio, sapendo che la comunità si sarebbe dilaniata da sola.",
+      "win_condition": "Disattivare la carica nel nucleo di fusione prima del turno 10 e smascherare Voss prima che fugga con i cristalli",
+      "threat_description": "Heat della sicurezza",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "heist",
+        "secondary_archetypes": [],
+        "confidence": 0.75,
+        "reason": "Matched runtime signals for heist",
+        "definition": {
+          "id": "heist",
+          "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+          "required_modules": [
+            "target",
+            "security_layers",
+            "routes"
+          ],
+          "optional_modules": [
+            "heat"
+          ],
+          "runtime_focus": [
+            "route",
+            "security",
+            "resource"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "document",
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "heat_tick",
+            "alarm"
+          ],
+          "ending_patterns": [
+            "extraction"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "ai_ultima_vela_di_kronos",
+      "adventure_canon": {
+        "core_truth": "Il comandante Harrik Voss ha deliberatamente sabotato i trasmettitori e deviato le scorte alimentari verso un bunker segreto nel settore C-9, pianificando di far collassare la stazione per coprire il furto di un carico illegale di cristalli psionici estratti dalla zona interdetta. Il suo complice, il tecnico Yumi Sato, ha installato una carica temporizzata nel nucleo di fusione che esploderà in 10 turni, distruggendo ogni prova e uccidendo tutti i testimoni. Voss ha incolpato il Sindacato Minerario per il sabotaggio, sapendo che la comunità si sarebbe dilaniata da sola.",
+        "main_antagonist": "",
+        "key_locations": [
+          "Punto di osservazione",
+          "Ingresso di servizio",
+          "Sicurezza interna",
+          "Bersaglio: Ultima Vela Kronos stazione mineraria Kronos-7",
+          "Via di estrazione"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "finale_conditions": [
+          "Finale: Ultima Vela Kronos stazione mineraria Kronos-7"
+        ],
+        "genre_profile": {
+          "id": "sci_fi",
+          "tone": "science fiction",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "system alert",
+            "decompression warning",
+            "security response"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "magic genre shift",
+            "planet destroyed without clock"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Dove conduce Registro delle trasmissioni cancellate",
+          "question": "Dove conduce Registro delle trasmissioni cancellate?",
+          "true_answer": "Il comandante Voss ha sabotato trasmissioni e scorte per isolare la stazione mentre rubava i cristalli psionici, incolpando falsamente il Sindacato",
+          "required_clues": [
+            "clue_1",
+            "clue_2",
+            "clue_3"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Restringe i sospetti a Voss o Yumi Sato / Conferma che qualcuno sta pianificando una fuga personale",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Che cosa dimostrano Schema elettrico modificato e Cristalli psionici sigillati",
+          "question": "Che cosa dimostrano Schema elettrico modificato e Cristalli psionici sigillati?",
+          "true_answer": "Yumi Sato ha installato una carica nel nucleo di fusione su ordine di Voss, programmata per detonare e distruggere ogni prova del furto",
+          "required_clues": [
+            "clue_4",
+            "clue_5",
+            "clue_6"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Rivela che la bomba esiste e chi l'ha piazzata — ma anche che Yumi potrebbe essere costretta / Svela il movente di Voss e la scala del crimine",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Registro delle trasmissioni cancellate",
+          "text": "Registro delle trasmissioni cancellate",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Il blackout comunicazioni è stato sabotaggio intenzionale, non incidente",
+          "payoff": "Restringe i sospetti a Voss o Yumi Sato",
+          "location": "Torre di comunicazione esterna",
+          "immediate_information": "Un datapad nella stazione di comunicazione mostra file eliminati manualmente tre settimane fa — non un guasto tecnico. L'ultimo accesso è stato registrato alle 03:47",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "Torre di comunicazione esterna"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Contenitori vuoti nel settore C-9",
+          "text": "Contenitori vuoti nel settore C-9",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Le scorte non sono esaurite — sono state nascoste intenzionalmente",
+          "payoff": "Conferma che qualcuno sta pianificando una fuga personale",
+          "location": "Deposito sigillato settore C-9",
+          "immediate_information": "Una pila di contenitori alimentari sigillati ma completamente vuoti",
+          "hidden_implication": "Le scorte non sono esaurite — sono state nascoste intenzionalmente",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Testimonianza di Malik Chandra",
+          "text": "Testimonianza di Malik Chandra",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Voss ha accesso esclusivo al settore C-9 e vuole tenere tutti lontani",
+          "payoff": "Collega Voss al sabotaggio delle scorte",
+          "location": "Bar del sindacato minatori",
+          "immediate_information": "Malik racconta di aver visto Voss entrare nel deposito C-9 di notte",
+          "hidden_implication": "Voss ha accesso esclusivo al settore C-9 e vuole tenere tutti lontani",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Schema elettrico modificato",
+          "text": "Schema elettrico modificato",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Yumi ha installato un dispositivo temporizzato nel nucleo ma sembra conflittuale",
+          "payoff": "Rivela che la bomba esiste e chi l'ha piazzata — ma anche che Yumi potrebbe essere costretta",
+          "location": "Ufficio tecnico di Yumi Sato",
+          "immediate_information": "Nelle note personali di Yumi Sato c'è uno schema del nucleo di fusione con annotazioni in rosso: 'Innesco ritardato — 240 ore max'. La calligrafia trema. Accanto, una foto di una bambina con una maschera ospedaliera.",
+          "hidden_implication": "Yumi ha installato un dispositivo temporizzato nel nucleo ma sembra conflittuale",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Cristalli psionici sigillati",
+          "text": "Cristalli psionici sigillati",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Il vero obiettivo del sabotaggio: rubare cristalli illegali e coprire le tracce",
+          "payoff": "Svela il movente di Voss e la scala del crimine",
+          "location": "Deposito sigillato settore C-9",
+          "immediate_information": "Nel deposito C-9",
+          "hidden_implication": "Il vero obiettivo del sabotaggio: rubare cristalli illegali e coprire le tracce",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Rapporto medico occultato",
+          "text": "Rapporto medico occultato",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Il settore C-9 è una zona di estrazione illegale e pericolosa",
+          "payoff": "Conferma che Voss copriva operazioni criminali da settimane",
+          "location": "Infermeria centrale della stazione",
+          "immediate_information": "Nei file privati della Dott.ssa Koenig c'è un rapporto su cinque minatori ricoverati con avvelenamento da radiazioni psionica",
+          "hidden_implication": "Il settore C-9 è una zona di estrazione illegale e pericolosa",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Comandante Harrik Voss",
+          "role": "Autorità suprema della stazione, ex-pilota militare",
+          "description": "Rubare i cristalli psionici e sparire con una nuova identità prima che la corporazione scopra il traffico illegale",
+          "location": "Ponte di comando centrale",
+          "secret": "Ha piazzato la bomba nel nucleo e sta rallentando ogni tentativo di riparazione per guadagnare tempo",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Rubare i cristalli psionici e sparire con una nuova identità prima che la corporazione scopra il traffico illegale",
+            "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Rubare i cristalli psionici e sparire con una nuova identità prima che la corporazione scopra il traffico illegale"
+            ],
+            "avoids": [
+              "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha piazzato la bomba nel nucleo e sta rallentando ogni tentativo di riparazione per guadagnare tempo",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Yumi Sato",
+          "role": "Tecnico capo dei sistemi energetici",
+          "description": "Proteggere la figlia malata sulla Terra pagando i debiti medici con il denaro del furto",
+          "location": "Sala macchine del nucleo",
+          "secret": "Ha installato la carica su ordine di Voss ma non sapeva che avrebbe ucciso tutti — pensava fosse solo un diversivo",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere la figlia malata sulla Terra pagando i debiti medici con il denaro del furto",
+            "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere la figlia malata sulla Terra pagando i debiti medici con il denaro del furto"
+            ],
+            "avoids": [
+              "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha installato la carica su ordine di Voss ma non sapeva che avrebbe ucciso tutti — pensava fosse solo un diversivo",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Malik Chandra",
+          "role": "Rappresentante del Sindacato Minerario",
+          "description": "Scoprire chi ha sabotato la stazione per scagionare i minatori dalle accuse di Voss",
+          "location": "Bar del sindacato minatori",
+          "secret": "Sa dove Voss nasconde le scorte ma ha paura di accusarlo apertamente senza prove, temendo una rappresaglia",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Scoprire chi ha sabotato la stazione per scagionare i minatori dalle accuse di Voss",
+            "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Scoprire chi ha sabotato la stazione per scagionare i minatori dalle accuse di Voss"
+            ],
+            "avoids": [
+              "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Sa dove Voss nasconde le scorte ma ha paura di accusarlo apertamente senza prove, temendo una rappresaglia",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Dott.ssa Isra Koenig",
+          "role": "Medico capo dell'infermeria",
+          "description": "Salvare quante più vite possibile, anche se significa scegliere chi sacrificare",
+          "location": "Infermeria centrale della stazione",
+          "secret": "Ha scoperto tracce di radiazioni anomale nei pazienti del settore C-9 ma Voss le ha ordinato di tacere",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Salvare quante più vite possibile, anche se significa scegliere chi sacrificare",
+            "fear": "che Registro delle trasmissioni cancellate riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Salvare quante più vite possibile, anche se significa scegliere chi sacrificare"
+            ],
+            "avoids": [
+              "che Registro delle trasmissioni cancellate riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto tracce di radiazioni anomale nei pazienti del settore C-9 ma Voss le ha ordinato di tacere",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Punto di osservazione",
+          "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+          "type": "entry",
+          "visual_identity": "Punto di osservazione: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "rack server",
+              "paratie blindate",
+              "muletti elettrici"
+            ],
+            "hazards": [
+              "blackout intermittente",
+              "sprinkler attivati"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Ingresso di servizio",
+          "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Ingresso di servizio: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "rack server",
+              "paratie blindate",
+              "muletti elettrici"
+            ],
+            "hazards": [
+              "blackout intermittente",
+              "sprinkler attivati"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sicurezza interna",
+          "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Sicurezza interna: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "rack server",
+              "paratie blindate",
+              "muletti elettrici"
+            ],
+            "hazards": [
+              "blackout intermittente",
+              "sprinkler attivati"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Bersaglio: Ultima Vela Kronos stazione mineraria Kronos-7",
+          "description": "Bersaglio: Ultima Vela Kronos stazione mineraria Kronos-7: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Bersaglio: Ultima Vela Kronos stazione mineraria Kronos-7: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "rack server",
+              "paratie blindate",
+              "muletti elettrici"
+            ],
+            "hazards": [
+              "blackout intermittente",
+              "sprinkler attivati"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Via di estrazione",
+          "description": "Via di estrazione: nodo giocabile della struttura heist.",
+          "type": "finale",
+          "visual_identity": "Via di estrazione: rack server, paratie blindate, muletti elettrici",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici",
+            "condotti manutenzione"
+          ],
+          "hazards": [
+            "blackout intermittente",
+            "sprinkler attivati"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "rack server",
+            "paratie blindate",
+            "muletti elettrici"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "rack server",
+              "paratie blindate",
+              "muletti elettrici"
+            ],
+            "hazards": [
+              "blackout intermittente",
+              "sprinkler attivati"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Heat della sicurezza",
+          "value": 0,
+          "max": 6,
+          "consequence": "la minaccia raggiunge la zona finale",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di la minaccia",
+              "world_state_change": "un testimone viene cercato dagli uomini di la minaccia",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "la minaccia raggiunge la zona finale",
+              "world_state_change": "la minaccia raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di la minaccia",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di la minaccia.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "la minaccia raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: la minaccia raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "ai_ultima_vela_di_kronos",
+    "current_scene_id": "loc_ponte_di_comando_centrale",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Ponte di comando centrale",
+        "agenda_pressure": 0,
+        "goal": "Rubare i cristalli psionici e sparire con una nuova identità prima che la corporazione scopra il traffico illegale",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Sala macchine del nucleo",
+        "agenda_pressure": 0,
+        "goal": "Proteggere la figlia malata sulla Terra pagando i debiti medici con il denaro del furto",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Bar del sindacato minatori",
+        "agenda_pressure": 0,
+        "goal": "Scoprire chi ha sabotato la stazione per scagionare i minatori dalle accuse di Voss",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Infermeria centrale della stazione",
+        "agenda_pressure": 0,
+        "goal": "Salvare quante più vite possibile, anche se significa scegliere chi sacrificare",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_ponte_di_comando_centrale": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_macchine_del_nucleo": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_bar_del_sindacato_minatori": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_infermeria_centrale_della_st": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_torre_di_comunicazione_ester": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_deposito_sigillato_settore_c": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ufficio_tecnico_di_yumi_sato": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T1"
+      ],
+      "clue_3": [
+        "T1"
+      ],
+      "clue_4": [
+        "T2"
+      ],
+      "clue_5": [
+        "T2"
+      ],
+      "clue_6": [
+        "T2"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 90,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Ponte di comando centrale.",
+      "Actor npc_2 ha location non riconosciuta: Sala macchine del nucleo.",
+      "Actor npc_3 ha location non riconosciuta: Bar del sindacato minatori.",
+      "Actor npc_4 ha location non riconosciuta: Infermeria centrale della stazione.",
+      "heist richiede security_layers o pressure_system heat."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 4,
+      "clues": 6,
+      "revelations": 2
+    }
+  },
+  "live_game_state": null
+}

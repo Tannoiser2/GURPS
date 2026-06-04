@@ -1,0 +1,4577 @@
+{
+  "adventure_definition": {
+    "id": "ai_la_fiamma_di_korven",
+    "title": "La Fiamma di Korven",
+    "source_type": "raw_text",
+    "source_mode": "ai_generated",
+    "source_structure": {},
+    "archetype_profile": {
+      "primary_archetype": "heist",
+      "secondary_archetypes": [
+        "faction_sandbox"
+      ],
+      "confidence": 0.75,
+      "reason": "Matched runtime signals for heist",
+      "definition": {
+        "id": "heist",
+        "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+        "required_modules": [
+          "target",
+          "security_layers",
+          "routes"
+        ],
+        "optional_modules": [
+          "heat"
+        ],
+        "runtime_focus": [
+          "route",
+          "security",
+          "resource"
+        ],
+        "pacing_template": [
+          "hook",
+          "pressure",
+          "choice",
+          "payoff"
+        ],
+        "common_clue_types": [
+          "document",
+          "location_detail"
+        ],
+        "common_failure_modes": [
+          "heat_tick",
+          "alarm"
+        ],
+        "ending_patterns": [
+          "extraction"
+        ],
+        "director_bias": {},
+        "validator_rules": {}
+      }
+    },
+    "preservation_policy": {
+      "preserve_original_structure": false,
+      "forbid_structural_compression": false
+    },
+    "original_structure_map": {},
+    "source_cards": [],
+    "inferred_elements": [],
+    "preserved_elements": [],
+    "genre": "fantasy",
+    "runtime_profiles": [
+      "heist",
+      "faction_crisis"
+    ],
+    "tone": "Heist claustrofobico con tensione geopolitica — il tempo scorre, il calore aumenta, le fazioni si voltano l'una contro l'altra mentre il gruppo cerca disperatamente una via d'uscita",
+    "premise": "Siete nella sala del trono della Cittadella di Korven, il baluardo fortificato del Consorzio Mercantile. La vostra missione era semplice: rubare il Sigillo del Fuoco Antico dalla cripta reale. Ma quando la pesante porta d'acciaio si chiude alle vostre spalle con un tonfo definitivo, capisci che qualcosa non va. Le torce lungo il corridoio si spengono una dopo l'altra, e senti il calore crescere sotto i vostri piedi. Sul muro, incise a sangue, parole recenti: 'I traditori bruciano dal basso'. Qualcuno sapeva che sareste venuti. E qualcuno ha trasformato questa fortezza in una trappola mortale.",
+    "initial_hook": "La Fiamma di Korven Siete nella sala del trono della Cittadella di Korven, il baluardo fortificato del Consorzio Mercantile. La vostra missione era semplice: rubare il Sigillo del Fuoco Antico dalla cripta reale. Ma quando la pesante porta d'acciaio si chiude alle vostre spalle con un tonfo definiti",
+    "core_truths": [
+      {
+        "id": "truth_core",
+        "statement": "Lord Severan Thrace, il committente che ha ingaggiato il gruppo, non vuole il Sigillo per fermare la Fiamma Dormiente come aveva dichiarato. Vuole che il gruppo muoia nella Cittadella mentre lui si appropria delle terre del Consorzio durante il caos. Il vero Sigillo è un falso: quello autentico è già stato rubato da Marchesa Ilyne Korven, custode ufficiale, che lo usa per risvegliare gradualmente il vulcano sotto la città e sterminare i rivali politici del Consorzio. Entrambi hanno orchestrato il furto come diversivo: Thrace per eliminare testimoni scomodi, Ilyne per avere capri espiatori perfetti quando la catastrofe diventerà irreversibile.",
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": "",
+        "revealed": false
+      }
+    ],
+    "objectives": [
+      {
+        "id": "obj_main",
+        "label": "Recuperare il Sigillo del Fuoco Antico autentico (non il falso nella cripta), usarlo per sigillare nuovamente il vulcano, e sfuggire alla Cittadella prima che crolli — oppure esporre pubblicamente sia Thrace che Ilyne sacrificando il Sigillo ma salvando la città",
+        "status": "active",
+        "unlocks": [],
+        "success_conditions": [
+          "Recuperare il Sigillo del Fuoco Antico autentico (non il falso nella cripta), usarlo per sigillare nuovamente il vulcano, e sfuggire alla Cittadella prima che crolli — oppure esporre pubblicamente sia Thrace che Ilyne sacrificando il Sigillo ma salvando la città"
+        ]
+      }
+    ],
+    "revelations": [
+      {
+        "id": "T1",
+        "thread_id": "T1",
+        "statement": "Thrace vuole che il gruppo muoia per eliminare testimoni scomodi e appropriarsi delle terre del Consorzio durante il caos dell'eruzione",
+        "required_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_13",
+          "clue_14"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Svela il tradimento del committente, ma non spiega perché / Conferma che il gruppo era destinato a fallire",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T2",
+        "thread_id": "T2",
+        "statement": "Marchesa Ilyne ha rubato il vero Sigillo 73 giorni fa e lo usa nella camera vulcanica per risvegliare gradualmente il vulcano",
+        "required_clues": [
+          "clue_2",
+          "clue_3",
+          "clue_6",
+          "clue_10"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG capiscono di essere stati ingannati dall'inizio / Identifica Ilyne come ladra del vero Sigillo",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T5",
+        "thread_id": "T5",
+        "statement": "Non c'è cospirazione unificata: entrambi usano il gruppo indipendentemente, rendendo la situazione ancora più pericolosa",
+        "required_clues": [
+          "clue_1",
+          "clue_6",
+          "clue_14"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Indica che la catastrofe può essere fermata",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T4",
+        "thread_id": "T4",
+        "statement": "Suo figlio è tenuto prigioniero in una cella segreta come garanzia della sua lealtà",
+        "required_clues": [
+          "clue_7",
+          "clue_15"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Può diventare alleato se si libera suo figlio / Suggerisce che Ilyne è consapevole del gruppo e li vuole morti",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T3",
+        "thread_id": "T3",
+        "statement": "Ilyne sta usando il Sigillo per risvegliare controllato il vulcano e sterminare i suoi rivali politici, con l'aiuto involontario di Volrath",
+        "required_clues": [
+          "clue_5",
+          "clue_8",
+          "clue_9",
+          "clue_11"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "Crea il dilemma morale finale / Può guidare i PG alla camera vulcanica o ostacolarli fatalmente",
+        "conditions": [],
+        "llm_generated": false
+      },
+      {
+        "id": "T6",
+        "thread_id": "T6",
+        "statement": "I rifugiati Ashmar hanno organizzato un furto parallelo e sabotato la missione dei PG; Il Sigillo ha un legittimo proprietario morale, e rubarlo significa condannare innocenti",
+        "required_clues": [
+          "sub_clue_1",
+          "sub_clue_2",
+          "sub_clue_3"
+        ],
+        "required_evidence_kinds": [],
+        "minimum_independent_kinds": 1,
+        "red_herring_clues": [],
+        "status": "hidden",
+        "payoff": "I PG possono cercare alleanza con gli Ashmar invece di combatterli come nemici / Introduce il dilemma: profitto personale vs salvare vite innocenti",
+        "conditions": [],
+        "llm_generated": false
+      }
+    ],
+    "clues": [
+      {
+        "id": "clue_1",
+        "label": "Contratto di sangue strappato",
+        "type": "physical_evidence",
+        "thread_id": "T1",
+        "source_location": "Villa Thrace nella Città Alta",
+        "reveals": "Thrace non voleva che il gruppo sopravvivesse alla missione",
+        "payoff": "Svela il tradimento del committente, ma non spiega perché",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Un frammento di pergamena con firma di Lord Thrace e clausola nascosta: 'Il pagamento finale avverrà solo in caso di morte degli esecutori'",
+        "hidden_implication": "Thrace non voleva che il gruppo sopravvivesse alla missione",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "seguire le impronte",
+          "analizzare la cenere",
+          "proteggersi prima di avanzare"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_villa_thrace_nella_città_alt"
+      },
+      {
+        "id": "clue_2",
+        "label": "Sigillo falso nella cripta",
+        "type": "document",
+        "thread_id": "T2",
+        "source_location": "Cripta Reale nella Cittadella",
+        "reveals": "Il vero Sigillo è stato rubato tempo fa",
+        "payoff": "I PG capiscono di essere stati ingannati dall'inizio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "L'artefatto nella cripta reale è troppo leggero e le incisioni sono recenti. È una replica magistrale ma vuota di potere",
+        "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+        "unlocks": [
+          "antagonist_pressure",
+          "thread_responsabile"
+        ],
+        "possible_actions": [
+          "verificare la firma",
+          "confrontare gli orari",
+          "interrogare il responsabile dei registri"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_cripta_reale_nella_cittadell"
+      },
+      {
+        "id": "clue_3",
+        "label": "Registro di accesso alla cripta",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Archivio delle Guardie nella Cittadella",
+        "reveals": "Ilyne ha avuto accesso esclusivo al Sigillo",
+        "payoff": "Identifica Ilyne come ladra del vero Sigillo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Un libro polveroso mostra che Marchesa Ilyne è entrata nella cripta 73 giorni fa, di notte, senza guardie",
+        "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+        "unlocks": [
+          "route_tunnel_laterale",
+          "Archivio delle Guardie nella Cittadella"
+        ],
+        "possible_actions": [
+          "analizzare il badge o la chiave",
+          "controllare i log di accesso",
+          "seguire i segni verso il passaggio"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_archivio_delle_guardie_nella"
+      },
+      {
+        "id": "clue_4",
+        "label": "Testimonianza di Kessara",
+        "type": "testimony",
+        "thread_id": "T1",
+        "source_location": "Taverna della Fiamma Nera",
+        "reveals": "Thrace ha deliberatamente esposto la missione",
+        "payoff": "Conferma che il gruppo era destinato a fallire",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "La contrabbandiera rivela che Thrace le ha pagato per diffondere voci sul gruppo di ladri in arrivo",
+        "hidden_implication": "Thrace ha deliberatamente esposto la missione",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_taverna_della_fiamma_nera"
+      },
+      {
+        "id": "clue_5",
+        "label": "Mappa termica della Cittadella",
+        "type": "location_detail",
+        "thread_id": "T5",
+        "source_location": "Fucina Sotterranea",
+        "reveals": "Il risveglio del vulcano è opera umana, non naturale",
+        "payoff": "Indica che la catastrofe può essere fermata",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T5"
+        ],
+        "immediate_information": "Progetti di Jendra mostrano punti di calore anomalo sotto la fortezza, con annotazione: 'Qualcuno ha aperto i canali vulcanici deliberatamente'",
+        "hidden_implication": "Il risveglio del vulcano è opera umana, non naturale",
+        "unlocks": [
+          "T5"
+        ],
+        "possible_actions": [
+          "seguire la traccia",
+          "cercare punti di riferimento",
+          "preparare una via di ritorno"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_fucina_sotterranea"
+      },
+      {
+        "id": "clue_6",
+        "label": "Lettera cifrata di Ilyne",
+        "type": "physical_evidence",
+        "thread_id": "T2",
+        "source_location": "Passaggi Segreti",
+        "reveals": "Ilyne sta usando il Sigillo attivamente nella camera vulcanica",
+        "payoff": "Fornisce la posizione del vero Sigillo",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Messaggio intercettato da Yvaine: 'Il fuoco purificherà i traditori del Consorzio. Il Sigillo è al sicuro nella camera più calda'",
+        "hidden_implication": "Ilyne sta usando il Sigillo attivamente nella camera vulcanica",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "esaminare il cerchio",
+          "cancellare o alterare un segno",
+          "seguire la traccia verso l'officiante"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_passaggi_segreti"
+      },
+      {
+        "id": "clue_7",
+        "label": "Comportamento di Draven Marr",
+        "type": "behavior",
+        "thread_id": "T4",
+        "source_location": "Caserma delle Guardie",
+        "reveals": "Draven è sotto ricatto o costrizione",
+        "payoff": "Può diventare alleato se si libera suo figlio",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T4"
+        ],
+        "immediate_information": "Il capitano esita quando gli viene ordinato di sigillare tutte le uscite. Il suo sguardo si posa su una cella particolare prima di obbedire",
+        "hidden_implication": "Draven è sotto ricatto o costrizione",
+        "unlocks": [
+          "T4"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_caserma_delle_guardie"
+      },
+      {
+        "id": "clue_8",
+        "label": "Tomo del risveglio vulcanico",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Biblioteca Sotterranea",
+        "reveals": "Fermare il vulcano richiede un costo umano",
+        "payoff": "Crea il dilemma morale finale",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Antico manoscritto nella biblioteca descrive il rituale per sigillare la Fiamma Dormiente: serve il Sigillo autentico e un sacrificio volontario",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_biblioteca_sotterranea"
+      },
+      {
+        "id": "clue_9",
+        "label": "Cicatrici di Volrath",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Camera Vulcanica",
+        "reveals": "Volrath sopravvisse all'ultimo risveglio ed è connesso al rituale",
+        "payoff": "Può guidare i PG alla camera vulcanica o ostacolarli fatalmente",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Le ustioni del cultista formano simboli runici identici a quelli sul vero Sigillo. Parla con venerazione dell'ultima eruzione",
+        "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+        "unlocks": [
+          "finale_method"
+        ],
+        "possible_actions": [
+          "ricostruire la pagina mancante",
+          "confrontare il documento con la scena finale",
+          "interrogare chi lo ha stampato"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_camera_vulcanica"
+      },
+      {
+        "id": "clue_10",
+        "label": "Testimonianza di Ser Aldric",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Prigione Profonda",
+        "reveals": "Ilyne ha eliminato chi avrebbe potuto fermarla",
+        "payoff": "Aldric conosce la via segreta alla camera vulcanica",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Il cavaliere imprigionato rivela di essere stato il guardiano originale del Sigillo, arrestato con false accuse di corruzione da Ilyne",
+        "hidden_implication": "Ilyne ha eliminato chi avrebbe potuto fermarla",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_prigione_profonda"
+      },
+      {
+        "id": "clue_11",
+        "label": "Dettaglio verificabile in Fondamenta della Cittadella",
+        "type": "physical_evidence",
+        "thread_id": "T3",
+        "source_location": "Fondamenta della Cittadella",
+        "reveals": "Il collasso della Cittadella era pianificato da tempo",
+        "payoff": "Indica che l'intero piano di Ilyne prevedeva la distruzione della fortezza",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T3"
+        ],
+        "immediate_information": "Dettaglio verificabile in Fondamenta della Cittadella",
+        "hidden_implication": "Il collasso della Cittadella era pianificato da tempo",
+        "unlocks": [
+          "T3"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_fondamenta_della_cittadella"
+      },
+      {
+        "id": "clue_12",
+        "label": "Avvertimento di Frate Myron",
+        "type": "testimony",
+        "thread_id": "T2",
+        "source_location": "Biblioteca Sotterranea",
+        "reveals": "Myron sa del furto ma ha paura di parlare apertamente",
+        "payoff": "Conferma che il vero Sigillo è ancora nella Cittadella",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T2"
+        ],
+        "immediate_information": "Il monaco sussurra nervosamente: 'Il Sigillo che cercate non è mai uscito da queste mura. Ma non è dove pensate'",
+        "hidden_implication": "Myron sa del furto ma ha paura di parlare apertamente",
+        "unlocks": [
+          "T2"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_biblioteca_sotterranea"
+      },
+      {
+        "id": "clue_13",
+        "label": "Ordine di pagamento di Thrace",
+        "type": "document",
+        "thread_id": "T1",
+        "source_location": "Studio di Thrace",
+        "reveals": "Thrace ha corrotto le guardie per intrappolare qualcuno",
+        "payoff": "Conferma la complicità delle guardie nel piano",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Documento nella villa mostra un pagamento massiccio alle guardie della Cittadella con nota: 'Per la chiusura permanente il giorno X'",
+        "hidden_implication": "Thrace ha corrotto le guardie per intrappolare qualcuno",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_studio_di_thrace"
+      },
+      {
+        "id": "clue_14",
+        "label": "Movimenti sospetti di Contraddizione",
+        "type": "behavior",
+        "thread_id": "T1",
+        "source_location": "Camera del Consiglio",
+        "reveals": "Oralius nasconde la sua connessione con Thrace",
+        "payoff": "Rivela che Oralius è un agente infiltrato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T1"
+        ],
+        "immediate_information": "Movimenti sospetti di Contraddizione",
+        "hidden_implication": "Oralius nasconde la sua connessione con Thrace",
+        "unlocks": [
+          "T1"
+        ],
+        "possible_actions": [
+          "pedinare il sospetto",
+          "confrontarlo con discrezione",
+          "controllare dove si e diretto"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_camera_del_consiglio"
+      },
+      {
+        "id": "clue_15",
+        "label": "Simbolo del fuoco sulla porta sigillata",
+        "type": "physical_evidence",
+        "thread_id": "T4",
+        "source_location": "Ingresso principale della Cittadella",
+        "reveals": "La trappola è stata attivata dall'interno della Cittadella",
+        "payoff": "Suggerisce che Ilyne è consapevole del gruppo e li vuole morti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T4"
+        ],
+        "immediate_information": "La porta principale della Cittadella ha il sigillo della Marchesa apposto dall'interno, non dall'esterno. Qualcuno voleva intrappolare chi era già dentro",
+        "hidden_implication": "La trappola è stata attivata dall'interno della Cittadella",
+        "unlocks": [
+          "T4"
+        ],
+        "possible_actions": [
+          "esaminare il cerchio",
+          "cancellare o alterare un segno",
+          "seguire la traccia verso l'officiante"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_ingresso_principale_della_ci"
+      },
+      {
+        "id": "sub_clue_1",
+        "label": "Dettaglio verificabile in Corridoio della Cripta Reale",
+        "type": "document",
+        "thread_id": "T6",
+        "source_location": "Corridoio della Cripta Reale",
+        "reveals": "I rifugiati Ashmar hanno organizzato un furto parallelo e sabotato la missione dei PG",
+        "payoff": "I PG possono cercare alleanza con gli Ashmar invece di combatterli come nemici",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T6"
+        ],
+        "immediate_information": "Dettaglio verificabile in Corridoio della Cripta Reale",
+        "hidden_implication": "I rifugiati Ashmar hanno organizzato un furto parallelo e sabotato la missione dei PG",
+        "unlocks": [
+          "T6"
+        ],
+        "possible_actions": [
+          "esaminare il reperto",
+          "confrontarlo con un testimone",
+          "cercare tracce nella location"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_corridoio_della_cripta_reale"
+      },
+      {
+        "id": "sub_clue_2",
+        "label": "Testimonianza del Vecchio Torin",
+        "type": "testimony",
+        "thread_id": "T6",
+        "source_location": "Cantine della Cittadella",
+        "reveals": "Il Sigillo ha un legittimo proprietario morale, e rubarlo significa condannare innocenti",
+        "payoff": "Introduce il dilemma: profitto personale vs salvare vite innocenti",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T6"
+        ],
+        "immediate_information": "Un anziano rifugiato nascosto nelle cantine racconta: 'Il Sigillo fu strappato dalla Sala dei Forni quando Korven conquistò Ashmar. Senza di esso, la terra non produce più grano. Trecento anime dipendono dal suo ritorno. Ma voi... voi lavorate per chi paga di più, vero?'",
+        "hidden_implication": "Il Sigillo ha un legittimo proprietario morale, e rubarlo significa condannare innocenti",
+        "unlocks": [
+          "T6"
+        ],
+        "possible_actions": [
+          "interrogare il testimone",
+          "verificare il racconto sul posto",
+          "cercare una contraddizione concreta"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_cantine_della_cittadella"
+      },
+      {
+        "id": "sub_clue_3",
+        "label": "Diario di Kael",
+        "type": "document",
+        "thread_id": "T6",
+        "source_location": "Alloggi dei Servitori",
+        "reveals": "Kael ha agito per disperazione, non malvagità. È un riflesso morale dei PG stessi",
+        "payoff": "Umanizza il 'sabotatore', trasformandolo da antagonista a vittima delle circostanze",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [
+          "T6"
+        ],
+        "immediate_information": "Pagine strappate: 'Giorno 12 - Mi odio per quello che farò. Intrappolare altri ladri è vile. Ma se non recupero il Sigillo, mia sorella morirà quest'inverno. Giorno 13 - Ho modificato il meccanismo della porta. Che gli dèi mi perdonino.'",
+        "hidden_implication": "Kael ha agito per disperazione, non malvagità. È un riflesso morale dei PG stessi",
+        "unlocks": [
+          "T6"
+        ],
+        "possible_actions": [
+          "leggere le ultime pagine",
+          "confrontare date e luoghi",
+          "cercare nomi ricorrenti"
+        ],
+        "wrong_interpretations": [
+          "scambiarlo per semplice dettaglio di scena",
+          "attribuirlo al primo sospetto senza verifica"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false,
+        "location_id": "loc_alloggi_dei_servitori"
+      },
+      {
+        "id": "clue_16",
+        "label": "Ordini scritti a Draven",
+        "type": "document",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Draven crede di seguire un piano legittimo della Marchesa",
+        "payoff": "Draven può essere convinto che è stato manipolato se gli viene mostrata la verità",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "Documento ufficiale con il sigillo della Marchesa che ordina a Draven di catturare i ladri del Sigillo",
+        "hidden_implication": "La calligrafia e la formulazione degli ordini non corrispondono allo stile della vera Marchesa - sono stati falsificati da qualcuno con accesso ai sigilli ufficiali",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [
+          "Gli ordini sono autentici e la Marchesa è davvero dietro tutto questo",
+          "Draven ha falsificato lui stesso gli ordini per coprire una sua iniziativa personale"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_17",
+        "label": "Esitazione di Draven",
+        "type": "behavior",
+        "thread_id": "T4",
+        "source_location": "",
+        "reveals": "Draven non è completamente convinto della legittimità degli ordini",
+        "payoff": "Opportunità di diplomazia per reclutare Draven come alleato",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "Draven esita prima di attaccare, il suo sguardo si sposta ripetutamente tra gli avventurieri e il documento degli ordini",
+        "hidden_implication": "Draven ha già dei sospetti sulla legittimità della missione ma il suo senso del dovere lo obbliga a seguire gli ordini - sta cercando una scusa per non combattere",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [
+          "Draven è semplicemente codardo e ha paura di combattere",
+          "L'esitazione è una tattica per far abbassare la guardia agli avventurieri prima di attaccare"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_18",
+        "label": "Informazioni di Kessara sui condotti",
+        "type": "testimony",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "Esiste una via di fuga attraverso i condotti termici",
+        "payoff": "Sblocca il percorso di fuga alternativo attraverso le caverne vulcaniche",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "Kessara menziona che i condotti termici sotto la Cittadella sono ancora accessibili e collegano la sala del trono alle caverne vulcaniche esterne",
+        "hidden_implication": "I condotti non sono semplici passaggi di ventilazione ma antiche vie rituali costruite dai Custodi del Fuoco - Kessara conosce questo dettaglio perché ha studiato la vera storia della Cittadella",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [
+          "I condotti sono troppo stretti o pericolosi per essere attraversati da un gruppo",
+          "Kessara sta mentendo per tendere una trappola e condurre il gruppo in un vicolo cieco"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      },
+      {
+        "id": "clue_19",
+        "label": "Schemi architettonici antichi",
+        "type": "document",
+        "thread_id": "T5",
+        "source_location": "",
+        "reveals": "I condotti termici sono antichi passaggi rituali che conducono alle caverne vulcaniche",
+        "payoff": "Fornisce la mappa dettagliata per navigare i condotti ed evitare trappole",
+        "state": "hidden",
+        "progress_ticks": 0,
+        "is_required": true,
+        "revelation_ids": [],
+        "immediate_information": "Pergamene ingiallite che mostrano la struttura originale della Cittadella con rune e simboli che indicano i percorsi sicuri attraverso i condotti",
+        "hidden_implication": "Gli schemi rivelano che i condotti erano progettati per trasportare il Sigillo del Fuoco Antico in sicurezza - le rune indicano punti dove il Sigillo stesso può disattivare trappole magiche",
+        "unlocks": [],
+        "possible_actions": [],
+        "wrong_interpretations": [
+          "Gli schemi sono obsoleti e i condotti sono stati modificati nel corso dei secoli rendendo la mappa inutile",
+          "Le rune sono semplici decorazioni artistiche senza significato pratico per la navigazione"
+        ],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_payoff": false,
+        "confidence": 1.0,
+        "llm_extracted": false
+      }
+    ],
+    "actors": [
+      {
+        "id": "npc_1",
+        "name": "Lord Severan Thrace",
+        "role": "Committente traditore",
+        "location_id": "loc_villa_thrace_nella_città_alt",
+        "status": "unintroduced",
+        "goal": "Usare il gruppo come diversivo per appropriarsi delle proprietà del Consorzio durante il caos",
+        "secret": "Ha pagato le guardie della Cittadella per sigillare le uscite non appena il gruppo fosse entrato",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Attendere che il gruppo rubi il Sigillo, scatenando il caos nella Cittadella. Durante il panico, le sue guardie corrotte sigillano le uscite intrappolando i PG, mentre lui usa documenti falsificati per rivendicare proprietà del Consorzio 'per protezione'. Il gruppo diventa ricercato, lui diventa eroe e nuovo padrone.",
+        "fallback_plan": "Se il gruppo scopre il tradimento, incolpare le guardie corrotte come 'traditori improvvisati'. Se anche questo fallisce, fuggire verso la Villa Thrace oltre il confine, dove ha già trasferito fondi e documenti. Ha un accordo segreto con i pirati del Porto Franco per l'espatrio.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Usare il gruppo come diversivo per appropriarsi delle proprietà del Consorzio durante il caos"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un'aria di cortese preoccupazione, offrendo ricompense generose per il 'recupero' del Sigillo e informandosi sulla loro 'fuga'. Sottolinea quanto sia pericolosa la Cittadella ora che l'allarme è scattato.",
+          "medium": "Diventa nervoso e insistente. Cerca di convincere il gruppo a tornare dentro la Cittadella per 'completare il lavoro' o recuperare 'prove compromettenti'. Aumenta la ricompensa promessa, mostrando crepe nella sua facciata calma.",
+          "high": "La maschera cade. Alterna minacce velate ('Sapete troppe cose') a tentativi disperati di negoziazione. Rivela dettagli del suo piano per errore, poi tenta di corromperli o eliminarli tramite sicari già appostati.",
+          "extreme": "Ordina l'attacco immediato. Attiva il segnale concordato con le sue guardie corrotte per far ricadere tutti i crimini sul gruppo. Fugge verso proprietà del Consorzio che ha già predisposto per essere intestate a lui, lasciando i PG come capri espiatori."
+        },
+        "reaction_table": {
+          "se_minacciato": "Finge sottomissione mentre attiva discretamente un anello-segnale che chiama i suoi uomini. Propone un accordo vantaggioso guadagnando tempo.",
+          "se_corrotto": "Finge interesse ma qualsiasi accordo è una trappola. Accetta solo se può trasformare i PG in complici ancora più compromessi, legandoli ai suoi crimini.",
+          "se_i_pg_hanno_prove": "Tenta disperatamente di distruggerle o screditarle. Se fallisce, offre metà dei profitti del Consorzio in cambio del silenzio, pur pianificando la loro eliminazione.",
+          "se_alleato": "Si mostra generoso e affidabile, ma pianifica sempre di sacrificarli. Ogni 'favore' li compromette maggiormente, rendendoli complici o testimoni scomodi da eliminare."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_2",
+        "name": "Marchesa Ilyne Korven",
+        "role": "Custode della Cittadella e antagonista principale",
+        "location_id": "loc_sala_del_trono_nella_cittade",
+        "status": "unintroduced",
+        "goal": "Sterminare i rivali politici del Consorzio risvegliando il vulcano in modo controllato",
+        "secret": "Ha già rubato il vero Sigillo mesi fa e lo usa per alimentare gradualmente la Fiamma Dormiente",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Completare il rituale del Risveglio durante il Festival delle Ceneri (tra tre giorni), quando tutti i rivali politici saranno riuniti nel Quartiere Basso per i festeggiamenti popolari. L'eruzione 'spontanea' distruggerà solo quella zona, lasciando la Cittadella Alta e i magazzini del Consorzio intatti.",
+        "fallback_plan": "Se scoperta, incolpare il Circolo dei Maghi di Pietra di aver sabotato i sigilli protettivi. Ha già piazzato prove false nei loro laboratori. In caso estremo, fuggire via mare verso la colonia di Tharsis con il tesoro del Consorzio già trasferito, lasciando Korven al suo destino.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Sterminare i rivali politici del Consorzio risvegliando il vulcano in modo controllato"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Sorride cordialmente, offre vino speziato e discute di commercio come se nulla fosse. Osserva ogni gesto dei personaggi con attenzione mercantile.",
+          "medium": "La maschera di cortesia si incrina. Chiama discretamente le guardie d'élite vestite da servitori. Inizia a parlare del 'necessario rinnovamento attraverso il fuoco purificatore'.",
+          "high": "Rivela apertamente il vero Sigillo nascosto nel medaglione al collo. Minaccia di accelerare l'eruzione immediatamente se non lasciano la Cittadella. Le fiamme nelle torce si alzano innaturalmente.",
+          "extreme": "Frantuma il Sigillo contro il pavimento urlando formule antiche. Il palazzo trema violentemente mentre fugge attraverso passaggi segreti verso il porto, disposta a sacrificare l'intera città pur di eliminare i testimoni."
+        },
+        "reaction_table": {
+          "se_minacciato": "Attiva una trappola magica che sigilla la sala del trono, riempiendola lentamente di gas vulcanico. Propone un duello verbale: risolvere enigmi del Consorzio per guadagnare tempo mentre le guardie circondano il palazzo.",
+          "se_corrotto": "Finge interesse, chiede cosa vogliono veramente. Se promettono silenzio, offre quote azionarie nel 'nuovo Korven' post-eruzione e accesso ai quartieri sicuri nelle miniere profonde. Mente spudoratamente.",
+          "se_i_pg_hanno_prove": "Passa immediatamente al piano B: li accusa pubblicamente di essere agenti stranieri venuti a sabotare Korven. Convoca il Consiglio d'Emergenza dove ha già comprato tutti i voti. Le prove diventano 'evidenti falsificazioni'.",
+          "se_alleato": "Li coinvolge nel piano come 'consulenti di sicurezza'. Mostra loro le mappe dell'eruzione controllata, omettendo che i quartieri poveri saranno completamente spazzati via. Valuta costantemente se eliminarli dopo o renderli complici permanenti."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_3",
+        "name": "Capitano Draven Marr",
+        "role": "Capo delle guardie della Cittadella",
+        "location_id": "loc_caserma_delle_guardie",
+        "status": "unintroduced",
+        "goal": "Proteggere i civili, ma obbedisce ciecamente alla Marchesa per senso del dovere",
+        "secret": "Sa che Ilyne nasconde qualcosa ma ha paura di indagare; suo figlio è ostaggio in una cella segreta",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Catturare i PG e consegnare il Sigillo alla Marchesa Ilyne come richiesto, sperando che la sua obbedienza continui a mantenere suo figlio in vita un altro giorno",
+        "fallback_plan": "Se i PG dimostrano di conoscere il segreto di Kael, fingere di catturarli ma sabotare sottilmente la sicurezza, lasciando una via di fuga aperta attraverso l'armeria est dove ha nascosto armi e una mappa",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Proteggere i civili, ma obbedisce ciecamente alla Marchesa per senso del dovere"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Draven mantiene un tono professionale e autoritario, intima ai PG di arrendersi e consegnare il Sigillo. Posiziona strategicamente le guardie bloccando le uscite, ma evita lo scontro diretto.",
+          "medium": "La voce si incrina leggermente. Ordina l'attacco ma esita un istante di troppo. Se i PG menzionano la Marchesa o 'prigionieri innocenti', il suo sguardo tradisce un momento di panico prima di irrigidirsi.",
+          "high": "Draven urla ordini contraddittori alle guardie. Suda freddo. Se i PG rivelano di sapere di suo figlio, crolla parzialmente: 'Non potete capire... lei lo ucciderà se...' Si riprende ma la sua determinazione vacilla visibilmente.",
+          "extreme": "Si volta contro le guardie leali alla Marchesa pur di salvare i PG se promettono di liberare suo figlio. Alternativa: tenta disperatamente di uccidere i PG prima che parlino, urlando 'Perdonatemi!' con lacrime negli occhi."
+        },
+        "reaction_table": {
+          "se_minacciato": "Combatte con abilità ma senza vera convinzione. Cerca di ferire senza uccidere. Se messo alle strette, sussurra 'La cella sotto la torre est... terzo livello' prima di fingersi svenuto.",
+          "se_corrotto": "Rifiuta sdegnosamente qualsiasi oro, ma se offrono di liberare suo figlio o forniscono una via d'uscita per entrambi dalla Cittadella, collabora immediatamente pur fingendo resistenza per le guardie presenti.",
+          "se_i_pg_hanno_prove": "Legge qualsiasi documento su suo figlio con mani tremanti. Crollo emotivo seguito da decisione: 'Datemi un'ora. Porterò via le guardie dalla sala ovest. Poi siete soli.' Diventa complice silenzioso.",
+          "se_alleato": "Fornisce mappe delle vie di fuga, turni di guardia, e la combinazione della porta della cripta secondaria. Chiede solo: 'Quando fuggite... prendetelo con voi. Si chiama Kael. Ha solo dodici anni.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_4",
+        "name": "Frate Myron",
+        "role": "Custode della biblioteca proibita",
+        "location_id": "loc_biblioteca_sotterranea",
+        "status": "unintroduced",
+        "goal": "Preservare la conoscenza antica sul vulcano, anche a costo della propria vita",
+        "secret": "Ha scoperto il furto del vero Sigillo ma teme ritorsioni se parla apertamente",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Continuare a fingere ignoranza sul furto, copiare di nascosto i testi proibiti sul vulcano prima che il Consorzio li distrugga, trovare un modo per avvertire qualcuno dell'imminente catastrofe senza esporsi",
+        "fallback_plan": "Se scoperto, fuggire attraverso i tunnel della biblioteca verso il monastero abbandonato sulle pendici del vulcano, dove ha già nascosto copie dei testi più importanti in una cassa impermeabile",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Preservare la conoscenza antica sul vulcano, anche a costo della propria vita"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Risponde con citazioni criptiche dai testi antichi, sfoglia nervosamente pergamene, cerca di allontanare i PG dalla biblioteca con scuse banali sul rischio di incendi dovuti alle candele",
+          "medium": "Confessa di aver visto qualcuno uscire dalla cripta tre notti fa, ma fornisce dettagli vaghi e contraddittori. Trema visibilmente, guarda ossessivamente verso l'ala est dove ha nascosto le sue annotazioni sul vero Sigillo",
+          "high": "Crolla emotivamente, ammette di aver visto i mercanti del Consorzio sostituire il Sigillo autentico con una replica. Implora protezione, rivela che il vero Sigillo è stato portato nelle Miniere di Cenere per spegnere il risveglio del vulcano",
+          "extreme": "In preda al panico totale, cerca di bruciare i suoi appunti compromettenti. Urla che il Consorzio ha pianificato tutto per controllare l'eruzione e monopolizzare le gemme vulcaniche. Rivela l'ubicazione esatta del Sigillo e i nomi dei congiurati prima di tentare la fuga"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si barrica nella biblioteca, minaccia di incendiare i volumi antichi sul vulcano se i PG non lo lasciano in pace. La sua codardia vince sulla ragione",
+          "se_corrotto": "Accetta oro o protezione in cambio di mappe dettagliate delle catacombe sotto la Cittadella e del percorso verso le Miniere di Cenere. Chiede però di essere portato via da Korven",
+          "se_i_pg_hanno_prove": "Riconosce che non può più nascondersi. Offre la sua competenza sui rituali del Fuoco Antico in cambio di testimoniare contro il Consorzio anonimamente",
+          "se_alleato": "Diventa una risorsa preziosa: decifra iscrizioni vulcaniche, rivela che il Sigillo deve essere riattivato entro il plenilunio o il vulcano esploderà. Guida i PG attraverso passaggi segreti"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_5",
+        "name": "Kessara la Sfregiata",
+        "role": "Contrabbandiera e informatrice",
+        "location_id": "loc_taverna_della_fiamma_nera_ne",
+        "status": "unintroduced",
+        "goal": "Guadagnare abbastanza per lasciare la città prima dell'eruzione che sa arriverà",
+        "secret": "Ha venduto informazioni sia a Thrace che a Ilyne, sa che il gruppo è una pedina sacrificabile",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Usare il caos del furto del Sigillo per fuggire a Porto Libero con i soldi ricevuti da entrambe le fazioni. Ha già prenotato passaggio su una nave contrabbandiera che salpa domani all'alba.",
+        "fallback_plan": "Se scoperta, barattare TUTTE le informazioni che ha (movimenti di entrambe le fazioni, la verità sull'eruzione imminente, posizione dei tesori nascosti del Consorzio) al miglior offerente che possa garantirle la fuga. Ultima risorsa: rifugiarsi nel Quartiere dei Tagliagole sotto protezione di Madre Corvina, sua vecchia mentore.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Guadagnare abbastanza per lasciare la città prima dell'eruzione che sa arriverà"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Ride nervosamente, gioca con le sue dita piene di anelli, offre informazioni parziali mescolando verità e menzogne. 'Il Sigillo? Oh, quello... sapevo che qualcuno sarebbe venuto a prenderlo. Non io, chiaro.'",
+          "medium": "Il suo sorriso si spezza. Ammette di aver venduto la mappa della cripta, ma omette i nomi. Propone uno scambio: informazioni su vie di fuga segrete in cambio di un passaggio fuori città. La voce diventa più acuta.",
+          "high": "Crolla. Confessa di aver lavorato per Thrace E Ilyne contemporaneamente, che il gruppo era una distrazione mentre altri agivano. Supplica: 'Portatemi via! L'eruzione arriverà in tre giorni, lo so dai documenti che ho rubato al Consorzio!'",
+          "extreme": "Totale panico. Rivela TUTTO: il Sigillo è la chiave che tiene dormiente il vulcano sotto Korven. Thrace vuole l'eruzione per ricostruire sulle ceneri. Ilyne vuole fermarlo ma non ha il potere. 'Uccidetemi o salvatemi, ma DECIDETE!'"
+        },
+        "reaction_table": {
+          "se_minacciato": "Si rannicchia, porta le mani al viso dove ha la cicatrice. Balbetta che ha copie di documenti compromettenti nascoste, se muore verranno consegnate alle guardie. Bluff al 60%.",
+          "se_corrotto": "Occhi che brillano. Contratta duramente: vuole 500 corone d'oro E un passaggio garantito via mare. Rivela che nella Torre Nera c'è un portale ancora attivo, ma serve sangue di drago per attivarlo.",
+          "se_i_pg_hanno_prove": "Cambia tattica immediatamente. Diventa collaborativa, troppo collaborativa. Offre di testimoniare contro chiunque vogliano in cambio di immunità. È sincera ma disperata.",
+          "se_alleato": "Lealtà pragmatica. Li avverte dei tradimenti imminenti, condivide mappe vere, ma tiene sempre un piano di fuga personale. 'Vi aiuto, ma se crolla tutto, io salto per prima dalla nave.'"
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_6",
+        "name": "Maestro Oralius Venn",
+        "role": "Consigliere politico del Consorzio",
+        "location_id": "loc_camera_del_consiglio_nella_c",
+        "status": "unintroduced",
+        "goal": "Scoprire chi tra il Consorzio ha tradito e salvare la propria posizione",
+        "secret": "È un agente dormiente di Thrace, ma inizia a dubitare quando capisce che anche lui è destinato a morire",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Completare la sua missione facendo incolpare il furto del Sigillo a una fazione rivale interna al Consorzio, guadagnando così credibilità per infiltrarsi ancora più in alto. Non sa che Thrace ha già emesso il suo ordine di esecuzione.",
+        "fallback_plan": "Se scoperto o minacciato da Thrace, rivelare tutto al Consorzio fingendo di essere stato un doppio agente fedele fin dall'inizio. Ha documenti falsificati nascosti nella sua villa che 'proverebbero' questa storia.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Scoprire chi tra il Consorzio ha tradito e salvare la propria posizione"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un contegno diplomatico impeccabile, offrendo vino e negoziazioni ragionevoli. Studia ogni parola degli interlocutori per identificare chi sa troppo.",
+          "medium": "La sua calma si incrina. Inizia a sudare visibilmente, le mani tremano impercettibilmente. Fa nomi di altri consiglieri per deviare sospetti, mentendo con crescente disperazione.",
+          "high": "Crolla psicologicamente. Ammette di essere un agente di Thrace ma rivela che il suo superiore, Commodoro Grenn, ha ordinato l'eliminazione di tutti i testimoni - incluso lui. Implora protezione in cambio di informazioni.",
+          "extreme": "In preda al panico totale, rivela i codici segreti per accedere ai documenti nascosti di Thrace nella biblioteca sud. Offre di avvelenare Grenn personalmente se i PG lo lasciano fuggire con loro."
+        },
+        "reaction_table": {
+          "se_minacciato": "Arretra verso la porta segreta dietro l'arazzo del Grifone Rosso, attivando discretamente l'anello-segnale che chiama le guardie. Tenta di guadagnare tempo con false confessioni.",
+          "se_corrotto": "Accetta solo oro in gemme non tracciabili. Esige garanzie scritte di immunità dal Consorzio. Tradisce informazioni parziali su Thrace ma omette deliberatamente la parte sul suo destino.",
+          "se_i_pg_hanno_prove": "Il suo volto impallidisce fino al grigio cenere. Chiede disperatamente di vedere le prove. Se menzionano il 'Protocollo Cenere' (il piano per eliminarlo), la sua lealtà a Thrace si dissolve istantaneamente.",
+          "se_alleato": "Diventa prezioso ma instabile. Fornisce mappe dei tunnel di Thrace sotto la cittadella e l'ubicazione del vero Sigillo (quello rubato era un falso). Pretende di essere presente quando cattureranno Grenn."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_7",
+        "name": "Jendra Stoneheart",
+        "role": "Ingegnere nanico del Consorzio",
+        "location_id": "loc_fucina_sotterranea",
+        "status": "unintroduced",
+        "goal": "Impedire il collasso strutturale della Cittadella per salvare i civili intrappolati",
+        "secret": "Ha scoperto che le fondamenta sono state sabotate deliberatamente mesi fa",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Puntellare i pilastri nella Grande Sala con travi di rinforzo temporanee mentre coordina l'evacuazione dei livelli 3-7. Ha inviato messaggeri a chiamare tutti gli ingegneri disponibili nel raggio di dieci leghe.",
+        "fallback_plan": "Se il collasso è inevitabile, far detonare cariche controllate nella Torre Nord per creare un punto di cedimento direzionale che risparmi i quartieri residenziali, anche se questo significa sacrificare gli archivi del Consorzio e probabilmente se stessa.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Impedire il collasso strutturale della Cittadella per salvare i civili intrappolati"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Parla con tono professionale e diretto, consulta continuamente i suoi progetti architettonici arrotolati. Usa termini tecnici nanici per mascherare la propria ansia crescente.",
+          "medium": "Inizia a sudare, le mani tremano mentre indica crepe e fessure nei muri. Urla ordini contraddittori agli operai, tradendo la consapevolezza che il sabotaggio era troppo esteso per essere casuale.",
+          "high": "Crolla in ginocchio tra i suoi schemi, ammettendo tra i singhiozzi di aver trovato segni di manomissione mesi fa ma di averli ignorati per paura di perdere il contratto con il Consorzio. Supplica aiuto per evacuare i livelli inferiori.",
+          "extreme": "Afferra disperatamente chiunque le passi vicino, urlando nomi di colleghi sepolti vivi. Tenta di correre verso le fondamenta con picconi e travi, pronta a sacrificarsi per guadagnare minuti preziosi all'evacuazione, anche se inutile."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si barrica dietro colonne portanti, minaccia di far crollare deliberatamente la sezione est se non la lasciano lavorare. La sua conoscenza strutturale diventa un'arma di disperazione.",
+          "se_corrotto": "Rifiuta l'oro con disprezzo - 'Le pietre non si comprano con monete, idioti!' Ma offre informazioni su passaggi segreti della cripta in cambio di aiuto nell'evacuazione dei quartieri nanici.",
+          "se_i_pg_hanno_prove": "Se mostrano prove del sabotaggio, svela che l'artefice è Vorun Blackvein, ex-partner che lei stessa licenziò. Offre schemi completi della Cittadella e dei suoi punti deboli in cambio di testimonianza contro il Consorzio.",
+          "se_alleato": "Diventa una risorsa inestimabile: conosce ogni passaggio, ogni scala nascosta. Guida i PG attraverso corridoi crollanti verso la cripta, monitorando costantemente i cedimenti con orecchio esperto contro le pareti."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_8",
+        "name": "Ser Aldric Penumbra",
+        "role": "Cavaliere caduto in disgrazia",
+        "location_id": "loc_prigione_profonda",
+        "status": "unintroduced",
+        "goal": "Redimere il proprio onore smascherando la corruzione nel Consorzio",
+        "secret": "Era l'ultimo guardiano legittimo del Sigillo prima che Ilyne lo facesse arrestare con false accuse",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Infiltrarsi nella cripta durante il cambio della guardia notturna per recuperare prove documentali che dimostrino il complotto di Ilyne contro di lui, nascoste insieme al Sigillo",
+        "fallback_plan": "Se scoperto, rapire un membro anziano del Consorzio e costringerlo a confessare pubblicamente nella piazza mercantile all'alba, anche a costo della propria vita",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Redimere il proprio onore smascherando la corruzione nel Consorzio"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un contegno aristocratico ma vigilante, studiando i PG con occhi esperti. Parla con tono formale, cercando di valutare le loro vere intenzioni senza rivelare troppo.",
+          "medium": "La mano si stringe sull'elsa della spada. La voce si fa più aspra mentre accenna al suo arresto ingiusto. Cerca disperatamente indizi che i PG possano essere alleati contro Ilyne.",
+          "high": "Il volto si contrae in una smorfia di rabbia contenuta. Rivela parti della sua caduta in disgrazia, accusando apertamente il Consorzio. Propone un'alleanza immediata se i PG dimostrano ostilità verso Ilyne.",
+          "extreme": "Getta via ogni cautela. Confessa di essere stato il guardiano tradito e offre di aiutare i PG a fuggire con il Sigillo in cambio della loro testimonianza contro il Consorzio. Pronto a combattere al loro fianco."
+        },
+        "reaction_table": {
+          "se_minacciato": "Assume posizione difensiva ma non attacca subito. 'Se servite Ilyne, uccidetemi e finite ciò che ha iniziato. Ma se cercate la verità, abbassate le armi.'",
+          "se_corrotto": "Rifiuta con disgusto violento. 'L'oro del Consorzio ha già comprato la mia rovina. Non venderò anche la mia anima.' Diventa ostile.",
+          "se_i_pg_hanno_prove": "Gli occhi si illuminano di speranza feroce. Si inginocchia. 'Finalmente. Testimoni della corruzione. Portatemi con voi - conosco ogni segreto di questa fortezza.'",
+          "se_alleato": "Giura fedeltà sul suo onore perduto. Rivela passaggi segreti per la fuga e avverte dei veri piani di Ilyne per il Sigillo: usarlo per controllare i Draghi Dormienti del Nord."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_9",
+        "name": "Yvaine la Sussurratrice",
+        "role": "Spia del Consorzio",
+        "location_id": "loc_passaggi_segreti_della_citta",
+        "status": "unintroduced",
+        "goal": "Raccogliere prove contro Ilyne per il Consorzio, ma esita a rischiare la vita",
+        "secret": "Ha intercettato messaggi tra Thrace e un sicario, sa che il gruppo è stato mandato a morire",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Raccogliere prove tangibili contro Ilyne e Thrace senza esporsi direttamente, usando il gruppo come inconsapevoli 'cani da caccia' per stanare i corrotti. Poi presentare le prove al Gran Magistrato quando sarà al sicuro.",
+        "fallback_plan": "Se scoperta o minacciata, bruciare tutti i ponti: rivelare pubblicamente lo scandalo durante il Consiglio dei Mercanti, sperando che il caos le permetta di fuggire dalla Cittadella prima che Thrace possa silenziarla.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Raccogliere prove contro Ilyne per il Consorzio, ma esita a rischiare la vita"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Mantiene un atteggiamento professionale e distaccato, osservando con attenzione ogni movimento del gruppo mentre finge di prendere appunti per il Consorzio. Pone domande apparentemente innocue per sondare le loro vere intenzioni.",
+          "medium": "Inizia a mostrare nervosismo, giocherellando con il suo anello-sigillo. Lascia trapelare piccoli indizi su 'irregolarità nei contratti di Thrace' e 'strane transazioni prima della missione', cercando di capire se il gruppo sospetta qualcosa.",
+          "high": "La facciata crolla. Con voce tremante rivela di aver intercettato messaggi cifrati tra Thrace e un assassino noto come 'Il Corvo Cremisi'. Ammette che il gruppo non doveva uscire vivo dalla cripta, ma che lei non può testimoniare apertamente senza prove fisiche o sarà la prossima vittima.",
+          "extreme": "Crolla completamente, confessando tutto tra le lacrime. Offre i messaggi cifrati nascosti nella fodera del suo mantello in cambio di protezione. Supplica il gruppo di portarla via dalla Cittadella quella notte stessa, rivelando che Thrace ha già eliminato altri due informatori nelle ultime settimane."
+        },
+        "reaction_table": {
+          "se_minacciato": "Si irrigidisce ma cerca di mediare: 'Uccidetemi e non saprete mai chi nel Consorzio voleva la vostra morte'. Usa il suo segreto come merce di scambio per la sopravvivenza.",
+          "se_corrotto": "Accetta denaro solo se accompagnato da una via di fuga sicura dalla Cittadella. Il denaro da solo non vale la sua vita - ha visto cosa fa Thrace ai traditori. Chiede almeno 500 corone d'oro E passaggio sicuro oltre i confini del Consorzio.",
+          "se_i_pg_hanno_prove": "Si anima immediatamente, vedendo una possibilità di rovesciare Thrace senza esporsi. Offre di falsificare documenti del Consorzio per incastrare Thrace, a patto che il suo nome resti fuori dalle testimonianze ufficiali.",
+          "se_alleato": "Diventa preziosa informatrice: conosce passaggi segreti nella Cittadella, i movimenti delle guardie, e dove Thrace nasconde i suoi archivi compromettenti. In cambio pretende una nuova identità e protezione permanente dal Consorzio."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      },
+      {
+        "id": "npc_10",
+        "name": "Volrath il Bruciato",
+        "role": "Cultista sopravvissuto dell'ultimo risveglio",
+        "location_id": "loc_camera_vulcanica",
+        "status": "unintroduced",
+        "goal": "Morire nel fuoco sacro per completare il rituale che ha iniziato decenni fa",
+        "secret": "Fu lui a insegnare a Ilyne come risvegliare la Fiamma senza uccidersi immediatamente",
+        "agenda_pressure": 0,
+        "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+        "current_plan": "Raggiungere la camera del focolare centrale nella cripta dove Ilyne sta preparando il risveglio della Fiamma. Gettarsi nel fuoco sacro completando il rituale di sangue iniziato 40 anni fa, credendo erroneamente che questo conterrà la Fiamma invece di liberarla completamente.",
+        "fallback_plan": "Se impedito fisicamente di raggiungere il focolare, cercherà di far detonare le vene di fuoco-liquido sotto la Cittadella aprendo le valvole sigillate nella sala delle caldaie, causando un'esplosione che forzerà Ilyne a completare il rituale in anticipo - senza controllo.",
+        "resources": [
+          "accessi",
+          "contatti",
+          "tempo"
+        ],
+        "knows": [
+          "clue_1"
+        ],
+        "wants": [
+          "Morire nel fuoco sacro per completare il rituale che ha iniziato decenni fa"
+        ],
+        "avoids": [
+          "che Contratto di sangue strappato riveli il suo ruolo"
+        ],
+        "pressure_response": {
+          "low": "Osserva con occhi febbrili, mormorando litanie in lingua antica. Offre conoscenze sul rituale in cambio di essere condotto alla Fiamma.",
+          "medium": "Si strappa le bende rivelando carne carbonizzata che pulsa di bagliori arancioni. Supplica con voce rotta: 'Portatemi al focolare! Il rituale deve compiersi!'",
+          "high": "Crolla in ginocchio piangendo, confessa che Ilyne è destinata a bruciare come lui se non completa il ciclo. Solo il suo sacrificio può spezzare la maledizione che ha trasmesso.",
+          "extreme": "Si dà fuoco con mani tremanti usando polvere alchemica nascosta. Mentre brucia, urla la vera formula del rituale e il nome della camera segreta sotto la cripta dove giace il Cuore della Fiamma."
+        },
+        "reaction_table": {
+          "se_minacciato": "Ride con gioia delirante - la morte è esattamente ciò che cerca, ma deve essere per fuoco sacro o il rituale fallirà e la Fiamma divorerà Korven.",
+          "se_corrotto": "Impossibile corromperlo - ha rinunciato a tutto decenni fa. Può però essere convinto a ritardare il rituale se gli si dimostra un modo per salvare Ilyne.",
+          "se_i_pg_hanno_prove": "Ammette tutto senza esitazione. Descrive con orgoglio come ha preparato Ilyne per anni, credendola l'unica degna di controllare il potere che lui non poté padroneggiare.",
+          "se_alleato": "Rivela i punti deboli di Ilyne: teme il freddo primordiale e il suo legame con il fuoco si spezza se qualcuno pronuncia il vero nome della Fiamma (Keth'vorun)."
+        },
+        "pressure_events": [],
+        "relationships": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "is_preserved_from_pdf": false,
+        "inferred_agenda": false,
+        "confidence": 1.0,
+        "llm_enriched": true
+      }
+    ],
+    "factions": [],
+    "locations": [
+      {
+        "id": "loc_villa_thrace_nella_città_alt",
+        "name": "Villa Thrace nella Città Alta",
+        "description": "Villa Thrace nella Città Alta.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_del_trono_nella_cittade",
+        "name": "Sala del Trono nella Cittadella",
+        "description": "Sala del Trono nella Cittadella.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_caserma_delle_guardie",
+        "name": "Caserma delle Guardie",
+        "description": "Caserma delle Guardie.",
+        "status": "known",
+        "contains_clues": [
+          "clue_7"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_biblioteca_sotterranea",
+        "name": "Biblioteca Sotterranea",
+        "description": "Biblioteca Sotterranea.",
+        "status": "known",
+        "contains_clues": [
+          "clue_8",
+          "clue_12"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_taverna_della_fiamma_nera_ne",
+        "name": "Taverna della Fiamma Nera nel Quartiere Basso",
+        "description": "Taverna della Fiamma Nera nel Quartiere Basso.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_5"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_camera_del_consiglio_nella_c",
+        "name": "Camera del Consiglio nella Cittadella",
+        "description": "Camera del Consiglio nella Cittadella.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_6"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_fucina_sotterranea",
+        "name": "Fucina Sotterranea",
+        "description": "Fucina Sotterranea.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_7"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_prigione_profonda",
+        "name": "Prigione Profonda",
+        "description": "Prigione Profonda.",
+        "status": "known",
+        "contains_clues": [
+          "clue_10"
+        ],
+        "contains_actors": [
+          "npc_8"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_passaggi_segreti_della_citta",
+        "name": "Passaggi Segreti della Cittadella",
+        "description": "Passaggi Segreti della Cittadella.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_9"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_camera_vulcanica",
+        "name": "Camera Vulcanica",
+        "description": "Camera Vulcanica.",
+        "status": "known",
+        "contains_clues": [
+          "clue_9"
+        ],
+        "contains_actors": [
+          "npc_10"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cripta_reale_nella_cittadell",
+        "name": "Cripta Reale nella Cittadella",
+        "description": "Cripta Reale nella Cittadella.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivio_delle_guardie_nella",
+        "name": "Archivio delle Guardie nella Cittadella",
+        "description": "Archivio delle Guardie nella Cittadella.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_taverna_della_fiamma_nera",
+        "name": "Taverna della Fiamma Nera",
+        "description": "Taverna della Fiamma Nera.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_passaggi_segreti",
+        "name": "Passaggi Segreti",
+        "description": "Passaggi Segreti.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_fondamenta_della_cittadella",
+        "name": "Fondamenta della Cittadella",
+        "description": "Fondamenta della Cittadella.",
+        "status": "known",
+        "contains_clues": [
+          "clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_studio_di_thrace",
+        "name": "Studio di Thrace",
+        "description": "Studio di Thrace.",
+        "status": "known",
+        "contains_clues": [
+          "clue_13"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_camera_del_consiglio",
+        "name": "Camera del Consiglio",
+        "description": "Camera del Consiglio.",
+        "status": "known",
+        "contains_clues": [
+          "clue_14"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ingresso_principale_della_ci",
+        "name": "Ingresso principale della Cittadella",
+        "description": "Ingresso principale della Cittadella.",
+        "status": "known",
+        "contains_clues": [
+          "clue_15"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_corridoio_della_cripta_reale",
+        "name": "Corridoio della Cripta Reale",
+        "description": "Corridoio della Cripta Reale.",
+        "status": "known",
+        "contains_clues": [
+          "sub_clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cantine_della_cittadella",
+        "name": "Cantine della Cittadella",
+        "description": "Cantine della Cittadella.",
+        "status": "known",
+        "contains_clues": [
+          "sub_clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_alloggi_dei_servitori",
+        "name": "Alloggi dei Servitori",
+        "description": "Alloggi dei Servitori.",
+        "status": "known",
+        "contains_clues": [
+          "sub_clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      }
+    ],
+    "event_clocks": [
+      {
+        "id": "clock_ai_main",
+        "label": "Heat della sicurezza",
+        "value": 0,
+        "max_value": 6,
+        "consequence": "Marchesa Ilyne Korven raggiunge la zona finale",
+        "active": true,
+        "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+        "steps": [
+          {
+            "value": 1,
+            "label": "Allarme silenzioso attivato",
+            "effect": "Le guardie intensificano le ronde senza dare l'allarme generale. Difficoltà aumentata per evitare pattuglie."
+          },
+          {
+            "value": 2,
+            "label": "Settori secondari sigillati",
+            "effect": "Porte laterali e passaggi di servizio vengono chiusi. Vie di fuga alternative ridotte."
+          },
+          {
+            "value": 3,
+            "label": "Capitano delle guardie allertato",
+            "effect": "Unità d'élite mobilitate. Testimoni vengono interrogati. Tracce forensi raccolte."
+          },
+          {
+            "value": 4,
+            "label": "Marchesa informata dell'intrusione",
+            "effect": "Ilyne Korven coordina personalmente la caccia. Lancieri magici schierati ai punti strategici."
+          },
+          {
+            "value": 5,
+            "label": "Protocollo di lockdown totale",
+            "effect": "Cancelli esterni sbarrati, teletrasporto interdetto. Nessuno entra o esce dalla Cittadella."
+          },
+          {
+            "value": 6,
+            "label": "Confronto inevitabile",
+            "effect": "Marchesa Ilyne Korven intercetta personalmente i ladri nella sala del trono con la sua guardia scelta."
+          }
+        ],
+        "clock_type": "narrative",
+        "resolution_clues": [],
+        "resolution_condition": "Evadere dalla Cittadella prima che il clock si completi, oppure compromettere il sistema di comunicazione delle guardie per rallentare la risposta",
+        "resolved": false,
+        "auto_balance": true,
+        "discovered": false,
+        "discovery_clue_id": "",
+        "discovery_hint": "Un cristallo di comunicazione lampeggia debolmente nelle mani di una sentinella che osserva con troppa attenzione",
+        "ticks_per_failure": 2,
+        "ticks_per_partial": 0,
+        "ticks_per_success": 0,
+        "source_ref": {},
+        "source_status": "generated",
+        "is_explicit_from_source": false,
+        "is_inferred": true,
+        "confidence": 0.7
+      }
+    ],
+    "pressure_systems": [],
+    "resources": [
+      {
+        "id": "res_tempo",
+        "label": "tempo",
+        "value": 4,
+        "max_value": 4
+      },
+      {
+        "id": "res_accessi",
+        "label": "accessi sicuri",
+        "value": 2,
+        "max_value": 2
+      }
+    ],
+    "finale_conditions": [
+      {
+        "id": "finale_ai_main",
+        "label": "Finale: Fiamma Korven Siete nella sala trono",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "status": "locked",
+        "depends_on": [
+          "obj_main"
+        ],
+        "method": "usare le leve scoperte durante la struttura archetipica",
+        "concrete_choice": "scegliere una risoluzione coerente con indizi, PNG e rischi emersi"
+      }
+    ],
+    "story_threads": [
+      {
+        "id": "T1",
+        "title": "Chi ha davvero ingaggiato il gruppo?",
+        "question": "Lord Thrace vuole veramente fermare la Fiamma Dormiente o ha altri scopi?",
+        "true_answer": "Thrace vuole che il gruppo muoia nella Cittadella mentre si appropria delle terre del Consorzio durante il caos. Non gli interessa il Sigillo.",
+        "status": "hidden",
+        "required_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_11",
+          "clue_12"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Lord Severan Thrace",
+          "Kessara la Sfregiata"
+        ],
+        "linked_locations": [
+          "Punto di osservazione",
+          "Via di estrazione"
+        ]
+      },
+      {
+        "id": "T2",
+        "title": "Dov'è il vero Sigillo del Fuoco Antico?",
+        "question": "Il Sigillo nella cripta è autentico o è stato sostituito?",
+        "true_answer": "Il Sigillo nella cripta è un falso. Marchesa Ilyne Korven ha rubato quello autentico e lo sta usando per risvegliare il vulcano sotto la città.",
+        "status": "hidden",
+        "required_clues": [
+          "clue_2",
+          "clue_3",
+          "clue_6",
+          "clue_10",
+          "clue_13"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Marchesa Ilyne Korven",
+          "Ser Aldric"
+        ],
+        "linked_locations": [
+          "Bersaglio: Fiamma Korven Siete nella sala trono",
+          "Sicurezza interna"
+        ]
+      },
+      {
+        "id": "T3",
+        "title": "Cosa sta causando i tremori nella Cittadella?",
+        "question": "I tremori sono naturali o qualcuno sta manipolando il vulcano dormiente?",
+        "true_answer": "Il vulcano sotto Korven viene risvegliato gradualmente usando il vero Sigillo. I tremori aumenteranno fino alla catastrofe.",
+        "status": "hidden",
+        "required_clues": [
+          "clue_8",
+          "clue_9",
+          "clue_14",
+          "clue_15"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T2"
+        ],
+        "linked_npcs": [
+          "Frate Myron",
+          "Marchesa Ilyne Korven"
+        ],
+        "linked_locations": [
+          "Bersaglio: Fiamma Korven Siete nella sala trono"
+        ]
+      },
+      {
+        "id": "T4",
+        "title": "Perché le guardie non hanno dato l'allarme?",
+        "question": "Il Capitano Draven Marr è complice o ignaro del piano di Ilyne?",
+        "true_answer": "Draven è fedele alla Marchesa ma ignora il suo piano. Sta seguendo ordini per contenere i PG senza ucciderli immediatamente, credendo siano parte di una prova.",
+        "status": "hidden",
+        "required_clues": [
+          "clue_7",
+          "clue_16",
+          "clue_17"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [],
+        "linked_npcs": [
+          "Capitano Draven Marr",
+          "Marchesa Ilyne Korven"
+        ],
+        "linked_locations": [
+          "Sicurezza interna",
+          "Ingresso di servizio"
+        ]
+      },
+      {
+        "id": "T5",
+        "title": "Come fuggire dalla Cittadella sigillata?",
+        "question": "Esiste una via di fuga non sorvegliata dalla Cittadella?",
+        "true_answer": "I condotti termici che alimentano le forge portano alle caverne vulcaniche sotto la città, dove Ilyne compie i rituali. Sono l'unica via non sigillata.",
+        "status": "hidden",
+        "required_clues": [
+          "clue_5",
+          "clue_18",
+          "clue_19"
+        ],
+        "minimum_clues_to_deduce": 2,
+        "parent_thread_ids": [
+          "T3"
+        ],
+        "linked_npcs": [
+          "Kessara la Sfregiata",
+          "Frate Myron"
+        ],
+        "linked_locations": [
+          "Via di estrazione",
+          "Ingresso di servizio"
+        ]
+      },
+      {
+        "id": "T6",
+        "title": "T6",
+        "question": "Cosa rivela Dettaglio verificabile in Corridoio della Cripta Reale?",
+        "true_answer": "",
+        "clue_plan": [],
+        "required_clues": [],
+        "status": "hidden",
+        "parent_thread_ids": [],
+        "linked_npcs": [],
+        "_recovered_phantom": true
+      }
+    ],
+    "map_state": {},
+    "genre_runtime": {
+      "routes": [
+        {
+          "id": "route_main",
+          "label": "percorso principale",
+          "speed": "rapido",
+          "risk": "sorvegliato",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        },
+        {
+          "id": "route_side",
+          "label": "tunnel laterale",
+          "speed": "medio",
+          "risk": "sicuro se scoperto",
+          "from": "Punto di osservazione",
+          "to": "Via di estrazione"
+        }
+      ],
+      "safe_nodes": [
+        {
+          "id": "safe_1",
+          "label": "rifugio temporaneo",
+          "benefit": "recuperare fiato e riorganizzare il gruppo"
+        }
+      ],
+      "danger_zones": [
+        {
+          "id": "danger_1",
+          "label": "Via di estrazione",
+          "risk": "confronto o perdita risorsa"
+        }
+      ]
+    },
+    "genre_profile": {
+      "id": "fantasy",
+      "tone": "fantasy adventure",
+      "allowed_escalations": [
+        "atmosphere",
+        "minor_complication",
+        "cost_or_delay",
+        "pressure_increase",
+        "partial_clue",
+        "npc_suspicion",
+        "enemy_alerted",
+        "danger_scene",
+        "ambush",
+        "chase",
+        "guardian attack",
+        "curse intensifies"
+      ],
+      "forbidden_escalations": [
+        "apocalypse",
+        "world ending",
+        "world_destroyed",
+        "black sun",
+        "cosmic doom",
+        "city destroyed",
+        "region permanently doomed",
+        "untriggered game over",
+        "party_death",
+        "boss_release",
+        "finale without conditions",
+        "genre_shift",
+        "sci-fi genre shift",
+        "cosmic apocalypse without trigger"
+      ],
+      "terminal_events_require": [
+        "finale_condition",
+        "completed_clock",
+        "explicit_trigger",
+        "director_authorization"
+      ],
+      "max_default_tier": 4
+    },
+    "legacy_adventure": {
+      "id": "ai_la_fiamma_di_korven",
+      "title": "La Fiamma di Korven",
+      "genre": "fantasy",
+      "detected_genre": "fantasy",
+      "premise": "Siete nella sala del trono della Cittadella di Korven, il baluardo fortificato del Consorzio Mercantile. La vostra missione era semplice: rubare il Sigillo del Fuoco Antico dalla cripta reale. Ma quando la pesante porta d'acciaio si chiude alle vostre spalle con un tonfo definitivo, capisci che qualcosa non va. Le torce lungo il corridoio si spengono una dopo l'altra, e senti il calore crescere sotto i vostri piedi. Sul muro, incise a sangue, parole recenti: 'I traditori bruciano dal basso'. Qualcuno sapeva che sareste venuti. E qualcuno ha trasformato questa fortezza in una trappola mortale.",
+      "hidden_truth": "Lord Severan Thrace, il committente che ha ingaggiato il gruppo, non vuole il Sigillo per fermare la Fiamma Dormiente come aveva dichiarato. Vuole che il gruppo muoia nella Cittadella mentre lui si appropria delle terre del Consorzio durante il caos. Il vero Sigillo è un falso: quello autentico è già stato rubato da Marchesa Ilyne Korven, custode ufficiale, che lo usa per risvegliare gradualmente il vulcano sotto la città e sterminare i rivali politici del Consorzio. Entrambi hanno orchestrato il furto come diversivo: Thrace per eliminare testimoni scomodi, Ilyne per avere capri espiatori perfetti quando la catastrofe diventerà irreversibile.",
+      "win_condition": "Recuperare il Sigillo del Fuoco Antico autentico (non il falso nella cripta), usarlo per sigillare nuovamente il vulcano, e sfuggire alla Cittadella prima che crolli — oppure esporre pubblicamente sia Thrace che Ilyne sacrificando il Sigillo ma salvando la città",
+      "threat_description": "Heat della sicurezza",
+      "threat_max_turns": 6,
+      "has_time_pressure": true,
+      "from_runtime_compiler": true,
+      "source_mode": "ai_generated",
+      "archetype_profile": {
+        "primary_archetype": "heist",
+        "secondary_archetypes": [
+          "faction_sandbox"
+        ],
+        "confidence": 0.75,
+        "reason": "Matched runtime signals for heist",
+        "definition": {
+          "id": "heist",
+          "description": "Bersaglio, sicurezza, ingressi, heat ed estrazione.",
+          "required_modules": [
+            "target",
+            "security_layers",
+            "routes"
+          ],
+          "optional_modules": [
+            "heat"
+          ],
+          "runtime_focus": [
+            "route",
+            "security",
+            "resource"
+          ],
+          "pacing_template": [
+            "hook",
+            "pressure",
+            "choice",
+            "payoff"
+          ],
+          "common_clue_types": [
+            "document",
+            "location_detail"
+          ],
+          "common_failure_modes": [
+            "heat_tick",
+            "alarm"
+          ],
+          "ending_patterns": [
+            "extraction"
+          ],
+          "director_bias": {},
+          "validator_rules": {}
+        }
+      },
+      "preservation_policy": {
+        "preserve_original_structure": false,
+        "forbid_structural_compression": false
+      },
+      "source_cards": [],
+      "preserved_elements": [],
+      "inferred_elements": [],
+      "adventure_definition_id": "ai_la_fiamma_di_korven",
+      "adventure_canon": {
+        "core_truth": "Lord Severan Thrace, il committente che ha ingaggiato il gruppo, non vuole il Sigillo per fermare la Fiamma Dormiente come aveva dichiarato. Vuole che il gruppo muoia nella Cittadella mentre lui si appropria delle terre del Consorzio durante il caos. Il vero Sigillo è un falso: quello autentico è già stato rubato da Marchesa Ilyne Korven, custode ufficiale, che lo usa per risvegliare gradualmente il vulcano sotto la città e sterminare i rivali politici del Consorzio. Entrambi hanno orchestrato il furto come diversivo: Thrace per eliminare testimoni scomodi, Ilyne per avere capri espiatori perfetti quando la catastrofe diventerà irreversibile.",
+        "main_antagonist": "Marchesa Ilyne Korven",
+        "key_locations": [
+          "Punto di osservazione",
+          "Ingresso di servizio",
+          "Sicurezza interna",
+          "Bersaglio: Fiamma Korven Siete nella sala trono",
+          "Via di estrazione"
+        ],
+        "required_clues": [
+          "clue_1",
+          "clue_2",
+          "clue_3",
+          "clue_4",
+          "clue_5",
+          "clue_6",
+          "clue_7",
+          "clue_8",
+          "clue_9",
+          "clue_10",
+          "clue_11",
+          "clue_12",
+          "clue_13",
+          "clue_14",
+          "clue_15",
+          "sub_clue_1",
+          "sub_clue_2",
+          "sub_clue_3"
+        ],
+        "finale_conditions": [
+          "Finale: Fiamma Korven Siete nella sala trono"
+        ],
+        "genre_profile": {
+          "id": "fantasy",
+          "tone": "fantasy adventure",
+          "allowed_escalations": [
+            "atmosphere",
+            "minor_complication",
+            "cost_or_delay",
+            "pressure_increase",
+            "partial_clue",
+            "npc_suspicion",
+            "enemy_alerted",
+            "danger_scene",
+            "ambush",
+            "chase",
+            "guardian attack",
+            "curse intensifies"
+          ],
+          "forbidden_escalations": [
+            "apocalypse",
+            "world ending",
+            "world_destroyed",
+            "black sun",
+            "cosmic doom",
+            "city destroyed",
+            "region permanently doomed",
+            "untriggered game over",
+            "party_death",
+            "boss_release",
+            "finale without conditions",
+            "genre_shift",
+            "sci-fi genre shift",
+            "cosmic apocalypse without trigger"
+          ],
+          "terminal_events_require": [
+            "finale_condition",
+            "completed_clock",
+            "explicit_trigger",
+            "director_authorization"
+          ],
+          "max_default_tier": 4
+        }
+      },
+      "story_threads": [
+        {
+          "id": "T1",
+          "title": "Che cosa dimostrano Contratto di sangue strappato e Testimonianza di Kessara",
+          "question": "Che cosa dimostrano Contratto di sangue strappato e Testimonianza di Kessara?",
+          "true_answer": "Thrace vuole che il gruppo muoia per eliminare testimoni scomodi e appropriarsi delle terre del Consorzio durante il caos dell'eruzione",
+          "required_clues": [
+            "clue_1",
+            "clue_4",
+            "clue_13",
+            "clue_14"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Svela il tradimento del committente, ma non spiega perché / Conferma che il gruppo era destinato a fallire",
+          "status": "hidden"
+        },
+        {
+          "id": "T2",
+          "title": "Dove conduce Sigillo falso nella cripta",
+          "question": "Dove conduce Sigillo falso nella cripta?",
+          "true_answer": "Marchesa Ilyne ha rubato il vero Sigillo 73 giorni fa e lo usa nella camera vulcanica per risvegliare gradualmente il vulcano",
+          "required_clues": [
+            "clue_2",
+            "clue_3",
+            "clue_6",
+            "clue_10"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "I PG capiscono di essere stati ingannati dall'inizio / Identifica Ilyne come ladra del vero Sigillo",
+          "status": "hidden"
+        },
+        {
+          "id": "T5",
+          "title": "Dove conduce Contratto di sangue strappato",
+          "question": "Dove conduce Contratto di sangue strappato?",
+          "true_answer": "Non c'è cospirazione unificata: entrambi usano il gruppo indipendentemente, rendendo la situazione ancora più pericolosa",
+          "required_clues": [
+            "clue_1",
+            "clue_6",
+            "clue_14"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Indica che la catastrofe può essere fermata",
+          "status": "hidden"
+        },
+        {
+          "id": "T4",
+          "title": "Dove conduce Comportamento di Draven Marr",
+          "question": "Dove conduce Comportamento di Draven Marr?",
+          "true_answer": "Suo figlio è tenuto prigioniero in una cella segreta come garanzia della sua lealtà",
+          "required_clues": [
+            "clue_7",
+            "clue_15"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Può diventare alleato se si libera suo figlio / Suggerisce che Ilyne è consapevole del gruppo e li vuole morti",
+          "status": "hidden"
+        },
+        {
+          "id": "T3",
+          "title": "Dove conduce Mappa termica della Cittadella",
+          "question": "Dove conduce Mappa termica della Cittadella?",
+          "true_answer": "Ilyne sta usando il Sigillo per risvegliare controllato il vulcano e sterminare i suoi rivali politici, con l'aiuto involontario di Volrath",
+          "required_clues": [
+            "clue_5",
+            "clue_8",
+            "clue_9",
+            "clue_11"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "Crea il dilemma morale finale / Può guidare i PG alla camera vulcanica o ostacolarli fatalmente",
+          "status": "hidden"
+        },
+        {
+          "id": "T6",
+          "title": "Dove conduce Dettaglio verificabile in Corridoio della Cripta Reale",
+          "question": "Dove conduce Dettaglio verificabile in Corridoio della Cripta Reale?",
+          "true_answer": "I rifugiati Ashmar hanno organizzato un furto parallelo e sabotato la missione dei PG; Il Sigillo ha un legittimo proprietario morale, e rubarlo significa condannare innocenti",
+          "required_clues": [
+            "sub_clue_1",
+            "sub_clue_2",
+            "sub_clue_3"
+          ],
+          "minimum_clues_to_deduce": 2,
+          "payoff": "I PG possono cercare alleanza con gli Ashmar invece di combatterli come nemici / Introduce il dilemma: profitto personale vs salvare vite innocenti",
+          "status": "hidden"
+        }
+      ],
+      "clues": [
+        {
+          "id": "clue_1",
+          "label": "Contratto di sangue strappato",
+          "text": "Contratto di sangue strappato",
+          "type": "physical_evidence",
+          "thread_id": "T1",
+          "reveals": "Thrace non voleva che il gruppo sopravvivesse alla missione",
+          "payoff": "Svela il tradimento del committente, ma non spiega perché",
+          "location": "Villa Thrace nella Città Alta",
+          "immediate_information": "Un frammento di pergamena con firma di Lord Thrace e clausola nascosta: 'Il pagamento finale avverrà solo in caso di morte degli esecutori'",
+          "hidden_implication": "Thrace non voleva che il gruppo sopravvivesse alla missione",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "seguire le impronte",
+            "analizzare la cenere",
+            "proteggersi prima di avanzare"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_2",
+          "label": "Sigillo falso nella cripta",
+          "text": "Sigillo falso nella cripta",
+          "type": "document",
+          "thread_id": "T2",
+          "reveals": "Il vero Sigillo è stato rubato tempo fa",
+          "payoff": "I PG capiscono di essere stati ingannati dall'inizio",
+          "location": "Cripta Reale nella Cittadella",
+          "immediate_information": "L'artefatto nella cripta reale è troppo leggero e le incisioni sono recenti. È una replica magistrale ma vuota di potere",
+          "hidden_implication": "la versione ufficiale e stata alterata da qualcuno con accesso interno",
+          "unlocks": [
+            "antagonist_pressure",
+            "thread_responsabile"
+          ],
+          "possible_actions": [
+            "verificare la firma",
+            "confrontare gli orari",
+            "interrogare il responsabile dei registri"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_3",
+          "label": "Registro di accesso alla cripta",
+          "text": "Registro di accesso alla cripta",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Ilyne ha avuto accesso esclusivo al Sigillo",
+          "payoff": "Identifica Ilyne come ladra del vero Sigillo",
+          "location": "Archivio delle Guardie nella Cittadella",
+          "immediate_information": "Un libro polveroso mostra che Marchesa Ilyne è entrata nella cripta 73 giorni fa, di notte, senza guardie",
+          "hidden_implication": "qualcuno ha usato un percorso secondario non dichiarato",
+          "unlocks": [
+            "route_tunnel_laterale",
+            "Archivio delle Guardie nella Cittadella"
+          ],
+          "possible_actions": [
+            "analizzare il badge o la chiave",
+            "controllare i log di accesso",
+            "seguire i segni verso il passaggio"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_4",
+          "label": "Testimonianza di Kessara",
+          "text": "Testimonianza di Kessara",
+          "type": "testimony",
+          "thread_id": "T1",
+          "reveals": "Thrace ha deliberatamente esposto la missione",
+          "payoff": "Conferma che il gruppo era destinato a fallire",
+          "location": "Taverna della Fiamma Nera",
+          "immediate_information": "La contrabbandiera rivela che Thrace le ha pagato per diffondere voci sul gruppo di ladri in arrivo",
+          "hidden_implication": "Thrace ha deliberatamente esposto la missione",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_5",
+          "label": "Mappa termica della Cittadella",
+          "text": "Mappa termica della Cittadella",
+          "type": "location_detail",
+          "thread_id": "T5",
+          "reveals": "Il risveglio del vulcano è opera umana, non naturale",
+          "payoff": "Indica che la catastrofe può essere fermata",
+          "location": "Fucina Sotterranea",
+          "immediate_information": "Progetti di Jendra mostrano punti di calore anomalo sotto la fortezza, con annotazione: 'Qualcuno ha aperto i canali vulcanici deliberatamente'",
+          "hidden_implication": "Il risveglio del vulcano è opera umana, non naturale",
+          "unlocks": [
+            "T5"
+          ],
+          "possible_actions": [
+            "seguire la traccia",
+            "cercare punti di riferimento",
+            "preparare una via di ritorno"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_6",
+          "label": "Lettera cifrata di Ilyne",
+          "text": "Lettera cifrata di Ilyne",
+          "type": "physical_evidence",
+          "thread_id": "T2",
+          "reveals": "Ilyne sta usando il Sigillo attivamente nella camera vulcanica",
+          "payoff": "Fornisce la posizione del vero Sigillo",
+          "location": "Passaggi Segreti",
+          "immediate_information": "Messaggio intercettato da Yvaine: 'Il fuoco purificherà i traditori del Consorzio. Il Sigillo è al sicuro nella camera più calda'",
+          "hidden_implication": "Ilyne sta usando il Sigillo attivamente nella camera vulcanica",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "esaminare il cerchio",
+            "cancellare o alterare un segno",
+            "seguire la traccia verso l'officiante"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_7",
+          "label": "Comportamento di Draven Marr",
+          "text": "Comportamento di Draven Marr",
+          "type": "behavior",
+          "thread_id": "T4",
+          "reveals": "Draven è sotto ricatto o costrizione",
+          "payoff": "Può diventare alleato se si libera suo figlio",
+          "location": "Caserma delle Guardie",
+          "immediate_information": "Il capitano esita quando gli viene ordinato di sigillare tutte le uscite. Il suo sguardo si posa su una cella particolare prima di obbedire",
+          "hidden_implication": "Draven è sotto ricatto o costrizione",
+          "unlocks": [
+            "T4"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_8",
+          "label": "Tomo del risveglio vulcanico",
+          "text": "Tomo del risveglio vulcanico",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Fermare il vulcano richiede un costo umano",
+          "payoff": "Crea il dilemma morale finale",
+          "location": "Biblioteca Sotterranea",
+          "immediate_information": "Antico manoscritto nella biblioteca descrive il rituale per sigillare la Fiamma Dormiente: serve il Sigillo autentico e un sacrificio volontario",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_9",
+          "label": "Cicatrici di Volrath",
+          "text": "Cicatrici di Volrath",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Volrath sopravvisse all'ultimo risveglio ed è connesso al rituale",
+          "payoff": "Può guidare i PG alla camera vulcanica o ostacolarli fatalmente",
+          "location": "Camera Vulcanica",
+          "immediate_information": "Le ustioni del cultista formano simboli runici identici a quelli sul vero Sigillo. Parla con venerazione dell'ultima eruzione",
+          "hidden_implication": "la procedura finale esiste ma manca un passaggio da verificare sul posto",
+          "unlocks": [
+            "finale_method"
+          ],
+          "possible_actions": [
+            "ricostruire la pagina mancante",
+            "confrontare il documento con la scena finale",
+            "interrogare chi lo ha stampato"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_10",
+          "label": "Testimonianza di Ser Aldric",
+          "text": "Testimonianza di Ser Aldric",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Ilyne ha eliminato chi avrebbe potuto fermarla",
+          "payoff": "Aldric conosce la via segreta alla camera vulcanica",
+          "location": "Prigione Profonda",
+          "immediate_information": "Il cavaliere imprigionato rivela di essere stato il guardiano originale del Sigillo, arrestato con false accuse di corruzione da Ilyne",
+          "hidden_implication": "Ilyne ha eliminato chi avrebbe potuto fermarla",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_11",
+          "label": "Dettaglio verificabile in Fondamenta della Cittadella",
+          "text": "Dettaglio verificabile in Fondamenta della Cittadella",
+          "type": "physical_evidence",
+          "thread_id": "T3",
+          "reveals": "Il collasso della Cittadella era pianificato da tempo",
+          "payoff": "Indica che l'intero piano di Ilyne prevedeva la distruzione della fortezza",
+          "location": "Fondamenta della Cittadella",
+          "immediate_information": "Dettaglio verificabile in Fondamenta della Cittadella",
+          "hidden_implication": "Il collasso della Cittadella era pianificato da tempo",
+          "unlocks": [
+            "T3"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_12",
+          "label": "Avvertimento di Frate Myron",
+          "text": "Avvertimento di Frate Myron",
+          "type": "testimony",
+          "thread_id": "T2",
+          "reveals": "Myron sa del furto ma ha paura di parlare apertamente",
+          "payoff": "Conferma che il vero Sigillo è ancora nella Cittadella",
+          "location": "Biblioteca Sotterranea",
+          "immediate_information": "Il monaco sussurra nervosamente: 'Il Sigillo che cercate non è mai uscito da queste mura. Ma non è dove pensate'",
+          "hidden_implication": "Myron sa del furto ma ha paura di parlare apertamente",
+          "unlocks": [
+            "T2"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_13",
+          "label": "Ordine di pagamento di Thrace",
+          "text": "Ordine di pagamento di Thrace",
+          "type": "document",
+          "thread_id": "T1",
+          "reveals": "Thrace ha corrotto le guardie per intrappolare qualcuno",
+          "payoff": "Conferma la complicità delle guardie nel piano",
+          "location": "Studio di Thrace",
+          "immediate_information": "Documento nella villa mostra un pagamento massiccio alle guardie della Cittadella con nota: 'Per la chiusura permanente il giorno X'",
+          "hidden_implication": "Thrace ha corrotto le guardie per intrappolare qualcuno",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_14",
+          "label": "Movimenti sospetti di Contraddizione",
+          "text": "Movimenti sospetti di Contraddizione",
+          "type": "behavior",
+          "thread_id": "T1",
+          "reveals": "Oralius nasconde la sua connessione con Thrace",
+          "payoff": "Rivela che Oralius è un agente infiltrato",
+          "location": "Camera del Consiglio",
+          "immediate_information": "Movimenti sospetti di Contraddizione",
+          "hidden_implication": "Oralius nasconde la sua connessione con Thrace",
+          "unlocks": [
+            "T1"
+          ],
+          "possible_actions": [
+            "pedinare il sospetto",
+            "confrontarlo con discrezione",
+            "controllare dove si e diretto"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "clue_15",
+          "label": "Simbolo del fuoco sulla porta sigillata",
+          "text": "Simbolo del fuoco sulla porta sigillata",
+          "type": "physical_evidence",
+          "thread_id": "T4",
+          "reveals": "La trappola è stata attivata dall'interno della Cittadella",
+          "payoff": "Suggerisce che Ilyne è consapevole del gruppo e li vuole morti",
+          "location": "Ingresso principale della Cittadella",
+          "immediate_information": "La porta principale della Cittadella ha il sigillo della Marchesa apposto dall'interno, non dall'esterno. Qualcuno voleva intrappolare chi era già dentro",
+          "hidden_implication": "La trappola è stata attivata dall'interno della Cittadella",
+          "unlocks": [
+            "T4"
+          ],
+          "possible_actions": [
+            "esaminare il cerchio",
+            "cancellare o alterare un segno",
+            "seguire la traccia verso l'officiante"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "sub_clue_1",
+          "label": "Dettaglio verificabile in Corridoio della Cripta Reale",
+          "text": "Dettaglio verificabile in Corridoio della Cripta Reale",
+          "type": "document",
+          "thread_id": "T6",
+          "reveals": "I rifugiati Ashmar hanno organizzato un furto parallelo e sabotato la missione dei PG",
+          "payoff": "I PG possono cercare alleanza con gli Ashmar invece di combatterli come nemici",
+          "location": "Corridoio della Cripta Reale",
+          "immediate_information": "Dettaglio verificabile in Corridoio della Cripta Reale",
+          "hidden_implication": "I rifugiati Ashmar hanno organizzato un furto parallelo e sabotato la missione dei PG",
+          "unlocks": [
+            "T6"
+          ],
+          "possible_actions": [
+            "esaminare il reperto",
+            "confrontarlo con un testimone",
+            "cercare tracce nella location"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "sub_clue_2",
+          "label": "Testimonianza del Vecchio Torin",
+          "text": "Testimonianza del Vecchio Torin",
+          "type": "testimony",
+          "thread_id": "T6",
+          "reveals": "Il Sigillo ha un legittimo proprietario morale, e rubarlo significa condannare innocenti",
+          "payoff": "Introduce il dilemma: profitto personale vs salvare vite innocenti",
+          "location": "Cantine della Cittadella",
+          "immediate_information": "Un anziano rifugiato nascosto nelle cantine racconta: 'Il Sigillo fu strappato dalla Sala dei Forni quando Korven conquistò Ashmar. Senza di esso, la terra non produce più grano. Trecento anime dipendono dal suo ritorno. Ma voi... voi lavorate per chi paga di più, vero?'",
+          "hidden_implication": "Il Sigillo ha un legittimo proprietario morale, e rubarlo significa condannare innocenti",
+          "unlocks": [
+            "T6"
+          ],
+          "possible_actions": [
+            "interrogare il testimone",
+            "verificare il racconto sul posto",
+            "cercare una contraddizione concreta"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "sub_clue_3",
+          "label": "Diario di Kael",
+          "text": "Diario di Kael",
+          "type": "document",
+          "thread_id": "T6",
+          "reveals": "Kael ha agito per disperazione, non malvagità. È un riflesso morale dei PG stessi",
+          "payoff": "Umanizza il 'sabotatore', trasformandolo da antagonista a vittima delle circostanze",
+          "location": "Alloggi dei Servitori",
+          "immediate_information": "Pagine strappate: 'Giorno 12 - Mi odio per quello che farò. Intrappolare altri ladri è vile. Ma se non recupero il Sigillo, mia sorella morirà quest'inverno. Giorno 13 - Ho modificato il meccanismo della porta. Che gli dèi mi perdonino.'",
+          "hidden_implication": "Kael ha agito per disperazione, non malvagità. È un riflesso morale dei PG stessi",
+          "unlocks": [
+            "T6"
+          ],
+          "possible_actions": [
+            "leggere le ultime pagine",
+            "confrontare date e luoghi",
+            "cercare nomi ricorrenti"
+          ],
+          "wrong_interpretations": [
+            "scambiarlo per semplice dettaglio di scena",
+            "attribuirlo al primo sospetto senza verifica"
+          ],
+          "found": false,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "npcs": [
+        {
+          "id": "npc_1",
+          "name": "Lord Severan Thrace",
+          "role": "Committente traditore",
+          "description": "Usare il gruppo come diversivo per appropriarsi delle proprietà del Consorzio durante il caos",
+          "location": "Villa Thrace nella Città Alta",
+          "secret": "Ha pagato le guardie della Cittadella per sigillare le uscite non appena il gruppo fosse entrato",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Usare il gruppo come diversivo per appropriarsi delle proprietà del Consorzio durante il caos",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Usare il gruppo come diversivo per appropriarsi delle proprietà del Consorzio durante il caos"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha pagato le guardie della Cittadella per sigillare le uscite non appena il gruppo fosse entrato",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_2",
+          "name": "Marchesa Ilyne Korven",
+          "role": "Custode della Cittadella e antagonista principale",
+          "description": "Sterminare i rivali politici del Consorzio risvegliando il vulcano in modo controllato",
+          "location": "Sala del Trono nella Cittadella",
+          "secret": "Ha già rubato il vero Sigillo mesi fa e lo usa per alimentare gradualmente la Fiamma Dormiente",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Sterminare i rivali politici del Consorzio risvegliando il vulcano in modo controllato",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Sterminare i rivali politici del Consorzio risvegliando il vulcano in modo controllato"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "depista e osserva",
+              "medium": "manda oppositori o chiude un accesso",
+              "high": "distrugge una prova o sposta un ostaggio/testimone",
+              "critical": "fugge verso la zona finale forzando il confronto"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha già rubato il vero Sigillo mesi fa e lo usa per alimentare gradualmente la Fiamma Dormiente",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "high"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_3",
+          "name": "Capitano Draven Marr",
+          "role": "Capo delle guardie della Cittadella",
+          "description": "Proteggere i civili, ma obbedisce ciecamente alla Marchesa per senso del dovere",
+          "location": "Caserma delle Guardie",
+          "secret": "Sa che Ilyne nasconde qualcosa ma ha paura di indagare; suo figlio è ostaggio in una cella segreta",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Proteggere i civili, ma obbedisce ciecamente alla Marchesa per senso del dovere",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Proteggere i civili, ma obbedisce ciecamente alla Marchesa per senso del dovere"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Sa che Ilyne nasconde qualcosa ma ha paura di indagare; suo figlio è ostaggio in una cella segreta",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_4",
+          "name": "Frate Myron",
+          "role": "Custode della biblioteca proibita",
+          "description": "Preservare la conoscenza antica sul vulcano, anche a costo della propria vita",
+          "location": "Biblioteca Sotterranea",
+          "secret": "Ha scoperto il furto del vero Sigillo ma teme ritorsioni se parla apertamente",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Preservare la conoscenza antica sul vulcano, anche a costo della propria vita",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Preservare la conoscenza antica sul vulcano, anche a costo della propria vita"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto il furto del vero Sigillo ma teme ritorsioni se parla apertamente",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_5",
+          "name": "Kessara la Sfregiata",
+          "role": "Contrabbandiera e informatrice",
+          "description": "Guadagnare abbastanza per lasciare la città prima dell'eruzione che sa arriverà",
+          "location": "Taverna della Fiamma Nera nel Quartiere Basso",
+          "secret": "Ha venduto informazioni sia a Thrace che a Ilyne, sa che il gruppo è una pedina sacrificabile",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Guadagnare abbastanza per lasciare la città prima dell'eruzione che sa arriverà",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Guadagnare abbastanza per lasciare la città prima dell'eruzione che sa arriverà"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha venduto informazioni sia a Thrace che a Ilyne, sa che il gruppo è una pedina sacrificabile",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_6",
+          "name": "Maestro Oralius Venn",
+          "role": "Consigliere politico del Consorzio",
+          "description": "Scoprire chi tra il Consorzio ha tradito e salvare la propria posizione",
+          "location": "Camera del Consiglio nella Cittadella",
+          "secret": "È un agente dormiente di Thrace, ma inizia a dubitare quando capisce che anche lui è destinato a morire",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Scoprire chi tra il Consorzio ha tradito e salvare la propria posizione",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Scoprire chi tra il Consorzio ha tradito e salvare la propria posizione"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "È un agente dormiente di Thrace, ma inizia a dubitare quando capisce che anche lui è destinato a morire",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_7",
+          "name": "Jendra Stoneheart",
+          "role": "Ingegnere nanico del Consorzio",
+          "description": "Impedire il collasso strutturale della Cittadella per salvare i civili intrappolati",
+          "location": "Fucina Sotterranea",
+          "secret": "Ha scoperto che le fondamenta sono state sabotate deliberatamente mesi fa",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Impedire il collasso strutturale della Cittadella per salvare i civili intrappolati",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Impedire il collasso strutturale della Cittadella per salvare i civili intrappolati"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha scoperto che le fondamenta sono state sabotate deliberatamente mesi fa",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_8",
+          "name": "Ser Aldric Penumbra",
+          "role": "Cavaliere caduto in disgrazia",
+          "description": "Redimere il proprio onore smascherando la corruzione nel Consorzio",
+          "location": "Prigione Profonda",
+          "secret": "Era l'ultimo guardiano legittimo del Sigillo prima che Ilyne lo facesse arrestare con false accuse",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Redimere il proprio onore smascherando la corruzione nel Consorzio",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Redimere il proprio onore smascherando la corruzione nel Consorzio"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Era l'ultimo guardiano legittimo del Sigillo prima che Ilyne lo facesse arrestare con false accuse",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_9",
+          "name": "Yvaine la Sussurratrice",
+          "role": "Spia del Consorzio",
+          "description": "Raccogliere prove contro Ilyne per il Consorzio, ma esita a rischiare la vita",
+          "location": "Passaggi Segreti della Cittadella",
+          "secret": "Ha intercettato messaggi tra Thrace e un sicario, sa che il gruppo è stato mandato a morire",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Raccogliere prove contro Ilyne per il Consorzio, ma esita a rischiare la vita",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Raccogliere prove contro Ilyne per il Consorzio, ma esita a rischiare la vita"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Ha intercettato messaggi tra Thrace e un sicario, sa che il gruppo è stato mandato a morire",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        },
+        {
+          "id": "npc_10",
+          "name": "Volrath il Bruciato",
+          "role": "Cultista sopravvissuto dell'ultimo risveglio",
+          "description": "Morire nel fuoco sacro per completare il rituale che ha iniziato decenni fa",
+          "location": "Camera Vulcanica",
+          "secret": "Fu lui a insegnare a Ilyne come risvegliare la Fiamma senza uccidersi immediatamente",
+          "status": "alive",
+          "npc_agenda": {
+            "role": "neutral",
+            "goal": "Morire nel fuoco sacro per completare il rituale che ha iniziato decenni fa",
+            "fear": "che Contratto di sangue strappato riveli il suo ruolo",
+            "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+            "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+            "resources": [
+              "accessi",
+              "contatti",
+              "tempo"
+            ],
+            "knows": [
+              "clue_1"
+            ],
+            "wants": [
+              "Morire nel fuoco sacro per completare il rituale che ha iniziato decenni fa"
+            ],
+            "avoids": [
+              "che Contratto di sangue strappato riveli il suo ruolo"
+            ],
+            "pressure_response": {
+              "low": "collabora se rassicurato",
+              "medium": "chiede una prova concreta",
+              "high": "si ritira o protegge le proprie risorse",
+              "critical": "sceglie una parte e cambia la scena"
+            },
+            "reaction_table": {
+              "helped": "offre accesso, informazione o copertura",
+              "threatened": "resiste o chiama rinforzi",
+              "deceived": "collabora finche non nota la contraddizione",
+              "exposed": "rivela il proprio segreto o fugge"
+            },
+            "secret": "Fu lui a insegnare a Ilyne come risvegliare la Fiamma senza uccidersi immediatamente",
+            "arc_status": "unintroduced",
+            "recurrence_priority": "medium"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "confidence": 1.0
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_ai_1",
+          "name": "Punto di osservazione",
+          "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+          "type": "entry",
+          "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_2",
+          "name": "Ingresso di servizio",
+          "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_3",
+          "name": "Sicurezza interna",
+          "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_4",
+          "name": "Bersaglio: Fiamma Korven Siete nella sala trono",
+          "description": "Bersaglio: Fiamma Korven Siete nella sala trono: nodo giocabile della struttura heist.",
+          "type": "site",
+          "visual_identity": "Bersaglio: Fiamma Korven Siete nella sala trono: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        },
+        {
+          "id": "loc_ai_5",
+          "name": "Via di estrazione",
+          "description": "Via di estrazione: nodo giocabile della struttura heist.",
+          "type": "finale",
+          "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
+          "gameplay_function": "finale/confronto",
+          "concrete_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato",
+            "bracieri rovesciati"
+          ],
+          "hazards": [
+            "pietre instabili",
+            "rune che si accendono a impulsi"
+          ],
+          "exits": [
+            "corridoio principale",
+            "passaggio laterale o manutenzione"
+          ],
+          "locked_paths": [],
+          "clue_slots": [],
+          "tactical_features": [
+            "sarcofagi di pietra",
+            "colonne spezzate",
+            "altare incrinato"
+          ],
+          "has_combat_potential": true,
+          "tactical_map": {
+            "enabled": true,
+            "features": [
+              "sarcofagi di pietra",
+              "colonne spezzate",
+              "altare incrinato"
+            ],
+            "hazards": [
+              "pietre instabili",
+              "rune che si accendono a impulsi"
+            ],
+            "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
+          },
+          "source_ref": {},
+          "source_status": "generated",
+          "is_preserved_from_pdf": false,
+          "original_room_number": "",
+          "original_section": "",
+          "confidence": 0.72
+        }
+      ],
+      "event_clocks": [
+        {
+          "id": "clock_ai_main",
+          "label": "Heat della sicurezza",
+          "value": 0,
+          "max": 6,
+          "consequence": "Marchesa Ilyne Korven raggiunge la zona finale",
+          "on_complete": "La pressione dell'archetipo raggiunge il confronto finale.",
+          "steps": [
+            {
+              "step": 1,
+              "event": "allarme interno attivato",
+              "world_state_change": "allarme interno attivato",
+              "scene_prompt": "Mostra in scena: allarme interno attivato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 2,
+              "event": "accessi ordinari sospesi",
+              "world_state_change": "accessi ordinari sospesi",
+              "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 3,
+              "event": "prova secondaria rimossa dalla scena",
+              "world_state_change": "prova secondaria rimossa dalla scena",
+              "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 4,
+              "event": "un testimone viene cercato dagli uomini di Marchesa Ilyne Korven",
+              "world_state_change": "un testimone viene cercato dagli uomini di Marchesa Ilyne Korven",
+              "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Marchesa Ilyne Korven.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 5,
+              "event": "percorso laterale minacciato o sigillato",
+              "world_state_change": "percorso laterale minacciato o sigillato",
+              "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            },
+            {
+              "step": 6,
+              "event": "Marchesa Ilyne Korven raggiunge la zona finale",
+              "world_state_change": "Marchesa Ilyne Korven raggiunge la zona finale",
+              "scene_prompt": "Mostra in scena: Marchesa Ilyne Korven raggiunge la zona finale.",
+              "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso"
+            }
+          ],
+          "active": true,
+          "source_ref": {},
+          "source_status": "generated",
+          "is_explicit_from_source": false,
+          "is_inferred": true,
+          "confidence": 0.7
+        }
+      ],
+      "events": [
+        {
+          "id": "clock_ai_main_step_1",
+          "clock_id": "clock_ai_main",
+          "label": "allarme interno attivato",
+          "scene_prompt": "Mostra in scena: allarme interno attivato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_2",
+          "clock_id": "clock_ai_main",
+          "label": "accessi ordinari sospesi",
+          "scene_prompt": "Mostra in scena: accessi ordinari sospesi.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_3",
+          "clock_id": "clock_ai_main",
+          "label": "prova secondaria rimossa dalla scena",
+          "scene_prompt": "Mostra in scena: prova secondaria rimossa dalla scena.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_4",
+          "clock_id": "clock_ai_main",
+          "label": "un testimone viene cercato dagli uomini di Marchesa Ilyne Korven",
+          "scene_prompt": "Mostra in scena: un testimone viene cercato dagli uomini di Marchesa Ilyne Korven.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_5",
+          "clock_id": "clock_ai_main",
+          "label": "percorso laterale minacciato o sigillato",
+          "scene_prompt": "Mostra in scena: percorso laterale minacciato o sigillato.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        },
+        {
+          "id": "clock_ai_main_step_6",
+          "clock_id": "clock_ai_main",
+          "label": "Marchesa Ilyne Korven raggiunge la zona finale",
+          "scene_prompt": "Mostra in scena: Marchesa Ilyne Korven raggiunge la zona finale.",
+          "possible_player_response": "intervenire, aggirare il costo, proteggere una prova o cambiare percorso",
+          "location_id": "",
+          "source_status": "generated"
+        }
+      ]
+    },
+    "suggestions": []
+  },
+  "runtime_state": {
+    "definition_id": "ai_la_fiamma_di_korven",
+    "current_scene_id": "loc_villa_thrace_nella_città_alt",
+    "active_objective_ids": [
+      "obj_main"
+    ],
+    "completed_objective_ids": [],
+    "failed_objective_ids": [],
+    "revealed_truth_ids": [],
+    "discovered_clue_ids": [],
+    "partial_clue_ids": [],
+    "active_revelation_ids": [
+      "T1",
+      "T2",
+      "T5",
+      "T4",
+      "T3",
+      "T6"
+    ],
+    "ready_revelation_ids": [],
+    "resolved_revelation_ids": [],
+    "actor_runtime": {
+      "npc_1": {
+        "status": "unintroduced",
+        "location_id": "Villa Thrace nella Città Alta",
+        "agenda_pressure": 0,
+        "goal": "Usare il gruppo come diversivo per appropriarsi delle proprietà del Consorzio durante il caos",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_2": {
+        "status": "unintroduced",
+        "location_id": "Sala del Trono nella Cittadella",
+        "agenda_pressure": 0,
+        "goal": "Sterminare i rivali politici del Consorzio risvegliando il vulcano in modo controllato",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "depista e osserva",
+          "medium": "manda oppositori o chiude un accesso",
+          "high": "distrugge una prova o sposta un ostaggio/testimone",
+          "critical": "fugge verso la zona finale forzando il confronto"
+        }
+      },
+      "npc_3": {
+        "status": "unintroduced",
+        "location_id": "Caserma delle Guardie",
+        "agenda_pressure": 0,
+        "goal": "Proteggere i civili, ma obbedisce ciecamente alla Marchesa per senso del dovere",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_4": {
+        "status": "unintroduced",
+        "location_id": "Biblioteca Sotterranea",
+        "agenda_pressure": 0,
+        "goal": "Preservare la conoscenza antica sul vulcano, anche a costo della propria vita",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_5": {
+        "status": "unintroduced",
+        "location_id": "Taverna della Fiamma Nera nel Quartiere Basso",
+        "agenda_pressure": 0,
+        "goal": "Guadagnare abbastanza per lasciare la città prima dell'eruzione che sa arriverà",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_6": {
+        "status": "unintroduced",
+        "location_id": "Camera del Consiglio nella Cittadella",
+        "agenda_pressure": 0,
+        "goal": "Scoprire chi tra il Consorzio ha tradito e salvare la propria posizione",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_7": {
+        "status": "unintroduced",
+        "location_id": "Fucina Sotterranea",
+        "agenda_pressure": 0,
+        "goal": "Impedire il collasso strutturale della Cittadella per salvare i civili intrappolati",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_8": {
+        "status": "unintroduced",
+        "location_id": "Prigione Profonda",
+        "agenda_pressure": 0,
+        "goal": "Redimere il proprio onore smascherando la corruzione nel Consorzio",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_9": {
+        "status": "unintroduced",
+        "location_id": "Passaggi Segreti della Cittadella",
+        "agenda_pressure": 0,
+        "goal": "Raccogliere prove contro Ilyne per il Consorzio, ma esita a rischiare la vita",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      },
+      "npc_10": {
+        "status": "unintroduced",
+        "location_id": "Camera Vulcanica",
+        "agenda_pressure": 0,
+        "goal": "Morire nel fuoco sacro per completare il rituale che ha iniziato decenni fa",
+        "current_plan": "bloccare l'accesso a Via di estrazione e spostare le prove",
+        "fallback_plan": "ritirarsi verso Via di estrazione usando un percorso secondario",
+        "pressure_response": {
+          "low": "collabora se rassicurato",
+          "medium": "chiede una prova concreta",
+          "high": "si ritira o protegge le proprie risorse",
+          "critical": "sceglie una parte e cambia la scena"
+        }
+      }
+    },
+    "faction_runtime": {},
+    "location_runtime": {
+      "loc_villa_thrace_nella_città_alt": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_del_trono_nella_cittade": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_caserma_delle_guardie": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_biblioteca_sotterranea": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_taverna_della_fiamma_nera_ne": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_camera_del_consiglio_nella_c": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_fucina_sotterranea": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_prigione_profonda": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_passaggi_segreti_della_citta": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_camera_vulcanica": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cripta_reale_nella_cittadell": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_archivio_delle_guardie_nella": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_taverna_della_fiamma_nera": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_passaggi_segreti": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_fondamenta_della_cittadella": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_studio_di_thrace": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_camera_del_consiglio": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ingresso_principale_della_ci": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_corridoio_della_cripta_reale": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cantine_della_cittadella": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_alloggi_dei_servitori": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "clock_runtime": {
+      "clock_ai_main": {
+        "value": 0,
+        "max": 6,
+        "active": true
+      }
+    },
+    "pressure_runtime": {},
+    "resource_runtime": {
+      "res_tempo": {
+        "value": 4,
+        "max": 4
+      },
+      "res_accessi": {
+        "value": 2,
+        "max": 2
+      }
+    },
+    "finale_runtime": {
+      "finale_ai_main": {
+        "status": "locked",
+        "required_threads": [],
+        "required_clues": [
+          "clue_ai_1",
+          "clue_ai_2",
+          "clue_ai_3"
+        ],
+        "depends_on": [
+          "obj_main"
+        ]
+      }
+    },
+    "truth_runtime": {
+      "truth_core": {
+        "revealed": false,
+        "reveal_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "reveal_rule": ""
+      }
+    },
+    "clue_to_revelation_ids": {
+      "clue_1": [
+        "T1"
+      ],
+      "clue_2": [
+        "T2"
+      ],
+      "clue_3": [
+        "T2"
+      ],
+      "clue_4": [
+        "T1"
+      ],
+      "clue_5": [
+        "T5"
+      ],
+      "clue_6": [
+        "T2"
+      ],
+      "clue_7": [
+        "T4"
+      ],
+      "clue_8": [
+        "T3"
+      ],
+      "clue_9": [
+        "T3"
+      ],
+      "clue_10": [
+        "T2"
+      ],
+      "clue_11": [
+        "T3"
+      ],
+      "clue_12": [
+        "T2"
+      ],
+      "clue_13": [
+        "T1"
+      ],
+      "clue_14": [
+        "T1"
+      ],
+      "clue_15": [
+        "T4"
+      ],
+      "sub_clue_1": [
+        "T6"
+      ],
+      "sub_clue_2": [
+        "T6"
+      ],
+      "sub_clue_3": [
+        "T6"
+      ]
+    },
+    "thread_to_revelation_ids": {
+      "T1": [
+        "T1"
+      ],
+      "T2": [
+        "T2"
+      ],
+      "T5": [
+        "T5"
+      ],
+      "T4": [
+        "T4"
+      ],
+      "T3": [
+        "T3"
+      ],
+      "T6": [
+        "T6"
+      ]
+    },
+    "revelation_to_thread_id": {
+      "T1": "T1",
+      "T2": "T2",
+      "T5": "T5",
+      "T4": "T4",
+      "T3": "T3",
+      "T6": "T6"
+    },
+    "flags": {},
+    "history": [],
+    "canonical_log": [],
+    "engine_log": [],
+    "destroyed_clue_ids": [],
+    "injected_clues": [],
+    "used_twist_ids": []
+  },
+  "validation_report": {
+    "valid": true,
+    "playable": true,
+    "playable_score": 76,
+    "errors": [],
+    "warnings": [
+      "Actor npc_1 ha location non riconosciuta: Villa Thrace nella Città Alta.",
+      "Actor npc_2 ha location non riconosciuta: Sala del Trono nella Cittadella.",
+      "Actor npc_3 ha location non riconosciuta: Caserma delle Guardie.",
+      "Actor npc_4 ha location non riconosciuta: Biblioteca Sotterranea.",
+      "Actor npc_5 ha location non riconosciuta: Taverna della Fiamma Nera nel Quartiere Basso.",
+      "Actor npc_6 ha location non riconosciuta: Camera del Consiglio nella Cittadella.",
+      "Actor npc_7 ha location non riconosciuta: Fucina Sotterranea.",
+      "Actor npc_8 ha location non riconosciuta: Prigione Profonda.",
+      "Actor npc_9 ha location non riconosciuta: Passaggi Segreti della Cittadella.",
+      "Actor npc_10 ha location non riconosciuta: Camera Vulcanica.",
+      "heist richiede security_layers o pressure_system heat.",
+      "faction_crisis richiede almeno 2 factions."
+    ],
+    "suggestions": [],
+    "quality": {
+      "clue_concreteness_score": 100,
+      "npc_agenda_score": 100,
+      "location_playability_score": 100,
+      "clock_operational_score": 100,
+      "finale_playability_score": 100,
+      "fiction_density_score": 100
+    },
+    "fidelity": {},
+    "counts": {
+      "objectives": 1,
+      "locations": 5,
+      "actors": 10,
+      "clues": 18,
+      "revelations": 6
+    },
+    "doctor_score": 4.3
+  },
+  "live_game_state": null
+}
