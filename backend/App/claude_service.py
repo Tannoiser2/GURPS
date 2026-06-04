@@ -6781,7 +6781,7 @@ def master_turn_with_bible(
         investigation_progress=_inv_progress,
     )
     engine_updates = director_decision.get("state_updates_required") or {}
-    runtime_context = runtime_prompt_context(runtime)
+    runtime_context = None  # costruito più sotto, dopo aver calcolato il gate anti-spoiler
     _canonical_log = list(game_state_data.get("canonical_log") or [])
     director_context = director_prompt_context(director_decision, canonical_log=_canonical_log)
     if runtime_warnings:
@@ -6834,11 +6834,25 @@ def master_turn_with_bible(
         if status == "ready_to_deduce":
             ready_threads.append(row)
 
+    # ── Gate anti-spoiler della verità centrale ───────────────────────────────
+    # Il Master conosce la soluzione (core_truth / hidden_truths) e tende a
+    # narrarla troppo presto, scavalcando il gating degli indizi. La sveliamo SOLO
+    # quando i giocatori hanno gli indizi per dedurla (un thread è ready_to_deduce)
+    # o il tempo sta per scadere — altrimenti resta RISERVATA, esattamente come i
+    # segreti degli NPC [COPERTO].
+    _threat_level_gate = game_state_data.get("threat_level", 0)
+    _threat_max_gate = adventure.get("threat_max_turns", 8)
+    reveal_canon = bool(ready_threads) or int(_threat_level_gate / max(_threat_max_gate, 1) * 100) >= 80
+    runtime_context = runtime_prompt_context(runtime, reveal_canon=reveal_canon)
+    _CANON_REDACTED = ("[RISERVATO — emerge SOLO quando i giocatori hanno gli indizi per "
+                       "dedurla: orienta verso di essa senza mai dichiararla]")
+
     npc_statuses = game_state_data.get("npc_statuses", {})
     canon = adventure.get("adventure_canon") or {}
+    _central_truth = canon.get('core_truth') or adventure.get('hidden_truth', '')
     canon_context = (
         "\nCANOVACCIO CANONICO CHIUSO:"
-        f"\n- Verita centrale: {canon.get('core_truth') or adventure.get('hidden_truth','')}"
+        f"\n- Verita centrale: {_central_truth if reveal_canon else _CANON_REDACTED}"
         f"\n- Antagonista principale: {canon.get('main_antagonist') or 'non dichiarato'}"
         f"\n- Falsi indizi ammessi: {'; '.join(canon.get('false_leads') or []) or 'nessuno'}"
         f"\n- Luoghi chiave: {'; '.join(canon.get('key_locations') or []) or 'non dichiarati'}"
