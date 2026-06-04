@@ -2695,13 +2695,14 @@ function SetupScreen({ onStart }) {
       if (startRes?.error) throw new Error(startRes.error);
       if (!jobId) throw new Error("Backend non aggiornato: manca la compilazione asincrona. Attendi il nuovo deploy e riprova.");
 
-      // Polling dello stato: ogni 3s, finché done/error (deadline 8 min). Gli
-      // errori di rete transitori sul polling vengono ignorati e si ritenta. Un
-      // 'not_found' isolato può capitare durante un riavvio breve: lo toleriamo
-      // per alcuni tentativi prima di arrenderci.
+      // Polling dello stato: ogni 3s, finché done/error (deadline 15 min). La
+      // compilazione PDF fa ~10 chiamate LLM in sequenza e sul free tier può
+      // durare 8-12 min: con una deadline troppo bassa il backend finiva comunque
+      // (spendendo) ma il risultato veniva scartato. Gli errori di rete transitori
+      // sul polling vengono ignorati; un 'not_found' isolato è tollerato.
       let data = null;
       let notFoundStreak = 0;
-      const pollDeadline = Date.now() + 8 * 60 * 1000;
+      const pollDeadline = Date.now() + 15 * 60 * 1000;
       while (Date.now() < pollDeadline) {
         await new Promise(r => setTimeout(r, 3000));
         let st;
@@ -2716,7 +2717,7 @@ function SetupScreen({ onStart }) {
         }
         notFoundStreak = 0;  // pending → continua
       }
-      if (!data) throw new Error("Timeout: la compilazione del PDF non si è conclusa in tempo (oltre 8 minuti). Riprova.");
+      if (!data) throw new Error("Timeout: la compilazione del PDF non si è conclusa in tempo (oltre 15 minuti). Riprova.");
       if (data.compilation_failed) {
         const gate = data.quality_gate || {};
         const critical = (gate.critical || []).map(c => `• ${c}`).join("\n");
@@ -5490,23 +5491,34 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                       <div style={{ padding: "0 12px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
                         {fieldRow("Domanda investigativa", <input style={inputStyle} value={t.question || ""} onChange={e => patchThread(i, "question", e.target.value)} placeholder="Dove si trova X? Chi controlla Y?" />)}
                         {fieldRow("Risposta canonica (GM only)", <textarea style={textareaStyle} value={t.true_answer || t.answer || ""} onChange={e => patchThread(i, "true_answer", e.target.value)} placeholder="La risposta che il Master conosce" />)}
-                        {fieldRow("Clue plan (una riga per indizio, formato: descrizione — in LUOGO / con NPC)", (
-                          <textarea style={{ ...textareaStyle, minHeight: 72 }}
-                            value={clueLines}
-                            onChange={e => patchThread(i, "clue_plan", e.target.value.split("\n").map(s => s.trim()).filter(Boolean))}
-                            placeholder={"Lettera firmata (ufficio di Stelmach)\nMacchia di sangue (cripta, accanto alla vittima)"} />
-                        ))}
                         {(() => {
+                          // clue_plan è quasi sempre vuoto nei dati (gli indizi
+                          // sono legati alla pista via clue.thread_id, non qui):
+                          // con un placeholder generico TUTTE le piste sembravano
+                          // avere lo "stesso Clue Plan". Mostriamo invece, come
+                          // placeholder, gli indizi REALMENTE assegnati a QUESTA
+                          // pista, così ogni box è diverso e informativo.
                           const assigned = clues.filter(c => String(c.thread_id || "") === String(t.id || ""));
-                          return assigned.length > 0 ? (
-                            <div style={{ fontSize: 10, color: "#60a5fa", marginTop: -2, lineHeight: 1.4 }}>
-                              🔗 Indizi realmente assegnati a questa pista ({assigned.length}): {assigned.map(c => c.label || c.text || c.id).join(" · ")}
-                            </div>
-                          ) : (
-                            <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.45, marginTop: -2 }}>
-                              Nessun indizio assegnato (l'assegnazione vera è il campo thread_id degli indizi; "Clue plan" qui sopra è solo una nota di pianificazione).
-                            </div>
-                          );
+                          const ph = assigned.length
+                            ? assigned.map(c => c.label || c.text || c.id).join("\n")
+                            : "Lettera firmata (ufficio di Stelmach)\nMacchia di sangue (cripta, accanto alla vittima)";
+                          return (<>
+                            {fieldRow("Clue plan (una riga per indizio, formato: descrizione — in LUOGO / con NPC)", (
+                              <textarea style={{ ...textareaStyle, minHeight: 72 }}
+                                value={clueLines}
+                                onChange={e => patchThread(i, "clue_plan", e.target.value.split("\n").map(s => s.trim()).filter(Boolean))}
+                                placeholder={ph} />
+                            ))}
+                            {assigned.length > 0 ? (
+                              <div style={{ fontSize: 10, color: "#60a5fa", marginTop: -2, lineHeight: 1.4 }}>
+                                🔗 Indizi realmente assegnati a questa pista ({assigned.length}): {assigned.map(c => c.label || c.text || c.id).join(" · ")}
+                              </div>
+                            ) : (
+                              <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.45, marginTop: -2 }}>
+                                Nessun indizio assegnato (l'assegnazione vera è il campo thread_id degli indizi; "Clue plan" qui sopra è solo una nota di pianificazione).
+                              </div>
+                            )}
+                          </>);
                         })()}
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
                           {fieldRow("Indizi richiesti (numero)", (
