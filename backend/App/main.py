@@ -3,7 +3,7 @@ load_dotenv(override=True)
 import base64
 from datetime import datetime, timezone
 import json
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 import logging
 import os
 import random
@@ -51,16 +51,14 @@ from .adventure_runtime_store import list_runtimes, load_runtime, save_runtime, 
 from .adventure_compiler import compile_from_raw_structure, compile_pdf_pages_to_runtime
 from .adventure_validator import check_raw_compilation_quality
 from .scene_context import actions_for_scene
-from .adventure_doctor import run_doctor, audit as doctor_audit, score as doctor_score
-from .adventure_templates import ADVENTURE_TEMPLATES, get_template_list, get_template_by_id
+from .adventure_doctor import run_doctor
+from .adventure_templates import get_template_list, get_template_by_id
 from .clock_engine import tick_clocks, format_clock_event_narrative
 from .npc_state_machine import update_pressure_from_clues, build_npc_pressure_context
 from .deadlock_guard import check_and_fix_deadlocks
 from .adventure_wizard import (
     WIZARD_STEPS as _WIZARD_STEPS,
     WIZARD_STEP_SCHEMA as _WIZARD_STEP_SCHEMA,
-    _drafts as _wizard_drafts,
-    validate_step as _wiz_validate_step,
     apply_step as _wiz_apply_step,
     get_draft as _wiz_get_draft,
     pop_draft as _wiz_pop_draft,
@@ -2778,7 +2776,7 @@ def get_genres():
 
 # ── A3: Adventure creation wizard ─────────────────────────────────────────────
 # Logic lives in adventure_wizard.py; this section exposes HTTP endpoints only.
-# _WIZARD_STEPS, _WIZARD_STEP_SCHEMA, _wizard_drafts are imported at the top.
+# _WIZARD_STEPS, _WIZARD_STEP_SCHEMA are imported at the top.
 
 
 class WizardStepPayload(BaseModel):
@@ -3095,7 +3093,7 @@ def combat_aim(payload: CombatAimPayload):
 @app.get("/game/combat/weapons")
 def get_combat_weapons(genre: str | None = None):
     """Ritorna le armi disponibili per il genere corrente (o tutte se non specificato)."""
-    from .data_weapons import get_weapons_for_genre, WEAPON_TABLE
+    from .data_weapons import get_weapons_for_genre
     g = genre or (game_state.genre if game_state else None) or "fantasy"
     weapons = get_weapons_for_genre(g)
     return {
