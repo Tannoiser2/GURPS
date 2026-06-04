@@ -6704,6 +6704,25 @@ def generate_session_recap(
         return ""
 
 
+def _scope_threat_max(adventure: dict) -> int:
+    """Doom-clock proporzionale all'ampiezza dell'avventura.
+
+    Il threat_level persistente non è limitato a 10 (vedi main.py), quindi il
+    fuso può essere più lungo per le avventure epiche. Una storia con 18 indizi e
+    5 thread non può essere infilata nello stesso countdown di una scena breve:
+    altrimenti scade in sconfitta prima di poter completare l'indagine.
+
+    Floor a 8 (avventure brevi restano tese); per quelle ampie il fuso cresce
+    ~1 turno-cuscinetto per indizio. Rispetta un threat_max_turns esplicito se più
+    alto della stima basata sulla scala.
+    """
+    n_clues = len(adventure.get("clues") or [])
+    n_threads = len(adventure.get("story_threads") or [])
+    scope = max(8, n_clues + n_threads // 2)
+    explicit = adventure.get("threat_max_turns")
+    return max(int(explicit) if explicit else 0, scope)
+
+
 def master_turn_with_bible(
     genre: str,
     players: list[dict],
@@ -6841,7 +6860,7 @@ def master_turn_with_bible(
     # o il tempo sta per scadere — altrimenti resta RISERVATA, esattamente come i
     # segreti degli NPC [COPERTO].
     _threat_level_gate = game_state_data.get("threat_level", 0)
-    _threat_max_gate = adventure.get("threat_max_turns", 8)
+    _threat_max_gate = _scope_threat_max(adventure)
     reveal_canon = bool(ready_threads) or int(_threat_level_gate / max(_threat_max_gate, 1) * 100) >= 80
     runtime_context = runtime_prompt_context(runtime, reveal_canon=reveal_canon)
     _CANON_REDACTED = ("[RISERVATO — emerge SOLO quando i giocatori hanno gli indizi per "
@@ -6911,7 +6930,7 @@ def master_turn_with_bible(
             )
 
     threat_level = game_state_data.get("threat_level", 0)
-    threat_max = adventure.get("threat_max_turns", 8)
+    threat_max = _scope_threat_max(adventure)
     threat_pct = int(threat_level / max(threat_max, 1) * 100)
     open_threads = game_state_data.get("open_threads", [])
     turn = game_state_data.get("turn", 1)
