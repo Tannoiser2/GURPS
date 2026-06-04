@@ -5398,6 +5398,18 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                             onChange={e => patchThread(i, "clue_plan", e.target.value.split("\n").map(s => s.trim()).filter(Boolean))}
                             placeholder={"Lettera firmata (ufficio di Stelmach)\nMacchia di sangue (cripta, accanto alla vittima)"} />
                         ))}
+                        {(() => {
+                          const assigned = clues.filter(c => String(c.thread_id || "") === String(t.id || ""));
+                          return assigned.length > 0 ? (
+                            <div style={{ fontSize: 10, color: "#60a5fa", marginTop: -2, lineHeight: 1.4 }}>
+                              🔗 Indizi realmente assegnati a questa pista ({assigned.length}): {assigned.map(c => c.label || c.text || c.id).join(" · ")}
+                            </div>
+                          ) : (
+                            <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.45, marginTop: -2 }}>
+                              Nessun indizio assegnato (l'assegnazione vera è il campo thread_id degli indizi; "Clue plan" qui sopra è solo una nota di pianificazione).
+                            </div>
+                          );
+                        })()}
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 16px" }}>
                           {fieldRow("Indizi richiesti (numero)", (
                             <input type="number" min={1} max={5} style={{ ...inputStyle, width: 80 }}
@@ -6125,6 +6137,19 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                         />
                       </div>
                     ) : (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                      <button onClick={async () => {
+                        try {
+                          const res = await fetch(`${API_URL}/game/adventure/generate-overview-map`, {
+                            method: "POST", headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ adventure_title: def0.title || "", locations, genre: def0.genre || "" }),
+                          }).then(r => r.json());
+                          if (res.image_b64) patchMapState("image_b64", res.image_b64);
+                          else alert("Generazione overview non riuscita (provider immagini disabilitato?).");
+                        } catch { alert("Errore nella generazione dell'overview."); }
+                      }} style={{ padding: "8px 12px", borderRadius: 7, border: "1px solid rgba(167,139,250,0.4)", background: "rgba(167,139,250,0.12)", color: "#a78bfa", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                        🤖 Genera overview con AI
+                      </button>
                       <label style={{ display: "block", padding: "10px 12px", borderRadius: 7, border: "1px dashed rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.02)", textAlign: "center", color: "rgba(255,255,255,0.55)", fontSize: 11, cursor: "pointer" }}>
                         📷 Carica immagine overview (PNG/JPEG, max 1.5MB)
                         <input type="file" accept="image/png,image/jpeg" style={{ display: "none" }} onChange={async (e) => {
@@ -6139,6 +6164,7 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                           reader.readAsDataURL(f);
                         }} />
                       </label>
+                      </div>
                     )}
 
                     {/* Tabella coordinate numeriche (fallback per editing preciso) */}
