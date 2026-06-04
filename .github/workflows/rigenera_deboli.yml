@@ -8,6 +8,11 @@ on:
         required: false
         default: "0"
 
+# Opt-in a Node.js 24 per le JS-actions (checkout/setup-python): silenzia il
+# warning di deprecazione di Node 20 e prepara al passaggio forzato del 16/6/2026.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 permissions:
   contents: write
 
