@@ -29,8 +29,8 @@ from .models import (
 )
 from .combat import (
     resolve_attack,
-    reset_action_type, attempt_stun_recovery, stand_up,
-    tick_player_wounds, apply_wound_recovery,
+    reset_action_type, attempt_stun_recovery,
+    tick_player_wounds,
 )
 from .action_intent import select_best_skill as resolve_action_skill
 from .data_skills import (
@@ -47,11 +47,7 @@ from .data_skills import (
 )
 from .data_advantages import (
     advantage_skill_bonus,
-    advantage_effect_type_bonus,
     advantage_dodge_bonus,
-    advantage_death_threshold_mult,
-    has_morale_check,
-    advantage_combat_penalty,
     advantage_breakdown,
     advantage_luck_rerolls,
     advantage_will_modifier,
@@ -66,7 +62,6 @@ from .data_weapons import (
     default_weapon_for_archetype, _ammo_name_for_weapon,
 )
 from .data_items import (
-    ITEM_CATALOG,
     build_equipment_item_from_catalog,
     narrative_text_to_item_ids,
     item_skill_bonuses,
@@ -78,11 +73,6 @@ from .claude_service import (
     get_phase_blueprint,
     generate_candidate_pool,
     generate_actions_for_selected_team,
-    generate_story_canon,
-    generate_prologue,
-    refine_story_canon_with_prologue,
-    rename_map_nodes_with_canon,
-    generate_initial_world_npcs,
     build_scene_seed_with_canon,
     generate_movement_transition_narrative,
 )
@@ -269,6 +259,20 @@ def _equip_player_from_items(player: "Player", genre: str = "") -> None:
     """
     from .models import EquipmentItem, Action
     import uuid
+
+    # Coerenza col genere: scarta gli item/armi anacronistici (es. pistola in
+    # fantasy) PRIMA di trasformarli in armi equipaggiate. L'auto-equip più sotto
+    # fornirà poi un'arma coerente con archetipo/genere.
+    if genre and player.items:
+        try:
+            from .equipment_coherence import filter_gear_for_genre
+            kept, removed = filter_gear_for_genre(list(player.items), genre)
+            if removed:
+                player.items = kept
+                print(f"[equip] {player.name}: rimossi item incoerenti col genere "
+                      f"'{genre}': {removed}")
+        except Exception as _e:
+            print(f"[equip] filtro coerenza saltato: {_e}")
 
     existing_weapon_ids = {a.weapon_id for a in player.actions if a.weapon_id}
     existing_eq_ids = {it.id for it in player.equipment}

@@ -35,5 +35,9 @@ yarn-error.log*
 # Local adventure compiler audit exports (solo root, non data/)
 /compiled_adventures/
 !/data/compiled_adventures/
+
+# Backup/debug delle avventure rigenerati dalle GitHub Actions (non versionare)
+data/compiled_adventures/_backup_*/
+data/compiled_adventures/_debug_pdf/
 *.bak
 .claude/worktrees/

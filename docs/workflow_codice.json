@@ -1,7 +1,7 @@
 {
   "meta": {
     "titolo": "GURPS Adventure Engine — Workflow Completo",
-    "versione": "2026-05",
+    "versione": "2026-06",
     "stack": {
       "frontend": "React + Vite → Vercel",
       "backend": "FastAPI + Python → Render.com",
@@ -609,6 +609,42 @@
   ],
 
   "miglioramenti_recenti": [
+    {
+      "area": "Risoluzione azioni",
+      "modifica": "action_intent: vocabolario empatia IT + guardia 'defense' fuori combattimento + pattern schiv/parar",
+      "file": "action_intent.py",
+      "impatto": "Le azioni di empatia ('leggere le emozioni') non vengono più risolte come 'schivare'"
+    },
+    {
+      "area": "Runtime scena",
+      "modifica": "scene_context.present_or_anchored_opening_actors()",
+      "file": "scene_context.py / claude_service.py",
+      "impatto": "Niente PNG fantasma: i personaggi presentati nell'apertura sono ancorati alla scena e restano interagibili"
+    },
+    {
+      "area": "Equipaggiamento",
+      "modifica": "equipment_coherence.filter_gear_for_genre() applicato nel funnel _equip_player_from_items",
+      "file": "equipment_coherence.py / engine.py",
+      "impatto": "La coerenza è ora APPLICATA, non solo segnalata: niente pistola in un PG fantasy"
+    },
+    {
+      "area": "Store avventure",
+      "modifica": "Dedup copie + re-id collisioni id + merge cartella sci_fi; list_runtimes ignora le cartelle _*",
+      "file": "adventure_runtime_store.py / tools/build_adventure_catalog.py",
+      "impatto": "Avventure uniche con id univoci, niente duplicati/fantasma in lista; catalogo + schede generabili"
+    },
+    {
+      "area": "Frontend (Safari/iOS)",
+      "modifica": "Hardening fetch: warm-up /health Render + traduzione errori di rete",
+      "file": "App.jsx",
+      "impatto": "L'errore criptico 'did not match the expected pattern' in generazione avventura/mappe diventa 'Server in avvio, riprova'"
+    },
+    {
+      "area": "Manutenzione",
+      "modifica": "F7: rimozione import morti (verificata via AST + suite test)",
+      "file": "engine.py / main.py / combat.py / archetype_modules",
+      "impatto": "13 file, -31 righe di codice morto; nessuna logica toccata"
+    },
     {
       "area": "Generatore AI",
       "modifica": "_pick_adventure_archetype() con anti-ripetizione",

@@ -1,6 +1,10 @@
-# Roadmap — Narrative Runtime Compiler & Engine fixes
+# Roadmap (v1, storica) — Narrative Runtime Compiler & Engine fixes
 
-Roadmap viva delle migliorie su compiler PDF→runtime e game engine, partendo dai problemi sistemici identificati nel `Narrative_Runtime_Compiler_Evaluation.md`.
+> ⚠️ **Documento storico.** La roadmap attiva è **[`ROADMAP_V2.md`](./ROADMAP_V2.md)** (schema L/N/R/U/G/A/T).
+> Questa v1 (schema P/F/E) è completata e conservata come riferimento. **Nota:** i codici `F1–F5` qui
+> hanno un significato diverso dai `F1–F7` recenti documentati in `docs/workflow_codice.json`.
+
+Roadmap delle migliorie su compiler PDF→runtime e game engine, partendo dai problemi sistemici identificati nel `Narrative_Runtime_Compiler_Evaluation.md`.
 
 ## Convenzioni
 

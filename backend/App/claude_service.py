@@ -20,6 +20,7 @@ except Exception as _e:
     _GOOGLE_GENAI_IMPORT_ERROR = f"{type(_e).__name__}: {_e}"
     print(f"[google-genai] import fallito: {_GOOGLE_GENAI_IMPORT_ERROR}")
 
+from .scene_context import present_or_anchored_opening_actors
 from .data_roles import ROLE_LIBRARY, THEME_FAMILY_ROLE_OVERRIDE
 from .data_equipment import MISSION_EQUIPMENT_BONUS, ENVIRONMENT_EQUIPMENT_BONUS
 from .data_skills import SKILL_TO_EFFECT_TYPE, SKILLS_BY_STAT, VALID_SKILLS, default_skill_for, skill_prompt_text, reconcile_effect_type, infer_effect_type_from_text, skill_display, normalize_skill, stat_display
@@ -6494,9 +6495,7 @@ def generate_opening_scene(definition, players: list[dict]) -> str:
     loc_name = first_loc.name if first_loc else "la scena iniziale"
     loc_desc = (first_loc.description or "").strip() if first_loc else ""
 
-    actors_here = [a for a in (definition.actors or []) if a.location_id == (first_loc.id if first_loc else "") or (first_loc and a.location_id == first_loc.name)]
-    if not actors_here:
-        actors_here = (definition.actors or [])[:2]
+    actors_here = present_or_anchored_opening_actors(definition)
     actor_lines = "\n".join(
         f"- {a.name} ({a.role}): {(a.goal or a.secret or '').strip()[:120]}"
         for a in actors_here[:3]

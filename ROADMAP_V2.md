@@ -17,6 +17,25 @@ Copre tutti i sistemi attivi, non solo le sprint recenti.
 
 ---
 
+## 0. Fix recenti (giugno 2026)
+
+Lavoro completato dopo l'analisi di una sessione reale e un audit del codebase.
+
+- [x] **Mappatura abilità — empatia** `action_intent.py`
+  Le azioni di empatia ("leggere le emozioni") venivano risolte come `schivare`. Aggiunto vocabolario italiano per l'intent empathy, guardia su `defense` fuori combattimento, pattern `schiv`/`parar`. Test di regressione.
+- [x] **PNG fantasma nell'apertura** `scene_context.py`, `claude_service.py`
+  Personaggi presentati nell'introduzione poi dichiarati assenti. Nuova `present_or_anchored_opening_actors()`: ancora alla scena iniziale i PNG non ostili senza location → restano presenti e interagibili.
+- [x] **Coerenza equipaggiamento APPLICATA** `equipment_coherence.py`, `engine.py`
+  Era solo un warning → una pistola restava in un PG fantasy. `filter_gear_for_genre()` ora scarta davvero gli item anacronistici nel funnel di equip.
+- [x] **Bonifica store avventure** `adventure_runtime_store.py`, `tools/`
+  Dedup copie identiche, re-id di 28 collisioni di `id`, merge `sci_fi`→`sci-fi`; `list_runtimes`/`_find_path` ignorano le cartelle di servizio `_*`. Nuovi `tools/build_adventure_catalog.py` e `build_adventure_briefs.py` (catalogo + schede con prompt immagine).
+- [x] **Errore Safari in generazione** `App.jsx` (U)
+  `"The string did not match the expected pattern."` = fetch fallita su iOS (cold-start Render). Warm-up `/health` + traduzione errori di rete in `handleGenreSelect`/`preGenerateMaps`.
+- [x] **F7 — rimozione codice morto** (manutenzione)
+  13 file, −31 righe di import inutilizzati, verificati con AST + suite test verde.
+
+---
+
 ## 1. LLM / AI Efficiency
 
 ### 🔴 Critici

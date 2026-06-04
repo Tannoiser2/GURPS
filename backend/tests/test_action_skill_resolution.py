@@ -87,6 +87,28 @@ class ActionSkillResolutionTests(unittest.TestCase):
             with self.subTest(action=action, context=context):
                 self.assert_skill_in(action, expected, context)
 
+    def test_italian_phrasing_resolution(self):
+        ctx = {"genre": "fantasy", "scene_type": "dungeon"}
+        # Regressione: "Empatia per leggere le emozioni" non deve diventare 'schivare'
+        # (la parola "proteggendo", riferita a un PNG, attivava erroneamente la difesa).
+        self.assert_skill_in(
+            "Sfruttare l'Empatia per leggere le emozioni della guardia — sta proteggendo qualcuno?",
+            {"intuire", "calmare", "persuadere"}, ctx)
+        self.assert_not_absurd(
+            "Sfruttare l'Empatia per leggere le emozioni della guardia — sta proteggendo qualcuno?",
+            {"schivare", "proteggere", "combattere", "mira"}, ctx)
+        cases = [
+            ("Cerco di intuire le vere intenzioni del mercante", {"intuire", "calmare", "persuadere"}),
+            ("Leggo lo stato d'animo del prigioniero terrorizzato", {"intuire", "calmare", "persuadere"}),
+            ("Esamino con calma i graffiti incisi sul muro", {"investigare", "osservare", "analizzare", "seguire_tracce"}),
+            ("Nascondermi nell'ombra prima che la guardia arrivi", {"furtivita", "mimetizzare", "infiltrarsi"}),
+            ("Convincere la guardia che era solo un incubo", {"persuadere", "comunicare", "etichetta"}),
+            ("Schivo la freccia scoccata dall'arciere", {"schivare", "proteggere", "resistere", "strategia"}),
+        ]
+        for action, expected in cases:
+            with self.subTest(action=action):
+                self.assert_skill_in(action, expected, ctx)
+
     def test_absurd_pairings_are_rejected(self):
         absurd_cases = [
             ("examine corpse", {"intimidire", "combattere", "mira", "furtivita"}),
