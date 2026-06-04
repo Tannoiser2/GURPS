@@ -2045,15 +2045,15 @@ function normalizeGenreKey(value, fallback = "detective_classico") {
 
 // ─── Setup screen ──────────────────────────────────────────────────────────
 
-function ProviderBtn({ pkey, label, icon, selected, available, onClick }) {
+function ProviderBtn({ pkey, label, icon, selected, available, onClick, big = false }) {
   const avail = available !== false;
   const sel = selected;
   return (
     <button onClick={() => avail && onClick(pkey)}
       title={pkey}
       style={{
-        display: "flex", alignItems: "center", gap: 5,
-        padding: "4px 10px", borderRadius: 20,
+        display: "flex", alignItems: "center", gap: big ? 7 : 5,
+        padding: big ? "7px 15px" : "4px 10px", borderRadius: 20,
         border: sel ? "1.5px solid #c084fc" : "1px solid rgba(255,255,255,0.18)",
         background: sel ? "rgba(170,59,255,0.35)" : "rgba(0,0,0,0.5)",
         color: sel ? "#fff" : avail ? "rgba(255,255,255,0.75)" : "rgba(255,255,255,0.3)",
@@ -2061,27 +2061,27 @@ function ProviderBtn({ pkey, label, icon, selected, available, onClick }) {
         backdropFilter: "blur(8px)",
         transition: "all 0.15s",
         boxShadow: sel ? "0 0 8px rgba(192,132,252,0.35)" : "none",
-        fontSize: 12, fontWeight: sel ? 700 : 400,
+        fontSize: big ? 15 : 12, fontWeight: sel ? 700 : 400,
         opacity: avail ? 1 : 0.45,
         whiteSpace: "nowrap",
       }}>
-      <span style={{ fontSize: 13 }}>{icon}</span>
+      <span style={{ fontSize: big ? 17 : 13 }}>{icon}</span>
       <span>{label}</span>
     </button>
   );
 }
 
-function TextProviderPicker({ value, onChange, available }) {
+function TextProviderPicker({ value, onChange, available, big = false }) {
   const options = [
     { key: "claude", label: "Claude", icon: "🤖" },
     { key: "openai", label: "OpenAI", icon: "🟢" },
   ];
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-      <span style={{ fontSize: 9, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 600 }}>Testo</span>
-      <div style={{ display: "flex", gap: 4 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: big ? 8 : 6 }}>
+      <span style={{ fontSize: big ? 11 : 9, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 700 }}>Testo</span>
+      <div style={{ display: "flex", gap: big ? 6 : 4 }}>
         {options.map(p => (
-          <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon}
+          <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon} big={big}
             selected={value === p.key} available={available[p.key] !== false} onClick={onChange} />
         ))}
       </div>
@@ -2089,7 +2089,7 @@ function TextProviderPicker({ value, onChange, available }) {
   );
 }
 
-function ImageProviderPicker({ value, onChange, available }) {
+function ImageProviderPicker({ value, onChange, available, big = false }) {
   const options = [
     { key: "auto",   label: "Auto",    icon: "✨" },
     { key: "openai", label: "OpenAI",  icon: "🟢" },
@@ -2097,13 +2097,13 @@ function ImageProviderPicker({ value, onChange, available }) {
     { key: "none",   label: "Nessuna", icon: "🚫" },
   ];
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-      <span style={{ fontSize: 9, color: "rgba(255,255,255,0.35)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 600 }}>Immagini</span>
-      <div style={{ display: "flex", gap: 4 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: big ? 8 : 6 }}>
+      <span style={{ fontSize: big ? 11 : 9, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 700 }}>Immagini</span>
+      <div style={{ display: "flex", gap: big ? 6 : 4 }}>
         {options.map(p => {
           const avail = p.key === "auto" || p.key === "none" ? true : available[p.key] !== false;
           return (
-            <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon}
+            <ProviderBtn key={p.key} pkey={p.key} label={p.label} icon={p.icon} big={big}
               selected={value === p.key} available={avail} onClick={onChange} />
           );
         })}
@@ -3301,81 +3301,27 @@ function SetupScreen({ onStart }) {
         {/* banner full-width */}
         <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0, maxHeight: "18vh" }} />
 
-        {/* barra provider + carica JSON */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, padding: "6px 16px", background: "#0a0a0a", flexWrap: "wrap", flexShrink: 0 }}>
-          <TextProviderPicker value={provider} onChange={setProvider} available={providersAvail} />
-          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
-          <ImageProviderPicker value={imageProvider} onChange={setImageProvider} available={providersAvail} />
-          {/* Carica PDF / JSON sono ora tile tra i temi, sotto la griglia dei generi */}
+        {/* barra IA (Testo/Immagini) + scala avventura — i tasti Doctor/Editor/Riprendi/PDF/JSON
+            sono ora tutti raccolti sotto la griglia dei temi. */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 18, padding: "9px 16px", background: "#0a0a0a", flexWrap: "wrap", flexShrink: 0 }}>
+          <TextProviderPicker value={provider} onChange={setProvider} available={providersAvail} big />
+          <div style={{ width: 1, height: 30, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
+          <ImageProviderPicker value={imageProvider} onChange={setImageProvider} available={providersAvail} big />
 
-          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
+          <div style={{ width: 1, height: 30, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
 
-          {/* JSON Doctor standalone — analizza senza avviare la partita */}
-          <label style={{ cursor: "pointer", flexShrink: 0 }} title="Analizza un JSON con il Doctor senza avviare la partita">
-            <img
-              src={jsonDoctorImg}
-              alt="JSON Doctor — Analizza qualità"
-              style={{ height: 38, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
-              onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
-              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-            />
-            <input
-              type="file" accept=".json" style={{ display: "none" }}
-              onChange={async e => {
-                const file = e.target.files[0];
-                if (!file) return;
-                e.target.value = "";
-                setDoctorReport(null);
-                setDoctorEnriching(false);
-                setJsonError("");
-                try {
-                  const text = await file.text();
-                  const parsed = JSON.parse(text);
-                  const compiled = parsed.compiled_adventure || parsed;
-                  const definition = compiled.adventure_definition || parsed.adventure_definition || parsed;
-                  // Salva l'avventura per abilitare il bottone "Migliora"
-                  setPreloadedAdventure(adv => adv || { adventure_definition: definition, from_json_load: true });
-                  if (!preloadedAdventure) {
-                    setPreloadedAdventure({ adventure_definition: definition, from_json_load: true });
-                  }
-                  const dr = await fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ adventure_definition: definition, enrich: false }),
-                  }).then(r => r.json());
-                  if (!dr.error) setDoctorReport({ ...dr, source: "json_standalone" });
-                  else setJsonError("Doctor: " + (dr.error || "analisi fallita"));
-                } catch (err) {
-                  setJsonError("Errore Doctor: " + (err.message || "file non valido"));
-                }
-              }}
-            />
-          </label>
-          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
-
-          {/* Editor: moduli pronti, creazione passo-passo, edita JSON */}
-          <button onClick={() => setStep("editor")} style={{
-            background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.35)",
-            color: "#a78bfa", borderRadius: 7, padding: "5px 12px", fontSize: 12,
-            fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
-          }}>✏️ Editor</button>
-
-          {/* Carica partita salvata */}
-          <button onClick={openSavesPanel} style={{
-            background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.3)",
-            color: "#4ade80", borderRadius: 7, padding: "5px 12px", fontSize: 12,
-            fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
-          }}>📂 Riprendi</button>
-
-          <div style={{ display: "flex", gap: 3, flexShrink: 0 }}>
-            {[["compact","🗜","Compatta"],["standard","⚖","Standard"],["epic","🔥","Epica"]].map(([key, emoji, label]) => (
-              <button key={key} onClick={() => setAdventureScale(key)} style={{
-                padding: "4px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer",
-                background: adventureScale === key ? "var(--accent)" : "rgba(255,255,255,0.06)",
-                color: adventureScale === key ? "#fff" : "rgba(255,255,255,0.5)",
-                border: adventureScale === key ? "none" : "1px solid rgba(255,255,255,0.12)",
-              }}>{emoji} {label}</button>
-            ))}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 700 }}>Scala</span>
+            <div style={{ display: "flex", gap: 5 }}>
+              {[["compact","🗜","Compatta"],["standard","⚖","Standard"],["epic","🔥","Epica"]].map(([key, emoji, label]) => (
+                <button key={key} onClick={() => setAdventureScale(key)} style={{
+                  padding: "7px 14px", borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: "pointer",
+                  background: adventureScale === key ? "var(--accent)" : "rgba(255,255,255,0.06)",
+                  color: adventureScale === key ? "#fff" : "rgba(255,255,255,0.55)",
+                  border: adventureScale === key ? "none" : "1px solid rgba(255,255,255,0.12)",
+                }}>{emoji} {label}</button>
+              ))}
+            </div>
           </div>
 
           {buildVersion && (
@@ -3607,43 +3553,50 @@ function SetupScreen({ onStart }) {
           </div>
         )}
 
-        {/* splash image con overlay zone cliccabili */}
-        <div style={{ position: "relative", width: "100%", flex: 1, minHeight: 0 }}>
-          <img
-            src="/Temi_Narrativi_2.png"
-            alt="Generi narrativi"
-            style={{ width: "100%", height: "100%", display: "block", objectFit: "cover", objectPosition: "center" }}
-          />
+        {/* splash image con overlay zone cliccabili.
+            Il wrapper si stringe attorno all'immagine (che mantiene il suo rapporto
+            2:1 con objectFit:contain): così la griglia 7-colonne resta SEMPRE allineata
+            al banner anche quando la finestra si stringe (prima usava cover → croppava
+            i lati e le zone cliccabili si disallineavano). */}
+        <div style={{ flex: 1, minHeight: 0, display: "flex", alignItems: "center", justifyContent: "center", width: "100%" }}>
+          <div style={{ position: "relative", maxWidth: "100%", maxHeight: "100%", lineHeight: 0 }}>
+            <img
+              src="/Temi_Narrativi_2.png"
+              alt="Generi narrativi"
+              style={{ display: "block", maxWidth: "100%", maxHeight: "100%", width: "auto", height: "auto", objectFit: "contain" }}
+            />
 
-          {/* zone cliccabili — 7 colonne uguali */}
-          <div style={{
-            position: "absolute", inset: 0,
-            display: "grid", gridTemplateColumns: "repeat(7, 1fr)",
-          }}>
-            {genres.map((key, i) => {
-              const meta = GENRE_META[key];
-              const isHov = hovered === key;
-              return (
-                <button
-                  key={key}
-                  onClick={() => handleGenreSelect(key)}
-                  onMouseEnter={() => setHovered(key)}
-                  onMouseLeave={() => setHovered(null)}
-                  style={{
-                    border: "none", background: isHov ? "rgba(255,255,255,0.08)" : "transparent",
-                    cursor: "pointer",
-                    transition: "background 0.2s",
-                    outline: isHov ? `2px solid ${meta.color}` : "none",
-                    outlineOffset: -2,
-                  }}
-                />
-              );
-            })}
+            {/* zone cliccabili — 7 colonne uguali, sovrapposte esattamente all'immagine */}
+            <div style={{
+              position: "absolute", inset: 0,
+              display: "grid", gridTemplateColumns: "repeat(7, 1fr)",
+            }}>
+              {genres.map((key, i) => {
+                const meta = GENRE_META[key];
+                const isHov = hovered === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => handleGenreSelect(key)}
+                    onMouseEnter={() => setHovered(key)}
+                    onMouseLeave={() => setHovered(null)}
+                    style={{
+                      border: "none", background: isHov ? "rgba(255,255,255,0.08)" : "transparent",
+                      cursor: "pointer",
+                      transition: "background 0.2s",
+                      outline: isHov ? `2px solid ${meta.color}` : "none",
+                      outlineOffset: -2,
+                    }}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        {/* PDF e JSON come "temi" aggiuntivi, oltre ai generi */}
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", padding: "10px 16px", background: "#0a0a0a", flexShrink: 0, flexWrap: "wrap" }}>
+        {/* Tutti i tasti azione raccolti sotto i temi:
+            Carica PDF · Carica JSON · JSON Doctor · Editor · Riprendi */}
+        <div style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center", padding: "10px 16px", background: "#0a0a0a", flexShrink: 0, flexWrap: "wrap" }}>
           <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.4)", color: "#93c5fd", borderRadius: 9, padding: "10px 18px", fontSize: 13, fontWeight: 700 }}
             title="Importa un'avventura da un modulo PDF (poi Doctor automatico e scelta PG)">
             📄 Carica PDF
@@ -3654,6 +3607,61 @@ function SetupScreen({ onStart }) {
             📋 Carica JSON
             <input type="file" accept=".json" style={{ display: "none" }} onChange={e => e.target.files[0] && handleJsonLoad(e.target.files[0])} />
           </label>
+
+          <div style={{ width: 1, height: 30, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
+
+          {/* JSON Doctor standalone — analizza un JSON senza avviare la partita */}
+          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.4)", color: "#a5b4fc", borderRadius: 9, padding: "10px 18px", fontSize: 13, fontWeight: 700 }}
+            title="Analizza un JSON con il Doctor senza avviare la partita">
+            🩺 JSON Doctor
+            <input
+              type="file" accept=".json" style={{ display: "none" }}
+              onChange={async e => {
+                const file = e.target.files[0];
+                if (!file) return;
+                e.target.value = "";
+                setDoctorReport(null);
+                setDoctorEnriching(false);
+                setJsonError("");
+                try {
+                  const text = await file.text();
+                  const parsed = JSON.parse(text);
+                  const compiled = parsed.compiled_adventure || parsed;
+                  const definition = compiled.adventure_definition || parsed.adventure_definition || parsed;
+                  // Salva l'avventura per abilitare il bottone "Migliora"
+                  setPreloadedAdventure(adv => adv || { adventure_definition: definition, from_json_load: true });
+                  if (!preloadedAdventure) {
+                    setPreloadedAdventure({ adventure_definition: definition, from_json_load: true });
+                  }
+                  const dr = await fetch(`${API_URL_DIRECT}/game/adventure/doctor`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ adventure_definition: definition, enrich: false }),
+                  }).then(r => r.json());
+                  if (!dr.error) setDoctorReport({ ...dr, source: "json_standalone" });
+                  else setJsonError("Doctor: " + (dr.error || "analisi fallita"));
+                } catch (err) {
+                  setJsonError("Errore Doctor: " + (err.message || "file non valido"));
+                }
+              }}
+            />
+          </label>
+
+          {/* Editor: moduli pronti, creazione passo-passo, edita JSON */}
+          <button onClick={() => setStep("editor")} style={{
+            display: "flex", alignItems: "center", gap: 8,
+            background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.4)",
+            color: "#a78bfa", borderRadius: 9, padding: "10px 18px", fontSize: 13,
+            fontWeight: 700, cursor: "pointer",
+          }}>✏️ Editor</button>
+
+          {/* Carica partita salvata */}
+          <button onClick={openSavesPanel} style={{
+            display: "flex", alignItems: "center", gap: 8,
+            background: "rgba(251,191,36,0.12)", border: "1px solid rgba(251,191,36,0.4)",
+            color: "#fbbf24", borderRadius: 9, padding: "10px 18px", fontSize: 13,
+            fontWeight: 700, cursor: "pointer",
+          }}>📂 Riprendi</button>
         </div>
 
         {(loading || jsonLoading) && (
