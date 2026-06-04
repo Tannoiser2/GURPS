@@ -4093,14 +4093,22 @@ def _clean_pdf_text(text: str) -> str:
 
 
 @app.post("/game/adventure/from-pdf")
-async def adventure_from_pdf(
+def adventure_from_pdf(
     file: UploadFile = File(...),
     genre: str = Form(...),
     players: str = Form(...),
     provider: str = Form(default="claude"),
     map_page: str = Form(default=""),
 ):
-    """Estrae testo dal PDF e genera la bibbia. map_page opzionale: numero pagina (1-based) da usare come mappa."""
+    """Estrae testo dal PDF e genera la bibbia. map_page opzionale: numero pagina (1-based) da usare come mappa.
+
+    Endpoint SINCRONO (def, non async): la compilazione fa lavoro bloccante
+    (pdfplumber, chiamate LLM, Doctor). Con `async def` questo bloccava l'unico
+    event-loop di uvicorn per ~70s, uvicorn non riusciva a servire la connessione
+    e il proxy la chiudeva → l'upload falliva con "Load failed". Come `def`,
+    FastAPI lo esegue in un threadpool (come /game/adventure/create, che funziona),
+    lasciando libero l'event-loop.
+    """
     import base64
     import gc
     try:
@@ -4109,7 +4117,7 @@ async def adventure_from_pdf(
     except ImportError:
         return {"error": "pdfplumber/Pillow non installato sul server"}
 
-    pdf_bytes = await file.read()
+    pdf_bytes = file.file.read()
     if len(pdf_bytes) > 5 * 1024 * 1024:
         return {"error": f"PDF troppo grande ({len(pdf_bytes)//1024//1024} MB). Limite server: 5 MB."}
     raw_text_pages = []
@@ -4204,11 +4212,18 @@ async def adventure_from_pdf(
         runtime_state = AdventureRuntimeState(**compiled["runtime_state"])
         saved = save_runtime(definition, runtime_state, compiled["validation_report"])
 
-        # ── Doctor: audit + fix automatico ──────────────────────────────────
+        # ── Doctor: SOLO audit (niente enrich LLM nel percorso di upload) ─────
+        # L'enrich è una seconda passata LLM costosa: sommata alla compilazione
+        # faceva durare la richiesta oltre il timeout di connessione (~70s),
+        # facendo fallire l'upload con "Load failed". Qui facciamo solo l'audit
+        # (deterministico, istantaneo) per il badge qualità; l'utente può poi
+        # lanciare "Migliora" dal Doctor per l'auto-fix LLM quando vuole.
+        # Per riabilitare l'enrich sincrono: PDF_DOCTOR_ENRICH=true.
         defn_dict = saved["adventure_definition"]
         doctor_result = {"score": 10.0, "findings": [], "score_after": 10.0}
+        _pdf_enrich = os.getenv("PDF_DOCTOR_ENRICH", "").lower() in ("1", "true", "yes")
         try:
-            doctor_result = run_doctor(defn_dict, do_enrich=True)
+            doctor_result = run_doctor(defn_dict, do_enrich=_pdf_enrich)
             enriched = doctor_result.get("enriched_definition")
             if enriched:
                 enr_def = AdventureDefinition(**{

@@ -2673,22 +2673,19 @@ function SetupScreen({ onStart }) {
         return res.json();
       };
 
-      // Prova prima il path diretto a Render (necessario per il multipart, che
-      // supera il limite di body del proxy Vercel). Se fallisce SUBITO con un
-      // errore di rete (path diretto non raggiungibile da questa rete / CORS),
-      // ripiega sul proxy Vercel — lo stesso che usa la generazione per genere,
-      // che funziona. NON ripieghiamo se il fallimento arriva tardi: vorrebbe
-      // dire che la compilazione era in corso e ha superato un timeout, e
-      // rilanciarla raddoppierebbe soltanto tempo e costo LLM.
+      // Upload sul path diretto a Render, lo stesso che usa /game/adventure/create
+      // (la generazione per genere), che regge richieste lunghe. Se fallisce SUBITO
+      // con un errore di rete (path diretto non raggiungibile / CORS), ripiega sul
+      // proxy Vercel. Non ripieghiamo su fallimenti tardivi: la compilazione era in
+      // corso e rilanciarla raddoppierebbe solo tempo e costo LLM.
       const uploadStart = Date.now();
       let data;
       try {
         data = await postPdf(API_URL_DIRECT);
       } catch (e1) {
         const elapsed = Date.now() - uploadStart;
-        const fast = elapsed < 20000;
-        if (isNetworkError(e1) && fast && API_URL_DIRECT !== API_URL) {
-          console.warn(`[pdf] path diretto non raggiungibile dopo ${elapsed}ms, ripiego sul proxy`, window.__lastFetchError);
+        if (isNetworkError(e1) && elapsed < 20000 && API_URL_DIRECT !== API_URL) {
+          console.warn(`[pdf] path diretto ko dopo ${elapsed}ms, ripiego sul proxy`, window.__lastFetchError);
           data = await postPdf(API_URL);
         } else {
           throw e1;
