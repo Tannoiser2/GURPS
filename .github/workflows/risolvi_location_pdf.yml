@@ -1,0 +1,82 @@
+name: Risolvi Location PDF (LLM)
+
+# Risolve i riferimenti location orfani delle avventure importate da PDF
+# (actor.location_id = section_N / pN_room_M) usando il resolver semantico LLM.
+# Di default gira in DRY-RUN (non chiama l'AI, non scrive): elenca solo i target
+# e stima il costo. Imposta apply=true per eseguire davvero.
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true = chiama l'AI e scrive i file; false = solo anteprima (dry-run)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  risolvi:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa dipendenze
+        run: |
+          pip install --upgrade pip
+          pip install \
+            "anthropic>=0.50" \
+            "pydantic>=2.0.0" \
+            "python-dotenv>=1.0.0" \
+            "openai>=1.0.0" \
+            "pdfplumber>=0.10.0" \
+            "Pillow>=10.0.0" \
+            "fastapi>=0.110.0" \
+            "python-multipart>=0.0.9"
+          pip install "google-genai" || echo "⚠ google-genai non installato (opzionale)"
+
+      - name: Verifica chiave (solo se apply=true)
+        if: ${{ github.event.inputs.apply == 'true' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "❌ Secret ANTHROPIC_API_KEY non configurato nel repo."
+            exit 1
+          fi
+          echo "✅ ANTHROPIC_API_KEY presente (${#ANTHROPIC_API_KEY} caratteri)"
+
+      - name: Anteprima (dry-run)
+        if: ${{ github.event.inputs.apply != 'true' }}
+        run: python3 scripts/migra_pdf_location_llm.py
+
+      - name: Risolvi e scrivi (apply)
+        if: ${{ github.event.inputs.apply == 'true' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 scripts/migra_pdf_location_llm.py --apply
+
+      - name: Commit e push risultati
+        if: ${{ github.event.inputs.apply == 'true' }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/compiled_adventures/
+          git diff --cached --stat
+          if git diff --cached --quiet; then
+            echo "⚠ Nessuna modifica da committare"
+          else
+            COUNT=$(git diff --cached --name-only | grep -c "\.json" || true)
+            git commit -m "fix: risolti riferimenti location PDF in $COUNT avventure via LLM [skip ci]"
+            git push origin main
+            echo "✅ $COUNT avventure committate su main"
+          fi
