@@ -13,6 +13,7 @@
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
+| `ACT-PDF-76` | Lost Jewels Eire | PDF | 76 | 🟡 | `action/pdf_lost_jewels_eire.json` |
 | `ACT-AI-75` | Il Negoziatore Scomparso | AI | 75 | 🟡 | `action/ai_il_negoziatore_scomparso.json` |
 | `ACT-AI-75` | Operazione Cenere Fredda | AI | 75 | 🟡 | `action/ai_operazione_cenere_fredda.json` |
 | `ACT-PDF-75` | Railgun Road | PDF | 75 | 🟡 | `action/pdf_railgun_road.json` |
@@ -20,12 +21,11 @@
 | `ACT-AI-70` | Ambasciata sotto Assedio | AI | 70 | 🟡 | `action/ai_ambasciata_assedio.json` |
 | `ACT-AI-70` | Limite Zero | AI | 70 | 🟡 | `action/ai_limite_zero.json` |
 | `ACT-AI-65` | Il Silenzio di Chernaya | AI | 65 | 🟠 | `action/ai_il_silenzio_di_chernaya.json` |
-| `ACT-PDF-55` | Lost Jewels Eire | PDF | 55 | 🟠 | `action/pdf_lost_jewels_eire.json` |
 | `ACT-PDF-51` | Never Forget to Die | PDF | 51 | ⛔ non giocabile | `action/pdf_never_forget.json` |
+| `ACT-PDF-43` | Minutes Not Hours | PDF | 43 | 🟠 | `action/pdf_minutes_not_hours.json` |
 | `ACT-PDF-35` | Phantom Jungle | PDF | 35 | 🟠 | `action/pdf_phantom_jungle.json` |
 | `ACT-PDF-30` | The Sirens Citadel | PDF | 30 | 🟠 | `action/pdf_the_sirens_citadel.json` |
-| `ACT-PDF-08` | Minutes Not Hours | PDF | 8 | 🟠 | `action/pdf_minutes_not_hours.json` |
-| `ACT-PDF-01` | Bombshell of Tomorrow | PDF | 1 | 🟠 | `action/pdf_bombshell_of_tomorrow.json` |
+| `ACT-PDF-20` | Bombshell of Tomorrow | PDF | 20 | 🟠 | `action/pdf_bombshell_of_tomorrow.json` |
 | `ACT-PDF-00` | Uncanny Curse of Sekhmet | PDF | 0 | 🟠 | `action/pdf_uncanny_curse_of_sekhmet.json` |
 
 ## Fantasy (27)
