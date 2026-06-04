@@ -6,6 +6,7 @@ import os
 import base64
 import io
 import re
+import threading
 import anthropic
 from dotenv import load_dotenv
 load_dotenv(override=True)
@@ -75,6 +76,9 @@ _session_tokens: dict = {
     "cache_read_tokens": 0, "cache_write_tokens": 0, "cache_savings_usd": 0.0,
 }
 
+# Protegge i contatori sopra dalle chiamate AI concorrenti (es. doctor parallelo).
+_usage_lock = threading.Lock()
+
 # R4: soglia warning token — sopra questa soglia il turno include un avviso
 _TOKEN_BUDGET_WARN = int(os.getenv("TOKEN_BUDGET_WARN", "80000"))
 _TOKEN_BUDGET_HARD = int(os.getenv("TOKEN_BUDGET_HARD", "0"))  # 0 = nessun hard cap
@@ -125,13 +129,14 @@ def get_last_request_tokens() -> dict:
 def _record_usage(model: str, input_tokens: int, output_tokens: int) -> None:
     prices = _PRICE_PER_M.get(model, {"input": 0.0, "output": 0.0})
     cost = (input_tokens * prices["input"] + output_tokens * prices["output"]) / 1_000_000
-    _session_tokens["input"] += input_tokens
-    _session_tokens["output"] += output_tokens
-    _session_tokens["cost_usd"] += cost
-    _session_tokens["calls"] += 1
-    _last_request_tokens["input"] += input_tokens
-    _last_request_tokens["output"] += output_tokens
-    _last_request_tokens["cost_usd"] += cost
+    with _usage_lock:
+        _session_tokens["input"] += input_tokens
+        _session_tokens["output"] += output_tokens
+        _session_tokens["cost_usd"] += cost
+        _session_tokens["calls"] += 1
+        _last_request_tokens["input"] += input_tokens
+        _last_request_tokens["output"] += output_tokens
+        _last_request_tokens["cost_usd"] += cost
 
 
 def _record_usage_cached(model: str, input_tokens: int, output_tokens: int,
@@ -146,18 +151,19 @@ def _record_usage_cached(model: str, input_tokens: int, output_tokens: int,
     # Saving vs. no caching: token that were served from cache at 0.1x price
     savings = cache_read * (prices["input"] - prices.get("cache_read", 0.0)) / 1_000_000
 
-    _session_tokens["input"] += input_tokens
-    _session_tokens["output"] += output_tokens
-    _session_tokens["cost_usd"] += total_cost
-    _session_tokens["calls"] += 1
-    _session_tokens["cache_read_tokens"] = _session_tokens.get("cache_read_tokens", 0) + cache_read
-    _session_tokens["cache_write_tokens"] = _session_tokens.get("cache_write_tokens", 0) + cache_write
-    _session_tokens["cache_savings_usd"] = _session_tokens.get("cache_savings_usd", 0.0) + savings
+    with _usage_lock:
+        _session_tokens["input"] += input_tokens
+        _session_tokens["output"] += output_tokens
+        _session_tokens["cost_usd"] += total_cost
+        _session_tokens["calls"] += 1
+        _session_tokens["cache_read_tokens"] = _session_tokens.get("cache_read_tokens", 0) + cache_read
+        _session_tokens["cache_write_tokens"] = _session_tokens.get("cache_write_tokens", 0) + cache_write
+        _session_tokens["cache_savings_usd"] = _session_tokens.get("cache_savings_usd", 0.0) + savings
 
-    _last_request_tokens["input"] += input_tokens
-    _last_request_tokens["output"] += output_tokens
-    _last_request_tokens["cost_usd"] += total_cost
-    _last_request_tokens["calls"] += 1
+        _last_request_tokens["input"] += input_tokens
+        _last_request_tokens["output"] += output_tokens
+        _last_request_tokens["cost_usd"] += total_cost
+        _last_request_tokens["calls"] += 1
 
 
 def get_session_token_stats() -> dict:
@@ -183,8 +189,26 @@ def get_session_token_stats() -> dict:
 def reset_session_token_stats() -> None:
     for k in ("input", "output", "cost_usd", "calls", "errors"):
         _session_tokens[k] = 0.0 if k in ("cost_usd",) else 0
+    for k in ("cache_read_tokens", "cache_write_tokens", "cache_savings_usd"):
+        _session_tokens[k] = 0.0 if k == "cache_savings_usd" else 0
     for k in ("count", "cost_usd"):
         _session_images[k] = 0.0 if k == "cost_usd" else 0
+
+
+def format_cost_summary(label: str = "") -> str:
+    """Riepilogo leggibile di costo/token della sessione corrente, per i log dei
+    workflow di generazione (visibilità immediata sulla spesa di ogni run)."""
+    s = get_session_token_stats()
+    head = f"💰 Costo run{(' ' + label) if label else ''}: ${s['total_cost_usd']:.4f}"
+    lines = [
+        head,
+        f"   chiamate AI: {s['calls']}  |  token in/out: {s['input_tokens']}/{s['output_tokens']}",
+    ]
+    if s.get("cache_savings_usd"):
+        lines.append(f"   risparmio da cache: ${s['cache_savings_usd']:.4f}")
+    if s.get("image_count"):
+        lines.append(f"   immagini: {s['image_count']} (${s['image_cost_usd']:.4f})")
+    return "\n".join(lines)
 
 
 def get_token_budget_status() -> dict:
@@ -4790,9 +4814,9 @@ def _build_create_adventure_prompt(
     "// GENERA {npc_count} NPC TOTALI — ogni location_id DEVE corrispondere a un id reale in locations"
   ],
   "clues": [
-    {{"id": "clue_1", "label": "Nome breve indizio", "text": "Descrizione dettagliata", "type": "physical_evidence|testimony|document|behavior|location_detail|contradiction", "thread_id": "T1", "reveals": "Cosa suggerisce", "payoff": "Cosa permette di capire o sbloccare", "location": "Nome leggibile del luogo", "location_id": "id ESATTO di una location qui sotto", "found": false}},
-    {{"id": "clue_2", "label": "...", "text": "...", "type": "...", "thread_id": "T2", "reveals": "...", "payoff": "...", "location": "...", "location_id": "...", "found": false}},
-    "// GENERA {clue_count} INDIZI TOTALI — varia i tipi; ogni location_id DEVE corrispondere a un id reale in locations"
+    {{"id": "clue_1", "label": "Nome breve indizio", "text": "Descrizione dettagliata", "type": "physical_evidence|testimony|document|behavior|location_detail|contradiction", "thread_id": "T1", "reveals": "Cosa suggerisce", "payoff": "Cosa permette di capire o sbloccare", "hidden_implication": "Il significato segreto che emerge solo combinando questo indizio con altri", "wrong_interpretations": ["lettura plausibile ma errata #1", "lettura plausibile ma errata #2"], "location": "Nome leggibile del luogo", "location_id": "id ESATTO di una location qui sotto", "found": false}},
+    {{"id": "clue_2", "label": "...", "text": "...", "type": "...", "thread_id": "T2", "reveals": "...", "payoff": "...", "hidden_implication": "...", "wrong_interpretations": ["...", "..."], "location": "...", "location_id": "...", "found": false}},
+    "// GENERA {clue_count} INDIZI TOTALI — varia i tipi; ogni indizio DEVE avere payoff, hidden_implication e wrong_interpretations; ogni location_id DEVE corrispondere a un id reale in locations"
   ],
   "story_threads": [
     {{"id": "T1", "title": "Titolo pista", "question": "Domanda investigativa specifica", "true_answer": "Risposta canonica nascosta", "status": "hidden", "required_clues": ["clue_1", "clue_2"], "minimum_clues_to_deduce": 2, "payoff": "Cosa sblocca questa deduzione", "linked_npcs": ["npc_1"]}},
@@ -4861,6 +4885,12 @@ POPOLAZIONE DEI LUOGHI (OBBLIGATORIA):
 
 REQUISITI AGGIUNTIVI:
 {additional}
+
+REGOLE INDIZI (OBBLIGATORIE — ogni indizio deve avere tutti e tre i livelli):
+- "payoff": cosa cambia o si sblocca concretamente quando i PG trovano l'indizio (il Master deve sapere cosa farne)
+- "hidden_implication": il significato profondo che NON è ovvio dal testo dell'indizio — emerge solo mettendo insieme più pezzi. Deve essere diverso da "reveals": reveals è cosa suggerisce a prima vista, hidden_implication è cosa significa davvero
+- "wrong_interpretations": 1-2 letture plausibili ma SBAGLIATE che un giocatore attento potrebbe fare — rendono il mistero ricco e permettono di sbagliarsi. NON ovvietà ("non è importante"), ma piste false credibili (es. "sembra incolpare il maggiordomo, in realtà lo scagiona")
+- Indizi a una sola dimensione (solo testo, senza implicazione nascosta o false letture) sono VIETATI
 
 REGOLE COLPI DI SCENA (OBBLIGATORIE):
 - Ogni twist DEVE compilare "subverts_clue" con l'ID esatto di un clue presente nell'array clues — il twist ribalta il significato di quell'indizio specifico
@@ -6674,6 +6704,25 @@ def generate_session_recap(
         return ""
 
 
+def _scope_threat_max(adventure: dict) -> int:
+    """Doom-clock proporzionale all'ampiezza dell'avventura.
+
+    Il threat_level persistente non è limitato a 10 (vedi main.py), quindi il
+    fuso può essere più lungo per le avventure epiche. Una storia con 18 indizi e
+    5 thread non può essere infilata nello stesso countdown di una scena breve:
+    altrimenti scade in sconfitta prima di poter completare l'indagine.
+
+    Floor a 8 (avventure brevi restano tese); per quelle ampie il fuso cresce
+    ~1 turno-cuscinetto per indizio. Rispetta un threat_max_turns esplicito se più
+    alto della stima basata sulla scala.
+    """
+    n_clues = len(adventure.get("clues") or [])
+    n_threads = len(adventure.get("story_threads") or [])
+    scope = max(8, n_clues + n_threads // 2)
+    explicit = adventure.get("threat_max_turns")
+    return max(int(explicit) if explicit else 0, scope)
+
+
 def master_turn_with_bible(
     genre: str,
     players: list[dict],
@@ -6751,7 +6800,7 @@ def master_turn_with_bible(
         investigation_progress=_inv_progress,
     )
     engine_updates = director_decision.get("state_updates_required") or {}
-    runtime_context = runtime_prompt_context(runtime)
+    runtime_context = None  # costruito più sotto, dopo aver calcolato il gate anti-spoiler
     _canonical_log = list(game_state_data.get("canonical_log") or [])
     director_context = director_prompt_context(director_decision, canonical_log=_canonical_log)
     if runtime_warnings:
@@ -6804,11 +6853,25 @@ def master_turn_with_bible(
         if status == "ready_to_deduce":
             ready_threads.append(row)
 
+    # ── Gate anti-spoiler della verità centrale ───────────────────────────────
+    # Il Master conosce la soluzione (core_truth / hidden_truths) e tende a
+    # narrarla troppo presto, scavalcando il gating degli indizi. La sveliamo SOLO
+    # quando i giocatori hanno gli indizi per dedurla (un thread è ready_to_deduce)
+    # o il tempo sta per scadere — altrimenti resta RISERVATA, esattamente come i
+    # segreti degli NPC [COPERTO].
+    _threat_level_gate = game_state_data.get("threat_level", 0)
+    _threat_max_gate = _scope_threat_max(adventure)
+    reveal_canon = bool(ready_threads) or int(_threat_level_gate / max(_threat_max_gate, 1) * 100) >= 80
+    runtime_context = runtime_prompt_context(runtime, reveal_canon=reveal_canon)
+    _CANON_REDACTED = ("[RISERVATO — emerge SOLO quando i giocatori hanno gli indizi per "
+                       "dedurla: orienta verso di essa senza mai dichiararla]")
+
     npc_statuses = game_state_data.get("npc_statuses", {})
     canon = adventure.get("adventure_canon") or {}
+    _central_truth = canon.get('core_truth') or adventure.get('hidden_truth', '')
     canon_context = (
         "\nCANOVACCIO CANONICO CHIUSO:"
-        f"\n- Verita centrale: {canon.get('core_truth') or adventure.get('hidden_truth','')}"
+        f"\n- Verita centrale: {_central_truth if reveal_canon else _CANON_REDACTED}"
         f"\n- Antagonista principale: {canon.get('main_antagonist') or 'non dichiarato'}"
         f"\n- Falsi indizi ammessi: {'; '.join(canon.get('false_leads') or []) or 'nessuno'}"
         f"\n- Luoghi chiave: {'; '.join(canon.get('key_locations') or []) or 'non dichiarati'}"
@@ -6867,7 +6930,7 @@ def master_turn_with_bible(
             )
 
     threat_level = game_state_data.get("threat_level", 0)
-    threat_max = adventure.get("threat_max_turns", 8)
+    threat_max = _scope_threat_max(adventure)
     threat_pct = int(threat_level / max(threat_max, 1) * 100)
     open_threads = game_state_data.get("open_threads", [])
     turn = game_state_data.get("turn", 1)

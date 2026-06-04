@@ -167,7 +167,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivi_amministrativi_del_c"
       },
       {
         "id": "clue_2",
@@ -202,7 +203,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_baracca_dell_eremita"
       },
       {
         "id": "clue_3",
@@ -237,7 +239,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_di_controllo_principale_2"
       },
       {
         "id": "clue_4",
@@ -272,7 +275,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_quartieri_ufficiali_di_sokol"
       },
       {
         "id": "clue_5",
@@ -307,7 +311,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_perimetro_esterno_del_comple_2"
       },
       {
         "id": "clue_6",
@@ -342,7 +347,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sistema_di_comunicazione_nel"
       },
       {
         "id": "clue_7",
@@ -494,7 +500,7 @@
         "id": "npc_1",
         "name": "Dr. Irina Sokolova",
         "role": "CEO della Dynatek Corporation e figlia del colonnello Sokolov",
-        "location_id": "Sala di controllo principale",
+        "location_id": "loc_sala_di_controllo_principale",
         "status": "unintroduced",
         "goal": "Riattivare la Matrice per dimostrare che suo padre aveva torto a seppellirla — crede di poter controllarla come strumento di deterrenza globale",
         "secret": "Ha avvelenato il suo stesso team di ingegneri quando hanno tentato di sabotare l'estrazione, proprio come fece suo padre nel 1987",
@@ -541,7 +547,7 @@
         "id": "npc_2",
         "name": "Yuri Kashin",
         "role": "Ex ingegnere del complesso, unico sopravvissuto del team di Sokolov",
-        "location_id": "Baracca dell'Eremita",
+        "location_id": "loc_baracca_dell_eremita",
         "status": "unintroduced",
         "goal": "Impedire che la Matrice venga riattivata — ha visto cosa fa alle menti umane durante i test del 1986",
         "secret": "Non fu avvelenato come gli altri: sopravvisse nascondendosi in una camera di decontaminazione, ma l'esposizione prolungata alla Matrice gli ha lasciato visioni precognitive frammentarie",
@@ -588,7 +594,7 @@
         "id": "npc_3",
         "name": "Comandante Alexei Volkov",
         "role": "Capo della sicurezza Dynatek sul campo",
-        "location_id": "Perimetro esterno del complesso",
+        "location_id": "loc_perimetro_esterno_del_comple",
         "status": "unintroduced",
         "goal": "Completare la missione per ottenere il bonus di estrazione, ma inizia a dubitare della sanità mentale di Sokolova quando gli ordini diventano sempre più erratici",
         "secret": "Ha piazzato cariche esplosive C4 in tutto il complesso per sigillare la Matrice se qualcosa va fuori controllo — ordini diretti del consiglio di amministrazione Dynatek all'insaputa di Irina",
@@ -635,7 +641,7 @@
         "id": "npc_4",
         "name": "Dr. Anya Petrov",
         "role": "Scienziata della Fondazione Arcturus, vostra coordinatrice remota",
-        "location_id": "Centro operativo Arcturus (remoto)",
+        "location_id": "loc_centro_operativo_arcturus__r",
         "status": "unintroduced",
         "goal": "Recuperare dati sulla Matrice per la Fondazione, priorità assoluta sulla sicurezza del team sul campo",
         "secret": "La Fondazione Arcturus ha già recuperato un frammento della Matrice da un altro sito nel 2019 — questa è una missione di completamento, non di scoperta",
@@ -682,52 +688,27 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Ingresso",
-        "description": "Ingresso: nodo giocabile della struttura room_keyed_dungeon.",
+        "id": "loc_sala_di_controllo_principale",
+        "name": "Sala di controllo principale",
+        "description": "Sala di controllo principale.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Ingresso: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -736,61 +717,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Corridoio delle scelte",
-        "description": "Corridoio delle scelte: nodo giocabile della struttura room_keyed_dungeon.",
+        "id": "loc_baracca_dell_eremita",
+        "name": "Baracca dell'Eremita",
+        "description": "Baracca dell'Eremita.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Corridoio delle scelte: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -798,65 +756,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Sala trappola",
-        "description": "Sala trappola: nodo giocabile della struttura room_keyed_dungeon.",
+        "id": "loc_perimetro_esterno_del_comple",
+        "name": "Perimetro esterno del complesso",
+        "description": "Perimetro esterno del complesso.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sala trappola: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -864,65 +794,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Archivio",
-        "description": "Archivio: nodo giocabile della struttura room_keyed_dungeon.",
+        "id": "loc_centro_operativo_arcturus__r",
+        "name": "Centro operativo Arcturus (remoto)",
+        "description": "Centro operativo Arcturus (remoto).",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scaffali alti come copertura",
-            "tavoli di lettura",
-            "scale mobili"
-          ],
-          "hazards": [
-            "scaffali instabili",
-            "pergamene infiammabili"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Archivio: scaffali alti come copertura, tavoli di lettura, scale mobili",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scaffali alti come copertura",
-          "tavoli di lettura",
-          "scale mobili",
-          "vetrine con manoscritti"
-        ],
-        "hazards": [
-          "scaffali instabili",
-          "pergamene infiammabili"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scaffali alti come copertura",
-          "tavoli di lettura",
-          "scale mobili"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -930,213 +832,204 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_2",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_5"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Santuario laterale",
-        "description": "Santuario laterale: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Santuario laterale: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_3",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_4",
-          "loc_ai_6"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_6",
-        "name": "Anticamera",
-        "description": "Anticamera: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Anticamera: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_3",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_5",
-          "loc_ai_7"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_7",
-        "name": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia",
-        "description": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Sala finale di Silenzio Chernaya satellite ricognizione rilevato un'anomalia: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivi_amministrativi_del_c",
+        "name": "Archivi amministrativi del complesso",
+        "description": "Archivi amministrativi del complesso.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_di_controllo_principale_2",
+        "name": "Sala di controllo principale (sul corpo di Irina se neutralizzata, o visibile durante confronto)",
+        "description": "Sala di controllo principale (sul corpo di Irina se neutralizzata, o visibile durante confronto).",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_quartieri_ufficiali_di_sokol",
+        "name": "Quartieri ufficiali di Sokolov",
+        "description": "Quartieri ufficiali di Sokolov.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_perimetro_esterno_del_comple_2",
+        "name": "Perimetro esterno del complesso e pilastri strutturali",
+        "description": "Perimetro esterno del complesso e pilastri strutturali.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sistema_di_comunicazione_nel",
+        "name": "Sistema di comunicazione nella base remota (accessibile hackerando relay locale)",
+        "description": "Sistema di comunicazione nella base remota (accessibile hackerando relay locale).",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2476,7 +2369,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_a16ca1c30b",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_di_controllo_principale",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2552,31 +2445,39 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_di_controllo_principale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_baracca_dell_eremita": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_perimetro_esterno_del_comple": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_centro_operativo_arcturus__r": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_archivi_amministrativi_del_c": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_6": {
+      "loc_sala_di_controllo_principale_2": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_7": {
+      "loc_quartieri_ufficiali_di_sokol": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_perimetro_esterno_del_comple_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sistema_di_comunicazione_nel": {
         "status": "known",
         "access_state": "open"
       }

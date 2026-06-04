@@ -665,6 +665,11 @@ def build_shape_for_ai_generated(text: str, archetype_profile: dict[str, Any], *
             "source_location": locations[(idx - 1) % len(locations)]["name"],
             "reveals": _ai_clue_reveal(primary, idx, topic),
             "payoff": _ai_clue_payoff(primary, idx, topic),
+            "hidden_implication": _ai_clue_payoff(primary, idx, topic),
+            "wrong_interpretations": [
+                f"sembra un dettaglio d'ambiente irrilevante di {topic}",
+                "punta al sospetto o alla causa sbagliata",
+            ],
             "revelation_ids": [f"rev_ai_{((idx - 1) % max(1, shape['threads'])) + 1}"],
             "is_required": idx <= max(1, shape["clues"] - 1),
             "source_status": "generated",

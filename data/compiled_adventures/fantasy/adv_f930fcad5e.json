@@ -155,7 +155,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_del_comando_del_forte_g"
       },
       {
         "id": "clue_2",
@@ -190,7 +191,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_retro_dell_infermeria"
       },
       {
         "id": "clue_3",
@@ -225,7 +227,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_del_forte_grancas"
       },
       {
         "id": "clue_4",
@@ -260,7 +263,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_quartieri_privati_del_comand"
       },
       {
         "id": "clue_5",
@@ -295,7 +299,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sulla_persona_del_sergente_m"
       },
       {
         "id": "clue_6",
@@ -330,7 +335,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_vecchio_magazzino_del_forte"
       },
       {
         "id": "clue_7",
@@ -506,7 +512,7 @@
         "id": "npc_1",
         "name": "Comandante Syr Gavrel di Fortalice",
         "role": "Ufficiale superiore del forte, antagonista nascosto",
-        "location_id": "Sala del Comando del Forte Grancassa",
+        "location_id": "loc_sala_del_comando_del_forte_g",
         "status": "unintroduced",
         "goal": "Coprire il suo tradimento abbastanza a lungo da lasciare il forte per un 'congedo medico urgente' prima che la verità emerga",
         "secret": "Ha venduto tre carichi di rifornimenti ai contrabbandieri Yrsk per 800 ducati d'oro, somma necessaria a coprire debiti contratti con l'Agenzia dei Prestatori Reali a causa del gioco d'azzardo",
@@ -553,7 +559,7 @@
         "id": "npc_2",
         "name": "Sergente Vek Mordain",
         "role": "Braccio destro di Gavrel, custode segreto di Karth",
-        "location_id": "Infermeria del Forte Grancassa",
+        "location_id": "loc_infermeria_del_forte_grancas",
         "status": "unintroduced",
         "goal": "Proteggere Gavrel in cambio di una quota dell'oro e della promessa di promozione",
         "secret": "Ha imprigionato personalmente Karth nella cisterna sottostante l'infermeria e ha diffuso la voce che il medico sia fuggito verso sud",
@@ -600,7 +606,7 @@
         "id": "npc_3",
         "name": "Capitano medico Idris Karth",
         "role": "Prigioniero, vittima designata",
-        "location_id": "Cisterna Sotterranea del Forte",
+        "location_id": "loc_cisterna_sotterranea_del_for",
         "status": "unintroduced",
         "goal": "Sopravvivere abbastanza per testimoniare contro Gavrel e salvare i soldati malati con i rifornimenti che sa essere stati deviati",
         "secret": "Ha nascosto una copia delle registre originali (non falsificate) nel vecchio magazzino prima di essere catturata",
@@ -647,7 +653,7 @@
         "id": "npc_4",
         "name": "Lyra Corvash, portavoce dei rifugiati",
         "role": "Leader dei civili accampati fuori dal forte",
-        "location_id": "Accampamento Rifugiati fuori dal Forte",
+        "location_id": "loc_accampamento_rifugiati_fuori",
         "status": "unintroduced",
         "goal": "Far entrare i suoi 47 rifugiati nel forte prima che la tempesta li uccida, anche a costo di forzare i cancelli",
         "secret": "Suo fratello minore è uno dei contrabbandieri Yrsk che hanno comprato i rifornimenti da Gavrel — sa dove si trova la merce ma teme ritorsioni",
@@ -694,40 +700,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sala_del_comando_del_forte_g",
+        "name": "Sala del Comando del Forte Grancassa",
+        "description": "Sala del Comando del Forte Grancassa.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -742,43 +737,146 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_infermeria_del_forte_grancas",
+        "name": "Infermeria del Forte Grancassa",
+        "description": "Infermeria del Forte Grancassa.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cisterna_sotterranea_del_for",
+        "name": "Cisterna Sotterranea del Forte",
+        "description": "Cisterna Sotterranea del Forte.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_accampamento_rifugiati_fuori",
+        "name": "Accampamento Rifugiati fuori dal Forte",
+        "description": "Accampamento Rifugiati fuori dal Forte.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_retro_dell_infermeria",
+        "name": "Retro dell'Infermeria",
+        "description": "Retro dell'Infermeria.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -793,43 +891,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_quartieri_privati_del_comand",
+        "name": "Quartieri Privati del Comandante",
+        "description": "Quartieri Privati del Comandante.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_4"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -844,55 +929,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sulla_persona_del_sergente_m",
+        "name": "Sulla persona del Sergente Mordain",
+        "description": "Sulla persona del Sergente Mordain.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_5"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -907,7 +967,45 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_vecchio_magazzino_del_forte",
+        "name": "Vecchio Magazzino del Forte",
+        "description": "Vecchio Magazzino del Forte.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2053,7 +2151,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_f930fcad5e",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_del_comando_del_forte_g",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2128,19 +2226,35 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_del_comando_del_forte_g": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_infermeria_del_forte_grancas": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_cisterna_sotterranea_del_for": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_accampamento_rifugiati_fuori": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_retro_dell_infermeria": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_quartieri_privati_del_comand": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sulla_persona_del_sergente_m": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_vecchio_magazzino_del_forte": {
         "status": "known",
         "access_state": "open"
       }

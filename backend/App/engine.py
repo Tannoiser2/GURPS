@@ -1015,6 +1015,41 @@ def _assign_npc_weapons(npc: "WorldNPC", genre: str = "") -> None:
         ))
 
 
+def _baseline_npc_gurps(role: str, threat: int) -> dict:
+    """Scheda GURPS deterministica di base per OGNI NPC (nessuna chiamata AI).
+
+    Scala con threat_to_player (0 = civile inerme … 3 = antagonista temibile) e dà
+    a ogni PNG attributi, una skill principale e stat di combattimento — così è
+    interagibile/affrontabile meccanicamente, non solo una descrizione narrativa.
+    Prima queste stat esistevano solo per i "boss" (generate via LLM).
+    """
+    t = max(0, min(3, int(threat)))
+    fo, de, in_, sa, skill = {
+        0: (10, 10, 11, 10, 10),
+        1: (10, 11, 11, 10, 12),
+        2: (11, 12, 10, 11, 13),
+        3: (12, 13, 12, 12, 14),
+    }[t]
+    low = (role or "").lower()
+    if any(k in low for k in ("antagon", "boss", "guard", "soldier", "minacc", "nemic")):
+        primary = "combattere"
+    elif any(k in low for k in ("medic", "alle", "ally", "guaritore")):
+        primary = "primo soccorso"
+    elif any(k in low for k in ("test", "witness", "neutr", "civil")):
+        primary = "osservare"
+    else:
+        primary = "combattere"
+    return {
+        "gurps_fo": fo, "gurps_de": de, "gurps_in": in_, "gurps_sa": sa,
+        "gurps_skills": {primary: skill, "osservare": 10 + t, "schivare": 8 + t},
+        "gurps_advantages": (["Riflessi da Combattimento"] if t >= 3 else []),
+        "combat_hp": fo, "combat_max_hp": fo, "combat_dr": (1 if t >= 2 else 0),
+        "combat_attack_skill": skill, "combat_active_defense": 8 + t // 2,
+        "combat_damage_dice": ("1d-2" if t == 0 else "1d-1" if t == 1 else "1d"),
+        "combat_damage_type": "cr",
+    }
+
+
 def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapState) -> list[WorldNPC]:
     node_ids = list(map_state.nodes.keys())
     genre = getattr(definition, "genre", "") or ""
@@ -1035,6 +1070,9 @@ def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapS
             description=actor.goal or actor.secret or role,
             secret=actor.secret,
         )
+        # Ogni NPC riceve una scheda GURPS di base (non solo i boss).
+        for _k, _v in _baseline_npc_gurps(role, threat).items():
+            setattr(npc, _k, _v)
         _assign_npc_weapons(npc, genre)
         npcs.append(npc)
     return npcs
@@ -2537,6 +2575,52 @@ def _add_narrative_scene_entities(state: GameState, entities: list[SceneEntity])
         ))
 
 
+def _combat_enemy_for_scene(state: GameState, node_id: str, threat_name: str) -> "SceneEntity | None":
+    """Nemico di combattimento con stat REALI (non più il placeholder hp=2).
+
+    Priorità:
+      1) un NPC ostile fisicamente presente nel nodo → la SUA scheda GURPS;
+      2) altrimenti una creatura del bestiario appropriata al genere, deterministica
+         per nodo (stessa location → stessa creatura, non cambia a ogni turno).
+    Se c'è un nome di minaccia concreto dell'avventura, lo conserva ma con stat reali.
+    Ritorna None solo se non c'è nulla di adatto → resta il fallback generico.
+    """
+    genre = (getattr(state.mission, "genre", "") if state.mission else "") or \
+            (state.adventure_definition.genre if state.adventure_definition else "")
+
+    # 1) NPC ostile presente qui → usa la sua scheda
+    for npc in (state.world_npcs or []):
+        if (npc.current_node_id == node_id
+                and npc.status in {"alive", "active", "exposed"}
+                and (npc.threat_to_player or 0) >= 2
+                and npc.combat_hp):
+            return SceneEntity(
+                id=f"enemy_{npc.id}", name=npc.name, type="enemy", zone="minaccia",
+                hp=npc.combat_hp, max_hp=npc.combat_max_hp or npc.combat_hp,
+                dr=npc.combat_dr or 0, attack_skill=npc.combat_attack_skill or 12,
+                active_defense=npc.combat_active_defense or 8,
+                damage_dice=npc.combat_damage_dice or "1d-1",
+                damage_type=npc.combat_damage_type or "cr",
+                tags=["nemico", "png"],
+            )
+
+    # 2) creatura dal bestiario — stat reali, deterministica per nodo
+    from .data_creatures import creature_to_entity_dict, random_encounter_for
+    threat_pct = (state.scene.threat_level / 10.0) if state.scene else 0.0
+    max_threat = 1 if threat_pct < 0.4 else (2 if threat_pct < 0.7 else 3)
+    rng = random.Random(f"{node_id}|{genre}")
+    creature = random_encounter_for(genre, max_threat=max_threat, rng=rng) \
+        or random_encounter_for(genre, rng=rng)
+    if not creature:
+        return None
+    kw = creature_to_entity_dict(creature, entity_id="enemy_primary")
+    if _is_concrete_threat_name(threat_name):
+        # mantieni il nome della minaccia dell'avventura, ma con stat reali
+        kw["name"] = threat_name.capitalize()
+        kw["tags"] = ["nemico", "minaccia"]
+    return SceneEntity(**kw)
+
+
 def populate_scene_entities(state: GameState) -> None:
     if not state.scene:
         return
@@ -2555,7 +2639,11 @@ def populate_scene_entities(state: GameState) -> None:
 
     if (current_node and current_node.contains_enemy) or tags & {"combattimento", "attacco", "scontro", "nemico"}:
         threat_name = state.mission.threat_type if state.mission else "Minaccia"
-        if _is_concrete_threat_name(threat_name):
+        _node_id = current_node.id if current_node else (state.map_state.current_node_id if state.map_state else "")
+        enemy = _combat_enemy_for_scene(state, _node_id, threat_name)
+        if enemy is not None:
+            _append_scene_entity(entities, enemy)
+        elif _is_concrete_threat_name(threat_name):
             _append_scene_entity(entities, SceneEntity(id="enemy_primary", name=threat_name.capitalize(), type="enemy", zone="minaccia", hp=2 + state.scene.threat_level // 4, tags=["nemico", "minaccia"]))
 
     scene_text = state.scene.scene_text if state.scene else ""

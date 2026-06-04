@@ -151,7 +151,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_stanze_degli_ospiti"
       },
       {
         "id": "clue_2",
@@ -186,7 +187,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_magazzino_abbandonato"
       },
       {
         "id": "clue_3",
@@ -221,7 +223,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_magazzino_abbandonato"
       },
       {
         "id": "clue_4",
@@ -257,7 +260,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_del_castello"
       },
       {
         "id": "clue_5",
@@ -293,7 +297,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_del_castello"
       },
       {
         "id": "clue_6",
@@ -328,7 +333,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_del_castello"
       },
       {
         "id": "clue_7",
@@ -504,7 +510,7 @@
         "id": "npc_1",
         "name": "Lord Edric Theryn",
         "role": "Committente apparente – Signore di Valcrest",
-        "location_id": "Sala del Trono di Valcrest",
+        "location_id": "loc_sala_del_trono_di_valcrest",
         "status": "unintroduced",
         "goal": "Consolidare il controllo economico su Valcrest attraverso il monopolio commerciale ottenuto con l'accordo",
         "secret": "Ha ordinato personalmente l'incendio dopo che gli apprendisti hanno minacciato di rivelare al regno di Ostmark che le armi vendute erano sabotate",
@@ -551,7 +557,7 @@
         "id": "npc_2",
         "name": "Guildmaster Varoth",
         "role": "Capo della Gilda dei Forgiaferro – co-negoziatore",
-        "location_id": "Officina Ricostruita",
+        "location_id": "loc_officina_ricostruita",
         "status": "unintroduced",
         "goal": "Salvare la Gilda dalla bancarotta e dalla rovina legale dopo l'incendio",
         "secret": "Sapeva delle armi difettose ma ha coperto Theryn per anni in cambio di sovvenzioni. Ora deve mantenere il silenzio o perdere tutto",
@@ -598,7 +604,7 @@
         "id": "npc_3",
         "name": "Seris Valnor",
         "role": "Scrivana e consigliera di Theryn – traditrice inconsapevole",
-        "location_id": "Archivio del Castello",
+        "location_id": "loc_archivio_del_castello",
         "status": "unintroduced",
         "goal": "Proteggere Lord Theryn da qualsiasi minaccia, credendo fermamente nella sua innocenza e nel bene superiore del casato",
         "secret": "È lei ad aver avvelenato Karven e sta eliminando i testimoni, convinta che siano traditori che vogliono distruggere Theryn con false accuse",
@@ -645,7 +651,7 @@
         "id": "npc_4",
         "name": "Jorik Mano-di-Ferro",
         "role": "Apprendista sopravvissuto – testimone chiave",
-        "location_id": "Magazzino Abbandonato",
+        "location_id": "loc_magazzino_abbandonato",
         "status": "unintroduced",
         "goal": "Vendicare i compagni morti e rivelare la verità sull'incendio",
         "secret": "Ha visto Varoth sigillare le porte dell'officina dall'esterno poco prima dell'incendio, ma nessuno gli crede perché era ubriaco quella sera",
@@ -692,40 +698,27 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Piazza neutrale",
-        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_sala_del_trono_di_valcrest",
+        "name": "Sala del Trono di Valcrest",
+        "description": "Sala del Trono di Valcrest.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Piazza neutrale: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -734,49 +727,36 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Sede fazione A",
-        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_officina_ricostruita",
+        "name": "Officina Ricostruita",
+        "description": "Officina Ricostruita.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sede fazione A: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -784,189 +764,135 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Sede fazione B",
-        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Sede fazione B: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Mercato delle informazioni",
-        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Mercato delle informazioni: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Luogo del confronto",
-        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Luogo del confronto: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "local",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivio_del_castello",
+        "name": "Archivio del Castello",
+        "description": "Archivio del Castello.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4",
+          "clue_5",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_magazzino_abbandonato",
+        "name": "Magazzino Abbandonato",
+        "description": "Magazzino Abbandonato.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2",
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_stanze_degli_ospiti",
+        "name": "Stanze degli Ospiti",
+        "description": "Stanze degli Ospiti.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2116,7 +2042,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_1aaa82a923",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_del_trono_di_valcrest",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2191,23 +2117,23 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_del_trono_di_valcrest": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_officina_ricostruita": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_archivio_del_castello": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_magazzino_abbandonato": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_stanze_degli_ospiti": {
         "status": "known",
         "access_state": "open"
       }

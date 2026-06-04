@@ -9517,7 +9517,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_tuscaloosa"
       },
       {
         "id": "llm_clue_2",
@@ -9553,7 +9554,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_asesinato"
       },
       {
         "id": "llm_clue_3",
@@ -9589,7 +9591,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_st__gonzalez_leper_colony"
       },
       {
         "id": "llm_clue_4",
@@ -9625,7 +9628,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_asesinato"
       },
       {
         "id": "llm_clue_5",
@@ -9661,7 +9665,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_asesinato"
       },
       {
         "id": "llm_clue_6",
@@ -9697,7 +9702,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_css_tuscaloosa"
       },
       {
         "id": "llm_clue_7",
@@ -9733,7 +9739,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_kirby_bell_bee"
       },
       {
         "id": "llm_clue_8",
@@ -9769,7 +9776,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_outside_the_temple"
       },
       {
         "id": "llm_clue_9",
@@ -9805,7 +9813,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_outside_the_temple"
       },
       {
         "id": "llm_clue_10",
@@ -9841,7 +9850,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_kirby_bell_bee"
       },
       {
         "id": "llm_clue_11",
@@ -9877,7 +9887,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_outside_the_temple"
       },
       {
         "id": "llm_clue_12",
@@ -9913,7 +9924,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_tuscaloosa"
       },
       {
         "id": "nuovo_clue_1",
@@ -10519,7 +10531,7 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "vehicle",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Un'imbarcazione che risale il fiume Javary in Perù. Viene attaccata da gemelli violenti che cercano una collana leggenda",
         "gameplay_function": "Location iniziale dove inizia l'avventura in medias res. I PG vengono attaccati e devono sopravvivere all'assalto dei gemelli.",
@@ -10930,6 +10942,240 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_the_tuscaloosa",
+        "name": "The TuSCAlOOSA",
+        "description": "The TuSCAlOOSA.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1",
+          "llm_clue_12"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_asesinato",
+        "name": "ASeSinATO",
+        "description": "ASeSinATO.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2",
+          "llm_clue_4",
+          "llm_clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_st__gonzalez_leper_colony",
+        "name": "ST. gOnzAlez lePer COlOny",
+        "description": "ST. gOnzAlez lePer COlOny.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_css_tuscaloosa",
+        "name": "The CSS Tuscaloosa",
+        "description": "The CSS Tuscaloosa.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_kirby_bell_bee",
+        "name": "KIRBY BELL BEE",
+        "description": "KIRBY BELL BEE.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_7",
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_outside_the_temple",
+        "name": "Outside the Temple",
+        "description": "Outside the Temple.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_8",
+          "llm_clue_9",
+          "llm_clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -15690,6 +15936,30 @@
         "access_state": "open"
       },
       "loc_jungle_trek": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_tuscaloosa": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_asesinato": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_st__gonzalez_leper_colony": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_css_tuscaloosa": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_kirby_bell_bee": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_outside_the_temple": {
         "status": "known",
         "access_state": "open"
       }

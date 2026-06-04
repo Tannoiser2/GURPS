@@ -78,6 +78,7 @@ def main():
     print("Carico moduli backend...")
     try:
         from App.claude_service import create_adventure
+        from App.claude_service import reset_session_token_stats, format_cost_summary
         from App.adventure_compiler import compile_from_raw_structure
         from App.adventure_runtime_store import save_runtime
         from App.adventure_doctor import run_doctor
@@ -92,6 +93,7 @@ def main():
     print(f"Max avventure: {MAX}")
 
     ok = fail = 0
+    reset_session_token_stats()
 
     for path_rel, genre, scale in DEBOLI[:MAX]:
         path = BASE / path_rel
@@ -165,6 +167,7 @@ def main():
 
     print(f"\n{'='*50}")
     print(f"Completato: {ok} rigenerati, {fail} falliti")
+    print(format_cost_summary(f"({ok} rigenerati)"))
     if fail > 0 and ok == 0:
         sys.exit(1)
 

@@ -182,9 +182,15 @@ def build_adventure_runtime(adventure: dict, game_state_data: dict | None = None
     return runtime
 
 
-def runtime_prompt_context(runtime: AdventureRuntime) -> str:
+def runtime_prompt_context(runtime: AdventureRuntime, reveal_canon: bool = False) -> str:
     clocks = "; ".join(f"{c.label}={c.value}/{c.max_value}" for c in runtime.event_clocks) or "nessuno"
-    hidden = "; ".join(h.statement for h in runtime.hidden_truths if h.statement) or "non dichiarata"
+    # Anti-spoiler: la verità canonica (core_truths) viene mostrata al Master SOLO
+    # quando il chiamante lo autorizza (thread pronti a dedurre / tempo agli sgoccioli).
+    # Altrimenti resta riservata: senza questo il Master la racconta dal primo turno.
+    if reveal_canon:
+        hidden = "; ".join(h.statement for h in runtime.hidden_truths if h.statement) or "non dichiarata"
+    else:
+        hidden = "[RISERVATO — emerge quando i giocatori hanno gli indizi per dedurla; non dichiararla]"
     available_revs = [r for r in runtime.revelations if r.status == "available"]
     partial_clues = [c for c in runtime.clues if c.state == "partial"]
     hidden_clues = [c for c in runtime.clues if c.state == "hidden"]

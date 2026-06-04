@@ -154,7 +154,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_vecchio_patto"
       },
       {
         "id": "clue_2",
@@ -189,7 +190,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cantina_vallond"
       },
       {
         "id": "clue_3",
@@ -224,7 +226,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_armeria_della_milizia"
       },
       {
         "id": "clue_4",
@@ -259,7 +262,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_capanna_di_sora"
       },
       {
         "id": "clue_5",
@@ -294,7 +298,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_frutteto_vallond"
       },
       {
         "id": "clue_6",
@@ -329,7 +334,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_residenza_vallond"
       },
       {
         "id": "clue_7",
@@ -529,7 +535,7 @@
         "id": "npc_1",
         "name": "Merek Vallond",
         "role": "Sindaco di Valleluna e padre ignaro",
-        "location_id": "Residenza Vallond",
+        "location_id": "loc_residenza_vallond",
         "status": "unintroduced",
         "goal": "Proteggere suo figlio Andor e il borgo a ogni costo, senza comprendere che la minaccia ha radici nella sua famiglia.",
         "secret": "Non sa che suo nonno Aldren commise il crimine originale. Ha ereditato il frutteto più prosperoso del borgo senza sapere che sorge sulla tana sacra della Madre del Branco.",
@@ -576,7 +582,7 @@
         "id": "npc_2",
         "name": "Sora Tennech",
         "role": "Guaritrice ed ex-custode del Patto",
-        "location_id": "Capanna di Sora",
+        "location_id": "loc_capanna_di_sora",
         "status": "unintroduced",
         "goal": "Ripristinare l'equilibrio infranto prima che il Branco distrugga tutto. Sa che solo la verità può fermare gli spiriti.",
         "secret": "Fu testimone bambina dell'uccisione della Madre. Suo padre, ultimo Custode del Patto, morì di crepacuore un anno dopo, incapace di fermare Aldren. Lei porta quel peso da settant'anni.",
@@ -623,7 +629,7 @@
         "id": "npc_3",
         "name": "Dargos Murrin",
         "role": "Capitano della milizia e falso sospettato",
-        "location_id": "Armeria della Milizia",
+        "location_id": "loc_armeria_della_milizia",
         "status": "unintroduced",
         "goal": "Eliminare la minaccia con la forza, rifiutando qualsiasi spiegazione 'mistica'. È ossessionato dal proteggere Valleluna dopo aver perso sua moglie nel secondo attacco.",
         "secret": "Ha organizzato spedizioni notturne nella foresta per dare la caccia ai lupi. Tre dei suoi uomini non sono più tornati. Nasconde le perdite per non creare panico, facendo sembrare che siano desertori.",
@@ -670,7 +676,7 @@
         "id": "npc_4",
         "name": "Andor Vallond",
         "role": "Figlio di Merek e portatore del marchio",
-        "location_id": "Residenza Vallond",
+        "location_id": "loc_residenza_vallond",
         "status": "unintroduced",
         "goal": "Comprendere perché sogna una lupa bianca che lo chiama per nome ogni notte. È terrorizzato ma anche stranamente attratto dalla foresta.",
         "secret": "Porta un marchio invisibile sulla nuca che solo gli spiriti ferini possono vedere. Negli ultimi tre giorni ha iniziato a parlare nel sonno in una lingua che nessuno riconosce — è l'antica lingua dei Custodi.",
@@ -717,40 +723,30 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_residenza_vallond",
+        "name": "Residenza Vallond",
+        "description": "Residenza Vallond.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_1",
+          "npc_4"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -759,49 +755,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_capanna_di_sora",
+        "name": "Capanna di Sora",
+        "description": "Capanna di Sora.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -809,53 +794,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_armeria_della_milizia",
+        "name": "Armeria della Milizia",
+        "description": "Armeria della Milizia.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -863,53 +834,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_vecchio_patto",
+        "name": "Vecchio Patto",
+        "description": "Vecchio Patto.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -917,54 +872,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Finale",
-        "description": "Finale: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_cantina_vallond",
+        "name": "Cantina Vallond",
+        "description": "Cantina Vallond.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Finale: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -972,64 +910,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_4",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_6"
-        ],
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_6",
-        "name": "Epilogo",
-        "description": "Epilogo: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_frutteto_vallond",
+        "name": "Frutteto Vallond",
+        "description": "Frutteto Vallond.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_5"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Epilogo: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1037,16 +948,14 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_4",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_5"
-        ],
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2241,7 +2150,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_21b8581bdd",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_residenza_vallond",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2316,27 +2225,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_residenza_vallond": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_capanna_di_sora": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_armeria_della_milizia": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_vecchio_patto": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_cantina_vallond": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_6": {
+      "loc_frutteto_vallond": {
         "status": "known",
         "access_state": "open"
       }

@@ -169,7 +169,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_obitorio_comunale"
       },
       {
         "id": "clue_2",
@@ -205,7 +206,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_biblioteca_della_gilda"
       },
       {
         "id": "clue_3",
@@ -240,7 +242,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_della_mediazione"
       },
       {
         "id": "clue_4",
@@ -275,7 +278,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_la_lanterna_spenta"
       },
       {
         "id": "clue_5",
@@ -311,7 +315,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_quartier_generale_della_guar"
       },
       {
         "id": "clue_6",
@@ -346,7 +351,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_piazza_neutrale"
       },
       {
         "id": "clue_7",
@@ -546,7 +552,7 @@
         "id": "npc_serafine",
         "name": "Serafine Vordt",
         "role": "Mediatrice neutrale e guida iniziale",
-        "location_id": "Archivio della Mediazione",
+        "location_id": "loc_archivio_della_mediazione",
         "status": "unintroduced",
         "goal": "Proteggere la propria reputazione e ricchezza nascosta eliminando chiunque possa collegare lei alla sottrazione di fondi dall'esperimento fallito",
         "secret": "Ha deviato 40.000 corone dai fondi dell'esperimento congiunto per acquistare proprietà a suo nome nella Provincia del Lago. È lei ad aver assunto gli assassini per eliminare i testimoni.",
@@ -593,7 +599,7 @@
         "id": "npc_dain",
         "name": "Dain Vekros",
         "role": "Ultimo testimone vivente dell'Incidente di Salina",
-        "location_id": "La Lanterna Spenta",
+        "location_id": "loc_la_lanterna_spenta",
         "status": "unintroduced",
         "goal": "Sopravvivere abbastanza a lungo da confessare la verità sull'Incidente di Salina e ottenere giustizia per i morti",
         "secret": "Era presente durante l'esplosione. Sa che l'esperimento era finanziato con fondi neri gestiti da Serafine. Ha una copia parziale del registro contabile, ma non sa chi stia cercando di ucciderlo.",
@@ -640,7 +646,7 @@
         "id": "npc_lirien",
         "name": "Lirien Foss",
         "role": "Archivista della Gilda degli Arcanisti, esperta di autenticazione documentale",
-        "location_id": "Biblioteca della Gilda",
+        "location_id": "loc_biblioteca_della_gilda",
         "status": "unintroduced",
         "goal": "Proteggere la Gilda dalla vergogna pubblica, ma lotta con il senso di colpa per aver falsificato documenti su ordine di Serafine",
         "secret": "Serafine le ha chiesto di 'correggere' alcune firme sul Trattato di Rifusione per farlo sembrare legittimo. Lirien ha accettato sotto minaccia di perdere il lavoro, ma ora teme di essere coinvolta nei crimini.",
@@ -687,7 +693,7 @@
         "id": "npc_torvald",
         "name": "Torvald Kuhn",
         "role": "Capitano della Guardia del Sindacato, investigatore incaricato delle morti dei testimoni",
-        "location_id": "Quartier Generale della Guardia",
+        "location_id": "loc_quartier_generale_della_guar",
         "status": "unintroduced",
         "goal": "Scoprire chi sta uccidendo i testimoni e fermare chi minaccia la stabilità della città, anche se significa sfidare il Sindacato stesso",
         "secret": "Sospetta che il Trattato copra qualcosa di grave, ma non ha prove. Ha ricevuto un ordine anonimo di chiudere le indagini sulle morti — ordine che sospetta provenga dall'alto.",
@@ -734,44 +740,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Piazza neutrale",
-        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_archivio_della_mediazione",
+        "name": "Archivio della Mediazione",
+        "description": "Archivio della Mediazione.",
         "status": "known",
         "contains_clues": [
-          "clue_6"
+          "clue_3"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_serafine"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
-        "clue_slots": [
-          "clue_6"
-        ],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "clue_slots": [],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -780,218 +771,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_2",
-        "name": "Sede fazione A",
-        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_3"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Sede fazione B",
-        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_2"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Mercato delle informazioni",
-        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
         "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Luogo del confronto",
-        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_la_lanterna_spenta",
+        "name": "La Lanterna Spenta",
+        "description": "La Lanterna Spenta.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_dain"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -999,16 +810,170 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_biblioteca_della_gilda",
+        "name": "Biblioteca della Gilda",
+        "description": "Biblioteca della Gilda.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_lirien"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_quartier_generale_della_guar",
+        "name": "Quartier Generale della Guardia",
+        "description": "Quartier Generale della Guardia.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_torvald"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_obitorio_comunale",
+        "name": "Obitorio Comunale",
+        "description": "Obitorio Comunale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_piazza_neutrale",
+        "name": "Piazza neutrale",
+        "description": "Piazza neutrale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2206,7 +2171,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_5df90613d0",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_archivio_della_mediazione",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2282,23 +2247,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_archivio_della_mediazione": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_la_lanterna_spenta": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_biblioteca_della_gilda": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_quartier_generale_della_guar": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_obitorio_comunale": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_piazza_neutrale": {
         "status": "known",
         "access_state": "open"
       }

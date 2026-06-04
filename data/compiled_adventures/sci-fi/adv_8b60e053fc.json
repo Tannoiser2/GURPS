@@ -156,7 +156,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_ufficio_amministrativo_stazi"
       },
       {
         "id": "clue_2",
@@ -192,7 +193,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_controllo_sicurezz"
       },
       {
         "id": "clue_3",
@@ -227,7 +229,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_terminale_personale_di_lira"
       },
       {
         "id": "clue_4",
@@ -262,7 +265,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_rifugio_nella_sezione_indust"
       },
       {
         "id": "clue_5",
@@ -297,7 +301,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_dei_negoziati"
       },
       {
         "id": "clue_6",
@@ -332,7 +337,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_digitale_secondario"
       },
       {
         "id": "clue_7",
@@ -532,7 +538,7 @@
         "id": "npc_1",
         "name": "Governatrice Isra Veldan",
         "role": "Committente apparente dei PG",
-        "location_id": "Sala dei negoziati",
+        "location_id": "loc_sala_dei_negoziati",
         "status": "unintroduced",
         "goal": "Garantire che il Protocollo venga firmato per proteggere il suo passato e assicurare l'autonomia energetica della colonia, costi quel che costi",
         "secret": "È lei la vera mandante degli omicidi: ha ordinato a Kael Orin di eliminare i tecnici prima che rivelassero il suo ruolo nel Massacro di Settore-9",
@@ -579,7 +585,7 @@
         "id": "npc_2",
         "name": "Kael Orin",
         "role": "Capo della sicurezza Helix, esecutore degli omicidi",
-        "location_id": "Centro di controllo sicurezza",
+        "location_id": "loc_centro_di_controllo_sicurezz",
         "status": "unintroduced",
         "goal": "Completare il lavoro sporco per Veldan mantenendo il suo status privilegiato come 'risolvi-problemi' della corporazione",
         "secret": "Ha ucciso personalmente i tre tecnici sabotando i loro moduli di respirazione. Conserva i backup dei dati del massacro come assicurazione personale contro Veldan",
@@ -626,7 +632,7 @@
         "id": "npc_3",
         "name": "Dr. Amara Solis",
         "role": "Ultima tecnica sopravvissuta, testimone chiave",
-        "location_id": "Rifugio nella sezione industriale",
+        "location_id": "loc_rifugio_nella_sezione_indust",
         "status": "unintroduced",
         "goal": "Sopravvivere abbastanza a lungo per far uscire i dati del massacro, vendicare i colleghi morti",
         "secret": "Ha nascosto una copia criptata dei file di Settore-9 in un satellite di comunicazione abbandonato. Sa che Kael l'ha nel mirino ma non sa chi ha dato l'ordine",
@@ -673,7 +679,7 @@
         "id": "npc_4",
         "name": "Legato Marcus Tyne",
         "role": "Rappresentante ufficiale Helix, negoziatore",
-        "location_id": "Sala dei negoziati",
+        "location_id": "loc_sala_dei_negoziati",
         "status": "unintroduced",
         "goal": "Concludere il Protocollo per garantire il monopolio sul neutrinio, ignaro del vero scopo dell'accordo",
         "secret": "Sa che Helix ha commesso crimini in passato ma crede che il Protocollo sia solo business. Non conosce i dettagli del Massacro di Settore-9",
@@ -720,52 +726,30 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura military_operation.",
+        "id": "loc_sala_dei_negoziati",
+        "name": "Sala dei negoziati",
+        "description": "Sala dei negoziati.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_1",
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -774,61 +758,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura military_operation.",
+        "id": "loc_centro_di_controllo_sicurezz",
+        "name": "Centro di controllo sicurezza",
+        "description": "Centro di controllo sicurezza.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -836,212 +797,168 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura military_operation.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura military_operation.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Finale",
-        "description": "Finale: nodo giocabile della struttura military_operation.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Finale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_4",
-        "location_type": "local",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_rifugio_nella_sezione_indust",
+        "name": "Rifugio nella sezione industriale",
+        "description": "Rifugio nella sezione industriale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ufficio_amministrativo_stazi",
+        "name": "Ufficio amministrativo stazione",
+        "description": "Ufficio amministrativo stazione.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_terminale_personale_di_lira",
+        "name": "Terminale personale di Lira",
+        "description": "Terminale personale di Lira.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivio_digitale_secondario",
+        "name": "Archivio digitale secondario",
+        "description": "Archivio digitale secondario.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2164,7 +2081,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_8b60e053fc",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_dei_negoziati",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2239,23 +2156,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_dei_negoziati": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_centro_di_controllo_sicurezz": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_rifugio_nella_sezione_indust": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_ufficio_amministrativo_stazi": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_terminale_personale_di_lira": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_archivio_digitale_secondario": {
         "status": "known",
         "access_state": "open"
       }

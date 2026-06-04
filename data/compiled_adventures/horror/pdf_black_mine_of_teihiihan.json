@@ -3698,7 +3698,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_a_botched_rail_job"
       },
       {
         "id": "llm_clue_2",
@@ -3734,7 +3735,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_derailed"
       },
       {
         "id": "llm_clue_3",
@@ -3770,7 +3772,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_miserable_johnny_buck"
       },
       {
         "id": "llm_clue_4",
@@ -3806,7 +3809,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_fort_rufus"
       },
       {
         "id": "llm_clue_5",
@@ -3842,7 +3846,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_fort_rufus"
       },
       {
         "id": "llm_clue_6",
@@ -3878,7 +3883,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_fort_rufus"
       },
       {
         "id": "llm_clue_7",
@@ -3914,7 +3920,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_trail_of_blood"
       },
       {
         "id": "llm_clue_8",
@@ -3950,7 +3957,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_wo_oteeyoo_soul_bird"
       },
       {
         "id": "llm_clue_9",
@@ -3986,7 +3994,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_inside_with_rufus_hoowuuni"
       },
       {
         "id": "llm_clue_10",
@@ -4022,7 +4031,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_teihiihan_totems"
       },
       {
         "id": "llm_clue_11",
@@ -4058,7 +4068,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_following_the_map"
       },
       {
         "id": "nuovo_clue_1",
@@ -4616,7 +4627,7 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "vehicle",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Un vagone passeggeri di seconda classe affollato, verso la parte posteriore del treno. I PG viaggiano da Kansas City ver",
         "gameplay_function": "Location iniziale dove inizia l'avventura, i PG osservano eventi sospetti prima del deragliamento",
@@ -4815,6 +4826,310 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_a_botched_rail_job",
+        "name": "A BOTCHED RAIL JOB",
+        "description": "A BOTCHED RAIL JOB.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_derailed",
+        "name": "DERAILED!",
+        "description": "DERAILED!.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_miserable_johnny_buck",
+        "name": "THE MISERABLE JOHNNY BUCK",
+        "description": "THE MISERABLE JOHNNY BUCK.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_trail_of_blood",
+        "name": "THE TRAIL OF BLOOD",
+        "description": "THE TRAIL OF BLOOD.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_wo_oteeyoo_soul_bird",
+        "name": "WO'OTEEYOO SOUL BIRD",
+        "description": "WO'OTEEYOO SOUL BIRD.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_8"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_inside_with_rufus_hoowuuni",
+        "name": "INSIDE WITH RUFUS-HOOWUUNI",
+        "description": "INSIDE WITH RUFUS-HOOWUUNI.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_teihiihan_totems",
+        "name": "THE TEIHIIHAN TOTEMS",
+        "description": "THE TEIHIIHAN TOTEMS.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_following_the_map",
+        "name": "FOLLOWING THE MAP",
+        "description": "FOLLOWING THE MAP.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -7611,6 +7926,38 @@
         "access_state": "open"
       },
       "loc_fort_rufus": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_a_botched_rail_job": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_derailed": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_miserable_johnny_buck": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_trail_of_blood": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_wo_oteeyoo_soul_bird": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_inside_with_rufus_hoowuuni": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_teihiihan_totems": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_following_the_map": {
         "status": "known",
         "access_state": "open"
       }

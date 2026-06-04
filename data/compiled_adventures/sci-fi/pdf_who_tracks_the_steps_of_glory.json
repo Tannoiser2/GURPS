@@ -12158,7 +12158,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_a_distress_signal"
       },
       {
         "id": "llm_clue_2",
@@ -12194,7 +12195,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_a_lost_vessel"
       },
       {
         "id": "llm_clue_3",
@@ -12230,7 +12232,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_radiation_danger"
       },
       {
         "id": "llm_clue_4",
@@ -12266,7 +12269,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_adventure_setup"
       },
       {
         "id": "llm_clue_5",
@@ -12302,7 +12306,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_romulan_outpost"
       },
       {
         "id": "llm_clue_6",
@@ -12338,7 +12343,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_act_1__the_boson_nadir"
       },
       {
         "id": "llm_clue_7",
@@ -12374,7 +12380,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_adventure_setup"
       },
       {
         "id": "llm_clue_8",
@@ -12410,7 +12417,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_act_1__the_boson_nadir"
       },
       {
         "id": "llm_clue_9",
@@ -12446,7 +12454,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_underground_structure_brig"
       },
       {
         "id": "llm_clue_10",
@@ -12482,7 +12491,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_romulan_sentries"
       },
       {
         "id": "nuovo_clue_1",
@@ -13033,7 +13043,7 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "vehicle",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Una starship classe Miranda della Federazione in pattuglia lungo la Zona Neutrale Romulana. Il quartier generale mobile ",
         "gameplay_function": "Base operativa principale, coordinamento missioni, combattimento spaziale, gestione equipaggio",
@@ -13392,6 +13402,312 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_a_distress_signal",
+        "name": "A Distress Signal",
+        "description": "A Distress Signal.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_a_lost_vessel",
+        "name": "A Lost Vessel",
+        "description": "A Lost Vessel.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_radiation_danger",
+        "name": "Radiation Danger",
+        "description": "Radiation Danger.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_adventure_setup",
+        "name": "Adventure Setup",
+        "description": "Adventure Setup.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_4",
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_romulan_outpost",
+        "name": "Romulan Outpost",
+        "description": "Romulan Outpost.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_act_1__the_boson_nadir",
+        "name": "ACT 1: THE BOSON NADIR",
+        "description": "ACT 1: THE BOSON NADIR.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_6",
+          "llm_clue_8"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_underground_structure_brig",
+        "name": "Underground Structure Brig",
+        "description": "Underground Structure Brig.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_romulan_sentries",
+        "name": "Romulan Sentries",
+        "description": "Romulan Sentries.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -18974,6 +19290,38 @@
         "access_state": "open"
       },
       "deep_space_2": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_a_distress_signal": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_a_lost_vessel": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_radiation_danger": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_adventure_setup": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_romulan_outpost": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_act_1__the_boson_nadir": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_underground_structure_brig": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_romulan_sentries": {
         "status": "known",
         "access_state": "open"
       }

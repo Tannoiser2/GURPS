@@ -154,7 +154,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_comando___anello_a"
       },
       {
         "id": "clue_2",
@@ -189,7 +190,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_laboratorio_beta___anello_be"
       },
       {
         "id": "clue_3",
@@ -224,7 +226,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_principale___ane"
       },
       {
         "id": "clue_4",
@@ -259,7 +262,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_comando___anello_a"
       },
       {
         "id": "clue_5",
@@ -294,7 +298,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_sperimentale___li"
       },
       {
         "id": "clue_6",
@@ -329,7 +334,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_baia_di_manutenzione___anell"
       },
       {
         "id": "clue_7",
@@ -505,7 +511,7 @@
         "id": "npc_1",
         "name": "Veyra Solis",
         "role": "Capitano della Sicurezza di Helix-7",
-        "location_id": "Centro di Comando - Anello Alpha",
+        "location_id": "loc_centro_di_comando___anello_a",
         "status": "unintroduced",
         "goal": "Ripristinare l'ordine e proteggere i 2.400 abitanti della stazione da quella che considera una presa in ostaggio.",
         "secret": "Ha perso suo fratello in un esperimento non autorizzato su una colonia mineraria. Vede Okonkwo come l'ennesimo scienziato megalomane che sacrifica vite per la propria visione.",
@@ -552,7 +558,7 @@
         "id": "npc_2",
         "name": "Dr. Lior Tabak",
         "role": "Medico volontario nel Progetto Silenzio",
-        "location_id": "Infermeria Sperimentale - Livello Theta",
+        "location_id": "loc_infermeria_sperimentale___li",
         "status": "unintroduced",
         "goal": "Documentare gli effetti neurologici del Silenzio — è convinto che la ricerca salverà milioni di vite.",
         "secret": "Ha accettato di partecipare perché sta morendo di una malattia prionico-similare che il Silenzio sembra rallentare. È un paziente tanto quanto un medico.",
@@ -599,7 +605,7 @@
         "id": "npc_3",
         "name": "Amara Okonkwo",
         "role": "Figlia di Samir, paziente zero del Progetto Silenzio",
-        "location_id": "Camera di Contenimento - Livello Theta",
+        "location_id": "loc_camera_di_contenimento___liv",
         "status": "unintroduced",
         "goal": "Vuole che suo padre smetta di sentirsi in colpa e accetti che, qualunque sia l'esito, lei è grata per il tempo guadagnato.",
         "secret": "Ha piena consapevolezza che il trattamento potrebbe fallire. Ha scritto lettere d'addio a tutti i volontari, nascoste nel suo quaderno.",
@@ -646,7 +652,7 @@
         "id": "npc_4",
         "name": "Rask Fenn",
         "role": "Ingegnere capo degli Anelli Abitativi",
-        "location_id": "Baia di Manutenzione - Anello Gamma",
+        "location_id": "loc_baia_di_manutenzione___anell",
         "status": "unintroduced",
         "goal": "Riparare il sistema di comunicazione e tornare alla normalità — non gli importa della politica, vuole solo che la stazione funzioni.",
         "secret": "Ha accettato una tangente da Okonkwo per sabotare i rilevatori di anomalia quantistica nei mesi precedenti l'attivazione. Ora è terrorizzato che Solis lo scopra.",
@@ -693,441 +699,30 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Ingresso",
-        "description": "Ingresso: nodo giocabile della struttura room_keyed_dungeon.",
+        "id": "loc_centro_di_comando___anello_a",
+        "name": "Centro di Comando - Anello Alpha",
+        "description": "Centro di Comando - Anello Alpha.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Ingresso: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_7",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_2",
-        "name": "Corridoio delle scelte",
-        "description": "Corridoio delle scelte: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Corridoio delle scelte: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_7",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_1",
-          "loc_ai_3",
-          "loc_ai_4",
-          "loc_ai_5"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Sala trappola",
-        "description": "Sala trappola: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Sala trappola: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_2",
-        "location_type": "local",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Archivio",
-        "description": "Archivio: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scaffali alti come copertura",
-            "tavoli di lettura",
-            "scale mobili"
-          ],
-          "hazards": [
-            "scaffali instabili",
-            "pergamene infiammabili"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Archivio: scaffali alti come copertura, tavoli di lettura, scale mobili",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scaffali alti come copertura",
-          "tavoli di lettura",
-          "scale mobili",
-          "vetrine con manoscritti"
-        ],
-        "hazards": [
-          "scaffali instabili",
-          "pergamene infiammabili"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scaffali alti come copertura",
-          "tavoli di lettura",
-          "scale mobili"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_2",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_6"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Santuario laterale",
-        "description": "Santuario laterale: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Santuario laterale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_2",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_6"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_6",
-        "name": "Anticamera",
-        "description": "Anticamera: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Anticamera: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_7",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_7",
-        "name": "Sala finale di L'Equazione Silenziosa stazione orbitale Helix-7 sospesa",
-        "description": "Sala finale di L'Equazione Silenziosa stazione orbitale Helix-7 sospesa: nodo giocabile della struttura room_keyed_dungeon.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Sala finale di L'Equazione Silenziosa stazione orbitale Helix-7 sospesa: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1136,13 +731,207 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_infermeria_sperimentale___li",
+        "name": "Infermeria Sperimentale - Livello Theta",
+        "description": "Infermeria Sperimentale - Livello Theta.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_camera_di_contenimento___liv",
+        "name": "Camera di Contenimento - Livello Theta",
+        "description": "Camera di Contenimento - Livello Theta.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_baia_di_manutenzione___anell",
+        "name": "Baia di Manutenzione - Anello Gamma",
+        "description": "Baia di Manutenzione - Anello Gamma.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_laboratorio_beta___anello_be",
+        "name": "Laboratorio Beta - Anello Beta",
+        "description": "Laboratorio Beta - Anello Beta.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_server_principale___ane",
+        "name": "Sala Server Principale - Anello Alpha",
+        "description": "Sala Server Principale - Anello Alpha.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2540,7 +2329,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_27bcb34774",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_centro_di_comando___anello_a",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2615,31 +2404,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_centro_di_comando___anello_a": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_infermeria_sperimentale___li": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_camera_di_contenimento___liv": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_baia_di_manutenzione___anell": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_laboratorio_beta___anello_be": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_6": {
-        "status": "known",
-        "access_state": "open"
-      },
-      "loc_ai_7": {
+      "loc_sala_server_principale___ane": {
         "status": "known",
         "access_state": "open"
       }

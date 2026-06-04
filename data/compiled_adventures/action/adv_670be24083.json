@@ -155,7 +155,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_principale"
       },
       {
         "id": "clue_2",
@@ -190,7 +191,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_principale"
       },
       {
         "id": "clue_3",
@@ -225,7 +227,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_ufficio_esecutivo"
       },
       {
         "id": "clue_4",
@@ -260,7 +263,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_laboratorio_livello__2"
       },
       {
         "id": "clue_5",
@@ -295,7 +299,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_controllo_sicurezza"
       },
       {
         "id": "clue_6",
@@ -330,7 +335,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_corridoio_sotterraneo"
       },
       {
         "id": "clue_7",
@@ -506,7 +512,7 @@
         "id": "npc_1",
         "name": "Dr. Soren Kawale",
         "role": "Responsabile del Progetto Asclepio",
-        "location_id": "Laboratorio Livello -2",
+        "location_id": "loc_laboratorio_livello__2",
         "status": "unintroduced",
         "goal": "Completare la cura per la sindrome di Heller, malattia degenerativa che ha ucciso sua moglie e affligge sua figlia adolescente. Il Progetto Asclepio è una cura, non un'arma — ma i militari lo vogliono perché può anche paralizzare il sistema nervoso.",
         "secret": "Ha rifiutato offerte di governi stranieri per anni. Non sa che il suo stesso consiglio d'amministrazione sta per venderlo al miglior offerente. Maya Voss si è spacciata per sua alleata per avvicinarlo.",
@@ -553,7 +559,7 @@
         "id": "npc_2",
         "name": "Maya Voss",
         "role": "Membro del consiglio Nexum (copertura); vera infiltrata a lungo termine",
-        "location_id": "Sala Server Principale",
+        "location_id": "loc_sala_server_principale",
         "status": "unintroduced",
         "goal": "Rubare i dati del Progetto Asclepio e rivenderli al governo di Khalistan per 50 milioni. Ha orchestrato tutto: convinse suo padre a mandare una squadra sacrificabile per creare il caos mentre lei ruba i file dal backup ridondante.",
         "secret": "Ha tradito suo padre prima ancora che lui tradisse voi: il suo piano include farlo arrestare per corruzione una volta fuggita col denaro. Vi ha deliberatamente lasciato trovare il cadavere per accelerare il caos.",
@@ -600,7 +606,7 @@
         "id": "npc_3",
         "name": "Raines",
         "role": "Capo della sicurezza Nexum",
-        "location_id": "Centro Controllo Sicurezza",
+        "location_id": "loc_centro_controllo_sicurezza",
         "status": "unintroduced",
         "goal": "Proteggere Nexum da infiltrazioni. Riceve ordini direttamente dal CEO. Non sa che Maya Voss è una minaccia: la considera intoccabile per il suo ruolo nel consiglio.",
         "secret": "Ha scoperto le vostre identità false tre ore fa grazie a una soffiata anonima (da Voss tramite Maya). Ha ordine di catturarvi vivi per interrogatorio, non uccidervi subito — vuole sapere chi altri è coinvolto.",
@@ -647,7 +653,7 @@
         "id": "npc_4",
         "name": "Comandante Voss",
         "role": "Ufficiale intelligence che ha ordinato la missione",
-        "location_id": "Remoto (comunicazioni criptate)",
+        "location_id": "loc_remoto__comunicazioni_cripta",
         "status": "unintroduced",
         "goal": "Incassare i 4 milioni dalla Nexum e sparire prima che l'intelligence scopra il suo tradimento. Ha venduto la vostra copertura credendo che morireste nell'assalto — testimoni morti non parlano.",
         "secret": "Non sa che sua figlia Maya lo ha già tradito a sua volta. Crede ancora di controllarla. Le ultime comunicazioni con lei sono state ignorate.",
@@ -694,52 +700,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura military_operation.",
+        "id": "loc_laboratorio_livello__2",
+        "name": "Laboratorio Livello -2",
+        "description": "Laboratorio Livello -2.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -754,55 +737,33 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura military_operation.",
+        "id": "loc_sala_server_principale",
+        "name": "Sala Server Principale",
+        "description": "Sala Server Principale.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -817,55 +778,32 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura military_operation.",
+        "id": "loc_centro_controllo_sicurezza",
+        "name": "Centro Controllo Sicurezza",
+        "description": "Centro Controllo Sicurezza.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -880,55 +818,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura military_operation.",
+        "id": "loc_remoto__comunicazioni_cripta",
+        "name": "Remoto (comunicazioni criptate)",
+        "description": "Remoto (comunicazioni criptate).",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -943,55 +856,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Finale",
-        "description": "Finale: nodo giocabile della struttura military_operation.",
+        "id": "loc_ufficio_esecutivo",
+        "name": "Ufficio Esecutivo",
+        "description": "Ufficio Esecutivo.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_3"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Finale: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1006,7 +894,45 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_corridoio_sotterraneo",
+        "name": "Corridoio Sotterraneo",
+        "description": "Corridoio Sotterraneo.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2120,7 +2046,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_3838ba7ce8",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_laboratorio_livello__2",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2195,23 +2121,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_laboratorio_livello__2": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_sala_server_principale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_centro_controllo_sicurezza": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_remoto__comunicazioni_cripta": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_ufficio_esecutivo": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_corridoio_sotterraneo": {
         "status": "known",
         "access_state": "open"
       }

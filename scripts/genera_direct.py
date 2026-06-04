@@ -109,6 +109,7 @@ def main():
     print("Carico moduli backend...")
     try:
         from App.claude_service import create_adventure
+        from App.claude_service import reset_session_token_stats, format_cost_summary
         from App.adventure_compiler import compile_from_raw_structure
         from App.adventure_runtime_store import save_runtime
         from App.adventure_doctor import run_doctor
@@ -128,6 +129,7 @@ def main():
 
     ok = fail = 0
     saved_paths = []
+    reset_session_token_stats()  # azzera i contatori per misurare il costo di QUESTO run
 
     for genre in genres:
         for scale in scales:
@@ -207,6 +209,7 @@ def main():
 
     print(f"\n{'='*55}")
     print(f"Completato: {ok} generate, {fail} fallite")
+    print(format_cost_summary(f"({ok} avventure)"))
     if saved_paths:
         print("\nFile salvati:")
         for p in saved_paths:

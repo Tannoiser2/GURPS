@@ -14,12 +14,18 @@ Audit rules coverage:
 """
 
 import json
+import os
 import re
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from typing import Any, Dict, List, Set
 
 from .claude_service import _call_claude as _claude_raw
+
+# Le chiamate AI di enrichment indipendenti (hook, clocks, clues, locations, NPC)
+# girano in parallelo per ridurre il tempo totale del doctor.
+_DOCTOR_MAX_WORKERS = int(os.getenv("DOCTOR_MAX_WORKERS", "5"))
 
 
 def _llm(prompt: str, max_tokens: int = 1024) -> str:
@@ -1337,34 +1343,63 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
         print("[doctor] fixing structural balance (clues/threads)")
         enriched = _enrich_structure_balance(enriched, findings)
 
-    # initial_hook
-    if not enriched.get("initial_hook"):
-        print("[doctor] generating initial_hook")
-        hook = _enrich_initial_hook(enriched)
-        if hook:
-            enriched["initial_hook"] = hook
-
-    # NPCs — arricchisci quelli segnalati dall'audit E quelli con testo narrativo
-    # magro (description/motivation/secret scarni), anche se hanno già i campi
-    # tattici. Senza questo, i PNG importati "piatti" non venivano mai sviluppati.
+    # Gli arricchimenti AI che seguono sono indipendenti (toccano campi diversi
+    # del definition) e vengono eseguiti in PARALLELO per ridurre il tempo totale
+    # del doctor. Il passaggio "balance" qui sopra è già stato applicato (è
+    # l'unico che ristruttura clue/thread, quindi deve precedere gli altri).
+    title = definition.get("title", "")
     npc_ids = {f.entity_id for f in findings if f.category == "npc"}
     actors = enriched.get("actors", [])
-    if npc_ids or any(_npc_needs_depth(a) for a in actors):
-        enriched["actors"] = [
-            _enrich_npc(a, context) if (a.get("id") in npc_ids or _npc_needs_depth(a)) else a
-            for a in actors
-        ]
+    # NPC da arricchire: segnalati dall'audit O con testo narrativo magro (anche
+    # se hanno già i campi tattici). Senza, i PNG importati "piatti" restavano tali.
+    npc_targets = [i for i, a in enumerate(actors)
+                   if (a.get("id") in npc_ids or _npc_needs_depth(a))]
 
-    # Clocks
-    if "clock" in categories and enriched.get("event_clocks"):
-        clock_ids = {f.entity_id for f in findings if f.category == "clock"}
-        title = definition.get("title", "")
-        if clock_ids - {title}:
-            enriched["event_clocks"] = _enrich_clocks(enriched["event_clocks"], context)
+    def _job_hook():
+        if not enriched.get("initial_hook"):
+            print("[doctor] generating initial_hook")
+            hook = _enrich_initial_hook(enriched)
+            if hook:
+                return ("initial_hook", hook)
+        return None
 
-    # Clues
-    if "clue" in categories and enriched.get("clues"):
-        enriched["clues"] = _enrich_clues(enriched["clues"], context)
+    def _job_clocks():
+        if "clock" in categories and enriched.get("event_clocks"):
+            clock_ids = {f.entity_id for f in findings if f.category == "clock"}
+            if clock_ids - {title}:
+                return ("event_clocks", _enrich_clocks(enriched["event_clocks"], context))
+        return None
+
+    def _job_clues():
+        if "clue" in categories and enriched.get("clues"):
+            print("[doctor] enriching clues")
+            return ("clues", _enrich_clues(enriched["clues"], context))
+        return None
+
+    def _job_locations():
+        if "location" in categories and enriched.get("locations"):
+            locs = enriched["locations"]
+            orphan_ids = {f.entity_id for f in findings
+                          if f.category == "location" and "parent_location_id" in f.fix_hint}
+            has_hierarchy = any(l.get("parent_location_id") for l in locs)
+            if orphan_ids or (len(locs) >= 5 and not has_hierarchy):
+                print("[doctor] reorganizing location hierarchy")
+                locs = _enrich_location_hierarchy(locs, context)
+            return ("locations", _enrich_locations(locs, context))
+        return None
+
+    with ThreadPoolExecutor(max_workers=_DOCTOR_MAX_WORKERS) as ex:
+        cat_futures = [ex.submit(j) for j in (_job_hook, _job_clocks, _job_clues, _job_locations)]
+        npc_futures = {ex.submit(_enrich_npc, actors[i], context): i for i in npc_targets}
+        for fut in cat_futures:
+            r = fut.result()
+            if r is not None:
+                enriched[r[0]] = r[1]
+        if npc_targets:
+            new_actors = list(actors)
+            for fut, i in npc_futures.items():
+                new_actors[i] = fut.result()
+            enriched["actors"] = new_actors
 
     # Phantom thread references — crea stub story_threads per ID referenziati ma non definiti
     existing_thread_ids = {str(t.get("id") or "") for t in (enriched.get("story_threads") or [])}
@@ -1380,17 +1415,6 @@ def run_doctor(definition: Dict, do_enrich: bool = False) -> Dict:
     if phantom_pids:
         n = _recover_phantom_threads(enriched, phantom_pids)
         print(f"[doctor] recovered {n} phantom thread(s) with real links: {list(phantom_pids.keys())}")
-
-    # Locations vuote
-    if "location" in categories and enriched.get("locations"):
-        locs = enriched["locations"]
-        # Fix gerarchia orfane se nessuna ha parent_location_id oppure ci sono warning orfani
-        orphan_ids = {f.entity_id for f in findings if f.category == "location" and "parent_location_id" in f.fix_hint}
-        has_hierarchy = any(l.get("parent_location_id") for l in locs)
-        if orphan_ids or (len(locs) >= 5 and not has_hierarchy):
-            print("[doctor] reorganizing location hierarchy")
-            locs = _enrich_location_hierarchy(locs, context)
-        enriched["locations"] = _enrich_locations(locs, context)
 
     # Re-score
     new_findings = audit(enriched)

@@ -152,7 +152,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_di_comando__stazione_ka"
       },
       {
         "id": "clue_2",
@@ -187,7 +188,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_magazzino_principale__stazio"
       },
       {
         "id": "clue_3",
@@ -223,7 +225,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cella_profonda__gallerie_pro"
       },
       {
         "id": "clue_4",
@@ -259,7 +262,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_tunnel_crollato_nord__galler"
       },
       {
         "id": "clue_5",
@@ -294,7 +298,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_dormitorio_abbandonato__zona"
       },
       {
         "id": "clue_6",
@@ -329,7 +334,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_di_comando__stazione_ka"
       },
       {
         "id": "clue_7",
@@ -529,7 +535,7 @@
         "id": "npc_1",
         "name": "Seris Vahn",
         "role": "Vice-Sorvegliante, de facto leader temporaneo",
-        "location_id": "Sala di Comando, Stazione Karravost",
+        "location_id": "loc_sala_di_comando__stazione_ka",
         "status": "unintroduced",
         "goal": "Mantenere l'ordine e salvare quante più vite possibile, ma teme che la verità sulla corruzione distrugga la fiducia residua",
         "secret": "Sa che Torek aveva rapporti illeciti con i disertori per traffico di minerali, ma non ha prove e teme che rivelarlo causi una rivolta",
@@ -576,7 +582,7 @@
         "id": "npc_2",
         "name": "Rhace il Tagliatore",
         "role": "Leader dei disertori nelle gallerie profonde",
-        "location_id": "Camera di Sicurezza Livello -3, Gallerie Profonde",
+        "location_id": "loc_camera_di_sicurezza_livello",
         "status": "unintroduced",
         "goal": "Vendicarsi della Compagnia che ha sfruttato i lavoratori per anni, ma anche proteggere i suoi uomini ormai braccati",
         "secret": "Non voleva rapire Dalmir — Torek glielo ha 'venduto' promettendo che la Compagnia avrebbe pagato per liberarlo, garantendo ai disertori una via di fuga con i soldi. Ora capisce di essere stato usato.",
@@ -623,7 +629,7 @@
         "id": "npc_3",
         "name": "Dalmir Kesh",
         "role": "Ingegnere capo, prigioniero chiave",
-        "location_id": "Cella Profonda, Gallerie Profonde",
+        "location_id": "loc_cella_profonda__gallerie_pro",
         "status": "unintroduced",
         "goal": "Sopravvivere e rivelare che le riserve d'emergenza sono nascoste nel vecchio pozzo Est, sigillato per 'instabilità' da Torek stesso",
         "secret": "Ha scoperto che Torek manometteva i rapporti geologici per far sembrare instabili zone sicure, chiudendole per nascondervi scorte illegali da rivendere",
@@ -670,7 +676,7 @@
         "id": "npc_4",
         "name": "Vران Torek",
         "role": "Sorvegliante Capo scomparso, antagonista nascosto",
-        "location_id": "Dormitorio Abbandonato, Zona Superficie",
+        "location_id": "loc_dormitorio_abbandonato__zona",
         "status": "unintroduced",
         "goal": "Fuggire con il profitto del riscatto simulato e del traffico di minerali accumulato negli anni, lasciando l'avamposto alle sue conseguenze",
         "secret": "È nascosto nel vecchio dormitorio supervisori abbandonato in superficie, aspettando che i disertori ricevano il riscatto per sparire nel deserto con la sua quota",
@@ -717,52 +723,30 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Punto di partenza",
-        "description": "Punto di partenza: nodo giocabile della struttura survival_escape.",
+        "id": "loc_sala_di_comando__stazione_ka",
+        "name": "Sala di Comando, Stazione Karravost",
+        "description": "Sala di Comando, Stazione Karravost.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Punto di partenza: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -771,61 +755,36 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Percorso rapido",
-        "description": "Percorso rapido: nodo giocabile della struttura survival_escape.",
+        "id": "loc_camera_di_sicurezza_livello",
+        "name": "Camera di Sicurezza Livello -3, Gallerie Profonde",
+        "description": "Camera di Sicurezza Livello -3, Gallerie Profonde.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Percorso rapido: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -833,65 +792,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Nodo sicuro",
-        "description": "Nodo sicuro: nodo giocabile della struttura survival_escape.",
+        "id": "loc_cella_profonda__gallerie_pro",
+        "name": "Cella Profonda, Gallerie Profonde",
+        "description": "Cella Profonda, Gallerie Profonde.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo sicuro: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -899,66 +832,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona pericolosa",
-        "description": "Zona pericolosa: nodo giocabile della struttura survival_escape.",
+        "id": "loc_dormitorio_abbandonato__zona",
+        "name": "Dormitorio Abbandonato, Zona Superficie",
+        "description": "Dormitorio Abbandonato, Zona Superficie.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona pericolosa: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -966,66 +872,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Uscita contestata",
-        "description": "Uscita contestata: nodo giocabile della struttura survival_escape.",
+        "id": "loc_magazzino_principale__stazio",
+        "name": "Magazzino Principale, Stazione Karravost",
+        "description": "Magazzino Principale, Stazione Karravost.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Uscita contestata: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1033,17 +910,52 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_tunnel_crollato_nord__galler",
+        "name": "Tunnel Crollato Nord, Gallerie Profonde",
+        "description": "Tunnel Crollato Nord, Gallerie Profonde.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2204,7 +2116,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_e9c1d0d326",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_di_comando__stazione_ka",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2279,23 +2191,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_di_comando__stazione_ka": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_camera_di_sicurezza_livello": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_cella_profonda__gallerie_pro": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_dormitorio_abbandonato__zona": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_magazzino_principale__stazio": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_tunnel_crollato_nord__galler": {
         "status": "known",
         "access_state": "open"
       }

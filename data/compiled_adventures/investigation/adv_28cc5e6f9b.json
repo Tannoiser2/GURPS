@@ -154,7 +154,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_baia_di_attracco_valkyrie"
       },
       {
         "id": "clue_2",
@@ -189,7 +190,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_laboratorio_principale_sezio"
       },
       {
         "id": "clue_3",
@@ -225,7 +227,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_sicurezza_livello_b"
       },
       {
         "id": "clue_4",
@@ -261,7 +264,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_reattore_centrale"
       },
       {
         "id": "clue_5",
@@ -296,7 +300,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_interrogatori_delta"
       },
       {
         "id": "clue_6",
@@ -331,7 +336,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_corridoio_di_manutenzione_li"
       },
       {
         "id": "clue_7",
@@ -531,7 +537,7 @@
         "id": "npc_1",
         "name": "Dott.ssa Imara Osei",
         "role": "Direttrice scientifica del Progetto Helios",
-        "location_id": "Laboratorio Principale Sezione Alpha",
+        "location_id": "loc_laboratorio_principale_sezio",
         "status": "unintroduced",
         "goal": "Vuole che il test riesca per garantire energia pulita illimitata alle colonie. Crede genuinamente che l'arma sia solo un sottoprodotto della ricerca sul plasma confinato",
         "secret": "Ha scoperto che il prototipo è stato modificato dal Comando per essere un'arma offensiva, non difensiva. Ha nascosto prove nei suoi appunti personali perché teme per la vita della figlia sulla Terra",
@@ -578,7 +584,7 @@
         "id": "npc_2",
         "name": "Ufficiale Jian-Yu Chen",
         "role": "Capo della Sicurezza di Helios-7",
-        "location_id": "Centro Sicurezza Livello B",
+        "location_id": "loc_centro_sicurezza_livello_b",
         "status": "unintroduced",
         "goal": "Proteggere la stazione e completare il test. Ha ordini diretti dal Comando Terrestre di eliminare qualsiasi minaccia con 'estremo pregiudizio'",
         "secret": "È un ex-agente delle forze speciali marziane, catturato e 'rieducato' con condizionamento mentale. Sta iniziando a recuperare frammenti della sua vera identità e sospetta di essere una pedina",
@@ -625,7 +631,7 @@
         "id": "npc_3",
         "name": "Tecnico Ravi Kulkarni",
         "role": "Ingegnere del reattore e informatore nascosto",
-        "location_id": "Sala Reattore Centrale",
+        "location_id": "loc_sala_reattore_centrale",
         "status": "unintroduced",
         "goal": "Vuole disertare verso Marte con i dati del reattore per salvare sua sorella, prigioniera politica su Phobos. Ha bisogno di un'esplosione credibile per fingere la propria morte",
         "secret": "Ha già sabotato parzialmente i sistemi di raffreddamento. Se nessuno interviene, il reattore esploderà durante il test uccidendo tutti. Sta cercando di convincere qualcuno a incolpare per poter fuggire",
@@ -672,7 +678,7 @@
         "id": "npc_4",
         "name": "Capitano Elias Thorne",
         "role": "Comandante della nave di rifornimento ormeggiata",
-        "location_id": "Baia di Attracco Valkyrie",
+        "location_id": "loc_baia_di_attracco_valkyrie",
         "status": "unintroduced",
         "goal": "Vuole sopravvivere e andare in pensione. Non gli importa delle politiche, ma ha un debito di vita con Imara che lo ha salvato da un'esplosione anni fa",
         "secret": "Ha ricevuto ordini criptati di abbandonare la stazione 6 ore prima del test, lasciando tutti a morire. Sta lottando con la coscienza perché significherebbe tradire Imara",
@@ -719,40 +725,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_laboratorio_principale_sezio",
+        "name": "Laboratorio Principale Sezione Alpha",
+        "description": "Laboratorio Principale Sezione Alpha.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -767,43 +762,150 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_centro_sicurezza_livello_b",
+        "name": "Centro Sicurezza Livello B",
+        "description": "Centro Sicurezza Livello B.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_reattore_centrale",
+        "name": "Sala Reattore Centrale",
+        "description": "Sala Reattore Centrale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_baia_di_attracco_valkyrie",
+        "name": "Baia di Attracco Valkyrie",
+        "description": "Baia di Attracco Valkyrie.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_interrogatori_delta",
+        "name": "Sala Interrogatori Delta",
+        "description": "Sala Interrogatori Delta.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -818,43 +920,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_corridoio_di_manutenzione_li",
+        "name": "Corridoio di Manutenzione Livello C",
+        "description": "Corridoio di Manutenzione Livello C.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_6"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -869,70 +958,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2071,7 +2097,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_28cc5e6f9b",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_laboratorio_principale_sezio",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2146,19 +2172,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_laboratorio_principale_sezio": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_centro_sicurezza_livello_b": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_sala_reattore_centrale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_baia_di_attracco_valkyrie": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_interrogatori_delta": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_corridoio_di_manutenzione_li": {
         "status": "known",
         "access_state": "open"
       }

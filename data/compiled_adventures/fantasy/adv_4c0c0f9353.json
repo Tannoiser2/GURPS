@@ -152,7 +152,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_appartamenti_di_thorin__perq"
       },
       {
         "id": "clue_2",
@@ -187,7 +188,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_fattoria_corvino"
       },
       {
         "id": "clue_3",
@@ -222,7 +224,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_villa_varrick__studio_privat"
       },
       {
         "id": "clue_4",
@@ -257,7 +260,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_capanna_ai_margini_di_querce"
       },
       {
         "id": "clue_5",
@@ -292,7 +296,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_giardino_posteriore_della_vi"
       },
       {
         "id": "clue_6",
@@ -327,7 +332,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_scena_del_secondo_attacco__m"
       },
       {
         "id": "clue_7",
@@ -503,7 +509,7 @@
         "id": "npc_1",
         "name": "Garven Thule",
         "role": "Comandante della milizia e cacciatore",
-        "location_id": "Caserma della milizia",
+        "location_id": "loc_caserma_della_milizia",
         "status": "unintroduced",
         "goal": "Proteggere il villaggio eliminando la minaccia — non crede nell'innocenza di Thorin ma rispetta le prove",
         "secret": "Sa che la famiglia Varrick ha sempre cacciato illegalmente nel bosco sacro, ma ha chiuso un occhio per anni in cambio di favori politici",
@@ -550,7 +556,7 @@
         "id": "npc_2",
         "name": "Dravos Varrick",
         "role": "Zio di Lowen, mercante di pellicce e legname",
-        "location_id": "Villa Varrick",
+        "location_id": "loc_villa_varrick",
         "status": "unintroduced",
         "goal": "Ereditare le terre dei Varrick ed eliminare ogni testimone del crimine di Lowen — ha orchestrato l'incastro di Thorin",
         "secret": "Ha bruciato i vestiti insanguinati di Lowen dopo l'attacco dell'Orsa, ha piazzato prove false negli appartamenti di Thorin, e nasconde la pelliccia del cucciolo nella sua villa come 'assicurazione' contro eventuali ricatti",
@@ -597,7 +603,7 @@
         "id": "npc_3",
         "name": "Mira Cortese",
         "role": "Guardia forestale e custode del bosco sacro",
-        "location_id": "Capanna ai margini di Querce Nere",
+        "location_id": "loc_capanna_ai_margini_di_querce",
         "status": "unintroduced",
         "goal": "Proteggere l'equilibrio tra villaggio e bosco — sa che l'Orsa ha ragione, ma teme lo spargimento di sangue",
         "secret": "Ha visto Lowen uccidere il cucciolo tre mesi fa ma non ha denunciato per paura della famiglia Varrick. Ora soffre per il senso di colpa",
@@ -644,7 +650,7 @@
         "id": "npc_4",
         "name": "Ser Aldric Fenn",
         "role": "Avvocato difensore di Thorin, giurista del borgo",
-        "location_id": "Prigione del borgo",
+        "location_id": "loc_prigione_del_borgo",
         "status": "unintroduced",
         "goal": "Salvare Thorin perché crede nell'innocenza — ma non ha tempo né risorse per indagare da solo",
         "secret": "È stato amante della madre di Lowen anni fa — i Varrick gli hanno sempre impedito di avanzare di carriera per vendetta",
@@ -691,40 +697,27 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura horror_survival.",
+        "id": "loc_caserma_della_milizia",
+        "name": "Caserma della milizia",
+        "description": "Caserma della milizia.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -739,43 +732,146 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura horror_survival.",
+        "id": "loc_villa_varrick",
+        "name": "Villa Varrick",
+        "description": "Villa Varrick.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_capanna_ai_margini_di_querce",
+        "name": "Capanna ai margini di Querce Nere",
+        "description": "Capanna ai margini di Querce Nere.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_prigione_del_borgo",
+        "name": "Prigione del borgo",
+        "description": "Prigione del borgo.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_appartamenti_di_thorin__perq",
+        "name": "Appartamenti di Thorin (perquisiti)",
+        "description": "Appartamenti di Thorin (perquisiti).",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -790,43 +886,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura horror_survival.",
+        "id": "loc_fattoria_corvino",
+        "name": "Fattoria Corvino",
+        "description": "Fattoria Corvino.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -841,55 +924,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura horror_survival.",
+        "id": "loc_villa_varrick__studio_privat",
+        "name": "Villa Varrick, studio privato",
+        "description": "Villa Varrick, studio privato.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_3"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -904,7 +962,83 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_giardino_posteriore_della_vi",
+        "name": "Giardino posteriore della villa",
+        "description": "Giardino posteriore della villa.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_scena_del_secondo_attacco__m",
+        "name": "Scena del secondo attacco (mulino)",
+        "description": "Scena del secondo attacco (mulino).",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2055,7 +2189,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_4c0c0f9353",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_caserma_della_milizia",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2130,19 +2264,39 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_caserma_della_milizia": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_villa_varrick": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_capanna_ai_margini_di_querce": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_prigione_del_borgo": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_appartamenti_di_thorin__perq": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_fattoria_corvino": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_villa_varrick__studio_privat": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_giardino_posteriore_della_vi": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_scena_del_secondo_attacco__m": {
         "status": "known",
         "access_state": "open"
       }

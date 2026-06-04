@@ -168,7 +168,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_console_di_comando_nel_ponte"
       },
       {
         "id": "clue_2",
@@ -203,7 +204,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_server_di_sicurezza_nell_inf"
       },
       {
         "id": "clue_3",
@@ -238,7 +240,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_laboratorio_di_quarantena_su"
       },
       {
         "id": "clue_4",
@@ -273,7 +276,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_reattori_durante_conver"
       },
       {
         "id": "clue_5",
@@ -308,7 +312,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_alloggi_del_capitano_nel_set"
       },
       {
         "id": "clue_6",
@@ -343,7 +348,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_apertura"
       },
       {
         "id": "clue_7",
@@ -567,7 +573,7 @@
         "id": "npc_1",
         "name": "Dott. Haruki Tanaka",
         "role": "Capo medico sopravvissuto",
-        "location_id": "Infermeria centrale del Prometeo",
+        "location_id": "loc_infermeria_centrale_del_prom",
         "status": "unintroduced",
         "goal": "Proteggere i capsule criogeniche dei coloni a qualsiasi costo — anche sacrificando i PG se necessario",
         "secret": "Ha assistito al primo 'salto' di Volvić tra corpi e sa che l'entità può essere chiunque. Ha ucciso due membri dell'equipaggio per paranoia, convinto fossero posseduti, ma uno era innocente",
@@ -614,7 +620,7 @@
         "id": "npc_2",
         "name": "Sergente Naia Okorafor",
         "role": "Capo della sicurezza di bordo",
-        "location_id": "Arsenale della nave sul ponte sicurezza",
+        "location_id": "loc_arsenale_della_nave_sul_pont",
         "status": "unintroduced",
         "goal": "Capire cosa è successo all'equipaggio e vendicare i morti — specialmente il capitano che credeva un'eroina",
         "secret": "Era la guardia del corpo personale di Volvić e l'ha seguita sulla superficie di Khar-7. Ha visto l'artefatto ma non comprende cosa sia successo dopo; soffre di blackout di memoria che corrispondono ai momenti in cui Volvić la possedeva",
@@ -661,7 +667,7 @@
         "id": "npc_3",
         "name": "Ingegnere Capo Lev Sokolov",
         "role": "Tecnico dei sistemi di propulsione",
-        "location_id": "Sala reattori nel settore propulsione",
+        "location_id": "loc_sala_reattori_nel_settore_pr",
         "status": "unintroduced",
         "goal": "Riparare il nucleo di propulsione per stabilizzare l'orbita — non gli importa di indagini o vendette, solo di fisica e sopravvivenza",
         "secret": "Ha scoperto le sabotature di navigazione nei log e sa che furono deliberate, ma tace perché teme che rivelarlo scateni panico o violenza. Possiede l'override del sistema di autodistruzione della nave",
@@ -708,7 +714,7 @@
         "id": "npc_4",
         "name": "Capitano Esra Volvić",
         "role": "Comandante del Prometeo / Entità parassita",
-        "location_id": "Ovunque — si manifesta quando i PG si avvicinano alla verità",
+        "location_id": "loc_ovunque___si_manifesta_quand",
         "status": "unintroduced",
         "goal": "Impedire che la verità emerga e trovare un corpo ospite stabile prima che la sua coscienza frammentata si dissolva completamente nell'entropia",
         "secret": "Non è più completamente senziente — il trasferimento l'ha spezzata in frammenti di memoria e ossessione. Parte di lei vuole disperatamente essere fermata, ma l'istinto di sopravvivenza alieno che ha assorbito dall'artefatto la controlla",
@@ -755,44 +761,27 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_infermeria_centrale_del_prom",
+        "name": "Infermeria centrale del Prometeo",
+        "description": "Infermeria centrale del Prometeo.",
         "status": "known",
-        "contains_clues": [
-          "clue_6"
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_1"
         ],
-        "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
-        "clue_slots": [
-          "clue_6"
-        ],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "clue_slots": [],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -801,49 +790,150 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_arsenale_della_nave_sul_pont",
+        "name": "Arsenale della nave sul ponte sicurezza",
+        "description": "Arsenale della nave sul ponte sicurezza.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_reattori_nel_settore_pr",
+        "name": "Sala reattori nel settore propulsione",
+        "description": "Sala reattori nel settore propulsione.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ovunque___si_manifesta_quand",
+        "name": "Ovunque — si manifesta quando i PG si avvicinano alla verità",
+        "description": "Ovunque — si manifesta quando i PG si avvicinano alla verità.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_console_di_comando_nel_ponte",
+        "name": "Console di comando nel ponte centrale",
+        "description": "Console di comando nel ponte centrale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -851,53 +941,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_server_di_sicurezza_nell_inf",
+        "name": "Server di sicurezza nell'infermeria",
+        "description": "Server di sicurezza nell'infermeria.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -905,53 +979,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_laboratorio_di_quarantena_su",
+        "name": "Laboratorio di quarantena sul ponte medico",
+        "description": "Laboratorio di quarantena sul ponte medico.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_3"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -959,54 +1017,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Finale",
-        "description": "Finale: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_sala_reattori_durante_conver",
+        "name": "Sala reattori durante conversazione con Sokolov",
+        "description": "Sala reattori durante conversazione con Sokolov.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_4"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Finale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1014,65 +1055,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_4",
-          "loc_ai_6"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_6",
-        "name": "Epilogo",
-        "description": "Epilogo: nodo giocabile della struttura wilderness_sandbox.",
+        "id": "loc_alloggi_del_capitano_nel_set",
+        "name": "Alloggi del capitano nel settore residenziale",
+        "description": "Alloggi del capitano nel settore residenziale.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_5"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Epilogo: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1080,16 +1093,52 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_apertura",
+        "name": "Apertura",
+        "description": "Apertura.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2359,7 +2408,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_8b22303d44",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_infermeria_centrale_del_prom",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2435,27 +2484,43 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_infermeria_centrale_del_prom": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_arsenale_della_nave_sul_pont": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_sala_reattori_nel_settore_pr": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_ovunque___si_manifesta_quand": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_console_di_comando_nel_ponte": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_6": {
+      "loc_server_di_sicurezza_nell_inf": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_laboratorio_di_quarantena_su": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_reattori_durante_conver": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_alloggi_del_capitano_nel_set": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_apertura": {
         "status": "known",
         "access_state": "open"
       }

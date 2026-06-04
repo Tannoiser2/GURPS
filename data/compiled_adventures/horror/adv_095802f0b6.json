@@ -169,7 +169,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_baracca_dei_minatori"
       },
       {
         "id": "clue_2",
@@ -204,7 +205,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_di_svartholm"
       },
       {
         "id": "clue_3",
@@ -239,7 +241,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_baracca_dei_minatori"
       },
       {
         "id": "clue_4",
@@ -275,7 +278,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_di_svartholm"
       },
       {
         "id": "clue_5",
@@ -310,7 +314,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_apertura"
       },
       {
         "id": "clue_6",
@@ -534,7 +539,7 @@
         "id": "npc_mirjam",
         "name": "Dottoressa Mirjam Solis",
         "role": "Botanica arcana e alleata apparente — traditrice",
-        "location_id": "Infermeria di Svartholm",
+        "location_id": "loc_infermeria_di_svartholm",
         "status": "unintroduced",
         "goal": "Vuole recuperare campioni vitali del Mycora per la Compagnia delle Indie Arcane, distruggendo prove dell'esperimento fallito e garantendosi immunità legale. Crede sinceramente che la sua ricerca possa portare a scoperte rivoluzionarie, giustificando i sacrifici.",
         "secret": "È stata lei a suggerire a Torvald l'uso del Mycora tre anni fa. Ha ricevuto ordine di eliminare testimoni e bruciare documenti prima dell'arrivo dei PG. Conserva l'antidoto funzionante, ma mente sulla sua efficacia per prolungare la crisi.",
@@ -581,7 +586,7 @@
         "id": "npc_henrik",
         "name": "Henrik Voss",
         "role": "Capomastro minatore sopravvissuto",
-        "location_id": "Baracca dei minatori",
+        "location_id": "loc_baracca_dei_minatori",
         "status": "unintroduced",
         "goal": "Vuole disperatamente salvare i suoi uomini ancora intrappolati nei pozzi. Sa che sta perdendo se stesso, ma rifiuta di morire prima di aver testimoniato la verità.",
         "secret": "È stato lui a perforare la vena di cristallo contro gli ordini, accelerando la catastrofe. Il senso di colpa lo divora. Ha visto Solis prelevare campioni da un minatore morente senza offrire cure.",
@@ -628,7 +633,7 @@
         "id": "npc_torvald",
         "name": "Guildmaster Torvald Enske",
         "role": "Committente e mandante occulto",
-        "location_id": "Sede della Gilda a Nordhaven (fuori dalla mappa di gioco)",
+        "location_id": "loc_sede_della_gilda_a_nordhaven",
         "status": "unintroduced",
         "goal": "Insabbiare lo scandalo del Mycora prima che rovini la Compagnia e la sua carriera. Disposto a sacrificare Svartholm e chiunque sappia troppo.",
         "secret": "Ha già ordinato a una squadra mercenaria di sigillare i passi montani e bruciare la valle al nono giorno, indipendentemente da chi è ancora dentro. Considera i PG 'danni collaterali accettabili'.",
@@ -675,7 +680,7 @@
         "id": "npc_lisbet",
         "name": "Lisbet Krag",
         "role": "Farmacista del villaggio, parzialmente infetta",
-        "location_id": "Farmacia di Lisbet",
+        "location_id": "loc_farmacia_di_lisbet",
         "status": "unintroduced",
         "goal": "Proteggere i pochi civili ancora vivi nascosti nelle cantine. Ha scoperto che certi infusi ritardano la progressione dell'infezione, e cerca disperatamente di perfezionare la formula.",
         "secret": "Ha capito che il Mycora non è semplicemente un parassita: sta formando una coscienza collettiva. Sente i pensieri degli altri infetti. Ha paura che, se l'organismo sopravvive, lei non sarà più 'lei'.",
@@ -722,9 +727,167 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
+        "id": "loc_infermeria_di_svartholm",
+        "name": "Infermeria di Svartholm",
+        "description": "Infermeria di Svartholm.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2",
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_mirjam"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_baracca_dei_minatori",
+        "name": "Baracca dei minatori",
+        "description": "Baracca dei minatori.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1",
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_henrik"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sede_della_gilda_a_nordhaven",
+        "name": "Sede della Gilda a Nordhaven (fuori dalla mappa di gioco)",
+        "description": "Sede della Gilda a Nordhaven (fuori dalla mappa di gioco).",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_torvald"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_farmacia_di_lisbet",
+        "name": "Farmacia di Lisbet",
+        "description": "Farmacia di Lisbet.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_lisbet"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_apertura",
         "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura horror_survival.",
+        "description": "Apertura.",
         "status": "known",
         "contains_clues": [
           "clue_5"
@@ -733,84 +896,16 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "entry",
-        "access_state": "open",
-        "visual_identity": "Apertura: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [
-          "clue_5"
-        ],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura horror_survival.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -825,121 +920,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura horror_survival.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Luogo sociale: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura horror_survival.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2146,7 +2127,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_095802f0b6",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_infermeria_di_svartholm",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2222,19 +2203,23 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_infermeria_di_svartholm": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_baracca_dei_minatori": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_sede_della_gilda_a_nordhaven": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_farmacia_di_lisbet": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_apertura": {
         "status": "known",
         "access_state": "open"
       }

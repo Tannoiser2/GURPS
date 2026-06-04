@@ -246,5 +246,8 @@ def build_custom_player(draft: CharacterDraft) -> Player:
         "actions": [],
     }
 
-    players = build_players_from_dicts([player_dict])
+    # Passa il genere: senza, il filtro coerenza equipaggiamento veniva saltato
+    # (engine: "if genre and player.items") e l'auto-equip ripiegava su ERA_MODERN
+    # → pistola 9mm anche in fantasy.
+    players = build_players_from_dicts([player_dict], genre=draft.genre or "fantasy")
     return players[0]

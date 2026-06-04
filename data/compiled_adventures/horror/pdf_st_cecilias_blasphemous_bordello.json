@@ -9027,7 +9027,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_scene_of_the_killings"
       },
       {
         "id": "llm_clue_2",
@@ -9063,7 +9064,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_scene_of_the_killings"
       },
       {
         "id": "llm_clue_3",
@@ -9099,7 +9101,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_abigail"
       },
       {
         "id": "llm_clue_4",
@@ -9135,7 +9138,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_scene_of_the_killings"
       },
       {
         "id": "llm_clue_5",
@@ -9171,7 +9175,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_2__working_the_town"
       },
       {
         "id": "llm_clue_6",
@@ -9207,7 +9212,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_2__working_the_town"
       },
       {
         "id": "llm_clue_7",
@@ -9243,7 +9249,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_harriet_s_motives"
       },
       {
         "id": "llm_clue_8",
@@ -9279,7 +9286,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_candleman_s_hog_farm"
       },
       {
         "id": "llm_clue_9",
@@ -9315,7 +9323,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_2__working_the_town"
       },
       {
         "id": "llm_clue_10",
@@ -9351,7 +9360,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_candleman_s_cabin"
       },
       {
         "id": "llm_clue_11",
@@ -9387,7 +9397,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_1__the_orphanage"
       },
       {
         "id": "llm_clue_12",
@@ -9423,7 +9434,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_vincente_guzman_robledo"
       },
       {
         "id": "nuovo_clue_1",
@@ -10404,7 +10416,7 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "urban",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Una piccola città di frontiera con poche centinaia di abitanti poveri che coltivano fieno o allevano pecore. Offre un sa",
         "gameplay_function": "Location iniziale dove i PG arrivano, ricevono la missione dallo sceriffo e conducono investigazioni parlando con i residenti",
@@ -10719,6 +10731,314 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_the_scene_of_the_killings",
+        "name": "The Scene of the Killings",
+        "description": "The Scene of the Killings.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1",
+          "llm_clue_2",
+          "llm_clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_abigail",
+        "name": "ABIGAIL",
+        "description": "ABIGAIL.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_part_2__working_the_town",
+        "name": "Part 2: Working the Town",
+        "description": "Part 2: Working the Town.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_5",
+          "llm_clue_6",
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_harriet_s_motives",
+        "name": "Harriet's Motives",
+        "description": "Harriet's Motives.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_candleman_s_hog_farm",
+        "name": "The Candleman's Hog Farm",
+        "description": "The Candleman's Hog Farm.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_8"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_candleman_s_cabin",
+        "name": "The Candleman's Cabin",
+        "description": "The Candleman's Cabin.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_part_1__the_orphanage",
+        "name": "Part 1: The Orphanage",
+        "description": "Part 1: The Orphanage.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_vincente_guzman_robledo",
+        "name": "Vincente Guzman Robledo",
+        "description": "Vincente Guzman Robledo.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_12"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -15573,6 +15893,38 @@
         "access_state": "open"
       },
       "harriet_gardner_residence": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_scene_of_the_killings": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_abigail": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_part_2__working_the_town": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_harriet_s_motives": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_candleman_s_hog_farm": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_candleman_s_cabin": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_part_1__the_orphanage": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_vincente_guzman_robledo": {
         "status": "known",
         "access_state": "open"
       }
