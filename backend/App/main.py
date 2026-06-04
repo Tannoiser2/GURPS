@@ -3208,6 +3208,25 @@ def get_items_catalog(genre: str | None = None):
     return {"genre": g, "items": items}
 
 
+@app.get("/game/bestiary")
+def get_bestiary(genre: str | None = None):
+    """Bestiario consultabile: creature/NPC generici per incontri casuali,
+    opzionalmente filtrati per il genere corrente."""
+    from .data_creatures import CREATURE_TABLE, creatures_for_genre
+    g = genre or (game_state.genre if game_state else None) or ""
+    pool = creatures_for_genre(g) if g else list(CREATURE_TABLE)
+    out = [{
+        "id": c["id"], "name": c["name"], "threat": c.get("threat", 1),
+        "hp": c.get("hp"), "dr": c.get("dr", 0),
+        "attack_skill": c.get("attack_skill"), "active_defense": c.get("active_defense"),
+        "damage_dice": c.get("damage_dice"), "damage_type": c.get("damage_type"),
+        "morale": c.get("morale", "") or "ritirata", "tags": c.get("tags", []),
+        "desc": c.get("desc", ""),
+    } for c in pool]
+    out.sort(key=lambda x: (-x["threat"], x["name"]))
+    return {"genre": g, "count": len(out), "creatures": out}
+
+
 class AddItemPayload(BaseModel):
     item_id: str
     quantity: int = 1

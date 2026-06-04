@@ -7849,6 +7849,48 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions,
 }
 
 // mode: "players" = pannello giocatori (sinistra), "gm" = pannello GM (destra)
+function BestiaryModal({ genre, onClose }) {
+  const [data, setData] = useState(null);
+  const [err, setErr] = useState(false);
+  useEffect(() => {
+    fetch(`${API_URL}/game/bestiary${genre ? `?genre=${encodeURIComponent(genre)}` : ""}`)
+      .then(r => r.json()).then(setData).catch(() => setErr(true));
+  }, [genre]);
+  const threatColor = t => ["#9ca3af", "#facc15", "#fb923c", "#f87171"][Math.max(0, Math.min(3, t || 0))];
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.72)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "var(--card, #161616)", border: "1px solid var(--border, #333)", borderRadius: 12, maxWidth: 560, width: "100%", maxHeight: "85vh", overflowY: "auto", padding: 18 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+          <div style={{ fontSize: 16, fontWeight: 800, color: "#93c5fd" }}>🐉 Bestiario{genre ? ` · ${genre}` : ""}</div>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--text)", fontSize: 20, cursor: "pointer" }}>✕</button>
+        </div>
+        {err && <div style={{ color: "#f87171", fontSize: 13 }}>Errore nel caricamento del bestiario.</div>}
+        {!data && !err && <div style={{ color: "var(--text)", opacity: 0.6, fontSize: 13 }}>Caricamento…</div>}
+        {data && (
+          <>
+            <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6, marginBottom: 10 }}>
+              {data.count} creature per incontri casuali, ordinate per pericolosità.
+            </div>
+            {(data.creatures || []).map(c => (
+              <div key={c.id} style={{ padding: "8px 10px", borderRadius: 8, background: "rgba(255,255,255,0.04)", marginBottom: 6 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <b style={{ fontSize: 13 }}>{c.name}</b>
+                  <span style={{ fontSize: 10, fontWeight: 800, color: threatColor(c.threat) }}>minaccia {c.threat}/3</span>
+                </div>
+                {c.desc && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.85, margin: "3px 0" }}>{c.desc}</div>}
+                <div style={{ fontSize: 10, color: "#93c5fd", fontFamily: "monospace" }}>
+                  HP {c.hp} · RD {c.dr} · att {c.attack_skill} · dif {c.active_defense} · danno {c.damage_dice} {c.damage_type} · {c.morale}
+                </div>
+                {c.tags?.length > 0 && <div style={{ fontSize: 9, color: "var(--text)", opacity: 0.5, marginTop: 2 }}>{c.tags.join(" · ")}</div>}
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, backdropImage, mapPositions, onMove, onOpenMap, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, npcStatuses, advNpcs, onClose, defaultTab, mode, onDeduce }) {
   const isGmMode = mode === "gm";
   const [tab, setTab] = useState(defaultTab || (isGmMode ? "gm_overview" : "clues"));
@@ -7861,6 +7903,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
     }
   }, [defaultTab]);
   const [expandedNpc, setExpandedNpc] = useState(null);
+  const [showBestiary, setShowBestiary] = useState(false);
   const _def = adventure?.adventure_definition || adventure || {};
   const clues = _def.clues || [];
   const clueProgress = gameState?.clue_progress || {};
@@ -8076,7 +8119,15 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
             </button>
           </>
         )}
+        <button style={tabStyle("__bestiary")} title="Bestiario: creature per incontri casuali" onClick={() => setShowBestiary(true)}>🐉</button>
       </div>
+
+      {showBestiary && (
+        <BestiaryModal
+          genre={adventure?.genre || adventure?.adventure_definition?.genre || ""}
+          onClose={() => setShowBestiary(false)}
+        />
+      )}
 
       <div style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "10px 14px" }}>
         {isGmMode && tab === "gm_overview" && (
