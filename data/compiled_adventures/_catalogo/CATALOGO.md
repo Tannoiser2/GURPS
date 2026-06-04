@@ -2,14 +2,14 @@
 
 > Vista generata da `tools/build_adventure_catalog.py` — symlink ai file reali in `data/compiled_adventures/`. **Non** modificare a mano: rilancia lo script.
 
-**Totale:** 92 avventure · **Punteggio medio (giocabili):** 61/100 · **Rotte:** 0 · **Non giocabili:** 4
+**Totale:** 77 avventure · **Punteggio medio (giocabili):** 70/100 · **Rotte:** 0 · **Non giocabili:** 4
 
-**Per fonte:** AI 53 · PDF 39  
-**Per tema:** Azione 14 · Fantasy 27 · Horror 21 · Investigazione 10 · Romance 4 · Fantascienza 16
+**Per fonte:** AI 53 · PDF 24  
+**Per tema:** Azione 10 · Fantasy 23 · Horror 16 · Investigazione 9 · Romance 4 · Fantascienza 15
 
 **Legenda codice:** `TEMA-FONTE-PUNTEGGIO` — TEMA: FAN/HOR/SCI/INV/ACT/ROM/STO · FONTE: PDF/AI/GEN · PUNTEGGIO: playable_score (NA = assente)
 
-## Azione (14)
+## Azione (10)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -23,12 +23,8 @@
 | `ACT-AI-65` | Il Silenzio di Chernaya | AI | 65 | 🟠 | `action/ai_il_silenzio_di_chernaya.json` |
 | `ACT-PDF-51` | Never Forget to Die | PDF | 51 | ⛔ non giocabile | `action/pdf_never_forget.json` |
 | `ACT-PDF-43` | Minutes Not Hours | PDF | 43 | 🟠 | `action/pdf_minutes_not_hours.json` |
-| `ACT-PDF-35` | Phantom Jungle | PDF | 35 | 🟠 | `action/pdf_phantom_jungle.json` |
-| `ACT-PDF-30` | The Sirens Citadel | PDF | 30 | 🟠 | `action/pdf_the_sirens_citadel.json` |
-| `ACT-PDF-20` | Bombshell of Tomorrow | PDF | 20 | 🟠 | `action/pdf_bombshell_of_tomorrow.json` |
-| `ACT-PDF-00` | Uncanny Curse of Sekhmet | PDF | 0 | 🟠 | `action/pdf_uncanny_curse_of_sekhmet.json` |
 
-## Fantasy (27)
+## Fantasy (23)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -55,12 +51,8 @@
 | `FAN-PDF-50` | La Foresta dei Sogni Impossibili | PDF | 50 | 🟠 | `fantasy/pdf_la_foresta_dei_sogni_impossibili.json` |
 | `FAN-PDF-46` | T he Vast Vermin Swamp is a mud-ridden, stench- The Vast Vermin Swamp | PDF | 46 | 🟠 | `fantasy/pdf_the_vast_vermin_swamp.json` |
 | `FAN-PDF-41` | The Third Hall of Uzrah | PDF | 41 | ⛔ non giocabile | `fantasy/pdf_uzrah.json` |
-| `FAN-PDF-30` | Cold Bounty | PDF | 30 | 🟠 | `fantasy/pdf_cold_bounty.json` |
-| `FAN-PDF-29` | Cattedrale Luna Infernale | PDF | 29 | 🟠 | `fantasy/pdf_cattedrale_luna_infernale.json` |
-| `FAN-PDF-21` | Cat Nani | PDF | 21 | 🟠 | `fantasy/pdf_cat_nani.json` |
-| `FAN-PDF-00` | Moon of Thorns | PDF | 0 | 🟠 | `fantasy/pdf_moon_of_thorns.json` |
 
-## Horror (21)
+## Horror (16)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -80,13 +72,8 @@
 | `HOR-PDF-51` | Gotham '39: The Mirror Eternal | PDF | 51 | ⛔ non giocabile | `horror/pdf_gotham39.json` |
 | `HOR-PDF-49` | story, “The Temple”.) | PDF | 49 | 🟠 | `horror/pdf_the_temple.json` |
 | `HOR-PDF-49` | Those the Comet Bring | PDF | 49 | 🟠 | `horror/pdf_those_the_comet_bring.json` |
-| `HOR-PDF-32` | Opera Unceasing | PDF | 32 | 🟠 | `horror/pdf_opera_unceasing.json` |
-| `HOR-PDF-32` | St Cecilias Blasphemous Bordello | PDF | 32 | 🟠 | `horror/pdf_st_cecilias_blasphemous_bordello.json` |
-| `HOR-PDF-25` | Black Mine of Teihiihan | PDF | 25 | 🟠 | `horror/pdf_black_mine_of_teihiihan.json` |
-| `HOR-PDF-18` | Festering Locusts of Fenmore | PDF | 18 | 🟠 | `horror/pdf_festering_locusts_of_fenmore.json` |
-| `HOR-PDF-00` | Dark Wicche | PDF | 0 | 🟠 | `horror/pdf_dark_wicche.json` |
 
-## Investigazione (10)
+## Investigazione (9)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -99,7 +86,6 @@
 | `INV-AI-68` | Porto Fantasma | AI | 68 | 🟠 | `investigation/ai_porto_fantasma.json` |
 | `INV-AI-67` | Il Sorvegliante delle Ombre | AI | 67 | 🟠 | `investigation/ai_il_sorvegliante_delle_ombre.json` |
 | `INV-AI-66` | Il Quartiere Fumoso | AI | 66 | 🟠 | `investigation/ai_quartiere_fumoso.json` |
-| `INV-PDF-00` | Indice | PDF | 0 | 🟠 | `investigation/pdf_index.json` |
 
 ## Romance (4)
 
@@ -110,7 +96,7 @@
 | `ROM-AI-65` | Nozze di Seta e Acciaio | AI | 65 | 🟠 | `romance/ai_nozze_di_seta_e_acciaio.json` |
 | `ROM-AI-55` | Il Ballo delle Anime Perdute | AI | 55 | 🟠 | `romance/ai_il_ballo_delle_anime_perdute.json` |
 
-## Fantascienza (16)
+## Fantascienza (15)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -129,4 +115,3 @@
 | `SCI-PDF-71` | Amethyst Reign | PDF | 71 | 🟡 | `sci-fi/pdf_amethyst_reign.json` |
 | `SCI-AI-71` | Patto di Cenere | AI | 71 | 🟡 | `sci-fi/ai_patto_di_cenere.json` |
 | `SCI-PDF-64` | Who Tracks the Steps of Glory | PDF | 64 | 🟠 | `sci-fi/pdf_who_tracks_the_steps_of_glory.json` |
-| `SCI-PDF-35` | Star Wars The Unknown Command | PDF | 35 | 🟠 | `sci-fi/pdf_star_wars_the_unknown_command.json` |
