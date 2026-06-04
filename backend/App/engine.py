@@ -1015,6 +1015,41 @@ def _assign_npc_weapons(npc: "WorldNPC", genre: str = "") -> None:
         ))
 
 
+def _baseline_npc_gurps(role: str, threat: int) -> dict:
+    """Scheda GURPS deterministica di base per OGNI NPC (nessuna chiamata AI).
+
+    Scala con threat_to_player (0 = civile inerme … 3 = antagonista temibile) e dà
+    a ogni PNG attributi, una skill principale e stat di combattimento — così è
+    interagibile/affrontabile meccanicamente, non solo una descrizione narrativa.
+    Prima queste stat esistevano solo per i "boss" (generate via LLM).
+    """
+    t = max(0, min(3, int(threat)))
+    fo, de, in_, sa, skill = {
+        0: (10, 10, 11, 10, 10),
+        1: (10, 11, 11, 10, 12),
+        2: (11, 12, 10, 11, 13),
+        3: (12, 13, 12, 12, 14),
+    }[t]
+    low = (role or "").lower()
+    if any(k in low for k in ("antagon", "boss", "guard", "soldier", "minacc", "nemic")):
+        primary = "combattere"
+    elif any(k in low for k in ("medic", "alle", "ally", "guaritore")):
+        primary = "primo soccorso"
+    elif any(k in low for k in ("test", "witness", "neutr", "civil")):
+        primary = "osservare"
+    else:
+        primary = "combattere"
+    return {
+        "gurps_fo": fo, "gurps_de": de, "gurps_in": in_, "gurps_sa": sa,
+        "gurps_skills": {primary: skill, "osservare": 10 + t, "schivare": 8 + t},
+        "gurps_advantages": (["Riflessi da Combattimento"] if t >= 3 else []),
+        "combat_hp": fo, "combat_max_hp": fo, "combat_dr": (1 if t >= 2 else 0),
+        "combat_attack_skill": skill, "combat_active_defense": 8 + t // 2,
+        "combat_damage_dice": ("1d-2" if t == 0 else "1d-1" if t == 1 else "1d"),
+        "combat_damage_type": "cr",
+    }
+
+
 def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapState) -> list[WorldNPC]:
     node_ids = list(map_state.nodes.keys())
     genre = getattr(definition, "genre", "") or ""
@@ -1035,6 +1070,9 @@ def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapS
             description=actor.goal or actor.secret or role,
             secret=actor.secret,
         )
+        # Ogni NPC riceve una scheda GURPS di base (non solo i boss).
+        for _k, _v in _baseline_npc_gurps(role, threat).items():
+            setattr(npc, _k, _v)
         _assign_npc_weapons(npc, genre)
         npcs.append(npc)
     return npcs

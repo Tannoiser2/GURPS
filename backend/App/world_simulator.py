@@ -657,6 +657,18 @@ def _npcs_to_introduce(runtime: AdventureRuntime, game_state_data: dict) -> list
     threat_pct = threat_level / threat_max
     npc_rt = game_state_data.get("npc_runtime") or {}
 
+    # Location corrente: gli NPC che si trovano FISICAMENTE qui vanno introdotti
+    # (prima venivano ignorati se la loro "pressione narrativa" era bassa → il
+    # giocatore non incontrava chi era nella stanza).
+    map_state = game_state_data.get("map_state") or {}
+    current_loc_id = str(map_state.get("current_node_id") or game_state_data.get("current_scene_id") or "").strip()
+    current_loc_name = ""
+    for loc in (getattr(runtime, "locations", None) or []):
+        if getattr(loc, "id", "") == current_loc_id:
+            current_loc_name = (getattr(loc, "name", "") or "").strip().lower()
+            break
+
+    here: list[str] = []
     candidates = []
     for actor in runtime.actors:
         # Stato effettivo: prima il runtime override, poi lo stato canonico
@@ -671,6 +683,15 @@ def _npcs_to_introduce(runtime: AdventureRuntime, game_state_data: dict) -> list
         if eff_status != "unintroduced":
             continue
 
+        # Presente fisicamente nella location corrente? (match per id o per nome)
+        actor_loc = str(rt_entry.get("location") or actor.location_id or "").strip()
+        if current_loc_id and actor_loc and (
+            actor_loc == current_loc_id
+            or (current_loc_name and actor_loc.lower() == current_loc_name)
+        ):
+            here.append(actor.id)
+            continue
+
         p = actor.agenda_pressure
         # Soglie: più alta la pressione dell'NPC, prima entra in scena
         if p >= 3 and threat_pct >= 0.20:
@@ -683,8 +704,13 @@ def _npcs_to_introduce(runtime: AdventureRuntime, game_state_data: dict) -> list
             candidates.append((3, actor.id))
 
     candidates.sort()
-    # Massimo 1 NPC introdotto per turno
-    return [npc_id for _, npc_id in candidates[:1]]
+    # Chi è nella stanza entra in scena (fino a 3) + max 1 per pressione narrativa.
+    result = here[:3]
+    for _, npc_id in candidates:
+        if len(result) >= 4:
+            break
+        result.append(npc_id)
+    return result
 
 
 def _clock_runtime_value(clock_id: str, game_state_data: dict) -> int:

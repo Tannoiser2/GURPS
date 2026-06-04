@@ -50,6 +50,12 @@ GENRE_ERA_MAP: dict[str, list[str]] = {
     "action":            [ERA_MODERN, ERA_HORROR],
     "thriller":          [ERA_MODERN, ERA_HORROR],
     "militare":          [ERA_MODERN],
+    "investigation":     [ERA_MODERN, ERA_HORROR],
+    "investigazione":    [ERA_MODERN, ERA_HORROR],
+    "noir":              [ERA_MODERN],
+    "giallo":            [ERA_MODERN],
+    "romance":           [ERA_MODERN, ERA_MEDIEVAL],
+    "romantico":         [ERA_MODERN, ERA_MEDIEVAL],
 }
 
 # ── Tabella completa ───────────────────────────────────────────────────────────
