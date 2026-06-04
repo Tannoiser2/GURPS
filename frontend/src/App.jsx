@@ -2635,6 +2635,7 @@ function SetupScreen({ onStart }) {
 
   async function handlePdfUpload(file) {
     setPdfLoading(true); setPdfError(""); setPreloadedAdventure(null);
+    const pdfStartedAt = Date.now();
     try {
       if (file.size > VERCEL_PDF_UPLOAD_LIMIT_BYTES)
         throw new Error(`PDF troppo grande (${(file.size/1024/1024).toFixed(1)} MB). Limite: 4 MB.`);
@@ -2653,23 +2654,46 @@ function SetupScreen({ onStart }) {
       }
       if (!awake) throw new Error("Il server non si è avviato in tempo (cold-start). Riprova tra un minuto.");
 
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("genre", genre || "detective_classico");
-      fd.append("players", "4");
-      fd.append("provider", provider);
-      const res = await fetch(`${API_URL_DIRECT}/game/adventure/from-pdf`, { method: "POST", body: fd });
-      // Se il server è ancora in avvio o sovraccarico risponde con HTML (502/503/504):
-      // gestiamolo qui, altrimenti res.json() lancerebbe un errore criptico
-      // ("did not match the expected pattern") scambiato per problema di rete.
-      if (!res.ok) {
-        if (res.status === 502 || res.status === 503 || res.status === 504)
-          throw new Error("Il server è in avvio o momentaneamente sovraccarico. Riprova tra qualche secondo.");
-        let detail = "";
-        try { detail = (await res.json())?.detail || ""; } catch (_) {}
-        throw new Error(detail || `Errore server (${res.status}) durante la compilazione del PDF.`);
+      // Invio del PDF. Helper che fa l'upload verso una base-url e gestisce
+      // le risposte non-OK (502/503/504 = proxy in avvio → HTML, non JSON).
+      const postPdf = async (baseUrl) => {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("genre", genre || "detective_classico");
+        fd.append("players", "4");
+        fd.append("provider", provider);
+        const res = await fetch(`${baseUrl}/game/adventure/from-pdf`, { method: "POST", body: fd });
+        if (!res.ok) {
+          if (res.status === 502 || res.status === 503 || res.status === 504)
+            throw new Error(`Il server è in avvio o sovraccarico (HTTP ${res.status}). Riprova tra qualche secondo.`);
+          let detail = "";
+          try { detail = (await res.json())?.detail || ""; } catch (_) {}
+          throw new Error(detail || `Errore server (HTTP ${res.status}) durante la compilazione del PDF.`);
+        }
+        return res.json();
+      };
+
+      // Prova prima il path diretto a Render (necessario per il multipart, che
+      // supera il limite di body del proxy Vercel). Se fallisce SUBITO con un
+      // errore di rete (path diretto non raggiungibile da questa rete / CORS),
+      // ripiega sul proxy Vercel — lo stesso che usa la generazione per genere,
+      // che funziona. NON ripieghiamo se il fallimento arriva tardi: vorrebbe
+      // dire che la compilazione era in corso e ha superato un timeout, e
+      // rilanciarla raddoppierebbe soltanto tempo e costo LLM.
+      const uploadStart = Date.now();
+      let data;
+      try {
+        data = await postPdf(API_URL_DIRECT);
+      } catch (e1) {
+        const elapsed = Date.now() - uploadStart;
+        const fast = elapsed < 20000;
+        if (isNetworkError(e1) && fast && API_URL_DIRECT !== API_URL) {
+          console.warn(`[pdf] path diretto non raggiungibile dopo ${elapsed}ms, ripiego sul proxy`, window.__lastFetchError);
+          data = await postPdf(API_URL);
+        } else {
+          throw e1;
+        }
       }
-      const data = await res.json();
       if (data.compilation_failed) {
         const gate = data.quality_gate || {};
         const critical = (gate.critical || []).map(c => `• ${c}`).join("\n");
@@ -2722,8 +2746,15 @@ function SetupScreen({ onStart }) {
       setStep("team");  // skip review: dritto alla scelta PG (doctor applicato dal backend)
     } catch (e) {
       const msg = e.message || "";
-      const isNet = msg === "Load failed" || msg === "Failed to fetch" || msg.includes("NetworkError") || msg.includes("did not match the expected pattern");
-      setPdfError(isNet ? "Impossibile raggiungere il server. Verifica la connessione o riprova tra qualche secondo (il server potrebbe essere in avvio)." : msg || "Errore caricamento PDF");
+      const elapsedS = Math.round((Date.now() - pdfStartedAt) / 1000);
+      // Diagnostica precisa: serve a capire SE è cold-start (errore in pochi
+      // secondi) o timeout di compilazione (errore dopo 1-2 minuti), e qual è
+      // l'errore reale (window.__lastFetchError è settato da safeFetch).
+      const diag = `[${elapsedS}s · ${e?.name || "Error"}: ${msg.slice(0, 120)}${window.__lastFetchError ? ` · net: ${String(window.__lastFetchError).slice(0, 120)}` : ""}]`;
+      const base = isNetworkError(e)
+        ? "Impossibile raggiungere il server. Verifica la connessione o riprova tra qualche secondo (il server potrebbe essere in avvio)."
+        : (msg || "Errore caricamento PDF");
+      setPdfError(`${base}\n${diag}`);
     }
     finally { setPdfLoading(false); setLoading(false); }
   }
@@ -3355,7 +3386,7 @@ function SetupScreen({ onStart }) {
           )}
         </div>
         {(pdfError || jsonError || templateError) && (
-          <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 0 6px", background: "#0a0a0a" }}>
+          <div style={{ textAlign: "center", color: "#f87171", fontSize: 13, padding: "4px 12px 6px", background: "#0a0a0a", whiteSpace: "pre-line" }}>
             ❌ {pdfError || jsonError || templateError}
           </div>
         )}
