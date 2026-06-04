@@ -11649,7 +11649,7 @@
         "id": "p4_npc_1",
         "name": "Georgie Feldsman Betty Sage",
         "role": "neutral",
-        "location_id": "section_1",
+        "location_id": "loc_imperial_airlines_plane",
         "status": "unintroduced",
         "goal": "Enjoy talking about his aviation expertise and collect tips from clients while flying them safely across Italy",
         "secret": "Has connections to various underworld figures and sometimes transports questionable cargo for extra money",
@@ -11708,13 +11708,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Imperial Airlines Civilian Airliner"
       },
       {
         "id": "p5_npc_1",
         "name": "Skeet Skitshaw",
         "role": "antagonist",
-        "location_id": "section_2",
+        "location_id": "loc_skeet_skitshaw",
         "status": "unintroduced",
         "goal": "Escape Italy with stolen bank money and evade capture by bounty hunters and police",
         "secret": "Plans to use his European robbery money to fund a criminal empire back in Chicago",
@@ -11773,13 +11774,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "SKEET SKITSHAW"
       },
       {
         "id": "p7_npc_1",
         "name": "Mirella Danieli",
         "role": "patron",
-        "location_id": "section_3",
+        "location_id": "loc_the_danieli_house",
         "status": "unintroduced",
         "goal": "Rescue her father from Count Malefik before the Vipers execute him",
         "secret": "Knows her father possesses rare medieval manuscripts valuable enough to attract dangerous criminals",
@@ -11843,13 +11845,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "The Danieli House"
       },
       {
         "id": "p8_npc_1",
         "name": "Sons of the Vipers",
         "role": "antagonist",
-        "location_id": "section_4",
+        "location_id": "loc_calcata_vecchia",
         "status": "unintroduced",
         "goal": "Guard Count Malefik's operations and prevent interference while he extracts information from the professor",
         "secret": "The Testament of Vipers is completely broke after the Manchuria invasion and Swiss vault heist",
@@ -11908,13 +11911,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Calcata Vecchia"
       },
       {
         "id": "p9_npc_1",
         "name": "Count Malefik",
         "role": "antagonist",
-        "location_id": "section_5",
+        "location_id": "loc_calcata_vecchia",
         "status": "unintroduced",
         "goal": "Extract the location of Hetshepsut's tomb from Professor Danieli's medieval manuscript to find forty golden chariots",
         "secret": "The Testament is completely bankrupt after losing their fortune in Manchuria and a Swiss vault heist by Irish thieves",
@@ -11978,13 +11982,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Calcata Vecchia"
       },
       {
         "id": "p13_npc_1",
         "name": "BRITISH SOLDIERS",
         "role": "neutral",
-        "location_id": "section_6",
+        "location_id": "loc_leontopolis",
         "status": "unintroduced",
         "goal": "Mantenere l'ordine al Canale di Suez durante il ritiro britannico dall'Egitto",
         "secret": "Sanno che il ritiro britannico lascerà un vuoto di potere che gruppi mercenari cercheranno di sfruttare",
@@ -12043,13 +12048,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Leontopolis (City of Lions)"
       },
       {
         "id": "p16_npc_1",
         "name": "MARGRIT KEHLER",
         "role": "rival",
-        "location_id": "section_7",
+        "location_id": "loc_pyramid_meidum",
         "status": "unintroduced",
         "goal": "Saccheggiare le mastaba attorno alla piramide di Meidum prima che altri trovino la tomba di Hetshepsut",
         "secret": "Sta operando senza autorizzazione ufficiale tedesca, rubando tesori per arricchirsi personalmente più che per il Reich",
@@ -12113,7 +12119,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Pyramid of Meidum"
       }
     ],
     "factions": [],
@@ -12124,7 +12131,9 @@
         "description": "Aereo civile in volo da Roma a Milano ad 8.000 piedi di altitudine. Atmosfera tesa con una situazione di stallo armato in corso.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p4_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -12233,7 +12242,9 @@
         "description": "Sito archeologico dell'antica Città dei Leoni in Egitto. Contiene indizi nascosti sulla localizzazione della tomba di Hetshepsut.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p13_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -12286,7 +12297,9 @@
         "description": "Antica pseudo-piramide circondata da mastabe. Luogo dove si trova la camera che contiene il riposo finale di Hetshepsut e il suo tesoro.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p16_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -12430,7 +12443,9 @@
         "contains_clues": [
           "llm_clue_2"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p5_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -12468,7 +12483,9 @@
         "contains_clues": [
           "llm_clue_3"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p7_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -12585,7 +12602,10 @@
         "contains_clues": [
           "llm_clue_7"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p8_npc_1",
+          "p9_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

@@ -9370,7 +9370,7 @@
         "id": "carac_the_thorn",
         "name": "Carac the Thorn",
         "role": "antagonist",
-        "location_id": "section_1",
+        "location_id": "emirs_bridge",
         "status": "unintroduced",
         "goal": "Continuare le consegne notturne di manufatti lunagranati al ponte per guadagnare denaro e sopravvivere nascosto",
         "secret": "Non sa di lavorare per un culto della morte che sta scavando sotto il palazzo dell'Emiro per risvegliare un antico tiranno. Crede siano solo consegne di contrabbando ordinarie.",
@@ -9433,13 +9433,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Emir's Bridge"
       },
       {
         "id": "rathar_trygg",
         "name": "Rathar Trygg",
         "role": "patron",
-        "location_id": "section_2",
+        "location_id": "mercenaries_guild",
         "status": "unintroduced",
         "goal": "Guadagnare denaro attraverso contrabbando e combattimenti nell'arena",
         "secret": "Era coinvolto nel traffico di manufatti magici lunagranate per il culto",
@@ -9486,13 +9487,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Mercenaries Guild"
       },
       {
         "id": "arsalan",
         "name": "Arsalan",
         "role": "ally",
-        "location_id": "section_3",
+        "location_id": "deadmans_row",
         "status": "unintroduced",
         "goal": "Aiutare Carac nelle consegne notturne per guadagnare denaro veloce dal contrabbando",
         "secret": "Detiene informazioni chiave sulle consegne di Carac all'Emir's Bridge",
@@ -9545,13 +9547,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Deadman's Row"
       },
       {
         "id": "servant_woman",
         "name": "Unusual Servant Woman",
         "role": "antagonist",
-        "location_id": "section_4",
+        "location_id": "emirs_palace",
         "status": "unintroduced",
         "goal": "Ricevere le casse di manufatti lunagranati e portarle nel tunnel per il mago del culto che scava sotto il palazzo",
         "secret": "È un membro dell'Ordine dei Piangenti, un culto della morte che cerca di risvegliare il Principe Ivor. Il portale sotto il ponte conduce a un tunnel che attraversa Tredroy verso le catacombe.",
@@ -9609,13 +9612,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Emir's Palace"
       },
       {
         "id": "prince_ivor",
         "name": "Prince Ivor",
         "role": "antagonist",
-        "location_id": "section_5",
+        "location_id": "palace_catacombs",
         "status": "unintroduced",
         "goal": "Essere risvegliato dall'Ordine dei Piangenti per riprendere la sua conquista sanguinosa interrotta sei secoli fa",
         "secret": "Il suo sarcofago è nascosto nelle catacombe antiche e il culto sta per trovarlo",
@@ -9661,13 +9665,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Palace Catacombs"
       },
       {
         "id": "cult_mage",
         "name": "Order of Grievers Mage",
         "role": "antagonist",
-        "location_id": "section_6",
+        "location_id": "palace_catacombs",
         "status": "unintroduced",
         "goal": "Trovare il sarcofago del Principe Ivor nelle catacombe sotto il palazzo dell'Emiro prima che la sua posizione venga scoperta",
         "secret": "Sta usando gli artefatti lunagranati contrabbandati da Carac per demolire sezioni delle catacombe. Ha scavato nella direzione sbagliata per settimane ma ha recentemente capito l'errore.",
@@ -9725,7 +9730,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Palace Catacombs"
       }
     ],
     "factions": [],
@@ -9791,7 +9797,9 @@
         "description": "Quartiere povero di Tredroy dove viveva Carac the Thorn. Area malfamata della città dove si svolgono attività illegali e vivono i cittadini più poveri.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "arsalan"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -9899,7 +9907,9 @@
         "description": "Uno dei molti ponti di Tredroy, sotto il quale si nasconde un portale magico segreto. Punto di consegna notturno per le casse di artefatti lunagranate di Carac.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "carac_the_thorn"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -9958,7 +9968,9 @@
         "description": "Grande palazzo nobiliare di Tredroy, uno dei più importanti edifici della città. Sotto di esso si trovano antiche catacombe dove il culto sta scavando.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "servant_woman"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -10063,7 +10075,10 @@
         "description": "Antiche catacombe sotto il palazzo dell'Emiro, dove giace il sarcofago del Principe Ivor da seicento anni. Location finale dove i cultisti dell'Ordine dei Grievers stanno per completare i loro scavi.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "prince_ivor",
+          "cult_mage"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -10167,7 +10182,9 @@
         "description": "Gilda locale dove i PG vengono reclutati all'inizio dell'avventura. Organizzazione che coordina mercenari e guardie nella città di Tredroy.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "rathar_trygg"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

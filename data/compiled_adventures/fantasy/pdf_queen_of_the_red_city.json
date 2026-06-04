@@ -11184,7 +11184,7 @@
         "id": "p15_npc_1",
         "name": "APE TERRITORY",
         "role": "neutral",
-        "location_id": "section_1",
+        "location_id": "green_serpent",
         "status": "unintroduced",
         "goal": "controllare The Green Serpent prima che la squadra usi La Firedancer distrutta nell'insenatura",
         "secret": "Il branco ha imparato a temere gli umani dopo che tre cuccioli furono uccisi dai sopravvissuti della Firedancer dieci anni fa. La femmina anziana porta ancora una pallottola conficcata nella spalla. Nel relitto nascondono teschi umani decorati con conchiglie: un altare primitivo ai loro morti",
@@ -11231,13 +11231,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "The Green Serpent"
       },
       {
         "id": "p16_npc_1",
         "name": "NOTABLE NPCS",
         "role": "neutral",
-        "location_id": "section_2",
+        "location_id": "green_serpent",
         "status": "unintroduced",
         "goal": "controllare The Green Serpent prima che la squadra usi La Firedancer distrutta nell'insenatura",
         "secret": "Era presente sulla Firedancer quella notte fatale dieci anni fa: non è sempre stato sulla Serpente Verde, ma ha cambiato identità e si è unito a Marala per tenere d'occhio chiunque si avvicinasse troppo alla verità su cosa accadde realmente a Ja",
@@ -11284,13 +11285,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "The Green Serpent"
       },
       {
         "id": "p16_npc_2",
         "name": "Colba of Khitai",
         "role": "ally",
-        "location_id": "section_3",
+        "location_id": "green_serpent",
         "status": "unintroduced",
         "goal": "Prove her worth as a warrior and claim a share of the island's treasure",
         "secret": "Non sa nuotare ed è terrorizzata dall'acqua profonda, ma morirebbe piuttosto che ammetterlo davanti all'equipaggio corsaro. Durante un naufragio ha visto affogare sua sorella minore",
@@ -11349,13 +11351,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "The Green Serpent"
       },
       {
         "id": "p36_npc_1",
         "name": "RITUALS",
         "role": "neutral",
-        "location_id": "section_4",
+        "location_id": "green_serpent",
         "status": "unintroduced",
         "goal": "controllare The Green Serpent prima che la squadra usi La Firedancer distrutta nell'insenatura",
         "secret": "Era l'ufficiale di bordo sulla Firedancer di Jaako. Survisse al naufragio nascondendosi tra i cadaveri, ma le 'Voci' che sentì quella notte lo hanno reso dipendente da funghi allucinogeni dell'isola. Sa esattamente dove Jaako nascose il carico maledetto.",
@@ -11402,7 +11405,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "The Green Serpent"
       }
     ],
     "factions": [],
@@ -11635,7 +11639,12 @@
         "description": "La nave corsara comandata da Marala, la Regina Corsara. È la nave dell'equipaggio dei PG, salpata dal porto libero di Zabhela nel Kush.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p15_npc_1",
+          "p16_npc_1",
+          "p16_npc_2",
+          "p36_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

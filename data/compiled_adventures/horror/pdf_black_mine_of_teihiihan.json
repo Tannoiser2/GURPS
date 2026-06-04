@@ -4269,7 +4269,7 @@
         "id": "p2_npc_1",
         "name": "JOHNNY BUCK",
         "role": "victim",
-        "location_id": "section_1",
+        "location_id": "loc_the_miserable_johnny_buck",
         "status": "unintroduced",
         "goal": "Fuggire dal treno per avvertire lo zio Wade del pericolo imminente che ha visto fuori dal finestrino",
         "secret": "È membro della gang Dunker ed era sul treno come vedetta per la rapina, ma ha visto qualcosa di terrificante fuori dal finestrino",
@@ -4333,13 +4333,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "THE MISERABLE JOHNNY BUCK"
       },
       {
         "id": "p5_npc_1",
         "name": "WO'OTEEYOO SOUL BIRD",
         "role": "antagonist",
-        "location_id": "section_2",
+        "location_id": "loc_wo_oteeyoo_soul_bird",
         "status": "unintroduced",
         "goal": "Divorare anime umane per nutrire Hoowuuni e vendicarsi di Rufus che ha rubato il suo corpo",
         "secret": "È l'anima di Wade Dunker trasformata in creatura mostruosa dal rituale fallito di Rufus",
@@ -4408,13 +4409,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "WO'OTEEYOO SOUL BIRD"
       },
       {
         "id": "p8_npc_1",
         "name": "HOOWUUNI (AS RUFUS)",
         "role": "antagonist",
-        "location_id": "section_3",
+        "location_id": "loc_inside_with_rufus_hoowuuni",
         "status": "unintroduced",
         "goal": "Divorare anime attraverso i Teihiihan per accumulare potere oscuro sul mondo mortale",
         "secret": "È uno spirito ingannatore Arapaho che ha posseduto il corpo di Rufus durante il rituale fallito, comandando i Teihiihan cannibali",
@@ -4483,13 +4485,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "INSIDE WITH RUFUS-HOOWUUNI"
       },
       {
         "id": "p14_npc_1",
         "name": "HOSAA",
         "role": "ally",
-        "location_id": "section_4",
+        "location_id": "loc_fort_rufus",
         "status": "unintroduced",
         "goal": "Fermare Hoowuuni e i Teihiihan prima che divorino altre anime innocenti",
         "secret": "Conosce i rituali Arapaho per esorcizzare Hoowuuni e sa della leggenda antica dei Teihiihan",
@@ -4553,13 +4556,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Fort Rufus"
       },
       {
         "id": "p14_npc_2",
         "name": "DR. EZEKIEL DICKINSON",
         "role": "witness",
-        "location_id": "section_5",
+        "location_id": "loc_passenger_train",
         "status": "unintroduced",
         "goal": "Raggiungere Arkansas City per completare il suo viaggio d'affari e tornare a casa sano e salvo",
         "secret": "La valigetta contiene non solo organi umani, ma anche il cuore di un bambino nativo americano che il suo committente ha specificamente richiesto per esperimenti legati a 'proprietà spirituali uniche'. Dickinson sospetta che il chirurgo sia coinvolto in qualcosa di soprannaturale ma ha troppa paura per indagare",
@@ -4612,7 +4616,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Second Class Passenger Car"
       }
     ],
     "factions": [],
@@ -4623,7 +4628,9 @@
         "description": "Un vagone passeggeri di seconda classe affollato, verso la parte posteriore del treno. I PG viaggiano da Kansas City verso Arkansas City insieme ad altri due passeggeri, Dr. Ezekiel J. Dickinson e Johnny Buck.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p14_npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -4778,7 +4785,9 @@
           "llm_clue_5",
           "llm_clue_6"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p14_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -4911,7 +4920,9 @@
         "contains_clues": [
           "llm_clue_3"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p2_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -4987,7 +4998,9 @@
         "contains_clues": [
           "llm_clue_8"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p5_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -5025,7 +5038,9 @@
         "contains_clues": [
           "llm_clue_9"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p8_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

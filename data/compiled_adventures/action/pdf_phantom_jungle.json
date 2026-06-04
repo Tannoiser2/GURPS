@@ -10149,7 +10149,7 @@
         "id": "arthur_van_der_woodson",
         "name": "Arthur Van Der Woodson",
         "role": "patron",
-        "location_id": "section_1",
+        "location_id": "loc_leper_colony",
         "status": "unintroduced",
         "goal": "Recuperare l'Eternal Khipu e trovare una cura per la sua lebbra prima che sia troppo tardi",
         "secret": "Ha contratto la lebbra esplorando il tempio Inca e teme di infettare gli altri, specialmente suo figlio",
@@ -10207,13 +10207,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Leper Colony (Jesuit Mission)"
       },
       {
         "id": "dr_niyali_joshi",
         "name": "Dr. Niyali Joshi",
         "role": "victim",
-        "location_id": "section_2",
+        "location_id": "loc_leper_colony",
         "status": "unintroduced",
         "goal": "Fuggire dai suoi rapitori e tornare alla colonia per curare i pazienti lebbrosi che dipendono da lei",
         "secret": "Conosce segreti medici o proprietà curative legate al tempio Inca che i cultisti vogliono sfruttare",
@@ -10271,13 +10272,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Leper Colony (Jesuit Mission)"
       },
       {
         "id": "kirby_bell_bee",
         "name": "Kirby Bell Bee",
         "role": "antagonist",
-        "location_id": "section_3",
+        "location_id": "loc_temple_coniraya",
         "status": "unintroduced",
         "goal": "Risvegliare il suo bisnonno dalla stasi nel tempio e recuperare l'Eternal Khipu per conquistare il Sud America",
         "secret": "Sta avendo incubi causati dal contatto psichico con il Cabal: tre leader confederati in stasi dal 1867 che vogliono creare una nazione nel bacino amazzonico",
@@ -10335,13 +10337,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Temple of Coniraya"
       },
       {
         "id": "el_clavo",
         "name": "El Clavo",
         "role": "antagonist",
-        "location_id": "section_4",
+        "location_id": "loc_revolutionary_camp",
         "status": "unintroduced",
         "goal": "Completare il contratto di Kirby eliminando chiunque interferisca con il culto e proteggere il tempio",
         "secret": "Ha sviluppato un dispositivo ad azoto che gli permette salti impossibili, dandogli vantaggio tattico unico negli scontri",
@@ -10399,13 +10402,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Anti-Imperialist Revolutionary Camp"
       },
       {
         "id": "violent_twins",
         "name": "Gemelli Violenti",
         "role": "antagonist",
-        "location_id": "section_5",
+        "location_id": "loc_jungle_trek",
         "status": "unintroduced",
         "goal": "Recuperare la collana leggendaria che uno dei PG ha accidentalmente raccolto in Perù",
         "secret": "Non sono veri gemelli biologici, ma fratelli rituali legati da uno sciamano dopo aver bevuto ayahuasca mista al sangue reciproco. Ognuno teme segretamente di essere più debole senza l'altro - separarli significa spezzare il loro potere.",
@@ -10452,13 +10456,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Peruvian Jungle"
       },
       {
         "id": "the_cabal",
         "name": "The Cabal",
         "role": "antagonist",
-        "location_id": "section_6",
+        "location_id": "loc_temple_coniraya",
         "status": "unintroduced",
         "goal": "Risvegliarsi dalla stasi catatonica e riprendere il controllo del culto Certum Americana per fondare una nazione nel bacino amazzonico",
         "secret": "Sono caduti in coma nel 1867 dopo aver toccato l'Eterno Khipu troppe volte per avidità di conoscenza cosmica. La loro esistenza è il vero motivo per cui Kirby Bell Bee cerca disperatamente il Khipu.",
@@ -10516,7 +10521,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Temple of Coniraya"
       }
     ],
     "factions": [],
@@ -10634,7 +10640,10 @@
         "description": "Una colonia per lebbrosi, fondata e poi abbandonata dai missionari gesuiti. Ora è sovraffollata di malati e disperati dopo il rapimento della dottoressa Joshi.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "arthur_van_der_woodson",
+          "dr_niyali_joshi"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -10687,7 +10696,9 @@
         "description": "Accampamento di rivoluzionari anti-imperialisti nella giungla. Arthur Van Der Woodson è qui, sospettato di essere El Clavo e in procinto di essere giustiziato.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "el_clavo"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -10793,7 +10804,10 @@
         "description": "Tempio Inca perduto nella giungla, dove è nascosto l'Eterno Khipu. Contiene trappole elaborate e custodisce terribili segreti, inclusi tre leader Confederati in stasi dal 1867.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "kirby_bell_bee",
+          "the_cabal"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -10899,7 +10913,9 @@
         "description": "La pericolosa giungla peruviana che i PG devono attraversare dopo il naufragio. Ambiente ostile pieno di pericoli naturali tra il fiume e le varie location.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "violent_twins"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

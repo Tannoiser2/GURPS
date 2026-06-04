@@ -4916,7 +4916,7 @@
         "id": "guardiano_faro",
         "name": "Guardiano del Faro",
         "role": "victim",
-        "location_id": "section_9",
+        "location_id": "loc_il_faro",
         "status": "unintroduced",
         "goal": "Sopravvivere agli eventi misteriosi che hanno travolto Beacon Island e riattivare il faro",
         "secret": "È responsabile del malfunzionamento del faro che ha causato il naufragio della nave diretta a Rockport il 12 aprile 1926",
@@ -4963,13 +4963,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Il Faro di Beacon Island"
       },
       {
         "id": "abitatori_profondo_ibridi",
         "name": "Abitatori del Profondo Ibridi",
         "role": "antagonist",
-        "location_id": "section_1",
+        "location_id": "loc_beacon_island",
         "status": "unintroduced",
         "goal": "Recuperare l'oro di Innsmouth che è stato sottratto e portarlo nelle profondità marine",
         "secret": "Sono in missione di recupero per conto della colonia sottomarina di Innsmouth per riavere il loro oro rubato, probabilmente a bordo della nave naufragata",
@@ -5022,7 +5023,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Beacon Island"
       }
     ],
     "factions": [],
@@ -5085,7 +5087,9 @@
         "description": "Un'isola vicino a Rockport, Massachusetts, dove sorge il faro malfunzionante. Gli investigatori sono costretti a cercare rifugio qui dopo il naufragio, ma l'isola nasconde pericoli mortali legati agli Abitatori del Profondo.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "abitatori_profondo_ibridi"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -5136,7 +5140,9 @@
         "description": "L'edificio del faro che ha smesso di funzionare causando il naufragio. Un gruppo di investigatori può entrarvi per investigare le cause del malfunzionamento, mentre altri esplorano l'isola.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "guardiano_faro"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

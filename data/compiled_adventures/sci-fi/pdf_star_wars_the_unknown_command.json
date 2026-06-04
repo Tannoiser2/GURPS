@@ -13526,7 +13526,7 @@
         "id": "p6_npc_1",
         "name": "CRIMSON JACK",
         "role": "rival",
-        "location_id": "section_1",
+        "location_id": "loc_kortatka",
         "status": "unintroduced",
         "goal": "Arrivare per primo a Kortatka e rubare lo spinpria giallo dai depositi imperiali prima che altri lo facciano",
         "secret": "Ha saputo dell'unknown command da fonti criminali e sta radunando una crew per il colpo più grande della sua vita",
@@ -13585,13 +13585,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Kortatka"
       },
       {
         "id": "p6_npc_2",
         "name": "JACK’S CREW",
         "role": "neutral",
-        "location_id": "section_2",
+        "location_id": "loc_imperial_siphoner",
         "status": "unintroduced",
         "goal": "controllare Siphoner Imperiale prima che la squadra usi Informazione trapelata sull'Unknown Command",
         "secret": "Jack ha già perso due crew complete su lavori per l'Impero che si sono rivelati trappole. È ossessionato dall'idea che anche questa missione sia una condanna a morte mascherata, e porta sempre una capsula di veleno ad azione rapida nascosta in un dente, pronto a usarla piuttosto che essere catturato vivo.",
@@ -13638,13 +13639,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Siphoner Imperiale"
       },
       {
         "id": "p7_npc_1",
         "name": "GARBULB THE HUTT",
         "role": "patron",
-        "location_id": "section_3",
+        "location_id": "loc_casino",
         "status": "unintroduced",
         "goal": "Vincere scommesse e ottenere profitti dalle operazioni criminali, incluso il furto dello spinpria",
         "secret": "Ha finanziato o scommesso sull'esito di diverse spedizioni a Kortatka, inclusa quella dei PG",
@@ -13703,13 +13705,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Casino"
       },
       {
         "id": "p12_npc_1",
         "name": "RQ-99",
         "role": "neutral",
-        "location_id": "section_4",
+        "location_id": "loc_hangar",
         "status": "unintroduced",
         "goal": "Gestire il landing pad del settore e registrare arrivi e partenze secondo i protocolli standard",
         "secret": "La sua memoria contiene i manifest completi di tutte le navi evacuate nelle ultime 72 ore, incluse le quantità esatte di spinpria gialla trasportate e le rotte di destinazione - dati che l'Impero vorrebbe cancellati prima che qualcuno li estragga",
@@ -13762,13 +13765,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Hangar"
       },
       {
         "id": "p14_npc_1",
         "name": "WORKING VEHICLES",
         "role": "neutral",
-        "location_id": "section_5",
+        "location_id": "loc_hangar",
         "status": "unintroduced",
         "goal": "Completare operazioni di carico/scarico e movimentazione nell'area del depot secondo programmazione",
         "secret": "Il 23% dei veicoli da carico ha già sviluppato malfunzionamenti critici per il sovraccarico dell'evacuazione frettolosa—i loro sistemi di navigazione mostrano derive di coordinate che potrebbero essere sfruttate per dirottare interi container verso zone di raccolta alternative",
@@ -13821,13 +13825,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Hangar"
       },
       {
         "id": "p14_npc_2",
         "name": "SPEEDER BIKE",
         "role": "neutral",
-        "location_id": "section_6",
+        "location_id": "loc_kortatka",
         "status": "unintroduced",
         "goal": "Patrol the depot perimeter and maintain security protocols",
         "secret": "Sanno che l'evacuazione nasconde qualcosa di grave - ordine di sparare a vista su CHIUNQUE si avvicini ai tunnel profondi, anche personale imperiale non autorizzato",
@@ -13886,13 +13891,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Kortatka"
       },
       {
         "id": "p17_npc_1",
         "name": "CAPTAIN XIRUNA",
         "role": "antagonist",
-        "location_id": "section_7",
+        "location_id": "loc_knout_corvette",
         "status": "unintroduced",
         "goal": "Test the new ecosystem destruction device to extract remaining yellow spinpria from Kortatka",
         "secret": "She is deliberately waiting for the stranded vaultkeeper Garm Reegon to leave before activating a device that will destroy the planet's rivers",
@@ -13956,13 +13962,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Knout (Corvetta Imperiale)"
       },
       {
         "id": "p20_npc_1",
         "name": "AQUALASHER",
         "role": "antagonist",
-        "location_id": "section_8",
+        "location_id": "loc_spinpria_vault",
         "status": "unintroduced",
         "goal": "Hunt prey in the spinpria rivers and defend its territory from intruders",
         "secret": "Gli Aqualasher si stanno ammalando perché l'Impero ha contaminato i fiumi di spinpria con un agente chimico durante l'estrazione accelerata - sono più deboli del normale ma anche più disperatamente aggressivi",
@@ -14015,13 +14022,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Megavault dello Spinpria"
       },
       {
         "id": "p21_npc_1",
         "name": "IMPERIAL FORCES OF KORTATKA",
         "role": "antagonist",
-        "location_id": "section_9",
+        "location_id": "loc_kortatka",
         "status": "unintroduced",
         "goal": "Maintain depot security and complete evacuation procedures per the unknown command",
         "secret": "Nei livelli più profondi della miniera è stato scoperto qualcosa insieme allo spinpria - trasmissioni o artefatti che hanno attivato protocolli imperiali ultra-segreti. Gli ufficiali senior sanno che non stanno solo estraendo metallo, ma cancellando prove di qualcosa che l'Impero vuole nascondere a qualsiasi costo.",
@@ -14085,13 +14093,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Kortatka"
       },
       {
         "id": "p21_npc_2",
         "name": "STORMTROOPERS SHORETROOPERS",
         "role": "antagonist",
-        "location_id": "section_10",
+        "location_id": "loc_kortatka",
         "status": "unintroduced",
         "goal": "Execute garrison duties and follow Imperial military protocols during evacuation",
         "secret": "Tre giorni fa, una squadra di Shoretroopers inviata nel settore 9 delle miniere profonde non è mai tornata. Le ultime trasmissioni parlavano di 'geometrie sbagliate' e 'luci che non dovrebbero esistere'. Da allora, nessun soldato vuole scendere sotto il livello 5, e tutti sanno che l'evacuazione non riguarda strategia militare ma puro terrore.",
@@ -14155,13 +14164,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Kortatka"
       },
       {
         "id": "p21_npc_3",
         "name": "LT. CELE PRIPER GARM REEGON",
         "role": "neutral",
-        "location_id": "section_11",
+        "location_id": "loc_kortatka",
         "status": "unintroduced",
         "goal": "Attendere l'evacuazione dalla superficie di Kortatka e lasciare il pianeta con il codice del vault intatto",
         "secret": "Possiede il codice per accedere ai vault di spinpria gialla, rendendolo un bersaglio prezioso. È un vaultkeeper imperiale clandestino.",
@@ -14220,7 +14230,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Kortatka"
       }
     ],
     "factions": [],
@@ -14287,7 +14298,13 @@
           "llm_clue_2",
           "llm_clue_7"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p6_npc_1",
+          "p14_npc_2",
+          "p21_npc_1",
+          "p21_npc_2",
+          "p21_npc_3"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -14345,7 +14362,9 @@
         "description": "Corvetta imperiale in orbita attorno a Kortatka, comandata dal Capitano Xiruna. Equipaggiata con un dispositivo sperimentale capace di distruggere l'ecosistema dei fiumi.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p17_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -14397,7 +14416,9 @@
         "description": "Camera schermata all'interno di un siphoner imperiale che contiene lo spinpria giallo lavorato. Protetta da codici custoditi da vaultkeeper speciali.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p20_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -14500,7 +14521,9 @@
         "description": "Macchina camminatrice mammut capace di posizionarsi a cavallo dei fiumi e aspirare lo spinpria centinaia di volte più velocemente di una persona. Solo pochi ancora in funzione.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p6_npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -14557,7 +14580,9 @@
         "contains_clues": [
           "llm_clue_1"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p7_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -14711,7 +14736,10 @@
         "contains_clues": [
           "llm_clue_8"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p12_npc_1",
+          "p14_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

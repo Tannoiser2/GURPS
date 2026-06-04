@@ -45125,7 +45125,7 @@
         "id": "p16_npc_1",
         "name": "L'ABBAZIA DELLA FOLLIA",
         "role": "neutral",
-        "location_id": "p11_room_4",
+        "location_id": "loc_abbazia",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Ha già letto tre pagine del Libro della Creazione. Ogni notte sogna di riscriverle e al risveglio trova nei suoi diari parole che non ricorda di aver scritto - profezie in lingue morte che si avverano il giorno dopo.",
@@ -45172,13 +45172,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Abbazia della Follia"
       },
       {
         "id": "p16_npc_2",
         "name": "PORTE SBATTUTE",
         "role": "neutral",
-        "location_id": "p11_room_5",
+        "location_id": "loc_dipendenze",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Ha letto accidentalmente una pagina del Libro tre settimane fa durante l'inventario della biblioteca. Da allora vede ombre con troppi arti negli angoli e sente voci che sussurrano il suo nome al contrario. È convinto che solo completando il rituale di Ludmilla queste visioni cesseranno.",
@@ -45225,13 +45226,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Dipendenze"
       },
       {
         "id": "p22_npc_1",
         "name": "DEMONI",
         "role": "neutral",
-        "location_id": "p11_room_7",
+        "location_id": "loc_abbazia",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Il demone non è esterno al Libro - È la volontà collettiva corrotta di tutti i copisti medievali che impazzirono trascrivendolo, le loro anime fuse in un'unica entità. Distruggere il Libro significherebbe liberare centinaia di spiriti tormentati, non uno solo. E una piccola parte di lui desidera disperatamente essere esorcizzato, pur negandolo.",
@@ -45278,13 +45280,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Abbazia della Follia"
       },
       {
         "id": "p25_npc_1",
         "name": "LEGGERE LE LETTERE",
         "role": "neutral",
-        "location_id": "p11_room_9",
+        "location_id": "loc_biblioteca",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Ha letto una lettera del 1347 che descrive come un precedente archivista tentò di sigillare il demone scrivendogli intorno con inchiostro benedetto. Quella notte l'archivista impazzì e si gettò dal campanile. La stessa calligrafia ora appare nei suoi sogni, obbligandolo a trascrivere formule in lingue che non conosce.",
@@ -45331,13 +45334,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Biblioteca"
       },
       {
         "id": "p25_npc_2",
         "name": "OSSERVARE LE ROSE",
         "role": "neutral",
-        "location_id": "p93_room_2",
+        "location_id": "loc_giardino",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Anche lui è dipendente dall'estratto di rosa da due anni. Ha iniziato ad assumerlo per 'comprendere meglio i pazienti' e ora sente sussurri che non provengono dai monaci ma dal Libro stesso, che gli ordina di preparare i vasi per il trapianto finale",
@@ -45384,13 +45388,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Giardino"
       },
       {
         "id": "p41_npc_1",
         "name": "CAPIRE PERCHE’ VUOLE ANDARSENE",
         "role": "neutral",
-        "location_id": "p93_room_4",
+        "location_id": "loc_monastero_celle",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Ha consultato il Libro una sola volta, tre anni fa, per salvare un novizio morente. Il ragazzo guarì ma si suicidò una settimana dopo. Da allora sogna il demone che gli sussurra: 'Sei già mio, fratello. Solo questione di tempo.'",
@@ -45437,13 +45442,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Monastero - Celle dei Monaci"
       },
       {
         "id": "p54_npc_1",
         "name": "TEMPIO DELLA LUCE",
         "role": "neutral",
-        "location_id": "p11_room_2",
+        "location_id": "loc_tempio_luce",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Ha già tentato questo rituale 12 anni fa, ma il trasferimento fallì uccidendo 23 innocenti. Porta i loro nomi tatuati sulla schiena in inchiostro fatto col proprio sangue. Ludmilla era sua novizia e lo odia per averla usata come esca",
@@ -45490,13 +45496,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Tempio della Luce"
       },
       {
         "id": "p54_npc_2",
         "name": "STORIA PERSONALE",
         "role": "neutral",
-        "location_id": "p11_room_6",
+        "location_id": "loc_tempio_luce",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Porta nel sangue una frazione del vero nome del demone - sua nonna glielo tatuò in caratteri invisibili sulla schiena quando aveva sei anni. Il demone può sentirla quando si avvicina al Libro, e lei può sentire lui, come un secondo battito cardiaco.",
@@ -45543,13 +45550,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Tempio della Luce"
       },
       {
         "id": "p61_npc_1",
         "name": "TEMPIO DELLA LUCE",
         "role": "neutral",
-        "location_id": "p11_room_6",
+        "location_id": "loc_tempio_luce",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Custodisce un frammento dello stesso tipo di artefatto che distrusse suo fratello. Lo ha studiato per anni in segreto, convincendosi di essere l'unico abbastanza disciplinato da resistere alla corruzione. Ma sta iniziando a sentire sussurri nella sua mente durante la preghiera.",
@@ -45596,13 +45604,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Tempio della Luce"
       },
       {
         "id": "p82_npc_1",
         "name": "VISITARLI ALLA CIECA",
         "role": "neutral",
-        "location_id": "p11_room_6",
+        "location_id": "loc_abbazia",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Suo fratello, fra Benedetto, è il primo monaco ad essere stato posseduto e sta trascrivendo volontariamente le pagine maledette perché il demone gli ha promesso di curare la malattia degenerativa che lo stava uccidendo. Ha nascosto tre quaderni di trascrizioni demoniache sotto il proprio letto nella foresteria per impedire il completamento del rituale",
@@ -45649,13 +45658,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Abbazia della Follia"
       },
       {
         "id": "p106_npc_1",
         "name": "REDNIFHTAP",
         "role": "antagonist",
-        "location_id": "p11_room_6",
+        "location_id": "loc_cripta_eliodoro",
         "status": "unintroduced",
         "goal": "Liberarsi completamente dal Libro della Creazione e acquisire un nuovo ricettacolo corporeo",
         "secret": "È il Demone Ombra Sovrano che infesta il Libro della Creazione da millenni, manipolando gli eventi del monastero",
@@ -45724,13 +45734,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Cripta di San Eliodoro"
       },
       {
         "id": "p106_npc_2",
         "name": "BOSCAIOLO BERSERKER FRATELLO KLAUS IMPAZZITO",
         "role": "victim",
-        "location_id": "p11_room_6",
+        "location_id": "loc_tempio_luce",
         "status": "unintroduced",
         "goal": "Proteggere il monastero nonostante lo stato confusionale",
         "secret": "Conosce il rituale di esorcismo corretto ma è troppo svanito per ricordarlo chiaramente",
@@ -45789,13 +45800,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Tempio della Luce"
       },
       {
         "id": "p106_npc_3",
         "name": "SERVALIERE",
         "role": "victim",
-        "location_id": "p11_room_6",
+        "location_id": "loc_abbazia",
         "status": "unintroduced",
         "goal": "Proteggere il monastero dalle minacce esterne",
         "secret": "Ha già ucciso due monaci 'trasformati' nelle ultime 48 ore e ha nascosto i corpi nel pozzo. Non sa se fossero veramente posseduti o se sta impazzendo anche lui - sente le loro voci accusarlo ogni notte.",
@@ -45847,13 +45859,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Abbazia della Follia"
       },
       {
         "id": "p108_npc_1",
         "name": "REDNIFHTAP",
         "role": "neutral",
-        "location_id": "p11_room_6",
+        "location_id": "loc_cripta_eliodoro",
         "status": "unintroduced",
         "goal": "controllare Dipendenze prima che la squadra usi a Ottiene conferme Si rende conto PARADOSSO Ne parla con con i PG al parlarne con parlando con il che l’Abbazia Impediscono l’ LUDMILLA monastero",
         "secret": "Ha già letto frammenti del Libro della Creazione di nascosto e ora vede 'divergenze' nella realtà - piccole incongruenze che solo lui nota - non sa se è follia incipiente o se il demone sta già alterando il mondo",
@@ -45900,13 +45913,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": true,
         "confidence": 0.85,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Cripta di San Eliodoro"
       },
       {
         "id": "p108_npc_2",
         "name": "MADRE DELLE OMBRE CULTISTA NINJA",
         "role": "antagonist",
-        "location_id": "p11_room_6",
+        "location_id": "loc_cripta_eliodoro",
         "status": "unintroduced",
         "goal": "Eseguire gli ordini del Demone Ombra: sabotare rituali e eliminare testimoni scomodi",
         "secret": "È un cultista demoniaco infiltrato nel monastero al servizio di Rednifhtap",
@@ -45970,13 +45984,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Cripta di San Eliodoro"
       },
       {
         "id": "p108_npc_3",
         "name": "SCIAME DI PAGINE VAMPIRO (PAPER SWARM)",
         "role": "antagonist",
-        "location_id": "p11_room_6",
+        "location_id": "loc_biblioteca",
         "status": "unintroduced",
         "goal": "Uccidere i vecchi servalieri e ostacolare le indagini sul Libro della Creazione",
         "secret": "È una manifestazione del demone che infesta il Libro della Creazione, creato per eliminare testimoni scomodi",
@@ -46045,7 +46060,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Biblioteca"
       }
     ],
     "factions": [],
@@ -46056,7 +46072,12 @@
         "description": "Un antico monastero costruito sulle rovine della Fucina di Vecna, sul Monte Subasio. Luogo di studio e conservazione del sapere, ma anche prigione di un demone oscuro nascosto nel Libro della Creazione.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p16_npc_1",
+          "p22_npc_1",
+          "p82_npc_1",
+          "p106_npc_3"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46113,7 +46134,10 @@
         "description": "Vasta biblioteca del monastero dove si conserva il sapere. Sorella Genasia gestisce il Grande Catalogo e aiuta nella consultazione dei libri antichi.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p25_npc_1",
+          "p108_npc_3"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46281,7 +46305,12 @@
         "description": "Luogo sacro consacrato alle divinità del Bene, gestito da Fratello Klaus. Centro spirituale dove si compie la Cerimonia della Nuova Luce.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p54_npc_1",
+          "p54_npc_2",
+          "p61_npc_1",
+          "p106_npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46339,7 +46368,11 @@
         "contains_clues": [
           "llm_clue_3"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p106_npc_1",
+          "p108_npc_1",
+          "p108_npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46505,7 +46538,9 @@
         "description": "Dormitori privati dei monaci. Luoghi dove indagare sulla morte di Vharn e perquisire alla ricerca di prove e indizi.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p41_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46562,7 +46597,9 @@
         "description": "Giardini del monastero curati da Mastro Folkart. Luogo di quiete e bellezza naturale, ma anche teatro di intrighi amorosi e segreti.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p25_npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46619,7 +46656,9 @@
         "contains_clues": [
           "llm_clue_12"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p16_npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

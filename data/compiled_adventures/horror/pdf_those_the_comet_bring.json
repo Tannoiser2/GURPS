@@ -8819,7 +8819,7 @@
         "id": "p12_npc_1",
         "name": "DELUSIONAL MOBSTER",
         "role": "antagonist",
-        "location_id": "section_1",
+        "location_id": "loc_the_garage",
         "status": "unintroduced",
         "goal": "Proteggere i Progeny e aiutarli a ricaricare la loro energia, credendo di seguire ordini del crimine organizzato",
         "secret": "È stato mesmerizzato dai Progeny ed è completamente pazzo. Ha nascosto la borsa del soldato nel tunnel. Ha ucciso un soldato.",
@@ -8883,13 +8883,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "The Garage"
       },
       {
         "id": "p14_npc_1",
         "name": "METEOR MUTANTS",
         "role": "antagonist",
-        "location_id": "section_2",
+        "location_id": "loc_commander_arnaz_and_the_seco",
         "status": "unintroduced",
         "goal": "Ricaricare la loro energia atomica dopo l'apertura del meteorite per completare la loro missione aliena",
         "secret": "Sono vulnerabili durante la fase di ricarica e devono attendere prima di usare nuovamente i poteri di mesmerizzazione",
@@ -8953,7 +8954,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "Commander Arnaz and the Second Meteor"
       }
     ],
     "factions": [],
@@ -9296,7 +9298,9 @@
           "llm_clue_1",
           "llm_clue_2"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p12_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -9526,7 +9530,9 @@
         "contains_clues": [
           "llm_clue_9"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "p14_npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],

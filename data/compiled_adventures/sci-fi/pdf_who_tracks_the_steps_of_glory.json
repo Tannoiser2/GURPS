@@ -12884,7 +12884,7 @@
         "id": "p21_npc_1",
         "name": "USS RENOWN",
         "role": "neutral",
-        "location_id": "section_1",
+        "location_id": "uss_renown",
         "status": "unintroduced",
         "goal": "Maintain operational status while studying the gaseous anomaly and responding to distress signals in the Neutral Zone",
         "secret": "Carries sealed orders about a secret Federation monitoring outpost illegally located inside the Romulan Neutral Zone",
@@ -12953,13 +12953,14 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "USS Renown"
       },
       {
         "id": "p21_npc_2",
         "name": "NCC-1870",
         "role": "neutral",
-        "location_id": "section_2",
+        "location_id": "uss_renown",
         "status": "unintroduced",
         "goal": "Maintain operational status while studying the gaseous anomaly and responding to distress signals in the Neutral Zone",
         "secret": "Carries sealed orders about a secret Federation monitoring outpost illegally located inside the Romulan Neutral Zone",
@@ -13028,7 +13029,8 @@
         "is_preserved_from_pdf": true,
         "inferred_agenda": false,
         "confidence": 0.92,
-        "llm_enriched": true
+        "llm_enriched": true,
+        "location": "USS Renown"
       }
     ],
     "factions": [],
@@ -13039,7 +13041,10 @@
         "description": "Una starship classe Miranda della Federazione in pattuglia lungo la Zona Neutrale Romulana. Il quartier generale mobile dei PG, con ponte di comando, sala macchine, hangar shuttle e infermeria.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "p21_npc_1",
+          "p21_npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
