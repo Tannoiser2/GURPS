@@ -2636,15 +2636,37 @@ function SetupScreen({ onStart }) {
     try {
       if (file.size > VERCEL_PDF_UPLOAD_LIMIT_BYTES)
         throw new Error(`PDF troppo grande (${(file.size/1024/1024).toFixed(1)} MB). Limite: 4 MB.`);
-      // Sveglia il backend Render (free tier: dorme dopo 15 min) prima dell'upload
-      // multipart, altrimenti il cold-start fa fallire la fetch con "Load failed".
-      try { await safeFetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
+      // Sveglia il backend Render (free tier: dorme dopo 15 min). Una singola
+      // ping non basta: durante il cold-start Render risponde 502/503 finché il
+      // container non è pronto, e l'upload partirebbe troppo presto fallendo.
+      // Facciamo polling su /health finché risponde 200 (max ~120s).
+      const warmupDeadline = Date.now() + 120000;
+      let awake = false;
+      while (Date.now() < warmupDeadline) {
+        try {
+          const h = await safeFetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(15000) });
+          if (h.ok) { awake = true; break; }
+        } catch (_) { /* timeout/cold-start: riprova */ }
+        await new Promise(r => setTimeout(r, 3000));
+      }
+      if (!awake) throw new Error("Il server non si è avviato in tempo (cold-start). Riprova tra un minuto.");
+
       const fd = new FormData();
       fd.append("file", file);
       fd.append("genre", genre || "detective_classico");
       fd.append("players", "4");
       fd.append("provider", provider);
       const res = await fetch(`${API_URL_DIRECT}/game/adventure/from-pdf`, { method: "POST", body: fd });
+      // Se il server è ancora in avvio o sovraccarico risponde con HTML (502/503/504):
+      // gestiamolo qui, altrimenti res.json() lancerebbe un errore criptico
+      // ("did not match the expected pattern") scambiato per problema di rete.
+      if (!res.ok) {
+        if (res.status === 502 || res.status === 503 || res.status === 504)
+          throw new Error("Il server è in avvio o momentaneamente sovraccarico. Riprova tra qualche secondo.");
+        let detail = "";
+        try { detail = (await res.json())?.detail || ""; } catch (_) {}
+        throw new Error(detail || `Errore server (${res.status}) durante la compilazione del PDF.`);
+      }
       const data = await res.json();
       if (data.compilation_failed) {
         const gate = data.quality_gate || {};
