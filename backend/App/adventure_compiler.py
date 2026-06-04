@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 
 from .adventure_validator import validate_adventure_definition
 from .archetype_detector import detect_archetypes_from_ai_prompt, detect_archetypes_from_pdf_structure
@@ -298,6 +299,55 @@ def _repair_story_threads_from_clues(raw: dict) -> dict:
     return raw
 
 
+_PLACEHOLDER_REF_RE = re.compile(
+    r'^(loc_ai_\d+|loc_start|loc_node\w*|loc_finale|loc_\d+|section_\d+|p\d+_room_\d+|room_\d+|area_\d+|actor_\w+|npc_\w+|clue_\w+)$',
+    re.IGNORECASE,
+)
+
+
+def _harvest_referenced_locations(raw: dict) -> list[dict]:
+    """Materializza le location dai NOMI che attori e indizi già citano.
+
+    Il modello produce spesso attori ricchi (ognuno in un luogo con nome reale,
+    es. "Sala operativa principale") ma lascia vuoto l'array ``locations``: senza
+    questo, il compiler ripiega su placeholder generici (loc_ai_N) e tutti i
+    riferimenti restano orfani. Qui recuperiamo quei nomi reali e li
+    trasformiamo in location vere — deterministico, niente AI.
+    """
+    names: list[str] = []
+    seen: set[str] = set()
+
+    def _add(val: object) -> None:
+        s = str(val or "").strip()
+        if not s or s.lower() in seen:
+            return
+        if _PLACEHOLDER_REF_RE.match(s):
+            return  # è un id macchina, non un nome leggibile di luogo
+        seen.add(s.lower())
+        names.append(s)
+
+    for a in (raw.get("actors") or raw.get("npcs") or []):
+        if isinstance(a, dict):
+            _add(a.get("location_id"))
+            _add(a.get("location"))
+    for c in (raw.get("clues") or []):
+        if isinstance(c, dict):
+            _add(c.get("source_location"))
+            _add(c.get("location"))
+
+    return [
+        {
+            "name": nm,
+            "description": f"{nm}.",
+            "type": "entry" if idx == 1 else "site",
+            "access_state": "open",
+            "source_status": "generated",
+            "confidence": 0.7,
+        }
+        for idx, nm in enumerate(names, start=1)
+    ]
+
+
 def _merge_ai_generated_shape(raw: dict, genre_hint: str | None = None, runtime_profile_hint: str | None = None) -> dict:
     if raw.get("source_mode") != "ai_generated":
         return raw
@@ -314,7 +364,14 @@ def _merge_ai_generated_shape(raw: dict, genre_hint: str | None = None, runtime_
     for key in ("locations", "clues", "revelations", "actors", "event_clocks", "finale_conditions"):
         current = raw.get(key)
         if not current or (key in {"locations", "clues"} and len(current) == 3 and raw.get("generation_warning")):
-            merged[key] = shape.get(key, current)
+            if key == "locations":
+                # Prima di ripiegare sulle location-scheletro, prova a costruirle
+                # dai nomi reali che attori/indizi già citano: evita di orfanare
+                # i riferimenti (e l'audit/enrichment successivo).
+                harvested = _harvest_referenced_locations(raw)
+                merged[key] = harvested or shape.get(key, current)
+            else:
+                merged[key] = shape.get(key, current)
     if raw.get("npcs") and not raw.get("actors") and len(raw.get("npcs") or []) != 3:
         merged["npcs"] = raw["npcs"]
     merged = _repair_actors_from_canon(merged)
@@ -475,13 +532,38 @@ def definition_from_compiler_json(raw: dict, *, source_type: str, title: str = "
     if not locations:
         locations.append(LocationState(id="loc_start", name="Scena iniziale", description=raw.get("premise") or ""))
 
+    # Risoluzione deterministica dei riferimenti location.
+    # Il modello mette spesso il NOME del luogo (o un id che non combacia con lo
+    # slug rigenerato qui) dentro actor.location_id: lo riconciliamo con l'id
+    # reale per id, per nome e per slug-del-nome. Evita un audit/enrichment
+    # successivo (e una chiamata AI) per un problema puramente meccanico.
+    _loc_ref_to_id: dict[str, str] = {}
+    for _l in locations:
+        _loc_ref_to_id[_l.id.strip().lower()] = _l.id
+        if _l.name:
+            _loc_ref_to_id[_l.name.strip().lower()] = _l.id
+            _loc_ref_to_id[_id("loc", _l.name, 0).strip().lower()] = _l.id
+
+    def _resolve_loc_ref(*candidates: str) -> str:
+        """Mappa il primo riferimento risolvibile (id/nome/slug) all'id reale.
+        Se nessuno combacia, conserva il valore grezzo (comportamento precedente)."""
+        for cand in candidates:
+            key = str(cand or "").strip().lower()
+            if key and key in _loc_ref_to_id:
+                return _loc_ref_to_id[key]
+        for cand in candidates:
+            raw_val = str(cand or "").strip()
+            if raw_val:
+                return raw_val
+        return ""
+
     actors = []
     for idx, actor in enumerate(raw.get("actors") or raw.get("npcs") or [], start=1):
         actors.append(ActorState(
             id=actor.get("id") or _id("actor", actor.get("name") or "actor", idx),
             name=actor.get("name") or "PNG",
             role=actor.get("role") or "neutral",
-            location_id=actor.get("location_id") or actor.get("location") or "",
+            location_id=_resolve_loc_ref(actor.get("location_id"), actor.get("location")),
             status=actor.get("status") if actor.get("status") in actor_statuses else "unintroduced",
             goal=actor.get("goal") or actor.get("agenda") or actor.get("motivation") or f"proteggere il proprio ruolo in {raw.get('title') or 'questa avventura'}",
             secret=actor.get("secret") or "",
