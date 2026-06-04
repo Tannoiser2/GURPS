@@ -2302,7 +2302,7 @@ function SetupScreen({ onStart }) {
     return adventure;
   }
 
-  async function handleJsonLoad(file) {
+  async function handleJsonLoad(file, opts = {}) {
     setJsonLoading(true);
     setJsonError("");
     setPreloadedAdventure(null);
@@ -2395,7 +2395,8 @@ function SetupScreen({ onStart }) {
       setLoading(false);
       setJsonLoading(false);
       await preGenerateMaps(adventure);
-      setStep("review");
+      // gioco → dritto ai PG; dall'Editor (toReview) → schermata di modifica
+      setStep(opts.toReview ? "review" : "team");
     } catch (e) {
       setLoading(false);
       setJsonLoading(false);
@@ -2691,7 +2692,7 @@ function SetupScreen({ onStart }) {
       setPool(enriched);
       setLoading(false);
       await preGenerateMaps(adventure, data.map_image_b64 || null);
-      setStep("review");
+      setStep("team");  // skip review: dritto alla scelta PG (doctor applicato dal backend)
     } catch (e) {
       const msg = e.message || "";
       const isNet = msg === "Load failed" || msg === "Failed to fetch" || msg.includes("NetworkError") || msg.includes("did not match the expected pattern");
@@ -2747,7 +2748,7 @@ function SetupScreen({ onStart }) {
       setSelected([]);
       setLoading(false);
       await preGenerateMaps(created);
-      setStep("review");
+      setStep("team");  // skip review: dritto alla scelta PG (doctor applicato dal backend)
     } catch (e) {
       setJsonError(friendlyFetchError(e, "Impossibile generare l'avventura."));
     }
@@ -3274,6 +3275,17 @@ function SetupScreen({ onStart }) {
           </div>
           {eBtn("📚", "Moduli pronti", "Scegli un'avventura-modello già strutturata da personalizzare.", "#f59e0b", () => { openTemplatesPanel(); })}
           {eBtn("🧙", "Crea passo-passo", "Costruisci un'avventura guidata: titolo, premessa, PNG, clock, indizi.", "#a78bfa", () => { resetWizard(); setStep("wizard"); })}
+          <label style={{
+            display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-start", textAlign: "left",
+            background: "#60a5fa14", border: "1px solid #60a5fa55", color: "#fff",
+            borderRadius: 12, padding: "18px 20px", cursor: "pointer", width: "100%", maxWidth: 420,
+          }}>
+            <span style={{ fontSize: 22 }}>📋</span>
+            <span style={{ fontSize: 16, fontWeight: 800, color: "#60a5fa" }}>Edita un JSON</span>
+            <span style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.4 }}>Carica un JSON avventura e modificalo (PNG, indizi, piste, clock), poi scaricalo.</span>
+            <input type="file" accept=".json" style={{ display: "none" }}
+              onChange={e => e.target.files[0] && handleJsonLoad(e.target.files[0], { toReview: true })} />
+          </label>
         </div>
       </div>
     );
@@ -3291,34 +3303,7 @@ function SetupScreen({ onStart }) {
           <TextProviderPicker value={provider} onChange={setProvider} available={providersAvail} />
           <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
           <ImageProviderPicker value={imageProvider} onChange={setImageProvider} available={providersAvail} />
-          <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
-          <label style={{ cursor: "pointer", flexShrink: 0 }}>
-            <img
-              src={caricaPdfImg}
-              alt="Carica PDF"
-              style={{ height: 38, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
-              onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
-              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-            />
-            <input
-              type="file" accept=".pdf" style={{ display: "none" }}
-              onChange={e => e.target.files[0] && handlePdfUpload(e.target.files[0])}
-            />
-          </label>
-          <label style={{ cursor: "pointer", flexShrink: 0 }}>
-            <img
-              src={caricaJsonImg}
-              alt="Carica JSON avventura"
-              title="Carica un JSON avventura e avvia la partita"
-              style={{ height: 38, display: "block", borderRadius: 7, transition: "opacity 0.15s" }}
-              onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
-              onMouseLeave={e => e.currentTarget.style.opacity = "1"}
-            />
-            <input
-              type="file" accept=".json" style={{ display: "none" }}
-              onChange={e => e.target.files[0] && handleJsonLoad(e.target.files[0])}
-            />
-          </label>
+          {/* Carica PDF / JSON sono ora tile tra i temi, sotto la griglia dei generi */}
 
           <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
 
@@ -3652,6 +3637,20 @@ function SetupScreen({ onStart }) {
               );
             })}
           </div>
+        </div>
+
+        {/* PDF e JSON come "temi" aggiuntivi, oltre ai generi */}
+        <div style={{ display: "flex", gap: 10, justifyContent: "center", padding: "10px 16px", background: "#0a0a0a", flexShrink: 0, flexWrap: "wrap" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.4)", color: "#93c5fd", borderRadius: 9, padding: "10px 18px", fontSize: 13, fontWeight: 700 }}
+            title="Importa un'avventura da un modulo PDF (poi Doctor automatico e scelta PG)">
+            📄 Carica PDF
+            <input type="file" accept=".pdf" style={{ display: "none" }} onChange={e => e.target.files[0] && handlePdfUpload(e.target.files[0])} />
+          </label>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.4)", color: "#4ade80", borderRadius: 9, padding: "10px 18px", fontSize: 13, fontWeight: 700 }}
+            title="Carica un JSON avventura (poi Doctor automatico e scelta PG)">
+            📋 Carica JSON
+            <input type="file" accept=".json" style={{ display: "none" }} onChange={e => e.target.files[0] && handleJsonLoad(e.target.files[0])} />
+          </label>
         </div>
 
         {(loading || jsonLoading) && (
