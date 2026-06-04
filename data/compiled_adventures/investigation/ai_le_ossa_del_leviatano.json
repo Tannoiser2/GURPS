@@ -3120,25 +3120,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 86,
+    "playable_score": 68,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Centro di comando del cantiere.",
-      "Actor npc_2 ha location non riconosciuta: Baraccamento tecnici.",
-      "Actor npc_3 ha location non riconosciuta: Torre di guardia principale.",
-      "Actor npc_4 ha location non riconosciuta: Perimetro esterno del cantiere.",
-      "Actor npc_5 ha location non riconosciuta: Sala server del Leviatano.",
-      "Actor npc_6 ha location non riconosciuta: Ponte principale del Leviatano.",
-      "Actor npc_7 ha location non riconosciuta: Condotti di ventilazione del cantiere."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 60,
+      "clue_concreteness_score": 20,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 60,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -3147,7 +3138,8 @@
       "actors": 7,
       "clues": 10,
       "revelations": 3
-    }
+    },
+    "doctor_score": 6.8
   },
   "live_game_state": null
 }

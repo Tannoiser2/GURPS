@@ -953,13 +953,12 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 76,
+    "playable_score": 78,
     "errors": [],
     "warnings": [
-      "Clue clue_red_herring_jewish non collegato a una revelation valida.",
-      "Location bishop_study senza almeno 3 feature concrete.",
-      "Location jewish_quarter senza almeno 3 feature concrete.",
-      "Location inn_outside senza almeno 3 feature concrete."
+      "NPC 'Canonico Godfrey' (antagonista/minaccia) senza armi né items",
+      "NPC 'Padre Matteo, inquisitore' (antagonista/minaccia) senza armi né items",
+      "NPC 'Rabbi Samuele' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "Il simbolo ebraico falso è il cuore del dilemma morale — chi lo vede ci crede subito",
@@ -967,12 +966,11 @@
       "Il confronto con Matteo con le prove è catartico — ma lui deve scegliere di credere ai PG"
     ],
     "quality": {
+      "fiction_density_score": 80,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 88,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 84
+      "location_playability_score": 85,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -981,6 +979,7 @@
       "actors": 3,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.8
   }
 }

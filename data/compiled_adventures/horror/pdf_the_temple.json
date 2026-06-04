@@ -12759,29 +12759,23 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 65,
+    "playable_score": 49,
     "errors": [],
     "warnings": [
-      "Actor r_thomas_wachusett ha location non riconosciuta: section_1.",
-      "Actor karl_heinrich ha location non riconosciuta: section_2.",
-      "Actor gloon ha location non riconosciuta: section_3.",
-      "Actor rose_macbride ha location non riconosciuta: section_4.",
-      "Actor bobby_corcoran ha location non riconosciuta: section_5.",
-      "Actor antonio_volpetti ha location non riconosciuta: section_6.",
-      "Actor edsger_karplus ha location non riconosciuta: section_7.",
-      "Actor sara_lopez ha location non riconosciuta: section_8.",
-      "Actor ulysses_parks ha location non riconosciuta: section_9.",
-      "EventClock clock_risveglio_gloon senza almeno 4 step concreti.",
-      "EventClock clock_conversione_sopravvissuti senza almeno 4 step concreti."
+      "NPC 'Captain Karl Heinrich': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'Gloon the Corruptor of Flesh': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'Captain Karl Heinrich' (antagonista/minaccia) senza armi né items",
+      "NPC 'Gloon the Corruptor of Flesh' (antagonista/minaccia) senza armi né items",
+      "La pista 'T8' ha solo 1 indizi: GURPS richiede almeno 2 prove per una deduzione credibile",
+      "La pista 'T3' ha solo 1 indizi: GURPS richiede almeno 2 prove per una deduzione credibile"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
-      "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "fiction_density_score": 55,
+      "clue_concreteness_score": 30,
+      "npc_agenda_score": 70,
+      "location_playability_score": 80,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 89,
@@ -12813,7 +12807,7 @@
       "critical": [],
       "warnings": []
     },
-    "doctor_score": 0.0
+    "doctor_score": 4.9
   },
   "live_game_state": null
 }

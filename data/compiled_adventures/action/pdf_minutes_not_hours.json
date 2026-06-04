@@ -14566,27 +14566,22 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 69,
+    "playable_score": 43,
     "errors": [],
     "warnings": [
-      "Actor p5_npc_1 ha location non riconosciuta: section_1.",
-      "Actor p6_npc_1 ha location non riconosciuta: section_2.",
-      "Actor p9_npc_1 ha location non riconosciuta: section_3.",
-      "Actor p10_npc_1 ha location non riconosciuta: section_4.",
-      "Actor p13_npc_1 ha location non riconosciuta: section_5.",
-      "Actor p14_npc_1 ha location non riconosciuta: section_6.",
-      "EventClock clock_maccabe_execution senza almeno 4 step concreti.",
-      "EventClock clock_kahndaq_intervention senza almeno 4 step concreti.",
-      "heist richiede security_layers o pressure_system heat."
+      "NPC 'TSH MERCENARIES': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'JARV JÄRVO': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'TSH MERCENARIES' (antagonista/minaccia) senza armi né items",
+      "NPC 'JARV JÄRVO' (antagonista/minaccia) senza armi né items",
+      "La pista 'T6' ha solo 1 indizi: GURPS richiede almeno 2 prove per una deduzione credibile"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
-      "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 0,
+      "npc_agenda_score": 70,
+      "location_playability_score": 90,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 87,

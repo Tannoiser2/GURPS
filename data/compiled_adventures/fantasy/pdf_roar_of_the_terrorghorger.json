@@ -19183,20 +19183,21 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 83,
+    "playable_score": 61,
     "errors": [],
     "warnings": [
-      "EventClock clock_insurrezione_charybdis senza almeno 4 step concreti.",
-      "EventClock clock_sopravvivenza_notte senza almeno 4 step concreti."
+      "NPC 'Luthor Harkon': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'Baron Charybdis': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'Luthor Harkon' (antagonista/minaccia) senza armi né items",
+      "NPC 'Baron Charybdis' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
-      "npc_agenda_score": 100,
+      "fiction_density_score": 85,
+      "clue_concreteness_score": 20,
+      "npc_agenda_score": 70,
       "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 94,
@@ -19230,7 +19231,7 @@
       "critical": [],
       "warnings": []
     },
-    "doctor_score": 2.5
+    "doctor_score": 6.1
   },
   "live_game_state": null
 }

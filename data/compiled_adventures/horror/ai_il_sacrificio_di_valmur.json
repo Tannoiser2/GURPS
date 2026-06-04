@@ -2342,24 +2342,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 88,
+    "playable_score": 73,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Sala del Martello.",
-      "Actor npc_2 ha location non riconosciuta: Reliquiario della Fiamma.",
-      "Actor npc_3 ha location non riconosciuta: Sala di Lettura Principale.",
-      "Actor npc_4 ha location non riconosciuta: Ufficio del Comandante.",
-      "faction_crisis richiede almeno 2 factions.",
-      "ritual_dungeon richiede ritual_conditions o special_items."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 60,
+      "clue_concreteness_score": 30,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2368,6 +2360,7 @@
       "actors": 4,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.3
   }
 }

@@ -7994,22 +7994,20 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 79,
+    "playable_score": 60,
     "errors": [],
     "warnings": [
-      "Actor guardiano_faro ha location non riconosciuta: section_9.",
-      "Actor abitatori_profondo_ibridi ha location non riconosciuta: section_1.",
-      "EventClock clock_missione_recupero_abitatori senza almeno 4 step concreti.",
-      "EventClock clock_faro_spento senza almeno 4 step concreti."
+      "NPC 'Abitatori del Profondo Ibridi': agenda_pressure 0 troppo bassa per antagonista",
+      "'IL FARO' sembra trovarsi dentro 'Faro' ma non ha parent_location_id impostato",
+      "NPC 'Abitatori del Profondo Ibridi' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
-      "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "fiction_density_score": 85,
+      "clue_concreteness_score": 0,
+      "npc_agenda_score": 85,
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 87,
@@ -8044,7 +8042,7 @@
       "critical": [],
       "warnings": []
     },
-    "doctor_score": 2.1
+    "doctor_score": 6.0
   },
   "live_game_state": null
 }

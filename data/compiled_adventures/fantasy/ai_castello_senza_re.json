@@ -982,14 +982,12 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 73,
+    "playable_score": 77,
     "errors": [],
     "warnings": [
-      "Clue clue_red_herring_jealous non collegato a una revelation valida.",
-      "Location mira_chamber senza almeno 3 feature concrete.",
-      "Location voss_chamber senza almeno 3 feature concrete.",
-      "Location castle_tower senza almeno 3 feature concrete.",
-      "Location castle_dungeon senza almeno 3 feature concrete."
+      "NPC 'Lady Mira Ashton' (antagonista/minaccia) senza armi né items",
+      "NPC 'Ambasciatore Voss' (antagonista/minaccia) senza armi né items",
+      "NPC 'Lord Ser Thornwood' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "Il timer del voto crea urgenza strutturale costante",
@@ -997,12 +995,11 @@
       "Thornwood può diventare un re buono se Voss viene smascherato — l'elezione onesta è la vittoria"
     ],
     "quality": {
+      "fiction_density_score": 70,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 80,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 83
+      "location_playability_score": 90,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -1011,6 +1008,7 @@
       "actors": 3,
       "clues": 7,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.7
   }
 }

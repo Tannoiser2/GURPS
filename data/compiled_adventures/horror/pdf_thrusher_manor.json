@@ -1167,10 +1167,13 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 85,
+    "playable_score": 69,
     "errors": [],
     "warnings": [
-      "Clue clue_red_herring_fever non collegato a una revelation valida."
+      "NPC 'Tomás' (antagonista/minaccia) senza armi né items",
+      "NPC 'Aldous Thrusher' (antagonista/minaccia) senza armi né items",
+      "NPC 'Marie Celestine' (antagonista/minaccia) senza armi né items",
+      "NPC 'Cornelius Wade' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "L'entità si manifesta principalmente come ombre animate e rumori nelle pareti",
@@ -1178,12 +1181,11 @@
       "Wade nel finale è un nemico terrificante: fisicamente capace ma psicologicamente spezzato"
     ],
     "quality": {
+      "fiction_density_score": 70,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 98,
@@ -1204,6 +1206,7 @@
       "actors": 4,
       "clues": 8,
       "revelations": 4
-    }
+    },
+    "doctor_score": 6.9
   }
 }

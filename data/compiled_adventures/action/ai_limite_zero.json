@@ -3134,25 +3134,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 86,
+    "playable_score": 70,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Sala operativa principale.",
-      "Actor npc_2 ha location non riconosciuta: Infermeria centrale.",
-      "Actor npc_3 ha location non riconosciuta: Deposito armi e munizioni.",
-      "Actor npc_4 ha location non riconosciuta: Sala generatori backup.",
-      "Actor npc_5 ha location non riconosciuta: Torre di guardia nord.",
-      "Actor npc_6 ha location non riconosciuta: Sala server e comunicazioni.",
-      "Actor npc_7 ha location non riconosciuta: Bar e area ricreativa."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 20,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 60,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -3161,7 +3152,8 @@
       "actors": 7,
       "clues": 10,
       "revelations": 2
-    }
+    },
+    "doctor_score": 7.0
   },
   "live_game_state": null
 }

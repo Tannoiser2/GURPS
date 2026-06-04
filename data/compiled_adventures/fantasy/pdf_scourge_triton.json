@@ -1238,11 +1238,12 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 83,
+    "playable_score": 74,
     "errors": [],
     "warnings": [
-      "Clue clue_shell non collegato a una revelation valida.",
-      "Clue clue_red_herring_rival non collegato a una revelation valida."
+      "NPC 'Demetrion il Mercante' (antagonista/minaccia) senza armi né items",
+      "NPC 'Archonte Kallisthenes' (antagonista/minaccia) senza armi né items",
+      "NPC 'Lysander il Collezionista' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "La visita all'Oracolo è quasi obbligatoria ma costa tempo — tensione reale",
@@ -1250,12 +1251,11 @@
       "Il mostro può apparire come momento di terrore durante l'avventura, non solo alla fine — costringendo i PG a fuggire"
     ],
     "quality": {
+      "fiction_density_score": 70,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 94,
@@ -1276,7 +1276,8 @@
       "actors": 4,
       "clues": 7,
       "revelations": 4
-    }
+    },
+    "doctor_score": 7.4
   },
   "live_game_state": {
     "clues_found": [

@@ -2251,24 +2251,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 88,
+    "playable_score": 73,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Villa Voss, quartiere nobiliare.",
-      "Actor npc_2 ha location non riconosciuta: Sala del Consiglio della Gilda.",
-      "Actor npc_3 ha location non riconosciuta: Corridoio del caveau sotterraneo.",
-      "Actor npc_4 ha location non riconosciuta: Archivio della Gilda.",
-      "heist richiede security_layers o pressure_system heat.",
-      "faction_crisis richiede almeno 2 factions."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 20,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2277,6 +2269,7 @@
       "actors": 4,
       "clues": 6,
       "revelations": 2
-    }
+    },
+    "doctor_score": 7.3
   }
 }

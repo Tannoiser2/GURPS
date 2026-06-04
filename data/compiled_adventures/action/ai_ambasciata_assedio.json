@@ -1150,16 +1150,13 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 67,
+    "playable_score": 70,
     "errors": [],
     "warnings": [
-      "Clue clue_radio_escape non collegato a una revelation valida.",
-      "Clue clue_red_herring_driver non collegato a una revelation valida.",
-      "Location hallway_encounter senza almeno 3 feature concrete.",
-      "Location comms_room senza almeno 3 feature concrete.",
-      "Location ambassador_safe senza almeno 3 feature concrete.",
-      "survival_escape richiede almeno 2 routes o safe_nodes.",
-      "FinaleCondition finale_tunnel_escape dovrebbe richiedere almeno 2 clue."
+      "NPC ''Aquila' — Leader del gruppo armato' (antagonista/minaccia) senza armi né items",
+      "NPC 'Ricci, secondo segretario (il mole)' (antagonista/minaccia) senza armi né items",
+      "NPC 'Ambasciatore Conti' (antagonista/minaccia) senza armi né items",
+      "NPC 'Lorenzo, il custode' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "Il countdown crea tensione reale — aggiornare ogni round",
@@ -1167,12 +1164,11 @@
       "Lorenzo come personaggio inaspettato — il vecchio custode che salva tutti"
     ],
     "quality": {
+      "fiction_density_score": 70,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 89,
-      "clock_operational_score": 33,
-      "finale_playability_score": 83,
-      "fiction_density_score": 81
+      "location_playability_score": 80,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -1181,7 +1177,8 @@
       "actors": 4,
       "clues": 8,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.0
   },
   "live_game_state": {
     "clues_found": [

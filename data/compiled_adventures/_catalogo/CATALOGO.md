@@ -2,10 +2,10 @@
 
 > Vista generata da `tools/build_adventure_catalog.py` — symlink ai file reali in `data/compiled_adventures/`. **Non** modificare a mano: rilancia lo script.
 
-**Totale:** 77 avventure · **Punteggio medio (giocabili):** 70/100 · **Rotte:** 0 · **Non giocabili:** 4
+**Totale:** 75 avventure · **Punteggio medio (giocabili):** 70/100 · **Rotte:** 0 · **Non giocabili:** 3
 
-**Per fonte:** AI 53 · PDF 24  
-**Per tema:** Azione 10 · Fantasy 23 · Horror 16 · Investigazione 9 · Romance 4 · Fantascienza 15
+**Per fonte:** AI 53 · PDF 22  
+**Per tema:** Azione 10 · Fantasy 22 · Horror 15 · Investigazione 9 · Romance 4 · Fantascienza 15
 
 **Legenda codice:** `TEMA-FONTE-PUNTEGGIO` — TEMA: FAN/HOR/SCI/INV/ACT/ROM/STO · FONTE: PDF/AI/GEN · PUNTEGGIO: playable_score (NA = assente)
 
@@ -24,7 +24,7 @@
 | `ACT-PDF-51` | Never Forget to Die | PDF | 51 | ⛔ non giocabile | `action/pdf_never_forget.json` |
 | `ACT-PDF-43` | Minutes Not Hours | PDF | 43 | 🟠 | `action/pdf_minutes_not_hours.json` |
 
-## Fantasy (23)
+## Fantasy (22)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -50,9 +50,8 @@
 | `FAN-PDF-58` | Queen of the Red City | PDF | 58 | 🟠 | `fantasy/pdf_queen_of_the_red_city.json` |
 | `FAN-PDF-50` | La Foresta dei Sogni Impossibili | PDF | 50 | 🟠 | `fantasy/pdf_la_foresta_dei_sogni_impossibili.json` |
 | `FAN-PDF-46` | T he Vast Vermin Swamp is a mud-ridden, stench- The Vast Vermin Swamp | PDF | 46 | 🟠 | `fantasy/pdf_the_vast_vermin_swamp.json` |
-| `FAN-PDF-41` | The Third Hall of Uzrah | PDF | 41 | ⛔ non giocabile | `fantasy/pdf_uzrah.json` |
 
-## Horror (16)
+## Horror (15)
 
 | Codice | Titolo | Fonte | Punt. | Stato | File |
 |---|---|---|---|---|---|
@@ -71,7 +70,6 @@
 | `HOR-PDF-52` | Spectral Tides: The Goblin-Thing | PDF | 52 | ⛔ non giocabile | `horror/pdf_spectral_tides.json` |
 | `HOR-PDF-51` | Gotham '39: The Mirror Eternal | PDF | 51 | ⛔ non giocabile | `horror/pdf_gotham39.json` |
 | `HOR-PDF-49` | story, “The Temple”.) | PDF | 49 | 🟠 | `horror/pdf_the_temple.json` |
-| `HOR-PDF-49` | Those the Comet Bring | PDF | 49 | 🟠 | `horror/pdf_those_the_comet_bring.json` |
 
 ## Investigazione (9)
 

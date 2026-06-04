@@ -3603,26 +3603,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 84,
+    "playable_score": 82,
     "errors": [],
-    "warnings": [
-      "Actor npc_tanegawa ha location non riconosciuta: Sezione criogenica sigillata.",
-      "Actor npc_voss ha location non riconosciuta: Ponte di comando.",
-      "Actor npc_rask ha location non riconosciuta: Condotti di manutenzione.",
-      "Actor npc_kato ha location non riconosciuta: Sala server principale.",
-      "Actor npc_chen ha location non riconosciuta: Nave cargo Valkyrie (rintracciabile via comunicazioni).",
-      "Actor npc_greaves ha location non riconosciuta: Armeria principale.",
-      "Actor npc_jin ha location non riconosciuta: Sala comunicazioni.",
-      "heist richiede security_layers o pressure_system heat."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 60,
+      "clue_concreteness_score": 90,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 60,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -3632,7 +3622,7 @@
       "clues": 10,
       "revelations": 3
     },
-    "doctor_score": 5.5
+    "doctor_score": 8.2
   },
   "live_game_state": null
 }

@@ -2590,22 +2590,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 92,
+    "playable_score": 72,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Infermeria centrale del Prometeo.",
-      "Actor npc_2 ha location non riconosciuta: Arsenale della nave sul ponte sicurezza.",
-      "Actor npc_3 ha location non riconosciuta: Sala reattori nel settore propulsione.",
-      "Actor npc_4 ha location non riconosciuta: Ovunque — si manifesta quando i PG si avvicinano alla verità."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 75,
+      "clue_concreteness_score": 10,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2614,7 +2608,8 @@
       "actors": 4,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.2
   },
   "live_game_state": null
 }

@@ -2772,23 +2772,14 @@
     "playable": true,
     "playable_score": 86,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Infermeria Centrale.",
-      "Actor npc_2 ha location non riconosciuta: Centro di Sicurezza.",
-      "Actor npc_3 ha location non riconosciuta: Dormitori Settore C.",
-      "Actor npc_4 ha location non riconosciuta: Cappella Ecumenica.",
-      "Actor npc_5 ha location non riconosciuta: Sala Server Principale.",
-      "Actor npc_6 ha location non riconosciuta: Bar del Sindacato.",
-      "Actor npc_7 ha location non riconosciuta: Nucleo Centrale IA."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
+      "fiction_density_score": 70,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 60,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2797,7 +2788,8 @@
       "actors": 7,
       "clues": 10,
       "revelations": 3
-    }
+    },
+    "doctor_score": 8.6
   },
   "legacy_adventure": {
     "id": "ai_il_protocollo_prometheus",

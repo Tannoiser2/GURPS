@@ -2315,22 +2315,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 92,
+    "playable_score": 75,
     "errors": [],
-    "warnings": [
-      "Actor npc_varic ha location non riconosciuta: Sede del Consorzio — Sala Contratti.",
-      "Actor npc_maren ha location non riconosciuta: Locanda del Piccone — Stanza Privata.",
-      "Actor npc_drevik ha location non riconosciuta: Locanda del Piccone — Sala Comune.",
-      "Actor npc_ilsa ha location non riconosciuta: Campo Minatori — Mensa."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 30,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2339,6 +2333,7 @@
       "actors": 4,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.5
   }
 }

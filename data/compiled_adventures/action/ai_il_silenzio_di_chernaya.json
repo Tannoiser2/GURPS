@@ -2571,22 +2571,19 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 92,
+    "playable_score": 65,
     "errors": [],
     "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Sala di controllo principale.",
-      "Actor npc_2 ha location non riconosciuta: Baracca dell'Eremita.",
-      "Actor npc_3 ha location non riconosciuta: Perimetro esterno del complesso.",
-      "Actor npc_4 ha location non riconosciuta: Centro operativo Arcturus (remoto)."
+      "'Sala di controllo principale (sul corpo di Irina se neutralizzata, o visibile durante confronto)' sembra trovarsi dentro 'Sala di controllo principale' ma non ha parent_location_id impostato",
+      "'Perimetro esterno del complesso e pilastri strutturali' sembra trovarsi dentro 'Perimetro esterno del complesso' ma non ha parent_location_id impostato"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 60,
+      "clue_concreteness_score": 40,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 45,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2595,7 +2592,8 @@
       "actors": 4,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 6.5
   },
   "live_game_state": null
 }

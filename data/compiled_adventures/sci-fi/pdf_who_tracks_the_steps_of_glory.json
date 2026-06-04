@@ -19384,24 +19384,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 75,
+    "playable_score": 64,
     "errors": [],
-    "warnings": [
-      "Actor p21_npc_1 ha location non riconosciuta: section_1.",
-      "Actor p21_npc_2 ha location non riconosciuta: section_2.",
-      "EventClock clock_gas_radioattivo_stazione senza almeno 4 step concreti.",
-      "EventClock clock_flotta_romulana_arrivo senza almeno 4 step concreti.",
-      "EventClock clock_comportamento_sanra senza almeno 4 step concreti.",
-      "faction_crisis richiede almeno 2 factions."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 85,
+      "clue_concreteness_score": 0,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "location_playability_score": 95,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 90,
@@ -19434,7 +19426,7 @@
       "critical": [],
       "warnings": []
     },
-    "doctor_score": 1.9
+    "doctor_score": 6.4
   },
   "live_game_state": null
 }

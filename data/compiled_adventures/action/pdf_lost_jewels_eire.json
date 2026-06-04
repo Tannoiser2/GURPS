@@ -15862,22 +15862,19 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 79,
+    "playable_score": 76,
     "errors": [],
     "warnings": [
-      "EventClock clock_third_reich_jewels senza almeno 4 step concreti.",
-      "EventClock clock_anze_revenge senza almeno 4 step concreti.",
-      "heist richiede security_layers o pressure_system heat.",
-      "faction_crisis richiede almeno 2 factions."
+      "NPC 'Amadej Anze': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'Amadej Anze' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
-      "npc_agenda_score": 100,
+      "fiction_density_score": 85,
+      "clue_concreteness_score": 45,
+      "npc_agenda_score": 85,
       "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 93,

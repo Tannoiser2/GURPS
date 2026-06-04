@@ -13274,20 +13274,19 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 83,
+    "playable_score": 71,
     "errors": [],
     "warnings": [
-      "EventClock clock_rilascio_album senza almeno 4 step concreti.",
-      "EventClock clock_piano_hannah senza almeno 4 step concreti."
+      "NPC 'Hannah Reign': agenda_pressure 0 troppo bassa per antagonista",
+      "NPC 'Hannah Reign' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
-      "npc_agenda_score": 100,
+      "fiction_density_score": 85,
+      "clue_concreteness_score": 20,
+      "npc_agenda_score": 85,
       "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 93,
@@ -13319,7 +13318,7 @@
       "critical": [],
       "warnings": []
     },
-    "doctor_score": 3.5
+    "doctor_score": 7.1
   },
   "live_game_state": null
 }

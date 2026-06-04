@@ -1079,11 +1079,12 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 83,
+    "playable_score": 75,
     "errors": [],
     "warnings": [
-      "Clue clue_medcross_cargo non collegato a una revelation valida.",
-      "Clue clue_red_herring_wreck non collegato a una revelation valida."
+      "NPC 'Vera 'Railgun' Torba' (antagonista/minaccia) senza armi né items",
+      "NPC 'Marcus Chen' (antagonista/minaccia) senza armi né items",
+      "NPC 'Sopravvissuti del Convoglio Medcross' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "Vera è il personaggio più interessante — può diventare un alleato se i PG mostrano intelligenza",
@@ -1091,12 +1092,11 @@
       "La tensione del clock è visibile: il Consiglio chiama ogni sessione con aggiornamenti sulle morti"
     ],
     "quality": {
+      "fiction_density_score": 70,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "location_playability_score": 80,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 96,
@@ -1117,6 +1117,7 @@
       "actors": 3,
       "clues": 9,
       "revelations": 4
-    }
+    },
+    "doctor_score": 7.5
   }
 }

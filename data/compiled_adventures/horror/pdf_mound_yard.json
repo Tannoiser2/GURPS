@@ -1226,21 +1226,25 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 87,
+    "playable_score": 67,
     "errors": [],
-    "warnings": [],
+    "warnings": [
+      "NPC 'Martha Loughty' (antagonista/minaccia) senza armi né items",
+      "NPC 'Silas Henderson' (antagonista/minaccia) senza armi né items",
+      "NPC 'Sceriffo Dale Purvis' (antagonista/minaccia) senza armi né items",
+      "NPC 'Reverendo Thomas Hale' (antagonista/minaccia) senza armi né items"
+    ],
     "suggestions": [
       "La notte i PG possono sentire un ronzio basso dalla terra vicino ai tumuli",
       "Silas può diventare un mentore cruciale se i PG lo trattano con rispetto",
       "Il rituale richiede cooperazione — ottimo per creare tensione tra PG su chi va dove"
     ],
     "quality": {
+      "fiction_density_score": 60,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 100,
@@ -1261,6 +1265,7 @@
       "actors": 4,
       "clues": 10,
       "revelations": 4
-    }
+    },
+    "doctor_score": 6.7
   }
 }

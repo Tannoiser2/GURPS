@@ -1064,16 +1064,12 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 66,
+    "playable_score": 75,
     "errors": [],
     "warnings": [
-      "Clue clue_red_herring_radiation non collegato a una revelation valida.",
-      "Clue clue_red_herring_sorokin non collegato a una revelation valida.",
-      "Location station_comms senza almeno 3 feature concrete.",
-      "Location station_security senza almeno 3 feature concrete.",
-      "Location station_server senza almeno 3 feature concrete.",
-      "Location vasquez_quarters senza almeno 3 feature concrete.",
-      "FinaleCondition finale_patients_only dovrebbe richiedere almeno 2 clue."
+      "NPC 'Comm. Rena Vasquez' (antagonista/minaccia) senza armi né items",
+      "NPC 'Dr. Yumiko Tanaka' (antagonista/minaccia) senza armi né items",
+      "NPC 'Engr. Pavel Sorokin' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "Il countdown dell'ossigeno crea tensione reale — aggiornarlo ogni sessione",
@@ -1081,12 +1077,11 @@
       "Sorokin come red herring funziona bene se i PG lo pressano troppo presto"
     ],
     "quality": {
+      "fiction_density_score": 70,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 86,
-      "clock_operational_score": 33,
-      "finale_playability_score": 83,
-      "fiction_density_score": 80
+      "location_playability_score": 80,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -1095,6 +1090,7 @@
       "actors": 3,
       "clues": 8,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.5
   }
 }

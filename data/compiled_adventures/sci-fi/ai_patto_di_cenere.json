@@ -2379,23 +2379,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 90,
+    "playable_score": 71,
     "errors": [],
-    "warnings": [
-      "Actor npc_voss ha location non riconosciuta: Sala dei negoziati, livello diplomatico.",
-      "Actor npc_zheng ha location non riconosciuta: Centro di controllo sicurezza, livello comando.",
-      "Actor npc_rhea ha location non riconosciuta: Serre idroponiche, livello ecologico.",
-      "Actor npc_torin ha location non riconosciuta: Quartieri delegazione esterna, livello diplomatico.",
-      "faction_crisis richiede almeno 2 factions."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 10,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2404,7 +2397,8 @@
       "actors": 4,
       "clues": 6,
       "revelations": 2
-    }
+    },
+    "doctor_score": 7.1
   },
   "live_game_state": null
 }

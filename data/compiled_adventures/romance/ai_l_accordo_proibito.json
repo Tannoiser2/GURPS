@@ -2349,23 +2349,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 90,
+    "playable_score": 72,
     "errors": [],
-    "warnings": [
-      "Actor npc_serafine ha location non riconosciuta: Archivio della Mediazione.",
-      "Actor npc_dain ha location non riconosciuta: La Lanterna Spenta.",
-      "Actor npc_lirien ha location non riconosciuta: Biblioteca della Gilda.",
-      "Actor npc_torvald ha location non riconosciuta: Quartier Generale della Guardia.",
-      "faction_crisis richiede almeno 2 factions."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 65,
+      "clue_concreteness_score": 20,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2374,6 +2367,7 @@
       "actors": 4,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 7.2
   }
 }

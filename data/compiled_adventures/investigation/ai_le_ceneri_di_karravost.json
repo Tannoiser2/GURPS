@@ -2301,22 +2301,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 92,
+    "playable_score": 73,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Sala di Comando, Stazione Karravost.",
-      "Actor npc_2 ha location non riconosciuta: Camera di Sicurezza Livello -3, Gallerie Profonde.",
-      "Actor npc_3 ha location non riconosciuta: Cella Profonda, Gallerie Profonde.",
-      "Actor npc_4 ha location non riconosciuta: Dormitorio Abbandonato, Zona Superficie."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 20,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2325,7 +2319,8 @@
       "actors": 4,
       "clues": 6,
       "revelations": 2
-    }
+    },
+    "doctor_score": 7.3
   },
   "live_game_state": null
 }

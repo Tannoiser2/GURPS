@@ -2310,22 +2310,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 92,
+    "playable_score": 69,
     "errors": [],
-    "warnings": [
-      "Actor npc_mirjam ha location non riconosciuta: Infermeria di Svartholm.",
-      "Actor npc_henrik ha location non riconosciuta: Baracca dei minatori.",
-      "Actor npc_torvald ha location non riconosciuta: Sede della Gilda a Nordhaven (fuori dalla mappa di gioco).",
-      "Actor npc_lisbet ha location non riconosciuta: Farmacia di Lisbet."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 60,
+      "clue_concreteness_score": 10,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2334,7 +2328,8 @@
       "actors": 4,
       "clues": 5,
       "revelations": 3
-    }
+    },
+    "doctor_score": 6.9
   },
   "live_game_state": null
 }

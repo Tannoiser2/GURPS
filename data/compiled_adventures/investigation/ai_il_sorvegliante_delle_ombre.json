@@ -2461,23 +2461,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 90,
+    "playable_score": 67,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Archivio del Consiglio.",
-      "Actor npc_2 ha location non riconosciuta: Infermeria dei Minatori.",
-      "Actor npc_3 ha location non riconosciuta: Sala del Mercato.",
-      "Actor npc_4 ha location non riconosciuta: Tempio dell'Alba.",
-      "faction_crisis richiede almeno 2 factions."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 60,
+      "clue_concreteness_score": 0,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2486,7 +2479,8 @@
       "actors": 4,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 6.7
   },
   "live_game_state": null
 }

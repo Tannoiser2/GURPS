@@ -4538,30 +4538,20 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 76,
+    "playable_score": 67,
     "errors": [],
     "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Villa Thrace nella Città Alta.",
-      "Actor npc_2 ha location non riconosciuta: Sala del Trono nella Cittadella.",
-      "Actor npc_3 ha location non riconosciuta: Caserma delle Guardie.",
-      "Actor npc_4 ha location non riconosciuta: Biblioteca Sotterranea.",
-      "Actor npc_5 ha location non riconosciuta: Taverna della Fiamma Nera nel Quartiere Basso.",
-      "Actor npc_6 ha location non riconosciuta: Camera del Consiglio nella Cittadella.",
-      "Actor npc_7 ha location non riconosciuta: Fucina Sotterranea.",
-      "Actor npc_8 ha location non riconosciuta: Prigione Profonda.",
-      "Actor npc_9 ha location non riconosciuta: Passaggi Segreti della Cittadella.",
-      "Actor npc_10 ha location non riconosciuta: Camera Vulcanica.",
-      "heist richiede security_layers o pressure_system heat.",
-      "faction_crisis richiede almeno 2 factions."
+      "'Taverna della Fiamma Nera nel Quartiere Basso' sembra trovarsi dentro 'Taverna della Fiamma Nera' ma non ha parent_location_id impostato",
+      "'Camera del Consiglio nella Cittadella' sembra trovarsi dentro 'Camera del Consiglio' ma non ha parent_location_id impostato",
+      "'Passaggi Segreti della Cittadella' sembra trovarsi dentro 'Passaggi Segreti' ma non ha parent_location_id impostato"
     ],
     "suggestions": [],
     "quality": {
+      "fiction_density_score": 65,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 0,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -4571,7 +4561,7 @@
       "clues": 18,
       "revelations": 6
     },
-    "doctor_score": 4.3
+    "doctor_score": 6.7
   },
   "live_game_state": null
 }

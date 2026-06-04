@@ -817,11 +817,11 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 82,
+    "playable_score": 83,
     "errors": [],
     "warnings": [
-      "Clue clue_red_herring_gas non collegato a una revelation valida.",
-      "Location mine_office senza almeno 3 feature concrete."
+      "NPC 'Danny Reeves (sopravvissuto)' (antagonista/minaccia) senza armi né items",
+      "NPC 'Joe Tanner (sopravvissuto)' (antagonista/minaccia) senza armi né items"
     ],
     "suggestions": [
       "Le creature non vanno mai viste chiaramente — solo sentite e scorte brevemente",
@@ -829,12 +829,11 @@
       "Il salvataggio di Danny è un percorso a ritroso con creature più aggressive"
     ],
     "quality": {
+      "fiction_density_score": 80,
       "clue_concreteness_score": 100,
       "npc_agenda_score": 100,
-      "location_playability_score": 95,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 86
+      "location_playability_score": 85,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -843,6 +842,7 @@
       "actors": 2,
       "clues": 6,
       "revelations": 3
-    }
+    },
+    "doctor_score": 8.3
   }
 }

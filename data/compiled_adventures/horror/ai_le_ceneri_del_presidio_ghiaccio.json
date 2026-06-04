@@ -2275,22 +2275,16 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 92,
+    "playable_score": 75,
     "errors": [],
-    "warnings": [
-      "Actor npc_1 ha location non riconosciuta: Torre Medica - Piano di Comando.",
-      "Actor npc_2 ha location non riconosciuta: Torre Medica - Cella di Isolamento.",
-      "Actor npc_3 ha location non riconosciuta: Baracche dei Soldati.",
-      "Actor npc_4 ha location non riconosciuta: Rifugio Civile."
-    ],
+    "warnings": [],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 30,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 100,
-      "finale_playability_score": 100,
-      "fiction_density_score": 100
+      "location_playability_score": 75,
+      "clock_operational_score": 100
     },
     "fidelity": {},
     "counts": {
@@ -2299,7 +2293,8 @@
       "actors": 4,
       "clues": 6,
       "revelations": 2
-    }
+    },
+    "doctor_score": 7.5
   },
   "live_game_state": null
 }

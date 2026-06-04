@@ -26698,28 +26698,18 @@
   "validation_report": {
     "valid": true,
     "playable": true,
-    "playable_score": 67,
+    "playable_score": 74,
     "errors": [],
     "warnings": [
-      "Actor p6_npc_1 ha location non riconosciuta: section_1.",
-      "Actor p14_npc_1 ha location non riconosciuta: section_2.",
-      "NPC preservato p14_npc_2 presente ma senza agenda esplicita nel PDF.",
-      "Actor p14_npc_2 ha location non riconosciuta: section_3.",
-      "Actor p20_npc_1 ha location non riconosciuta: section_4.",
-      "Actor p20_npc_2 ha location non riconosciuta: section_5.",
-      "EventClock clock_doomsday_machine_avanza senza almeno 4 step concreti.",
-      "EventClock clock_spinrad_deriva_gorn senza almeno 4 step concreti.",
-      "EventClock clock_kmpec_arriva_ectair senza almeno 4 step concreti.",
-      "ritual_dungeon richiede ritual_conditions o special_items."
+      "La pista 'T2' ha solo 1 indizi: GURPS richiede almeno 2 prove per una deduzione credibile"
     ],
     "suggestions": [],
     "quality": {
-      "clue_concreteness_score": 100,
+      "fiction_density_score": 70,
+      "clue_concreteness_score": 20,
       "npc_agenda_score": 100,
-      "location_playability_score": 100,
-      "clock_operational_score": 33,
-      "finale_playability_score": 100,
-      "fiction_density_score": 87
+      "location_playability_score": 90,
+      "clock_operational_score": 100
     },
     "fidelity": {
       "score": 91,
@@ -26752,7 +26742,7 @@
       "critical": [],
       "warnings": []
     },
-    "doctor_score": 3.8
+    "doctor_score": 7.4
   },
   "live_game_state": null
 }
