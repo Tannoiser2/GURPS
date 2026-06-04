@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import caricaPdfImg from "./assets/carica_pdf.png";
 import caricaJsonImg from "./assets/carica_json.png";
 import jsonDoctorImg from "./assets/json_doctor.png";
+import editorImg from "./assets/editor.png";
+import riprendiImg from "./assets/riprendi.png";
 
 const API_URL = import.meta.env.PROD
   ? `${window.location.origin}/api`
@@ -3676,23 +3678,23 @@ function SetupScreen({ onStart }) {
             />
           </label>
 
-          {/* Editor: moduli pronti, creazione passo-passo, edita JSON.
-              TODO: sostituire con <img src={editorImg}> appena editor.png è in assets/. */}
-          <button onClick={() => setStep("editor")} style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 8, height: 52,
-            background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.4)",
-            color: "#a78bfa", borderRadius: 9, padding: "0 22px", fontSize: 15,
-            fontWeight: 800, letterSpacing: 1, cursor: "pointer",
-          }}>✏️ EDITOR</button>
+          {/* Editor: moduli pronti, creazione passo-passo, edita JSON */}
+          <button onClick={() => setStep("editor")} title="Editor avventure: moduli pronti, creazione passo-passo, modifica JSON"
+            style={{ background: "none", border: "none", padding: 0, cursor: "pointer", lineHeight: 0, flexShrink: 0 }}>
+            <img src={editorImg} alt="Editor"
+              style={{ height: 52, display: "block", borderRadius: 9, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.82"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"} />
+          </button>
 
-          {/* Carica partita salvata.
-              TODO: sostituire con <img src={riprendiImg}> appena riprendi.png è in assets/. */}
-          <button onClick={openSavesPanel} style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 8, height: 52,
-            background: "rgba(251,191,36,0.12)", border: "1px solid rgba(251,191,36,0.4)",
-            color: "#fbbf24", borderRadius: 9, padding: "0 22px", fontSize: 15,
-            fontWeight: 800, letterSpacing: 1, cursor: "pointer",
-          }}>📂 RIPRENDI</button>
+          {/* Carica partita salvata */}
+          <button onClick={openSavesPanel} title="Riprendi una partita salvata"
+            style={{ background: "none", border: "none", padding: 0, cursor: "pointer", lineHeight: 0, flexShrink: 0 }}>
+            <img src={riprendiImg} alt="Riprendi"
+              style={{ height: 52, display: "block", borderRadius: 9, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.82"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"} />
+          </button>
         </div>
 
         {(loading || jsonLoading) && (
