@@ -142,9 +142,14 @@ def rel_symlink(link: Path, target: Path):
 
 def build():
     import shutil
-    if CATALOG.exists():
-        shutil.rmtree(CATALOG)
-    CATALOG.mkdir(parents=True)
+    CATALOG.mkdir(parents=True, exist_ok=True)
+    # Pulisce SOLO le sottocartelle di link (per-genere + _ROTTE) e il CATALOGO.md
+    # che riscrive — NON l'intera cartella, altrimenti cancellerebbe
+    # AVVENTURE_BRIEF.md (gestito da build_adventure_briefs.py) ad ogni run.
+    for child in CATALOG.iterdir():
+        if child.is_dir():
+            shutil.rmtree(child)
+    (CATALOG / "CATALOGO.md").unlink(missing_ok=True)
 
     entries = collect()
     # ordina: tema, poi punteggio decrescente, poi titolo
