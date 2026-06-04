@@ -10,7 +10,7 @@ on:
     inputs:
       apply:
         description: "true = chiama l'AI e scrive i file; false = solo anteprima (dry-run)"
-        required: false
+        required: true
         default: "false"
 
 permissions:
