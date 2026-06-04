@@ -7026,9 +7026,11 @@ function clueTitle(clue) {
 }
 
 function isKnownNpc(npc) {
-  const agendaStatus = npc?.npc_agenda?.arc_status || npc?.arc_status;
-  if (npc?._source === "world") return true;
+  const agendaStatus = npc?.npc_agenda?.arc_status || npc?.arc_status || npc?._rtArc;
   if (npc?.introduced || npc?.known || npc?.visible || npc?.discovered) return true;
+  // Stato runtime esplicito: l'NPC è stato introdotto/incontrato durante la partita.
+  const rt = String(npc?._rtStatus || "");
+  if (rt && !["unintroduced", "unknown", "hidden"].includes(rt)) return true;
   if (agendaStatus && !["hidden", "unintroduced"].includes(String(agendaStatus))) return true;
   return false;
 }
@@ -7874,7 +7876,13 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
     const existing = npcMap.get(key);
     npcMap.set(key, existing ? { ...existing, ...n, _source: "world" } : { ...n, _source: "world" });
   });
-  const npcs = Array.from(npcMap.values());
+  // Fonde lo stato runtime (npc_statuses, già prop del componente): un NPC è
+  // "noto" solo se è stato effettivamente introdotto in partita, non perché
+  // esiste nel world.
+  const npcs = Array.from(npcMap.values()).map(n => {
+    const rt = (npcStatuses || {})[n.id] || {};
+    return { ...n, _rtStatus: rt.status, _rtArc: rt.arc_status };
+  });
   const threads = storyThreads.length > 0 ? storyThreads : (gameState?.open_threads || []);
   const threatLevel = gameState?.threat_level || 0;
   const threatMax = adventure?.threat_max_turns || 8;
