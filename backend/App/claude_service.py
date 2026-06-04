@@ -4789,9 +4789,9 @@ def _build_create_adventure_prompt(
     "// GENERA {npc_count} NPC TOTALI — ogni location_id DEVE corrispondere a un id reale in locations"
   ],
   "clues": [
-    {{"id": "clue_1", "label": "Nome breve indizio", "text": "Descrizione dettagliata", "type": "physical_evidence|testimony|document|behavior|location_detail|contradiction", "thread_id": "T1", "reveals": "Cosa suggerisce", "payoff": "Cosa permette di capire o sbloccare", "location": "Nome leggibile del luogo", "location_id": "id ESATTO di una location qui sotto", "found": false}},
-    {{"id": "clue_2", "label": "...", "text": "...", "type": "...", "thread_id": "T2", "reveals": "...", "payoff": "...", "location": "...", "location_id": "...", "found": false}},
-    "// GENERA {clue_count} INDIZI TOTALI — varia i tipi; ogni location_id DEVE corrispondere a un id reale in locations"
+    {{"id": "clue_1", "label": "Nome breve indizio", "text": "Descrizione dettagliata", "type": "physical_evidence|testimony|document|behavior|location_detail|contradiction", "thread_id": "T1", "reveals": "Cosa suggerisce", "payoff": "Cosa permette di capire o sbloccare", "hidden_implication": "Il significato segreto che emerge solo combinando questo indizio con altri", "wrong_interpretations": ["lettura plausibile ma errata #1", "lettura plausibile ma errata #2"], "location": "Nome leggibile del luogo", "location_id": "id ESATTO di una location qui sotto", "found": false}},
+    {{"id": "clue_2", "label": "...", "text": "...", "type": "...", "thread_id": "T2", "reveals": "...", "payoff": "...", "hidden_implication": "...", "wrong_interpretations": ["...", "..."], "location": "...", "location_id": "...", "found": false}},
+    "// GENERA {clue_count} INDIZI TOTALI — varia i tipi; ogni indizio DEVE avere payoff, hidden_implication e wrong_interpretations; ogni location_id DEVE corrispondere a un id reale in locations"
   ],
   "story_threads": [
     {{"id": "T1", "title": "Titolo pista", "question": "Domanda investigativa specifica", "true_answer": "Risposta canonica nascosta", "status": "hidden", "required_clues": ["clue_1", "clue_2"], "minimum_clues_to_deduce": 2, "payoff": "Cosa sblocca questa deduzione", "linked_npcs": ["npc_1"]}},
@@ -4860,6 +4860,12 @@ POPOLAZIONE DEI LUOGHI (OBBLIGATORIA):
 
 REQUISITI AGGIUNTIVI:
 {additional}
+
+REGOLE INDIZI (OBBLIGATORIE — ogni indizio deve avere tutti e tre i livelli):
+- "payoff": cosa cambia o si sblocca concretamente quando i PG trovano l'indizio (il Master deve sapere cosa farne)
+- "hidden_implication": il significato profondo che NON è ovvio dal testo dell'indizio — emerge solo mettendo insieme più pezzi. Deve essere diverso da "reveals": reveals è cosa suggerisce a prima vista, hidden_implication è cosa significa davvero
+- "wrong_interpretations": 1-2 letture plausibili ma SBAGLIATE che un giocatore attento potrebbe fare — rendono il mistero ricco e permettono di sbagliarsi. NON ovvietà ("non è importante"), ma piste false credibili (es. "sembra incolpare il maggiordomo, in realtà lo scagiona")
+- Indizi a una sola dimensione (solo testo, senza implicazione nascosta o false letture) sono VIETATI
 
 REGOLE COLPI DI SCENA (OBBLIGATORIE):
 - Ogni twist DEVE compilare "subverts_clue" con l'ID esatto di un clue presente nell'array clues — il twist ribalta il significato di quell'indizio specifico
