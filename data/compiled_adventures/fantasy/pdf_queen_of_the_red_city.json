@@ -10407,7 +10407,7 @@
     "revelations": [
       {
         "id": "llm_rev_1",
-        "thread_id": "T_fate_original_crew",
+        "thread_id": "T_fate_of_zthnorgora",
         "statement": "L'equipaggio originale di Jal Z'thngora è stato sterminato dalle creature dell'isola, non dai nativi",
         "required_clues": [
           "llm_clue_1",
@@ -10430,7 +10430,7 @@
       },
       {
         "id": "llm_rev_2",
-        "thread_id": "T_jal_reached_city",
+        "thread_id": "T_fate_of_zthnorgora",
         "statement": "Jal Z'thngora raggiunse effettivamente la Città Rossa al centro dell'isola prima di morire",
         "required_clues": [
           "llm_clue_8",
@@ -10453,7 +10453,7 @@
       },
       {
         "id": "llm_rev_3",
-        "thread_id": "T_stygian_connection",
+        "thread_id": "T_fate_of_zthnorgora",
         "statement": "La fonte stygiana che rivelò l'isola a Z'thngora aveva legami con le sette donne prigioniere",
         "required_clues": [
           "llm_clue_6",
@@ -10473,7 +10473,7 @@
       },
       {
         "id": "llm_rev_4",
-        "thread_id": "T_multiple_expeditions",
+        "thread_id": "T_fate_of_zthnorgora",
         "statement": "Multiple spedizioni successive hanno tentato di raggiungere il tesoro dopo Z'thngora, tutte fallite",
         "required_clues": [
           "llm_clue_10",
@@ -10497,7 +10497,7 @@
       },
       {
         "id": "llm_rev_5",
-        "thread_id": "T_marala_secrets",
+        "thread_id": "T_fate_of_zthnorgora",
         "statement": "Marala conosce più dettagli sull'isola di quanto abbia rivelato pubblicamente all'equipaggio",
         "required_clues": [
           "llm_clue_5",
@@ -12052,61 +12052,6 @@
         "collected_clue_ids": [
           "llm_clue_12"
         ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_fate_original_crew",
-        "title": "T fate original crew",
-        "question": "Cosa accadde realmente all'equipaggio originale di Jal Z'thngora?",
-        "true_answer": "L'equipaggio di Jal Z'thngora fu sterminato dalle creature mostruose e dai predatori soprannaturali dell'isola durante il viaggio verso la Città Rossa. Contrariamente a quanto si potrebbe pensare, non furono gli uomini-scimmia nativi i responsabili principali, ma le bestie corrotte dalla magia oscura che infesta l'isola. I pochi sopravvissuti, incluso Z'thngora stesso, furono ridotti a un manipolo prima di raggiungere la loro destinazione.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_jal_reached_city",
-        "title": "T jal reached city",
-        "question": "Jal Z'thngora riuscì a raggiungere la Città Rossa prima della sua morte?",
-        "true_answer": "Sì, Jal Z'thngora raggiunse effettivamente la Città Rossa al centro dell'isola dieci anni fa. Entrò nella città e probabilmente scoprì il tesoro o almeno parte dei suoi segreti, ma qualcosa all'interno lo uccise prima che potesse riportare indietro le ricchezze. Il suo corpo o i suoi resti potrebbero ancora trovarsi nelle rovine della città, insieme agli indizi su cosa scoprì e cosa lo uccise.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_stygian_connection",
-        "title": "T stygian connection",
-        "question": "Qual è il legame tra la fonte stygiana che rivelò l'isola a Z'thngora e le sette donne prigioniere?",
-        "true_answer": "La fonte stygiana che informò Jal Z'thngora dell'esistenza dell'isola e del tesoro aveva connessioni dirette con le sette donne prigioniere nella Città Rossa - probabilmente era un agente o cultista della stessa setta oscura che le imprigionò secoli fa. La rivelazione dell'isola non fu casuale, ma parte di un piano più ampio: attirare cercatori di tesori sull'isola per scopi sinistri, forse per liberare le prigioniere o completare un antico rituale.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_multiple_expeditions",
-        "title": "T multiple expeditions",
-        "question": "Altri hanno tentato di raggiungere il tesoro dopo Z'thngora?",
-        "true_answer": "Negli ultimi dieci anni, almeno tre o quattro spedizioni successive hanno tentato di seguire le tracce di Jal Z'thngora per impossessarsi del tesoro della Città Rossa. Tutte sono fallite in modi diversi: alcune navi non sono mai tornate, altre hanno perso troppi uomini per proseguire, e qualche sopravvissuto impazzito è tornato nei Regni Neri farneticando di orrori rossi. I loro relitti, accampamenti abbandonati e cadaveri disseminano l'isola come macabri segnali di avvertimento.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_marala_secrets",
-        "title": "T marala secrets",
-        "question": "Cosa sa veramente Marala sull'isola che non ha rivelato all'equipaggio?",
-        "true_answer": "Marala possiede informazioni dettagliate sull'isola che ha deliberatamente nascosto all'equipaggio della Serpente Verde. Sa della natura maledetta della Città Rossa, della presenza delle sette donne prigioniere, e probabilmente della magia oscura che anima i non-morti. Ha ottenuto queste informazioni da fonti stygiane o da sopravvissuti di spedizioni precedenti. Il suo vero interesse non è solo il tesoro materiale, ma qualcosa di specifico legato alle prigioniere o al potere antico della città - forse cerca di liberarle, controllarle, o impossessarsi della loro conoscenza proibita.",
-        "collected_clue_ids": [],
         "status": "hidden",
         "parent_thread_ids": [],
         "linked_npcs": [],

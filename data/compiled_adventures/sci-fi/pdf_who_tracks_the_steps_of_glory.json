@@ -11990,7 +11990,7 @@
     "revelations": [
       {
         "id": "llm_rev_1",
-        "thread_id": "T_trappola",
+        "thread_id": "T_defection",
         "statement": "Il segnale di soccorso della Federazione è un'esca romulana per attirare la Renown nella Zona Neutra",
         "required_clues": [
           "llm_clue_1",
@@ -12013,7 +12013,7 @@
       },
       {
         "id": "llm_rev_2",
-        "thread_id": "T_diserzione",
+        "thread_id": "T_defection",
         "statement": "Il Comandante S'anra sta pianificando la diserzione verso la Federazione usando l'emergenza come copertura",
         "required_clues": [
           "llm_clue_5",
@@ -12036,7 +12036,7 @@
       },
       {
         "id": "llm_rev_3",
-        "thread_id": "T_flotta",
+        "thread_id": "T_defection",
         "statement": "La flotta romulana in avvicinamento non sta venendo a soccorrere S'anra ma a eliminarla per tradimento",
         "required_clues": [
           "llm_clue_7",
@@ -12058,7 +12058,7 @@
       },
       {
         "id": "llm_rev_4",
-        "thread_id": "T_tecnologia",
+        "thread_id": "T_defection",
         "statement": "Le tempeste boson nella nebulosa non sono naturali ma collegate alla tecnologia tholiana antica",
         "required_clues": [
           "llm_clue_8",
@@ -12079,7 +12079,7 @@
       },
       {
         "id": "llm_rev_5",
-        "thread_id": "T_cospirazone",
+        "thread_id": "T_defection",
         "statement": "Lt. Bexley Gracen ha informazioni compromettenti che collegano l'avamposto segreto a politiche interne della Federazione",
         "required_clues": [
           "llm_clue_9",
@@ -12101,7 +12101,7 @@
       },
       {
         "id": "llm_rev_6",
-        "thread_id": "T_sabotaggio",
+        "thread_id": "T_defection",
         "statement": "Il gas radioattivo che allaga la stazione è sabotaggio interno dei subordinati di S'anra per fermare la sua diserzione",
         "required_clues": [
           "llm_clue_3",
@@ -14098,72 +14098,6 @@
           "llm_clue_8",
           "nuovo_clue_16"
         ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_trappola",
-        "title": "T trappola",
-        "question": "Il segnale di soccorso potrebbe essere un'esca romulana orchestrata per catturare una nave della Federazione nella Zona Neutra?",
-        "true_answer": "No, il segnale non è una trappola ufficiale romulana; è un messaggio genuino dall'avamposto federale che S'anra ha intercettato e sfruttato per i propri scopi di diserzione, anche se alcuni ufficiali romulani lealisti vorrebbero usare la situazione come trappola.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_diserzione",
-        "title": "T diserzione",
-        "question": "Il Comandante S'anra sta realmente pianificando di disertare verso la Federazione usando l'emergenza come copertura?",
-        "true_answer": "Sì, S'anra ha pianificato meticolosamente la diserzione dopo aver perso fiducia nell'Impero Romulano; ha accumulato intelligence preziosa e sta usando la crisi del gas e l'arrivo della Renown come opportunità per negoziare asilo in cambio di informazioni strategiche.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_flotta",
-        "title": "T flotta",
-        "question": "La flotta romulana sta venendo a soccorrere S'anra o ha ricevuto ordini di eliminarla per tradimento?",
-        "true_answer": "La flotta romulana in avvicinamento non sta venendo a soccorrere S'anra ma a eliminarla per tradimento",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_tecnologia",
-        "title": "T tecnologia",
-        "question": "Cosa si nasconde dietro: T tecnologia?",
-        "true_answer": "Le tempeste boson nella nebulosa non sono naturali ma collegate alla tecnologia tholiana antica",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_cospirazone",
-        "title": "T cospirazone",
-        "question": "Cosa si nasconde dietro: T cospirazone?",
-        "true_answer": "Lt. Bexley Gracen ha informazioni compromettenti che collegano l'avamposto segreto a politiche interne della Federazione",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_sabotaggio",
-        "title": "T sabotaggio",
-        "question": "Cosa si nasconde dietro: T sabotaggio?",
-        "true_answer": "Il gas radioattivo che allaga la stazione è sabotaggio interno dei subordinati di S'anra per fermare la sua diserzione",
-        "collected_clue_ids": [],
         "status": "hidden",
         "parent_thread_ids": [],
         "linked_npcs": [],

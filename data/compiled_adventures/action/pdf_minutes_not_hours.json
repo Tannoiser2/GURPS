@@ -8304,7 +8304,7 @@
     "revelations": [
       {
         "id": "llm_rev_1",
-        "thread_id": "T_rapimento",
+        "thread_id": "T11",
         "statement": "Il Senatore MacCabe è stato rapito da forze ostili a Cleopatra Sands, non è semplicemente scomparso",
         "required_clues": [
           "llm_clue_2",
@@ -8327,7 +8327,7 @@
       },
       {
         "id": "llm_rev_2",
-        "thread_id": "T_conspiracy",
+        "thread_id": "T11",
         "statement": "Mal-Aurum controlla Pintle per manipolare il casinò e probabilmente silenziar MacCabe prima della rivelazione",
         "required_clues": [
           "llm_clue_3",
@@ -8349,7 +8349,7 @@
       },
       {
         "id": "llm_rev_3",
-        "thread_id": "T_cia_agent",
+        "thread_id": "T11",
         "statement": "L'agente CIA è scomparso perché ha scoperto la connessione tra Mal-Aurum e l'attacco a MacCabe",
         "required_clues": [
           "llm_clue_6",
@@ -8370,7 +8370,7 @@
       },
       {
         "id": "llm_rev_4",
-        "thread_id": "T_jurisdiction",
+        "thread_id": "T11",
         "statement": "Cleopatra Sands è un'operazione di copertura per attività illegali sfruttando la sovranità del Kahndaq",
         "required_clues": [
           "llm_clue_9",
@@ -8390,7 +8390,7 @@
       },
       {
         "id": "llm_rev_5",
-        "thread_id": "T_assassination",
+        "thread_id": "T11",
         "statement": "Pintle ha sparato a MacCabe su ordine per impedire la rivelazione dello scandalo sul traffico d'armi",
         "required_clues": [
           "llm_clue_5",
@@ -10042,61 +10042,6 @@
         "collected_clue_ids": [
           "llm_clue_10"
         ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rapimento",
-        "title": "T rapimento",
-        "question": "Il Senatore MacCabe è davvero scomparso volontariamente?",
-        "true_answer": "No, MacCabe è stato rapito da mercenari di Mal-Aurum dopo aver scoperto la loro operazione al Cleopatra Sands ed è tenuto prigioniero per impedirgli di rivelare lo scandalo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_conspiracy",
-        "title": "T conspiracy",
-        "question": "Esiste una cospirazione più ampia dietro la scomparsa di MacCabe?",
-        "true_answer": "Sì, Mal-Aurum ha infiltrato il Cleopatra Sands usando Pintle come facciata per gestire traffico d'armi e neutralizzare figure politiche che minacciano i loro affari, con MacCabe come ultimo obiettivo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_cia_agent",
-        "title": "T cia agent",
-        "question": "Perché l'agente CIA è scomparso così rapidamente?",
-        "true_answer": "L'agente ha scoperto che Mal-Aurum stava dietro l'attacco a MacCabe e ha identificato Pintle come complice; è stato catturato e probabilmente interrogato per scoprire quanto sapesse A.R.G.U.S.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_jurisdiction",
-        "title": "T jurisdiction",
-        "question": "Perché Mal-Aurum ha scelto Cleopatra Sands come base operativa?",
-        "true_answer": "La sovranità del Kahndaq rende il casinò immune da indagini internazionali, permettendo a Mal-Aurum di usarlo come hub per traffico d'armi, riciclaggio e operazioni nere sotto copertura legale.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_assassination",
-        "title": "T assassination",
-        "question": "Cosa si nasconde dietro: T assassination?",
-        "true_answer": "Pintle ha sparato a MacCabe su ordine per impedire la rivelazione dello scandalo sul traffico d'armi",
-        "collected_clue_ids": [],
         "status": "hidden",
         "parent_thread_ids": [],
         "linked_npcs": [],

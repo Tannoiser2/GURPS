@@ -8795,7 +8795,7 @@
     "revelations": [
       {
         "id": "llm_rev_1",
-        "thread_id": "T_artefatto",
+        "thread_id": "T_MECHANISM",
         "statement": "La lanterna Threnolume è un artefatto occulto che ha causato la scomparsa dell'audience durante la performance",
         "required_clues": [
           "llm_clue_1",
@@ -8818,7 +8818,7 @@
       },
       {
         "id": "llm_rev_2",
-        "thread_id": "T_cospirazione",
+        "thread_id": "T_MECHANISM",
         "statement": "Maurice Beaumont ha orchestrato deliberatamente la sostituzione della lanterna per rapire audience e performers",
         "required_clues": [
           "llm_clue_1",
@@ -8841,7 +8841,7 @@
       },
       {
         "id": "llm_rev_3",
-        "thread_id": "T_complice",
+        "thread_id": "T_MECHANISM",
         "statement": "Armand Albret è stato il complice che ha fisicamente attivato la lanterna durante il terzo atto",
         "required_clues": [
           "llm_clue_3",
@@ -8862,7 +8862,7 @@
       },
       {
         "id": "llm_rev_4",
-        "thread_id": "T_movente",
+        "thread_id": "T_MECHANISM",
         "statement": "Beaumont ha catturato le vittime nel Vortex Urlante per registrarne la musica dannata con dispositivi acustici modificati",
         "required_clues": [
           "llm_clue_6",
@@ -8884,7 +8884,7 @@
       },
       {
         "id": "llm_rev_5",
-        "thread_id": "T_rituale",
+        "thread_id": "T_MECHANISM",
         "statement": "Beaumont utilizza olio di anguilla per alimentare la lanterna maledetta ed è assistito da un'entità aliena",
         "required_clues": [
           "llm_clue_5",
@@ -8906,7 +8906,7 @@
       },
       {
         "id": "llm_rev_6",
-        "thread_id": "T_minaccia",
+        "thread_id": "T_MECHANISM",
         "statement": "Beaumont pianifica di replicare il rapimento in tutta Europa usando l'opera registrata e la lanterna",
         "required_clues": [
           "llm_clue_6",
@@ -10480,72 +10480,6 @@
         "collected_clue_ids": [
           "llm_clue_13"
         ],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_artefatto",
-        "title": "T artefatto",
-        "question": "Quale oggetto ha causato materialmente la sparizione di centinaia di persone durante la performance?",
-        "true_answer": "La Threnolume, una lanterna occulta di origine sconosciuta, è l'artefatto responsabile. Quando illuminata e attivata da specifiche frequenze sonore durante il terzo atto, la lanterna apre un varco dimensionale che risucchia tutti nel suo raggio d'azione nel Vortex Urlante, una dimensione dove il suono diventa materia vivente.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_cospirazione",
-        "title": "T cospirazione",
-        "question": "La sparizione è stata un incidente o un atto deliberato?",
-        "true_answer": "Maurice Beaumont ha orchestrato meticolosamente l'intera operazione. Settimane prima della premiere, ha corrotto tecnici di scena per sostituire le lanterne teatrali normali con la Threnolume. Ha modificato la partitura del terzo atto per includere le frequenze di attivazione. L'obiettivo era rapire deliberatamente audience e performers.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_complice",
-        "title": "T complice",
-        "question": "Chi ha fisicamente attivato il dispositivo che ha causato la sparizione?",
-        "true_answer": "Armand Albret, il direttore di scena del teatro, è il complice che ha acceso la Threnolume al momento preciso del terzo atto. Beaumont lo ha ricattato usando debiti di gioco e promesse di ricchezza. Albret è ancora vivo, nascosto, tormentato dai sensi di colpa e potenzialmente l'unico testimone diretto del meccanismo di attivazione.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_movente",
-        "title": "T movente",
-        "question": "Perché Beaumont ha rapito centinaia di persone in una dimensione aliena?",
-        "true_answer": "Nel Vortex Urlante, le vittime intrappolate emettono una 'musica dannata', un suono generato dalla sofferenza trasformata in vibrazione pura. Beaumont ha installato dispositivi acustici modificati per registrare questa sinfonia sovrannaturale, che considera l'opera d'arte definitiva che non avrebbe mai potuto comporre da solo. È un artista fallito che ruba l'arte dalla dannazione altrui.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_rituale",
-        "title": "T rituale",
-        "question": "Come funziona tecnicamente il meccanismo occulto che alimenta la lanterna?",
-        "true_answer": "La Threnolume richiede olio estratto da anguille abissali come combustibile rituale. Beaumont è assistito da un'entità aliena proveniente dal Vortex stesso, che gli ha insegnato il rituale in cambio di anime da divorare. L'entità, chiamata 'Il Maestro Silente', comunica attraverso vibrazioni e pretende un tributo crescente per mantenere il varco aperto.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_minaccia",
-        "title": "T minaccia",
-        "question": "Qual è la vera portata della minaccia se Beaumont non viene fermato subito?",
-        "true_answer": "Beaumont ha già prodotto copie della registrazione maledetta e repliche della Threnolume. Pianifica un tour europeo dove l'opera registrata servirà da esca per riempire teatri, mentre le lanterne replicate cattureranno migliaia di vittime. L'entità aliena crescerà in potere con ogni anima divorata, rischiando di squarciare permanentemente il velo tra dimensioni e sommergere l'Europa in un incubo sonoro vivente.",
-        "collected_clue_ids": [],
         "status": "hidden",
         "parent_thread_ids": [],
         "linked_npcs": [],

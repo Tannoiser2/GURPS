@@ -12796,7 +12796,7 @@
     "revelations": [
       {
         "id": "llm_rev_1",
-        "thread_id": "T_evacuazione",
+        "thread_id": "T11",
         "statement": "L'Impero ha evacuato Kortatka per testare un dispositivo di distruzione ecosistema che estrarrà l'ultima spinpria dai fiumi",
         "required_clues": [
           "llm_clue_1",
@@ -12820,7 +12820,7 @@
       },
       {
         "id": "llm_rev_2",
-        "thread_id": "T_vaultmaster",
+        "thread_id": "T11",
         "statement": "Il vaultmaster Garm Reegon è bloccato su Kortatka e possiede il cryptocomp con il codice per aprire il vault della spinpria",
         "required_clues": [
           "llm_clue_4",
@@ -12841,7 +12841,7 @@
       },
       {
         "id": "llm_rev_3",
-        "thread_id": "T_evacuazione",
+        "thread_id": "T11",
         "statement": "La Corvetta Knout non ha capacità shuttle e la guarnigione residua non può evacuare completamente prima dell'attivazione del dispositivo",
         "required_clues": [
           "llm_clue_2",
@@ -12862,7 +12862,7 @@
       },
       {
         "id": "llm_rev_4",
-        "thread_id": "T_identita_codo",
+        "thread_id": "T11",
         "statement": "Codo Vond è un ex-Jedi addestrato su Coruscant, tradito dalla cicatrice alla mano sinistra e dal suo segreto custodito gelosamente",
         "required_clues": [
           "llm_clue_10",
@@ -12881,7 +12881,7 @@
       },
       {
         "id": "llm_rev_5",
-        "thread_id": "T_unknown_command",
+        "thread_id": "T11",
         "statement": "L'Unknown Command era un ordine di evacuazione strategica rapida mai monitorato prima, filtrato attraverso una talpa imperiale negligente",
         "required_clues": [
           "llm_clue_1",
@@ -12901,7 +12901,7 @@
       },
       {
         "id": "llm_rev_6",
-        "thread_id": "T_bottino",
+        "thread_id": "T11",
         "statement": "I siphoner imperiali ancora operativi e i fiumi argentei con spinpria gialla indicano che resta abbastanza minerale per il colpo del secolo",
         "required_clues": [
           "llm_clue_6",
@@ -15010,61 +15010,6 @@
           "Ord Mantell",
           "Kortatka"
         ]
-      },
-      {
-        "id": "T_evacuazione",
-        "title": "T evacuazione",
-        "question": "Perché l'Impero sta evacuando Kortatka così rapidamente e cosa sta per accadere al pianeta?",
-        "true_answer": "L'Impero ha evacuato Kortatka per testare un dispositivo sperimentale di distruzione ecosistema progettato per estrarre l'ultima spinpria dai fiumi del pianeta. La Corvetta Knout rimasta in orbita non ha capacità di scudo sufficienti per resistere agli effetti del dispositivo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_vaultmaster",
-        "title": "T vaultmaster",
-        "question": "Chi possiede i codici di accesso al vault della spinpria e dove si trova attualmente?",
-        "true_answer": "Il vaultmaster Garm Reegon è rimasto bloccato su Kortatka durante l'evacuazione e possiede l'unico cryptocomp contenente il codice per aprire il vault principale della spinpria gialla.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_identita_codo",
-        "title": "T identita codo",
-        "question": "Qual è il vero passato di Codo Vond e cosa sta nascondendo?",
-        "true_answer": "Codo Vond è un ex-Jedi addestrato su Coruscant prima della Purga. La sua vera identità è tradita da una caratteristica cicatrice alla mano sinistra, marchio del suo addestramento, e custodisce gelosamente questo segreto per sopravvivere.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_unknown_command",
-        "title": "T unknown command",
-        "question": "Cos'è esattamente l'Unknown Command e come hanno fatto i PG a venirne a conoscenza?",
-        "true_answer": "L'Unknown Command era un ordine di evacuazione strategica rapida mai intercettato prima dai canali della Ribellione. L'informazione è stata filtrata attraverso una talpa imperiale negligente che ha inavvertitamente lasciato trapelare dati sensibili.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_bottino",
-        "title": "T bottino",
-        "question": "C'è davvero ancora spinpria gialla su Kortatka dopo l'evacuazione imperiale?",
-        "true_answer": "I siphoner imperiali lasciati ancora operativi e i fiumi argentei ricchi di depositi di spinpria gialla indicano che rimane una quantità considerevole di minerale prezioso sul pianeta, abbastanza per rappresentare il colpo del secolo.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
       }
     ],
     "map_state": {},

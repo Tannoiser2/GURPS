@@ -3482,7 +3482,7 @@
     "revelations": [
       {
         "id": "llm_rev_1",
-        "thread_id": "T_geografia_castello",
+        "thread_id": "T11",
         "statement": "Il Castello di Madness emerge ciclicamente dai blizzard ed è accessibile sia via superficie che attraverso tunnel sotterranei",
         "required_clues": [
           "llm_clue_2",
@@ -3504,7 +3504,7 @@
       },
       {
         "id": "llm_rev_2",
-        "thread_id": "T_massacro_guardie",
+        "thread_id": "T11",
         "statement": "La guardia del castello è stata sterminata durante un attacco violento, lasciando solo resti congelati e oggetti personali",
         "required_clues": [
           "llm_clue_1",
@@ -3526,7 +3526,7 @@
       },
       {
         "id": "llm_rev_3",
-        "thread_id": "T_minacce_attive",
+        "thread_id": "T11",
         "statement": "Creature mostruose (troll di ghiaccio e non-morti) abitano attivamente il castello, cacciano e si nutrono nelle sue rovine",
         "required_clues": [
           "llm_clue_7",
@@ -3548,7 +3548,7 @@
       },
       {
         "id": "llm_rev_4",
-        "thread_id": "T_tesori_perduti",
+        "thread_id": "T11",
         "statement": "Il castello conserva tesori e documenti della sua storia passata nonostante il deterioramento e l'occupazione mostruosa",
         "required_clues": [
           "llm_clue_8",
@@ -3568,7 +3568,7 @@
       },
       {
         "id": "llm_rev_5",
-        "thread_id": "T_apocalisse_castello",
+        "thread_id": "T11",
         "statement": "La caduta del castello fu rapida e violenta: i difensori morirono combattendo senza tempo di organizzare una difesa efficace",
         "required_clues": [
           "llm_clue_1",
@@ -3592,7 +3592,7 @@
       },
       {
         "id": "llm_rev_6",
-        "thread_id": "T_minaccia_soprannaturale",
+        "thread_id": "T11",
         "statement": "Entità soprannaturali controllano settori del castello usando oscurità e terrore psicologico come armi tattiche",
         "required_clues": [
           "llm_clue_6",
@@ -5246,72 +5246,6 @@
         "linked_locations": [
           "Ice Troll"
         ]
-      },
-      {
-        "id": "T_geografia_castello",
-        "title": "T geografia castello",
-        "question": "Come e quando è possibile raggiungere il Castello della Follia?",
-        "true_answer": "Il Castello della Follia emerge dai blizzard solo una volta ogni sette inverni, diventando visibile e accessibile. Può essere raggiunto attraverso la superficie ghiacciata della valle oppure mediante un'antica rete di tunnel sotterranei scavati nel ghiaccio e nella roccia.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_massacro_guardie",
-        "title": "T massacro guardie",
-        "question": "Che fine hanno fatto i difensori del castello?",
-        "true_answer": "L'intera guardia del castello è stata sterminata durante un attacco brutale e improvviso. I loro corpi giacciono ancora congelati nelle posizioni in cui caddero, circondati da armi spezzate, armature squarciate e oggetti personali sparsi ovunque, testimoni muti della carneficina.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_minacce_attive",
-        "title": "T minacce attive",
-        "question": "Quali creature abitano ora il Castello della Follia?",
-        "true_answer": "Il castello è infestato da creature mostruose che lo hanno rivendicato come territorio di caccia: troll di ghiaccio dalle zanne affilate e non-morti animate da magia oscura. Queste creature pattugliano attivamente le rovine, cacciano intrusi e si nutrono tra le sale devastate.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_tesori_perduti",
-        "title": "T tesori perduti",
-        "question": "Cosa rimane della ricchezza e della storia del castello?",
-        "true_answer": "Nonostante il deterioramento causato dal tempo e dall'occupazione mostruosa, il castello custodisce ancora tesori dimenticati: reliquie preziose, artefatti magici e antichi documenti che raccontano la storia e i segreti della fortezza prima della sua caduta.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_apocalisse_castello",
-        "title": "T apocalisse castello",
-        "question": "Come cadde il Castello della Follia?",
-        "true_answer": "La caduta fu catastrofica e fulminea. Un attacco travolgente colpì il castello senza preavviso: i difensori furono sopraffatti e uccisi mentre combattevano disperatamente, senza il tempo di organizzare una difesa coordinata o richiedere rinforzi. La fine arrivò in una singola notte di sangue e orrore.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_minaccia_soprannaturale",
-        "title": "T minaccia soprannaturale",
-        "question": "Quali forze oscure dominano il castello oltre alle creature fisiche?",
-        "true_answer": "Entità soprannaturali hanno stabilito il proprio dominio su intere sezioni del castello. Queste presenze utilizzano l'oscurità innaturale come loro dominio, manipolando le ombre e impiegando il terrore psicologico come arma: sussurri che minano la sanità mentale, visioni che paralizzano di paura e una presenza opprimente che spezza la volontà degli intrusi.",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
       }
     ],
     "map_state": {},

@@ -4171,7 +4171,7 @@
     "revelations": [
       {
         "id": "llm_rev_1",
-        "thread_id": "T_missione",
+        "thread_id": "T11",
         "statement": "Gli Abitatori del Profondo stanno conducendo una missione di recupero per salvare un cucciolo rimasto intrappolato nel faro",
         "required_clues": [
           "llm_clue_2",
@@ -4193,7 +4193,7 @@
       },
       {
         "id": "llm_rev_2",
-        "thread_id": "T_sabotaggio",
+        "thread_id": "T11",
         "statement": "Il faro è stato sabotato intenzionalmente per creare oscurità necessaria agli Abitatori per operare senza essere visti",
         "required_clues": [
           "llm_clue_1",
@@ -4215,7 +4215,7 @@
       },
       {
         "id": "llm_rev_3",
-        "thread_id": "T_collaborazione",
+        "thread_id": "T11",
         "statement": "Gli Ibridi presenti sull'isola stanno aiutando gli Abitatori usando la loro conoscenza umana del territorio e delle strutture",
         "required_clues": [
           "llm_clue_5",
@@ -4238,7 +4238,7 @@
       },
       {
         "id": "llm_rev_4",
-        "thread_id": "T_urgenza",
+        "thread_id": "T11",
         "statement": "Il cucciolo di Abitatore è estremamente vulnerabile in superficie e morirà se non viene riportato in acqua rapidamente",
         "required_clues": [
           "llm_clue_3",
@@ -4257,7 +4257,7 @@
       },
       {
         "id": "llm_rev_5",
-        "thread_id": "T_infiltrazione",
+        "thread_id": "T11",
         "statement": "La popolazione di Beacon Island è stata infiltrata da Ibridi in avanzata trasformazione che si nascondono nelle loro case",
         "required_clues": [
           "llm_clue_5",
@@ -4279,7 +4279,7 @@
       },
       {
         "id": "llm_rev_6",
-        "thread_id": "T_strategia",
+        "thread_id": "T11",
         "statement": "Gli Abitatori hanno capacità di operare sia in acqua che sulla terraferma, rendendo il faro un obiettivo tattico perfetto",
         "required_clues": [
           "llm_clue_2",
@@ -5586,72 +5586,6 @@
           "Beacon Island",
           "Rockport, Massachusetts"
         ]
-      },
-      {
-        "id": "T_missione",
-        "title": "T missione",
-        "question": "Quale è il vero scopo della presenza degli Abitatori del Profondo sull'isola?",
-        "true_answer": "Gli Abitatori del Profondo stanno conducendo una missione di recupero per salvare un cucciolo rimasto intrappolato nel faro",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_sabotaggio",
-        "title": "T sabotaggio",
-        "question": "Perché il faro ha smesso di funzionare?",
-        "true_answer": "Il faro è stato sabotato intenzionalmente per creare oscurità necessaria agli Abitatori per operare senza essere visti",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_collaborazione",
-        "title": "T collaborazione",
-        "question": "Come sono riusciti gli Abitatori del Profondo a muoversi così efficacemente sull'isola?",
-        "true_answer": "Gli Ibridi presenti sull'isola stanno aiutando gli Abitatori usando la loro conoscenza umana del territorio e delle strutture",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_urgenza",
-        "title": "T urgenza",
-        "question": "Perché gli Abitatori del Profondo stanno agendo con tanta fretta e disperazione?",
-        "true_answer": "Il cucciolo di Abitatore è estremamente vulnerabile in superficie e morirà se non viene riportato in acqua rapidamente",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_infiltrazione",
-        "title": "T infiltrazione",
-        "question": "Cosa sta succedendo agli abitanti di Beacon Island?",
-        "true_answer": "La popolazione di Beacon Island è stata infiltrata da Ibridi in avanzata trasformazione che si nascondono nelle loro case",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
-      },
-      {
-        "id": "T_strategia",
-        "title": "T strategia",
-        "question": "Perché gli Abitatori del Profondo hanno scelto proprio il faro come obiettivo?",
-        "true_answer": "Gli Abitatori hanno capacità di operare sia in acqua che sulla terraferma, rendendo il faro un obiettivo tattico perfetto",
-        "collected_clue_ids": [],
-        "status": "hidden",
-        "parent_thread_ids": [],
-        "linked_npcs": [],
-        "_recovered_phantom": true
       }
     ],
     "map_state": {},
