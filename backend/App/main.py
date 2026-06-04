@@ -8,6 +8,7 @@ import logging
 import os
 import random
 import re
+import threading
 import time
 import uuid
 from collections import defaultdict, deque
@@ -275,7 +276,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v11-props-library"
+BUILD_VERSION = "v12-pdf-async"
 
 @app.get("/health")
 def health_check():
@@ -4092,22 +4093,15 @@ def _clean_pdf_text(text: str) -> str:
     return "\n".join(result_lines)
 
 
-@app.post("/game/adventure/from-pdf")
-def adventure_from_pdf(
-    file: UploadFile = File(...),
-    genre: str = Form(...),
-    players: str = Form(...),
-    provider: str = Form(default="claude"),
-    map_page: str = Form(default=""),
-):
-    """Estrae testo dal PDF e genera la bibbia. map_page opzionale: numero pagina (1-based) da usare come mappa.
+def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
+                           players: str, provider: str, map_page: str = "") -> dict:
+    """Worker SINCRONO: estrae il testo dal PDF e compila l'avventura, restituendo
+    il dict risultato (o ``{"error": ...}``). Usato sia dall'endpoint sincrono
+    ``/game/adventure/from-pdf`` sia dal job asincrono ``-async`` (in un thread).
 
-    Endpoint SINCRONO (def, non async): la compilazione fa lavoro bloccante
-    (pdfplumber, chiamate LLM, Doctor). Con `async def` questo bloccava l'unico
-    event-loop di uvicorn per ~70s, uvicorn non riusciva a servire la connessione
-    e il proxy la chiudeva → l'upload falliva con "Load failed". Come `def`,
-    FastAPI lo esegue in un threadpool (come /game/adventure/create, che funziona),
-    lasciando libero l'event-loop.
+    La compilazione dura più del timeout di connessione del proxy (~75-85s):
+    per questo il percorso usato dal frontend è quello asincrono, che NON tiene
+    aperta una singola richiesta per tutto il tempo.
     """
     import base64
     import gc
@@ -4117,7 +4111,6 @@ def adventure_from_pdf(
     except ImportError:
         return {"error": "pdfplumber/Pillow non installato sul server"}
 
-    pdf_bytes = file.file.read()
     if len(pdf_bytes) > 5 * 1024 * 1024:
         return {"error": f"PDF troppo grande ({len(pdf_bytes)//1024//1024} MB). Limite server: 5 MB."}
     raw_text_pages = []
@@ -4179,7 +4172,7 @@ def adventure_from_pdf(
             pdf_title = extracted_title
             print(f"[adventure/from-pdf] titolo estratto dal testo: '{pdf_title}'")
         else:
-            raw_name = file.filename or "Avventura da PDF"
+            raw_name = filename or "Avventura da PDF"
             # Strip .pdf extension and clean separators for a readable fallback
             import os as _os
             stem = _os.path.splitext(raw_name)[0]
@@ -4264,7 +4257,7 @@ def adventure_from_pdf(
     if os.getenv("SAVE_PDF_DEBUG_JSON", "").lower() in ("1", "true", "yes"):
         try:
             result.update(_save_pdf_compilation_json(
-                source_filename=file.filename or "Avventura da PDF",
+                source_filename=filename or "Avventura da PDF",
                 requested_genre=genre,
                 provider=provider,
                 map_page=map_page,
@@ -4278,6 +4271,102 @@ def adventure_from_pdf(
             result["saved_json_error"] = f"{type(e).__name__}: {str(e)[:220]}"
             print(f"[adventure/from-pdf] impossibile salvare JSON debug: {result['saved_json_error']}")
     return result
+
+
+# ─── Compilazione PDF: endpoint sincrono + job asincrono ──────────────────────
+# La compilazione dura più del timeout di connessione del proxy (~75-85s), quindi
+# tenere aperta UNA richiesta per tutto il tempo fa fallire l'upload con
+# "Load failed". Il frontend usa quindi il percorso asincrono: avvia il job
+# (richiesta breve) e poi fa polling di /status (richieste brevi).
+_pdf_jobs: dict[str, dict] = {}
+_pdf_jobs_lock = threading.Lock()
+_PDF_JOBS_MAX = 24
+
+
+def _pdf_jobs_gc() -> None:
+    """Tiene il job store piccolo: rimuove i job vecchi (>30 min) e, se troppi,
+    i più vecchi già completati."""
+    now = time.time()
+    with _pdf_jobs_lock:
+        for jid in [k for k, v in _pdf_jobs.items()
+                    if now - v.get("created_at", now) > 1800]:
+            _pdf_jobs.pop(jid, None)
+        if len(_pdf_jobs) > _PDF_JOBS_MAX:
+            done = sorted((k for k, v in _pdf_jobs.items() if v.get("status") in ("done", "error")),
+                          key=lambda k: _pdf_jobs[k].get("created_at", 0))
+            for jid in done[: len(_pdf_jobs) - _PDF_JOBS_MAX]:
+                _pdf_jobs.pop(jid, None)
+
+
+@app.post("/game/adventure/from-pdf")
+def adventure_from_pdf(
+    file: UploadFile = File(...),
+    genre: str = Form(...),
+    players: str = Form(...),
+    provider: str = Form(default="claude"),
+    map_page: str = Form(default=""),
+):
+    """Compilazione PDF SINCRONA (può superare il timeout del proxy su PDF lunghi:
+    preferire il percorso asincrono ``-async`` dal frontend). Mantenuto per
+    compatibilità e per chiamate dirette/CLI."""
+    return _compile_pdf_to_result(
+        file.file.read(), file.filename or "Avventura da PDF",
+        genre, players, provider, map_page,
+    )
+
+
+@app.post("/game/adventure/from-pdf-async")
+def adventure_from_pdf_async(
+    file: UploadFile = File(...),
+    genre: str = Form(...),
+    players: str = Form(...),
+    provider: str = Form(default="claude"),
+    map_page: str = Form(default=""),
+):
+    """Avvia la compilazione PDF in un thread di background e ritorna SUBITO un
+    ``job_id``. Il frontend fa poi polling di ``/game/adventure/from-pdf-status/{job_id}``.
+    Così nessuna singola richiesta resta aperta per i minuti della compilazione."""
+    pdf_bytes = file.file.read()
+    if len(pdf_bytes) > 5 * 1024 * 1024:
+        return {"error": f"PDF troppo grande ({len(pdf_bytes)//1024//1024} MB). Limite server: 5 MB."}
+    filename = file.filename or "Avventura da PDF"
+    _pdf_jobs_gc()
+    job_id = str(uuid.uuid4())
+    with _pdf_jobs_lock:
+        _pdf_jobs[job_id] = {"status": "pending", "created_at": time.time()}
+
+    def _work():
+        try:
+            res = _compile_pdf_to_result(pdf_bytes, filename, genre, players, provider, map_page)
+            status = "error" if (isinstance(res, dict) and res.get("error") and not res.get("compilation_failed")) else "done"
+            with _pdf_jobs_lock:
+                _pdf_jobs[job_id] = {"status": status, "result": res,
+                                     "created_at": _pdf_jobs.get(job_id, {}).get("created_at", time.time())}
+        except Exception as e:
+            print(f"[adventure/from-pdf-async] job {job_id} crash: {type(e).__name__}: {e}")
+            with _pdf_jobs_lock:
+                _pdf_jobs[job_id] = {"status": "error",
+                                     "result": {"error": f"Errore compilazione: {type(e).__name__}: {str(e)[:260]}"},
+                                     "created_at": _pdf_jobs.get(job_id, {}).get("created_at", time.time())}
+
+    threading.Thread(target=_work, name=f"pdf-{job_id[:8]}", daemon=True).start()
+    return {"job_id": job_id, "status": "pending"}
+
+
+@app.get("/game/adventure/from-pdf-status/{job_id}")
+def adventure_from_pdf_status(job_id: str):
+    """Stato del job di compilazione PDF. Quando ``status == 'done'`` (o 'error')
+    restituisce anche ``result`` (lo stesso payload dell'endpoint sincrono)."""
+    with _pdf_jobs_lock:
+        job = _pdf_jobs.get(job_id)
+        if job is None:
+            return {"status": "not_found"}
+        out = {"status": job["status"]}
+        if job["status"] in ("done", "error"):
+            out["result"] = job.get("result")
+            # consuma il job una volta consegnato il risultato
+            _pdf_jobs.pop(job_id, None)
+        return out
 
 
 # ─── DEBUG: avvia combattimento di test ───────────────────────────────────────

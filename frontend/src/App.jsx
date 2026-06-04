@@ -2654,43 +2654,62 @@ function SetupScreen({ onStart }) {
       }
       if (!awake) throw new Error("Il server non si è avviato in tempo (cold-start). Riprova tra un minuto.");
 
-      // Invio del PDF. Helper che fa l'upload verso una base-url e gestisce
-      // le risposte non-OK (502/503/504 = proxy in avvio → HTML, non JSON).
-      const postPdf = async (baseUrl) => {
+      // La compilazione PDF dura minuti, più del timeout di connessione del
+      // proxy (~75-85s): tenere aperta UNA richiesta falliva con "Load failed".
+      // Usiamo quindi il percorso ASINCRONO: avviamo il job (richiesta breve) e
+      // facciamo polling dello stato (richieste brevi), così nessuna connessione
+      // resta aperta a lungo.
+      const startUpload = async (baseUrl) => {
         const fd = new FormData();
         fd.append("file", file);
         fd.append("genre", genre || "detective_classico");
         fd.append("players", "4");
         fd.append("provider", provider);
-        const res = await fetch(`${baseUrl}/game/adventure/from-pdf`, { method: "POST", body: fd });
+        const res = await fetch(`${baseUrl}/game/adventure/from-pdf-async`, { method: "POST", body: fd });
         if (!res.ok) {
           if (res.status === 502 || res.status === 503 || res.status === 504)
             throw new Error(`Il server è in avvio o sovraccarico (HTTP ${res.status}). Riprova tra qualche secondo.`);
           let detail = "";
           try { detail = (await res.json())?.detail || ""; } catch (_) {}
-          throw new Error(detail || `Errore server (HTTP ${res.status}) durante la compilazione del PDF.`);
+          throw new Error(detail || `Errore server (HTTP ${res.status}) all'avvio della compilazione PDF.`);
         }
-        return res.json();
+        return res.json(); // { job_id, status }
       };
 
-      // Upload sul path diretto a Render, lo stesso che usa /game/adventure/create
-      // (la generazione per genere), che regge richieste lunghe. Se fallisce SUBITO
-      // con un errore di rete (path diretto non raggiungibile / CORS), ripiega sul
-      // proxy Vercel. Non ripieghiamo su fallimenti tardivi: la compilazione era in
-      // corso e rilanciarla raddoppierebbe solo tempo e costo LLM.
+      // Avvio sul path diretto (come /game/adventure/create); se fallisce SUBITO
+      // con errore di rete ripiega sul proxy Vercel.
       const uploadStart = Date.now();
-      let data;
+      let startRes, baseUsed = API_URL_DIRECT;
       try {
-        data = await postPdf(API_URL_DIRECT);
+        startRes = await startUpload(API_URL_DIRECT);
       } catch (e1) {
-        const elapsed = Date.now() - uploadStart;
-        if (isNetworkError(e1) && elapsed < 20000 && API_URL_DIRECT !== API_URL) {
-          console.warn(`[pdf] path diretto ko dopo ${elapsed}ms, ripiego sul proxy`, window.__lastFetchError);
-          data = await postPdf(API_URL);
+        if (isNetworkError(e1) && (Date.now() - uploadStart) < 20000 && API_URL_DIRECT !== API_URL) {
+          console.warn(`[pdf] avvio diretto ko, ripiego sul proxy`, window.__lastFetchError);
+          baseUsed = API_URL;
+          startRes = await startUpload(API_URL);
         } else {
           throw e1;
         }
       }
+      const jobId = startRes?.job_id;
+      if (startRes?.error) throw new Error(startRes.error);
+      if (!jobId) throw new Error("Backend non aggiornato: manca la compilazione asincrona. Attendi il nuovo deploy e riprova.");
+
+      // Polling dello stato: ogni 3s, finché done/error (deadline 8 min). Gli
+      // errori di rete transitori sul polling vengono ignorati e si ritenta.
+      let data = null;
+      const pollDeadline = Date.now() + 8 * 60 * 1000;
+      while (Date.now() < pollDeadline) {
+        await new Promise(r => setTimeout(r, 3000));
+        let st;
+        try { st = await fetch(`${baseUsed}/game/adventure/from-pdf-status/${jobId}`).then(r => r.json()); }
+        catch (_) { continue; }  // 502/HTML/rete transitoria → ritenta
+        if (st?.status === "done") { data = st.result; break; }
+        if (st?.status === "error") { data = st.result || { error: "Compilazione PDF fallita." }; break; }
+        if (st?.status === "not_found") throw new Error("Job di compilazione non trovato (il server potrebbe essere ripartito). Riprova.");
+        // pending → continua
+      }
+      if (!data) throw new Error("Timeout: la compilazione del PDF non si è conclusa in tempo. Riprova.");
       if (data.compilation_failed) {
         const gate = data.quality_gate || {};
         const critical = (gate.critical || []).map(c => `• ${c}`).join("\n");
