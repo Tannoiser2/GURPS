@@ -2636,6 +2636,9 @@ function SetupScreen({ onStart }) {
     try {
       if (file.size > VERCEL_PDF_UPLOAD_LIMIT_BYTES)
         throw new Error(`PDF troppo grande (${(file.size/1024/1024).toFixed(1)} MB). Limite: 4 MB.`);
+      // Sveglia il backend Render (free tier: dorme dopo 15 min) prima dell'upload
+      // multipart, altrimenti il cold-start fa fallire la fetch con "Load failed".
+      try { await safeFetch(`${API_URL_DIRECT}/health`, { signal: AbortSignal.timeout(70000) }); } catch (_) {}
       const fd = new FormData();
       fd.append("file", file);
       fd.append("genre", genre || "detective_classico");
