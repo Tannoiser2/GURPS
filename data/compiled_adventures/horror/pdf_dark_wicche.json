@@ -8637,7 +8637,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_a_profane_inferno"
       },
       {
         "id": "llm_clue_2",
@@ -8673,7 +8674,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_council_with_giebelstadt"
       },
       {
         "id": "llm_clue_3",
@@ -8709,7 +8711,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_fiery_man"
       },
       {
         "id": "llm_clue_4",
@@ -8745,7 +8748,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_corpse_theft"
       },
       {
         "id": "llm_clue_5",
@@ -8781,7 +8785,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_black_tobe_s_black_keep"
       },
       {
         "id": "llm_clue_6",
@@ -8817,7 +8822,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_audience_with_bishop_gerhard"
       },
       {
         "id": "llm_clue_7",
@@ -8853,7 +8859,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_audience_with_bishop_gerhard"
       },
       {
         "id": "llm_clue_8",
@@ -8889,7 +8896,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_black_tobe_s_black_keep"
       },
       {
         "id": "llm_clue_9",
@@ -8925,7 +8933,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_audience_with_bishop_gerhard"
       },
       {
         "id": "llm_clue_10",
@@ -8961,7 +8970,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_black_tobe_s_black_keep"
       },
       {
         "id": "llm_clue_11",
@@ -8997,7 +9007,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_council_with_giebelstadt"
       },
       {
         "id": "nuovo_clue_1",
@@ -9749,7 +9760,7 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "urban",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Città di 1.500 abitanti governata duramente dal cavaliere Wilhelm Geyer von Giebelstadt. Scenario di una recente rivolta",
         "gameplay_function": "Location iniziale dove i PG assistono all'omicidio del borgomastro Jakob e ricevono la missione di portare il corpo al vescovo",
@@ -10151,6 +10162,239 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_a_profane_inferno",
+        "name": "A Profane Inferno",
+        "description": "A Profane Inferno.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_council_with_giebelstadt",
+        "name": "Council with Giebelstadt",
+        "description": "Council with Giebelstadt.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2",
+          "llm_clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_fiery_man",
+        "name": "The Fiery Man",
+        "description": "The Fiery Man.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_corpse_theft",
+        "name": "Corpse Theft",
+        "description": "Corpse Theft.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_black_tobe_s_black_keep",
+        "name": "Black Tobe's Black Keep",
+        "description": "Black Tobe's Black Keep.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_5",
+          "llm_clue_8",
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_audience_with_bishop_gerhard",
+        "name": "Audience with Bishop Gerhard",
+        "description": "Audience with Bishop Gerhard.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_6",
+          "llm_clue_7",
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -14823,6 +15067,30 @@
         "access_state": "open"
       },
       "loc_road_to_bergtheim": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_a_profane_inferno": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_council_with_giebelstadt": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_fiery_man": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_corpse_theft": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_black_tobe_s_black_keep": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_audience_with_bishop_gerhard": {
         "status": "known",
         "access_state": "open"
       }

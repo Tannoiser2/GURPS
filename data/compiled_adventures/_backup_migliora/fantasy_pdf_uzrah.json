@@ -11,7 +11,7 @@
         "id": "actor_surrat",
         "name": "Surrat al-Risha",
         "role": "ally",
-        "location_id": "loc_canyon",
+        "location_id": "loc_loc_canyon",
         "description": "Guida allegra e chiacchierona. Conosce le leggende locali ma non i pericoli reali del canyon.",
         "motivation": "Essere pagato e tornare a casa con una buona storia da raccontare.",
         "secret": "Ha già guidato un gruppo in questa zona un anno fa. Non sono tornati.",
@@ -36,7 +36,7 @@
         "id": "actor_golem",
         "name": "Il Guardiano d'Ottone",
         "role": "antagonist",
-        "location_id": "loc_terza_sala",
+        "location_id": "loc_loc_terza_sala",
         "description": "Costrutto magico antico, creato da Uzrah per proteggere il tesoro. Segue istruzioni rigide: attacca chi non recita la formula.",
         "motivation": "Eseguire il mandato di Uzrah in eterno.",
         "secret": "Può essere temporaneamente disattivato pronunciando il nome di Uzrah al contrario.",
@@ -96,7 +96,7 @@
         "id": "actor_al_jarrakh",
         "name": "Al-Jarrakh il Re Stregone (voce dal libro)",
         "role": "antagonist",
-        "location_id": "loc_sala_tesoro",
+        "location_id": "loc_loc_sala_tesoro",
         "description": "Sorciere imprigionato nel libro da Uzrah. Parla con la voce del libro, seduce chi lo ascolta.",
         "motivation": "Essere liberato dal sigillo — prometterà qualsiasi cosa per uscire.",
         "secret": "Se liberato, ucciderà immediatamente il primo essere vivente che vede per recuperare forma corporea.",
@@ -152,7 +152,7 @@
         "id": "actor_djinn_minore",
         "name": "Djinn del Vento Secco",
         "role": "neutral",
-        "location_id": "loc_canyon",
+        "location_id": "loc_loc_canyon",
         "description": "Piccolo djinn che vive nel canyon. Noioso e pettegolo, sa molto sui pericoli del luogo.",
         "motivation": "Divertimento e curiosità. Baratterà informazioni per storie interessanti.",
         "secret": "Sa la parola di sigillo del libro — l'ha sentita pronunciare da Uzrah secoli fa.",
@@ -177,7 +177,7 @@
         "id": "actor_ladra",
         "name": "Miriam al-Khamis",
         "role": "neutral",
-        "location_id": "loc_ingresso_hall",
+        "location_id": "loc_loc_ingresso_hall",
         "description": "Ladra professionista. È arrivata prima dei PG e si è bloccata alla seconda trappola.",
         "motivation": "Il tesoro. Potrebbe allearsi con i PG o tradirli al momento giusto.",
         "secret": "Ha una mappa parziale dell'hall, rubata a un mercante di Mosul.",
@@ -207,7 +207,10 @@
         "exits": [
           "loc_ingresso_hall"
         ],
-        "is_starting_location": true
+        "is_starting_location": true,
+        "type": "entry",
+        "contains_actors": [],
+        "contains_clues": []
       },
       {
         "id": "loc_ingresso_hall",
@@ -217,7 +220,9 @@
           "loc_canyon",
           "loc_corridoio_trappole"
         ],
-        "is_starting_location": false
+        "is_starting_location": false,
+        "contains_actors": [],
+        "contains_clues": []
       },
       {
         "id": "loc_corridoio_trappole",
@@ -227,7 +232,9 @@
           "loc_ingresso_hall",
           "loc_sala_guardiano"
         ],
-        "is_starting_location": false
+        "is_starting_location": false,
+        "contains_actors": [],
+        "contains_clues": []
       },
       {
         "id": "loc_sala_guardiano",
@@ -237,7 +244,11 @@
           "loc_corridoio_trappole",
           "loc_sala_tesoro"
         ],
-        "is_starting_location": false
+        "is_starting_location": false,
+        "contains_actors": [],
+        "contains_clues": [
+          "clue_iscrizione_guardiano"
+        ]
       },
       {
         "id": "loc_sala_tesoro",
@@ -246,7 +257,171 @@
         "exits": [
           "loc_sala_guardiano"
         ],
-        "is_starting_location": false
+        "is_starting_location": false,
+        "contains_actors": [],
+        "contains_clues": []
+      },
+      {
+        "id": "loc_loc_canyon",
+        "name": "loc_canyon",
+        "description": "loc_canyon.",
+        "status": "known",
+        "contains_clues": [
+          "clue_foglio_strappato",
+          "clue_djinn_storia",
+          "clue_djinn_parola"
+        ],
+        "contains_actors": [
+          "actor_surrat",
+          "actor_djinn_minore"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_loc_terza_sala",
+        "name": "loc_terza_sala",
+        "description": "loc_terza_sala.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_golem"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_loc_sala_tesoro",
+        "name": "loc_sala_tesoro",
+        "description": "loc_sala_tesoro.",
+        "status": "known",
+        "contains_clues": [
+          "clue_voce_libro",
+          "clue_inventario_tesoro"
+        ],
+        "contains_actors": [
+          "actor_al_jarrakh"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_loc_ingresso_hall",
+        "name": "loc_ingresso_hall",
+        "description": "loc_ingresso_hall.",
+        "status": "known",
+        "contains_clues": [
+          "clue_mappa_miriam"
+        ],
+        "contains_actors": [
+          "actor_ladra"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "clues": [
@@ -256,7 +431,7 @@
         "type": "document",
         "description": "La pergamena che ha portato i PG qui. Contiene una formula parziale e il nome 'Al-Jarrakh'.",
         "reveals": "Il tesoro appartiene originariamente ad Al-Jarrakh — Uzrah lo rubò.",
-        "location_id": "loc_canyon",
+        "location_id": "loc_loc_canyon",
         "thread_ids": [
           "T_tesoro"
         ],
@@ -273,7 +448,7 @@
         "type": "testimony",
         "description": "Il djinn racconta della battaglia di mille anni fa tra due stregoni nel canyon. Uno fu imprigionato dall'altro in un libro.",
         "reveals": "Al-Jarrakh è imprigionato nel libro. Il libro è pericoloso.",
-        "location_id": "loc_canyon",
+        "location_id": "loc_loc_canyon",
         "thread_ids": [
           "T_libro",
           "T_pericolo"
@@ -291,7 +466,7 @@
         "type": "testimony",
         "description": "Il djinn, in cambio di una storia, rivela la parola di sigillo: 'Khabiru al-Sayf'.",
         "reveals": "Il libro può essere tenuto chiuso — e Al-Jarrakh imprigionato — usando la parola.",
-        "location_id": "loc_canyon",
+        "location_id": "loc_loc_canyon",
         "thread_ids": [
           "T_libro"
         ],
@@ -308,7 +483,7 @@
         "type": "document",
         "description": "Mostra le prime due sale e segna le trappole già disattivate.",
         "reveals": "La terza trappola è meccanica, non magica — bypassabile con attrezzatura.",
-        "location_id": "loc_ingresso_hall",
+        "location_id": "loc_loc_ingresso_hall",
         "thread_ids": [
           "T_trappole"
         ],
@@ -342,7 +517,7 @@
         "type": "testimony",
         "description": "Il libro parla quando avvicinato. Al-Jarrakh promette potere, ricchezze, la formula per liberarlo.",
         "reveals": "Al-Jarrakh è consciente e manipolatore — non va liberato.",
-        "location_id": "loc_sala_tesoro",
+        "location_id": "loc_loc_sala_tesoro",
         "thread_ids": [
           "T_libro",
           "T_pericolo"
@@ -360,7 +535,7 @@
         "type": "document",
         "description": "Un rotolo che cataloga il contenuto della sala. Nota: 'il libro è la chiave di tutte le porte — non aprirlo mai'.",
         "reveals": "Uzrah stesso sapeva del pericolo del libro e lo aveva nascosto appositamente.",
-        "location_id": "loc_sala_tesoro",
+        "location_id": "loc_loc_sala_tesoro",
         "thread_ids": [
           "T_tesoro",
           "T_libro"
@@ -557,7 +732,46 @@
     "definition_id": "pdf_uzrah",
     "clock_runtime": {},
     "found_clues": [],
-    "active_threads": []
+    "active_threads": [],
+    "location_runtime": {
+      "loc_canyon": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ingresso_hall": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_corridoio_trappole": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_guardiano": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_tesoro": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_loc_canyon": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_loc_terza_sala": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_loc_sala_tesoro": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_loc_ingresso_hall": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
+    "current_scene_id": "loc_canyon"
   },
   "validation_report": {
     "quality_gate": {

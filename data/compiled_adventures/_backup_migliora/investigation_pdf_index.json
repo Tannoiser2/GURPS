@@ -44443,7 +44443,8 @@
         "is_preserved_from_pdf": true,
         "inferred_payoff": true,
         "confidence": 0.9,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_saluto_dell_alba___preghiera"
       },
       {
         "id": "llm_clue_1",
@@ -44479,7 +44480,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_torre_dell_abate___padre_bre"
       },
       {
         "id": "llm_clue_2",
@@ -44515,7 +44517,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_monastero"
       },
       {
         "id": "llm_clue_3",
@@ -44551,7 +44554,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_cripta_eliodoro"
       },
       {
         "id": "llm_clue_4",
@@ -44587,7 +44591,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_torre_dell_abate___padre_bre"
       },
       {
         "id": "llm_clue_5",
@@ -44623,7 +44628,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_tempio_della_luce___fratello"
       },
       {
         "id": "llm_clue_6",
@@ -44659,7 +44665,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_scriptorium___fratello_drusi"
       },
       {
         "id": "llm_clue_7",
@@ -44695,7 +44702,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_monastero"
       },
       {
         "id": "llm_clue_8",
@@ -44731,7 +44739,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_giardino___mastro_folkart"
       },
       {
         "id": "llm_clue_9",
@@ -44767,7 +44776,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_biblioteca___sorella_genasia"
       },
       {
         "id": "llm_clue_10",
@@ -44803,7 +44813,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_refettorio_e_cucina___sorell"
       },
       {
         "id": "llm_clue_11",
@@ -44839,7 +44850,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_tempio_della_luce___fratello"
       },
       {
         "id": "llm_clue_12",
@@ -44875,7 +44887,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_dipendenze"
       },
       {
         "id": "llm_clue_13",
@@ -44911,7 +44924,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_aule_studio"
       }
     ],
     "actors": [
@@ -45853,7 +45867,7 @@
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "indoor",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Un antico monastero costruito sulle rovine della Fucina di Vecna, sul Monte Subasio. Luogo di studio e conservazione del",
         "gameplay_function": "Location iniziale dove i PG arrivano e affrontano monaci impazziti, poi base per le indagini",
@@ -45897,9 +45911,7 @@
         "name": "Biblioteca",
         "description": "Vasta biblioteca del monastero dove si conserva il sapere. Sorella Genasia gestisce il Grande Catalogo e aiuta nella consultazione dei libri antichi.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_9"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -45942,9 +45954,7 @@
         "name": "Scriptorium",
         "description": "Sala dedicata alla copiatura e produzione di manoscritti, gestita da Fratello Drusilio. Luogo di lavoro silenzioso dove i monaci trascrivono testi.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_6"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46033,10 +46043,7 @@
         "name": "Tempio della Luce",
         "description": "Luogo sacro consacrato alle divinità del Bene, gestito da Fratello Klaus. Centro spirituale dove si compie la Cerimonia della Nuova Luce.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_5",
-          "llm_clue_11"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46125,10 +46132,7 @@
         "name": "Torre dell'Abate",
         "description": "Torre privata di Padre Brennan, l'abate del monastero. Luogo di potere amministrativo e spirituale, ma l'abate si comporta stranamente.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_1",
-          "llm_clue_4"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46173,9 +46177,7 @@
         "name": "Refettorio e Cucina",
         "description": "Sale comuni dove i monaci consumano i pasti. Sorella Ludmilla, la celleraria, gestisce queste aree e sa molto su ciò che accade nel monastero.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_10"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46262,9 +46264,7 @@
         "name": "Giardino",
         "description": "Giardini del monastero curati da Mastro Folkart. Luogo di quiete e bellezza naturale, ma anche teatro di intrighi amorosi e segreti.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_8"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -46347,6 +46347,313 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_saluto_dell_alba___preghiera",
+        "name": "SALUTO DELL’ALBA - preghiera agli Dei della contempo nascondere, isolare e sorvegliare il Libro",
+        "description": "SALUTO DELL’ALBA - preghiera agli Dei della contempo nascondere, isolare e sorvegliare il Libro.",
+        "status": "known",
+        "contains_clues": [
+          "p114_clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_torre_dell_abate___padre_bre",
+        "name": "Torre dell'Abate / Padre Brennan",
+        "description": "Torre dell'Abate / Padre Brennan.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1",
+          "llm_clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_monastero",
+        "name": "Monastero",
+        "description": "Monastero.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2",
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_tempio_della_luce___fratello",
+        "name": "Tempio della Luce / Fratello Klaus",
+        "description": "Tempio della Luce / Fratello Klaus.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_5",
+          "llm_clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_scriptorium___fratello_drusi",
+        "name": "Scriptorium / Fratello Drusilio",
+        "description": "Scriptorium / Fratello Drusilio.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_giardino___mastro_folkart",
+        "name": "Giardino / Mastro Folkart",
+        "description": "Giardino / Mastro Folkart.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_8"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_biblioteca___sorella_genasia",
+        "name": "Biblioteca / Sorella Genasia",
+        "description": "Biblioteca / Sorella Genasia.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_refettorio_e_cucina___sorell",
+        "name": "Refettorio e Cucina / Sorella Ludmilla",
+        "description": "Refettorio e Cucina / Sorella Ludmilla.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -64388,6 +64695,38 @@
         "access_state": "open"
       },
       "loc_dipendenze": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_saluto_dell_alba___preghiera": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_torre_dell_abate___padre_bre": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_monastero": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_tempio_della_luce___fratello": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_scriptorium___fratello_drusi": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_giardino___mastro_folkart": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_biblioteca___sorella_genasia": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_refettorio_e_cucina___sorell": {
         "status": "known",
         "access_state": "open"
       }

@@ -11030,7 +11030,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_a_precarious_start_the_handl"
       },
       {
         "id": "llm_clue_2",
@@ -11066,7 +11067,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_skeet_skitshaw"
       },
       {
         "id": "llm_clue_3",
@@ -11102,7 +11104,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_danieli_house"
       },
       {
         "id": "llm_clue_4",
@@ -11138,7 +11141,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_dinner_interrupted"
       },
       {
         "id": "llm_clue_5",
@@ -11174,7 +11178,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_desperation_of_vipers"
       },
       {
         "id": "llm_clue_6",
@@ -11210,7 +11215,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_desperation_of_vipers"
       },
       {
         "id": "llm_clue_7",
@@ -11246,7 +11252,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_calcata_vecchia"
       },
       {
         "id": "llm_clue_8",
@@ -11282,7 +11289,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_desperation_of_vipers"
       },
       {
         "id": "llm_clue_9",
@@ -11318,7 +11326,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_entering_calcata_vecchia"
       },
       {
         "id": "llm_clue_10",
@@ -11354,7 +11363,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_desperation_of_vipers"
       },
       {
         "id": "llm_clue_11",
@@ -11390,7 +11400,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_entering_calcata_vecchia"
       },
       {
         "id": "nuovo_clue_1",
@@ -12117,7 +12128,7 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "vehicle",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Aereo civile in volo da Roma a Milano ad 8.000 piedi di altitudine. Atmosfera tesa con una situazione di stallo armato i",
         "gameplay_function": "Location iniziale dove i PG affrontano Skeet Skitshaw e la sua ragazza in uno scontro a fuoco ad alta quota",
@@ -12164,11 +12175,7 @@
         "name": "Calcata",
         "description": "Antica città arroccata su una scogliera in Italia. Qui i PG incontrano una giovane donna che chiede aiuto per salvare suo padre.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_7",
-          "llm_clue_9",
-          "llm_clue_11"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
@@ -12376,6 +12383,276 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_a_precarious_start_the_handl",
+        "name": "A Precarious Start THE HANDLEY PAGE W.8F",
+        "description": "A Precarious Start THE HANDLEY PAGE W.8F.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_skeet_skitshaw",
+        "name": "SKEET SKITSHAW",
+        "description": "SKEET SKITSHAW.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_danieli_house",
+        "name": "The Danieli House",
+        "description": "The Danieli House.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_dinner_interrupted",
+        "name": "Dinner Interrupted",
+        "description": "Dinner Interrupted.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_desperation_of_vipers",
+        "name": "THE DESPERATION OF VIPERS",
+        "description": "THE DESPERATION OF VIPERS.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_5",
+          "llm_clue_6",
+          "llm_clue_8",
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_calcata_vecchia",
+        "name": "Calcata Vecchia",
+        "description": "Calcata Vecchia.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_entering_calcata_vecchia",
+        "name": "Entering Calcata Vecchia",
+        "description": "Entering Calcata Vecchia.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_9",
+          "llm_clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -17650,6 +17927,34 @@
         "access_state": "open"
       },
       "loc_tomb_hetshepsut": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_a_precarious_start_the_handl": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_skeet_skitshaw": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_danieli_house": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_dinner_interrupted": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_desperation_of_vipers": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_calcata_vecchia": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_entering_calcata_vecchia": {
         "status": "known",
         "access_state": "open"
       }

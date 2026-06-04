@@ -155,7 +155,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_cifrato"
       },
       {
         "id": "clue_2",
@@ -190,7 +191,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_radio_principale"
       },
       {
         "id": "clue_3",
@@ -226,7 +228,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_generatore"
       },
       {
         "id": "clue_4",
@@ -261,7 +264,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_dormitorio_comune"
       },
       {
         "id": "clue_5",
@@ -296,7 +300,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_cifrato"
       },
       {
         "id": "clue_6",
@@ -331,7 +336,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_dormitorio_comune"
       },
       {
         "id": "nuovo_clue_1",
@@ -507,7 +513,7 @@
         "id": "npc_1",
         "name": "Bruna Vescovi",
         "role": "Archivista delle trasmissioni cifrate",
-        "location_id": "Archivio Cifrato",
+        "location_id": "loc_archivio_cifrato",
         "status": "unintroduced",
         "goal": "Salvare sua figlia Marta, prigioniera dei fascisti, anche a costo della propria vita e di quella degli altri",
         "secret": "Ha trasmesso le coordinate del palazzo e sabotato il generatore per sigillare il bunker dall'interno prima che la rete partigiana scoprisse il tradimento",
@@ -554,7 +560,7 @@
         "id": "npc_2",
         "name": "Aldo Grimani",
         "role": "Tecnico delle comunicazioni",
-        "location_id": "Sala Generatore",
+        "location_id": "loc_sala_generatore",
         "status": "unintroduced",
         "goal": "Uscire vivo e punire il traditore per vendicare i compagni morti nel bombardamento",
         "secret": "Ha visto Bruna entrare nella sala del generatore poco prima del raid, ma non l'ha denunciata perché lei gli aveva salvato la vita sei mesi prima durante un rastrellamento",
@@ -601,7 +607,7 @@
         "id": "npc_3",
         "name": "Livia Santoro",
         "role": "Operatrice radio e medico di fortuna",
-        "location_id": "Infermeria di Fortuna",
+        "location_id": "loc_infermeria_di_fortuna",
         "status": "unintroduced",
         "goal": "Mantenere l'ordine e la razionalità, evitare che la paranoia uccida più del collasso",
         "secret": "È una spia della rete partigiana, infiltrata per sorvegliare Bruna che era già sospettata. Non ha denunciato il sabotaggio perché voleva scoprire l'intera rete di collaboratori.",
@@ -648,7 +654,7 @@
         "id": "npc_4",
         "name": "Cesare Battisti",
         "role": "Operatore radio anziano",
-        "location_id": "Dormitorio Comune",
+        "location_id": "loc_dormitorio_comune",
         "status": "unintroduced",
         "goal": "Confessare i peccati e morire in pace — è stanco della guerra",
         "secret": "Ha rubato metà delle razioni la prima notte per barattarle con i fascisti se qualcuno riuscisse a scavare, ma il crollo ha vanificato il piano",
@@ -695,40 +701,30 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_archivio_cifrato",
+        "name": "Archivio Cifrato",
+        "description": "Archivio Cifrato.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -743,43 +739,149 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sala_generatore",
+        "name": "Sala Generatore",
+        "description": "Sala Generatore.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_infermeria_di_fortuna",
+        "name": "Infermeria di Fortuna",
+        "description": "Infermeria di Fortuna.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_dormitorio_comune",
+        "name": "Dormitorio Comune",
+        "description": "Dormitorio Comune.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_radio_principale",
+        "name": "Sala Radio Principale",
+        "description": "Sala Radio Principale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -794,121 +896,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2063,7 +2051,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_59b5c50280",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_archivio_cifrato",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2138,19 +2126,23 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_archivio_cifrato": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_sala_generatore": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_infermeria_di_fortuna": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_dormitorio_comune": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_radio_principale": {
         "status": "known",
         "access_state": "open"
       }

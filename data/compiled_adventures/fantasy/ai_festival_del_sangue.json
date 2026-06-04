@@ -216,7 +216,8 @@
           "Un vandalo lascia simboli casuali"
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "location_id": "loc_inn_room"
       },
       {
         "id": "clue_horace_history",
@@ -245,7 +246,8 @@
           "È opera di un singolo serial killer che agisce ogni cinque anni"
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "location_id": "loc_market_square"
       },
       {
         "id": "clue_vane_lineage",
@@ -273,7 +275,8 @@
           "È coincidenza"
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "location_id": "loc_city_archive"
       },
       {
         "id": "clue_cult_records",
@@ -302,7 +305,8 @@
           "È un falso creato da nemici politici per screditare la famiglia Vane"
         ],
         "source_status": "generated",
-        "confidence": 0.95
+        "confidence": 0.95,
+        "location_id": "loc_vane_mansion"
       },
       {
         "id": "clue_tunnel_entrance",
@@ -332,7 +336,8 @@
           "Sono tunnel di contrabbando usati da criminali comuni"
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "location_id": "loc_city_fountain"
       },
       {
         "id": "clue_survivor_cry",
@@ -358,7 +363,8 @@
           "Eco del vento"
         ],
         "source_status": "generated",
-        "confidence": 0.85
+        "confidence": 0.85,
+        "location_id": "loc_city_fountain"
       },
       {
         "id": "clue_ancient_text",
@@ -387,7 +393,8 @@
           "L'entità ha cambiato natura nel tempo e ora richiede sangue per forza"
         ],
         "source_status": "generated",
-        "confidence": 0.9
+        "confidence": 0.9,
+        "location_id": "loc_tunnel_chamber"
       },
       {
         "id": "clue_entity_communication",
@@ -415,7 +422,8 @@
           "È un'illusione creata dal culto per proteggere i propri segreti"
         ],
         "source_status": "generated",
-        "confidence": 0.85
+        "confidence": 0.85,
+        "location_id": "loc_tunnel_sanctum"
       },
       {
         "id": "clue_red_herring_rivalry",
@@ -440,7 +448,8 @@
           "Esiste una rete criminale separata che opera durante il festival"
         ],
         "source_status": "generated",
-        "confidence": 0.8
+        "confidence": 0.8,
+        "location_id": "loc_market_square"
       }
     ],
     "actors": [
@@ -448,7 +457,7 @@
         "id": "actor_vane",
         "name": "Sindaco Aldric Vane",
         "role": "antagonist",
-        "location_id": "festival_center",
+        "location_id": "loc_festival_center",
         "status": "introduced",
         "goal": "Completare il festival e mantenere il ciclo di sacrifici per la prosperità della città",
         "secret": "Guida le Acque Profonde da 30 anni. Crede genuinamente di proteggere la città.",
@@ -523,7 +532,7 @@
         "id": "actor_horace",
         "name": "Horace il Gioielliere",
         "role": "ally",
-        "location_id": "market_square",
+        "location_id": "loc_market_square",
         "status": "introduced",
         "goal": "Fermare le scomparse una volta per tutte",
         "secret": "Ha già provato a denunciare e non è stato creduto — sa di rischiare la vita a parlare",
@@ -565,7 +574,7 @@
         "id": "actor_mira",
         "name": "Mira (prima vittima)",
         "role": "victim",
-        "location_id": "tunnel_cells",
+        "location_id": "loc_tunnel_cells",
         "status": "unintroduced",
         "goal": "Sopravvivere",
         "secret": "Ha visto il volto di chi l'ha rapita",
@@ -625,13 +634,11 @@
         "name": "Camera dell'Osteria — Stanza di Mira",
         "description": "Camera vuota. Finestra aperta. Sul davanzale, il simbolo dell'onda nera.",
         "status": "known",
-        "contains_clues": [
-          "clue_cult_symbol"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "location",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Stanza osteria medievale, letto disfatto, finestra aperta",
         "gameplay_function": "Punto di partenza, primo clue",
@@ -656,13 +663,8 @@
         "name": "Piazza del Mercato",
         "description": "Il cuore del festival. Bancarelle, musica, danze. Horace ha il suo banco di gioielli.",
         "status": "known",
-        "contains_clues": [
-          "clue_horace_history",
-          "clue_red_herring_rivalry"
-        ],
-        "contains_actors": [
-          "actor_horace"
-        ],
+        "contains_clues": [],
+        "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "location",
@@ -696,9 +698,7 @@
         "name": "Archivio Cittadino",
         "description": "Edificio polveroso con registri storici. Il bibliotecario è cooperativo se i PG sembrano studiosi.",
         "status": "known",
-        "contains_clues": [
-          "clue_vane_lineage"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -728,9 +728,7 @@
         "name": "Villa del Sindaco Vane",
         "description": "Villa elegante. Vane è spesso fuori durante il festival. La stanza chiusa a chiave contiene il registro.",
         "status": "known",
-        "contains_clues": [
-          "clue_cult_records"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [
@@ -767,10 +765,7 @@
         "name": "Fontana Centrale di Varenmoor",
         "description": "Grande fontana nel centro della piazza. Decorata con il simbolo dell'onda. Di notte, si sentono voci faint dal basso.",
         "status": "known",
-        "contains_clues": [
-          "clue_tunnel_entrance",
-          "clue_survivor_cry"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -806,9 +801,7 @@
         "name": "Tunnel sotto la Fontana — Celle",
         "description": "Sistema di tunnel in pietra. Celle con sbarre dove sono tenuti Mira e un secondo prigioniero. Torce sui muri.",
         "status": "hidden",
-        "contains_clues": [
-          "clue_ancient_text"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [
@@ -844,9 +837,7 @@
         "name": "Santuario dell'Entità",
         "description": "La camera più profonda. Una vasca di acqua nera pulsante. L'entità è percepibile come presenza nell'acqua.",
         "status": "hidden",
-        "contains_clues": [
-          "clue_entity_communication"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [
@@ -876,6 +867,352 @@
         "tactical_features": [],
         "source_status": "generated",
         "confidence": 0.9
+      },
+      {
+        "id": "loc_festival_center",
+        "name": "festival_center",
+        "description": "festival_center.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_vane"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_market_square",
+        "name": "market_square",
+        "description": "market_square.",
+        "status": "known",
+        "contains_clues": [
+          "clue_horace_history",
+          "clue_red_herring_rivalry"
+        ],
+        "contains_actors": [
+          "actor_horace"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_tunnel_cells",
+        "name": "tunnel_cells",
+        "description": "tunnel_cells.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "actor_mira"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_inn_room",
+        "name": "inn_room",
+        "description": "inn_room.",
+        "status": "known",
+        "contains_clues": [
+          "clue_cult_symbol"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_city_archive",
+        "name": "city_archive",
+        "description": "city_archive.",
+        "status": "known",
+        "contains_clues": [
+          "clue_vane_lineage"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_vane_mansion",
+        "name": "vane_mansion",
+        "description": "vane_mansion.",
+        "status": "known",
+        "contains_clues": [
+          "clue_cult_records"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_city_fountain",
+        "name": "city_fountain",
+        "description": "city_fountain.",
+        "status": "known",
+        "contains_clues": [
+          "clue_tunnel_entrance",
+          "clue_survivor_cry"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_tunnel_chamber",
+        "name": "tunnel_chamber",
+        "description": "tunnel_chamber.",
+        "status": "known",
+        "contains_clues": [
+          "clue_ancient_text"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_tunnel_sanctum",
+        "name": "tunnel_sanctum",
+        "description": "tunnel_sanctum.",
+        "status": "known",
+        "contains_clues": [
+          "clue_entity_communication"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -1036,7 +1373,7 @@
   },
   "runtime_state": {
     "definition_id": "ai_festival_del_sangue",
-    "current_scene_id": null,
+    "current_scene_id": "inn_room",
     "active_objective_ids": [
       "obj_investigate_disappearance"
     ],
@@ -1050,7 +1387,72 @@
     "resolved_revelation_ids": [],
     "actor_runtime": {},
     "faction_runtime": {},
-    "location_runtime": {},
+    "location_runtime": {
+      "inn_room": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "market_square": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "city_archive": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "vane_mansion": {
+        "status": "known",
+        "access_state": "restricted"
+      },
+      "city_fountain": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "tunnel_chamber": {
+        "status": "hidden",
+        "access_state": "locked"
+      },
+      "tunnel_sanctum": {
+        "status": "hidden",
+        "access_state": "open"
+      },
+      "loc_festival_center": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_market_square": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_tunnel_cells": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_inn_room": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_city_archive": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_vane_mansion": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_city_fountain": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_tunnel_chamber": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_tunnel_sanctum": {
+        "status": "known",
+        "access_state": "open"
+      }
+    },
     "clock_runtime": {
       "clock_ritual": {
         "value": 0,

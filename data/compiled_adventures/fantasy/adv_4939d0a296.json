@@ -168,7 +168,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_degli_archivi"
       },
       {
         "id": "clue_2",
@@ -203,7 +204,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_degli_archivi"
       },
       {
         "id": "clue_3",
@@ -239,7 +241,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sacello_delle_reliquie"
       },
       {
         "id": "clue_4",
@@ -275,7 +278,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sacello_delle_reliquie"
       },
       {
         "id": "clue_5",
@@ -310,7 +314,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cortile_del_pellegrino"
       },
       {
         "id": "clue_6",
@@ -345,7 +350,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_refettorio_dei_pellegrini"
       },
       {
         "id": "clue_7",
@@ -545,7 +551,7 @@
         "id": "npc_aldric",
         "name": "Frate Aldric del Culto Riformato",
         "role": "Committente e traditore nascosto",
-        "location_id": "Cortile del Pellegrino",
+        "location_id": "loc_cortile_del_pellegrino",
         "status": "unintroduced",
         "goal": "Vuole che i Valnir prendano il controllo del Santuario per accedere alle rotte commerciali e arricchirsi come loro agente",
         "secret": "È un agente della Casata Valnir infiltrato nel Culto Riformato. Ha fatto introdurre il Sudario falsificato tre mesi fa. La sua vera missione è far scoprire il gruppo durante il furto per giustificare l'intervento militare.",
@@ -592,7 +598,7 @@
         "id": "npc_mirael",
         "name": "Suor Mirael, Custode delle Reliquie",
         "role": "Antagonista iniziale che diventa alleata potenziale",
-        "location_id": "Sacello delle Reliquie",
+        "location_id": "loc_sacello_delle_reliquie",
         "status": "unintroduced",
         "goal": "Proteggere il Santuario e le sue reliquie a ogni costo — ma cerca anche la verità sulla recente 'donazione' del Sudario",
         "secret": "Ha scoperto tre settimane fa che il Sudario è un falso, ma non ha prove su chi l'abbia introdotto. Sta conducendo indagini segrete e sospetta un complotto dei Valnir.",
@@ -639,7 +645,7 @@
         "id": "npc_torvald",
         "name": "Fratello Torvald, Archivista",
         "role": "Testimone inconsapevole e custode dei registri contabili",
-        "location_id": "Sala degli Archivi",
+        "location_id": "loc_sala_degli_archivi",
         "status": "unintroduced",
         "goal": "Preservare la memoria storica del Santuario e vivere i suoi ultimi anni in pace",
         "secret": "Ha visto mercenari con l'emblema Valnir consegnare 'donazioni' a Frate Aldric due mesi fa, ma ha pensato fosse normale amministrazione",
@@ -686,7 +692,7 @@
         "id": "npc_kasimir",
         "name": "Kasimir il Mercante",
         "role": "Pellegrino sospetto con informazioni chiave",
-        "location_id": "Refettorio dei Pellegrini",
+        "location_id": "loc_refettorio_dei_pellegrini",
         "status": "unintroduced",
         "goal": "Vuole completare un affare segreto coi Guardiani della Fiamma prima dell'alba",
         "secret": "Ha scoperto per caso la presenza di mercenari Valnir nascosti nella Foresteria Ovest e teme per la sua vita. Sa che sono arrivati ieri notte.",
@@ -733,52 +739,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Punto di osservazione",
-        "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+        "id": "loc_cortile_del_pellegrino",
+        "name": "Cortile del Pellegrino",
+        "description": "Cortile del Pellegrino.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_aldric"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -787,61 +770,39 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Ingresso di servizio",
-        "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+        "id": "loc_sacello_delle_reliquie",
+        "name": "Sacello delle Reliquie",
+        "description": "Sacello delle Reliquie.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3",
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_mirael"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -849,64 +810,40 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Sicurezza interna",
-        "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+        "id": "loc_sala_degli_archivi",
+        "name": "Sala degli Archivi",
+        "description": "Sala degli Archivi.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_torvald"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -914,65 +851,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Bersaglio: Sudario Cenere Siete già dentro mura",
-        "description": "Bersaglio: Sudario Cenere Siete già dentro mura: nodo giocabile della struttura heist.",
+        "id": "loc_refettorio_dei_pellegrini",
+        "name": "Refettorio dei Pellegrini",
+        "description": "Refettorio dei Pellegrini.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_kasimir"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Bersaglio: Sudario Cenere Siete già dentro mura: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -980,81 +891,14 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_3",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_5"
-        ],
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Via di estrazione",
-        "description": "Via di estrazione: nodo giocabile della struttura heist.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_3",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2251,7 +2095,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_ce2e74612e",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_cortile_del_pellegrino",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2327,23 +2171,19 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_cortile_del_pellegrino": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_sacello_delle_reliquie": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_sala_degli_archivi": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
-        "status": "known",
-        "access_state": "open"
-      },
-      "loc_ai_5": {
+      "loc_refettorio_dei_pellegrini": {
         "status": "known",
         "access_state": "open"
       }

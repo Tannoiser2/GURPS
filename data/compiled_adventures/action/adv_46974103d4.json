@@ -155,7 +155,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_del_consiglio_sindacale"
       },
       {
         "id": "clue_2",
@@ -190,7 +191,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_del_municipio"
       },
       {
         "id": "clue_3",
@@ -225,7 +227,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cantiere_navale__officina_me"
       },
       {
         "id": "clue_4",
@@ -261,7 +264,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_magazzino_doganale_7"
       },
       {
         "id": "clue_5",
@@ -296,7 +300,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_obitorio_centrale"
       },
       {
         "id": "clue_6",
@@ -331,7 +336,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cantiere_navale__container_a"
       },
       {
         "id": "clue_7",
@@ -507,7 +513,7 @@
         "id": "npc_1",
         "name": "Nadja Korsik",
         "role": "Vice-segretaria del Sindacato, ora reggente",
-        "location_id": "Sala del Consiglio Sindacale",
+        "location_id": "loc_sala_del_consiglio_sindacale",
         "status": "unintroduced",
         "goal": "Consolidare il potere sindacale e la propria leadership salvando l'accordo che garantisce lavoro a 2000 famiglie",
         "secret": "Ha avvelenato Viktor Havel con digitalina dosata gradualmente attraverso il suo inalatore per l'asma, sostituito 5 giorni fa",
@@ -554,7 +560,7 @@
         "id": "npc_2",
         "name": "Gregor Malitz",
         "role": "Assessore comunale alle Infrastrutture",
-        "location_id": "Municipio di Korsova",
+        "location_id": "loc_municipio_di_korsova",
         "status": "unintroduced",
         "goal": "Impedire che emergano i rapporti falsificati del 2019 che lo collegherebbero al disastro della raffineria",
         "secret": "Ha ricevuto 200.000 corone da Leonid Voss per certificare come 'incidente' quello che era sabotaggio industriale per frodare le assicurazioni",
@@ -601,7 +607,7 @@
         "id": "npc_3",
         "name": "Petra Havel",
         "role": "Figlia di Viktor, ingegnere navale",
-        "location_id": "Cantiere Navale Occidentale",
+        "location_id": "loc_cantiere_navale_occidentale",
         "status": "unintroduced",
         "goal": "Scoprire cosa è successo a suo padre e vendicarlo, anche se significa far crollare il Sindacato che lui ha costruito",
         "secret": "Possiede il diario personale del padre con annotazioni sull'incontro segreto con Voss, ma non si fida di nessuno abbastanza per mostrarlo",
@@ -648,7 +654,7 @@
         "id": "npc_4",
         "name": "Dottor Emil Kross",
         "role": "Medico legale municipale",
-        "location_id": "Obitorio Centrale",
+        "location_id": "loc_obitorio_centrale",
         "status": "unintroduced",
         "goal": "Fare il proprio lavoro senza finire in mezzo a qualcosa più grande di lui, proteggere la pensione a un anno dalla quiescenza",
         "secret": "Ha ricevuto una telefonata da 'qualcuno in alto' che gli ha 'suggerito' di diagnosticare arresto cardiaco naturale senza autopsia approfondita",
@@ -695,40 +701,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sala_del_consiglio_sindacale",
+        "name": "Sala del Consiglio Sindacale",
+        "description": "Sala del Consiglio Sindacale.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -743,43 +738,146 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_municipio_di_korsova",
+        "name": "Municipio di Korsova",
+        "description": "Municipio di Korsova.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cantiere_navale_occidentale",
+        "name": "Cantiere Navale Occidentale",
+        "description": "Cantiere Navale Occidentale.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_obitorio_centrale",
+        "name": "Obitorio Centrale",
+        "description": "Obitorio Centrale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivio_del_municipio",
+        "name": "Archivio del Municipio",
+        "description": "Archivio del Municipio.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -794,43 +892,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_cantiere_navale__officina_me",
+        "name": "Cantiere Navale, officina meccanica",
+        "description": "Cantiere Navale, officina meccanica.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_3"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -845,55 +930,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_magazzino_doganale_7",
+        "name": "Magazzino Doganale 7",
+        "description": "Magazzino Doganale 7.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_4"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -908,7 +968,45 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cantiere_navale__container_a",
+        "name": "Cantiere Navale, container abitativo di Petra",
+        "description": "Cantiere Navale, container abitativo di Petra.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2039,7 +2137,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_4c88cb6d68",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_del_consiglio_sindacale",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2114,19 +2212,35 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_del_consiglio_sindacale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_municipio_di_korsova": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_cantiere_navale_occidentale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_obitorio_centrale": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_archivio_del_municipio": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cantiere_navale__officina_me": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_magazzino_doganale_7": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cantiere_navale__container_a": {
         "status": "known",
         "access_state": "open"
       }

@@ -10552,7 +10552,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_wreck_of_the_firedancer"
       },
       {
         "id": "llm_clue_2",
@@ -10588,7 +10589,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_beach_of_bones"
       },
       {
         "id": "llm_clue_3",
@@ -10624,7 +10626,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_z_thngora_s_half_fort_pirate"
       },
       {
         "id": "llm_clue_4",
@@ -10660,7 +10663,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_z_thngora_s_half_fort_pirate"
       },
       {
         "id": "llm_clue_5",
@@ -10696,7 +10700,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_night_at_the_half_fort"
       },
       {
         "id": "llm_clue_6",
@@ -10732,7 +10737,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_night_at_the_half_fort"
       },
       {
         "id": "llm_clue_7",
@@ -10768,7 +10774,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_night_at_the_half_fort"
       },
       {
         "id": "llm_clue_8",
@@ -10804,7 +10811,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_night_at_the_half_fort"
       },
       {
         "id": "llm_clue_9",
@@ -10840,7 +10848,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_night_at_the_half_fort"
       },
       {
         "id": "llm_clue_10",
@@ -10876,7 +10885,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_z_thngora_s_half_fort_pirate"
       },
       {
         "id": "llm_clue_11",
@@ -10912,7 +10922,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_night_at_the_half_fort"
       },
       {
         "id": "llm_clue_12",
@@ -10948,7 +10959,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_night_at_the_half_fort"
       }
     ],
     "actors": [
@@ -11188,7 +11200,7 @@
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "outdoor",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Un'insenatura naturale dove la Green Serpent approda. La spiaggia orientale è disseminata di ossa sbiancate dal sole, pr",
         "gameplay_function": "Punto di arrivo iniziale, osservazione dell'isola, pianificazione dell'esplorazione",
@@ -11228,11 +11240,7 @@
         "name": "Z'thngora's Half-Fort",
         "description": "Cinque piccole strutture di un piano costruite dieci anni fa dal Capitano Jal Z'thngora vicino a una cascata. Un muro di palizzata incompleto circonda parzialmente l'insediamento abbandonato.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_3",
-          "llm_clue_4",
-          "llm_clue_10"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -11280,9 +11288,7 @@
         "name": "Wreck of the Firedancer",
         "description": "I resti semi-sommersi dello sloop Firedancer, la nave del Capitano Jal Z'thngora, visibile vicino alla spiaggia settentrionale dell'insenatura. La nave fu distrutta dieci anni fa.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_1"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -11402,6 +11408,166 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_the_wreck_of_the_firedancer",
+        "name": "The Wreck of the Firedancer",
+        "description": "The Wreck of the Firedancer.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_beach_of_bones",
+        "name": "The Beach of Bones",
+        "description": "The Beach of Bones.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_z_thngora_s_half_fort_pirate",
+        "name": "Z'thngora's Half-fort Pirate Camp",
+        "description": "Z'thngora's Half-fort Pirate Camp.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3",
+          "llm_clue_4",
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_night_at_the_half_fort",
+        "name": "Night at the Half-Fort",
+        "description": "Night at the Half-Fort.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_5",
+          "llm_clue_6",
+          "llm_clue_7",
+          "llm_clue_8",
+          "llm_clue_9",
+          "llm_clue_11",
+          "llm_clue_12"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -16182,6 +16348,22 @@
         "access_state": "open"
       },
       "green_serpent": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_wreck_of_the_firedancer": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_beach_of_bones": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_z_thngora_s_half_fort_pirate": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_night_at_the_half_fort": {
         "status": "known",
         "access_state": "open"
       }

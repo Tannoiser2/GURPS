@@ -170,7 +170,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sede_del_consorzio___sala_co"
       },
       {
         "id": "clue_2",
@@ -205,7 +206,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_locanda_del_piccone___sala_c"
       },
       {
         "id": "clue_3",
@@ -241,7 +243,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sede_del_consorzio___ufficio"
       },
       {
         "id": "clue_4",
@@ -276,7 +279,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_locanda_del_piccone___stanza"
       },
       {
         "id": "clue_5",
@@ -311,7 +315,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_locanda_del_piccone___stanza_2"
       },
       {
         "id": "clue_6",
@@ -346,7 +351,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_campo_minatori___mensa"
       },
       {
         "id": "clue_7",
@@ -522,7 +528,7 @@
         "id": "npc_varic",
         "name": "Varic Tarn",
         "role": "Rappresentante del Consorzio Minerario e committente dei PG",
-        "location_id": "Sede del Consorzio — Sala Contratti",
+        "location_id": "loc_sede_del_consorzio___sala_co",
         "status": "unintroduced",
         "goal": "Proteggere il proprio impero criminale nascosto dietro il Consorzio, eliminare Maren Kol prima che parli",
         "secret": "Ha ordinato il crollo della galleria est per seppellire 17 minatori che avevano scoperto la vena di cristallo sanguesucchio. Sta usando i PG come copertura per il suo piano di incastrare Maren.",
@@ -569,7 +575,7 @@
         "id": "npc_maren",
         "name": "Maren Kol",
         "role": "Capo del Sindacato dei Minatori",
-        "location_id": "Locanda del Piccone — Stanza Privata",
+        "location_id": "loc_locanda_del_piccone___stanza",
         "status": "unintroduced",
         "goal": "Smascherare il Consorzio per il massacro di Fossa Nera e proteggere i minatori rimasti",
         "secret": "Ha infiltrato un informatore nella miniera sigillata e possiede campioni di cristallo sanguesucchio come prova, ma Drevik l'ha tradita e Varic sa che ha le prove",
@@ -616,7 +622,7 @@
         "id": "npc_drevik",
         "name": "Drevik Sarn",
         "role": "Vice-sindacalista e braccio destro di Maren",
-        "location_id": "Locanda del Piccone — Sala Comune",
+        "location_id": "loc_locanda_del_piccone___sala_c",
         "status": "unintroduced",
         "goal": "Prendere il posto di Maren come leader sindacale grazie all'oro di Varic",
         "secret": "È stato comprato dal Consorzio: sta sabotando i negoziati per far sembrare Maren instabile e consegnarla a Varic come 'terrorista' che minaccia la pace",
@@ -663,7 +669,7 @@
         "id": "npc_ilsa",
         "name": "Ilsa Gren",
         "role": "Vedova di un minatore morto nel crollo, ora informatore clandestino di Maren",
-        "location_id": "Campo Minatori — Mensa",
+        "location_id": "loc_campo_minatori___mensa",
         "status": "unintroduced",
         "goal": "Vendicare la morte del marito e proteggere il figlio di 8 anni, tenuto in ostaggio dalla milizia di Varic",
         "secret": "Ha visto Varic ordinare di sigillare la galleria mentre i minatori erano ancora dentro, ma se parla suo figlio muore",
@@ -710,40 +716,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sede_del_consorzio___sala_co",
+        "name": "Sede del Consorzio — Sala Contratti",
+        "description": "Sede del Consorzio — Sala Contratti.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "npc_varic"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -758,43 +753,150 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_locanda_del_piccone___stanza",
+        "name": "Locanda del Piccone — Stanza Privata",
+        "description": "Locanda del Piccone — Stanza Privata.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_maren"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_locanda_del_piccone___sala_c",
+        "name": "Locanda del Piccone — Sala Comune",
+        "description": "Locanda del Piccone — Sala Comune.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_drevik"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_campo_minatori___mensa",
+        "name": "Campo Minatori — Mensa",
+        "description": "Campo Minatori — Mensa.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_ilsa"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sede_del_consorzio___ufficio",
+        "name": "Sede del Consorzio — Ufficio Amministrativo",
+        "description": "Sede del Consorzio — Ufficio Amministrativo.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -809,43 +911,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_locanda_del_piccone___stanza_2",
+        "name": "Locanda del Piccone — Stanza di Drevik",
+        "description": "Locanda del Piccone — Stanza di Drevik.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_5"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -860,70 +949,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2111,7 +2137,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_2361753aaf",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sede_del_consorzio___sala_co",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2187,19 +2213,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sede_del_consorzio___sala_co": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_locanda_del_piccone___stanza": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_locanda_del_piccone___sala_c": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_campo_minatori___mensa": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sede_del_consorzio___ufficio": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_locanda_del_piccone___stanza_2": {
         "status": "known",
         "access_state": "open"
       }

@@ -156,7 +156,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_controllo_principale"
       },
       {
         "id": "clue_2",
@@ -191,7 +192,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_mensa_operai"
       },
       {
         "id": "clue_3",
@@ -227,7 +229,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_principale"
       },
       {
         "id": "clue_4",
@@ -263,7 +266,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_principale"
       },
       {
         "id": "clue_5",
@@ -298,7 +302,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_livello_2"
       },
       {
         "id": "clue_6",
@@ -333,7 +338,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_comando_sicurezza"
       },
       {
         "id": "clue_7",
@@ -509,7 +515,7 @@
         "id": "npc_1",
         "name": "Yara Kovin",
         "role": "Contatto della Coalizione (falso) / Traditrice",
-        "location_id": "Sala server principale",
+        "location_id": "loc_sala_server_principale",
         "status": "unintroduced",
         "goal": "Rubare il database biometrico e venderlo al Cartello Serpens",
         "secret": "Ha sabotato lei stessa i reattori per creare caos e coprire il furto dei dati. Non lavora per la Coalizione.",
@@ -556,7 +562,7 @@
         "id": "npc_2",
         "name": "Malik Rhen",
         "role": "Capo della sicurezza della stazione",
-        "location_id": "Centro comando sicurezza",
+        "location_id": "loc_centro_comando_sicurezza",
         "status": "unintroduced",
         "goal": "Proteggere la stazione e catturare i sabotatori (cioè voi)",
         "secret": "Sa che c'è un infiltrato del sindacato, ma non sa che siete voi. Sta interrogando tutti.",
@@ -603,7 +609,7 @@
         "id": "npc_3",
         "name": "Irina Voss",
         "role": "Tecnica del turno di notte, testimone chiave",
-        "location_id": "Mensa operai",
+        "location_id": "loc_mensa_operai",
         "status": "unintroduced",
         "goal": "Sopravvivere e capire chi ha condannato tutti a morte",
         "secret": "Ha visto Yara uscire dal settore reattori poco prima del sabotaggio, ma Yara le ha detto di non dirlo a nessuno 'per la sua sicurezza'",
@@ -650,7 +656,7 @@
         "id": "npc_4",
         "name": "Dr. Soren Tal",
         "role": "Medico della stazione, moralista",
-        "location_id": "Infermeria livello 2",
+        "location_id": "loc_infermeria_livello_2",
         "status": "unintroduced",
         "goal": "Salvare quante più vite possibile, anche a costo di collaborare con gli infiltrati",
         "secret": "Ha trovato tracce di esplosivo biologico nei filtri dell'aria — il sabotaggio è stato fatto da un professionista, non un incidente",
@@ -697,52 +703,30 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura military_operation.",
+        "id": "loc_sala_server_principale",
+        "name": "Sala server principale",
+        "description": "Sala server principale.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3",
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -751,61 +735,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura military_operation.",
+        "id": "loc_centro_comando_sicurezza",
+        "name": "Centro comando sicurezza",
+        "description": "Centro comando sicurezza.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -813,65 +774,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura military_operation.",
+        "id": "loc_mensa_operai",
+        "name": "Mensa operai",
+        "description": "Mensa operai.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -879,65 +814,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura military_operation.",
+        "id": "loc_infermeria_livello_2",
+        "name": "Infermeria livello 2",
+        "description": "Infermeria livello 2.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -945,66 +854,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Finale",
-        "description": "Finale: nodo giocabile della struttura military_operation.",
+        "id": "loc_sala_controllo_principale",
+        "name": "Sala controllo principale",
+        "description": "Sala controllo principale.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Finale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1012,16 +892,14 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2138,7 +2016,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_b210b35969",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_server_principale",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2213,23 +2091,23 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_server_principale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_centro_comando_sicurezza": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_mensa_operai": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_infermeria_livello_2": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_sala_controllo_principale": {
         "status": "known",
         "access_state": "open"
       }

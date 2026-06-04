@@ -160,7 +160,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_degli_interrogatori"
       },
       {
         "id": "clue_2",
@@ -195,7 +196,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_celle_sotterranee"
       },
       {
         "id": "clue_3",
@@ -231,7 +233,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_del_contratto"
       },
       {
         "id": "clue_4",
@@ -266,7 +269,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_fornace_centrale"
       },
       {
         "id": "clue_5",
@@ -301,7 +305,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_dormitori_delle_reclute"
       },
       {
         "id": "clue_6",
@@ -336,7 +341,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_celle_sotterranee"
       },
       {
         "id": "clue_7",
@@ -536,7 +542,7 @@
         "id": "npc_1",
         "name": "Valdris Kerne",
         "role": "Mandante traditore",
-        "location_id": "Sala del Contratto",
+        "location_id": "loc_sala_del_contratto",
         "status": "unintroduced",
         "goal": "Salvare suo fratello gemello Torvald, unico testimone dell'omicidio del Duca, e fuggire dal Ducato prima che Hael li elimini entrambi",
         "secret": "Ha piazzato lui il cadavere del capomastro con il simbolo dei PG per creare il panico. Non gli interessa il sabotaggio — vuole solo il caos per liberare Torvald durante l'evacuazione.",
@@ -583,7 +589,7 @@
         "id": "npc_2",
         "name": "Capitano Korvan Hael",
         "role": "Antagonista principale",
-        "location_id": "Quartier Generale del Capitano",
+        "location_id": "loc_quartier_generale_del_capita",
         "status": "unintroduced",
         "goal": "Mantenere il controllo della gilda e nascondere l'omicidio del Duca, che ha compiuto per impedire la nazionalizzazione delle miniere",
         "secret": "Ha ucciso il Duca di Ferronero tre mesi fa durante una trattativa segreta. Torvald Kerne, scriba presente, è l'unico testimone sopravvissuto, imprigionato nelle celle.",
@@ -630,7 +636,7 @@
         "id": "npc_3",
         "name": "Maestra Fyra Dennel",
         "role": "Falso sospettato / capo fornace",
-        "location_id": "Fornace Centrale",
+        "location_id": "loc_fornace_centrale",
         "status": "unintroduced",
         "goal": "Proteggere i suoi operai e impedire che la Fornace venga sabotata, credendo i PG siano davvero infiltrati nemici",
         "secret": "Ha scoperto le irregolarità contabili di Hael (vendite di armi a fazioni ribelli), ma teme di denunciarlo perché sua figlia è ostaggio come 'apprendista' nel quartier generale.",
@@ -677,7 +683,7 @@
         "id": "npc_4",
         "name": "Torvald Kerne",
         "role": "Testimone chiave / prigioniero",
-        "location_id": "Celle Sotterranee",
+        "location_id": "loc_celle_sotterranee",
         "status": "unintroduced",
         "goal": "Sopravvivere e testimoniare contro Hael per vendicare il Duca, a cui era fedele",
         "secret": "Possiede un anello sigillo del Duca con inciso il verbale cifrato dell'incontro fatale, nascosto sotto una pietra nella sua cella.",
@@ -724,52 +730,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Punto di osservazione",
-        "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+        "id": "loc_sala_del_contratto",
+        "name": "Sala del Contratto",
+        "description": "Sala del Contratto.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -778,61 +761,36 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Ingresso di servizio",
-        "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+        "id": "loc_quartier_generale_del_capita",
+        "name": "Quartier Generale del Capitano",
+        "description": "Quartier Generale del Capitano.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -840,64 +798,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Sicurezza interna",
-        "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+        "id": "loc_fornace_centrale",
+        "name": "Fornace Centrale",
+        "description": "Fornace Centrale.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -905,65 +838,40 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Bersaglio: Fornace Discordia Siete già dentro",
-        "description": "Bersaglio: Fornace Discordia Siete già dentro: nodo giocabile della struttura heist.",
+        "id": "loc_celle_sotterranee",
+        "name": "Celle Sotterranee",
+        "description": "Celle Sotterranee.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Bersaglio: Fornace Discordia Siete già dentro: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -971,65 +879,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Via di estrazione",
-        "description": "Via di estrazione: nodo giocabile della struttura heist.",
+        "id": "loc_sala_degli_interrogatori",
+        "name": "Sala degli Interrogatori",
+        "description": "Sala degli Interrogatori.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1037,16 +917,52 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_dormitori_delle_reclute",
+        "name": "Dormitori delle Reclute",
+        "description": "Dormitori delle Reclute.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2212,7 +2128,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_f90ca34b18",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_del_contratto",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2287,23 +2203,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_del_contratto": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_quartier_generale_del_capita": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_fornace_centrale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_celle_sotterranee": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_sala_degli_interrogatori": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_dormitori_delle_reclute": {
         "status": "known",
         "access_state": "open"
       }

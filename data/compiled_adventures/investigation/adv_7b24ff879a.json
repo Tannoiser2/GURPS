@@ -168,7 +168,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_comando_del_cantie"
       },
       {
         "id": "clue_2",
@@ -204,7 +205,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_di_controllo_sicurezza"
       },
       {
         "id": "clue_3",
@@ -239,7 +241,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_baraccamento_tecnici"
       },
       {
         "id": "clue_4",
@@ -274,7 +277,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_perimetro_esterno_del_cantie"
       },
       {
         "id": "clue_5",
@@ -309,7 +313,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_del_leviatano"
       },
       {
         "id": "clue_6",
@@ -344,7 +349,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_del_leviatano"
       },
       {
         "id": "clue_7",
@@ -379,7 +385,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_comando_del_cantie"
       },
       {
         "id": "clue_8",
@@ -414,7 +421,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_alloggi_dei_mercenari__canti"
       },
       {
         "id": "clue_9",
@@ -449,7 +457,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_condotti_di_ventilazione_del"
       },
       {
         "id": "clue_10",
@@ -484,7 +493,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_punto_di_partenza"
       },
       {
         "id": "clue_11",
@@ -684,7 +694,7 @@
         "id": "npc_1",
         "name": "Dottor Kael Voss",
         "role": "Coordinatore scientifico della missione (IL TRADITORE)",
-        "location_id": "Centro di comando del cantiere",
+        "location_id": "loc_centro_di_comando_del_cantie",
         "status": "unintroduced",
         "goal": "Distruggere ogni prova del programma Specchio Nero che lo identifica come Soggetto Zero",
         "secret": "È il primo successo del programma, dotato di memoria eidetica e resistenza al dolore. Ha fondato la Fondazione Verità per controllare chi cerca la verità su Specchio Nero",
@@ -731,7 +741,7 @@
         "id": "npc_2",
         "name": "Indra Halim",
         "role": "Tecnico di recupero, sopravvissuta al massacro",
-        "location_id": "Baraccamento tecnici",
+        "location_id": "loc_baraccamento_tecnici",
         "status": "unintroduced",
         "goal": "Sopravvivere e capire chi ha ucciso i suoi colleghi",
         "secret": "Ha visto uno dei mercenari ricevere ordini via radio da qualcuno con 'voce calma, come un dottore'. Non ha ancora collegato a Voss",
@@ -778,7 +788,7 @@
         "id": "npc_3",
         "name": "Capitano Nils Torvald",
         "role": "Ex-ufficiale della marina, ora capo sicurezza del cantiere",
-        "location_id": "Torre di guardia principale",
+        "location_id": "loc_torre_di_guardia_principale",
         "status": "unintroduced",
         "goal": "Proteggere ciò che resta del suo equipaggio (i tecnici sopravvissuti)",
         "secret": "Trent'anni fa era sul convoglio che scortava il Leviatano quando affondò. Ha sempre sospettato che non fosse un incidente. Sta indagando di nascosto",
@@ -825,7 +835,7 @@
         "id": "npc_4",
         "name": "Zhen 'Mantide' Qiao",
         "role": "Comandante del team mercenario",
-        "location_id": "Perimetro esterno del cantiere",
+        "location_id": "loc_perimetro_esterno_del_cantie",
         "status": "unintroduced",
         "goal": "Completare il contratto: eliminare testimoni, recuperare documenti specifici per il cliente (Voss)",
         "secret": "È anche lei una sopravvissuta di Specchio Nero (Soggetto Sedici). Lavora per Voss perché lui le ha promesso i dati per rintracciare gli altri soggetti ancora vivi",
@@ -872,7 +882,7 @@
         "id": "npc_5",
         "name": "Dott.ssa Aya Okonkwo",
         "role": "Archivista capo del Leviatano (morta, ma lascia tracce cruciali)",
-        "location_id": "Sala server del Leviatano",
+        "location_id": "loc_sala_server_del_leviatano",
         "status": "dead",
         "goal": "(da viva) Assicurarsi che la verità emergesse anche se il Leviatano fosse stato compromesso",
         "secret": "Nei suoi ultimi minuti ha caricato una copia criptata dei dossier su un server remoto. La chiave di decrittazione è nascosta nel suo diario personale",
@@ -919,7 +929,7 @@
         "id": "npc_6",
         "name": "Lior Ashkenazi",
         "role": "Giornalista investigativo embedded con la squadra di recupero",
-        "location_id": "Ponte principale del Leviatano",
+        "location_id": "loc_ponte_principale_del_leviata",
         "status": "unintroduced",
         "goal": "Ottenere la storia del secolo e vincere il premio giornalistico che gli è sempre sfuggito",
         "secret": "È stato contattato anonimamente da qualcuno (Voss) che gli ha 'suggerito' di unirsi alla spedizione. Non sa di essere una pedina per rendere credibile la 'tragedia accidentale' che Voss sta orchestrando",
@@ -966,7 +976,7 @@
         "id": "npc_7",
         "name": "Yuki 'Ingranaggio' Sato",
         "role": "Ingegnere di sistema, unico altro sopravvissuto oltre Indra",
-        "location_id": "Condotti di ventilazione del cantiere",
+        "location_id": "loc_condotti_di_ventilazione_del",
         "status": "unintroduced",
         "goal": "Restare nascosto fino all'arrivo dei soccorsi",
         "secret": "Ha visto Voss entrare nella sala server del Leviatano PRIMA che arrivassero i mercenari. Non capisce cosa significhi, ma ha paura a dirlo",
@@ -1013,56 +1023,30 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Punto di partenza",
-        "description": "Punto di partenza: nodo giocabile della struttura survival_escape.",
+        "id": "loc_centro_di_comando_del_cantie",
+        "name": "Centro di comando del cantiere",
+        "description": "Centro di comando del cantiere.",
         "status": "known",
         "contains_clues": [
-          "clue_10"
+          "clue_1",
+          "clue_7"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Punto di partenza: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
-        "clue_slots": [
-          "clue_10"
-        ],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "clue_slots": [],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1071,61 +1055,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Percorso rapido",
-        "description": "Percorso rapido: nodo giocabile della struttura survival_escape.",
+        "id": "loc_baraccamento_tecnici",
+        "name": "Baraccamento tecnici",
+        "description": "Baraccamento tecnici.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Percorso rapido: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1133,65 +1094,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Nodo sicuro",
-        "description": "Nodo sicuro: nodo giocabile della struttura survival_escape.",
+        "id": "loc_torre_di_guardia_principale",
+        "name": "Torre di guardia principale",
+        "description": "Torre di guardia principale.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo sicuro: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1199,65 +1132,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_5"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona pericolosa",
-        "description": "Zona pericolosa: nodo giocabile della struttura survival_escape.",
+        "id": "loc_perimetro_esterno_del_cantie",
+        "name": "Perimetro esterno del cantiere",
+        "description": "Perimetro esterno del cantiere.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona pericolosa: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1265,64 +1172,40 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_2",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_5"
-        ],
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Uscita contestata",
-        "description": "Uscita contestata: nodo giocabile della struttura survival_escape.",
+        "id": "loc_sala_server_del_leviatano",
+        "name": "Sala server del Leviatano",
+        "description": "Sala server del Leviatano.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_5",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_5"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Uscita contestata: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1330,16 +1213,206 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_3",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_4"
-        ],
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ponte_principale_del_leviata",
+        "name": "Ponte principale del Leviatano",
+        "description": "Ponte principale del Leviatano.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_6"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_condotti_di_ventilazione_del",
+        "name": "Condotti di ventilazione del cantiere",
+        "description": "Condotti di ventilazione del cantiere.",
+        "status": "known",
+        "contains_clues": [
+          "clue_9"
+        ],
+        "contains_actors": [
+          "npc_7"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_di_controllo_sicurezza",
+        "name": "Sala di controllo sicurezza del cantiere",
+        "description": "Sala di controllo sicurezza del cantiere.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_alloggi_dei_mercenari__canti",
+        "name": "Alloggi dei mercenari (cantiere)",
+        "description": "Alloggi dei mercenari (cantiere).",
+        "status": "known",
+        "contains_clues": [
+          "clue_8"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_punto_di_partenza",
+        "name": "Punto di partenza",
+        "description": "Punto di partenza.",
+        "status": "known",
+        "contains_clues": [
+          "clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2787,7 +2860,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_7b24ff879a",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_centro_di_comando_del_cantie",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2905,23 +2978,43 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_centro_di_comando_del_cantie": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_baraccamento_tecnici": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_torre_di_guardia_principale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_perimetro_esterno_del_cantie": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_sala_server_del_leviatano": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ponte_principale_del_leviata": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_condotti_di_ventilazione_del": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_di_controllo_sicurezza": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_alloggi_dei_mercenari__canti": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_punto_di_partenza": {
         "status": "known",
         "access_state": "open"
       }

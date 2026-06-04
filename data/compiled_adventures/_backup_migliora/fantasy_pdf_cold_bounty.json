@@ -7144,7 +7144,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_old_cave"
       },
       {
         "id": "llm_clue_2",
@@ -7180,7 +7181,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_search_for_survivors"
       },
       {
         "id": "llm_clue_3",
@@ -7216,7 +7218,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_mine_of_davinn_kahr"
       },
       {
         "id": "llm_clue_4",
@@ -7252,7 +7255,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_fat_farlsbag"
       },
       {
         "id": "llm_clue_5",
@@ -7288,7 +7292,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_search_for_survivors"
       },
       {
         "id": "llm_clue_6",
@@ -7324,7 +7329,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_storm_arrives"
       },
       {
         "id": "llm_clue_7",
@@ -7360,7 +7366,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_sorcerers_of_the_white_c"
       },
       {
         "id": "llm_clue_8",
@@ -7396,7 +7403,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_mind_controlled_slaves"
       },
       {
         "id": "llm_clue_9",
@@ -7432,7 +7440,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_mine_of_davinn_kahr"
       },
       {
         "id": "llm_clue_10",
@@ -7468,7 +7477,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_search_for_survivors"
       },
       {
         "id": "llm_clue_11",
@@ -7504,7 +7514,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_search_for_survivors"
       }
     ],
     "actors": [
@@ -8108,7 +8119,7 @@
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "outdoor",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Un campo di battaglia ghiacciato nelle montagne settentrionali di Zarak dove oltre cento uomini e orchi giacciono morti ",
         "gameplay_function": "Location iniziale dove i PG riprendono coscienza, cercano sopravvissuti, recuperano equipaggiamento e devono decidere dove andare prima dell'arrivo della tempesta.",
@@ -8271,6 +8282,238 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_search_for_survivors",
+        "name": "Search for Survivors",
+        "description": "Search for Survivors.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2",
+          "llm_clue_5",
+          "llm_clue_10",
+          "llm_clue_11"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_mine_of_davinn_kahr",
+        "name": "The Mine of Davinn-Kahr",
+        "description": "The Mine of Davinn-Kahr.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3",
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_fat_farlsbag",
+        "name": "Fat Farlsbag",
+        "description": "Fat Farlsbag.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_storm_arrives",
+        "name": "The Storm Arrives",
+        "description": "The Storm Arrives.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_sorcerers_of_the_white_c",
+        "name": "The Sorcerers of the White Crystal Peaks",
+        "description": "The Sorcerers of the White Crystal Peaks.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_mind_controlled_slaves",
+        "name": "Mind-controlled Slaves",
+        "description": "Mind-controlled Slaves.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_8"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -12145,6 +12388,30 @@
         "access_state": "open"
       },
       "loc_white_crystal_spire": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_search_for_survivors": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_mine_of_davinn_kahr": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_fat_farlsbag": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_storm_arrives": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_sorcerers_of_the_white_c": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_mind_controlled_slaves": {
         "status": "known",
         "access_state": "open"
       }

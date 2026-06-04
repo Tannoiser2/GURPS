@@ -154,7 +154,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_vostra_nave"
       },
       {
         "id": "clue_2",
@@ -189,7 +190,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_ponte_della_chrysalis"
       },
       {
         "id": "clue_3",
@@ -224,7 +226,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_ponte_di_comando_della_vostr"
       },
       {
         "id": "clue_4",
@@ -259,7 +262,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_vostra_nave"
       },
       {
         "id": "clue_5",
@@ -294,7 +298,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_vostra_nave"
       },
       {
         "id": "clue_6",
@@ -329,7 +334,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_della_vostra_nav"
       },
       {
         "id": "clue_7",
@@ -529,7 +535,7 @@
         "id": "npc_1",
         "name": "Dottoressa Imani Okoye",
         "role": "Superstite xenolinguista, unica testimone della Chrysalis",
-        "location_id": "Infermeria della vostra nave",
+        "location_id": "loc_infermeria_della_vostra_nave",
         "status": "unintroduced",
         "goal": "Vuole disperatamente distruggere il dispositivo quantico prima che altri subiscano il suo destino",
         "secret": "Ha già ascoltato troppo a lungo le voci — sta lentamente trasformandosi in un nodo alieno e lo sa. Cerca di completare una procedura di autodistruzione neurale prima di perdere il controllo",
@@ -576,7 +582,7 @@
         "id": "npc_2",
         "name": "Capitano Yuri Volkov",
         "role": "Mercenario veterano che si offre di aiutarvi contro Helix",
-        "location_id": "Ponte di comando della vostra nave",
+        "location_id": "loc_ponte_di_comando_della_vostr",
         "status": "unintroduced",
         "goal": "Sostiene di odiare Helix per aver tradito il suo vecchio team — ma è tutto falso",
         "secret": "È un agente dormiente Helix infiltrato. Il suo compito: recuperare il dispositivo, eliminare i testimoni e garantire che nessuno pubblichi le traduzioni",
@@ -623,7 +629,7 @@
         "id": "npc_3",
         "name": "Ammiraglio Shen Kurata",
         "role": "Comandante della nave Helix in avvicinamento",
-        "location_id": "Nave Helix Persecutor",
+        "location_id": "loc_nave_helix_persecutor",
         "status": "unintroduced",
         "goal": "Recuperare il dispositivo per ordine del Consorzio — vede i PG come ostacoli da rimuovere",
         "secret": "Non è d'accordo con il progetto psionico di Helix, ma è ricattabile: il Consorzio ha prove fabbricate di crimini di guerra contro di lei",
@@ -670,7 +676,7 @@
         "id": "npc_4",
         "name": "Tecnico Ravi Chandra",
         "role": "Membro sopravvissuto dell'equipaggio Chrysalis, trovato in criostasi",
-        "location_id": "Capsula criogenica nel relitto",
+        "location_id": "loc_capsula_criogenica_nel_relit",
         "status": "unintroduced",
         "goal": "Ricorda frammenti della sabotaggio Helix — vuole testimoniare, ma ha paura",
         "secret": "Ha visto Volkov a bordo della Chrysalis durante il sabotaggio, ma il trauma lo ha fatto sopprimere il ricordo fino a quando non vede di nuovo il suo volto",
@@ -717,40 +723,31 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_infermeria_della_vostra_nave",
+        "name": "Infermeria della vostra nave",
+        "description": "Infermeria della vostra nave.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -765,43 +762,146 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_ponte_di_comando_della_vostr",
+        "name": "Ponte di comando della vostra nave",
+        "description": "Ponte di comando della vostra nave.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_nave_helix_persecutor",
+        "name": "Nave Helix Persecutor",
+        "description": "Nave Helix Persecutor.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_capsula_criogenica_nel_relit",
+        "name": "Capsula criogenica nel relitto",
+        "description": "Capsula criogenica nel relitto.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ponte_della_chrysalis",
+        "name": "Ponte della Chrysalis",
+        "description": "Ponte della Chrysalis.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -816,43 +916,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sala_server_della_vostra_nav",
+        "name": "Sala server della vostra nave",
+        "description": "Sala server della vostra nave.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_6"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -867,70 +954,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2114,7 +2138,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_abac638ff3",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_infermeria_della_vostra_nave",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2189,19 +2213,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_infermeria_della_vostra_nave": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_ponte_di_comando_della_vostr": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_nave_helix_persecutor": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_capsula_criogenica_nel_relit": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ponte_della_chrysalis": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_server_della_vostra_nav": {
         "status": "known",
         "access_state": "open"
       }

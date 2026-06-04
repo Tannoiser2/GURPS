@@ -170,7 +170,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_fucina_del_villaggio"
       },
       {
         "id": "clue_2",
@@ -205,7 +206,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_stanza_di_irmentraud"
       },
       {
         "id": "clue_3",
@@ -240,7 +242,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_dell_abbazia"
       },
       {
         "id": "clue_4",
@@ -275,7 +278,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cappella_dell_abbazia"
       },
       {
         "id": "clue_5",
@@ -310,7 +314,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cripta_inferiore"
       },
       {
         "id": "clue_6",
@@ -345,7 +350,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_dell_abbazia"
       },
       {
         "id": "clue_7",
@@ -380,7 +386,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_stanza_di_irmentraud"
       },
       {
         "id": "clue_8",
@@ -415,7 +422,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_reliquiario_dell_abbazia"
       },
       {
         "id": "clue_9",
@@ -450,7 +458,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sagrestia_dell_abbazia"
       },
       {
         "id": "clue_10",
@@ -485,7 +494,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_apertura"
       },
       {
         "id": "clue_11",
@@ -685,7 +695,7 @@
         "id": "npc_sibylle",
         "name": "Badessa Sibylle Korven",
         "role": "Guida spirituale del villaggio e alleata iniziale",
-        "location_id": "Cappella dell'Abbazia",
+        "location_id": "loc_cappella_dell_abbazia",
         "status": "unintroduced",
         "goal": "Preservare il patto per proteggere Graustein, convinta che il sacrificio di pochi salvi molti",
         "secret": "È la discendente diretta di Maelis Korven e custode consapevole del patto. Ha avvelenato Irmentraud per impedirle di spezzare il sigillo. Sta guidando i PG verso una soluzione falsa.",
@@ -732,7 +742,7 @@
         "id": "npc_irmentraud",
         "name": "Irmentraud Voss",
         "role": "Archivista cieca dell'abbazia",
-        "location_id": "Archivio dell'Abbazia",
+        "location_id": "loc_archivio_dell_abbazia",
         "status": "unintroduced",
         "goal": "Spezzare il patto prima di morire, anche se significa sacrificare la propria vita e quella del villaggio",
         "secret": "È stata avvelenata lentamente da Sibylle con polvere di digitale. Sa dove si trovano i tre Ancoraggi del Patto. Ha nascosto indizi in codice Braille negli archivi.",
@@ -779,7 +789,7 @@
         "id": "npc_henrik",
         "name": "Henrik Dahl",
         "role": "Fabbro del villaggio e padre di uno dei bambini scomparsi",
-        "location_id": "Fucina del Villaggio",
+        "location_id": "loc_fucina_del_villaggio",
         "status": "unintroduced",
         "goal": "Salvare sua figlia Greta a qualsiasi costo, anche uccidendo chi si mette in mezzo",
         "secret": "Ha scoperto che Sibylle benedice i bambini prima che scompaiano. Sospetta di lei ma ha paura di accusare una Badessa.",
@@ -826,7 +836,7 @@
         "id": "npc_ludmilla",
         "name": "Ludmilla Falk",
         "role": "Levatrice e guaritrice del villaggio",
-        "location_id": "Casa della Levatrice",
+        "location_id": "loc_casa_della_levatrice",
         "status": "unintroduced",
         "goal": "Scoprire perché il veleno nelle tisane di Irmentraud non appare nei registri ufficiali",
         "secret": "Ha fornito inconsapevolmente la digitale a Sibylle, credendo fosse per curare l'insonnia. Ora sospetta la verità e si sente complice.",
@@ -873,7 +883,7 @@
         "id": "npc_tobias",
         "name": "Tobias Dern",
         "role": "Sagrestano e custode della cripta",
-        "location_id": "Sagrestia dell'Abbazia",
+        "location_id": "loc_sagrestia_dell_abbazia",
         "status": "unintroduced",
         "goal": "Mantenere segreti i passaggi sotto l'abbazia per proteggere la propria posizione",
         "secret": "Ha visto Sibylle scendere nella cripta proibita tre volte nell'ultima settimana. Ricatta sottilmente l'abbazia per ottenere favori.",
@@ -920,7 +930,7 @@
         "id": "npc_greta",
         "name": "Greta Dahl",
         "role": "Bambina prigioniera del Custode (ancora viva)",
-        "location_id": "Cripta Inferiore",
+        "location_id": "loc_cripta_inferiore",
         "status": "unintroduced",
         "goal": "Tornare da suo padre e raccontare 'i segreti che le ombre le hanno sussurrato'",
         "secret": "Ha sentito le anime corrotte parlare nei loro lamenti: conosce i nomi di tutti i bambini sacrificati e dove si trovano gli Ancoraggi",
@@ -967,7 +977,7 @@
         "id": "npc_maelis",
         "name": "Eco di Maelis Korven",
         "role": "Manifestazione spettrale della Badessa fondatrice",
-        "location_id": "Reliquiario dell'Abbazia",
+        "location_id": "loc_reliquiario_dell_abbazia",
         "status": "unintroduced",
         "goal": "Impedire che il patto venga spezzato, perché significherebbe ammettere che ha condannato centinaia di innocenti per nulla",
         "secret": "Non è un fantasma vero: è una proiezione psichica del Custode, costruita sui sensi di colpa dei discendenti Korven",
@@ -1014,9 +1024,327 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
+        "id": "loc_cappella_dell_abbazia",
+        "name": "Cappella dell'Abbazia",
+        "description": "Cappella dell'Abbazia.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_sibylle"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "entry",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivio_dell_abbazia",
+        "name": "Archivio dell'Abbazia",
+        "description": "Archivio dell'Abbazia.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_irmentraud"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_fucina_del_villaggio",
+        "name": "Fucina del Villaggio",
+        "description": "Fucina del Villaggio.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "npc_henrik"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_casa_della_levatrice",
+        "name": "Casa della Levatrice",
+        "description": "Casa della Levatrice.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_ludmilla"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sagrestia_dell_abbazia",
+        "name": "Sagrestia dell'Abbazia",
+        "description": "Sagrestia dell'Abbazia.",
+        "status": "known",
+        "contains_clues": [
+          "clue_9"
+        ],
+        "contains_actors": [
+          "npc_tobias"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cripta_inferiore",
+        "name": "Cripta Inferiore",
+        "description": "Cripta Inferiore.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_greta"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_reliquiario_dell_abbazia",
+        "name": "Reliquiario dell'Abbazia",
+        "description": "Reliquiario dell'Abbazia.",
+        "status": "known",
+        "contains_clues": [
+          "clue_8"
+        ],
+        "contains_actors": [
+          "npc_maelis"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_stanza_di_irmentraud",
+        "name": "Stanza di Irmentraud",
+        "description": "Stanza di Irmentraud.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2",
+          "clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_apertura",
         "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura horror_survival.",
+        "description": "Apertura.",
         "status": "known",
         "contains_clues": [
           "clue_10"
@@ -1025,84 +1353,16 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "entry",
-        "access_state": "open",
-        "visual_identity": "Apertura: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [
-          "clue_10"
-        ],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura horror_survival.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1117,121 +1377,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura horror_survival.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Luogo sociale: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura horror_survival.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2739,7 +2885,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_162144c0a6",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_cappella_dell_abbazia",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2857,19 +3003,39 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_cappella_dell_abbazia": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_archivio_dell_abbazia": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_fucina_del_villaggio": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_casa_della_levatrice": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sagrestia_dell_abbazia": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cripta_inferiore": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_reliquiario_dell_abbazia": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_stanza_di_irmentraud": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_apertura": {
         "status": "known",
         "access_state": "open"
       }

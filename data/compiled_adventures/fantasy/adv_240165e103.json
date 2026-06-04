@@ -169,7 +169,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_cella_del_priore"
       },
       {
         "id": "clue_2",
@@ -204,7 +205,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_scriptorium"
       },
       {
         "id": "clue_3",
@@ -239,7 +241,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_scriptorium"
       },
       {
         "id": "clue_4",
@@ -275,7 +278,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_giardino_dei_sussurri"
       },
       {
         "id": "clue_5",
@@ -310,7 +314,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_giardino_dei_sussurri"
       },
       {
         "id": "clue_6",
@@ -346,7 +351,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_del_trattato"
       },
       {
         "id": "clue_7",
@@ -570,7 +576,7 @@
         "id": "npc_1",
         "name": "Ser Valen Morholt",
         "role": "Committente — comandante della guardia di Brumespine",
-        "location_id": "Sala del Trattato",
+        "location_id": "loc_sala_del_trattato",
         "status": "unintroduced",
         "goal": "Proteggere sé stesso e la duchessa attuale dal crollo politico che seguirebbe alla verità sull'omicidio di Aldric",
         "secret": "Ha ucciso personalmente il priore Oswin strangolando con un filo di seta per simulare un suicidio rituale, dopo aver scoperto che Oswin aveva decifrato i registri criptati",
@@ -617,7 +623,7 @@
         "id": "npc_2",
         "name": "Lady Indira Falx",
         "role": "Inviata diplomatica della Contea di Verziere",
-        "location_id": "Giardino dei Sussurri",
+        "location_id": "loc_giardino_dei_sussurri",
         "status": "unintroduced",
         "goal": "Firmare il trattato per salvare la propria famiglia dal crollo economico — il traffico d'armi finanziava i debiti di gioco di suo fratello",
         "secret": "Sa che Morholt ha ucciso il priore, ma finge di crederlo innocente. Ha offerto ai PG l'incarico tramite Morholt per avere capri espiatori esterni se tutto fallisce",
@@ -664,7 +670,7 @@
         "id": "npc_3",
         "name": "Frate Idris Corvino",
         "role": "Custode degli archivi del monastero",
-        "location_id": "Archivio Scriptorium",
+        "location_id": "loc_archivio_scriptorium",
         "status": "unintroduced",
         "goal": "Proteggere gli altri monaci tenuti prigionieri nelle celle sotto il monastero — sa chi ha ucciso Oswin ma tace per non condannarli",
         "secret": "Ha visto Morholt uscire dalla cella del priore la notte dell'omicidio, ma Morholt gli ha mostrato una lettera firmata dalla duchessa che autorizza 'ogni mezzo necessario'",
@@ -711,7 +717,7 @@
         "id": "npc_4",
         "name": "Duchessa Miren Brume",
         "role": "Sovrana del Ducato — mai presente fisicamente, solo messaggi sigillati",
-        "location_id": "Palazzo Ducale (mai raggiunto nell'avventura)",
+        "location_id": "loc_palazzo_ducale__mai_raggiunt",
         "status": "unintroduced",
         "goal": "Scoprire chi ha davvero ucciso suo padre — non crede alla versione ufficiale del 'malore improvviso' e ha mandato Morholt per indagare, ignara che è lui il colpevole",
         "secret": "Non ha mai autorizzato l'omicidio del priore. La lettera che Morholt ha mostrato a Idris è un falso perfetto",
@@ -758,40 +764,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sala_del_trattato",
+        "name": "Sala del Trattato",
+        "description": "Sala del Trattato.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -806,43 +801,150 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_giardino_dei_sussurri",
+        "name": "Giardino dei Sussurri",
+        "description": "Giardino dei Sussurri.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivio_scriptorium",
+        "name": "Archivio Scriptorium",
+        "description": "Archivio Scriptorium.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2",
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_palazzo_ducale__mai_raggiunt",
+        "name": "Palazzo Ducale (mai raggiunto nell'avventura)",
+        "description": "Palazzo Ducale (mai raggiunto nell'avventura).",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_cella_del_priore",
+        "name": "Cella del Priore",
+        "description": "Cella del Priore.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -857,121 +959,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Luogo sociale: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2138,7 +2126,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_240165e103",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_del_trattato",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2214,19 +2202,23 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_del_trattato": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_giardino_dei_sussurri": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_archivio_scriptorium": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_palazzo_ducale__mai_raggiunt": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_cella_del_priore": {
         "status": "known",
         "access_state": "open"
       }

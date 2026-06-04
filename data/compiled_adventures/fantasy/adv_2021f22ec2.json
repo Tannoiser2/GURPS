@@ -157,7 +157,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_centrale_del_caveau"
       },
       {
         "id": "clue_2",
@@ -192,7 +193,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_corridoio_del_caveau_sotterr"
       },
       {
         "id": "clue_3",
@@ -227,7 +229,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_centrale_del_caveau"
       },
       {
         "id": "clue_4",
@@ -263,7 +266,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_della_gilda"
       },
       {
         "id": "clue_5",
@@ -298,7 +302,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_della_gilda"
       },
       {
         "id": "clue_6",
@@ -333,7 +338,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_centrale_del_caveau"
       },
       {
         "id": "clue_7",
@@ -533,7 +539,7 @@
         "id": "npc_1",
         "name": "Lord Hadrian Voss",
         "role": "Committente traditore",
-        "location_id": "Villa Voss, quartiere nobiliare",
+        "location_id": "loc_villa_voss__quartiere_nobili",
         "status": "unintroduced",
         "goal": "Consegnare la mappa dei tunnel segreti di Valcorvo al Regno di Ashmar per permettere un'invasione silenziosa e ricevere in cambio il titolo di Viceré",
         "secret": "Ha pagato una spia all'interno della Gilda per far trapelare l'ora esatta del colpo, così che Ormund Crale potesse evacuare la Gilda e mostrare la mappa segreta ai suoi consiglieri fuori dal caveau",
@@ -580,7 +586,7 @@
         "id": "npc_2",
         "name": "Ormund Crale",
         "role": "Maestro della Gilda, presunto criminale",
-        "location_id": "Sala del Consiglio della Gilda",
+        "location_id": "loc_sala_del_consiglio_della_gil",
         "status": "unintroduced",
         "goal": "Proteggere i registri della Gilda che rivelano i nomi di tutti i rifugiati di Ashmar nascosti a Valcorvo negli ultimi vent'anni",
         "secret": "Il sigillo d'argento che custodisce non è uno strumento di schiavitù, ma la chiave cifrata per aprire il libro dei rifugiati. Se cadesse nelle mani di Ashmar, centinaia di famiglie sarebbero giustiziate",
@@ -627,7 +633,7 @@
         "id": "npc_3",
         "name": "Seris Thane",
         "role": "Guardia della Gilda intrappolata con voi",
-        "location_id": "Corridoio del caveau sotterraneo",
+        "location_id": "loc_corridoio_del_caveau_sotterr",
         "status": "unintroduced",
         "goal": "Sopravvivere e proteggere i segreti della Gilda anche a costo della propria vita",
         "secret": "È una rifugiata di Ashmar salvata anni fa da Ormund Crale. Sa che il sigillo protegge i registri dei rifugiati, ma non può rivelarlo senza tradire la Gilda",
@@ -674,7 +680,7 @@
         "id": "npc_4",
         "name": "Mira Dennel",
         "role": "Spia pagata da Voss, impiegata della Gilda",
-        "location_id": "Archivio della Gilda",
+        "location_id": "loc_archivio_della_gilda",
         "status": "unintroduced",
         "goal": "Accumulare abbastanza denaro per comprare un passaggio verso il continente orientale e ricominciare da zero lontano dalla guerra",
         "secret": "Ha fatto trapelare l'ora del colpo a Voss, ma non sapeva che avreste rischiato la vita. Ora è divorata dal senso di colpa e cerca di aiutarvi senza farsi scoprire da Ormund",
@@ -721,52 +727,27 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Punto di osservazione",
-        "description": "Punto di osservazione: nodo giocabile della struttura heist.",
+        "id": "loc_villa_voss__quartiere_nobili",
+        "name": "Villa Voss, quartiere nobiliare",
+        "description": "Villa Voss, quartiere nobiliare.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Punto di osservazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -775,61 +756,36 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Ingresso di servizio",
-        "description": "Ingresso di servizio: nodo giocabile della struttura heist.",
+        "id": "loc_sala_del_consiglio_della_gil",
+        "name": "Sala del Consiglio della Gilda",
+        "description": "Sala del Consiglio della Gilda.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Ingresso di servizio: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -837,64 +793,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Sicurezza interna",
-        "description": "Sicurezza interna: nodo giocabile della struttura heist.",
+        "id": "loc_corridoio_del_caveau_sotterr",
+        "name": "Corridoio del caveau sotterraneo",
+        "description": "Corridoio del caveau sotterraneo.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sicurezza interna: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -902,65 +833,40 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo",
-        "description": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo: nodo giocabile della struttura heist.",
+        "id": "loc_archivio_della_gilda",
+        "name": "Archivio della Gilda",
+        "description": "Archivio della Gilda.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_4",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Bersaglio: Sigillo Cenere Siete nel caveau sotterraneo: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -968,64 +874,39 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_3",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_5"
-        ],
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_5",
-        "name": "Via di estrazione",
-        "description": "Via di estrazione: nodo giocabile della struttura heist.",
+        "id": "loc_sala_centrale_del_caveau",
+        "name": "Sala centrale del caveau",
+        "description": "Sala centrale del caveau.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_3",
+          "clue_6"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "sarcofagi di pietra",
-            "colonne spezzate",
-            "altare incrinato"
-          ],
-          "hazards": [
-            "pietre instabili",
-            "rune che si accendono a impulsi"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Via di estrazione: sarcofagi di pietra, colonne spezzate, altare incrinato",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato",
-          "bracieri rovesciati"
-        ],
-        "hazards": [
-          "pietre instabili",
-          "rune che si accendono a impulsi"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "sarcofagi di pietra",
-          "colonne spezzate",
-          "altare incrinato"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1033,16 +914,14 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_3",
-        "location_type": "local",
-        "connections_to": [
-          "loc_ai_4"
-        ],
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2191,7 +2070,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_162144c0a6",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_villa_voss__quartiere_nobili",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2266,23 +2145,23 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_villa_voss__quartiere_nobili": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_sala_del_consiglio_della_gil": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_corridoio_del_caveau_sotterr": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_archivio_della_gilda": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_sala_centrale_del_caveau": {
         "status": "known",
         "access_state": "open"
       }

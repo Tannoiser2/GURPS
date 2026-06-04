@@ -153,7 +153,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_tenda_del_comando"
       },
       {
         "id": "clue_2",
@@ -188,7 +189,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_tenda_infermeria"
       },
       {
         "id": "clue_3",
@@ -223,7 +225,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_deposito_bagagli"
       },
       {
         "id": "clue_4",
@@ -258,7 +261,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_tenda_del_comando"
       },
       {
         "id": "clue_5",
@@ -293,7 +297,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_deposito_bagagli"
       },
       {
         "id": "clue_6",
@@ -328,7 +333,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_tenda_del_comando"
       },
       {
         "id": "clue_7",
@@ -504,7 +510,7 @@
         "id": "npc_1",
         "name": "Capitano Veyra Ossidan",
         "role": "Comandante della scorta armata della carovana",
-        "location_id": "Tenda del Comando",
+        "location_id": "loc_tenda_del_comando",
         "status": "unintroduced",
         "goal": "Proteggere la propria carriera e reputazione dopo vent'anni di servizio impeccabile",
         "secret": "Ha accettato 500 corone d'oro per trasportare il carico illegale, falsificando i documenti di sicurezza e ignorando l'avviso del cartografo",
@@ -551,7 +557,7 @@
         "id": "npc_2",
         "name": "Erwan il Cartografo",
         "role": "Navigatore e studioso meteorologico, ora gravemente ferito",
-        "location_id": "Tenda Infermeria",
+        "location_id": "loc_tenda_infermeria",
         "status": "unintroduced",
         "goal": "Rivelare la verità prima di morire, ma teme che nessuno gli creda o che Veyra lo zittisca definitivamente",
         "secret": "Ha scoperto i documenti falsi tre giorni prima della partenza e ha tentato di avvertire il consiglio mercantile, ma Veyra lo ha fatto picchiare e drogare per farlo tacere",
@@ -598,7 +604,7 @@
         "id": "npc_3",
         "name": "Mercante Tholis Var",
         "role": "Proprietario del carico illegale e finanziatore della tangente",
-        "location_id": "Deposito Bagagli",
+        "location_id": "loc_deposito_bagagli",
         "status": "unintroduced",
         "goal": "Salvare il carico di Etere (vale una fortuna) e scappare prima che qualcuno scopra il suo coinvolgimento",
         "secret": "Ha pagato Veyra per bypassare i controlli doganali, ma non sapeva che i cristalli fossero così instabili. Ora vuole incolpare solo lei per salvarsi.",
@@ -645,7 +651,7 @@
         "id": "npc_4",
         "name": "Senja, Guardia Cadetta",
         "role": "Giovane soldato della scorta, fedele a Veyra ma sempre più sospettosa",
-        "location_id": "Posto di Guardia Orientale",
+        "location_id": "loc_posto_di_guardia_orientale",
         "status": "unintroduced",
         "goal": "Capire cosa è successo veramente e fare la cosa giusta, anche se significa tradire il suo mentore",
         "secret": "Ha visto Veyra bruciare dei documenti la notte prima della partenza, ma non ha osato chiedere spiegazioni",
@@ -692,40 +698,31 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Piazza neutrale",
-        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_tenda_del_comando",
+        "name": "Tenda del Comando",
+        "description": "Tenda del Comando.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_1",
+          "clue_4",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -734,49 +731,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Sede fazione A",
-        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_tenda_infermeria",
+        "name": "Tenda Infermeria",
+        "description": "Tenda Infermeria.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -784,53 +770,40 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_4",
-          "loc_ai_3"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Sede fazione B",
-        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_deposito_bagagli",
+        "name": "Deposito Bagagli",
+        "description": "Deposito Bagagli.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -838,53 +811,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Mercato delle informazioni",
-        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_posto_di_guardia_orientale",
+        "name": "Posto di Guardia Orientale",
+        "description": "Posto di Guardia Orientale.",
         "status": "known",
         "contains_clues": [],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_4"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -892,83 +849,14 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Luogo del confronto",
-        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2161,7 +2049,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_76e500a04a",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_tenda_del_comando",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2236,23 +2124,19 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_tenda_del_comando": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_tenda_infermeria": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_deposito_bagagli": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
-        "status": "known",
-        "access_state": "open"
-      },
-      "loc_ai_5": {
+      "loc_posto_di_guardia_orientale": {
         "status": "known",
         "access_state": "open"
       }

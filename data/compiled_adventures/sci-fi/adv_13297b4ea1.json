@@ -155,7 +155,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_principale"
       },
       {
         "id": "clue_2",
@@ -190,7 +191,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_controllo_sicurezz"
       },
       {
         "id": "clue_3",
@@ -225,7 +227,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_laboratorio_di_neuroscienza"
       },
       {
         "id": "clue_4",
@@ -260,7 +263,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_controllo_sicurezz"
       },
       {
         "id": "clue_5",
@@ -295,7 +299,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_bar_del_sindacato"
       },
       {
         "id": "clue_6",
@@ -330,7 +335,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_bar_del_sindacato"
       },
       {
         "id": "clue_7",
@@ -506,7 +512,7 @@
         "id": "npc_1",
         "name": "Dottor Elyas Morn",
         "role": "Scienziato senior apparentemente innocente, vero bersaglio del piano",
-        "location_id": "Laboratorio di neuroscienza",
+        "location_id": "loc_laboratorio_di_neuroscienza",
         "status": "unintroduced",
         "goal": "Vuole testimoniare contro Kaine e rivelare il massacro di Helix-9 prima che il processo venga archiviato",
         "secret": "Ha nascosto copie criptate delle prove nel codice sorgente del chip neurale — il chip non è un prototipo, è un archivio camuffato",
@@ -553,7 +559,7 @@
         "id": "npc_2",
         "name": "Vesper Kaine",
         "role": "Committente ricchissimo, vero antagonista",
-        "location_id": "Yacht orbitale Elysion",
+        "location_id": "loc_yacht_orbitale_elysion",
         "status": "unintroduced",
         "goal": "Impedire che Morn testimoni al processo in programma tra otto ore sulla Terra",
         "secret": "Ha sabotato Helix-9 per far salire il prezzo del rodio e salvare la sua corporazione dal fallimento — Morn ha le prove",
@@ -600,7 +606,7 @@
         "id": "npc_3",
         "name": "Sergente Riva Solenne",
         "role": "Capo della sicurezza della stazione, falso sospettato",
-        "location_id": "Centro di controllo sicurezza",
+        "location_id": "loc_centro_di_controllo_sicurezz",
         "status": "unintroduced",
         "goal": "Proteggere il personale della stazione e scoprire chi ha attivato il lockdown",
         "secret": "Sa che Morn è un testimone protetto — ha ordini sigillati di tenerlo in vita, ma non sa perché. Sospetta di voi.",
@@ -647,7 +653,7 @@
         "id": "npc_4",
         "name": "Talia Vex",
         "role": "Tecnica di manutenzione della stazione, informatore involontario",
-        "location_id": "Bar del sindacato",
+        "location_id": "loc_bar_del_sindacato",
         "status": "unintroduced",
         "goal": "Vuole uscire dalla stazione e tornare sulla Terra — odia questo lavoro",
         "secret": "Ha visto Morn nascondere qualcosa nella sala server tre giorni fa, ma non ha capito cosa. Se interrogata, può ricordare dettagli cruciali.",
@@ -694,40 +700,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_laboratorio_di_neuroscienza",
+        "name": "Laboratorio di neuroscienza",
+        "description": "Laboratorio di neuroscienza.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -742,43 +737,150 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_yacht_orbitale_elysion",
+        "name": "Yacht orbitale Elysion",
+        "description": "Yacht orbitale Elysion.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_centro_di_controllo_sicurezz",
+        "name": "Centro di controllo sicurezza",
+        "description": "Centro di controllo sicurezza.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2",
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_bar_del_sindacato",
+        "name": "Bar del sindacato",
+        "description": "Bar del sindacato.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5",
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_server_principale",
+        "name": "Sala server principale",
+        "description": "Sala server principale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -793,121 +895,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2104,7 +2092,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_13297b4ea1",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_laboratorio_di_neuroscienza",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2179,19 +2167,23 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_laboratorio_di_neuroscienza": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_yacht_orbitale_elysion": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_centro_di_controllo_sicurezz": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_bar_del_sindacato": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_server_principale": {
         "status": "known",
         "access_state": "open"
       }

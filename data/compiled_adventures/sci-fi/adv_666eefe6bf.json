@@ -150,7 +150,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_della_stazione__l"
       },
       {
         "id": "clue_2",
@@ -186,7 +187,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_di_controllo_sicurezz"
       },
       {
         "id": "clue_3",
@@ -221,7 +223,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_suite_del_delegato_kross__li"
       },
       {
         "id": "clue_4",
@@ -256,7 +259,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_suite_privata_del_comandante"
       },
       {
         "id": "clue_5",
@@ -291,7 +295,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_serre_idroponiche__livello_e"
       },
       {
         "id": "clue_6",
@@ -327,7 +332,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_dei_negoziati__livello"
       },
       {
         "id": "clue_7",
@@ -551,7 +557,7 @@
         "id": "npc_voss",
         "name": "Dott.ssa Idara Voss",
         "role": "Mediatrice Indipendente dei negoziati — la traditrice",
-        "location_id": "Sala dei negoziati, livello diplomatico",
+        "location_id": "loc_sala_dei_negoziati__livello",
         "status": "unintroduced",
         "goal": "Vuole che l'accordo venga firmato a ogni costo per preservare la pace — e per seppellire le prove del suo ruolo nel Massacro di Callisto.",
         "secret": "È stata l'ufficiale che ha ordinato il bombardamento orbitale su Callisto. Il Protocollo Oblio cancellerà tutti i registri che la collegano alla strage. Ha avvelenato Kross personalmente usando un composto a base di neurotossina coltivata nelle serre idroponiche della stazione.",
@@ -598,7 +604,7 @@
         "id": "npc_zheng",
         "name": "Comandante Hadrian Zheng",
         "role": "Capo della sicurezza della Coalizione sulla stazione",
-        "location_id": "Centro di controllo sicurezza, livello comando",
+        "location_id": "loc_centro_di_controllo_sicurezz",
         "status": "unintroduced",
         "goal": "Proteggere la Coalizione e assicurarsi che l'accordo venga firmato. In realtà: ottenere l'immunità per i propri crimini di guerra.",
         "secret": "Ha materialmente avvelenato Kross su ordine di Voss. Conserva ancora la fiala vuota del veleno nascosta nella sua suite come 'assicurazione' contro un possibile tradimento di Voss.",
@@ -645,7 +651,7 @@
         "id": "npc_rhea",
         "name": "Tecnica Rhea Salcedo",
         "role": "Ingegnere ambientale della stazione, responsabile delle serre idroponiche",
-        "location_id": "Serre idroponiche, livello ecologico",
+        "location_id": "loc_serre_idroponiche__livello_e",
         "status": "unintroduced",
         "goal": "Vuole che l'accordo funzioni perché sua sorella vive su Titano e teme un'escalation militare.",
         "secret": "Ha coltivato la neurotossina su richiesta di Voss, credendo fosse per una ricerca medica. Ha iniziato a sospettare dopo la morte di Kross.",
@@ -692,7 +698,7 @@
         "id": "npc_torin",
         "name": "Capitano Torin Alev",
         "role": "Vice di Kross, delegato esterno sopravvissuto",
-        "location_id": "Quartieri delegazione esterna, livello diplomatico",
+        "location_id": "loc_quartieri_delegazione_estern",
         "status": "unintroduced",
         "goal": "Scoprire chi ha ucciso Kross e vendicarsi. Non si fida di nessuno della Coalizione.",
         "secret": "Era presente al Massacro di Callisto come pilota di trasporto civile. Riconosce Voss ma non ne è certo — la memoria lo tormenta.",
@@ -739,40 +745,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Piazza neutrale",
-        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_sala_dei_negoziati__livello",
+        "name": "Sala dei negoziati, livello diplomatico",
+        "description": "Sala dei negoziati, livello diplomatico.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_voss"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Piazza neutrale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -781,49 +776,38 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Sede fazione A",
-        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_centro_di_controllo_sicurezz",
+        "name": "Centro di controllo sicurezza, livello comando",
+        "description": "Centro di controllo sicurezza, livello comando.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_2"
+        ],
+        "contains_actors": [
+          "npc_zheng"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sede fazione A: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -831,189 +815,206 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_3",
-        "name": "Sede fazione B",
-        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Sede fazione B: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Mercato delle informazioni",
-        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Mercato delle informazioni: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Luogo del confronto",
-        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Luogo del confronto: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_4",
-        "location_type": "local",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_serre_idroponiche__livello_e",
+        "name": "Serre idroponiche, livello ecologico",
+        "description": "Serre idroponiche, livello ecologico.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_rhea"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_quartieri_delegazione_estern",
+        "name": "Quartieri delegazione esterna, livello diplomatico",
+        "description": "Quartieri delegazione esterna, livello diplomatico.",
+        "status": "known",
+        "contains_clues": [],
+        "contains_actors": [
+          "npc_torin"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_infermeria_della_stazione__l",
+        "name": "Infermeria della stazione, livello medico",
+        "description": "Infermeria della stazione, livello medico.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_suite_del_delegato_kross__li",
+        "name": "Suite del Delegato Kross, livello diplomatico",
+        "description": "Suite del Delegato Kross, livello diplomatico.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_suite_privata_del_comandante",
+        "name": "Suite privata del Comandante Zheng, livello comando",
+        "description": "Suite privata del Comandante Zheng, livello comando.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2189,7 +2190,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_036351723b",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_dei_negoziati__livello",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2264,23 +2265,31 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_dei_negoziati__livello": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_centro_di_controllo_sicurezz": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_serre_idroponiche__livello_e": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_quartieri_delegazione_estern": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_infermeria_della_stazione__l": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_suite_del_delegato_kross__li": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_suite_privata_del_comandante": {
         "status": "known",
         "access_state": "open"
       }

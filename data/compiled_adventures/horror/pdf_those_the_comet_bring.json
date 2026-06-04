@@ -8211,7 +8211,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_garage"
       },
       {
         "id": "llm_clue_2",
@@ -8247,7 +8248,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_garage"
       },
       {
         "id": "llm_clue_3",
@@ -8283,7 +8285,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_abandoned_brick_factory"
       },
       {
         "id": "llm_clue_4",
@@ -8319,7 +8322,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_restrooms"
       },
       {
         "id": "llm_clue_5",
@@ -8355,7 +8359,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_escape_into_the_pine_barrens"
       },
       {
         "id": "llm_clue_6",
@@ -8391,7 +8396,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_a_call_from_commander_arnaz"
       },
       {
         "id": "llm_clue_7",
@@ -8427,7 +8433,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_abandoned_car"
       },
       {
         "id": "llm_clue_8",
@@ -8463,7 +8470,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_abandoned_brick_factory"
       },
       {
         "id": "llm_clue_9",
@@ -8499,7 +8507,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_commander_arnaz_and_the_seco"
       },
       {
         "id": "llm_clue_10",
@@ -8535,7 +8544,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_a_call_from_commander_arnaz_2"
       },
       {
         "id": "llm_clue_11",
@@ -8571,7 +8581,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "wooleys_service_station"
       },
       {
         "id": "llm_clue_12",
@@ -8607,7 +8618,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_the_abandoned_brick_factory"
       },
       {
         "id": "nuovo_clue_1",
@@ -8956,7 +8968,7 @@
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "outdoor",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Una stretta strada a due corsie che taglia attraverso i fitti boschi del Pine Barrens del New Jersey. Qui il veicolo dei",
         "gameplay_function": "Location di partenza dove i PG scoprono il cadavere nel bagagliaio e iniziano l'avventura dopo il guasto del veicolo",
@@ -9062,11 +9074,7 @@
         "name": "Abandoned Brick Factory",
         "description": "Una fabbrica di mattoni abbandonata nei boschi, suggerita dal falso comandante militare come rifugio sicuro. Uno dei due possibili percorsi dopo la stazione di servizio.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_3",
-          "llm_clue_8",
-          "llm_clue_12"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
@@ -9278,6 +9286,313 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_the_garage",
+        "name": "The Garage",
+        "description": "The Garage.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1",
+          "llm_clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_abandoned_brick_factory",
+        "name": "The Abandoned Brick Factory",
+        "description": "The Abandoned Brick Factory.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3",
+          "llm_clue_8",
+          "llm_clue_12"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_restrooms",
+        "name": "Restrooms",
+        "description": "Restrooms.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_escape_into_the_pine_barrens",
+        "name": "Escape into the Pine Barrens",
+        "description": "Escape into the Pine Barrens.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_5"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_a_call_from_commander_arnaz",
+        "name": "A Call from Commander Arnaz Tunnel Kiln",
+        "description": "A Call from Commander Arnaz Tunnel Kiln.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_6"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_the_abandoned_car",
+        "name": "The Abandoned Car",
+        "description": "The Abandoned Car.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_commander_arnaz_and_the_seco",
+        "name": "Commander Arnaz and the Second Meteor",
+        "description": "Commander Arnaz and the Second Meteor.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_a_call_from_commander_arnaz_2",
+        "name": "A Call from Commander Arnaz",
+        "description": "A Call from Commander Arnaz.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -13479,6 +13794,38 @@
         "access_state": "open"
       },
       "final_transport_location": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_garage": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_abandoned_brick_factory": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_restrooms": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_escape_into_the_pine_barrens": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_a_call_from_commander_arnaz": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_the_abandoned_car": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_commander_arnaz_and_the_seco": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_a_call_from_commander_arnaz_2": {
         "status": "known",
         "access_state": "open"
       }

@@ -155,7 +155,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_corridoio_livello_7"
       },
       {
         "id": "clue_2",
@@ -190,7 +191,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_d_emergenza"
       },
       {
         "id": "clue_3",
@@ -225,7 +227,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_generatori_principale"
       },
       {
         "id": "clue_4",
@@ -260,7 +263,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_archivio_digitale_centrale"
       },
       {
         "id": "clue_5",
@@ -295,7 +299,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_centro_comando_sicurezza"
       },
       {
         "id": "clue_6",
@@ -330,7 +335,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_d_emergenza"
       },
       {
         "id": "clue_7",
@@ -530,7 +536,7 @@
         "id": "npc_1",
         "name": "Commissario Jeth Varn",
         "role": "Capo della sicurezza della stazione",
-        "location_id": "Centro Comando Sicurezza",
+        "location_id": "loc_centro_comando_sicurezza",
         "status": "unintroduced",
         "goal": "Impedire che la verità sul massacro della Prima Spedizione emerga, proteggendo così la sua carriera e la Corporazione",
         "secret": "È lui che ha ucciso gli ultimi due testimoni, inscenando attacchi della creatura. Ha partecipato personalmente all'esecuzione della Prima Spedizione 15 anni fa come ufficiale junior.",
@@ -577,7 +583,7 @@
         "id": "npc_2",
         "name": "Dott.ssa Yala Rim",
         "role": "Exo-biologa reclusa nel Settore Omega",
-        "location_id": "Laboratorio Bio-Sigillato",
+        "location_id": "loc_laboratorio_bio_sigillato",
         "status": "unintroduced",
         "goal": "Preservare la memoria della Prima Spedizione e proteggere il Guardiano che ha creato dai loro resti genetici",
         "secret": "Ha usato il DNA dei morti della Prima Spedizione per creare il Guardiano, programmandolo per difendere il Settore Omega dove sono sepolti. Non sa che Okafor è imparentato con loro.",
@@ -624,7 +630,7 @@
         "id": "npc_3",
         "name": "Tekla Sorin",
         "role": "Ingegnera di manutenzione e amica di Okafor",
-        "location_id": "Sala Generatori Principale",
+        "location_id": "loc_sala_generatori_principale",
         "status": "unintroduced",
         "goal": "Salvare Okafor perché crede nella sua innocenza e perché lui una volta la salvò da un incidente nei condotti",
         "secret": "Ha visto Varn uscire dalla scena del secondo omicidio ma ha paura di testimoniare contro un Commissario corporativo",
@@ -671,7 +677,7 @@
         "id": "npc_4",
         "name": "Archivista Kol Thenn",
         "role": "Custode degli archivi storici della stazione",
-        "location_id": "Archivio Digitale Centrale",
+        "location_id": "loc_archivio_digitale_centrale",
         "status": "unintroduced",
         "goal": "Preservare la verità storica, anche quando contraddice i rapporti ufficiali della Corporazione",
         "secret": "Ha nascosto i file originali della Prima Spedizione in un protocollo di archiviazione obsoleto, credendo che un giorno qualcuno li avrebbe cercati",
@@ -718,40 +724,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_centro_comando_sicurezza",
+        "name": "Centro Comando Sicurezza",
+        "description": "Centro Comando Sicurezza.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -766,43 +761,148 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_laboratorio_bio_sigillato",
+        "name": "Laboratorio Bio-Sigillato",
+        "description": "Laboratorio Bio-Sigillato.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_generatori_principale",
+        "name": "Sala Generatori Principale",
+        "description": "Sala Generatori Principale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_archivio_digitale_centrale",
+        "name": "Archivio Digitale Centrale",
+        "description": "Archivio Digitale Centrale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_corridoio_livello_7",
+        "name": "Corridoio Livello 7",
+        "description": "Corridoio Livello 7.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -817,43 +917,31 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_infermeria_d_emergenza",
+        "name": "Infermeria d'Emergenza",
+        "description": "Infermeria d'Emergenza.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_2",
+          "clue_6"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -868,70 +956,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "rack server",
-            "paratie blindate",
-            "muletti elettrici"
-          ],
-          "hazards": [
-            "blackout intermittente",
-            "sprinkler attivati"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Zona calda: rack server, paratie blindate, muletti elettrici",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici",
-          "condotti manutenzione"
-        ],
-        "hazards": [
-          "blackout intermittente",
-          "sprinkler attivati"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "rack server",
-          "paratie blindate",
-          "muletti elettrici"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "",
-        "location_type": "regional",
-        "connections_to": [],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2096,7 +2121,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_a56de1638a",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_centro_comando_sicurezza",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2171,19 +2196,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_centro_comando_sicurezza": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_laboratorio_bio_sigillato": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_sala_generatori_principale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_archivio_digitale_centrale": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_corridoio_livello_7": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_infermeria_d_emergenza": {
         "status": "known",
         "access_state": "open"
       }

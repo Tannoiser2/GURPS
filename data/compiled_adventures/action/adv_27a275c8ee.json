@@ -156,7 +156,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_magazzino_rifornimenti"
       },
       {
         "id": "clue_2",
@@ -191,7 +192,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_ufficio_privato_del_capitano"
       },
       {
         "id": "clue_3",
@@ -226,7 +228,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_e_comunicazioni"
       },
       {
         "id": "clue_4",
@@ -261,7 +264,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_deposito_armi_e_munizioni"
       },
       {
         "id": "clue_5",
@@ -296,7 +300,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_infermeria_centrale"
       },
       {
         "id": "clue_6",
@@ -331,7 +336,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_torre_di_guardia_nord"
       },
       {
         "id": "clue_7",
@@ -366,7 +372,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_deposito_privato_del_bar"
       },
       {
         "id": "clue_8",
@@ -401,7 +408,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_server_e_comunicazioni"
       },
       {
         "id": "clue_9",
@@ -436,7 +444,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_generatori_backup"
       },
       {
         "id": "clue_10",
@@ -471,7 +480,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_operativa_principale"
       },
       {
         "id": "clue_11",
@@ -671,7 +681,7 @@
         "id": "npc_1",
         "name": "Capitano Marcus Reeves",
         "role": "Comandante dell'avamposto — il traditore nascosto",
-        "location_id": "Sala operativa principale",
+        "location_id": "loc_sala_operativa_principale",
         "status": "unintroduced",
         "goal": "Salvare la sua reputazione ed eliminare le prove del contratto illegale con Navarro Logistics",
         "secret": "Ha firmato un accordo per cedere il checkpoint in cambio di 200.000 dollari e un posto dirigenziale. Ha sabotato i rifornimenti per forzare l'evacuazione e nascondere documenti compromettenti nel caos.",
@@ -718,7 +728,7 @@
         "id": "npc_2",
         "name": "Dr. Amara Osei",
         "role": "Medico dell'avamposto",
-        "location_id": "Infermeria centrale",
+        "location_id": "loc_infermeria_centrale",
         "status": "unintroduced",
         "goal": "Salvare quante più vite possibile, specialmente i due civili feriti nell'infermeria",
         "secret": "Ha scoperto che qualcuno ha manomesso le scorte mediche (insulina e antidolorifici spariti). Sospetta un traffico interno ma non sa chi accusare.",
@@ -765,7 +775,7 @@
         "id": "npc_3",
         "name": "Jax Keller",
         "role": "Ex-militare contractor, capo sicurezza supplente",
-        "location_id": "Deposito armi e munizioni",
+        "location_id": "loc_deposito_armi_e_munizioni",
         "status": "unintroduced",
         "goal": "Proteggere il deposito armi e impedire che la situazione degeneri in rivolta",
         "secret": "Ha visto Reeves sabotare la radio principale tre notti fa, ma Reeves lo ha ricattato con prove false di furto d'armi. È paralizzato dalla paura di finire in prigione.",
@@ -812,7 +822,7 @@
         "id": "npc_4",
         "name": "Sofia Ruiz",
         "role": "Civile — ingegnere elettrico rifugiata",
-        "location_id": "Sala generatori backup",
+        "location_id": "loc_sala_generatori_backup",
         "status": "unintroduced",
         "goal": "Riparare i generatori per guadagnarsi la fiducia del gruppo e garantirsi un posto sull'evacuazione",
         "secret": "Ha riconosciuto la firma di Navarro Logistics sui componenti sabotati. Lavora per loro come informatrice, ma ora è pentita perché non sapeva che avrebbero lasciato morire la gente.",
@@ -859,7 +869,7 @@
         "id": "npc_5",
         "name": "Terrence 'Ghost' Wade",
         "role": "Contractor sniper — l'osservatore silenzioso",
-        "location_id": "Torre di guardia nord",
+        "location_id": "loc_torre_di_guardia_nord",
         "status": "unintroduced",
         "goal": "Scoprire chi ha tagliato le linee di comunicazione esterne, perché ha visto movimenti sospetti nel deserto",
         "secret": "Sa che qualcuno nel checkpoint comunica con l'esterno via radio criptata. Ha intercettato frammenti di codice ma non ha prove concrete.",
@@ -906,7 +916,7 @@
         "id": "npc_6",
         "name": "Yuki Tanaka",
         "role": "Tecnico comunicazioni civile",
-        "location_id": "Sala server e comunicazioni",
+        "location_id": "loc_sala_server_e_comunicazioni",
         "status": "unintroduced",
         "goal": "Ripristinare il collegamento satellitare per chiamare aiuto",
         "secret": "Ha trovato logs che provano che qualcuno ha formattato i backup tre giorni fa — poco prima del blackout. Ha paura di essere la prossima vittima.",
@@ -953,7 +963,7 @@
         "id": "npc_7",
         "name": "Hector Morales",
         "role": "Civile — gestore bar dell'avamposto",
-        "location_id": "Bar e area ricreativa",
+        "location_id": "loc_bar_e_area_ricreativa",
         "status": "unintroduced",
         "goal": "Razionare le ultime scorte d'acqua e alcol per mantenere il controllo sociale del gruppo",
         "secret": "Ha rubato tre taniche d'acqua e le ha nascoste nel suo deposito privato. Non per cattiveria: ha una famiglia che lo aspetta a El Paso e vuole essere sicuro di uscirne vivo.",
@@ -1000,40 +1010,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Apertura",
-        "description": "Apertura: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_sala_operativa_principale",
+        "name": "Sala operativa principale",
+        "description": "Sala operativa principale.",
         "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
+        "contains_clues": [
+          "clue_10"
+        ],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Apertura: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1048,43 +1047,269 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Nodo indizi",
-        "description": "Nodo indizi: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_infermeria_centrale",
+        "name": "Infermeria centrale",
+        "description": "Infermeria centrale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_deposito_armi_e_munizioni",
+        "name": "Deposito armi e munizioni",
+        "description": "Deposito armi e munizioni.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_generatori_backup",
+        "name": "Sala generatori backup",
+        "description": "Sala generatori backup.",
+        "status": "known",
+        "contains_clues": [
+          "clue_9"
+        ],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_torre_di_guardia_nord",
+        "name": "Torre di guardia nord",
+        "description": "Torre di guardia nord.",
+        "status": "known",
+        "contains_clues": [
+          "clue_6"
+        ],
+        "contains_actors": [
+          "npc_5"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_server_e_comunicazioni",
+        "name": "Sala server e comunicazioni",
+        "description": "Sala server e comunicazioni.",
+        "status": "known",
+        "contains_clues": [
+          "clue_3",
+          "clue_8"
+        ],
+        "contains_actors": [
+          "npc_6"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_bar_e_area_ricreativa",
+        "name": "Bar e area ricreativa",
+        "description": "Bar e area ricreativa.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_7"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_magazzino_rifornimenti",
+        "name": "Magazzino rifornimenti",
+        "description": "Magazzino rifornimenti.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Nodo indizi: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1099,43 +1324,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Luogo sociale",
-        "description": "Luogo sociale: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_ufficio_privato_del_capitano",
+        "name": "Ufficio privato del capitano",
+        "description": "Ufficio privato del capitano.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_2"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Luogo sociale: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1150,55 +1362,30 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_4",
-        "name": "Zona calda",
-        "description": "Zona calda: nodo giocabile della struttura investigation_graph.",
+        "id": "loc_deposito_privato_del_bar",
+        "name": "Deposito privato del bar",
+        "description": "Deposito privato del bar.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_7"
+        ],
         "contains_actors": [],
         "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "container metallici",
-            "auto parcheggiate",
-            "bancali di casse"
-          ],
-          "hazards": [
-            "allarme silenzioso",
-            "sistemi antincendio impazziti"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
+        "tactical_map": {},
         "access_requirements": [],
-        "type": "finale",
+        "type": "site",
         "access_state": "open",
-        "visual_identity": "Zona calda: container metallici, auto parcheggiate, bancali di casse",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse",
-          "porte tagliafuoco"
-        ],
-        "hazards": [
-          "allarme silenzioso",
-          "sistemi antincendio impazziti"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "container metallici",
-          "auto parcheggiate",
-          "bancali di casse"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -1213,7 +1400,7 @@
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2692,7 +2879,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_27a275c8ee",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_operativa_principale",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2809,19 +2996,43 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_operativa_principale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_infermeria_centrale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_deposito_armi_e_munizioni": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_sala_generatori_backup": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_torre_di_guardia_nord": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_sala_server_e_comunicazioni": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_bar_e_area_ricreativa": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_magazzino_rifornimenti": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_ufficio_privato_del_capitano": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_deposito_privato_del_bar": {
         "status": "known",
         "access_state": "open"
       }

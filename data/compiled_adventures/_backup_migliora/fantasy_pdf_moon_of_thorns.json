@@ -8714,7 +8714,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_interrogating_ansalon"
       },
       {
         "id": "llm_clue_2",
@@ -8750,7 +8751,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_2__arena_duty"
       },
       {
         "id": "llm_clue_3",
@@ -8786,7 +8788,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_4__midnight_at_emir_s_b"
       },
       {
         "id": "llm_clue_4",
@@ -8822,7 +8825,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_1__welcome_to_tredroy"
       },
       {
         "id": "llm_clue_5",
@@ -8858,7 +8862,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_4__midnight_at_emir_s_b"
       },
       {
         "id": "llm_clue_6",
@@ -8894,7 +8899,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_tracking_carac"
       },
       {
         "id": "llm_clue_7",
@@ -8930,7 +8936,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_arsalan_al_bir"
       },
       {
         "id": "llm_clue_8",
@@ -8966,7 +8973,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_part_4__midnight_at_emir_s_b"
       },
       {
         "id": "llm_clue_9",
@@ -9002,7 +9010,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_arena_underground"
       },
       {
         "id": "llm_clue_10",
@@ -9038,7 +9047,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_interrogating_ansalon"
       },
       {
         "id": "llm_clue_11",
@@ -9074,7 +9084,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_tracking_carac"
       },
       {
         "id": "llm_clue_12",
@@ -9110,7 +9121,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 0.75,
-        "llm_extracted": true
+        "llm_extracted": true,
+        "location_id": "loc_tracking_carac"
       }
     ],
     "actors": [
@@ -9483,13 +9495,11 @@
         "name": "Tredroy",
         "description": "Grande città cosmopolita situata alla giunzione di tre regni (Cardiel, al-Wazif e al-Haz). Divisa da ampi fiumi, ha forgiato una propria identità unica nonostante le influenze delle tre nazioni.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_4"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
-        "type": "urban",
+        "type": "entry",
         "access_state": "open",
         "visual_identity": "Grande città cosmopolita situata alla giunzione di tre regni (Cardiel, al-Wazif e al-Haz). Divisa da ampi fiumi, ha forg",
         "gameplay_function": "Location iniziale dove i PG entrano in città e vengono reclutati dalla Gilda dei Mercenari. Hub centrale dell'avventura.",
@@ -9614,11 +9624,7 @@
         "name": "Emir's Bridge",
         "description": "Uno dei molti ponti di Tredroy, sotto il quale si nasconde un portale magico segreto. Punto di consegna notturno per le casse di artefatti lunagranate di Carac.",
         "status": "known",
-        "contains_clues": [
-          "llm_clue_3",
-          "llm_clue_5",
-          "llm_clue_8"
-        ],
+        "contains_clues": [],
         "contains_actors": [],
         "tactical_map": {},
         "access_requirements": [],
@@ -9863,6 +9869,277 @@
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
         "confidence": 1.0
+      },
+      {
+        "id": "loc_interrogating_ansalon",
+        "name": "Interrogating Ansalon",
+        "description": "Interrogating Ansalon.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_1",
+          "llm_clue_10"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_part_2__arena_duty",
+        "name": "Part 2: Arena Duty",
+        "description": "Part 2: Arena Duty.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_2"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_part_4__midnight_at_emir_s_b",
+        "name": "Part 4: Midnight at Emir's Bridge",
+        "description": "Part 4: Midnight at Emir's Bridge.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_3",
+          "llm_clue_5",
+          "llm_clue_8"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_part_1__welcome_to_tredroy",
+        "name": "Part 1: Welcome to Tredroy",
+        "description": "Part 1: Welcome to Tredroy.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_4"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_tracking_carac",
+        "name": "Tracking Carac",
+        "description": "Tracking Carac.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_6",
+          "llm_clue_11",
+          "llm_clue_12"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_arsalan_al_bir",
+        "name": "Arsalan al-Bir",
+        "description": "Arsalan al-Bir.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_7"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_arena_underground",
+        "name": "Arena Underground",
+        "description": "Arena Underground.",
+        "status": "known",
+        "contains_clues": [
+          "llm_clue_9"
+        ],
+        "contains_actors": [],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -14214,6 +14491,34 @@
         "access_state": "open"
       },
       "mercenaries_guild": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_interrogating_ansalon": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_part_2__arena_duty": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_part_4__midnight_at_emir_s_b": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_part_1__welcome_to_tredroy": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_tracking_carac": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_arsalan_al_bir": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_arena_underground": {
         "status": "known",
         "access_state": "open"
       }

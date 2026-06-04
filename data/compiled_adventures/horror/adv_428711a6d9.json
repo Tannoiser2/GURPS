@@ -169,7 +169,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_di_lettura_principale"
       },
       {
         "id": "clue_2",
@@ -204,7 +205,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_reliquiario_della_fiamma"
       },
       {
         "id": "clue_3",
@@ -239,7 +241,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_sala_del_martello"
       },
       {
         "id": "clue_4",
@@ -274,7 +277,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_la_piccozza_spezzata"
       },
       {
         "id": "clue_5",
@@ -310,7 +314,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_reliquiario_della_fiamma"
       },
       {
         "id": "clue_6",
@@ -345,7 +350,8 @@
         "is_preserved_from_pdf": false,
         "inferred_payoff": false,
         "confidence": 1.0,
-        "llm_extracted": false
+        "llm_extracted": false,
+        "location_id": "loc_piazza_neutrale"
       },
       {
         "id": "clue_7",
@@ -521,7 +527,7 @@
         "id": "npc_1",
         "name": "Gran Fabbro Durven Karth",
         "role": "Leader della Gilda dei Forgiatori, co-responsabile del crimine originale",
-        "location_id": "Sala del Martello",
+        "location_id": "loc_sala_del_martello",
         "status": "unintroduced",
         "goal": "Vuole far firmare l'accordo alla Chiesa per trasferirle la proprietà legale della miniera prima che emergano le morti sospette, salvando la Gilda dalla bancarotta e sé stesso dalla prigione",
         "secret": "Conserva ancora il proprio diario personale dell'epoca in cui falsificò i rapporti, nascosto nella fucina privata. Lo usa come assicurazione contro la Chiesa, ma è anche la prova della sua colpa",
@@ -568,7 +574,7 @@
         "id": "npc_2",
         "name": "Magister Orell Vask",
         "role": "Alto prelato della Chiesa della Fiamma Purificatrice, co-responsabile del crimine originale",
-        "location_id": "Reliquiario della Fiamma",
+        "location_id": "loc_reliquiario_della_fiamma",
         "status": "unintroduced",
         "goal": "Vuole modificare l'accordo per far ricadere la responsabilità storica della miniera sulla Gilda, posizionando la Chiesa come 'redentrice' che ripulisce i peccati altrui. Teme che le sue ambizioni di diventare Sommo Pontefice crollino se emerge il suo coinvolgimento",
         "secret": "Ha pagato un falsario per creare una versione del contratto originale con la Corona dove la sua firma appare coercita, come se fosse stato costretto. Il documento è custodito nel reliquiario della Cattedrale",
@@ -615,7 +621,7 @@
         "id": "npc_3",
         "name": "Custode Mirael Torne",
         "role": "Archivista capo della Biblioteca Civica, vendicatrice nascosta",
-        "location_id": "Sala di Lettura Principale",
+        "location_id": "loc_sala_di_lettura_principale",
         "status": "unintroduced",
         "goal": "Vuole distruggere entrambi gli uomini che hanno ucciso suo padre e centinaia di minatori. Sta aspettando il momento perfetto per rilasciare il rapporto geologico autentico che ha protetto per anni",
         "secret": "Ha segretamente orchestrato l'invio di lettere anonime a entrambe le parti, insinuando che l'altro vuole tradire l'accordo. È lei la fonte della tensione crescente. Possiede anche una lista dei minatori morti, compilata con cura ossessiva",
@@ -662,7 +668,7 @@
         "id": "npc_4",
         "name": "Sergente Kael Drenn",
         "role": "Comandante della Guardia Cittadina, ostacolo corrotto",
-        "location_id": "Ufficio del Comandante",
+        "location_id": "loc_ufficio_del_comandante",
         "status": "unintroduced",
         "goal": "È stato pagato sia dalla Gilda che dalla Chiesa per sopprimere testimoni scomodi e far sparire prove. Vuole che l'accordo si concluda rapidamente in qualsiasi modo così può intascare il saldo finale e andarsene dalla città",
         "secret": "Ha personalmente arrestato e fatto sparire tre ex-minatori che stavano parlando troppo delle morti sospette. I corpi sono murati in una sezione della Prigione Bassa mai ispezionata",
@@ -709,44 +715,29 @@
     "factions": [],
     "locations": [
       {
-        "id": "loc_ai_1",
-        "name": "Piazza neutrale",
-        "description": "Piazza neutrale: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_sala_del_martello",
+        "name": "Sala del Martello",
+        "description": "Sala del Martello.",
         "status": "known",
         "contains_clues": [
-          "clue_6"
+          "clue_3"
         ],
-        "contains_actors": [],
+        "contains_actors": [
+          "npc_1"
+        ],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "entry",
         "access_state": "open",
-        "visual_identity": "Piazza neutrale: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
-        "clue_slots": [
-          "clue_6"
-        ],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "clue_slots": [],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -755,49 +746,155 @@
         "map_w": 0,
         "map_h": 0,
         "parent_location_id": "",
-        "location_type": "strategic",
+        "location_type": "regional",
         "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_2",
-        "name": "Sede fazione A",
-        "description": "Sede fazione A: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_reliquiario_della_fiamma",
+        "name": "Reliquiario della Fiamma",
+        "description": "Reliquiario della Fiamma.",
+        "status": "known",
+        "contains_clues": [
+          "clue_2",
+          "clue_5"
+        ],
+        "contains_actors": [
+          "npc_2"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_sala_di_lettura_principale",
+        "name": "Sala di Lettura Principale",
+        "description": "Sala di Lettura Principale.",
+        "status": "known",
+        "contains_clues": [
+          "clue_1"
+        ],
+        "contains_actors": [
+          "npc_3"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_ufficio_del_comandante",
+        "name": "Ufficio del Comandante",
+        "description": "Ufficio del Comandante.",
         "status": "known",
         "contains_clues": [],
+        "contains_actors": [
+          "npc_4"
+        ],
+        "items": [],
+        "tactical_map": {},
+        "access_requirements": [],
+        "type": "site",
+        "access_state": "open",
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
+        "locked_paths": [],
+        "clue_slots": [],
+        "tactical_features": [],
+        "source_ref": {},
+        "source_status": "generated",
+        "original_room_number": "",
+        "map_x": 0,
+        "map_y": 0,
+        "map_w": 0,
+        "map_h": 0,
+        "parent_location_id": "",
+        "location_type": "regional",
+        "connections_to": [],
+        "local_map_image_b64": "",
+        "original_section": "",
+        "is_preserved_from_pdf": false,
+        "inferred_runtime_fields": [],
+        "confidence": 0.7
+      },
+      {
+        "id": "loc_la_piccozza_spezzata",
+        "name": "La Piccozza Spezzata",
+        "description": "La Piccozza Spezzata.",
+        "status": "known",
+        "contains_clues": [
+          "clue_4"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sede fazione A: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -805,53 +902,37 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_3",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       },
       {
-        "id": "loc_ai_3",
-        "name": "Sede fazione B",
-        "description": "Sede fazione B: nodo giocabile della struttura faction_sandbox.",
+        "id": "loc_piazza_neutrale",
+        "name": "Piazza neutrale",
+        "description": "Piazza neutrale.",
         "status": "known",
-        "contains_clues": [],
+        "contains_clues": [
+          "clue_6"
+        ],
         "contains_actors": [],
         "items": [],
         "tactical_map": {},
         "access_requirements": [],
         "type": "site",
         "access_state": "open",
-        "visual_identity": "Sede fazione B: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
+        "visual_identity": "",
+        "gameplay_function": "",
+        "concrete_features": [],
+        "hazards": [],
+        "exits": [],
         "locked_paths": [],
         "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
+        "tactical_features": [],
         "source_ref": {},
         "source_status": "generated",
         "original_room_number": "",
@@ -859,137 +940,14 @@
         "map_y": 0,
         "map_w": 0,
         "map_h": 0,
-        "parent_location_id": "loc_ai_1",
+        "parent_location_id": "",
         "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_4"
-        ],
+        "connections_to": [],
         "local_map_image_b64": "",
         "original_section": "",
         "is_preserved_from_pdf": false,
         "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_4",
-        "name": "Mercato delle informazioni",
-        "description": "Mercato delle informazioni: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {},
-        "access_requirements": [],
-        "type": "site",
-        "access_state": "open",
-        "visual_identity": "Mercato delle informazioni: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "indagine e orientamento",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_2",
-          "loc_ai_3",
-          "loc_ai_5"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
-      },
-      {
-        "id": "loc_ai_5",
-        "name": "Luogo del confronto",
-        "description": "Luogo del confronto: nodo giocabile della struttura faction_sandbox.",
-        "status": "known",
-        "contains_clues": [],
-        "contains_actors": [],
-        "items": [],
-        "tactical_map": {
-          "enabled": true,
-          "features": [
-            "scrivanie rovesciate",
-            "archivi metallici",
-            "vetrate opache"
-          ],
-          "hazards": [
-            "folla curiosa",
-            "telefono che squilla nel momento sbagliato"
-          ],
-          "trigger": "quando la scena porta a un confronto diretto o a una fuga sotto pressione"
-        },
-        "access_requirements": [],
-        "type": "finale",
-        "access_state": "open",
-        "visual_identity": "Luogo del confronto: scrivanie rovesciate, archivi metallici, vetrate opache",
-        "gameplay_function": "finale/confronto",
-        "concrete_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache",
-          "scaffali pieni di fascicoli"
-        ],
-        "hazards": [
-          "folla curiosa",
-          "telefono che squilla nel momento sbagliato"
-        ],
-        "exits": [
-          "corridoio principale",
-          "passaggio laterale o manutenzione"
-        ],
-        "locked_paths": [],
-        "clue_slots": [],
-        "tactical_features": [
-          "scrivanie rovesciate",
-          "archivi metallici",
-          "vetrate opache"
-        ],
-        "source_ref": {},
-        "source_status": "generated",
-        "original_room_number": "",
-        "map_x": 0,
-        "map_y": 0,
-        "map_w": 0,
-        "map_h": 0,
-        "parent_location_id": "loc_ai_1",
-        "location_type": "regional",
-        "connections_to": [
-          "loc_ai_4"
-        ],
-        "local_map_image_b64": "",
-        "original_section": "",
-        "is_preserved_from_pdf": false,
-        "inferred_runtime_fields": [],
-        "confidence": 0.72
+        "confidence": 0.7
       }
     ],
     "event_clocks": [
@@ -2194,7 +2152,7 @@
   },
   "runtime_state": {
     "definition_id": "adv_5702a141a9",
-    "current_scene_id": "loc_ai_1",
+    "current_scene_id": "loc_sala_del_martello",
     "active_objective_ids": [
       "obj_main"
     ],
@@ -2270,23 +2228,27 @@
     },
     "faction_runtime": {},
     "location_runtime": {
-      "loc_ai_1": {
+      "loc_sala_del_martello": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_2": {
+      "loc_reliquiario_della_fiamma": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_3": {
+      "loc_sala_di_lettura_principale": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_4": {
+      "loc_ufficio_del_comandante": {
         "status": "known",
         "access_state": "open"
       },
-      "loc_ai_5": {
+      "loc_la_piccozza_spezzata": {
+        "status": "known",
+        "access_state": "open"
+      },
+      "loc_piazza_neutrale": {
         "status": "known",
         "access_state": "open"
       }
