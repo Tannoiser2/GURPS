@@ -949,6 +949,29 @@ def simulate_world_state(
             events.append(f"Indizio [{clue_id}] avanza di 1 tick: progresso parziale, non ancora prova.")
     if npcs_to_introduce:
         events.append(f"NPC da introdurre in questa scena: {', '.join(npcs_to_introduce)}.")
+
+    # Incontro casuale "soft" (wandering monster): in un turno di esplorazione
+    # riuscito ma senza nuovi indizi, ogni tanto un essere si aggira nei paraggi.
+    # È un SUGGERIMENTO atmosferico per il Master, NON un combattimento forzato.
+    # Deterministico per turno+nodo (non sfarfalla tra chiamate dello stesso turno).
+    if success and not clue_id and not game_state_data.get("in_combat"):
+        _ws_map = game_state_data.get("map_state") or {}
+        _ws_node = str(_ws_map.get("current_node_id") or game_state_data.get("current_scene_id") or "")
+        _ws_turn = int(game_state_data.get("turn") or 0)
+        if _ws_node:
+            import random as _ws_rnd
+            from .data_creatures import random_encounter_for
+            _ws_rng = _ws_rnd.Random(f"wander|{_ws_node}|{_ws_turn}")
+            if _ws_rng.random() < 0.15:
+                _genre = getattr(getattr(runtime, "genre_profile", None), "id", "") or ""
+                _crea = random_encounter_for(_genre, max_threat=2, rng=_ws_rng)
+                if _crea:
+                    events.append(
+                        f"INCONTRO CASUALE (opzionale): {_crea['name'].lower()} si aggira nei paraggi — "
+                        f"{_crea.get('desc', '')} Usalo come atmosfera, agguato o ostacolo SOLO se si "
+                        f"adatta alla scena; non forzare il combattimento se i giocatori lo evitano."
+                    )
+
     if witness_updates:
         for wu in witness_updates:
             events.append(f"TESTIMONE [{wu['npc_name']}] → {wu['witness_state'].upper()}: {wu['note']}")
