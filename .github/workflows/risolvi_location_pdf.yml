@@ -68,6 +68,9 @@ jobs:
         if: ${{ github.event.inputs.apply == 'true' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Abilita il resolver semantico LLM (altrimenti _llm_extractors_enabled()
+          # è False e ogni risoluzione ritorna None → 0 attori risolti).
+          GURPS_ENABLE_LLM_EXTRACTORS: "true"
         run: python3 scripts/migra_pdf_location_llm.py --apply
 
       - name: Commit e push risultati

@@ -115,6 +115,10 @@ def main(apply: bool) -> int:
         return 0
 
     # --- APPLY: serve il provider AI (dipendenze backend installate + API key) ---
+    # Il resolver semantico è gated da _llm_extractors_enabled() (env
+    # GURPS_ENABLE_LLM_EXTRACTORS): senza, ogni risoluzione ritorna None → 0
+    # risolti. Lo script ESISTE per usarlo, quindi lo abilitiamo esplicitamente.
+    os.environ["GURPS_ENABLE_LLM_EXTRACTORS"] = "true"
     try:
         from App import claude_service  # noqa: E402
         from App.llm_extractors import resolve_actor_locations_with_llm  # noqa: E402
