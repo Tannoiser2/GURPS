@@ -3594,26 +3594,33 @@ function SetupScreen({ onStart }) {
           </div>
         </div>
 
-        {/* Tutti i tasti azione raccolti sotto i temi:
-            Carica PDF · Carica JSON · JSON Doctor · Editor · Riprendi */}
-        <div style={{ display: "flex", gap: 10, justifyContent: "center", alignItems: "center", padding: "10px 16px", background: "#0a0a0a", flexShrink: 0, flexWrap: "wrap" }}>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", background: "rgba(96,165,250,0.12)", border: "1px solid rgba(96,165,250,0.4)", color: "#93c5fd", borderRadius: 9, padding: "10px 18px", fontSize: 13, fontWeight: 700 }}
+        {/* Tutti i tasti azione raccolti sotto i temi, come PNG (stessa altezza → allineati):
+            Carica PDF · Carica JSON · JSON Doctor · poi Editor · Riprendi */}
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", alignItems: "center", padding: "10px 16px", background: "#0a0a0a", flexShrink: 0, flexWrap: "wrap" }}>
+          <label style={{ cursor: "pointer", flexShrink: 0, lineHeight: 0 }}
             title="Importa un'avventura da un modulo PDF (poi Doctor automatico e scelta PG)">
-            📄 Carica PDF
+            <img src={caricaPdfImg} alt="Carica PDF"
+              style={{ height: 52, display: "block", borderRadius: 9, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.82"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"} />
             <input type="file" accept=".pdf" style={{ display: "none" }} onChange={e => e.target.files[0] && handlePdfUpload(e.target.files[0])} />
           </label>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", background: "rgba(74,222,128,0.12)", border: "1px solid rgba(74,222,128,0.4)", color: "#4ade80", borderRadius: 9, padding: "10px 18px", fontSize: 13, fontWeight: 700 }}
+          <label style={{ cursor: "pointer", flexShrink: 0, lineHeight: 0 }}
             title="Carica un JSON avventura (poi Doctor automatico e scelta PG)">
-            📋 Carica JSON
+            <img src={caricaJsonImg} alt="Carica JSON"
+              style={{ height: 52, display: "block", borderRadius: 9, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.82"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"} />
             <input type="file" accept=".json" style={{ display: "none" }} onChange={e => e.target.files[0] && handleJsonLoad(e.target.files[0])} />
           </label>
 
-          <div style={{ width: 1, height: 30, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
-
           {/* JSON Doctor standalone — analizza un JSON senza avviare la partita */}
-          <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.4)", color: "#a5b4fc", borderRadius: 9, padding: "10px 18px", fontSize: 13, fontWeight: 700 }}
+          <label style={{ cursor: "pointer", flexShrink: 0, lineHeight: 0 }}
             title="Analizza un JSON con il Doctor senza avviare la partita">
-            🩺 JSON Doctor
+            <img src={jsonDoctorImg} alt="JSON Doctor"
+              style={{ height: 52, display: "block", borderRadius: 9, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.82"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"} />
             <input
               type="file" accept=".json" style={{ display: "none" }}
               onChange={async e => {
@@ -3647,21 +3654,23 @@ function SetupScreen({ onStart }) {
             />
           </label>
 
-          {/* Editor: moduli pronti, creazione passo-passo, edita JSON */}
+          {/* Editor: moduli pronti, creazione passo-passo, edita JSON.
+              TODO: sostituire con <img src={editorImg}> appena editor.png è in assets/. */}
           <button onClick={() => setStep("editor")} style={{
-            display: "flex", alignItems: "center", gap: 8,
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8, height: 52,
             background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.4)",
-            color: "#a78bfa", borderRadius: 9, padding: "10px 18px", fontSize: 13,
-            fontWeight: 700, cursor: "pointer",
-          }}>✏️ Editor</button>
+            color: "#a78bfa", borderRadius: 9, padding: "0 22px", fontSize: 15,
+            fontWeight: 800, letterSpacing: 1, cursor: "pointer",
+          }}>✏️ EDITOR</button>
 
-          {/* Carica partita salvata */}
+          {/* Carica partita salvata.
+              TODO: sostituire con <img src={riprendiImg}> appena riprendi.png è in assets/. */}
           <button onClick={openSavesPanel} style={{
-            display: "flex", alignItems: "center", gap: 8,
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8, height: 52,
             background: "rgba(251,191,36,0.12)", border: "1px solid rgba(251,191,36,0.4)",
-            color: "#fbbf24", borderRadius: 9, padding: "10px 18px", fontSize: 13,
-            fontWeight: 700, cursor: "pointer",
-          }}>📂 Riprendi</button>
+            color: "#fbbf24", borderRadius: 9, padding: "0 22px", fontSize: 15,
+            fontWeight: 800, letterSpacing: 1, cursor: "pointer",
+          }}>📂 RIPRENDI</button>
         </div>
 
         {(loading || jsonLoading) && (
