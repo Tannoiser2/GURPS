@@ -3249,6 +3249,36 @@ function SetupScreen({ onStart }) {
   }
 
   // ── Step 1: scegli genere ──
+  if (step === "editor") {
+    const eBtn = (emoji, title, sub, color, onClick) => (
+      <button onClick={onClick} style={{
+        display: "flex", flexDirection: "column", gap: 6, alignItems: "flex-start", textAlign: "left",
+        background: `${color}14`, border: `1px solid ${color}55`, color: "#fff",
+        borderRadius: 12, padding: "18px 20px", cursor: "pointer", width: "100%", maxWidth: 420,
+      }}>
+        <span style={{ fontSize: 22 }}>{emoji}</span>
+        <span style={{ fontSize: 16, fontWeight: 800, color }}>{title}</span>
+        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.6)", lineHeight: 1.4 }}>{sub}</span>
+      </button>
+    );
+    return (
+      <div style={{ height: "100vh", background: "#000", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <img src="/Banner superiore GURPS.png" alt="GURPS Master GDR" style={{ width: "100%", display: "block", objectFit: "contain", flexShrink: 0, maxHeight: "18vh" }} />
+        <div style={{ flex: 1, overflowY: "auto", padding: "24px 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", maxWidth: 420 }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: "#a78bfa" }}>✏️ Editor avventure</div>
+            <button onClick={() => setStep("genre")} style={{ background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.7)", borderRadius: 7, padding: "5px 12px", fontSize: 12, cursor: "pointer" }}>← Gioca</button>
+          </div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", maxWidth: 420, textAlign: "center" }}>
+            Crea o modifica avventure. Per <b>giocare</b> usa la schermata principale.
+          </div>
+          {eBtn("📚", "Moduli pronti", "Scegli un'avventura-modello già strutturata da personalizzare.", "#f59e0b", () => { openTemplatesPanel(); })}
+          {eBtn("🧙", "Crea passo-passo", "Costruisci un'avventura guidata: titolo, premessa, PNG, clock, indizi.", "#a78bfa", () => { resetWizard(); setStep("wizard"); })}
+        </div>
+      </div>
+    );
+  }
+
   if (step === "genre") {
     const genres = Object.keys(GENRE_META);
     return (
@@ -3335,19 +3365,12 @@ function SetupScreen({ onStart }) {
           </label>
           <div style={{ width: 1, height: 24, background: "rgba(255,255,255,0.12)", flexShrink: 0 }} />
 
-          {/* Moduli pronti */}
-          <button onClick={openTemplatesPanel} style={{
-            background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.35)",
-            color: "#f59e0b", borderRadius: 7, padding: "5px 12px", fontSize: 12,
-            fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
-          }}>📚 Moduli Pronti</button>
-
-          {/* Wizard */}
-          <button onClick={() => { resetWizard(); setStep("wizard"); }} style={{
+          {/* Editor: moduli pronti, creazione passo-passo, edita JSON */}
+          <button onClick={() => setStep("editor")} style={{
             background: "rgba(139,92,246,0.12)", border: "1px solid rgba(139,92,246,0.35)",
             color: "#a78bfa", borderRadius: 7, padding: "5px 12px", fontSize: 12,
             fontWeight: 600, cursor: "pointer", flexShrink: 0, letterSpacing: 0.3,
-          }}>🧙 Crea Passo-Passo</button>
+          }}>✏️ Editor</button>
 
           {/* Carica partita salvata */}
           <button onClick={openSavesPanel} style={{
