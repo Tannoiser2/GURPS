@@ -2575,6 +2575,52 @@ def _add_narrative_scene_entities(state: GameState, entities: list[SceneEntity])
         ))
 
 
+def _combat_enemy_for_scene(state: GameState, node_id: str, threat_name: str) -> "SceneEntity | None":
+    """Nemico di combattimento con stat REALI (non più il placeholder hp=2).
+
+    Priorità:
+      1) un NPC ostile fisicamente presente nel nodo → la SUA scheda GURPS;
+      2) altrimenti una creatura del bestiario appropriata al genere, deterministica
+         per nodo (stessa location → stessa creatura, non cambia a ogni turno).
+    Se c'è un nome di minaccia concreto dell'avventura, lo conserva ma con stat reali.
+    Ritorna None solo se non c'è nulla di adatto → resta il fallback generico.
+    """
+    genre = (getattr(state.mission, "genre", "") if state.mission else "") or \
+            (state.adventure_definition.genre if state.adventure_definition else "")
+
+    # 1) NPC ostile presente qui → usa la sua scheda
+    for npc in (state.world_npcs or []):
+        if (npc.current_node_id == node_id
+                and npc.status in {"alive", "active", "exposed"}
+                and (npc.threat_to_player or 0) >= 2
+                and npc.combat_hp):
+            return SceneEntity(
+                id=f"enemy_{npc.id}", name=npc.name, type="enemy", zone="minaccia",
+                hp=npc.combat_hp, max_hp=npc.combat_max_hp or npc.combat_hp,
+                dr=npc.combat_dr or 0, attack_skill=npc.combat_attack_skill or 12,
+                active_defense=npc.combat_active_defense or 8,
+                damage_dice=npc.combat_damage_dice or "1d-1",
+                damage_type=npc.combat_damage_type or "cr",
+                tags=["nemico", "png"],
+            )
+
+    # 2) creatura dal bestiario — stat reali, deterministica per nodo
+    from .data_creatures import creature_to_entity_dict, random_encounter_for
+    threat_pct = (state.scene.threat_level / 10.0) if state.scene else 0.0
+    max_threat = 1 if threat_pct < 0.4 else (2 if threat_pct < 0.7 else 3)
+    rng = random.Random(f"{node_id}|{genre}")
+    creature = random_encounter_for(genre, max_threat=max_threat, rng=rng) \
+        or random_encounter_for(genre, rng=rng)
+    if not creature:
+        return None
+    kw = creature_to_entity_dict(creature, entity_id="enemy_primary")
+    if _is_concrete_threat_name(threat_name):
+        # mantieni il nome della minaccia dell'avventura, ma con stat reali
+        kw["name"] = threat_name.capitalize()
+        kw["tags"] = ["nemico", "minaccia"]
+    return SceneEntity(**kw)
+
+
 def populate_scene_entities(state: GameState) -> None:
     if not state.scene:
         return
@@ -2593,7 +2639,11 @@ def populate_scene_entities(state: GameState) -> None:
 
     if (current_node and current_node.contains_enemy) or tags & {"combattimento", "attacco", "scontro", "nemico"}:
         threat_name = state.mission.threat_type if state.mission else "Minaccia"
-        if _is_concrete_threat_name(threat_name):
+        _node_id = current_node.id if current_node else (state.map_state.current_node_id if state.map_state else "")
+        enemy = _combat_enemy_for_scene(state, _node_id, threat_name)
+        if enemy is not None:
+            _append_scene_entity(entities, enemy)
+        elif _is_concrete_threat_name(threat_name):
             _append_scene_entity(entities, SceneEntity(id="enemy_primary", name=threat_name.capitalize(), type="enemy", zone="minaccia", hp=2 + state.scene.threat_level // 4, tags=["nemico", "minaccia"]))
 
     scene_text = state.scene.scene_text if state.scene else ""

@@ -91,6 +91,44 @@ CREATURE_TABLE: list[dict] = [
      "threat": 1, "hp": 4, "dr": 0, "attack_skill": 12, "active_defense": 9,
      "damage_dice": "1d-4", "damage_type": "imp", "morale": "",
      "tags": ["bestia", "veleno", "piccolo"], "desc": "Morso veloce e velenoso."},
+    {"id": "puma", "name": "Puma", "eras": [ERA_WESTERN, ERA_PRIMITIVE, ERA_MEDIEVAL],
+     "threat": 2, "hp": 12, "dr": 0, "attack_skill": 14, "active_defense": 11,
+     "damage_dice": "1d", "damage_type": "cut", "morale": "",
+     "tags": ["bestia", "agguato"], "desc": "Felino in agguato, balzo rapido e letale."},
+
+    # ─── Fantasy aggiuntive ────────────────────────────────────────────────────
+    {"id": "orco", "name": "Orco", "eras": [ERA_FANTASY],
+     "threat": 2, "hp": 13, "dr": 2, "attack_skill": 12, "active_defense": 9,
+     "damage_dice": "2d-1", "damage_type": "cut", "morale": "tenace",
+     "tags": ["umanoide", "guerriero"], "desc": "Bruto da guerra con ascia o mazza pesante."},
+    {"id": "ragno_gigante", "name": "Ragno gigante", "eras": [ERA_FANTASY, ERA_HORROR],
+     "threat": 2, "hp": 14, "dr": 1, "attack_skill": 13, "active_defense": 10,
+     "damage_dice": "1d-2", "damage_type": "imp", "morale": "",
+     "tags": ["bestia", "veleno", "tela"], "desc": "Aracnide enorme: morso velenoso e tele."},
+    {"id": "spettro", "name": "Spettro", "eras": [ERA_HORROR, ERA_FANTASY],
+     "threat": 3, "hp": 12, "dr": 0, "attack_skill": 13, "active_defense": 11,
+     "damage_dice": "1d", "damage_type": "burn", "morale": "fanatico",
+     "tags": ["non-morto", "incorporeo", "immune_paura"], "desc": "Apparizione che drena con tocco gelido."},
+
+    # ─── Sci-Fi aggiuntive ─────────────────────────────────────────────────────
+    {"id": "soldato_clone", "name": "Soldato clone", "eras": [ERA_SCIFI],
+     "threat": 2, "hp": 12, "dr": 3, "attack_skill": 13, "active_defense": 10,
+     "damage_dice": "2d", "damage_type": "burn", "morale": "fanatico",
+     "tags": ["umanoide", "militare"], "desc": "Fante geneticamente prodotto, fucile a impulsi."},
+    {"id": "sciame_nanitico", "name": "Sciame nanitico", "eras": [ERA_SCIFI, ERA_STEAMPUNK],
+     "threat": 2, "hp": 8, "dr": 1, "attack_skill": 12, "active_defense": 8,
+     "damage_dice": "1d", "damage_type": "cr", "morale": "fanatico",
+     "tags": ["macchina", "sciame", "corrosivo"], "desc": "Nube di micro-robot che corrode e disassembla."},
+    {"id": "predatore_xeno", "name": "Predatore xeno", "eras": [ERA_SCIFI, ERA_HORROR],
+     "threat": 3, "hp": 17, "dr": 3, "attack_skill": 14, "active_defense": 11,
+     "damage_dice": "2d", "damage_type": "imp", "morale": "tenace",
+     "tags": ["alieno", "agguato", "grande"], "desc": "Cacciatore alieno mimetico, code e fauci."},
+
+    # ─── Moderno aggiuntive ────────────────────────────────────────────────────
+    {"id": "mercenario", "name": "Mercenario armato", "eras": [ERA_MODERN],
+     "threat": 2, "hp": 12, "dr": 2, "attack_skill": 13, "active_defense": 10,
+     "damage_dice": "2d", "damage_type": "pi", "morale": "",
+     "tags": ["umanoide", "armato"], "desc": "Soldato di ventura con arma da fuoco e giubbotto."},
 ]
 
 CREATURE_BY_ID: dict[str, dict] = {c["id"]: c for c in CREATURE_TABLE}
