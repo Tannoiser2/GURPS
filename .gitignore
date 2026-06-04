@@ -41,3 +41,9 @@ data/compiled_adventures/_backup_*/
 data/compiled_adventures/_debug_pdf/
 *.bak
 .claude/worktrees/
+
+# Materiale sorgente PDF (manuali GURPS + moduli avventura): fuori dal repo per
+# leggerezza (lo ZIP/clone era ~450MB). Le avventure compilate sono in data/.
+# I PDF generati dall'app (PDF/, data/.../*.pdf, catalogo) restano versionati.
+/*.pdf
+gurps_avventure/
