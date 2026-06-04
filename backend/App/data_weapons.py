@@ -769,6 +769,9 @@ def default_weapon_for_archetype(archetype: str, genre: str) -> tuple[str, int] 
     Ritorna (weapon_id, ammo_packs) per un archetipo + genere.
     Se l'archetipo non è in ARCHETYPE_WEAPON_MAP, deduce dall'era del genere.
     """
+    # Normalizza il genere: "Sci-Fi" / "sci fi" → "sci_fi", così non cade sul
+    # default ERA_MODERN (→ pistola 9mm) per una semplice differenza di formato.
+    genre = (genre or "").strip().lower().replace("-", "_").replace(" ", "_")
     low = archetype.lower()
     if low in ARCHETYPE_WEAPON_MAP:
         wid, packs = ARCHETYPE_WEAPON_MAP[low]
@@ -785,7 +788,7 @@ def default_weapon_for_archetype(archetype: str, genre: str) -> tuple[str, int] 
     if ERA_SCIFI in eras:
         return "blaster", 2
     if ERA_WESTERN in eras:
-        return "colt_45", 2
+        return "colt45", 2
     if ERA_STEAMPUNK in eras:
         return "pistola_vapore", 2
     if ERA_MEDIEVAL in eras or ERA_FANTASY in eras:
