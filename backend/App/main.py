@@ -276,7 +276,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v12-pdf-async"
+BUILD_VERSION = "v13-pdf-jobs-disk"
 
 @app.get("/health")
 def health_check():
@@ -4278,24 +4278,47 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
 # tenere aperta UNA richiesta per tutto il tempo fa fallire l'upload con
 # "Load failed". Il frontend usa quindi il percorso asincrono: avvia il job
 # (richiesta breve) e poi fa polling di /status (richieste brevi).
-_pdf_jobs: dict[str, dict] = {}
+#
+# Il job store è su DISCO (non in memoria di processo): su Render lo /status può
+# finire su un worker diverso da quello che ha avviato il job (più worker uvicorn)
+# e il processo può ripartire. Un file condiviso sopravvive a entrambi, mentre un
+# dict in memoria dava "job non trovato".
+_PDF_JOBS_DIR = Path(os.getenv("PDF_JOBS_DIR", "/tmp/gurps_pdf_jobs"))
 _pdf_jobs_lock = threading.Lock()
-_PDF_JOBS_MAX = 24
+
+
+def _pdf_job_path(job_id: str) -> Path:
+    return _PDF_JOBS_DIR / f"{job_id}.json"
+
+
+def _pdf_job_write(job_id: str, data: dict) -> None:
+    """Scrittura atomica (tmp + rename) così uno /status concorrente non legge
+    mai un file a metà."""
+    _PDF_JOBS_DIR.mkdir(parents=True, exist_ok=True)
+    tmp = _pdf_job_path(job_id).with_suffix(".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+    tmp.replace(_pdf_job_path(job_id))
+
+
+def _pdf_job_read(job_id: str) -> "dict | None":
+    p = _pdf_job_path(job_id)
+    if not p.exists():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return None  # scrittura in corso o file corrotto → il chiamante ritenta
 
 
 def _pdf_jobs_gc() -> None:
-    """Tiene il job store piccolo: rimuove i job vecchi (>30 min) e, se troppi,
-    i più vecchi già completati."""
+    """Rimuove i file dei job vecchi (>30 min) per non accumulare /tmp."""
     now = time.time()
-    with _pdf_jobs_lock:
-        for jid in [k for k, v in _pdf_jobs.items()
-                    if now - v.get("created_at", now) > 1800]:
-            _pdf_jobs.pop(jid, None)
-        if len(_pdf_jobs) > _PDF_JOBS_MAX:
-            done = sorted((k for k, v in _pdf_jobs.items() if v.get("status") in ("done", "error")),
-                          key=lambda k: _pdf_jobs[k].get("created_at", 0))
-            for jid in done[: len(_pdf_jobs) - _PDF_JOBS_MAX]:
-                _pdf_jobs.pop(jid, None)
+    try:
+        for p in _PDF_JOBS_DIR.glob("*.json"):
+            if now - p.stat().st_mtime > 1800:
+                p.unlink(missing_ok=True)
+    except Exception:
+        pass
 
 
 @app.post("/game/adventure/from-pdf")
@@ -4332,22 +4355,18 @@ def adventure_from_pdf_async(
     filename = file.filename or "Avventura da PDF"
     _pdf_jobs_gc()
     job_id = str(uuid.uuid4())
-    with _pdf_jobs_lock:
-        _pdf_jobs[job_id] = {"status": "pending", "created_at": time.time()}
+    _pdf_job_write(job_id, {"status": "pending", "created_at": time.time()})
 
     def _work():
         try:
             res = _compile_pdf_to_result(pdf_bytes, filename, genre, players, provider, map_page)
             status = "error" if (isinstance(res, dict) and res.get("error") and not res.get("compilation_failed")) else "done"
-            with _pdf_jobs_lock:
-                _pdf_jobs[job_id] = {"status": status, "result": res,
-                                     "created_at": _pdf_jobs.get(job_id, {}).get("created_at", time.time())}
+            _pdf_job_write(job_id, {"status": status, "result": res, "created_at": time.time()})
         except Exception as e:
             print(f"[adventure/from-pdf-async] job {job_id} crash: {type(e).__name__}: {e}")
-            with _pdf_jobs_lock:
-                _pdf_jobs[job_id] = {"status": "error",
-                                     "result": {"error": f"Errore compilazione: {type(e).__name__}: {str(e)[:260]}"},
-                                     "created_at": _pdf_jobs.get(job_id, {}).get("created_at", time.time())}
+            _pdf_job_write(job_id, {"status": "error",
+                                    "result": {"error": f"Errore compilazione: {type(e).__name__}: {str(e)[:260]}"},
+                                    "created_at": time.time()})
 
     threading.Thread(target=_work, name=f"pdf-{job_id[:8]}", daemon=True).start()
     return {"job_id": job_id, "status": "pending"}
@@ -4357,16 +4376,16 @@ def adventure_from_pdf_async(
 def adventure_from_pdf_status(job_id: str):
     """Stato del job di compilazione PDF. Quando ``status == 'done'`` (o 'error')
     restituisce anche ``result`` (lo stesso payload dell'endpoint sincrono)."""
-    with _pdf_jobs_lock:
-        job = _pdf_jobs.get(job_id)
-        if job is None:
-            return {"status": "not_found"}
-        out = {"status": job["status"]}
-        if job["status"] in ("done", "error"):
-            out["result"] = job.get("result")
-            # consuma il job una volta consegnato il risultato
-            _pdf_jobs.pop(job_id, None)
-        return out
+    job = _pdf_job_read(job_id)
+    if job is None:
+        return {"status": "not_found"}
+    out = {"status": job.get("status", "pending")}
+    if out["status"] in ("done", "error"):
+        out["result"] = job.get("result")
+        # consuma il job una volta consegnato il risultato
+        with _pdf_jobs_lock:
+            _pdf_job_path(job_id).unlink(missing_ok=True)
+    return out
 
 
 # ─── DEBUG: avvia combattimento di test ───────────────────────────────────────

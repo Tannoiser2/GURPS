@@ -2696,8 +2696,11 @@ function SetupScreen({ onStart }) {
       if (!jobId) throw new Error("Backend non aggiornato: manca la compilazione asincrona. Attendi il nuovo deploy e riprova.");
 
       // Polling dello stato: ogni 3s, finché done/error (deadline 8 min). Gli
-      // errori di rete transitori sul polling vengono ignorati e si ritenta.
+      // errori di rete transitori sul polling vengono ignorati e si ritenta. Un
+      // 'not_found' isolato può capitare durante un riavvio breve: lo toleriamo
+      // per alcuni tentativi prima di arrenderci.
       let data = null;
+      let notFoundStreak = 0;
       const pollDeadline = Date.now() + 8 * 60 * 1000;
       while (Date.now() < pollDeadline) {
         await new Promise(r => setTimeout(r, 3000));
@@ -2706,10 +2709,14 @@ function SetupScreen({ onStart }) {
         catch (_) { continue; }  // 502/HTML/rete transitoria → ritenta
         if (st?.status === "done") { data = st.result; break; }
         if (st?.status === "error") { data = st.result || { error: "Compilazione PDF fallita." }; break; }
-        if (st?.status === "not_found") throw new Error("Job di compilazione non trovato (il server potrebbe essere ripartito). Riprova.");
-        // pending → continua
+        if (st?.status === "not_found") {
+          if (++notFoundStreak >= 5)
+            throw new Error("Job di compilazione perso (il server è ripartito, probabilmente memoria esaurita sul piano gratuito). Riprova tra poco.");
+          continue;
+        }
+        notFoundStreak = 0;  // pending → continua
       }
-      if (!data) throw new Error("Timeout: la compilazione del PDF non si è conclusa in tempo. Riprova.");
+      if (!data) throw new Error("Timeout: la compilazione del PDF non si è conclusa in tempo (oltre 8 minuti). Riprova.");
       if (data.compilation_failed) {
         const gate = data.quality_gate || {};
         const critical = (gate.critical || []).map(c => `• ${c}`).join("\n");
