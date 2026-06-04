@@ -27,6 +27,22 @@ except Exception:
         k = str(g or "").lower().replace(" ", "_").replace("-", "_")
         return {"sci_fi": "sci-fi", "scifi": "sci-fi"}.get(k, k or "_other")
 
+# Punteggio qualità dal Doctor (audit live) per ordinare e annotare le schede.
+from unittest.mock import MagicMock as _MagicMock  # noqa: E402
+for _m in ("anthropic", "openai", "google", "google.genai", "google.auth"):
+    sys.modules.setdefault(_m, _MagicMock())
+try:
+    from App.adventure_doctor import audit as _audit, score as _doctor_raw  # type: ignore
+
+    def doctor_score(ad: dict) -> float | None:
+        try:
+            return round(_doctor_raw(_audit(ad)), 1)
+        except Exception:
+            return None
+except Exception:
+    def doctor_score(ad: dict):
+        return None
+
 THEME_LABEL = {
     "sci-fi": "Fantascienza", "fantasy": "Fantasy", "horror": "Horror",
     "investigation": "Investigazione", "action": "Azione", "storico": "Storico",
@@ -122,26 +138,29 @@ def collect():
 
 def main():
     rows = collect()
-    grouped = defaultdict(list)
+    # Annota ogni scheda col punteggio Doctor e ordina dalle migliori alle peggiori.
+    scored = []
     for folder, ad, jf in rows:
-        grouped[folder].append((ad, jf))
+        scored.append((doctor_score(ad), folder, ad, jf))
+    scored.sort(key=lambda x: (-(x[0] if x[0] is not None else -1),
+                               clean(x[2].get("title")).lower()))
 
     L = ["# 🎴 Schede avventure — flavor & prompt immagine\n"]
-    L.append(f"> {len(rows)} avventure. Per ognuna: flavor text e un prompt pronto da "
-             "incollare in ChatGPT/Gemini per generare l'immagine di presentazione.\n")
+    L.append(f"> {len(rows)} avventure, **ordinate dalla migliore alla peggiore** "
+             "(punteggio Doctor 0-10). Per ognuna: punteggio, genere, flavor text e un "
+             "prompt pronto da incollare in ChatGPT/Gemini per l'immagine di presentazione.\n")
     L.append(f"> Generato da `tools/build_adventure_briefs.py`.\n")
 
-    for folder in sorted(grouped):
-        items = sorted(grouped[folder], key=lambda x: clean(x[0].get("title")).lower())
-        L.append(f"\n## {THEME_LABEL.get(folder, folder)} ({len(items)})\n")
-        for ad, jf in items:
-            title = clean(ad.get("title")) or jf.stem
-            L.append(f"### {title}")
-            L.append(f"*{flavor_of(ad)}*\n")
-            L.append("**Prompt immagine:**")
-            L.append(f"> {image_prompt(ad, folder)}\n")
+    for sc, folder, ad, jf in scored:
+        title = clean(ad.get("title")) or jf.stem
+        sc_txt = f"{sc:.1f}/10" if sc is not None else "NA"
+        genre_lbl = THEME_LABEL.get(folder, folder)
+        L.append(f"### {title}  —  ⭐ {sc_txt} · {genre_lbl}")
+        L.append(f"*{flavor_of(ad)}*\n")
+        L.append("**Prompt immagine:**")
+        L.append(f"> {image_prompt(ad, folder)}\n")
     OUT.write_text("\n".join(L), encoding="utf-8")
-    print(f"Scritto {OUT} ({len(rows)} avventure)")
+    print(f"Scritto {OUT} ({len(rows)} avventure, ordinate per punteggio)")
 
 
 if __name__ == "__main__":
