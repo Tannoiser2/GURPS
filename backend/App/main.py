@@ -17,6 +17,21 @@ from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Request, Res
 from starlette.responses import JSONResponse
 from pydantic import BaseModel, field_validator
 import io
+
+# ── Default di produzione per l'import PDF ────────────────────────────────────
+# Il render.yaml non viene applicato da Render (servizio creato da dashboard,
+# non da blueprint): le env restano ai default del codice. Qui forziamo i
+# valori giusti PRIMA di importare adventure_compiler (che legge
+# PDF_COMPILE_MAX_WORKERS al momento dell'import) e llm_extractors.
+#   • GURPS_ENABLE_LLM_EXTRACTORS=1 → estrazione narrativa via LLM accesa,
+#     altrimenti l'import PDF usa solo le regex e produce ~25/100.
+#   • PDF_COMPILE_MAX_WORKERS=1 → chiamate LLM sequenziali = RAM contenuta
+#     (free tier 512MB), evita l'OOM.
+# setdefault: una vera env (dashboard) ha comunque la precedenza e può
+# sovrascrivere (es. "0" per spegnere gli extractor e tagliare i costi).
+os.environ.setdefault("GURPS_ENABLE_LLM_EXTRACTORS", "1")
+os.environ.setdefault("PDF_COMPILE_MAX_WORKERS", "1")
+
 from .engine import (
     empty_game_state, prepare_team_setup, start_game_from_selection,
     preview_action_outcomes, initiate_combat_action, declare_defense,
@@ -276,7 +291,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v18-health-pdfcfg"
+BUILD_VERSION = "v19-pdf-defaults-in-code"
 
 @app.get("/health")
 def health_check():
