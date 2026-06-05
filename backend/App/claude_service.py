@@ -6586,26 +6586,44 @@ ISTRUZIONI:
 
 _MOVE_ACTION_RE = re.compile(r"[Ss]postar[si]* verso\s+(.+)", re.IGNORECASE)
 
+# Matcher azione→location estratto in un modulo puro (testabile senza la catena
+# di import del motore). Re-export per retro-compatibilità: main.py importa
+# ``match_destination`` da claude_service.
+from .location_matching import match_destination, _significant_words  # noqa: E402
+
 
 def _resolve_movement_destination(player_action: str, runtime, current_scene_id: str) -> str:
-    """F5: se l'azione è 'Spostarsi verso X', restituisce il location_id della destinazione.
+    """F5: se l'azione del giocatore è uno spostamento, restituisce il
+    location_id della destinazione (altrimenti la scena corrente).
+
+    Gestisce sia l'azione predefinita "Spostarsi verso X" sia le azioni di
+    viaggio in prosa generate dall'AI ("Recarsi alla Stazione", "Visitare il
+    Municipio", "Tornare alla dimora di Corbitt ..."). Senza questo, la
+    posizione restava ferma su ogni azione non-canonica e il director
+    continuava a usare la location sbagliata (causa di loop e scontri fuori
+    luogo).
 
     Consente al director di usare i vincoli di visibilità della scena di arrivo,
     non di quella di partenza, eliminando la race tra movimento e narrazione.
     """
+    locations = list(getattr(runtime, "locations", None) or [])
+    # 1) Azione canonica "Spostarsi verso X": match esatto per nome/id.
     m = _MOVE_ACTION_RE.search(player_action or "")
-    if not m:
-        return current_scene_id
-    dest_name = m.group(1).strip().rstrip(".")
-    for loc in (runtime.locations or []):
-        if loc.name.lower() == dest_name.lower() or loc.id.lower() == dest_name.lower():
-            return loc.id
-    # fallback: substring match
-    dest_norm = dest_name.lower()
-    for loc in (runtime.locations or []):
-        if dest_norm in loc.name.lower() or loc.name.lower() in dest_norm:
-            return loc.id
+    if m:
+        dest_name = m.group(1).strip().rstrip(".")
+        dest_norm = dest_name.lower()
+        for loc in locations:
+            if loc.name.lower() == dest_norm or loc.id.lower() == dest_norm:
+                return loc.id
+        for loc in locations:
+            if dest_norm in loc.name.lower() or loc.name.lower() in dest_norm:
+                return loc.id
+    # 2) Azione di viaggio in prosa: matcher per sovrapposizione di parole.
+    matched = match_destination(player_action, [(loc.id, loc.name) for loc in locations])
+    if matched:
+        return matched
     return current_scene_id
+
 
 
 def compress_history(history: list[dict]) -> list[dict]:

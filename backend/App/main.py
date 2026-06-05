@@ -58,6 +58,7 @@ from .claude_service import (
     compress_history, _COMPRESS_THRESHOLD,
     generate_session_recap,
     get_token_budget_status,
+    match_destination,
 )
 from . import claude_service
 from .data_genres import GENRE_PACKS
@@ -291,7 +292,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v20-pdf-title-clock"
+BUILD_VERSION = "v21-game-location-fix"
 
 @app.get("/health")
 def health_check():
@@ -441,44 +442,21 @@ def _build_map_from_definition(definition: AdventureDefinition) -> "MapState | N
 
 
 def _update_map_position(player_action: str) -> None:
-    """Aggiorna current_node_id e visited se il player si sposta."""
+    """Aggiorna current_node_id e visited se il player si sposta.
+
+    Usa lo stesso matcher robusto del director (match_destination): gate
+    sull'intento di viaggio + sovrapposizione di parole col nome della
+    location. Resistente alle frasi lunghe ("Tornare alla dimora di Corbitt
+    armato delle informazioni — è tempo di esplorare la cantina") che prima
+    facevano fallire il vecchio fuzzy-match e lasciavano il gruppo bloccato.
+    """
     if not game_state.map_state or not game_state.adventure_definition:
         return
-    import re as _re
-    # Match many movement patterns: "spostarsi verso X", "vai a X", "andare a X",
-    # "raggiungere X", "dirigersi a X", "recarsi a X", "entrare in X", "tornare a X"
-    patterns = [
-        r"[Ss]postar[si]* (?:verso|a|al|alla|allo|agli|alle)\s+(.+)",
-        r"[Vv]a(?:i|do|)? (?:a|al|alla|allo|agli|alle)\s+(.+)",
-        r"[Aa]ndar[ei]? (?:a|al|alla|allo|agli|alle)\s+(.+)",
-        r"[Rr]aggiungere\s+(.+)",
-        r"[Dd]irigers[i]* (?:a|al|alla|verso)\s+(.+)",
-        r"[Rr]ecars[i]* (?:a|al|alla)\s+(.+)",
-        r"[Ee]ntrare (?:in|nel|nella|nello|nei|negli|nelle)\s+(.+)",
-        r"[Tt]ornare (?:a|al|alla|allo)\s+(.+)",
-        r"[Mm]uovers[i]* (?:verso|a|al)\s+(.+)",
-    ]
-    dest_name = None
-    for pat in patterns:
-        m = _re.search(pat, player_action or "")
-        if m:
-            dest_name = m.group(1).strip().rstrip(".!?,;")
-            break
-    if not dest_name:
-        return
-    dest_name_l = dest_name.lower()
     nodes = game_state.map_state.nodes
-    match_id = None
-    for nid, node in nodes.items():
-        if node.name.lower() == dest_name_l or nid.lower() == dest_name_l:
-            match_id = nid
-            break
-    if not match_id:
-        for nid, node in nodes.items():
-            if dest_name_l in node.name.lower() or node.name.lower() in dest_name_l:
-                match_id = nid
-                break
-    if match_id:
+    match_id = match_destination(
+        player_action, [(nid, node.name) for nid, node in nodes.items()]
+    )
+    if match_id and match_id in nodes:
         game_state.map_state.current_node_id = match_id
         nodes[match_id].visited = True
 
