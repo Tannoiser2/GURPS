@@ -4181,16 +4181,16 @@ def initiate_combat_action(
             range_half=range_half,
             range_max=range_max,
             ammo_current=ammo_current,
+            prerolled=roll,
         )
         # Scala munizioni se ranged e ha sparato
         if attack_kind == "ranged" and ammo_current > 0 and result.narrative_hint != "munizioni_esaurite":
             action.ammo_current = max(0, ammo_current - 1)
         reset_action_type(attacker)
-        from .combat import _attack_level as _al
-        attack_level = _al(
-            attacker, attack_skill_name, attack_kind=attack_kind, acc=acc,
-            distance=distance, range_half=range_half, range_max=range_max,
-        )
+        # Livello e dado MOSTRATI = quelli usati da resolve_attack (includono
+        # All-Out Attack +4, shock, ferite, distanza). Prima venivano ricalcolati
+        # qui DOPO reset_action_type, perdendo il +4 e usando un dado diverso.
+        attack_level = result.effective_level
         all_adv = attacker.advantages + attacker.disadvantages
         active_adv = [a for a in all_adv if any(k in a.lower() for k in ("riflessi","forza","sensi","duro","ambid"))]
         state.log = _combat_result_to_log(attacker.name, entity.name, result, roll)
@@ -4299,13 +4299,16 @@ def declare_defense(
         range_half=pa.get("range_half", 0),
         range_max=pa.get("range_max", 0),
         ammo_current=pa.get("ammo_current", -1),
+        prerolled=pa["roll"],
     )
     state.pending_attack = None
     reset_action_type(attacker)
     reset_action_type(target)
 
-    state.log = _combat_result_to_log(attacker.name, target.name, result, pa["roll"])
-    attack_level = attacker.skills.get(pa["attack_skill_name"], 0)
+    state.log = _combat_result_to_log(attacker.name, target.name, result, result.attack_roll)
+    # Livello mostrato = quello efficace usato da resolve_attack (con +4/shock/
+    # ferite), non la skill grezza non normalizzata (che dava 0 per "pistola").
+    attack_level = result.effective_level
     all_adv_att = attacker.advantages + attacker.disadvantages
     all_adv_def = target.advantages + target.disadvantages
     from .data_advantages import advantage_dodge_bonus

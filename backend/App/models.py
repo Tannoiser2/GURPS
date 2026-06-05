@@ -214,6 +214,13 @@ class AttackResult(BaseModel):
     """Risultato completo di una sequenza attacco-difesa-danno GURPS."""
     hit: bool
     defended: bool = False
+    # ── Numeri effettivamente usati per colpito/mancato (per il display) ──────
+    # effective_level = abilità dopo TUTTI i modificatori (All-Out Attack, shock,
+    # ferite, postura, distanza): è il "≤ X" reale. attack_roll = il 3d6 usato.
+    # Prima il display ricalcolava questi a parte (dopo il reset dell'action_type)
+    # e mostrava numeri incoerenti con l'esito.
+    effective_level: int = 0
+    attack_roll: int = 0
     raw_damage: int = 0
     dr_absorbed: int = 0
     net_damage: int = 0

@@ -316,9 +316,14 @@ def _attack_level(
     range_half: int = 0,
     range_max: int = 0,
 ) -> int:
+    # Normalizza il nome skill: le armi usano etichette come "pistola"/"fucile"
+    # che NON sono chiavi skill (la skill GURPS è "mira"). Senza normalizzare,
+    # la lookup falliva, lo stat-cardine diventava "forza" e la penalità il
+    # default 5 → livello assurdamente basso (es. "pistola 5").
+    from .data_skills import SKILL_INFO, skill_default_penalty, normalize_skill
+    attack_skill_name = normalize_skill(attack_skill_name)
     level = attacker.skills.get(attack_skill_name, 0)
     if level == 0:
-        from .data_skills import SKILL_INFO, skill_default_penalty
         stat_name = SKILL_INFO.get(attack_skill_name, {}).get("stat", "forza")
         stat_val = attacker.stats.get(stat_name, 10)
         penalty = skill_default_penalty(attack_skill_name)
@@ -385,6 +390,7 @@ def resolve_attack(
     range_half: int = 0,     # gittata ½D dell'arma
     range_max: int = 0,      # gittata massima dell'arma
     ammo_current: int = -1,  # munizioni rimanenti (−1 = non tracciato)
+    prerolled: int | None = None,  # 3d6 già tirato dall'engine (evita la doppia tiratura)
 ) -> AttackResult:
     """
     Risolve un singolo scambio attacco/difesa/danno GURPS Lite completo.
@@ -422,7 +428,9 @@ def resolve_attack(
         attack_kind=attack_kind, acc=acc,
         distance=distance, range_half=range_half, range_max=range_max,
     )
-    attack_roll = _roll3d6()
+    # Usa il 3d6 già tirato dall'engine se fornito: così il dado MOSTRATO è
+    # esattamente quello che decide colpito/mancato (prima erano due tiri diversi).
+    attack_roll = prerolled if prerolled is not None else _roll3d6()
     attacker_critical = _is_critical_success(attack_roll, effective_level)
     attacker_crit_fail = _is_critical_failure(attack_roll, effective_level)
     attacker_margin = effective_level - attack_roll
@@ -434,6 +442,8 @@ def resolve_attack(
     if attacker_crit_fail:
         return AttackResult(
             hit=False,
+            effective_level=effective_level,
+            attack_roll=attack_roll,
             attacker_margin=attacker_margin,
             narrative_hint="critico_fallimentare_attaccante",
             fp_cost=fp_cost,
@@ -443,6 +453,8 @@ def resolve_attack(
     if attack_roll > effective_level and not attacker_critical:
         return AttackResult(
             hit=False,
+            effective_level=effective_level,
+            attack_roll=attack_roll,
             attacker_margin=attacker_margin,
             narrative_hint="colpo_mancato",
             fp_cost=fp_cost,
@@ -477,6 +489,8 @@ def resolve_attack(
         return AttackResult(
             hit=True,
             defended=True,
+            effective_level=effective_level,
+            attack_roll=attack_roll,
             attacker_margin=attacker_margin,
             defense_margin=defense_margin,
             attacker_critical=attacker_critical,
@@ -598,6 +612,8 @@ def resolve_attack(
     return AttackResult(
         hit=True,
         defended=False,
+        effective_level=effective_level,
+        attack_roll=attack_roll,
         raw_damage=raw,
         dr_absorbed=min(effective_raw, target_dr),
         net_damage=net,
