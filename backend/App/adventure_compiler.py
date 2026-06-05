@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import os
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 from .adventure_validator import validate_adventure_definition
 from .archetype_detector import detect_archetypes_from_ai_prompt, detect_archetypes_from_pdf_structure
@@ -1059,32 +1061,50 @@ def _compile_pdf_structure_to_runtime(
     archetype_profile, genre_hint, _llm_meta = _apply_llm_metadata(
         text, structure, archetype_profile, genre_hint, title=title, source_mode="pdf_import",
     )
-    enriched_clues = extract_clues_with_llm(text, structure, title=title)
+    # ── Gruppo parallelo 1: indizi ∥ attori ──────────────────────────────────
+    # Sono indipendenti: entrambi leggono testo + struttura base (sola lettura,
+    # concorrente è sicuro) e scrivono chiavi diverse (clues vs npcs). Eseguirli
+    # in parallelo dimezza il tempo di questa fase. La pipeline attori (estrai →
+    # arricchisci) resta sequenziale al suo interno.
+    def _resolve_actors():
+        s = dict(structure)
+        if len(list(s.get("npcs") or [])) < 2:
+            # Heuristic trovato troppo poco: chiedi al LLM di estrarre da zero
+            extracted = extract_actors_with_llm(text, title=title)
+            if extracted is not None:
+                s["npcs"] = extracted
+        enriched = enrich_actors_with_llm(text, s, title=title)
+        return enriched if enriched is not None else s.get("npcs")
+
+    with ThreadPoolExecutor(max_workers=2) as _ex:
+        _f_clues = _ex.submit(extract_clues_with_llm, text, structure, title=title)
+        _f_actors = _ex.submit(_resolve_actors)
+        enriched_clues = _f_clues.result()
+        new_actors = _f_actors.result()
+
+    structure = dict(structure)
     if enriched_clues is not None:
-        structure = dict(structure)
         structure["clues"] = enriched_clues
         counts = dict(structure.get("counts") or {})
         counts["clues"] = len(enriched_clues)
         structure["counts"] = counts
-    heuristic_actors = list((structure or {}).get("npcs") or [])
-    if len(heuristic_actors) < 2:
-        # Heuristic trovato troppo poco: chiedi al LLM di estrarre da zero
-        extracted_actors = extract_actors_with_llm(text, title=title)
-        if extracted_actors is not None:
-            structure = dict(structure)
-            structure["npcs"] = extracted_actors
-    enriched_actors = enrich_actors_with_llm(text, structure, title=title)
-    if enriched_actors is not None:
-        structure = dict(structure)
-        structure["npcs"] = enriched_actors
-    deduction_revelations = build_deduction_graph_with_llm(text, structure, title=title)
-    if deduction_revelations is not None:
-        structure = dict(structure)
-        structure["revelations"] = deduction_revelations
+    if new_actors is not None:
+        structure["npcs"] = new_actors
+
+    # ── Gruppo parallelo 2: grafo deduzioni ∥ clock ───────────────────────────
+    # Entrambi dipendono dagli indizi (già applicati sopra) e scrivono chiavi
+    # diverse (revelations vs event_clocks): sicuri in parallelo.
     # P4b: estrazione clock semantici (clock_type, resolution_clues, discovery_clue_id)
-    enriched_clocks = extract_clocks_with_llm(text, structure, title=title)
+    with ThreadPoolExecutor(max_workers=2) as _ex:
+        _f_ded = _ex.submit(build_deduction_graph_with_llm, text, structure, title=title)
+        _f_clk = _ex.submit(extract_clocks_with_llm, text, structure, title=title)
+        deduction_revelations = _f_ded.result()
+        enriched_clocks = _f_clk.result()
+
+    structure = dict(structure)
+    if deduction_revelations is not None:
+        structure["revelations"] = deduction_revelations
     if enriched_clocks is not None:
-        structure = dict(structure)
         structure["event_clocks"] = enriched_clocks
     policy = build_preservation_policy("pdf_import", structure, archetype_profile)
     raw = build_shape_for_pdf_import(
@@ -1166,7 +1186,15 @@ def _compile_pdf_structure_to_runtime(
     # Secondo passo LLM: mappa gli ID placeholder (section_N, p3_room_N) alle location reali.
     _final_locs = raw.get("locations") or []
     if _final_locs:
-        resolved_actor_locs = resolve_actor_locations_with_llm(text, _final_locs, raw.get("npcs") or [], title=title)
+        # ── Gruppo parallelo 3: NPC→location ∥ clue→location ──────────────────
+        # Indipendenti: stessa lista location in input (sola lettura), output su
+        # entità diverse (npcs vs clues).
+        with ThreadPoolExecutor(max_workers=2) as _ex:
+            _f_al = _ex.submit(resolve_actor_locations_with_llm, text, _final_locs, raw.get("npcs") or [], title=title)
+            _f_cl = _ex.submit(resolve_clue_locations_with_llm, text, _final_locs, raw.get("clues") or [], title=title)
+            resolved_actor_locs = _f_al.result()
+            resolved_clue_locs = _f_cl.result()
+
         if resolved_actor_locs:
             for _npc in (raw.get("npcs") or []):
                 if isinstance(_npc, dict):
@@ -1175,7 +1203,6 @@ def _compile_pdf_structure_to_runtime(
                         _npc["location_id"] = resolved_actor_locs[_nid]
                         _npc["location"] = resolved_actor_locs[_nid]
 
-        resolved_clue_locs = resolve_clue_locations_with_llm(text, _final_locs, raw.get("clues") or [], title=title)
         if resolved_clue_locs:
             for _clue in (raw.get("clues") or []):
                 if isinstance(_clue, dict):

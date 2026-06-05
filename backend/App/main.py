@@ -276,7 +276,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v13-pdf-jobs-disk"
+BUILD_VERSION = "v14-pdf-parallel"
 
 @app.get("/health")
 def health_check():
