@@ -15,6 +15,12 @@ services:
       # Alzare (es. "2") se si passa a un'istanza con più memoria.
       - key: PDF_COMPILE_MAX_WORKERS
         value: "1"
+      # Estrazione narrativa via LLM (indizi/PNG/location/clock dal testo in prosa).
+      # SENZA questa, la compilazione PDF usa solo le regex e produce poche clue,
+      # stat-block come indizi e location con ID generici (score ~25/100).
+      # È il motore vero dell'import PDF: deve stare acceso in produzione.
+      - key: GURPS_ENABLE_LLM_EXTRACTORS
+        value: "1"
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: OPENAI_API_KEY
