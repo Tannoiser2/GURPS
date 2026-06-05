@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import gc
 import hashlib
 import os
 import re
 from concurrent.futures import ThreadPoolExecutor
+
+# Grado di parallelismo delle chiamate LLM nella compilazione PDF. Più alto =
+# più veloce ma più RAM di picco (più richieste/risposte LLM in volo insieme).
+# Su Render free (512MB) tenerlo basso evita l'OOM; default 2. Mettere a 1 =
+# sequenziale (RAM minima).
+_PDF_COMPILE_MAX_WORKERS = max(1, int(os.getenv("PDF_COMPILE_MAX_WORKERS", "2")))
 
 from .adventure_validator import validate_adventure_definition
 from .archetype_detector import detect_archetypes_from_ai_prompt, detect_archetypes_from_pdf_structure
@@ -1076,7 +1083,7 @@ def _compile_pdf_structure_to_runtime(
         enriched = enrich_actors_with_llm(text, s, title=title)
         return enriched if enriched is not None else s.get("npcs")
 
-    with ThreadPoolExecutor(max_workers=2) as _ex:
+    with ThreadPoolExecutor(max_workers=_PDF_COMPILE_MAX_WORKERS) as _ex:
         _f_clues = _ex.submit(extract_clues_with_llm, text, structure, title=title)
         _f_actors = _ex.submit(_resolve_actors)
         enriched_clues = _f_clues.result()
@@ -1090,12 +1097,14 @@ def _compile_pdf_structure_to_runtime(
         structure["counts"] = counts
     if new_actors is not None:
         structure["npcs"] = new_actors
+    del enriched_clues, new_actors
+    gc.collect()  # libera le risposte LLM del gruppo 1 prima del gruppo 2
 
     # ── Gruppo parallelo 2: grafo deduzioni ∥ clock ───────────────────────────
     # Entrambi dipendono dagli indizi (già applicati sopra) e scrivono chiavi
     # diverse (revelations vs event_clocks): sicuri in parallelo.
     # P4b: estrazione clock semantici (clock_type, resolution_clues, discovery_clue_id)
-    with ThreadPoolExecutor(max_workers=2) as _ex:
+    with ThreadPoolExecutor(max_workers=_PDF_COMPILE_MAX_WORKERS) as _ex:
         _f_ded = _ex.submit(build_deduction_graph_with_llm, text, structure, title=title)
         _f_clk = _ex.submit(extract_clocks_with_llm, text, structure, title=title)
         deduction_revelations = _f_ded.result()
@@ -1106,6 +1115,8 @@ def _compile_pdf_structure_to_runtime(
         structure["revelations"] = deduction_revelations
     if enriched_clocks is not None:
         structure["event_clocks"] = enriched_clocks
+    del deduction_revelations, enriched_clocks
+    gc.collect()  # libera le risposte LLM del gruppo 2 prima dello shaping
     policy = build_preservation_policy("pdf_import", structure, archetype_profile)
     raw = build_shape_for_pdf_import(
         text or "",
@@ -1189,7 +1200,7 @@ def _compile_pdf_structure_to_runtime(
         # ── Gruppo parallelo 3: NPC→location ∥ clue→location ──────────────────
         # Indipendenti: stessa lista location in input (sola lettura), output su
         # entità diverse (npcs vs clues).
-        with ThreadPoolExecutor(max_workers=2) as _ex:
+        with ThreadPoolExecutor(max_workers=_PDF_COMPILE_MAX_WORKERS) as _ex:
             _f_al = _ex.submit(resolve_actor_locations_with_llm, text, _final_locs, raw.get("npcs") or [], title=title)
             _f_cl = _ex.submit(resolve_clue_locations_with_llm, text, _final_locs, raw.get("clues") or [], title=title)
             resolved_actor_locs = _f_al.result()

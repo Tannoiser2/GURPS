@@ -276,7 +276,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v14-pdf-parallel"
+BUILD_VERSION = "v15-pdf-memory"
 
 @app.get("/health")
 def health_check():
@@ -4146,6 +4146,13 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
             t = page.extract_text()
             if t:
                 raw_text_pages.append(t)
+            # pdfplumber tiene in cache gli oggetti di OGNI pagina (caratteri,
+            # rette, curve): su moduli grossi la RAM esplode (causa OOM su Render
+            # free 512MB). flush_cache() libera la pagina appena letta.
+            try:
+                page.flush_cache()
+            except Exception:
+                pass
 
     # Libera i byte del PDF dalla RAM appena chiuso pdfplumber
     del pdf_bytes
