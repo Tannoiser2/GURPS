@@ -8,7 +8,8 @@ import random
 import unittest
 
 from App.models import Player, SceneEntity, SceneState
-from App.engine import npc_combat_turn, empty_game_state
+from App.engine import npc_combat_turn, empty_game_state, _choose_npc_maneuver
+from App.combat import _defense_value
 
 
 def _gs(player, enemy):
@@ -69,6 +70,39 @@ class TestNpcFullEngine(unittest.TestCase):
                 got_double = True
                 break
         self.assertTrue(got_double, "il moltiplicatore di ferita impalante non è applicato")
+
+
+class TestNpcManeuverAI(unittest.TestCase):
+    def test_moved_implies_move_attack(self):
+        m = _choose_npc_maneuver(_enemy(), _player(), moved=True,
+                                 attack_range=1, outnumber=0)
+        self.assertEqual(m, "move_attack")
+
+    def test_fanatic_goes_all_out_attack_in_melee(self):
+        m = _choose_npc_maneuver(_enemy(morale="fanatico"), _player(), moved=False,
+                                 attack_range=1, outnumber=0)
+        self.assertEqual(m, "all_out_attack")
+
+    def test_ranged_never_all_out_attack(self):
+        # A distanza il +4 piatto non si applica → mai Attacco Totale.
+        for _ in range(20):
+            m = _choose_npc_maneuver(_enemy(morale="fanatico"), _player(), moved=False,
+                                     attack_range=6, outnumber=5)
+            self.assertNotEqual(m, "all_out_attack")
+
+    def test_all_out_attack_flag_strips_npc_defense(self):
+        # Fanatico in mischia → Attacco Totale → l'entità resta senza difesa.
+        gs = _gs(_player(), _enemy(morale="fanatico"))
+        log = npc_combat_turn(gs)["npc_logs"][-1]
+        self.assertEqual(log["maneuver"], "all_out_attack")
+        enemy = gs.scene.entities[0]
+        self.assertTrue(enemy.no_active_defense)
+        # Il giocatore che ora lo attacca non incontra difesa attiva.
+        self.assertEqual(_defense_value(None, enemy, None), 0)
+
+    def test_defense_bonus_applied(self):
+        e = _enemy(active_defense=8, defense_bonus=2)
+        self.assertEqual(_defense_value(None, e, None), 10)
 
 
 if __name__ == "__main__":

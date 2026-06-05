@@ -292,7 +292,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v23-npc-full-engine"
+BUILD_VERSION = "v24-npc-maneuvers"
 
 @app.get("/health")
 def health_check():

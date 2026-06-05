@@ -251,8 +251,12 @@ def _defense_value(
         return max(0, dv)
 
     elif target_entity is not None:
-        # Entità NPC: active_defense base; a distanza usa sempre la schivata
-        base = max(0, target_entity.active_defense + cover_bonus)
+        # Attacco Totale dichiarato dall'entità nel suo turno → nessuna difesa
+        if getattr(target_entity, "no_active_defense", False):
+            return 0
+        # Entità NPC: active_defense base (+ Difesa Totale se dichiarata)
+        base = max(0, target_entity.active_defense
+                   + getattr(target_entity, "defense_bonus", 0) + cover_bonus)
         if is_ranged:
             # Entità ranged: nessun bonus/malus aggiuntivo — già schivata
             pass

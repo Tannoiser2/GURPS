@@ -4450,6 +4450,50 @@ def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: 
     return best
 
 
+def _choose_npc_maneuver(
+    enemy: SceneEntity, target: "Player", *,
+    moved: bool, attack_range: int, outnumber: int,
+) -> str:
+    """Sceglie la manovra dell'NPC prima di risolvere l'attacco.
+
+    Mix guidato da morale / HP / situazione (GURPS Lite):
+      - move_attack      : si è mosso per arrivare a contatto questo turno (−4)
+      - all_out_attack   : aggressivo, in mischia, quando il rischio è basso (+4,
+                           ma resta senza difesa fino al suo prossimo turno)
+      - all_out_defense  : ferito ma deciso a non fuggire → si copre (+2 dif, no attacco)
+      - normal           : attacco standard
+
+    Ritorna una stringa action_type. Il chiamante applica gli effetti collaterali
+    (flag di vulnerabilità / bonus difesa) sull'entità.
+    """
+    morale = str(getattr(enemy, "morale", "") or "").lower()
+    is_fanatic = morale == "fanatico" or "combatte fino" in morale
+    is_tough = morale == "tenace"
+    hp_ratio = enemy.hp / enemy.max_hp if enemy.max_hp else 1.0
+    target_wounded = target.hp <= target.max_hp // 3
+    melee = attack_range <= 1
+
+    # Muovi-e-attacca: imposto dalla situazione, non una scelta (regola GURPS B324)
+    if moved:
+        return "move_attack"
+
+    # Difesa Totale: i non-fanatici feriti (sopra la soglia di fuga) a volte si
+    # coprono invece di attaccare — più probabile per i "tenaci" che non fuggono.
+    if melee and not is_fanatic and hp_ratio <= 0.5:
+        if random.random() < (0.5 if is_tough else 0.35):
+            return "all_out_defense"
+
+    # Attacco Totale: solo in mischia (il +4 piatto non vale a distanza) e quando
+    # conviene rischiare di restare scoperti: fanatici sempre; gli altri se sani
+    # e il bersaglio è ferito o l'NPC è in vantaggio numerico.
+    if melee:
+        aggressive = is_fanatic or (hp_ratio > 0.6 and (target_wounded or outnumber >= 2))
+        if aggressive and (is_fanatic or random.random() < 0.5):
+            return "all_out_attack"
+
+    return "normal"
+
+
 def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> dict:
     """
     Turno degli NPC: ogni entità nemica viva attacca il giocatore vivo con meno HP.
@@ -4479,6 +4523,11 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
     is_final = bool(getattr(current_node, "is_final", False) or getattr(current_node, "is_objective", False) or "final" in role)
     enemies_acting = alive_enemies if is_final else alive_enemies[:max(1, min(len(alive_enemies), len(alive_players)))]
     for enemy in enemies_acting:
+        # Azzera lo stato di manovra del turno precedente: il +4/-difesa
+        # dell'Attacco Totale e il +2 della Difesa Totale durano SOLO fino al
+        # prossimo turno dell'NPC (regola GURPS), quindi si resettano qui.
+        enemy.no_active_defense = False
+        enemy.defense_bonus = 0
         # Morale check: retreat when critically wounded (unless fanatic/boss)
         morale = str(getattr(enemy, "morale", "") or "").lower()
         is_fanatic = morale == "fanatico" or "combatte fino" in morale
@@ -4521,12 +4570,12 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
         target_pos = positions.get(target_key)
         attack_range = _npc_attack_range(enemy)
         distance = _tactical_hex_distance(enemy_pos, target_pos) if positions else 1
+        steps_taken = 0  # quanti esagoni si è mosso questo turno (per Muovi-e-Attacca)
 
         # Muovi l'NPC verso il giocatore fino a max speed esagoni, o finché non è in portata
         if positions and distance > attack_range:
             npc_speed = int(getattr(enemy, "speed", 5) or 5)
             move_start = dict(positions[enemy_key])  # posizione iniziale per il log
-            steps_taken = 0
             for _ in range(npc_speed):
                 if distance <= attack_range:
                     break
@@ -4569,6 +4618,33 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
             if distance > attack_range:
                 continue  # ancora fuori portata dopo il movimento — salta l'attacco
 
+        # ── Scelta manovra (IA tattica NPC) ──────────────────────────────────
+        outnumber = len(alive_enemies) - len(alive_players)
+        maneuver = _choose_npc_maneuver(
+            enemy, target, moved=steps_taken > 0,
+            attack_range=attack_range, outnumber=outnumber,
+        )
+        if maneuver == "all_out_defense":
+            # L'NPC rinuncia all'attacco e si copre: +2 difesa fino al prossimo turno.
+            enemy.defense_bonus = 2
+            npc_logs.append({
+                "attacker": enemy.name, "target": target.name,
+                "skill": "difesa totale", "skill_level": 0, "attack_roll": 0,
+                "damage_formula": "", "damage_type": "", "is_npc_turn": True,
+                "maneuver": "all_out_defense",
+                "result": {
+                    "hit": False, "defended": False, "raw_damage": 0, "dr_absorbed": 0,
+                    "net_damage": 0, "attacker_margin": 0, "defense_margin": 0,
+                    "attacker_critical": False, "defense_critical_fail": False,
+                    "wound_threshold": "", "narrative_hint": "npc_difesa_totale",
+                    "shock_applied": 0, "major_wound": False, "major_wound_check_passed": False,
+                    "knockdown": False, "knockdown_check_passed": False,
+                    "death_check": False, "death_check_passed": False,
+                    "fp_cost": 0, "target_stunned": False, "target_prone": False,
+                },
+            })
+            continue
+
         # ── Risoluzione attacco col motore GURPS completo (combat.resolve_attack) ──
         # Prima qui c'era una logica inline semplificata: niente moltiplicatore
         # di ferita per tipo di danno, Major Wound/Knockdown/Tiro morte senza veri
@@ -4577,12 +4653,17 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
         attack_kind = "ranged" if attack_range >= 6 else "melee"
         skill_name = "mira" if attack_kind == "ranged" else "combattere"
         atk_skill = enemy.attack_skill or 10
+        if maneuver == "all_out_attack":
+            # Attacco Totale: +4 (gestito da _attack_level via action_type) ma
+            # l'NPC resta SENZA difesa attiva fino al suo prossimo turno.
+            enemy.no_active_defense = True
         npc_attacker = Player(
             id=-1, name=enemy.name, role="nemico", archetype="enemy",
             stats={"forza": 10, "agilita": 10, "intelligenza": 10, "empatia": 10},
             skills={skill_name: atk_skill},
             max_hp=enemy.max_hp or 10, hp=max(1, enemy.hp), max_fp=10, fp=10,
             will=10, per=10, basic_speed=5.0, dodge=8, move=5,
+            action_type=maneuver,
         )
         roll = sum(random.randint(1, 6) for _ in range(3))
         result = resolve_attack(
@@ -4605,6 +4686,7 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
             "damage_formula": enemy.damage_dice,
             "damage_type": enemy.damage_type,
             "is_npc_turn": True,
+            "maneuver": maneuver,
             "distance": distance,
             "attack_range": attack_range,
             "result": result.model_dump(),
