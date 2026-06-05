@@ -1342,8 +1342,13 @@ Per ogni clock identifica:
 - discovery_clue_id: ID dell'indizio che RIVELA ai giocatori che questo clock esiste.
   Quando i giocatori trovano questo indizio, il clock diventa visibile. Lascia "" se sempre visibile.
 - discovery_hint: segnale atmosferico ambiguo prima della scoperta (es. "Le rocce vibrano leggermente")
-- steps: lista di eventi intermedi (1 per ogni step intermedio, non obbligatorio):
-    [{{"step": 1, "world_state_change": "...", "scene_prompt": "cosa diventa visibile"}}]
+- steps: ALMENO 4 eventi intermedi crescenti che scandiscono l'avanzare del clock.
+    Ogni step DEVE avere tutti e tre i campi:
+      - world_state_change: come cambia concretamente il mondo a questo punto
+      - scene_prompt: cosa diventa visibile/percepibile ai PG
+      - possible_player_response: una mossa concreta che i PG possono fare ORA per
+        reagire (frase con verbo + oggetto, in italiano). Mai lasciarlo vuoto.
+    Forma: [{{"step": 1, "world_state_change": "...", "scene_prompt": "...", "possible_player_response": "..."}}]
 
 INDIZI DISPONIBILI (usa solo questi ID per resolution_clues e discovery_clue_id):
 {clue_ids_block}
@@ -1375,8 +1380,10 @@ Esempio:
     "discovery_clue_id": "clue_iscrizioni_naniche",
     "discovery_hint": "Le pareti della montagna sembrano vibrare come se qualcosa si stesse muovendo nelle profondità",
     "steps": [
-      {{"step": 2, "world_state_change": "Arriva un carico di platino grezzo alla miniera", "scene_prompt": "Carrelli di minerale scorrono lungo le rotaie"}},
-      {{"step": 5, "world_state_change": "Il golem è per metà completato — si sentono colpi sordi nella roccia", "scene_prompt": "Vibrazioni sempre più forti dal sottosuolo"}}
+      {{"step": 2, "world_state_change": "Arriva un carico di platino grezzo alla miniera", "scene_prompt": "Carrelli di minerale scorrono lungo le rotaie", "possible_player_response": "Sabotare i carrelli o corrompere i minatori per fermare le consegne"}},
+      {{"step": 4, "world_state_change": "Gli artigiani naniche iniziano l'assemblaggio del golem", "scene_prompt": "Bagliori di fucina e martellate ritmiche dal sottosuolo", "possible_player_response": "Intrufolarsi nella fucina per rubare i progetti del golem"}},
+      {{"step": 6, "world_state_change": "Il golem è per metà completato — colpi sordi scuotono la roccia", "scene_prompt": "Vibrazioni sempre più forti dal sottosuolo", "possible_player_response": "Provocare un crollo della galleria per seppellire il golem incompleto"}},
+      {{"step": 8, "world_state_change": "Z'or'zah attiva il golem", "scene_prompt": "Un boato e la torre dei Maghi inizia a tremare", "possible_player_response": "Affrontare Z'or'zah prima che completi il rito di attivazione"}}
     ]
   }}
 ]"""
@@ -1479,6 +1486,9 @@ def extract_clocks_with_llm(
                     "step": int(s.get("step") or 0),
                     "world_state_change": str(s.get("world_state_change") or "")[:120],
                     "scene_prompt": str(s.get("scene_prompt") or "")[:120],
+                    # Richiesto dal quality gate (runtime_quality_report): cosa
+                    # possono concretamente fare i PG a questo punto del clock.
+                    "possible_player_response": str(s.get("possible_player_response") or "")[:120],
                 }
                 for s in (item.get("steps") or [])
                 if isinstance(s, dict)

@@ -291,7 +291,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v19-pdf-defaults-in-code"
+BUILD_VERSION = "v20-pdf-title-clock"
 
 @app.get("/health")
 def health_check():
@@ -4038,6 +4038,25 @@ def providers_available():
         "gemini": bool((os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY"))) and _GOOGLE_GENAI_AVAILABLE,
     }
 
+def _dedouble_glyph_line(s: str) -> str:
+    """Collassa l'artefatto "doppio glifo" di pdfplumber su testo decorativo
+    (copertine in grassetto/stroked): "77aa EEddiizziioonnee" -> "7a Edizione".
+
+    Gestisce anche le cifre (la collapse in pdf_cleanup è solo per lettere).
+    Agisce per parola e SOLO se almeno una parola lunga è interamente
+    raddoppiata, così un titolo normale ("The Haunting") resta intatto.
+    """
+    def _fully_doubled(w: str) -> bool:
+        if len(w) < 4 or len(w) % 2:
+            return False
+        return all(w[i].lower() == w[i + 1].lower() for i in range(0, len(w), 2))
+
+    words = s.split()
+    if not any(_fully_doubled(w) for w in words):
+        return s
+    return " ".join(w[::2] if _fully_doubled(w) else w for w in words)
+
+
 def _extract_title_from_pdf_pages(text_pages: list[str]) -> str | None:
     """Try to extract the adventure title from the first 1-2 pages of PDF text.
 
@@ -4059,17 +4078,30 @@ def _extract_title_from_pdf_pages(text_pages: list[str]) -> str | None:
             return True
         return False
 
+    # Marcatori di copertina/colophon che NON sono il titolo dell'avventura.
+    _meta_marker_re = _re.compile(
+        r'^(?:\d+[ªa°]?\s*)?(?:edizione|edition|ristampa|printing|versione|version|'
+        r'copyright|tutti i diritti|all rights|\(c\)|©|isbn)\b',
+        _re.IGNORECASE,
+    )
+
     for page in (text_pages or [])[:2]:
         for line in (page or "").splitlines():
             stripped = line.strip()
             if not stripped or len(stripped) < 4 or len(stripped) > 90:
                 continue
+            # Copertine in grassetto producono glifi doppi ("EEddiizziioonnee"):
+            # collassali subito così i filtri sotto lavorano su testo pulito.
+            stripped = _dedouble_glyph_line(stripped)
             if _num_only_re.match(stripped) or _sep_re.match(stripped):
                 continue
             letters = sum(c.isalpha() for c in stripped)
             if letters < 4:
                 continue
             if _looks_like_stat_line(stripped):
+                continue
+            # Salta marcatori di edizione/copyright ("7a Edizione", "Copyright...")
+            if _meta_marker_re.match(stripped):
                 continue
             # Skip all-caps single-word page labels ("INDICE", "COPYRIGHT", etc.)
             words = stripped.split()
