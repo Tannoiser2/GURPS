@@ -10,6 +10,11 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: "3.11.0"
+      # Compilazione PDF sequenziale (1 chiamata LLM alla volta): RAM di picco
+      # minima per restare entro i 512MB del piano free ed evitare l'OOM.
+      # Alzare (es. "2") se si passa a un'istanza con più memoria.
+      - key: PDF_COMPILE_MAX_WORKERS
+        value: "1"
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: OPENAI_API_KEY
