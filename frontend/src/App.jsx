@@ -3073,15 +3073,22 @@ function SetupScreen({ onStart }) {
   );
 
   // ── PDF loading a schermo intero ──
+  // La compilazione PDF dura minuti: gli step sono distribuiti su tempi realistici
+  // così la barra avanza davvero invece di restare "ferma al 95%" dopo 25s.
   if (pdfLoading) return (
     <LoadingProgress
       icon="📄"
       title="Compilo l'avventura dal PDF..."
+      note="La compilazione di un modulo PDF richiede diversi minuti (estrazione + più passaggi AI). Tieni la pagina aperta: il lavoro continua sul server."
       steps={[
-        { at: 0,     pill: "Lettura",     label: "Estraggo il testo dal PDF..." },
-        { at: 3000,  pill: "Struttura",   label: "Analizzo la struttura narrativa..." },
-        { at: 10000, pill: "Personaggi",  label: "Genero attori, clue e location..." },
-        { at: 25000, pill: "Runtime",     label: "Costruisco il runtime e i clock..." },
+        { at: 0,      pill: "Lettura",     label: "Estraggo il testo dal PDF..." },
+        { at: 8000,   pill: "Struttura",   label: "Analizzo la struttura narrativa..." },
+        { at: 25000,  pill: "Indizi/PNG",  label: "Estraggo indizi e personaggi (in parallelo)..." },
+        { at: 70000,  pill: "Deduzioni",   label: "Costruisco il grafo delle deduzioni e i clock..." },
+        { at: 120000, pill: "Shaping",     label: "Assemblo l'avventura e sintetizzo la trama..." },
+        { at: 180000, pill: "Location",    label: "Risolvo location di PNG e indizi..." },
+        { at: 260000, pill: "Runtime",     label: "Costruisco il runtime e verifico la qualità..." },
+        { at: 360000, pill: "Quasi fatto", label: "Ultimi ritocchi, ci siamo quasi..." },
       ]}
     />
   );
@@ -6965,20 +6972,24 @@ function AnimatedDots() {
   return <span style={{ display: "inline-block", width: 18, textAlign: "left" }}>{"...".slice(0, dots)}</span>;
 }
 
-function LoadingProgress({ steps, icon = "📖", title }) {
+function LoadingProgress({ steps, icon = "📖", title, note = "" }) {
   const [phase, setPhase] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
     const timers = steps.map((s, i) =>
       setTimeout(() => setPhase(i), s.at)
     );
-    return () => timers.forEach(clearTimeout);
+    const t0 = Date.now();
+    const tick = setInterval(() => setElapsed(Math.floor((Date.now() - t0) / 1000)), 1000);
+    return () => { timers.forEach(clearTimeout); clearInterval(tick); };
   }, []);
 
   const current = steps[phase] || steps[steps.length - 1];
   const rawPct = Math.round(((phase + 1) / steps.length) * 100);
   const pct = Math.min(rawPct, 95);
   const isLast = phase === steps.length - 1;
+  const mmss = `${String(Math.floor(elapsed / 60)).padStart(2, "0")}:${String(elapsed % 60).padStart(2, "0")}`;
 
   const shimmerStyle = isLast ? `
     @keyframes lp-shimmer {
@@ -7013,7 +7024,17 @@ function LoadingProgress({ steps, icon = "📖", title }) {
             animation: isLast ? "lp-shimmer 1.6s linear infinite" : "none",
           }} />
         </div>
+        {/* timer trascorso: prova concreta che il lavoro è in corso */}
+        <div style={{ textAlign: "right", fontSize: 11, color: "var(--text)", opacity: 0.6, marginTop: 6, fontVariantNumeric: "tabular-nums" }}>
+          ⏱ {mmss}
+        </div>
       </div>
+
+      {note && (
+        <div style={{ maxWidth: 460, textAlign: "center", fontSize: 12, color: "var(--text)", opacity: 0.65, lineHeight: 1.5 }}>
+          {note}
+        </div>
+      )}
 
       {/* step pills */}
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", justifyContent: "center", maxWidth: 480 }}>
