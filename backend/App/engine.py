@@ -4569,105 +4569,52 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
             if distance > attack_range:
                 continue  # ancora fuori portata dopo il movimento — salta l'attacco
 
-        roll = sum(random.randint(1, 6) for _ in range(3))
+        # ── Risoluzione attacco col motore GURPS completo (combat.resolve_attack) ──
+        # Prima qui c'era una logica inline semplificata: niente moltiplicatore
+        # di ferita per tipo di danno, Major Wound/Knockdown/Tiro morte senza veri
+        # check HT, nessuna difesa attiva "vera" del bersaglio. Ora costruiamo un
+        # attaccante temporaneo dall'entità e usiamo lo STESSO motore del giocatore.
+        attack_kind = "ranged" if attack_range >= 6 else "melee"
+        skill_name = "mira" if attack_kind == "ranged" else "combattere"
         atk_skill = enemy.attack_skill or 10
-        margin = atk_skill - roll
-        hits = roll <= atk_skill and roll != 18 and not (roll == 17 and atk_skill <= 15)
-        critical = roll <= 4 or (roll == 5 and atk_skill >= 15) or margin >= 10
+        npc_attacker = Player(
+            id=-1, name=enemy.name, role="nemico", archetype="enemy",
+            stats={"forza": 10, "agilita": 10, "intelligenza": 10, "empatia": 10},
+            skills={skill_name: atk_skill},
+            max_hp=enemy.max_hp or 10, hp=max(1, enemy.hp), max_fp=10, fp=10,
+            will=10, per=10, basic_speed=5.0, dodge=8, move=5,
+        )
+        roll = sum(random.randint(1, 6) for _ in range(3))
+        result = resolve_attack(
+            attacker=npc_attacker,
+            attack_skill_name=skill_name,
+            damage_formula=enemy.damage_dice or "1d6",
+            damage_type=enemy.damage_type or "cr",
+            target_player=target,
+            defense_request=None,   # il bersaglio schiva automaticamente
+            attack_kind=attack_kind,
+            prerolled=roll,
+        )
 
-        combat_log: dict = {
+        combat_log = {
             "attacker": enemy.name,
             "target": target.name,
-            "skill": "combattere",
-            "skill_level": atk_skill,
-            "attack_roll": roll,
+            "skill": skill_name,
+            "skill_level": result.effective_level,
+            "attack_roll": result.attack_roll,
             "damage_formula": enemy.damage_dice,
             "damage_type": enemy.damage_type,
             "is_npc_turn": True,
             "distance": distance,
             "attack_range": attack_range,
+            "result": result.model_dump(),
+            "target_hp_after": target.hp,
+            "target_fp_after": target.fp,
+            "target_stunned": result.target_stunned,
+            "target_prone": result.target_prone,
         }
-
-        if not hits:
-            combat_log["result"] = {
-                "hit": False, "defended": False, "raw_damage": 0, "dr_absorbed": 0,
-                "net_damage": 0, "attacker_margin": margin, "defense_margin": 0,
-                "attacker_critical": critical, "defense_critical_fail": False,
-                "wound_threshold": "", "narrative_hint": "",
-                "shock_applied": 0, "major_wound": False, "major_wound_check_passed": False,
-                "knockdown": False, "knockdown_check_passed": False,
-                "death_check": False, "death_check_passed": False,
-                "fp_cost": 0, "target_stunned": False, "target_prone": False,
-            }
-            npc_logs.append(combat_log)
-            continue
-
-        # Difesa automatica del giocatore (schivata passiva)
-        dodge_val = target.dodge
-        def_roll = sum(random.randint(1, 6) for _ in range(3))
-        defended = def_roll <= dodge_val and not critical
-
-        if defended:
-            combat_log["result"] = {
-                "hit": True, "defended": True, "raw_damage": 0, "dr_absorbed": 0,
-                "net_damage": 0, "attacker_margin": margin, "defense_margin": dodge_val - def_roll,
-                "attacker_critical": critical, "defense_critical_fail": False,
-                "wound_threshold": "", "narrative_hint": "",
-                "shock_applied": 0, "major_wound": False, "major_wound_check_passed": False,
-                "knockdown": False, "knockdown_check_passed": False,
-                "death_check": False, "death_check_passed": False,
-                "fp_cost": 0, "target_stunned": False, "target_prone": False,
-            }
-            npc_logs.append(combat_log)
-            continue
-
-        # Colpo a segno — calcola danno
-        dice_parts = re.match(r"(\d+)d(\d+)([+-]\d+)?", enemy.damage_dice or "1d6")
-        if dice_parts:
-            n, sides = int(dice_parts.group(1)), int(dice_parts.group(2))
-            bonus = int(dice_parts.group(3) or 0)
-            raw = sum(random.randint(1, sides) for _ in range(n)) + bonus
-        else:
-            raw = random.randint(1, 6)
-        if critical:
-            raw = max(raw, raw + random.randint(1, 6))
-        net = max(0, raw - target.dr)
-        target.hp -= net
-
-        # Soglia danno
-        wound_threshold = ""
-        if target.hp <= -target.max_hp * 5:
-            wound_threshold = "morto"
-            target.status = "morto"
-        elif target.hp <= 0:
-            wound_threshold = "fuori_combattimento"
-            target.status = "ferito_grave"
-        elif target.hp <= target.max_hp // 3:
-            wound_threshold = "ferito_grave"
-            target.status = "ferito_grave"
-        elif net > 0:
-            wound_threshold = "ferito"
-            if target.status == "ok":
-                target.status = "ferito"
-
-        shock = min(4, net) if net > 0 else 0
-        target.shock_penalty = shock
-        major_wound = net > target.max_hp // 2
-        knockdown = target.hp <= 0
-
-        combat_log["result"] = {
-            "hit": True, "defended": False, "raw_damage": raw, "dr_absorbed": target.dr,
-            "net_damage": net, "attacker_margin": margin, "defense_margin": dodge_val - def_roll,
-            "attacker_critical": critical, "defense_critical_fail": False,
-            "wound_threshold": wound_threshold, "narrative_hint": "",
-            "shock_applied": shock, "major_wound": major_wound,
-            "major_wound_check_passed": False, "knockdown": knockdown,
-            "knockdown_check_passed": False,
-            "death_check": target.hp < 0, "death_check_passed": target.hp >= -target.max_hp * 5,
-            "fp_cost": 0, "target_stunned": False, "target_prone": knockdown,
-        }
-        combat_log["target_hp_after"] = target.hp
         npc_logs.append(combat_log)
+
 
     state.last_attack_result = npc_logs[-1] if npc_logs else None
     return {"npc_logs": npc_logs, "positions": positions}
