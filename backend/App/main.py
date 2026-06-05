@@ -276,11 +276,26 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v17-pdf-llm-on"
+BUILD_VERSION = "v18-health-pdfcfg"
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat(), "version": BUILD_VERSION}
+    import os as _os
+    # Espone lo stato runtime delle config che incidono sull'import PDF, così
+    # si vede se le env del render.yaml sono davvero applicate in produzione
+    # (utile quando il PDF compila male: extractors spento = regex-only).
+    def _on(name: str) -> bool:
+        return _os.getenv(name, "").strip().lower() in {"1", "true", "yes", "on"}
+    return {
+        "status": "ok",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "version": BUILD_VERSION,
+        "pdf_config": {
+            "llm_extractors": _on("GURPS_ENABLE_LLM_EXTRACTORS"),
+            "llm_classifier": _on("GURPS_ENABLE_LLM_CLASSIFIER"),
+            "compile_max_workers": _os.getenv("PDF_COMPILE_MAX_WORKERS", "(default)"),
+        },
+    }
 
 
 def _ensure_runtime_scene(scene_text: str = "") -> None:
