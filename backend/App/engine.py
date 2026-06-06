@@ -4531,7 +4531,16 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
     tactical = getattr(current_node, "tactical_map", None) or {}
     role = str(tactical.get("role") or tactical.get("purpose") or "").lower()
     is_final = bool(getattr(current_node, "is_final", False) or getattr(current_node, "is_objective", False) or "final" in role)
-    enemies_acting = alive_enemies if is_final else alive_enemies[:max(1, min(len(alive_enemies), len(alive_players)))]
+    # Nel combattimento TATTICO (mappa a esagoni → il frontend invia le posizioni)
+    # ogni nemico vivo agisce: si muove e sceglie la sua manovra. Il "freno" che
+    # limita i nemici attivi al numero di giocatori vale solo per il combattimento
+    # narrativo (niente mappa), per non sommergere un gruppo piccolo. Senza questo,
+    # con 1 solo PG (es. modalità test) agirebbe sempre un unico nemico.
+    tactical_combat = bool(positions)
+    enemies_acting = (
+        alive_enemies if (is_final or tactical_combat)
+        else alive_enemies[:max(1, min(len(alive_enemies), len(alive_players)))]
+    )
     for enemy in enemies_acting:
         # Azzera lo stato di manovra del turno precedente: il +4/-difesa
         # dell'Attacco Totale e il +2 della Difesa Totale durano SOLO fino al
@@ -4579,11 +4588,14 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
         target_key = f"p_{target.id}"
         target_pos = positions.get(target_key)
         attack_range = _npc_attack_range(enemy)
-        distance = _tactical_hex_distance(enemy_pos, target_pos) if positions else 1
+        # Posizionamento tattico solo se ABBIAMO la posizione di questo nemico e del
+        # bersaglio; altrimenti l'NPC attacca direttamente (combattimento astratto).
+        has_tactical_pos = bool(positions and enemy_pos and target_pos)
+        distance = _tactical_hex_distance(enemy_pos, target_pos) if has_tactical_pos else 1
         steps_taken = 0  # quanti esagoni si è mosso questo turno (per Muovi-e-Attacca)
 
         # Muovi l'NPC verso il giocatore fino a max speed esagoni, o finché non è in portata
-        if positions and distance > attack_range:
+        if has_tactical_pos and distance > attack_range:
             npc_speed = int(getattr(enemy, "speed", 5) or 5)
             move_start = dict(positions[enemy_key])  # posizione iniziale per il log
             for _ in range(npc_speed):
