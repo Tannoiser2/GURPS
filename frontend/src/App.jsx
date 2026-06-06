@@ -10,7 +10,7 @@ const API_URL = import.meta.env.PROD
   ? `${window.location.origin}/api`
   : (import.meta.env.VITE_API_URL || "http://127.0.0.1:8002");
 const API_URL_DIRECT = import.meta.env.PROD
-  ? "https://gurps-f93w.onrender.com"
+  ? "https://gurps-backend.onrender.com"
   : (import.meta.env.VITE_API_URL || "http://127.0.0.1:8002");
 
 // Diagnostica fetch: traccia ultima URL e cattura errori Safari ("did not match...")
