@@ -1,0 +1,5 @@
+# Railway / Nixpacks: installa tesseract per il fallback OCR dei PDF con
+# text-layer corrotto. Pacchetti apt aggiunti alla fase di setup; il resto
+# (rilevamento Python, pip install) resta automatico.
+[phases.setup]
+aptPkgs = ["tesseract-ocr", "tesseract-ocr-ita"]

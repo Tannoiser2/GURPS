@@ -1,15 +1,19 @@
 services:
   - type: web
     name: gurps-backend
-    runtime: python
+    # Runtime Docker: il runtime python nativo di Render non consente apt-get,
+    # necessario per installare tesseract (OCR dei PDF con text-layer corrotto).
+    # Per tornare al runtime python nativo (senza OCR) ripristinare:
+    #   runtime: python
+    #   buildCommand: pip install -r backend/requirements.txt
+    #   startCommand: cd backend && uvicorn App.main:app --host 0.0.0.0 --port $PORT --workers 1
+    runtime: docker
     region: oregon
     plan: free
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn App.main:app --host 0.0.0.0 --port $PORT --workers 1
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
     healthCheckPath: /health
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.11.0"
       # Compilazione PDF sequenziale (1 chiamata LLM alla volta): RAM di picco
       # minima per restare entro i 512MB del piano free ed evitare l'OOM.
       # Alzare (es. "2") se si passa a un'istanza con più memoria.
