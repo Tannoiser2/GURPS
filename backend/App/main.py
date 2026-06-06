@@ -4293,6 +4293,145 @@ def _clean_pdf_text(text: str) -> str:
     return "\n".join(result_lines)
 
 
+def _detect_column_gutter(words: list, width: float) -> float | None:
+    """Rileva il "gutter" verticale di una pagina a due colonne dalle posizioni
+    delle parole. Ritorna la X del gutter, oppure None se la pagina è a colonna
+    singola. Senza questo, pdfplumber legge attraverso le colonne e le interleava
+    riga per riga (testo illeggibile per i moduli a due colonne)."""
+    if not words or len(words) < 40 or not width:
+        return None
+    nb = 120
+    binw = width / nb
+    cov = [0] * nb
+    for w in words:
+        try:
+            a = int(w["x0"] / binw); b = int(w["x1"] / binw)
+        except (KeyError, TypeError, ValueError):
+            continue
+        for k in range(max(0, a), min(nb, b + 1)):
+            cov[k] += 1
+    filled = sorted(c for c in cov if c > 0)
+    if not filled:
+        return None
+    median = filled[len(filled) // 2]
+    thresh = max(1, median * 0.12)
+    lo, hi = int(nb * 0.35), int(nb * 0.65)
+    best = None  # (centro_x, larghezza_valle)
+    k = lo
+    while k < hi:
+        if cov[k] <= thresh:
+            j = k
+            while j < hi and cov[j] <= thresh:
+                j += 1
+            center = (k + j) / 2 * binw
+            valley_w = j - k
+            left = sum(1 for w in words if w.get("x1", 0) <= center)
+            right = sum(1 for w in words if w.get("x0", 0) >= center)
+            if left >= len(words) * 0.25 and right >= len(words) * 0.25:
+                if best is None or valley_w > best[1]:
+                    best = (center, valley_w)
+            k = j
+        else:
+            k += 1
+    return best[0] if best else None
+
+
+def _page_text_columnaware(page) -> str:
+    """Estrae il testo di una pagina pdfplumber gestendo i layout a due colonne:
+    se rileva un gutter verticale, estrae le due colonne separatamente (sinistra
+    poi destra) invece di leggere attraverso la pagina e mescolarle."""
+    try:
+        words = page.extract_words()
+    except Exception:
+        return page.extract_text() or ""
+    gutter = _detect_column_gutter(words, getattr(page, "width", 0) or 0)
+    if gutter is None:
+        return page.extract_text() or ""
+    try:
+        left = page.crop((0, 0, gutter, page.height)).extract_text() or ""
+        right = page.crop((gutter, 0, page.width, page.height)).extract_text() or ""
+        merged = (left.rstrip() + "\n" + right.lstrip()).strip()
+        return merged or (page.extract_text() or "")
+    except Exception:
+        return page.extract_text() or ""
+
+
+def _looks_like_garbled_title(s: str) -> bool:
+    """Il titolo estratto dal PDF è spazzatura (kerning/encoding rotti)?"""
+    import re as _re
+    s = (s or "").strip()
+    if not s:
+        return True
+    if _re.search(r"[<>~\\|{}\[\]@#^*=+]", s):  # simboli non testuali nel titolo
+        return True
+    words = s.split()
+    singles = sum(1 for w in words if len(_re.sub(r"[^0-9A-Za-zÀ-ÿ]", "", w)) <= 1)
+    if singles >= 2 or (len(words) >= 3 and singles / len(words) > 0.30):
+        return True
+    for w in words:  # maiuscola interna dopo minuscola → glifo rotto ("MlO", "intCl")
+        core = _re.sub(r"[^A-Za-zÀ-ÿ]", "", w)
+        if len(core) >= 3 and any(core[i].isupper() and core[i - 1].islower() for i in range(1, len(core))):
+            return True
+    return False
+
+
+def _filename_to_title(filename: str) -> str:
+    import os as _os
+    stem = _os.path.splitext(filename or "")[0]
+    return stem.replace("-", " ").replace("_", " ").strip()
+
+
+def _choose_pdf_title(extracted: str, filename: str) -> str:
+    """Sceglie il titolo migliore tra quello estratto dal PDF e quello dal nome
+    file. Preferisce il filename quando l'estratto è una versione corrotta o
+    troncata dello stesso (es. 'TIA MOD A' da 'Ti_Amo_da_morire')."""
+    import re as _re
+    file_title = _filename_to_title(filename)
+    if not extracted:
+        return file_title or "Avventura da PDF"
+    if not file_title:
+        return extracted
+    norm = lambda x: _re.sub(r"[^0-9a-zà-ÿ]", "", (x or "").lower())
+    ne, nf = norm(extracted), norm(file_title)
+    # estratto = sottostringa/prefisso del filename → è il filename, ma rovinato
+    if len(nf) >= 4 and ne and (ne in nf or nf.startswith(ne[:max(4, len(ne) // 2)])):
+        return file_title
+    if _looks_like_garbled_title(extracted):
+        return file_title
+    return extracted
+
+
+def _pdf_text_quality(text: str) -> dict:
+    """Stima quanto è "pulito" il text-layer del PDF. I PDF da scansione con
+    mappatura font rotta producono token corrotti ('putcri', 'gioca1ore', 'EUen',
+    'scmhrn'): questa metrica li conta per avvisare l'utente che la sorgente è di
+    bassa qualità (la pipeline non può recuperarli senza OCR)."""
+    import re as _re
+    # Token "parola" su spazi (così cattura anche cifre/simboli infilati nel mezzo)
+    tokens = [t for t in _re.split(r"\s+", text or "") if any(c.isalpha() for c in t)]
+    if len(tokens) < 50:
+        return {"score": 100, "garbled_ratio": 0.0, "tokens": len(tokens)}
+    vowels = set("aeiouyàèéìòùAEIOUYÀÈÉÌÒÙ")
+    cons_run = _re.compile(r"[bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ]{4,}")
+    bad = 0
+    for t in tokens:
+        core = t.strip(".,;:!?()[]\"'«»—–-")
+        alpha = [c for c in core if c.isalpha()]
+        if len(alpha) < 2:
+            continue
+        suspicious = (
+            _re.search(r"[A-Za-zÀ-ÿ][0-9]|[0-9][A-Za-zÀ-ÿ]", core)        # cifra dentro parola
+            or _re.search(r"[A-Za-zÀ-ÿ][~^|\\/<>{}@#$%*=+][A-Za-zÀ-ÿ]", core)  # simbolo dentro parola
+            or (len(alpha) >= 3 and not any(c in vowels for c in alpha))   # nessuna vocale
+            or cons_run.search(core)                                        # 4+ consonanti
+            or any(alpha[i].isupper() and alpha[i - 1].islower() for i in range(1, len(alpha)))  # MaIuscola interna
+        )
+        if suspicious:
+            bad += 1
+    ratio = bad / len(tokens)
+    return {"score": round(100 * (1 - ratio)), "garbled_ratio": round(ratio, 3), "tokens": len(tokens)}
+
+
 def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
                            players: str, provider: str, map_page: str = "") -> dict:
     """Worker SINCRONO: estrae il testo dal PDF e compila l'avventura, restituendo
@@ -4343,7 +4482,7 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
                 print(f"[adventure/from-pdf] errore estrazione mappa pag {map_page_idx+1}: {e}")
 
         for page in pdf.pages:
-            t = page.extract_text()
+            t = _page_text_columnaware(page)
             if t:
                 raw_text_pages.append(t)
             # pdfplumber tiene in cache gli oggetti di OGNI pagina (caratteri,
@@ -4369,22 +4508,22 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
     gc.collect()
     print(f"[adventure/from-pdf] estratte {len(text_pages)}/{total_pages} pagine, {raw_chars} caratteri → {len(pdf_text)} dopo pulizia ({100*len(pdf_text)//max(raw_chars,1)}%)")
 
+    # Qualità del text-layer: avvisa se la sorgente è corrotta (scansione/font rotti)
+    text_quality = _pdf_text_quality(pdf_text)
+    if text_quality["score"] < 88:
+        print(f"[adventure/from-pdf] ⚠ text-layer di bassa qualità: score={text_quality['score']}/100 "
+              f"(garbled_ratio={text_quality['garbled_ratio']}). Sorgente probabilmente da scansione con "
+              f"font corrotto: senza OCR molti termini restano illeggibili e l'estrazione ne risente.")
+
     set_active_provider(provider)
     try:
         genre_hint = None if str(genre or "").lower() == "auto" else genre
 
-        # Try to extract a real title from PDF content; fall back to cleaned filename
+        # Titolo: estrai dal contenuto, ma preferisci il nome file quando l'estratto
+        # è una versione corrotta/troncata dello stesso (cover con kerning/encoding rotti).
         extracted_title = _extract_title_from_pdf_pages(text_pages)
-        if extracted_title:
-            pdf_title = extracted_title
-            print(f"[adventure/from-pdf] titolo estratto dal testo: '{pdf_title}'")
-        else:
-            raw_name = filename or "Avventura da PDF"
-            # Strip .pdf extension and clean separators for a readable fallback
-            import os as _os
-            stem = _os.path.splitext(raw_name)[0]
-            pdf_title = stem.replace("-", " ").replace("_", " ").strip() or "Avventura da PDF"
-            print(f"[adventure/from-pdf] titolo non estratto, fallback da filename: '{pdf_title}'")
+        pdf_title = _choose_pdf_title(extracted_title or "", filename) or "Avventura da PDF"
+        print(f"[adventure/from-pdf] titolo: '{pdf_title}' (estratto dal PDF: '{extracted_title}')")
 
         compiled = compile_pdf_pages_to_runtime(
             text_pages,
@@ -4448,6 +4587,13 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
             "validation_report": saved["validation_report"],
             "pdf_pages_read": len(text_pages),
             "pdf_total_pages": total_pages,
+            "source_text_quality": text_quality,
+            "source_text_warning": (
+                "Il PDF ha un text-layer di bassa qualità (probabile scansione con font "
+                "corrotto): alcuni nomi e dettagli possono risultare illeggibili. Per un "
+                "riconoscimento ottimale serve un PDF con testo pulito o una ri-OCR."
+                if text_quality["score"] < 88 else ""
+            ),
             "doctor": {
                 "score":       doctor_result.get("score", 10.0),
                 "score_after": doctor_result.get("score_after"),
