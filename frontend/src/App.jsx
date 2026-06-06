@@ -6593,7 +6593,9 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
             const threads = threadIds.map(tid => {
               const rev = revs.find(r => r.thread_id === tid);
               const sd = (def0.story_threads || []).find(t => t.id === tid);
-              const text = String(rev?.statement || sd?.question || sd?.statement || sd?.true_answer || "").trim();
+              // Etichetta pista = domanda/risposta dello story_thread. La rivelazione
+              // ora ha un nodo proprio: la usiamo come testo solo se la pista è vuota.
+              const text = String(sd?.question || sd?.statement || sd?.true_answer || rev?.statement || "").trim();
               return { id: tid, text, label: text || tid.replace(/^thread_/, "").replace(/_/g, " "), statement: rev?.statement || "" };
             });
             // For each clue, find which thread it belongs to via revelation required_clues
@@ -6605,37 +6607,56 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
               }
             }
             const GPAD = 20, CNODE_W = 160, CNODE_H = 36, TNODE_W = 170, TNODE_H = 44;
-            const GAP_X = 80, COL_GAP = 120;
-            const cluesWithThread = clues.filter(c => clueThreadMap[c.id]);
+            const RNODE_W = 180, RNODE_H = 46, COL_GAP = 120;
+            const TCOL_X = GPAD + CNODE_W + COL_GAP;          // colonna piste (centro)
+            const RCOL_X = TCOL_X + TNODE_W + COL_GAP;        // colonna rivelazioni (destra)
             const cluesWithoutThread = clues.filter(c => !clueThreadMap[c.id]);
-            // Layout: clues on left grouped by thread, threads on right
+            // Layout: indizi (sx) → piste (centro) → rivelazioni (dx), raggruppate per pista
             const threadGroups = {};
-            for (const t of threads) { threadGroups[t.id] = clues.filter(c => clueThreadMap[c.id] === t.id); }
-            let yC = GPAD, yT = GPAD;
+            const revGroups = {};
+            for (const t of threads) {
+              threadGroups[t.id] = clues.filter(c => clueThreadMap[c.id] === t.id);
+              revGroups[t.id] = revs.filter(r => r.thread_id === t.id);
+            }
+            const threadIdSet = new Set(threads.map(t => t.id));
+            const revsWithoutThread = revs.filter(r => !r.thread_id || !threadIdSet.has(r.thread_id));
+            let yC = GPAD;
             const cluePos = {};
             const threadPos = {};
+            const revPos = {};
             for (const t of threads) {
               const grpClues = threadGroups[t.id] || [];
-              const grpH = Math.max(TNODE_H, grpClues.length * (CNODE_H + 6));
-              const tY = yC + (grpH - TNODE_H) / 2;
-              threadPos[t.id] = { x: GPAD + CNODE_W + COL_GAP, y: tY };
+              const grpRevs = revGroups[t.id] || [];
+              const cluesH = grpClues.length * (CNODE_H + 6);
+              const revsH = grpRevs.length * (RNODE_H + 6);
+              const grpH = Math.max(TNODE_H, cluesH, revsH);
+              threadPos[t.id] = { x: TCOL_X, y: yC + (grpH - TNODE_H) / 2 };
               for (let j = 0; j < grpClues.length; j++) {
-                cluePos[grpClues[j].id] = { x: GPAD, y: yC + j * (CNODE_H + 6) };
+                cluePos[grpClues[j].id] = { x: GPAD, y: yC + (grpH - cluesH) / 2 + j * (CNODE_H + 6) };
+              }
+              for (let j = 0; j < grpRevs.length; j++) {
+                revPos[grpRevs[j].id] = { x: RCOL_X, y: yC + (grpH - revsH) / 2 + j * (RNODE_H + 6) };
               }
               yC += grpH + 18;
             }
-            // Clues without thread at bottom left
+            // Indizi senza pista in basso a sinistra
             for (const c of cluesWithoutThread) {
               cluePos[c.id] = { x: GPAD, y: yC };
               yC += CNODE_H + 6;
             }
-            const SVG_W = GPAD + CNODE_W + COL_GAP + TNODE_W + GPAD;
-            const SVG_H = Math.max(yC, yT) + GPAD;
+            // Rivelazioni senza pista in basso a destra (colonna propria)
+            let yR = yC;
+            for (const r of revsWithoutThread) {
+              revPos[r.id] = { x: RCOL_X, y: yR };
+              yR += RNODE_H + 6;
+            }
+            const SVG_W = RCOL_X + RNODE_W + GPAD;
+            const SVG_H = Math.max(yC, yR) + GPAD;
 
-            const VIEW_W = 720, VIEW_H = 460;
+            const VIEW_W = 880, VIEW_H = 460;
             return (
               <div style={{ position: "relative" }}>
-                {threads.length === 0 && clues.length === 0 && (
+                {threads.length === 0 && clues.length === 0 && revs.length === 0 && (
                   <div style={{ textAlign: "center", color: "var(--text)", opacity: 0.45, marginTop: 30, fontSize: 13 }}>Nessun dato per il grafo.</div>
                 )}
                 <div style={{ position: "absolute", top: 6, right: 6, zIndex: 2, display: "flex", gap: 4, background: "rgba(0,0,0,0.55)", borderRadius: 6, padding: 3 }}>
@@ -6717,10 +6738,54 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                       </g>
                     );
                   })}
+                  {/* Archi pista → rivelazione */}
+                  {revs.map(r => {
+                    const tid = r.thread_id;
+                    if (!tid || !threadPos[tid] || !revPos[r.id]) return null;
+                    const sx = threadPos[tid].x + TNODE_W;
+                    const sy = threadPos[tid].y + TNODE_H / 2;
+                    const rx = revPos[r.id].x;
+                    const ry = revPos[r.id].y + RNODE_H / 2;
+                    const mx = (sx + rx) / 2;
+                    return (
+                      <path key={`re_${r.id}`} d={`M${sx},${sy} C${mx},${sy} ${mx},${ry} ${rx},${ry}`}
+                        stroke="rgba(251,191,36,0.6)" strokeWidth={1.5} fill="none" />
+                    );
+                  })}
+                  {/* Revelation nodes */}
+                  {revs.map(r => {
+                    if (!revPos[r.id]) return null;
+                    const { x, y } = revPos[r.id];
+                    const stColor = { hidden: "#94a3b8", seeded: "#a78bfa", available: "#fbbf24", revealed: "#60a5fa", resolved: "#4ade80" }[r.status] || "#fbbf24";
+                    const _full = String(r.statement || r.id || "");
+                    const _lines = []; let _rest = _full;
+                    while (_rest && _lines.length < 2) {
+                      if (_rest.length <= 26) { _lines.push(_rest); _rest = ""; break; }
+                      let cut = _rest.lastIndexOf(" ", 26); if (cut <= 0) cut = 26;
+                      _lines.push(_rest.slice(0, cut)); _rest = _rest.slice(cut).trim();
+                    }
+                    if (_rest && _lines.length) _lines[_lines.length - 1] = _lines[_lines.length - 1].slice(0, 24) + "…";
+                    return (
+                      <g key={`rn_${r.id}`} style={{ cursor: "pointer" }} onClick={(e) => { e.stopPropagation(); setTab("revelations"); }}>
+                        <title>{_full}{r.status ? ` [${r.status}]` : ""}</title>
+                        <rect x={x} y={y} width={RNODE_W} height={RNODE_H} rx={7}
+                          fill={`${stColor}1f`} stroke={`${stColor}99`} strokeWidth={1.5} />
+                        <rect x={x} y={y} width={3} height={RNODE_H} rx={2} fill={stColor} />
+                        <text x={x + 10} y={y + 14} fontSize={9} fontWeight={800} fill={stColor} style={{ fontFamily: "system-ui", textTransform: "uppercase", pointerEvents: "none" }}>
+                          💡 RIVELAZIONE
+                        </text>
+                        {_lines.map((ln, li) => (
+                          <text key={li} x={x + 10} y={y + 27 + li * 11} fontSize={10} fontWeight={600} fill="rgba(255,255,255,0.85)" style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
+                            {ln}
+                          </text>
+                        ))}
+                      </g>
+                    );
+                  })}
                   {/* Legend */}
-                  {clues.length > 0 && (
+                  {(clues.length > 0 || revs.length > 0) && (
                     <text x={GPAD} y={SVG_H - 6} fontSize={9} fill="rgba(255,255,255,0.3)" style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
-                      ★ = richiesto · tratteggio = opzionale · click su nodo per editare
+                      Indizi → Piste → Rivelazioni · ★ = richiesto · tratteggio = opzionale · click su nodo per editare
                     </text>
                   )}
                   </g>
