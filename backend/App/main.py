@@ -292,7 +292,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v28-npc-sheet-gm-fix"
+BUILD_VERSION = "v29-combat-sandbox"
 
 @app.get("/health")
 def health_check():
@@ -3262,6 +3262,129 @@ def get_bestiary(genre: str | None = None):
     } for c in pool]
     out.sort(key=lambda x: (-x["threat"], x["name"]))
     return {"genre": g, "count": len(out), "creatures": out}
+
+
+# ─── Sandbox combattimento: PC pregenerato vs bestiario/NPC ───────────────────
+
+_SANDBOX_MELEE_BY_GENRE = {
+    "fantasy": "Spada", "medievale": "Spada", "storico": "Spada",
+    "horror": "Coltello da combattimento", "western": "Coltello da combattimento",
+}
+_SANDBOX_RANGED_BY_GENRE = {
+    "fantasy": "Arco lungo", "medievale": "Arco lungo", "storico": "Arco lungo",
+    "western": "Colt .45", "sci_fi": "Pistola 9mm", "cyberpunk": "Pistola 9mm",
+}
+_SANDBOX_WEAPON_SKILL = {
+    "Spada": "spada", "Coltello da combattimento": "pugnale", "Arco lungo": "arco",
+    "Colt .45": "pistola", "Pistola 9mm": "pistola",
+}
+
+
+def _sandbox_player_draft(archetype: str, genre: str) -> CharacterDraft:
+    """Costruisce un PC pregenerato (combat-ready) per la modalità test."""
+    g = (genre or "").strip().lower().replace("-", "_").replace(" ", "_")
+    is_ranged = (archetype or "").lower() in ("tiratore", "ranged", "soldier", "sniper", "pistolero")
+    if is_ranged:
+        weapon = _SANDBOX_RANGED_BY_GENRE.get(g, "Pistola 9mm")
+        skill = _SANDBOX_WEAPON_SKILL.get(weapon, "pistola")
+        return CharacterDraft(
+            name="Tiratore (test)", role="combattente", archetype="soldier", genre=genre or "fantasy",
+            stats={"forza": 11, "agilita": 14, "intelligenza": 11, "empatia": 10},
+            skills={skill: 14, "combattere": 11}, items=[weapon], dr=2,
+        )
+    weapon = _SANDBOX_MELEE_BY_GENRE.get(g, "Spada")
+    skill = _SANDBOX_WEAPON_SKILL.get(weapon, "spada")
+    return CharacterDraft(
+        name="Guerriero (test)", role="combattente", archetype="warrior", genre=genre or "fantasy",
+        stats={"forza": 14, "agilita": 12, "intelligenza": 10, "empatia": 10},
+        skills={skill: 14, "combattere": 13}, items=[weapon], dr=3,
+    )
+
+
+def _npc_to_entity_dict(npc, entity_id: str) -> dict:
+    """SceneEntity-dict da un WorldNPC (usa la sua scheda di combattimento)."""
+    hp = npc.combat_hp or npc.gurps_fo or 10
+    return {
+        "id": entity_id, "name": npc.name or entity_id, "type": "enemy", "zone": "minaccia",
+        "hp": hp, "max_hp": npc.combat_max_hp or npc.combat_hp or npc.gurps_fo or hp,
+        "dr": npc.combat_dr or 0,
+        "attack_skill": npc.combat_attack_skill or 10,
+        "active_defense": npc.combat_active_defense or 8,
+        "damage_dice": npc.combat_damage_dice or "1d-1",
+        "damage_type": npc.combat_damage_type or "cr",
+        "morale": getattr(npc, "morale", "") or "",
+        "tags": ["nemico", "png"],
+    }
+
+
+class CombatSandboxPayload(BaseModel):
+    creatures: list[str] = []      # id bestiario (ripetuti = più copie)
+    npc_ids: list[str] = []        # id world_npc da affrontare
+    genre: str = ""
+    archetype: str = "guerriero"   # "guerriero" | "tiratore"
+    random_count: int = 0          # se nulla è scelto, pesca N creature casuali per genere
+
+
+@app.post("/game/combat/sandbox")
+def combat_sandbox(payload: CombatSandboxPayload):
+    """Modalità test del combattimento tattico: monta un PC pregenerato contro
+    creature del bestiario e/o NPC scelti ed entra subito in combattimento.
+
+    ⚠ Sovrascrive lo stato di gioco corrente (players + scena): è uno strumento
+    di prova del motore tattico, non parte di una partita salvata."""
+    global game_state
+    from .data_creatures import CREATURE_TABLE, creature_to_entity_dict, random_encounter_for
+
+    genre = payload.genre or (getattr(game_state, "genre", "") if game_state else "") or "fantasy"
+
+    # 1) PC pregenerato (combat-ready)
+    draft = _sandbox_player_draft(payload.archetype or "guerriero", genre)
+    player = build_custom_player(draft)
+    player.id = 0
+    game_state.players = [player]
+
+    # 2) Nemici: bestiario scelto + NPC + riempimento casuale
+    by_id = {c["id"]: c for c in CREATURE_TABLE}
+    entities: list[dict] = []
+    n = 0
+    for cid in (payload.creatures or []):
+        c = by_id.get(cid)
+        if not c:
+            continue
+        n += 1
+        entities.append(creature_to_entity_dict(c, entity_id=f"enemy_{n}"))
+    for nid in (payload.npc_ids or []):
+        npc = next((w for w in game_state.world_npcs if w.id == nid), None)
+        if not npc:
+            continue
+        n += 1
+        entities.append(_npc_to_entity_dict(npc, entity_id=f"enemy_{n}"))
+    # Se non è stato scelto nulla, pesca creature casuali (default 3)
+    rand_n = payload.random_count if payload.random_count > 0 else (3 if not entities else 0)
+    for _ in range(max(0, rand_n)):
+        c = random_encounter_for(genre)
+        if not c:
+            break
+        n += 1
+        entities.append(creature_to_entity_dict(c, entity_id=f"enemy_{n}"))
+
+    if not entities:
+        return {"error": "Nessun nemico valido: seleziona creature/NPC o imposta random_count."}
+
+    combat_scene = {
+        "location_id": "sandbox", "location_name": "Arena di prova",
+        "location_type": "zona tattica",
+        "scene_text": "Simulazione di combattimento tattico (modalità test).",
+        "role": "test", "layout": "room", "features": [], "hazards": [],
+        "entities": entities,
+    }
+    _persist_combat_scene(combat_scene)
+
+    resp = game_state.model_dump()
+    resp["combat_scene"] = combat_scene
+    resp["sandbox"] = True
+    resp["enemy_count"] = len(entities)
+    return resp
 
 
 class AddItemPayload(BaseModel):

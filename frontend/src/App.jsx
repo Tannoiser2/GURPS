@@ -8191,33 +8191,67 @@ function FloatingMapPanel({ mapState, onMove, isGM, backdropImage, mapPositions,
 }
 
 // mode: "players" = pannello giocatori (sinistra), "gm" = pannello GM (destra)
-function BestiaryModal({ genre, onClose }) {
+function BestiaryModal({ genre, onClose, onStartCombat }) {
   const [data, setData] = useState(null);
   const [err, setErr] = useState(false);
+  const [sel, setSel] = useState({});        // id creatura → quantità
+  const [arch, setArch] = useState("guerriero");
+  const [busy, setBusy] = useState(false);
   useEffect(() => {
     fetch(`${API_URL}/game/bestiary${genre ? `?genre=${encodeURIComponent(genre)}` : ""}`)
       .then(r => r.json()).then(setData).catch(() => setErr(true));
   }, [genre]);
   const threatColor = t => ["#9ca3af", "#facc15", "#fb923c", "#f87171"][Math.max(0, Math.min(3, t || 0))];
+  const bump = (id, d) => setSel(s => { const n = Math.max(0, (s[id] || 0) + d); const o = { ...s }; if (n) o[id] = n; else delete o[id]; return o; });
+  const total = Object.values(sel).reduce((a, b) => a + b, 0);
+  async function startCombat() {
+    setBusy(true);
+    try {
+      const creatures = [];
+      for (const [id, n] of Object.entries(sel)) for (let i = 0; i < n; i++) creatures.push(id);
+      const res = await fetch(`${API_URL}/game/combat/sandbox`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ creatures, genre: genre || "", archetype: arch }),
+      }).then(r => r.json());
+      if (res?.error) { setErr(true); setBusy(false); return; }
+      onClose?.();
+      onStartCombat?.(res);   // in-game: refresh stato · home: monta GameScreen in sandbox
+    } catch (e) { setErr(true); } finally { setBusy(false); }
+  }
+  const archBtn = (id, label) => (
+    <button onClick={() => setArch(id)} style={{
+      flex: 1, padding: "5px 8px", borderRadius: 6, cursor: "pointer", fontSize: 11, fontWeight: 700,
+      border: "1px solid " + (arch === id ? "rgba(96,165,250,0.6)" : "rgba(255,255,255,0.15)"),
+      background: arch === id ? "rgba(96,165,250,0.22)" : "rgba(255,255,255,0.05)",
+      color: arch === id ? "#93c5fd" : "var(--text)",
+    }}>{label}</button>
+  );
   return (
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.72)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div onClick={e => e.stopPropagation()} style={{ background: "var(--card, #161616)", border: "1px solid var(--border, #333)", borderRadius: 12, maxWidth: 560, width: "100%", maxHeight: "85vh", overflowY: "auto", padding: 18 }}>
+      <div onClick={e => e.stopPropagation()} style={{ background: "var(--card, #161616)", border: "1px solid var(--border, #333)", borderRadius: 12, maxWidth: 560, width: "100%", maxHeight: "85vh", display: "flex", flexDirection: "column", padding: 18 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
           <div style={{ fontSize: 16, fontWeight: 800, color: "#93c5fd" }}>🐉 Bestiario{genre ? ` · ${genre}` : ""}</div>
           <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--text)", fontSize: 20, cursor: "pointer" }}>✕</button>
         </div>
-        {err && <div style={{ color: "#f87171", fontSize: 13 }}>Errore nel caricamento del bestiario.</div>}
+        {err && <div style={{ color: "#f87171", fontSize: 13, marginBottom: 8 }}>Errore. Riprova.</div>}
         {!data && !err && <div style={{ color: "var(--text)", opacity: 0.6, fontSize: 13 }}>Caricamento…</div>}
         {data && (
-          <>
+          <div style={{ overflowY: "auto", flex: 1, minHeight: 0 }}>
             <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.6, marginBottom: 10 }}>
-              {data.count} creature per incontri casuali, ordinate per pericolosità.
+              {data.count} creature — usa <b>＋/−</b> per comporre l'incontro, poi «Prova combattimento».
             </div>
-            {(data.creatures || []).map(c => (
-              <div key={c.id} style={{ padding: "8px 10px", borderRadius: 8, background: "rgba(255,255,255,0.04)", marginBottom: 6 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <b style={{ fontSize: 13 }}>{c.name}</b>
+            {(data.creatures || []).map(c => {
+              const cnt = sel[c.id] || 0;
+              return (
+              <div key={c.id} style={{ padding: "8px 10px", borderRadius: 8, background: cnt ? "rgba(96,165,250,0.10)" : "rgba(255,255,255,0.04)", border: "1px solid " + (cnt ? "rgba(96,165,250,0.35)" : "transparent"), marginBottom: 6 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                  <b style={{ fontSize: 13, flex: 1 }}>{c.name}</b>
                   <span style={{ fontSize: 10, fontWeight: 800, color: threatColor(c.threat) }}>minaccia {c.threat}/3</span>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4, flexShrink: 0 }}>
+                    <button onClick={() => bump(c.id, -1)} disabled={!cnt} style={{ width: 22, height: 22, borderRadius: 5, border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.06)", color: "var(--text)", cursor: cnt ? "pointer" : "default", opacity: cnt ? 1 : 0.4, fontSize: 14, lineHeight: 1, padding: 0 }}>−</button>
+                    <span style={{ minWidth: 16, textAlign: "center", fontSize: 12, fontWeight: 700, color: cnt ? "#93c5fd" : "var(--text)" }}>{cnt}</span>
+                    <button onClick={() => bump(c.id, +1)} style={{ width: 22, height: 22, borderRadius: 5, border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.06)", color: "var(--text)", cursor: "pointer", fontSize: 14, lineHeight: 1, padding: 0 }}>＋</button>
+                  </div>
                 </div>
                 {c.desc && <div style={{ fontSize: 11, color: "var(--text)", opacity: 0.85, margin: "3px 0" }}>{c.desc}</div>}
                 <div style={{ fontSize: 10, color: "#93c5fd", fontFamily: "monospace" }}>
@@ -8225,15 +8259,34 @@ function BestiaryModal({ genre, onClose }) {
                 </div>
                 {c.tags?.length > 0 && <div style={{ fontSize: 9, color: "var(--text)", opacity: 0.5, marginTop: 2 }}>{c.tags.join(" · ")}</div>}
               </div>
-            ))}
-          </>
+              );
+            })}
+          </div>
         )}
+        {/* Footer: PC pregenerato + avvio test */}
+        <div style={{ borderTop: "1px solid var(--border, #333)", paddingTop: 10, marginTop: 6, flexShrink: 0 }}>
+          <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.6, marginBottom: 5 }}>PC pregenerato di prova:</div>
+          <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
+            {archBtn("guerriero", "⚔ Guerriero")}
+            {archBtn("tiratore", "🎯 Tiratore")}
+          </div>
+          <button onClick={startCombat} disabled={busy} style={{
+            width: "100%", padding: "9px 12px", borderRadius: 8, cursor: busy ? "default" : "pointer",
+            border: "1px solid rgba(248,113,113,0.5)", background: busy ? "rgba(248,113,113,0.15)" : "rgba(248,113,113,0.25)",
+            color: "#fca5a5", fontSize: 13, fontWeight: 800,
+          }}>
+            {busy ? "⏳ Preparo l'arena…" : (total > 0 ? `⚔ Prova combattimento (${total} nemic${total === 1 ? "o" : "i"})` : "⚔ Prova combattimento (3 casuali)")}
+          </button>
+          <div style={{ fontSize: 9, color: "var(--text)", opacity: 0.45, marginTop: 5, textAlign: "center" }}>
+            Sostituisce la scena corrente con un combattimento di test.
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, backdropImage, mapPositions, onMove, onOpenMap, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, npcStatuses, advNpcs, onClose, defaultTab, mode, onDeduce }) {
+function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, backdropImage, mapPositions, onMove, onOpenMap, preparedTacticalMaps, preparingTacticalMaps, onPrepareTacticalMap, players, avatars, npcAvatars, npcStatuses, advNpcs, onClose, defaultTab, mode, onDeduce, onStartCombat }) {
   const isGmMode = mode === "gm";
   const [tab, setTab] = useState(defaultTab || (isGmMode ? "gm_overview" : "clues"));
   // Se arriva un nuovo defaultTab (es. click su quick-access), aggiorna la tab
@@ -8468,6 +8521,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
         <BestiaryModal
           genre={adventure?.genre || adventure?.adventure_definition?.genre || ""}
           onClose={() => setShowBestiary(false)}
+          onStartCombat={onStartCombat}
         />
       )}
 
@@ -11035,7 +11089,7 @@ function _mergeTokenStats(prev, t) {
   };
 }
 
-function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = null, provider = "claude", imageProvider = "auto", onRestart }) {
+function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = null, provider = "claude", imageProvider = "auto", onRestart, sandbox = false }) {
   const [players, setPlayers] = useState(initialPlayers);
   const [messages, setMessages] = useState([]);
   const [options, setOptions] = useState([]);
@@ -11665,6 +11719,16 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
       // Sessione persa (es. backend riavviato) — torna al setup invece di avviare vuoto
       if (!initialPlayers || initialPlayers.length === 0) {
         onRestart();
+        return;
+      }
+      // Modalità test del combattimento: il backend ha già montato PC + nemici.
+      // Salta tutta la sequenza AI di apertura ed entra subito in combattimento.
+      if (sandbox) {
+        _setMessages([{ role: "master", name: "Master",
+          text: "⚔ Arena di prova — combatti i nemici per testare il combattimento tattico. Usa «Riprova» in alto per uscire." }]);
+        setHistory([]);
+        await fetchGameState();   // legge scene.entities + players → entra in combattimento
+        setStartupLoading(false);
         return;
       }
       setLoading(true);
@@ -12770,6 +12834,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               defaultTab={undefined}
               mode="gm"
               onDeduce={handleDeduce}
+              onStartCombat={() => { setShowPanel(false); fetchGameState(); }}
             />
           </div>
         </>
@@ -12812,6 +12877,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
               defaultTab={panelOpenTab}
               mode="players"
               onDeduce={handleDeduce}
+              onStartCombat={() => { setShowPlayerPanel(false); fetchGameState(); }}
             />
           </div>
         </>
@@ -12858,6 +12924,8 @@ export default function App() {
   const [adventure, setAdventure] = useState(null);
   const [provider, setProvider] = useState("claude");
   const [imageProvider, setImageProvider] = useState("auto");
+  const [sandboxMode, setSandboxMode] = useState(false);   // test combattimento
+  const [showSandbox, setShowSandbox] = useState(false);   // modal selezione bestiario in home
 
   // ── Auto-resume: se il backend ha già una partita in corso, riprendi ──────
   useEffect(() => {
@@ -12902,7 +12970,20 @@ export default function App() {
 
   function handleRestart() {
     setAdventure(null);
+    setSandboxMode(false);
     setScreen("setup");
+  }
+
+  // Avvio della simulazione combattimento dalla home: il BestiaryModal ha già
+  // montato lato backend il PC pregenerato + i nemici; qui montiamo GameScreen
+  // in modalità sandbox (salta l'apertura AI, entra subito in combattimento).
+  function handleSandboxFromModal(res) {
+    setShowSandbox(false);
+    setPlayers(res?.players || []);
+    setAvatars({});
+    setAdventure(null);
+    setSandboxMode(true);
+    setScreen("game");
   }
 
   if (screen === "game") {
@@ -12915,8 +12996,31 @@ export default function App() {
         provider={provider}
         imageProvider={imageProvider}
         onRestart={handleRestart}
+        sandbox={sandboxMode}
       />
     );
   }
-  return <SetupScreen onStart={handleSetupComplete} />;
+  return (
+    <>
+      <SetupScreen onStart={handleSetupComplete} />
+      {/* Accesso rapido alla simulazione di combattimento tattico */}
+      <div style={{ position: "fixed", bottom: 18, left: 0, right: 0, display: "flex", justifyContent: "center", zIndex: 500, pointerEvents: "none" }}>
+        <button onClick={() => setShowSandbox(true)} style={{
+          pointerEvents: "auto", padding: "9px 18px", borderRadius: 10, cursor: "pointer",
+          border: "1px solid rgba(248,113,113,0.5)", background: "rgba(248,113,113,0.18)",
+          color: "#fca5a5", fontSize: 13, fontWeight: 800, backdropFilter: "blur(6px)",
+          boxShadow: "0 4px 18px rgba(0,0,0,0.35)",
+        }} title="Prova il combattimento tattico con un PC pregenerato contro creature del bestiario">
+          ⚔ Simulazione combattimento
+        </button>
+      </div>
+      {showSandbox && (
+        <BestiaryModal
+          genre={genre}
+          onClose={() => setShowSandbox(false)}
+          onStartCombat={handleSandboxFromModal}
+        />
+      )}
+    </>
+  );
 }
