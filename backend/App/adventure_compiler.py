@@ -181,6 +181,26 @@ def _looks_like_placeholder_actor(actor: dict) -> bool:
     return any(m in text for m in markers)
 
 
+def _is_garbled_or_header_name(name: str) -> bool:
+    """True se il "nome" di un NPC è in realtà un header di sezione tutto
+    maiuscolo o testo corrotto dall'estrazione PDF (non un vero nome di persona).
+    Es: 'POLIZIA', 'LA STAZIONE DI POLIZIA', 'LAS TAZIODNI'."""
+    n = (name or "").strip()
+    if not n or len(n) < 2:
+        return True
+    if n.isupper() and len(n) >= 3:               # header tutto maiuscolo
+        return True
+    words = n.split()
+    singles = sum(1 for w in words if len(re.sub(r"[^0-9A-Za-zÀ-ÿ]", "", w)) <= 1)
+    if singles >= 2 or (len(words) >= 3 and singles / len(words) > 0.3):
+        return True
+    for w in words:                               # maiuscola interna dopo minuscola
+        cw = re.sub(r"[^A-Za-zÀ-ÿ]", "", w)       # (per parola: 'O'Malley' è ok)
+        if any(cw[i].isupper() and cw[i - 1].islower() for i in range(1, len(cw))):
+            return True
+    return False
+
+
 def _canon_names_from_text(*values: str) -> list[str]:
     text = " ".join(str(v or "") for v in values)
     candidates = []
@@ -1148,11 +1168,24 @@ def _compile_pdf_structure_to_runtime(
     # arricchisci) resta sequenziale al suo interno.
     def _resolve_actors():
         s = dict(structure)
-        if len(list(s.get("npcs") or [])) < 2:
-            # Heuristic trovato troppo poco: chiedi al LLM di estrarre da zero
+        heuristic = list(s.get("npcs") or [])
+        # Conta solo gli NPC con un nome PLAUSIBILE: l'euristica spesso battezza
+        # i personaggi con l'header ALL-CAPS di sezione che precede lo stat-block
+        # (es. "POLIZIA", "LAS TAZIODNI") — nomi inutili. Se i nomi buoni sono
+        # pochi, estrai i personaggi dal testo via LLM (Hattie, Ellen, John May…)
+        # e scarta gli header sfasati.
+        good = [n for n in heuristic
+                if isinstance(n, dict) and not _is_garbled_or_header_name(str(n.get("name", "")))]
+        if len(good) < 2:
             extracted = extract_actors_with_llm(text, title=title)
-            if extracted is not None:
-                s["npcs"] = extracted
+            if extracted:
+                by_name = {}
+                for n in extracted:
+                    by_name[str(n.get("name", "")).strip().lower()] = n
+                for n in good:  # conserva gli euristici con nome buono (hanno stat)
+                    by_name.setdefault(str(n.get("name", "")).strip().lower(), n)
+                merged = [v for k, v in by_name.items() if k]
+                s["npcs"] = merged or extracted
         enriched = enrich_actors_with_llm(text, s, title=title)
         return enriched if enriched is not None else s.get("npcs")
 
