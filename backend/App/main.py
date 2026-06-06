@@ -4434,10 +4434,12 @@ def _pdf_text_quality(text: str) -> dict:
 
 # Soglia sotto la quale il text-layer è considerato corrotto (avviso + OCR).
 _OCR_TRIGGER_SCORE = 88
-# OCR leggero per il piano free di Render (512MB, CPU lenta): DPI contenuto e
-# tetto al numero di pagine OCRate, così l'import resta entro tempi ragionevoli.
+# OCR leggero per il piano free di Render (512MB, CPU lenta): DPI contenuto,
+# tetto al numero di pagine E budget di tempo totale, così l'OCR non può mai far
+# sforare il timeout di compilazione (15 min). OCR_MAX_PAGES=0 → OCR disattivo.
 _OCR_DPI = int(os.getenv("OCR_DPI", "150"))
-_OCR_MAX_PAGES = int(os.getenv("OCR_MAX_PAGES", "12"))
+_OCR_MAX_PAGES = int(os.getenv("OCR_MAX_PAGES", "8"))
+_OCR_TIME_BUDGET_S = int(os.getenv("OCR_TIME_BUDGET_S", "120"))
 
 
 def _ocr_available() -> bool:
@@ -4618,18 +4620,22 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
         # ri-leggiamo via OCR le SOLE pagine scadenti — ma solo se tesseract c'è e
         # solo se l'OCR risulta davvero migliore del testo embedded.
         joined_embedded = "\n\n".join(p for p in page_texts if p.strip())
-        if _pdf_text_quality(joined_embedded)["score"] < _OCR_TRIGGER_SCORE:
+        if _OCR_MAX_PAGES > 0 and _pdf_text_quality(joined_embedded)["score"] < _OCR_TRIGGER_SCORE:
             ocr_engine_available = _ocr_available()
             if ocr_engine_available:
-                print(f"[adventure/from-pdf] text-layer scadente → OCR (ita, {_OCR_DPI}dpi, max {_OCR_MAX_PAGES} pag) sulle pagine corrotte…")
+                print(f"[adventure/from-pdf] text-layer scadente → OCR (ita, {_OCR_DPI}dpi, max {_OCR_MAX_PAGES} pag, budget {_OCR_TIME_BUDGET_S}s)…")
                 ocr_attempts = 0
+                ocr_start = time.monotonic()
                 for i, page in enumerate(pdf.pages):
                     emb = page_texts[i]
                     emb_score = _pdf_text_quality(emb)["score"]
                     if emb_score >= _OCR_TRIGGER_SCORE:
                         continue  # pagina già pulita: salta l'OCR
                     if ocr_attempts >= _OCR_MAX_PAGES:
-                        print(f"[adventure/from-pdf] tetto OCR ({_OCR_MAX_PAGES} pagine) raggiunto: le restanti restano embedded")
+                        print(f"[adventure/from-pdf] tetto OCR ({_OCR_MAX_PAGES} pag) raggiunto: le restanti restano embedded")
+                        break
+                    if time.monotonic() - ocr_start > _OCR_TIME_BUDGET_S:
+                        print(f"[adventure/from-pdf] budget OCR ({_OCR_TIME_BUDGET_S}s) esaurito: le restanti restano embedded")
                         break
                     ocr_attempts += 1
                     ocr = _ocr_page_text(page, lang="ita")

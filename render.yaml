@@ -14,6 +14,12 @@ services:
     dockerContext: ./backend
     healthCheckPath: /health
     envVars:
+      # OCR dei PDF con text-layer corrotto. Sul piano free (CPU lenta) l'OCR può
+      # far sforare il timeout di compilazione (15 min), quindi è DISATTIVO di
+      # default. Per attivarlo (PDF illeggibili) alzare a "8" — c'è comunque un
+      # budget di tempo (OCR_TIME_BUDGET_S, default 120s) che impedisce timeout.
+      - key: OCR_MAX_PAGES
+        value: "0"
       # Compilazione PDF sequenziale (1 chiamata LLM alla volta): RAM di picco
       # minima per restare entro i 512MB del piano free ed evitare l'OOM.
       # Alzare (es. "2") se si passa a un'istanza con più memoria.
