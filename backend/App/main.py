@@ -309,6 +309,8 @@ def health_check():
     # (utile quando il PDF compila male: extractors spento = regex-only).
     def _on(name: str) -> bool:
         return _os.getenv(name, "").strip().lower() in {"1", "true", "yes", "on"}
+    def _set(name: str) -> bool:
+        return bool(_os.getenv(name, "").strip())
     return {
         "status": "ok",
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -317,6 +319,13 @@ def health_check():
             "llm_extractors": _on("GURPS_ENABLE_LLM_EXTRACTORS"),
             "llm_classifier": _on("GURPS_ENABLE_LLM_CLASSIFIER"),
             "compile_max_workers": _os.getenv("PDF_COMPILE_MAX_WORKERS", "(default)"),
+        },
+        # Presenza chiavi LLM (solo booleani, nessun segreto esposto). Se sono
+        # tutte false, l'estrazione gira solo a regex → pochissimi indizi.
+        "llm_providers": {
+            "anthropic": _set("ANTHROPIC_API_KEY"),
+            "openai": _set("OPENAI_API_KEY"),
+            "google": _set("GOOGLE_AI_STUDIO_KEY") or _set("GOOGLE_API_KEY"),
         },
     }
 
