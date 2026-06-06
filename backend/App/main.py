@@ -4475,6 +4475,65 @@ def _ocr_page_text(page, lang: str = "ita", dpi: int = 200) -> str:
     return ""
 
 
+def _recover_person_name(description: str) -> str:
+    """Estrae il nome di una persona dall'inizio della sua descrizione
+    (es. 'Sergente O'Malley, sulla cinquantina...' → 'Sergente O'Malley')."""
+    import re as _re
+    desc = description or ""
+    titles = (r"(?:Sergente|Agente|Detective|Ispettore|Commissario|Capitano|Tenente|"
+              r"Colonnello|Maggiore|Signor|Signora|Signorina|Dottoressa|Dottor|Dott|Don|"
+              r"Donna|Padre|Madre|Mr|Mrs|Miss|Ms|Dr)\.?")
+    namew = r"[A-ZÀ-Ü][A-Za-zà-ÿÀ-Ü'’]+"
+    m = _re.search(rf"\b({titles}\s+{namew}(?:\s+{namew}){{0,2}})", desc)
+    if m:
+        return _re.sub(r"\s+", " ", m.group(1)).strip()
+    m = _re.search(r"\b([A-ZÀ-Ü][a-zà-ÿ]*['’][A-ZÀ-Ü][a-zà-ÿ]+)", desc)  # O'Malley, D'Angelo
+    if m:
+        return m.group(1).strip()
+    return ""
+
+
+def _actor_name_needs_repair(name: str, location_names: set) -> bool:
+    n = (name or "").strip()
+    if not n:
+        return True
+    if _looks_like_garbled_title(n):          # nome corrotto (header sfasato)
+        return True
+    if n.isupper() and len(n) >= 3:           # header tutto maiuscolo ("POLIZIA")
+        return True
+    if n.lower() in location_names:           # nome = un luogo dell'avventura
+        return True
+    return False
+
+
+def _repair_actor_names(actors: list, location_names=None) -> int:
+    """Corregge i nomi degli attori presi per errore dall'header di sezione/luogo
+    invece che dal personaggio: recupera il nome reale dalla descrizione
+    ('POLIZIA' → 'Sergente O'Malley'). Se non c'è un nome, usa un'etichetta breve
+    leggibile invece dell'header corrotto. Ritorna il numero di nomi corretti."""
+    import re as _re
+    loc = {str(x).lower() for x in (location_names or [])}
+    stop = {"con", "di", "in", "e", "a", "da", "del", "della", "dei", "delle", "il", "la", "lo"}
+    fixed = 0
+    for a in actors or []:
+        if not isinstance(a, dict):
+            continue
+        name = str(a.get("name") or "")
+        if not _actor_name_needs_repair(name, loc):
+            continue
+        recovered = _recover_person_name(str(a.get("description") or ""))
+        if not recovered:
+            head = _re.split(r"[.,;:]", str(a.get("description") or ""), 1)[0]
+            words = [w for w in head.split()][:3]
+            while words and words[-1].lower() in stop:
+                words.pop()
+            recovered = " ".join(words).strip()
+        if recovered and recovered.lower() != name.lower():
+            a["name"] = recovered
+            fixed += 1
+    return fixed
+
+
 def _pdf_source_warning(quality: dict, ocr_applied: int, ocr_available: bool) -> str:
     """Messaggio per l'utente sulla qualità del PDF, tenendo conto dell'OCR."""
     if quality.get("score", 100) >= _OCR_TRIGGER_SCORE:
@@ -4616,6 +4675,13 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
             runtime_profile_hint=None,
             title=pdf_title,
         )
+
+        # ── Ripara i nomi degli attori presi per errore da header/luoghi ──
+        _def = compiled.get("adventure_definition") or {}
+        _loc_names = [l.get("name") for l in (_def.get("locations") or []) if isinstance(l, dict)]
+        _fixed_names = _repair_actor_names(_def.get("actors") or [], _loc_names)
+        if _fixed_names:
+            print(f"[adventure/from-pdf] nomi attori corretti dalla descrizione: {_fixed_names}")
 
         # ── Quality gate: blocca se la compilazione è chiaramente fallita ──
         quality_gate = check_raw_compilation_quality(compiled.get("adventure_definition") or {})

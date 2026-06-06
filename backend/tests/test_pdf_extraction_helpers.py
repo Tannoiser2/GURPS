@@ -9,6 +9,9 @@ from App.main import (
     _ocr_available,
     _ocr_page_text,
     _pdf_source_warning,
+    _recover_person_name,
+    _actor_name_needs_repair,
+    _repair_actor_names,
 )
 
 
@@ -124,6 +127,53 @@ class OcrFallbackTests(unittest.TestCase):
     def test_warning_reports_recovered_pages(self):
         w = _pdf_source_warning({"score": 80}, 5, True)
         self.assertIn("5 pagine", w)
+
+
+class ActorNameRepairTests(unittest.TestCase):
+    def test_recover_titled_name(self):
+        self.assertEqual(
+            _recover_person_name("Sergente O'Malley, sulla cinquantina, viso scavato."),
+            "Sergente O'Malley",
+        )
+
+    def test_recover_titled_full_name(self):
+        self.assertEqual(
+            _recover_person_name("Dottoressa Anna Bianchi è una psichiatra fredda."),
+            "Dottoressa Anna Bianchi",
+        )
+
+    def test_recover_apostrophe_surname(self):
+        self.assertEqual(
+            _recover_person_name("Tutti chiamano O'Sullivan la veggente."),
+            "O'Sullivan",
+        )
+
+    def test_no_name_returns_empty(self):
+        self.assertEqual(_recover_person_name("Uomo sulla cinquantina con capelli grigi."), "")
+
+    def test_needs_repair_flags_headers(self):
+        self.assertTrue(_actor_name_needs_repair("POLIZIA", set()))
+        self.assertTrue(_actor_name_needs_repair("LAS TAZIODNI E", set()))
+        self.assertTrue(_actor_name_needs_repair("La Stazione di Polizia", {"la stazione di polizia"}))
+
+    def test_needs_repair_keeps_real_names(self):
+        self.assertFalse(_actor_name_needs_repair("Ellen O'Sullivan", set()))
+        self.assertFalse(_actor_name_needs_repair("Sergente O'Malley", set()))
+
+    def test_repair_two_actors(self):
+        actors = [
+            {"name": "POLIZIA", "description": "Sergente O'Malley, sulla cinquantina, stanco."},
+            {"name": "LAS TAZIODNI E", "description": "Uomo sulla cinquantina con capelli grigi."},
+        ]
+        fixed = _repair_actor_names(actors, ["La Stazione di Polizia"])
+        self.assertEqual(fixed, 2)
+        self.assertEqual(actors[0]["name"], "Sergente O'Malley")
+        self.assertEqual(actors[1]["name"], "Uomo sulla cinquantina")
+
+    def test_repair_leaves_good_names(self):
+        actors = [{"name": "Ellen O'Sullivan", "description": "Occultista convinta."}]
+        self.assertEqual(_repair_actor_names(actors, []), 0)
+        self.assertEqual(actors[0]["name"], "Ellen O'Sullivan")
 
 
 if __name__ == "__main__":
