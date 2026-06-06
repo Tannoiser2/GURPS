@@ -2114,8 +2114,8 @@ function ImageProviderPicker({ value, onChange, available, big = false }) {
   );
 }
 
-function SetupScreen({ onStart, onSandbox }) {
-  const [step, setStep] = useState("genre"); // "genre" | "team"
+function SetupScreen({ onStart, onSandbox, onAddToCampaign = null, campaignGenre = null }) {
+  const [step, setStep] = useState(onAddToCampaign ? "team" : "genre"); // "genre" | "team"
   const [genre, setGenre] = useState(null);
   const [adventureScale, setAdventureScale] = useState("standard");
   const [provider, setProvider] = useState("claude");
@@ -2142,6 +2142,21 @@ function SetupScreen({ onStart, onSandbox }) {
   const [avatars, setAvatars] = useState({});
   const [avatarLoading, setAvatarLoading] = useState({});
   const [serverWaking, setServerWaking] = useState(false);
+
+  // ── Modalità campagna: carica pool automaticamente al mount ─────────────────
+  useEffect(() => {
+    if (!onAddToCampaign || !campaignGenre) return;
+    setLoading(true);
+    fetch(`${API_URL}/game/setup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ genre: campaignGenre, provider: "claude", image_provider: "none" }),
+    })
+      .then(() => fetch(`${API_URL}/game/state`).then(r => r.json()))
+      .then(s => { setPool(s?.team_setup?.candidate_pool || []); setGenre(campaignGenre); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [onAddToCampaign, campaignGenre]);
   const [wakeCountdown, setWakeCountdown] = useState(0);
   const _waking = useRef(false);
 
@@ -4177,6 +4192,21 @@ function SetupScreen({ onStart, onSandbox }) {
                       {p.backstory}
                     </div>
                   )}
+                  {p.spells?.length > 0 && (
+                    <div style={{ marginTop: 5 }}>
+                      <div style={{ fontSize: 9, fontWeight: 700, color: "#c4b5fd", marginBottom: 2, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                        {["sci_fi", "cyberpunk"].includes(genre) ? "⚡ Poteri psionici" : "✨ Magie"}
+                      </div>
+                      <div style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+                        {p.spells.slice(0, 4).map(s => (
+                          <span key={s.spell_id} style={{ fontSize: 9, background: "rgba(168,85,247,0.15)", border: "1px solid rgba(168,85,247,0.3)", borderRadius: 4, padding: "1px 5px", color: "#c4b5fd" }}>
+                            {s.spell_id.replace(/_/g, " ")} {s.skill_level}
+                          </span>
+                        ))}
+                        {p.spells.length > 4 && <span style={{ fontSize: 9, color: "#c4b5fd", opacity: 0.6 }}>+{p.spells.length - 4}</span>}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             );
@@ -4205,14 +4235,28 @@ function SetupScreen({ onStart, onSandbox }) {
             )}
           </div>
         )}
-        <button onClick={() => handleStart()} disabled={selected.length === 0 || loading || serverWaking} style={{
-          width: "100%", padding: "14px 0", borderRadius: 12, border: "none",
-          background: selected.length > 0 ? "var(--accent)" : "var(--border)",
-          color: "#fff", fontWeight: 800, fontSize: 17, cursor: selected.length > 0 ? "pointer" : "not-allowed",
-          transition: "opacity 0.15s",
-        }}>
-          {loading ? "Avvio storia..." : selected.length > 0 ? `⚔️ Inizia con ${selected.length} personagg${selected.length === 1 ? "io" : "i"}` : "Seleziona almeno un personaggio"}
-        </button>
+        {onAddToCampaign ? (
+          <button onClick={() => {
+            const sel = pool.filter(p => selected.includes(p.id));
+            if (sel.length > 0) onAddToCampaign(sel);
+          }} disabled={selected.length === 0 || loading} style={{
+            width: "100%", padding: "14px 0", borderRadius: 12, border: "none",
+            background: selected.length > 0 ? "var(--accent)" : "var(--border)",
+            color: "#fff", fontWeight: 800, fontSize: 17, cursor: selected.length > 0 ? "pointer" : "not-allowed",
+            transition: "opacity 0.15s",
+          }}>
+            {loading ? "Caricamento..." : selected.length > 0 ? `➕ Aggiungi ${selected.length} personagg${selected.length === 1 ? "io" : "i"} alla campagna` : "Seleziona almeno un personaggio"}
+          </button>
+        ) : (
+          <button onClick={() => handleStart()} disabled={selected.length === 0 || loading || serverWaking} style={{
+            width: "100%", padding: "14px 0", borderRadius: 12, border: "none",
+            background: selected.length > 0 ? "var(--accent)" : "var(--border)",
+            color: "#fff", fontWeight: 800, fontSize: 17, cursor: selected.length > 0 ? "pointer" : "not-allowed",
+            transition: "opacity 0.15s",
+          }}>
+            {loading ? "Avvio storia..." : selected.length > 0 ? `⚔️ Inizia con ${selected.length} personagg${selected.length === 1 ? "io" : "i"}` : "Seleziona almeno un personaggio"}
+          </button>
+        )}
       </div>
 
       {/* U6: Adventure Editor modal */}
@@ -13266,7 +13310,7 @@ function AddPlayerModal({ campaign, onClose, onAdded }) {
   );
 }
 
-function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) {
+function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, onAddPlayers }) {
   const [campaign, setCampaign] = useState(initialCampaign);
   const [tab, setTab] = useState("players"); // "players" | "adventure"
   const [adventures, setAdventures] = useState([]);
@@ -13274,7 +13318,6 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) 
   const [selectedAdv, setSelectedAdv] = useState(null);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState("");
-  const [showAddPlayer, setShowAddPlayer] = useState(false);
 
   // Ricarica campagna fresca dal server
   async function refreshCampaign() {
@@ -13364,7 +13407,7 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) 
         {tab === "players" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <button onClick={() => setShowAddPlayer(true)} style={{
+              <button onClick={() => onAddPlayers?.()} style={{
                 background: "linear-gradient(135deg,#7c3aed,#a855f7)", border: "none",
                 borderRadius: 10, padding: "9px 18px", color: "#fff",
                 fontWeight: 700, fontSize: 13, cursor: "pointer",
@@ -13416,18 +13459,6 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) 
               })
             )}
           </div>
-        )}
-
-        {/* Modale aggiungi PG */}
-        {showAddPlayer && (
-          <AddPlayerModal
-            campaign={campaign}
-            onClose={() => setShowAddPlayer(false)}
-            onAdded={async () => {
-              setShowAddPlayer(false);
-              await refreshCampaign();
-            }}
-          />
         )}
 
         {/* TAB: Avventura */}
@@ -13552,6 +13583,32 @@ export default function App() {
     setScreen("game");
   }
 
+  // Aggiunta personaggi a campagna dalla SetupScreen in modalità campagna
+  async function handleAddPlayersToCampaign(selectedPlayers) {
+    if (!activeCampaign) return;
+    try {
+      await Promise.all(selectedPlayers.map(p =>
+        fetch(`${API_URL}/campaigns/${activeCampaign.id}/players`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(p),
+        })
+      ));
+    } catch (_) {}
+    setScreen("campaign_lobby");
+  }
+
+  if (screen === "add_players" && activeCampaign) {
+    return (
+      <SetupScreen
+        onStart={() => {}}
+        onSandbox={null}
+        onAddToCampaign={handleAddPlayersToCampaign}
+        campaignGenre={activeCampaign.genre}
+      />
+    );
+  }
+
   if (screen === "game") {
     return (
       <GameScreen
@@ -13573,6 +13630,7 @@ export default function App() {
         campaign={activeCampaign}
         onStartAdventure={handleCampaignStartAdventure}
         onBack={() => setScreen("campaigns")}
+        onAddPlayers={() => setScreen("add_players")}
       />
     );
   }
