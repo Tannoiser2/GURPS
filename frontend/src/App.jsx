@@ -13127,6 +13127,145 @@ function CampaignScreen({ onLoad, onNew }) {
 
 // ─── Campaign lobby (roster PG + scegli avventura) ──────────────────────────
 
+function AddPlayerModal({ campaign, onClose, onAdded }) {
+  const [pool, setPool] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function load() {
+      try {
+        await fetch(`${API_URL}/game/setup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ genre: campaign.genre, provider: "claude", image_provider: "none" }),
+        });
+        const s = await fetch(`${API_URL}/game/state`).then(r => r.json());
+        setPool(s?.team_setup?.candidate_pool || []);
+      } catch (e) {
+        setError("Errore nel caricamento dei personaggi: " + e.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    load();
+  }, [campaign.genre]);
+
+  async function handleSave() {
+    if (selected.length === 0) { setError("Seleziona almeno un personaggio."); return; }
+    setSaving(true); setError("");
+    try {
+      const players = pool.filter(p => selected.includes(p.id));
+      for (const player of players) {
+        await fetch(`${API_URL}/campaigns/${campaign.id}/players`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ player }),
+        });
+      }
+      onAdded();
+    } catch (e) {
+      setError("Errore nel salvataggio: " + e.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const overlay = {
+    position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", zIndex: 1000,
+    display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
+  };
+  const modal = {
+    background: "linear-gradient(135deg,#0f0f1e,#1a1030)", border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 18, padding: "28px 24px", width: "100%", maxWidth: 580,
+    maxHeight: "85vh", overflowY: "auto", color: "#fff",
+  };
+  const cardSel = (sel) => ({
+    borderRadius: 10, padding: "12px 14px", cursor: "pointer",
+    border: sel ? "2px solid #a855f7" : "1px solid rgba(255,255,255,0.12)",
+    background: sel ? "rgba(168,85,247,0.12)" : "rgba(255,255,255,0.04)",
+    transition: "all 0.12s",
+  });
+
+  return (
+    <div style={overlay} onClick={e => e.target === e.currentTarget && onClose()}>
+      <div style={modal}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800 }}>Aggiungi personaggi</h2>
+          <button onClick={onClose} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.4)", cursor: "pointer", fontSize: 20 }}>✕</button>
+        </div>
+
+        {loading ? (
+          <div style={{ textAlign: "center", padding: 40, color: "rgba(255,255,255,0.4)" }}>
+            Generazione personaggi in corso...
+          </div>
+        ) : (
+          <>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 16 }}>
+              {pool.map(p => {
+                const sel = selected.includes(p.id);
+                const topSkills = Object.entries(p.skills || {}).sort((a, b) => b[1] - a[1]).slice(0, 3);
+                return (
+                  <div key={p.id} style={cardSel(sel)}
+                    onClick={() => setSelected(s => sel ? s.filter(x => x !== p.id) : [...s, p.id])}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 14 }}>{p.name}</div>
+                        <div style={{ color: "#a855f7", fontSize: 11, fontWeight: 600, marginBottom: 4 }}>{p.role}</div>
+                      </div>
+                      {sel && <span style={{ color: "#a855f7", fontSize: 18 }}>✓</span>}
+                    </div>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 4 }}>
+                      {Object.entries(p.stats || {}).map(([k, v]) => (
+                        <span key={k} style={{ fontSize: 10, background: "rgba(255,255,255,0.08)", borderRadius: 4, padding: "1px 5px" }}>
+                          {k.slice(0,2).toUpperCase()} {v}
+                        </span>
+                      ))}
+                    </div>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                      {topSkills.map(([sk, lv]) => (
+                        <span key={sk} style={{ fontSize: 10, background: "rgba(168,85,247,0.15)", borderRadius: 4, padding: "1px 5px", color: "#d8b4fe" }}>
+                          {sk} {lv}
+                        </span>
+                      ))}
+                    </div>
+                    {p.spells?.length > 0 && (
+                      <div style={{ marginTop: 4, fontSize: 10, color: "#818cf8" }}>
+                        ✨ {p.spells.map(s => s.spell_id).join(", ")}
+                      </div>
+                    )}
+                    {p.advantages?.length > 0 && (
+                      <div style={{ marginTop: 2, fontSize: 10, color: "#34d399", opacity: 0.8 }}>
+                        ★ {p.advantages.slice(0, 2).join(", ")}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            {error && <div style={{ color: "#f87171", fontSize: 13, marginBottom: 10 }}>{error}</div>}
+            <div style={{ display: "flex", gap: 10 }}>
+              <button onClick={handleSave} disabled={saving || selected.length === 0} style={{
+                flex: 1, background: selected.length > 0 ? "linear-gradient(135deg,#7c3aed,#a855f7)" : "rgba(255,255,255,0.08)",
+                border: "none", borderRadius: 10, padding: "11px", color: selected.length > 0 ? "#fff" : "rgba(255,255,255,0.3)",
+                fontWeight: 700, fontSize: 14, cursor: selected.length > 0 ? "pointer" : "default",
+              }}>
+                {saving ? "Salvataggio..." : selected.length > 0 ? `Aggiungi ${selected.length} personagg${selected.length === 1 ? "io" : "i"}` : "Seleziona personaggi"}
+              </button>
+              <button onClick={onClose} style={{
+                padding: "11px 18px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.15)",
+                background: "transparent", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: 14,
+              }}>Annulla</button>
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) {
   const [campaign, setCampaign] = useState(initialCampaign);
   const [tab, setTab] = useState("players"); // "players" | "adventure"
@@ -13135,6 +13274,7 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) 
   const [selectedAdv, setSelectedAdv] = useState(null);
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState("");
+  const [showAddPlayer, setShowAddPlayer] = useState(false);
 
   // Ricarica campagna fresca dal server
   async function refreshCampaign() {
@@ -13223,10 +13363,17 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) 
         {/* TAB: Personaggi */}
         {tab === "players" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button onClick={() => setShowAddPlayer(true)} style={{
+                background: "linear-gradient(135deg,#7c3aed,#a855f7)", border: "none",
+                borderRadius: 10, padding: "9px 18px", color: "#fff",
+                fontWeight: 700, fontSize: 13, cursor: "pointer",
+              }}>+ Aggiungi personaggio</button>
+            </div>
             {(!campaign.players || campaign.players.length === 0) ? (
               <div style={{ ...cardStyle, textAlign: "center", color: "rgba(255,255,255,0.35)", padding: 32 }}>
                 Nessun personaggio nella campagna.<br />
-                <span style={{ fontSize: 12, opacity: 0.6 }}>Avvia un'avventura senza campagna per creare un PG, poi importalo qui.</span>
+                <span style={{ fontSize: 12, opacity: 0.6 }}>Clicca "+ Aggiungi personaggio" per generare il tuo team.</span>
               </div>
             ) : (
               campaign.players.map(cp => {
@@ -13268,12 +13415,19 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) 
                 );
               })
             )}
-            <div style={{ ...cardStyle, textAlign: "center", padding: "14px", border: "1px dashed rgba(255,255,255,0.15)" }}>
-              <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 13 }}>
-                I personaggi vengono aggiunti automaticamente al termine della prima avventura giocata con questa campagna.
-              </span>
-            </div>
           </div>
+        )}
+
+        {/* Modale aggiungi PG */}
+        {showAddPlayer && (
+          <AddPlayerModal
+            campaign={campaign}
+            onClose={() => setShowAddPlayer(false)}
+            onAdded={async () => {
+              setShowAddPlayer(false);
+              await refreshCampaign();
+            }}
+          />
         )}
 
         {/* TAB: Avventura */}
