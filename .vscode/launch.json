@@ -1,0 +1,18 @@
+{
+  // Debug del backend con breakpoint (richiede l'estensione Python di VS Code).
+  // Seleziona ".venv" come interprete: Cmd+Shift+P → "Python: Select Interpreter".
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "🐞 Debug GURPS (backend + UI)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["App.main:app", "--reload", "--port", "8002"],
+      "cwd": "${workspaceFolder}/backend",
+      "envFile": "${workspaceFolder}/backend/.env",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ]
+}

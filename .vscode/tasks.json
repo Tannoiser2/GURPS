@@ -1,0 +1,35 @@
+{
+  // Tasks VS Code per il progetto GURPS (macOS).
+  // Avvio: Cmd+Shift+P → "Tasks: Run Task" → scegli il task.
+  // "▶ Avvia GURPS" è anche il build task di default (Cmd+Shift+B).
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "▶ Avvia GURPS (backend + UI)",
+      "detail": "Un solo processo: serve API + interfaccia su http://localhost:8002 con auto-reload.",
+      "type": "shell",
+      "command": "source .venv/bin/activate && uvicorn App.main:app --reload --port 8002",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "① Setup backend (venv + dipendenze)",
+      "detail": "Una volta sola: crea il virtualenv e installa i pacchetti Python.",
+      "type": "shell",
+      "command": "python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "② Build frontend",
+      "detail": "Ricostruisce la UI in frontend/dist (rifallo dopo aver modificato il frontend).",
+      "type": "shell",
+      "command": "npm install && npm run build",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "problemMatcher": []
+    }
+  ]
+}
