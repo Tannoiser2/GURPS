@@ -3341,6 +3341,15 @@ def combat_sandbox(payload: CombatSandboxPayload):
     draft = _sandbox_player_draft(payload.archetype or "guerriero", genre)
     player = build_custom_player(draft)
     player.id = 0
+    # Competenza garantita: il PC di prova deve saper usare le armi che impugna
+    # davvero. In alcuni generi l'arma del draft viene sostituita in fase di equip
+    # con una adatta all'era (es. Spada → pistola energetica in sci-fi): la sua
+    # abilità non era prevista dal draft, lasciando il PC a un default basso e
+    # quindi quasi inefficace. Allineiamo ogni abilità d'arma equipaggiata a un
+    # livello competente.
+    for _act in player.actions:
+        if _act.attack_kind and _act.skill and player.skills.get(_act.skill, 0) < 14:
+            player.skills[_act.skill] = 14
     game_state.players = [player]
 
     # 2) Nemici: bestiario scelto + NPC + riempimento casuale
