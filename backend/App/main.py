@@ -4434,6 +4434,10 @@ def _pdf_text_quality(text: str) -> dict:
 
 # Soglia sotto la quale il text-layer è considerato corrotto (avviso + OCR).
 _OCR_TRIGGER_SCORE = 88
+# OCR leggero per il piano free di Render (512MB, CPU lenta): DPI contenuto e
+# tetto al numero di pagine OCRate, così l'import resta entro tempi ragionevoli.
+_OCR_DPI = int(os.getenv("OCR_DPI", "150"))
+_OCR_MAX_PAGES = int(os.getenv("OCR_MAX_PAGES", "12"))
 
 
 def _ocr_available() -> bool:
@@ -4446,7 +4450,7 @@ def _ocr_available() -> bool:
         return False
 
 
-def _ocr_page_text(page, lang: str = "ita", dpi: int = 200) -> str:
+def _ocr_page_text(page, lang: str = "ita", dpi: int = _OCR_DPI) -> str:
     """OCR di una singola pagina pdfplumber renderizzata a immagine. Ritorna ""
     se l'OCR non è possibile (binario/lingua assenti, memoria insufficiente…):
     in tal caso il chiamante mantiene il testo embedded. Mai solleva."""
@@ -4455,7 +4459,7 @@ def _ocr_page_text(page, lang: str = "ita", dpi: int = 200) -> str:
     except Exception:
         return ""
     img = None
-    for res in (dpi, 150):
+    for res in (dpi, 110):
         try:
             img = page.to_image(resolution=res).original  # PIL.Image
             break
@@ -4617,12 +4621,17 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
         if _pdf_text_quality(joined_embedded)["score"] < _OCR_TRIGGER_SCORE:
             ocr_engine_available = _ocr_available()
             if ocr_engine_available:
-                print("[adventure/from-pdf] text-layer scadente → OCR (ita) sulle pagine corrotte…")
+                print(f"[adventure/from-pdf] text-layer scadente → OCR (ita, {_OCR_DPI}dpi, max {_OCR_MAX_PAGES} pag) sulle pagine corrotte…")
+                ocr_attempts = 0
                 for i, page in enumerate(pdf.pages):
                     emb = page_texts[i]
                     emb_score = _pdf_text_quality(emb)["score"]
                     if emb_score >= _OCR_TRIGGER_SCORE:
                         continue  # pagina già pulita: salta l'OCR
+                    if ocr_attempts >= _OCR_MAX_PAGES:
+                        print(f"[adventure/from-pdf] tetto OCR ({_OCR_MAX_PAGES} pagine) raggiunto: le restanti restano embedded")
+                        break
+                    ocr_attempts += 1
                     ocr = _ocr_page_text(page, lang="ita")
                     try:
                         page.flush_cache()
