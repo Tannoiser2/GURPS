@@ -160,20 +160,38 @@ class ActorNameRepairTests(unittest.TestCase):
         self.assertFalse(_actor_name_needs_repair("Ellen O'Sullivan", set()))
         self.assertFalse(_actor_name_needs_repair("Sergente O'Malley", set()))
 
-    def test_repair_two_actors(self):
-        actors = [
-            {"name": "POLIZIA", "description": "Sergente O'Malley, sulla cinquantina, stanco."},
-            {"name": "LAS TAZIODNI E", "description": "Uomo sulla cinquantina con capelli grigi."},
-        ]
-        fixed = _repair_actor_names(actors, ["La Stazione di Polizia"])
-        self.assertEqual(fixed, 2)
+    def test_repair_recovers_titled_name(self):
+        # nome header → recupera il nome reale dalla descrizione
+        actors = [{"name": "POLIZIA", "description": "Sergente O'Malley, sulla cinquantina, stanco."}]
+        self.assertEqual(_repair_actor_names(actors, ["La Stazione di Polizia"]), 1)
         self.assertEqual(actors[0]["name"], "Sergente O'Malley")
-        self.assertEqual(actors[1]["name"], "Uomo sulla cinquantina")
+
+    def test_repair_recovers_from_goal_field(self):
+        # ActorState non ha 'description': il nome può stare in goal/secret
+        actors = [{"name": "POLIZIA", "goal": "Aiutare il Detective Marlowe a risolvere il caso."}]
+        self.assertEqual(_repair_actor_names(actors, []), 1)
+        self.assertEqual(actors[0]["name"], "Detective Marlowe")
+
+    def test_repair_keeps_name_when_unrecoverable(self):
+        # nessun nome nei campi → non inventa, lascia com'è (niente crash)
+        actors = [{"name": "LAS TAZIODNI E", "description": "Uomo sulla cinquantina con capelli grigi."}]
+        self.assertEqual(_repair_actor_names(actors, []), 0)
+        self.assertEqual(actors[0]["name"], "LAS TAZIODNI E")
 
     def test_repair_leaves_good_names(self):
         actors = [{"name": "Ellen O'Sullivan", "description": "Occultista convinta."}]
         self.assertEqual(_repair_actor_names(actors, []), 0)
         self.assertEqual(actors[0]["name"], "Ellen O'Sullivan")
+
+    def test_repair_works_on_pydantic_models(self):
+        # Regressione del crash 'AdventureDefinition has no attribute get':
+        # gli attori a questo stadio sono modelli ActorState, non dict.
+        from App.runtime_models import ActorState
+        a = ActorState(id="p8_npc_1", name="POLIZIA",
+                       goal="Protegge il Sergente O'Malley dai sospetti.")
+        fixed = _repair_actor_names([a], ["La Stazione di Polizia"])
+        self.assertEqual(fixed, 1)
+        self.assertEqual(a.name, "Sergente O'Malley")
 
 
 if __name__ == "__main__":

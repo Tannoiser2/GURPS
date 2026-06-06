@@ -4512,30 +4512,40 @@ def _actor_name_needs_repair(name: str, location_names: set) -> bool:
     return False
 
 
-def _repair_actor_names(actors: list, location_names=None) -> int:
+def _actor_field(a, key, default=""):
+    if isinstance(a, dict):
+        return a.get(key, default)
+    return getattr(a, key, default)
+
+
+def _actor_set_name(a, value) -> None:
+    try:
+        if isinstance(a, dict):
+            a["name"] = value
+        else:
+            setattr(a, "name", value)
+    except Exception:
+        pass
+
+
+def _repair_actor_names(actors, location_names=None) -> int:
     """Corregge i nomi degli attori presi per errore dall'header di sezione/luogo
-    invece che dal personaggio: recupera il nome reale dalla descrizione
-    ('POLIZIA' → 'Sergente O'Malley'). Se non c'è un nome, usa un'etichetta breve
-    leggibile invece dell'header corrotto. Ritorna il numero di nomi corretti."""
-    import re as _re
+    invece che dal personaggio: recupera il nome reale dai campi testuali
+    ('POLIZIA' → 'Sergente O'Malley'). Funziona sia con dict sia con modelli
+    pydantic (ActorState) e non solleva mai. Ritorna i nomi corretti."""
     loc = {str(x).lower() for x in (location_names or [])}
-    stop = {"con", "di", "in", "e", "a", "da", "del", "della", "dei", "delle", "il", "la", "lo"}
     fixed = 0
     for a in actors or []:
-        if not isinstance(a, dict):
-            continue
-        name = str(a.get("name") or "")
+        name = str(_actor_field(a, "name") or "")
         if not _actor_name_needs_repair(name, loc):
             continue
-        recovered = _recover_person_name(str(a.get("description") or ""))
-        if not recovered:
-            head = _re.split(r"[.,;:]", str(a.get("description") or ""), 1)[0]
-            words = [w for w in head.split()][:3]
-            while words and words[-1].lower() in stop:
-                words.pop()
-            recovered = " ".join(words).strip()
+        blob = " ".join(
+            str(_actor_field(a, k) or "")
+            for k in ("description", "appearance", "bio", "summary", "goal", "secret", "current_plan", "fear")
+        )
+        recovered = _recover_person_name(blob)
         if recovered and recovered.lower() != name.lower():
-            a["name"] = recovered
+            _actor_set_name(a, recovered)
             fixed += 1
     return fixed
 
@@ -4692,9 +4702,11 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
         )
 
         # ── Ripara i nomi degli attori presi per errore da header/luoghi ──
-        _def = compiled.get("adventure_definition") or {}
-        _loc_names = [l.get("name") for l in (_def.get("locations") or []) if isinstance(l, dict)]
-        _fixed_names = _repair_actor_names(_def.get("actors") or [], _loc_names)
+        _def = compiled.get("adventure_definition")
+        _locs = _actor_field(_def, "locations", None) or []
+        _loc_names = [_actor_field(l, "name", "") for l in _locs]
+        _actors = _actor_field(_def, "actors", None) or []
+        _fixed_names = _repair_actor_names(_actors, _loc_names)
         if _fixed_names:
             print(f"[adventure/from-pdf] nomi attori corretti dalla descrizione: {_fixed_names}")
 
