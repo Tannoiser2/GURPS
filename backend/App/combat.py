@@ -69,6 +69,41 @@ def roll_damage(formula: str) -> int:
     return max(0, result + bonus)
 
 
+# ─── Danno swing/thrust GURPS (sw/thr → dadi secondo la Forza) ────────────────
+# Tabella Basic Set: ST → (thrust, swing) come (numero_dadi, modificatore).
+_BASIC_DAMAGE: dict[int, tuple[tuple[int, int], tuple[int, int]]] = {
+    1: ((1, -6), (1, -5)), 2: ((1, -6), (1, -5)), 3: ((1, -5), (1, -4)),
+    4: ((1, -5), (1, -4)), 5: ((1, -4), (1, -3)), 6: ((1, -4), (1, -3)),
+    7: ((1, -3), (1, -2)), 8: ((1, -3), (1, -2)), 9: ((1, -2), (1, -1)),
+    10: ((1, -2), (1, 0)), 11: ((1, -1), (1, 1)), 12: ((1, -1), (1, 2)),
+    13: ((1, 0), (2, -1)), 14: ((1, 0), (2, 0)), 15: ((1, 1), (2, 1)),
+    16: ((1, 1), (2, 2)), 17: ((1, 2), (3, -1)), 18: ((1, 2), (3, 0)),
+    19: ((2, -1), (3, 1)), 20: ((2, -1), (3, 2)),
+}
+
+
+def resolve_swing_thrust(formula: str, st: int) -> str:
+    """Converte le formule GURPS 'sw'/'thr' (con eventuale ±N) in dadi reali
+    secondo la Forza dell'attaccante. Le formule già in dadi passano intatte."""
+    f = (formula or "").strip().lower()
+    for code, idx in (("thr", 0), ("sw", 1)):
+        if f.startswith(code):
+            num_d, mod = _BASIC_DAMAGE[max(1, min(20, int(st or 10)))][idx]
+            rest = f[len(code):].replace(" ", "")
+            if rest:
+                try:
+                    mod += int(rest)
+                except ValueError:
+                    pass
+            out = f"{num_d}d"
+            if mod > 0:
+                out += f"+{mod}"
+            elif mod < 0:
+                out += f"{mod}"
+            return out
+    return formula
+
+
 # ─── Modificatore danno per tipo ─────────────────────────────────────────────
 # GURPS 4e: taglio ×1.5, impalante ×2, perforante pesante ×1.5, tox ×1.0
 _DAMAGE_TYPE_WOUNDING: dict[str, float] = {
@@ -503,7 +538,10 @@ def resolve_attack(
         )
 
     # ── Danno ────────────────────────────────────────────────────────────────
-    raw = roll_damage(damage_formula)
+    # Risolve sw/thr → dadi secondo la Forza dell'attaccante (armi da mischia).
+    _st = (attacker.stats.get("forza", attacker.stats.get("ST", 10))
+           if getattr(attacker, "stats", None) else 10)
+    raw = roll_damage(resolve_swing_thrust(damage_formula, _st))
     wounding_mult = _DAMAGE_TYPE_WOUNDING.get(damage_type, 1.0)
     effective_raw = int(raw * wounding_mult)
 

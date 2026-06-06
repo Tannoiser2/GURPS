@@ -46,5 +46,26 @@ class TestCombatSandbox(unittest.TestCase):
         self.assertEqual(main.game_state.scene.entities[0].name, "Sicario")
 
 
+    def test_swing_thrust_resolution(self):
+        from App.combat import resolve_swing_thrust
+        self.assertEqual(resolve_swing_thrust("sw+1", 14), "2d+1")   # ST14 sw=2d
+        self.assertEqual(resolve_swing_thrust("sw", 10), "1d")        # ST10 sw=1d
+        self.assertEqual(resolve_swing_thrust("thr-1", 13), "1d-1")   # ST13 thr=1d
+        self.assertEqual(resolve_swing_thrust("thr", 11), "1d-1")     # ST11 thr=1d-1
+        self.assertEqual(resolve_swing_thrust("2d+1", 14), "2d+1")    # dadi intatti
+        self.assertEqual(resolve_swing_thrust("1d-1", 10), "1d-1")    # dadi intatti
+
+    def test_melee_attack_does_not_crash(self):
+        # Regressione: un PC con arma sw/thr non deve far crashare l'engine.
+        from App.engine import initiate_combat_action
+        main.combat_sandbox(main.CombatSandboxPayload(creatures=["goblin"], genre="fantasy"))
+        p = main.game_state.players[0]
+        action = p.actions[0]   # Spada (damage "sw+1")
+        gs = initiate_combat_action(
+            main.game_state, attacker_id=0, action=action,
+            target_entity_id="enemy_1", action_type="normal", distance=1)
+        self.assertIsNotNone(gs.last_attack_result)
+
+
 if __name__ == "__main__":
     unittest.main()
