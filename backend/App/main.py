@@ -1177,6 +1177,7 @@ class CombatAttackPayload(BaseModel):
     target_player_id: int | None = None
     action_type: str = "normal"         # "normal" | "all_out_attack" | "aim"
     distance: int = 0                   # distanza in esagoni/yard (mappa tattica)
+    shots_fired: int = 1                # colpi sparati (Rapid Fire B373, 1..RoF)
 
 class CombatAimPayload(BaseModel):
     attacker_id: int
@@ -3112,6 +3113,11 @@ def combat_attack(payload: CombatAttackPayload):
             damage=f"1d6+{max(0, (attacker.stats.get('forza', 10) - 10) // 2)}",
             damage_type="cr",
         )
+    # Rapid Fire: imposta i colpi sparati richiesti dal frontend (capped a ammo_current)
+    if payload.shots_fired > 1 and getattr(action, "attack_kind", None) == "ranged":
+        action.shots_fired = max(1, min(payload.shots_fired, action.ammo_current or action.ammo or 1))
+    else:
+        action.shots_fired = 1
     game_state = initiate_combat_action(
         game_state,
         attacker_id=payload.attacker_id,
@@ -5136,6 +5142,482 @@ def use_item(player_id: str, item_id: str):
         target.equipment = [e for e in target.equipment if not (e.id == item_id or e.name == item_id)]
 
     return {"log": log, "players": [p.model_dump() for p in game_state.players]}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CAMPAGNE — persistenza tra avventure
+# ══════════════════════════════════════════════════════════════════════════════
+
+from .campaign_store import (
+    create_campaign as _create_campaign,
+    load_campaign as _load_campaign,
+    list_campaigns as _list_campaigns,
+    delete_campaign as _delete_campaign,
+    add_player_to_campaign as _add_player_to_campaign,
+    update_player_in_campaign as _update_player_in_campaign,
+    complete_adventure as _complete_adventure,
+    spend_cp as _spend_cp,
+)
+from .spell_catalog import get_spells_for_genre as _spells_for_genre, get_prerequisites_met, SPELL_BY_ID
+
+
+class _CampaignCreateReq(BaseModel):
+    name: str
+    genre: str
+    world_name: str = ""
+    cp_per_session: int = 3
+    starting_cp: int = 100
+    max_disadvantage_cp: int = 50
+
+
+@app.post("/campaigns")
+async def api_create_campaign(req: _CampaignCreateReq):
+    campaign = _create_campaign(
+        name=req.name,
+        genre=req.genre,
+        world_name=req.world_name,
+        cp_per_session=req.cp_per_session,
+        starting_cp=req.starting_cp,
+        max_disadvantage_cp=req.max_disadvantage_cp,
+    )
+    return campaign.model_dump()
+
+
+@app.get("/campaigns")
+async def api_list_campaigns():
+    return [s.model_dump() for s in _list_campaigns()]
+
+
+@app.get("/campaigns/{campaign_id}")
+async def api_get_campaign(campaign_id: str):
+    c = _load_campaign(campaign_id)
+    if not c:
+        raise HTTPException(status_code=404, detail="Campagna non trovata")
+    return c.model_dump()
+
+
+@app.delete("/campaigns/{campaign_id}")
+async def api_delete_campaign(campaign_id: str):
+    deleted = _delete_campaign(campaign_id)
+    return {"deleted": deleted}
+
+
+class _AddPlayerReq(BaseModel):
+    player: dict
+
+
+@app.post("/campaigns/{campaign_id}/players")
+async def api_add_player(campaign_id: str, req: _AddPlayerReq):
+    from .models import Player as _Player
+    player = _Player.model_validate(req.player)
+    cp = _add_player_to_campaign(campaign_id, player)
+    return cp.model_dump()
+
+
+class _CompleteAdventureReq(BaseModel):
+    adventure_id: str
+    adventure_name: str
+    outcome: str = "completed"
+    cp_override: int | None = None
+    player_updates: list[dict] = []
+    world_facts_new: list[str] = []
+    faction_reputation_delta: dict = {}
+
+
+@app.post("/campaigns/{campaign_id}/complete-adventure")
+async def api_complete_adventure(campaign_id: str, req: _CompleteAdventureReq):
+    updated = _complete_adventure(
+        campaign_id=campaign_id,
+        adventure_id=req.adventure_id,
+        adventure_name=req.adventure_name,
+        outcome=req.outcome,
+        cp_override=req.cp_override,
+        player_updates=req.player_updates,
+        world_facts_new=req.world_facts_new,
+        faction_reputation_delta=req.faction_reputation_delta,
+    )
+    return updated.model_dump()
+
+
+class _SpendCpReq(BaseModel):
+    campaign_player_id: str
+    improvement_type: str  # "attribute"|"skill"|"spell"|"advantage"
+    target: str
+    levels: int = 1
+
+
+@app.post("/campaigns/{campaign_id}/spend-cp")
+async def api_spend_cp(campaign_id: str, req: _SpendCpReq):
+    result = _spend_cp(
+        campaign_id=campaign_id,
+        campaign_player_id=req.campaign_player_id,
+        improvement_type=req.improvement_type,
+        target=req.target,
+        levels=req.levels,
+    )
+    if not result.get("ok"):
+        raise HTTPException(status_code=400, detail=result.get("error", "Errore"))
+    return result
+
+
+@app.get("/campaigns/{campaign_id}/spells")
+async def api_campaign_spells(campaign_id: str):
+    """Lista tutti gli incantesimi disponibili per il genere della campagna."""
+    c = _load_campaign(campaign_id)
+    if not c:
+        raise HTTPException(status_code=404, detail="Campagna non trovata")
+    return _spells_for_genre(c.genre)
+
+
+@app.get("/campaigns/{campaign_id}/spells/learnable/{campaign_player_id}")
+async def api_learnable_spells(campaign_id: str, campaign_player_id: str):
+    """Incantesimi che il PG può imparare (prerequisiti soddisfatti)."""
+    from .spell_catalog import spells_learnable
+    c = _load_campaign(campaign_id)
+    if not c:
+        raise HTTPException(status_code=404, detail="Campagna non trovata")
+    cp = next((p for p in c.players if p.id == campaign_player_id), None)
+    if not cp:
+        raise HTTPException(status_code=404, detail="PG non trovato")
+    known = {s.spell_id: s.skill_level for s in cp.spells}
+    return spells_learnable(known, c.genre)
+
+
+# ─── Quick Contest endpoint ──────────────────────────────────────────────────
+
+class _QuickContestReq(BaseModel):
+    attacker_skill: int
+    defender_skill: int
+    attacker_label: str = "PG"
+    defender_label: str = "NPG"
+
+
+@app.post("/roll/quick-contest")
+async def api_quick_contest(req: _QuickContestReq):
+    from .combat import resolve_quick_contest
+    result = resolve_quick_contest(
+        attacker_skill=req.attacker_skill,
+        defender_skill=req.defender_skill,
+        attacker_label=req.attacker_label,
+        defender_label=req.defender_label,
+    )
+    return result.model_dump()
+
+
+# ─── Spell cast (narrazione + tattico) ──────────────────────────────────────
+
+class _SpellCastReq(BaseModel):
+    spell_id: str
+    caster_spell_skill: int
+    energy_spent: int = 0      # 0 → usa il minimo dell'incantesimo
+    target_resistance: int = 0  # stat di resistenza del bersaglio (0 se nessuna)
+    is_combat: bool = False     # se True: lancio in turno tattico
+
+
+@app.post("/roll/spell-cast")
+async def api_spell_cast(req: _SpellCastReq):
+    from .spell_catalog import get_spell
+    from .models import SpellCastResult
+    import random
+
+    spell = get_spell(req.spell_id)
+    if not spell:
+        raise HTTPException(status_code=404, detail=f"Incantesimo '{req.spell_id}' non trovato")
+
+    skill = req.caster_spell_skill
+    energy = req.energy_spent if req.energy_spent > 0 else spell["energy_cost"]
+    energy = max(spell["energy_cost"], min(energy, spell.get("energy_cost_max") or energy))
+
+    roll = sum(random.randint(1, 6) for _ in range(3))
+    success = roll <= skill
+    critical_success = roll <= 4 or (roll == 5 and skill >= 15) or (roll == 6 and skill >= 16)
+    critical_failure = roll == 18 or (roll == 17 and skill <= 15)
+
+    margin = skill - roll
+    effect_value = 0
+    log_parts = [f"Lancia {spell['name']}: tiro {roll} vs skill {skill} → {'SUCCESSO' if success else 'FALLIMENTO'}"]
+
+    if critical_failure:
+        log_parts[0] += " CRITICO!"
+        success = False
+
+    damage_roll = 0
+    heal_roll = 0
+    condition_applied = ""
+    resisted = False
+    resist_result = None
+
+    if success:
+        effect_type = spell.get("effect_type", "utility")
+        if effect_type == "damage":
+            dmg_formula = spell.get("damage", "")
+            if "per energy" in dmg_formula:
+                base = dmg_formula.replace(" per energy", "").strip()
+                dice = base.split("d")[0]
+                n = int(dice) * energy
+                damage_roll = sum(random.randint(1, 6) for _ in range(n))
+            else:
+                from .combat import roll_damage
+                damage_roll = roll_damage(dmg_formula)
+            log_parts.append(f"Danno: {damage_roll} ({spell.get('damage_type','?')})")
+
+        elif effect_type == "heal":
+            heal_formula = spell.get("heal_formula", "")
+            if "per energy" in heal_formula:
+                base = heal_formula.replace(" per energy", "").strip()
+                dice = base.split("d")[0]
+                n = int(dice) * energy
+                heal_roll = sum(random.randint(1, 6) for _ in range(n))
+            else:
+                from .combat import roll_damage
+                heal_roll = roll_damage(heal_formula)
+            log_parts.append(f"Guarigione: {heal_roll} PF")
+
+        elif effect_type == "condition":
+            condition_applied = spell.get("condition_applied", "")
+
+        # Resistenza tramite Quick Contest
+        if spell.get("resisted_by") and req.target_resistance > 0:
+            from .combat import resolve_quick_contest
+            contest = resolve_quick_contest(skill, req.target_resistance, "Mago", "Bersaglio")
+            resisted = contest.winner != "attacker"
+            resist_result = contest
+            log_parts.append(contest.narrative_hint)
+
+        log_parts.append(f"Energia spesa: {energy} FP")
+
+    return SpellCastResult(
+        spell_id=req.spell_id,
+        spell_name=spell["name"],
+        caster_name="Mago",
+        roll=roll,
+        target=skill,
+        margin=margin,
+        success=success,
+        critical=critical_success,
+        critical_fail=critical_failure,
+        energy_spent=energy if success else 1,  # B237: fallimento costa 1 FP
+        effect_type=spell.get("effect_type", "utility"),
+        damage_roll=damage_roll,
+        damage_type=spell.get("damage_type", ""),
+        heal_roll=heal_roll,
+        condition_applied=condition_applied,
+        resisted=resisted,
+        resist_result=resist_result,
+        narrative_hint=" | ".join(log_parts),
+    ).model_dump()
+
+
+# ── Self-control roll per svantaggi mentali (B121) ─────────────────────────
+
+class _SelfControlReq(BaseModel):
+    player_id: int
+    intended_action: str
+
+
+@app.post("/roll/self-control")
+async def api_self_control(game_state: dict, req: _SelfControlReq):
+    from .combat import self_control_check
+    state = GameState.model_validate(game_state)
+    player = next((p for p in state.players if p.id == req.player_id), None)
+    if not player:
+        raise HTTPException(status_code=404, detail="PG non trovato")
+    result = self_control_check(player, req.intended_action)
+    return result
+
+
+# ── Dichiarazione simultanea (B362-363) ────────────────────────────────────
+
+from .models import TacticalDeclaration, TacticalRoundState
+
+
+class _DeclareActionReq(BaseModel):
+    player_id: int
+    action_name: str
+    action_type: str = "normal"
+    target_id: str = ""
+    target_player_id: int = 0
+    shots_fired: int = 1
+    spell_id: str = ""
+    energy_invested: int = 0
+    move_to: Optional[Dict[str, int]] = None
+
+
+@app.post("/tactical/declare")
+async def api_tactical_declare(game_state: dict, req: _DeclareActionReq):
+    """
+    Fase 1 — un PG dichiara la sua manovra.
+    Riceve lo stato completo del round (TacticalRoundState serializzato nel game_state),
+    aggiunge la dichiarazione, e segnala se tutti i PG vivi hanno dichiarato.
+    """
+    state = GameState.model_validate(game_state)
+    tactical_round = TacticalRoundState.model_validate(
+        state.extra.get("tactical_round", {}) if hasattr(state, "extra") else {}
+    )
+
+    decl = TacticalDeclaration(
+        player_id=req.player_id,
+        action_name=req.action_name,
+        action_type=req.action_type,
+        target_id=req.target_id,
+        target_player_id=req.target_player_id,
+        shots_fired=req.shots_fired,
+        spell_id=req.spell_id,
+        energy_invested=req.energy_invested,
+        move_to=req.move_to,
+    )
+    tactical_round.declarations[req.player_id] = decl
+
+    # Controlla se tutti i PG vivi hanno dichiarato
+    alive_ids = {p.id for p in state.players if p.hp > -p.max_hp}
+    tactical_round.all_declared = alive_ids.issubset(tactical_round.declarations.keys())
+
+    return {
+        "tactical_round": tactical_round.model_dump(),
+        "all_declared": tactical_round.all_declared,
+        "missing_players": list(alive_ids - tactical_round.declarations.keys()),
+    }
+
+
+@app.post("/tactical/resolve-round")
+async def api_tactical_resolve_round(game_state: dict, tactical_round_data: dict):
+    """
+    Fase 2 — risolve il round dopo che tutti hanno dichiarato.
+
+    Ordine di iniziativa: Basic Speed decrescente, poi DE decrescente in caso di parità.
+    Per ogni PG (in ordine):
+      - Applica la manovra dichiarata
+      - Per attacchi: prepara pending_attack, poi risolve con difesa automatica NPC (dodge)
+      - Per movimenti: aggiorna posizione
+      - Per incantesimi: chiama resolve_spell_cast
+    Dopo tutti i PG, fa agire gli NPC con npc_combat_turn.
+    """
+    from .engine import npc_combat_turn, declare_defense as _declare_defense
+    from .combat import resolve_quick_contest
+
+    state = GameState.model_validate(game_state)
+    tactical_round = TacticalRoundState.model_validate(tactical_round_data)
+
+    log_entries: list[dict] = []
+    tactical_ctx = state.extra.get("tactical_context", {}) if hasattr(state, "extra") else {}
+
+    # Ordina PG per Basic Speed desc, poi DE desc
+    def _initiative_key(p):
+        return (p.basic_speed, p.stats.get("DE", 10))
+
+    ordered_players = sorted(
+        [p for p in state.players if p.hp > -p.max_hp],
+        key=_initiative_key,
+        reverse=True,
+    )
+
+    from .models import CombatDefenseRequest as _CDR
+
+    for player in ordered_players:
+        decl = tactical_round.declarations.get(player.id)
+        if not decl:
+            continue
+
+        action_type = decl.action_type
+        entry: dict = {"player": player.name, "action_type": action_type, "action_name": decl.action_name}
+
+        if action_type in ("normal", "all_out_attack", "aim"):
+            # Cerca il weapon/skill dell'azione dichiarata
+            action = next(
+                (a for a in player.actions if a.name == decl.action_name),
+                player.actions[0] if player.actions else None,
+            )
+            if action and decl.target_id:
+                from .engine import resolve_attack
+                target_entity = next(
+                    (e for e in (state.current_scene.entities if state.current_scene else [])
+                     if e.id == decl.target_id),
+                    None,
+                )
+                if target_entity:
+                    player.action_type = action_type
+                    dmg_formula = getattr(action, "damage_formula", "1d6")
+                    dmg_type = getattr(action, "damage_type", "cr")
+                    skill_name = getattr(action, "weapon_id", action.name)
+                    att_result = resolve_attack(
+                        attacker=player,
+                        attack_skill_name=skill_name,
+                        damage_formula=dmg_formula,
+                        damage_type=dmg_type,
+                        target_entity=target_entity,
+                    )
+                    entry["attack_result"] = att_result.model_dump()
+                    entry["log"] = state.log
+            elif action and decl.target_player_id:
+                target_player = next((p for p in state.players if p.id == decl.target_player_id), None)
+                if target_player:
+                    player.action_type = action_type
+                    dmg_formula = getattr(action, "damage_formula", "1d6")
+                    dmg_type = getattr(action, "damage_type", "cr")
+                    skill_name = getattr(action, "weapon_id", action.name)
+                    # Risolvi con difesa automatica dodge del bersaglio
+                    from .engine import resolve_attack
+                    att_result = resolve_attack(
+                        attacker=player,
+                        attack_skill_name=skill_name,
+                        damage_formula=dmg_formula,
+                        damage_type=dmg_type,
+                        target_player=target_player,
+                        defense_request=_CDR(defense_type="dodge"),
+                    )
+                    entry["attack_result"] = att_result.model_dump()
+                    entry["log"] = state.log
+
+        elif action_type == "all_out_defense":
+            player.action_type = "all_out_defense"
+            player.all_out_defense_active = True
+            entry["log"] = f"{player.name} in Difesa Totale (+2 a tutte le difese)."
+
+        elif action_type == "move":
+            if decl.move_to and tactical_ctx.get("positions") is not None:
+                positions = dict(tactical_ctx["positions"])
+                positions[f"p_{player.id}"] = decl.move_to
+                tactical_ctx["positions"] = positions
+                entry["log"] = f"{player.name} si muove in ({decl.move_to['col']},{decl.move_to['row']})."
+
+        elif action_type == "spell" and decl.spell_id:
+            from .spell_catalog import get_spell
+            spell = get_spell(decl.spell_id)
+            if spell:
+                import random as _rnd
+                skill = player.skills.get(f"spell:{decl.spell_id}", player.stats.get("IN", 10))
+                roll = sum(_rnd.randint(1, 6) for _ in range(3))
+                success = roll <= skill
+                entry["spell"] = spell["name"]
+                entry["roll"] = roll
+                entry["success"] = success
+                entry["log"] = (
+                    f"{player.name} lancia {spell['name']}: "
+                    f"tiro {roll} vs {skill} → {'SUCCESSO' if success else 'FALLIMENTO'}"
+                )
+                if success:
+                    energy = decl.energy_invested or spell["energy_cost"]
+                    player.fp = max(0, player.fp - energy)
+                else:
+                    player.fp = max(0, player.fp - 1)  # B237: 1 FP su fallimento
+
+        log_entries.append(entry)
+
+    # Turni NPC (in ordine di Basic Speed degli NPC)
+    npc_result = npc_combat_turn(state, tactical_ctx or None)
+
+    # Incrementa round
+    tactical_round.round_number += 1
+    tactical_round.declarations = {}
+    tactical_round.all_declared = False
+    tactical_round.resolution_log.extend(log_entries)
+
+    return {
+        "game_state": state.model_dump(),
+        "tactical_round": tactical_round.model_dump(),
+        "round_log": log_entries,
+        "npc_log": npc_result.get("log", ""),
+    }
 
 
 # ── Frontend buildato servito dallo stesso processo (solo in locale) ──────────

@@ -1,6 +1,6 @@
 
 from pydantic import BaseModel
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 from typing import Literal
 from .runtime_models import AdventureDefinition, AdventureRuntime, AdventureRuntimeState
 
@@ -30,6 +30,7 @@ class Action(BaseModel):
     reload: int = 0                     # turni per ricaricare (0 = istantaneo)
     weapon_id: str = ""                 # id in WEAPON_TABLE (es. "pistola_9mm")
     weapon_notes: str = ""              # note regole speciali
+    shots_fired: int = 1               # colpi da sparare in questo attacco (Rapid Fire B373)
 
 
 class EquipmentItem(BaseModel):
@@ -160,6 +161,8 @@ class Player(BaseModel):
     evaluate_target: str = ""          # ID bersaglio corrente della manovra Valuta
     all_out_defense_active: bool = False  # True → +2 a tutte le difese questo turno, no attacco
     last_maneuver: str = ""            # ultima manovra usata (per UI e log)
+    parry_count: int = 0               # parate usate in questo turno (ogni extra = −4, B376)
+    block_count: int = 0               # blocchi usati in questo turno (max 1 con scudo, B375)
     # ── Ferite persistenti (G3) ───────────────────────────────────────────────
     wounds: List[Wound] = []           # ferite attive — penalità cumulativa -1/ferita major+
     # ── Sanità mentale G6 (genere horror) ────────────────────────────────────
@@ -212,6 +215,8 @@ class CombatDefenseRequest(BaseModel):
     player_id: int
     defense_type: str           # "dodge" | "parry" | "block"
     defense_skill: str = ""     # skill usata per parata (vuoto = usa dodge del Player)
+    shield_db: int = 0          # DB dello scudo per blocco (B374): 0 se nessun scudo
+    retreat: bool = False       # True se il difensore arretra di 1 hex (+3 difesa, B374)
 
 class AttackResult(BaseModel):
     """Risultato completo di una sequenza attacco-difesa-danno GURPS."""
@@ -244,6 +249,10 @@ class AttackResult(BaseModel):
     fp_cost: int = 0                   # punti fatica consumati dall'attaccante
     target_stunned: bool = False       # bersaglio è ora stordito
     target_prone: bool = False         # bersaglio è ora a terra
+    # ── Rapid Fire (GURPS B373-374) ──────────────────────────────────────────
+    shots_fired: int = 1              # colpi sparati in questo attacco
+    extra_hits: int = 0              # colpi extra oltre il primo (margin ÷ Rcl)
+    rof_hit_bonus: int = 0           # bonus al tiro per volume di fuoco
 
 
 class TeamSetupState(BaseModel):
@@ -536,3 +545,227 @@ class GameState(BaseModel):
     scene_items_given: List[str] = []          # item_id già distribuiti (evita duplicati)
     # G2: reputazione dei giocatori presso le fazioni (-5 → +5)
     faction_reputation: Dict[str, int] = {}
+    # Campagna collegata (vuoto = sessione standalone legacy)
+    campaign_id: str = ""
+    # True se i CP sono già stati assegnati in questa sessione
+    session_cp_awarded: bool = False
+
+
+# ─── SISTEMA CAMPAGNA ─────────────────────────────────────────────────────────
+
+class SpellEntry(BaseModel):
+    """Incantesimo conosciuto da un PG — parte del suo SpellBook persistente."""
+    spell_id: str                   # es. "fireball", "heal", "darkness"
+    college: str                    # es. "Fire", "Healing", "Illusion"
+    skill_level: int                # livello skill effettivo (base IQ + CP spesi)
+
+
+class ActiveCondition(BaseModel):
+    """Condizione negativa persistente (veleno, malattia, fuoco, ecc.).
+    Sopravvive tra le avventure fino a risoluzione o cura."""
+    type: str                       # "poison" | "disease" | "on_fire" | "cursed" | "bleeding"
+    severity: int = 1               # 1 (lieve) → 3 (grave)
+    ht_penalty: int = 0             # penalità al tiro HT di resistenza
+    damage_per_interval: str = ""   # formula dado, es. "1d" — "" = nessun danno diretto
+    interval_turns: int = 1         # ogni quanti turni/minuti/ore si applica l'effetto
+    turns_remaining: int = -1       # -1 = permanente fino a cura; ≥0 = durata residua
+    source: str = ""                # descrizione origine (es. "morso di ragno gigante")
+    description: str = ""
+
+
+class AdventureRecord(BaseModel):
+    """Record di un'avventura completata — parte della storia del PG."""
+    adventure_id: str
+    adventure_name: str
+    completed_at: str               # ISO date string, es. "2026-06-07"
+    cp_awarded: int = 0
+    outcome: str = "vittoria"       # "vittoria" | "sconfitta" | "ritirata" | "parziale"
+    hp_lost: int = 0                # PF persi durante l'avventura (per statistiche)
+    notable_events: List[str] = []  # fatti rilevanti estratti dal log
+
+
+class CampaignPlayer(BaseModel):
+    """Player persistente tra le avventure — il PG con tutta la sua storia."""
+    id: str                         # UUID univoco del PG nella campagna
+    player: Player                  # stato base GURPS (invariato)
+
+    # ── Avanzamento ───────────────────────────────────────────────────────────
+    unspent_cp: int = 0             # CP disponibili da spendere
+    total_cp_earned: int = 0        # CP totali guadagnati in campagna (storico)
+
+    # ── Magia ─────────────────────────────────────────────────────────────────
+    spells: List[SpellEntry] = []   # incantesimi conosciuti
+
+    # ── Condizioni persistenti ────────────────────────────────────────────────
+    active_conditions: List[ActiveCondition] = []
+
+    # ── Storia ────────────────────────────────────────────────────────────────
+    adventure_history: List[AdventureRecord] = []
+
+    # ── Economia ──────────────────────────────────────────────────────────────
+    money: float = 0.0              # moneta corrente
+
+    # ── Reputazione per gruppo ────────────────────────────────────────────────
+    # es. {"Gilda dei Ladri": 2, "Guardia Cittadina": -1}
+    reputation: Dict[str, int] = {}
+
+    # ── Guarigione tra sessioni ───────────────────────────────────────────────
+    rest_days_accumulated: int = 0  # giorni di riposo accumulati (per guarigione naturale)
+
+
+class Campaign(BaseModel):
+    """Campagna — contenitore top-level che connette PG, avventure e mondo."""
+    id: str                         # UUID
+    name: str                       # es. "La Caduta di Khareth"
+    genre: str                      # "fantasy" | "sci_fi" | "horror" | ecc.
+    world_name: str = ""            # nome del mondo/ambientazione (fluff)
+
+    # ── Party ─────────────────────────────────────────────────────────────────
+    players: List[CampaignPlayer] = []
+
+    # ── Avventure ─────────────────────────────────────────────────────────────
+    completed_adventure_ids: List[str] = []
+    current_adventure_id: str = ""  # "" = tra le avventure
+
+    # ── Stato del mondo persistente ───────────────────────────────────────────
+    world_facts: List[str] = []     # fatti canonici del mondo accumulati
+    faction_reputation: Dict[str, int] = {}  # reputazione party per fazione
+
+    # ── Meta ──────────────────────────────────────────────────────────────────
+    created_at: str = ""            # ISO datetime
+    last_played_at: str = ""
+    session_count: int = 0
+
+    # ── Configurazione GM ─────────────────────────────────────────────────────
+    cp_per_session: int = 3         # CP assegnati a fine sessione (GM decide)
+    starting_cp: int = 100          # budget creazione PG
+    max_disadvantage_cp: int = 50   # limite CP da svantaggi
+
+
+class CampaignSummary(BaseModel):
+    """Scheda leggera per la lista campagne — evita di caricare tutto il JSON."""
+    id: str
+    name: str
+    genre: str
+    world_name: str = ""
+    player_names: List[str] = []
+    session_count: int = 0
+    last_played_at: str = ""
+    current_adventure_id: str = ""
+
+
+# ─── QUICK CONTEST ────────────────────────────────────────────────────────────
+
+class QuickContestResult(BaseModel):
+    """Risultato di un Quick Contest GURPS (B343) — PG vs NPC o PG vs PG."""
+    # Lato attaccante/iniziatore
+    attacker_roll: int
+    attacker_target: int
+    attacker_margin: int            # positivo = successo, negativo = fallimento
+    attacker_critical: bool = False
+    attacker_critical_fail: bool = False
+
+    # Lato difensore/resistore
+    defender_roll: int
+    defender_target: int
+    defender_margin: int
+    defender_critical: bool = False
+    defender_critical_fail: bool = False
+
+    # Esito
+    winner: str                     # "attacker" | "defender" | "tie"
+    net_margin: int                 # margin_att - margin_def (positivo = att vince di tanto)
+    narrative_hint: str = ""        # es. "intimidito", "resistito", "pareggio"
+
+
+# ─── SISTEMA MAGIA ────────────────────────────────────────────────────────────
+
+class SpellDefinition(BaseModel):
+    """Definizione di un incantesimo GURPS — analogo a WEAPON_TABLE per le armi."""
+    id: str                         # slug, es. "fireball", "heal", "darkness"
+    name: str                       # nome italiano, es. "Palla di fuoco"
+    college: str                    # "Fire" | "Healing" | "Illusion" | "Mind Control" | ecc.
+
+    # Meccanica
+    skill_attr: str = "IN"          # attributo base (quasi sempre IN per la magia)
+    difficulty: str = "H"           # sempre H per gli incantesimi GURPS
+    energy_cost: int = 1            # FP per lanciare (valore minimo)
+    energy_cost_max: int = 0        # se >0: costo variabile fino a questo max (es. Fireball)
+    maintenance_cost: int = 0       # FP/turno per mantenere (0 = non mantenibile)
+    casting_time: int = 1           # turni di Concentrate necessari (1 = normale)
+
+    # Effetto
+    effect_type: str = "utility"    # "damage" | "heal" | "condition" | "utility" | "buff" | "summon"
+    damage: str = ""                # formula danno se effect_type=="damage" (es. "1d per energy")
+    damage_type: str = ""           # "burn" | "imp" | "cr" | ecc.
+    heal_formula: str = ""          # formula guarigione se effect_type=="heal" (es. "1d")
+    area: int = 0                   # raggio in yard (0 = bersaglio singolo)
+    duration: str = "istantaneo"    # "istantaneo" | "1 min" | "1 ora" | "permanente" | ecc.
+    resisted_by: str = ""           # "" = non resistibile | "Volontà" | "SA" | "IN"
+    condition_applied: str = ""     # condizione inflitta (es. "blinded", "paralyzed")
+
+    # Prerequisiti (spell_id richiesti — devono essere a skill ≥ 12)
+    prerequisites: List[str] = []
+    min_skill: int = 12             # livello minimo per poterla lanciare
+
+    # Ambientazione (come eras nelle armi)
+    eras: List[str] = []            # generi compatibili; [] = universale per mondi magici
+
+    description: str = ""
+    notes: str = ""
+
+
+class SpellCastRequest(BaseModel):
+    """Richiesta di lancio incantesimo — usata sia in narrazione che in tattico."""
+    player_id: int
+    spell_id: str
+    target_id: str = ""             # id SceneEntity o player_id bersaglio ("" = area/self)
+    energy_invested: int = 0        # FP extra investiti (per incantesimi variabili)
+    context: str = "narrative"      # "narrative" | "tactical"
+
+
+class SpellCastResult(BaseModel):
+    """Risultato del lancio di un incantesimo."""
+    spell_id: str
+    spell_name: str
+    caster_name: str
+    roll: int
+    target: int                     # livello skill effettivo
+    margin: int
+    success: bool
+    critical: bool = False
+    critical_fail: bool = False
+    energy_spent: int               # FP effettivamente consumati
+    hp_spent: int = 0               # HP consumati se FP esauriti
+    effect_type: str
+    damage_roll: int = 0            # dadi danno se damage spell
+    damage_type: str = ""
+    heal_roll: int = 0              # PF ripristinati se heal spell
+    condition_applied: str = ""     # condizione applicata al bersaglio
+    resisted: bool = False          # True se il bersaglio ha resistito (Quick Contest)
+    resist_result: Optional[QuickContestResult] = None
+    narrative_hint: str = ""
+    description: str = ""
+
+
+# ─── TURNO TATTICO SIMULTANEO ─────────────────────────────────────────────────
+
+class TacticalDeclaration(BaseModel):
+    """Dichiarazione di azione di un singolo PG nella fase di dichiarazione simultanea."""
+    player_id: int
+    action_name: str                # nome dell'azione (come Action.name)
+    action_type: str = "normal"     # "normal" | "all_out_attack" | "all_out_defense" | "aim" | "move" | "spell"
+    target_id: str = ""             # id SceneEntity bersaglio
+    target_player_id: int = 0       # player_id bersaglio (PvP o cura)
+    shots_fired: int = 1            # per Rapid Fire
+    spell_id: str = ""              # se action_type=="spell"
+    energy_invested: int = 0        # FP extra per spell variabili
+    move_to: Optional[Dict[str, int]] = None  # {"col": x, "row": y} per movimento tattico
+
+
+class TacticalRoundState(BaseModel):
+    """Stato della fase di dichiarazione del round tattico simultaneo."""
+    round_number: int = 1
+    declarations: Dict[int, TacticalDeclaration] = {}   # player_id → dichiarazione
+    all_declared: bool = False      # True quando tutti i PG vivi hanno dichiarato
+    resolution_log: List[Dict[str, Any]] = []            # log risoluzione in ordine iniziativa

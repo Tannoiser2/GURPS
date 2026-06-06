@@ -42,7 +42,7 @@ GENRE_ERA_MAP: dict[str, list[str]] = {
     "horror":            [ERA_MODERN, ERA_HORROR],
     "detective_classico":[ERA_MODERN, ERA_HORROR],
     "western":           [ERA_WESTERN, ERA_MODERN],
-    "sci_fi":            [ERA_SCIFI],
+    "sci_fi":            [ERA_SCIFI, ERA_MODERN],
     "cyberpunk":         [ERA_MODERN, ERA_SCIFI],
     "steampunk":         [ERA_MEDIEVAL, ERA_STEAMPUNK],
     "post_apocalypse":   [ERA_MODERN, ERA_SCIFI],
@@ -236,29 +236,29 @@ WEAPON_TABLE: list[dict] = [
     },
     {
         "id": "arco_corto", "name": "Arco corto",  "skill": "arco",
-        "attack_kind": "ranged", "damage": "1d+1",  "damage_type": "imp",
+        "attack_kind": "ranged", "damage": "thr",   "damage_type": "imp",
         "acc": 1, "range_half": 15, "range_max": 20, "bulk": -6,
         "ammo": 20, "rcl": 1, "reload": 0, "st_min": 7, "lc": 4,
         "cost": 50, "weight": 2.0,
-        "notes": "Rate of Fire 1; recupera frecce dopo il combattimento.",
+        "notes": "B:275 Short Bow. Range ×10/×15 ST. RoF 1; recupera frecce.",
         "eras": [ERA_PRIMITIVE, ERA_MEDIEVAL, ERA_FANTASY],
     },
     {
         "id": "arco",      "name": "Arco lungo",    "skill": "arco",
-        "attack_kind": "ranged", "damage": "1d+2",  "damage_type": "imp",
-        "acc": 2, "range_half": 20, "range_max": 25, "bulk": -7,
+        "attack_kind": "ranged", "damage": "thr+2",  "damage_type": "imp",
+        "acc": 3, "range_half": 20, "range_max": 25, "bulk": -8,
         "ammo": 20, "rcl": 1, "reload": 0, "st_min": 11, "lc": 4,
-        "cost": 200, "weight": 4.0,
-        "notes": "ST minima 11; danno varia con ST arciere.",
+        "cost": 200, "weight": 3.0,
+        "notes": "B:275 Longbow. Range ×15/×20 ST. Danno e range scalano con ST.",
         "eras": [ERA_MEDIEVAL, ERA_FANTASY],
     },
     {
         "id": "balestra",  "name": "Balestra",      "skill": "balestra",
-        "attack_kind": "ranged", "damage": "1d+4",  "damage_type": "imp",
+        "attack_kind": "ranged", "damage": "thr+4",  "damage_type": "imp",
         "acc": 4, "range_half": 25, "range_max": 30, "bulk": -6,
         "ammo": 1, "rcl": 1, "reload": 4, "st_min": 7, "lc": 4,
         "cost": 150, "weight": 6.0,
-        "notes": "Reload 4 turni (con cricca manuale).",
+        "notes": "B:276 Crossbow. Range ×20/×25 ST. Reload 4 turni.",
         "eras": [ERA_MEDIEVAL, ERA_FANTASY, ERA_STEAMPUNK],
     },
     {
@@ -274,30 +274,30 @@ WEAPON_TABLE: list[dict] = [
     # ─── ARMI A DISTANZA — WESTERN (1850-1900) ────────────────────────────────
 
     {
-        "id": "colt45",    "name": "Colt .45",      "skill": "pistola",
-        "attack_kind": "ranged", "damage": "2d+2",  "damage_type": "pi",
-        "acc": 2, "range_half": 50, "range_max": 600, "bulk": -2,
-        "ammo": 6, "rcl": 4, "reload": 3, "st_min": 10, "lc": 3,
-        "cost": 150, "weight": 3.0,
-        "notes": "Revolver classico; reload 3 turni per 6 colpi.",
+        "id": "colt45",    "name": "Revolver .36",  "skill": "pistola",
+        "attack_kind": "ranged", "damage": "2d-1",  "damage_type": "pi",
+        "acc": 1, "range_half": 120, "range_max": 1300, "bulk": -2,
+        "ammo": 6, "rcl": 2, "reload": 3, "st_min": 10, "lc": 3,
+        "cost": 150, "weight": 2.5,
+        "notes": "B:278 Revolver .36 (TL5). Reload 3 turni per 6 colpi (individuale).",
         "eras": [ERA_WESTERN],
     },
     {
         "id": "winchester", "name": "Winchester '73", "skill": "fucile",
-        "attack_kind": "ranged", "damage": "2d+2",  "damage_type": "pi+",
-        "acc": 4, "range_half": 175, "range_max": 1800, "bulk": -5,
-        "ammo": 15, "rcl": 3, "reload": 1, "st_min": 9, "lc": 3,
-        "cost": 250, "weight": 7.5,
-        "notes": "Leva ad azione; 1 turno per ricarica singolo colpo.",
+        "attack_kind": "ranged", "damage": "5d",    "damage_type": "pi",
+        "acc": 4, "range_half": 450, "range_max": 3000, "bulk": -4,
+        "ammo": 6, "rcl": 2, "reload": 1, "st_min": 10, "lc": 3,
+        "cost": 300, "weight": 7.0,
+        "notes": "B:279 Lever-Action Carbine .30 (TL5). Reload individuale per colpo.",
         "eras": [ERA_WESTERN],
     },
     {
-        "id": "doppietta", "name": "Doppietta",     "skill": "fucile",
-        "attack_kind": "ranged", "damage": "1d+1",  "damage_type": "pi",
-        "acc": 3, "range_half": 5, "range_max": 50, "bulk": -5,
-        "ammo": 2, "rcl": 4, "reload": 2, "st_min": 10, "lc": 3,
-        "cost": 200, "weight": 8.0,
-        "notes": "Pellet ×9 a 5 yard; danno ×4 a contatto.",
+        "id": "doppietta", "name": "Doppietta 10G", "skill": "fucile",
+        "attack_kind": "ranged", "damage": "1d+2",  "damage_type": "pi",
+        "acc": 3, "range_half": 50, "range_max": 125, "bulk": -5,
+        "ammo": 2, "rcl": 1, "reload": 3, "st_min": 11, "lc": 4,
+        "cost": 450, "weight": 10.0,
+        "notes": "B:279 Double Shotgun 10G (TL5). RoF 2×9 pellet per canna.",
         "eras": [ERA_WESTERN, ERA_HORROR, ERA_MODERN],
     },
 
@@ -306,64 +306,64 @@ WEAPON_TABLE: list[dict] = [
     {
         "id": "pistola_9mm", "name": "Pistola 9mm", "skill": "pistola",
         "attack_kind": "ranged", "damage": "2d+2",  "damage_type": "pi",
-        "acc": 2, "range_half": 150, "range_max": 1800, "bulk": -2,
-        "ammo": 17, "rcl": 2, "reload": 1, "st_min": 9, "lc": 3,
-        "cost": 600, "weight": 1.5,
-        "notes": "Caricatore 17 colpi; semi-auto.",
+        "acc": 2, "range_half": 150, "range_max": 1850, "bulk": -2,
+        "ammo": 15, "rcl": 2, "reload": 1, "st_min": 9, "lc": 3,
+        "cost": 600, "weight": 2.6,
+        "notes": "B:278 Auto Pistol 9mm (TL7). Caricatore 15+1; semi-auto RoF 3.",
         "eras": [ERA_MODERN, ERA_HORROR],
     },
     {
         "id": "pistola_38", "name": "Revolver .38", "skill": "pistola",
-        "attack_kind": "ranged", "damage": "2d+1",  "damage_type": "pi",
-        "acc": 2, "range_half": 120, "range_max": 1400, "bulk": -2,
-        "ammo": 6, "rcl": 4, "reload": 3, "st_min": 9, "lc": 3,
-        "cost": 450, "weight": 2.0,
-        "notes": "Revolver anni '20-'50; tipico detective classico.",
+        "attack_kind": "ranged", "damage": "2d-1",  "damage_type": "pi",
+        "acc": 2, "range_half": 120, "range_max": 1500, "bulk": -2,
+        "ammo": 6, "rcl": 2, "reload": 3, "st_min": 8, "lc": 3,
+        "cost": 400, "weight": 2.0,
+        "notes": "B:278 Revolver .38 (TL6). Tipico detective classico; reload individuale.",
         "eras": [ERA_HORROR, ERA_MODERN, ERA_WESTERN],
     },
     {
         "id": "pistola_45acp", "name": "Colt 1911 (.45 ACP)", "skill": "pistola",
-        "attack_kind": "ranged", "damage": "2d+2",  "damage_type": "pi+",
-        "acc": 2, "range_half": 180, "range_max": 1900, "bulk": -2,
+        "attack_kind": "ranged", "damage": "2d",    "damage_type": "pi+",
+        "acc": 2, "range_half": 175, "range_max": 1700, "bulk": -2,
         "ammo": 7, "rcl": 3, "reload": 1, "st_min": 10, "lc": 3,
-        "cost": 700, "weight": 2.5,
-        "notes": "Classico del western moderno e della Seconda Guerra Mondiale.",
+        "cost": 300, "weight": 3.0,
+        "notes": "B:278 Auto Pistol .45 (TL6). Colt 1911; WWII e western moderno.",
         "eras": [ERA_HORROR, ERA_MODERN, ERA_WESTERN],
     },
     {
-        "id": "mitra",     "name": "Mitra (SMG)",   "skill": "fucile",
-        "attack_kind": "ranged", "damage": "2d+2",  "damage_type": "pi",
-        "acc": 3, "range_half": 140, "range_max": 1400, "bulk": -4,
-        "ammo": 30, "rcl": 2, "reload": 2, "st_min": 9, "lc": 1,
-        "cost": 1200, "weight": 8.0,
-        "notes": "Full-auto disponibile; RCL 2 per colpo automatico.",
+        "id": "mitra",     "name": "Mitra SMG 9mm", "skill": "fucile",
+        "attack_kind": "ranged", "damage": "3d-1",  "damage_type": "pi",
+        "acc": 4, "range_half": 160, "range_max": 1900, "bulk": -4,
+        "ammo": 30, "rcl": 2, "reload": 3, "st_min": 10, "lc": 2,
+        "cost": 1200, "weight": 7.5,
+        "notes": "B:278 SMG 9mm (TL7). RoF 13; versione civile semi-auto LC3.",
         "eras": [ERA_MODERN, ERA_HORROR],
     },
     {
-        "id": "fucile_assalto", "name": "Fucile d'assalto", "skill": "fucile",
+        "id": "fucile_assalto", "name": "Fucile d'assalto 5.56mm", "skill": "fucile",
         "attack_kind": "ranged", "damage": "5d",    "damage_type": "pi",
-        "acc": 4, "range_half": 500, "range_max": 3900, "bulk": -5,
-        "ammo": 30, "rcl": 2, "reload": 2, "st_min": 9, "lc": 1,
-        "cost": 2000, "weight": 8.5,
-        "notes": "Semi-auto o raffica; gittata eccellente.",
+        "acc": 5, "range_half": 500, "range_max": 3500, "bulk": -4,
+        "ammo": 30, "rcl": 2, "reload": 3, "st_min": 9, "lc": 2,
+        "cost": 800, "weight": 9.0,
+        "notes": "B:279 Assault Rifle 5.56mm (TL7). RoF 12.",
         "eras": [ERA_MODERN],
     },
     {
-        "id": "fucile_cecchino", "name": "Fucile da cecchino", "skill": "fucile",
-        "attack_kind": "ranged", "damage": "6d+2",  "damage_type": "pi+",
-        "acc": 6, "range_half": 800, "range_max": 4700, "bulk": -6,
-        "ammo": 5, "rcl": 3, "reload": 3, "st_min": 10, "lc": 1,
-        "cost": 6000, "weight": 12.0,
-        "notes": "Richiede Aim per almeno 1 turno; bonus Acc +1 con bipode.",
+        "id": "fucile_cecchino", "name": "Fucile da cecchino .338", "skill": "fucile",
+        "attack_kind": "ranged", "damage": "9d+1",  "damage_type": "pi",
+        "acc": 6, "range_half": 1500, "range_max": 5500, "bulk": -6,
+        "ammo": 4, "rcl": 4, "reload": 3, "st_min": 11, "lc": 3,
+        "cost": 5600, "weight": 17.5,
+        "notes": "B:279 Sniper Rifle .338 (TL8). Richiede Aim; bipode incluso (B).",
         "eras": [ERA_MODERN],
     },
     {
-        "id": "shotgun",   "name": "Fucile a pompa", "skill": "fucile",
+        "id": "shotgun",   "name": "Fucile a pompa 12G", "skill": "fucile",
         "attack_kind": "ranged", "damage": "1d+1",  "damage_type": "pi",
-        "acc": 3, "range_half": 5, "range_max": 50, "bulk": -5,
-        "ammo": 6, "rcl": 4, "reload": 1, "st_min": 10, "lc": 3,
-        "cost": 500, "weight": 7.5,
-        "notes": "Pellet ×9; danno devastante a corta distanza.",
+        "acc": 3, "range_half": 50, "range_max": 125, "bulk": -5,
+        "ammo": 5, "rcl": 1, "reload": 3, "st_min": 10, "lc": 4,
+        "cost": 240, "weight": 8.0,
+        "notes": "B:279 Pump Shotgun 12G (TL6). RoF 2×9 pellet; danno devastante a corta dist.",
         "eras": [ERA_MODERN, ERA_HORROR, ERA_WESTERN],
     },
 
@@ -388,7 +388,46 @@ WEAPON_TABLE: list[dict] = [
         "eras": [ERA_STEAMPUNK],
     },
 
-    # ─── FANTASCIENZA ───────────────────────────────────────────────────────────
+    # ─── FANTASCIENZA — MISCHIA ────────────────────────────────────────────────
+
+    {
+        "id": "vibrolama",  "name": "Vibrolama",     "skill": "spada",
+        "attack_kind": "melee", "damage": "sw+2",   "damage_type": "cut",
+        "acc": 0, "range_half": 0, "range_max": 0, "bulk": -2,
+        "ammo": 0, "rcl": 1, "reload": 0, "st_min": 8, "lc": 2,
+        "cost": 3000, "weight": 1.5,
+        "notes": "Lama ad alta frequenza; ignora DR 2 (armor divisor 2 vs DR ≤4).",
+        "eras": [ERA_SCIFI],
+    },
+    {
+        "id": "manganello_stordente", "name": "Manganello stordente", "skill": "mazza",
+        "attack_kind": "melee", "damage": "1d",     "damage_type": "burn",
+        "acc": 0, "range_half": 0, "range_max": 0, "bulk": -1,
+        "ammo": 0, "rcl": 1, "reload": 0, "st_min": 6, "lc": 3,
+        "cost": 400, "weight": 0.5,
+        "notes": "Non letale; SA check o stordito.",
+        "eras": [ERA_SCIFI, ERA_MODERN],
+    },
+    {
+        "id": "spada_forza",  "name": "Spada di forza", "skill": "spada",
+        "attack_kind": "melee", "damage": "8d",     "damage_type": "burn",
+        "acc": 0, "range_half": 0, "range_max": 0, "bulk": -2,
+        "ammo": 0, "rcl": 1, "reload": 0, "st_min": 3, "lc": 2,
+        "cost": 10000, "weight": 2.0,
+        "notes": "B:272 Force Sword. Armour divisor (5); lama energetica attiva/disattiva con Ready. $100/batteria (300s).",
+        "eras": [ERA_SCIFI],
+    },
+    {
+        "id": "artigli_esoscheletro", "name": "Artigli esoscheletro", "skill": "pugilato",
+        "attack_kind": "melee", "damage": "thr+4",  "damage_type": "cut",
+        "acc": 0, "range_half": 0, "range_max": 0, "bulk": 0,
+        "ammo": 0, "rcl": 1, "reload": 0, "st_min": 0, "lc": 2,
+        "cost": 5000, "weight": 0.0,
+        "notes": "Montati sull'esoscheletro; non richiede ST propria.",
+        "eras": [ERA_SCIFI],
+    },
+
+    # ─── FANTASCIENZA — DISTANZA ───────────────────────────────────────────────
 
     {
         "id": "blaster",   "name": "Blaster",       "skill": "pistola_energia",
@@ -607,12 +646,12 @@ WEAPON_TABLE: list[dict] = [
         "eras": [ERA_WESTERN, ERA_MODERN],
     },
     {
-        "id": "fucile_bolt_action", "name": "Fucile a otturatore", "skill": "fucile",
+        "id": "fucile_bolt_action", "name": "Fucile a otturatore 7.62mm", "skill": "fucile",
         "attack_kind": "ranged", "damage": "7d",    "damage_type": "pi",
         "acc": 5, "range_half": 1000, "range_max": 4200, "bulk": -5,
         "ammo": 5, "rcl": 4, "reload": 3, "st_min": 10, "lc": 3,
         "cost": 350, "weight": 8.9,
-        "notes": "TL6; guerra e caccia pesante (WWI/II). Canna lunga, precisissimo.",
+        "notes": "B:279 Bolt-Action Rifle 7.62mm (TL6). WWI/II; Rcl 4.",
         "eras": [ERA_MODERN, ERA_HORROR],
     },
 ]
@@ -686,7 +725,12 @@ ITEM_NAME_TO_WEAPON_ID: dict[str, str] = {
     "shotgun": "shotgun",
     # Steampunk
     "pistola a vapore": "pistola_vapore", "fucile tesla": "fucile_tesla",
-    # Sci-fi
+    # Sci-fi mischia
+    "vibrolama": "vibrolama", "vibroblade": "vibrolama",
+    "manganello stordente": "manganello_stordente", "stun baton": "manganello_stordente",
+    "spada di forza": "spada_forza", "energy sword": "spada_forza", "spada forza": "spada_forza",
+    "artigli esoscheletro": "artigli_esoscheletro",
+    # Sci-fi ranged
     "blaster": "blaster", "pistola blaster": "blaster",
     "folgoratore": "folgoratore", "pistola folgoratore": "folgoratore",
     "fucile laser": "fucile_laser", "laser": "fucile_laser",
@@ -721,7 +765,7 @@ def item_to_weapon_id(item_name: str) -> str | None:
 # ─── Mappa archetipo → arma primaria (weapon_id, ammo_packs) ──────────────────
 # Usato quando un PG o NPC non ha armi esplicite e va auto-equipaggiato.
 ARCHETYPE_WEAPON_MAP: dict[str, tuple[str, int]] = {
-    # Sci-fi
+    # Sci-fi — ranged
     "marine":      ("fucile_assalto",  3),
     "pilot":       ("pistola_9mm",     2),
     "scout":       ("pistola_9mm",     2),
@@ -731,6 +775,9 @@ ARCHETYPE_WEAPON_MAP: dict[str, tuple[str, int]] = {
     "rifleman":    ("fucile_assalto",  3),
     "medic":       ("pistola_9mm",     1),
     "field_medic": ("pistola_9mm",     1),
+    # Sci-fi — melee
+    "soldier_melee": ("vibrolama",       0),
+    "bounty_hunter": ("vibrolama",       0),
     # Fantasy
     "warrior":     ("spada",             0),
     "ranger":      ("arco",              3),   # "arco" = Arco lungo in WEAPON_TABLE
@@ -779,16 +826,24 @@ def default_weapon_for_archetype(archetype: str, genre: str) -> tuple[str, int] 
     # default ERA_MODERN (→ pistola 9mm) per una semplice differenza di formato.
     genre = (genre or "").strip().lower().replace("-", "_").replace(" ", "_")
     low = archetype.lower()
+    era_list = GENRE_ERA_MAP.get(genre, [ERA_MODERN])
+    primary_era = era_list[0] if era_list else ERA_MODERN
     if low in ARCHETYPE_WEAPON_MAP:
         wid, packs = ARCHETYPE_WEAPON_MAP[low]
-        # Valida che l'arma sia compatibile con il genere
         w = WEAPON_BY_ID.get(wid)
-        eras_for_genre = set(GENRE_ERA_MAP.get(genre, [ERA_MODERN]))
-        if w and any(e in eras_for_genre for e in w.get("eras", [])):
+        weapon_eras = set(w.get("eras", [])) if w else set()
+        # L'arma dell'archetype deve essere compatibile con il genere E avere
+        # l'era primaria del genere (così evitare di usare pistola moderna in sci-fi).
+        if w and primary_era in weapon_eras:
             return wid, packs
-    # Fallback per era — modern prima di scifi così cyberpunk/post_apoc
-    # (che hanno entrambe le ere) usano 9mm; pure sci_fi prende il blaster.
-    eras = set(GENRE_ERA_MAP.get(genre, [ERA_MODERN]))
+    # Fallback per era — l'ordine delle ere nel GENRE_ERA_MAP stabilisce la
+    # priorità: il primo elemento della lista vince se ha un'arma di default.
+    era_list = GENRE_ERA_MAP.get(genre, [ERA_MODERN])
+    eras = set(era_list)
+    # Generi con ERA_SCIFI come era primaria (primo elemento) → blaster
+    primary_era = era_list[0] if era_list else ERA_MODERN
+    if primary_era == ERA_SCIFI:
+        return "blaster", 2
     if ERA_MODERN in eras or ERA_HORROR in eras:
         return "pistola_9mm", 2
     if ERA_SCIFI in eras:

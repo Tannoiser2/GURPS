@@ -4188,6 +4188,8 @@ def initiate_combat_action(
         if not entity:
             state.log = f"Entità {target_entity_id} non trovata nella scena."
             return state
+        shots_fired = int(getattr(action, "shots_fired", 1) or 1)
+        rcl          = int(getattr(action, "rcl", 1) or 1)
         result = resolve_attack(
             attacker=attacker,
             attack_skill_name=attack_skill_name,
@@ -4200,11 +4202,13 @@ def initiate_combat_action(
             range_half=range_half,
             range_max=range_max,
             ammo_current=ammo_current,
+            shots_fired=shots_fired,
+            rcl=rcl,
             prerolled=roll,
         )
-        # Scala munizioni se ranged e ha sparato
+        # Scala munizioni: decrementa i colpi effettivamente sparati (B373)
         if attack_kind == "ranged" and ammo_current > 0 and result.narrative_hint != "munizioni_esaurite":
-            action.ammo_current = max(0, ammo_current - 1)
+            action.ammo_current = max(0, ammo_current - result.shots_fired)
         reset_action_type(attacker)
         # Livello e dado MOSTRATI = quelli usati da resolve_attack (includono
         # All-Out Attack +4, shock, ferite, distanza). Prima venivano ricalcolati
@@ -4241,6 +4245,8 @@ def initiate_combat_action(
 
     # Bersaglio giocatore → sospendi in attesa di declare_defense
     if target_player_id is not None:
+        _shots = int(getattr(action, "shots_fired", 1) or 1)
+        _rcl   = int(getattr(action, "rcl", 1) or 1)
         state.pending_attack = {
             "attacker_id": attacker_id,
             "target_player_id": target_player_id,
@@ -4253,6 +4259,9 @@ def initiate_combat_action(
             "range_half": range_half,
             "range_max": range_max,
             "ammo_current": ammo_current,
+            "shots_fired": _shots,
+            "rcl": _rcl,
+            "weapon_id": getattr(action, "weapon_id", ""),
             "roll": roll,
             "action_type": action_type,
         }
@@ -4318,8 +4327,20 @@ def declare_defense(
         range_half=pa.get("range_half", 0),
         range_max=pa.get("range_max", 0),
         ammo_current=pa.get("ammo_current", -1),
+        shots_fired=pa.get("shots_fired", 1),
+        rcl=pa.get("rcl", 1),
         prerolled=pa["roll"],
     )
+    # Decrementa munizioni attaccante dopo difesa (colpi già sparati)
+    if attack_kind == "ranged":
+        ammo_c = pa.get("ammo_current", -1)
+        if ammo_c > 0 and result.narrative_hint != "munizioni_esaurite":
+            att_action = next(
+                (a for a in attacker.actions if getattr(a, "weapon_id", "") == pa.get("weapon_id", "")),
+                None,
+            )
+            if att_action:
+                att_action.ammo_current = max(0, ammo_c - result.shots_fired)
     state.pending_attack = None
     reset_action_type(attacker)
     reset_action_type(target)
@@ -4433,13 +4454,62 @@ def _tactical_adjacent_hexes(pos: dict) -> list[dict]:
 
 
 def _npc_attack_range(enemy: SceneEntity) -> int:
-    text = " ".join([enemy.name, " ".join(enemy.tags or []), enemy.damage_type or "", enemy.damage_dice or ""]).lower()
-    if any(w in text for w in ["fucile", "pistola", "arco", "balestra", "ranged", "laser", "blaster", "proiettile"]):
+    """Portata di attacco NPC in hex.
+
+    Usa i tag dell'entità prima di fare keyword matching sul nome — più affidabile
+    perché i tag vengono impostati esplicitamente al momento della creazione.
+    """
+    tags = [t.lower() for t in (enemy.tags or [])]
+    # Tag espliciti hanno la priorità
+    if "ranged" in tags or "distanza" in tags or "a_distanza" in tags:
+        return 6
+    if "melee" in tags or "mischia" in tags:
+        return 1
+    # Fallback su keyword matching (nome + tipo danno)
+    text = " ".join([enemy.name, enemy.damage_type or "", enemy.damage_dice or ""]).lower()
+    if any(w in text for w in ["fucile", "pistola", "arco", "balestra", "laser", "blaster", "railgun",
+                                "sniper", "ranged", "proiettile", "freccia", "bolter"]):
         return 6
     return 1
 
 
-def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: dict | None = None, cols: int = 15, rows: int = 10) -> dict | None:
+def _npc_preferred_range(enemy: SceneEntity) -> tuple[int, int]:
+    """Distanza minima e massima preferita per un NPC (per mantenersi nel range ottimale).
+
+    Ritorna (min_dist, max_dist) in hex.
+    - Mischia: vuole essere a 1 hex (contatto)
+    - Ranged: vuole mantenersi tra 3-5 hex (fuori portata mischia, in range medio)
+    """
+    attack_range = _npc_attack_range(enemy)
+    if attack_range <= 1:
+        return (1, 1)   # mischia: a contatto
+    return (3, 5)       # ranged: distanza media ottimale
+
+
+def _npc_move_toward(
+    enemy_key: str,
+    target_key: str,
+    positions: dict,
+    terrain: dict | None = None,
+    cols: int = 15,
+    rows: int = 10,
+    desired_distance: int = 1,
+) -> dict | None:
+    """Muovi l'NPC di un hex verso (o lontano da) il bersaglio.
+
+    desired_distance: distanza in hex da raggiungere/mantenere.
+      - 1 → mischia: avvicinati il più possibile
+      - 3-5 → ranged: mantieni distanza media (il chiamante gestisce il segno)
+
+    Comportamento:
+    - Se dist_attuale < desired_distance → allontanati (NPC ranged in pericolo mischia)
+    - Se dist_attuale > desired_distance → avvicinati
+    - Se dist_attuale == desired_distance → fermo (ritorna None)
+
+    La scelta del passo ottimale è greedy sull'hex che minimizza |dist - desired|.
+    Migliore del semplice "avvicina sempre" perché evita che NPC ranged si buttino
+    in mischia e che NPC mischia continuino ad avanzare quando sono già a contatto.
+    """
     enemy_pos = positions.get(enemy_key)
     target_pos = positions.get(target_key)
     if not enemy_pos or not target_pos:
@@ -4451,8 +4521,11 @@ def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: 
         if key != enemy_key
     }
     current_distance = _tactical_hex_distance(enemy_pos, target_pos)
+    if current_distance == desired_distance:
+        return None  # già nella posizione ideale
+
     best = None
-    best_distance = current_distance
+    best_score = abs(current_distance - desired_distance)  # punteggio attuale da battere
     for candidate in _tactical_adjacent_hexes(enemy_pos):
         c = int(candidate["col"])
         r = int(candidate["row"])
@@ -4462,52 +4535,61 @@ def _npc_move_toward(enemy_key: str, target_key: str, positions: dict, terrain: 
             continue
         if int(terrain.get(f"{c},{r}", 0) or 0) == 3:
             continue
-        distance = _tactical_hex_distance(candidate, target_pos)
-        if distance < best_distance:
+        dist = _tactical_hex_distance(candidate, target_pos)
+        score = abs(dist - desired_distance)
+        if score < best_score:
             best = {"col": c, "row": r}
-            best_distance = distance
+            best_score = score
     return best
 
 
 def _choose_npc_maneuver(
     enemy: SceneEntity, target: "Player", *,
     moved: bool, attack_range: int, outnumber: int,
+    distance: int = 1,
 ) -> str:
     """Sceglie la manovra dell'NPC prima di risolvere l'attacco.
 
-    Mix guidato da morale / HP / situazione (GURPS Lite):
-      - move_attack      : si è mosso per arrivare a contatto questo turno (−4)
-      - all_out_attack   : aggressivo, in mischia, quando il rischio è basso (+4,
-                           ma resta senza difesa fino al suo prossimo turno)
-      - all_out_defense  : ferito ma deciso a non fuggire → si copre (+2 dif, no attacco)
-      - normal           : attacco standard
+    Logica deterministica a priorità — il random serve solo per variare comportamenti
+    equiprobabili, non per prendere decisioni tattiche binarie importanti.
 
-    Ritorna una stringa action_type. Il chiamante applica gli effetti collaterali
-    (flag di vulnerabilità / bonus difesa) sull'entità.
+    Manovre:
+      - move_attack      : si è mosso per arrivare a portata questo turno (−4 attacco)
+      - all_out_attack   : aggressivo e in posizione di vantaggio (+4, no difesa)
+      - all_out_defense  : genuinamente minacciato e non-fanatico (+2 dif, no attacco)
+      - normal           : attacco standard con difesa disponibile
     """
     morale = str(getattr(enemy, "morale", "") or "").lower()
     is_fanatic = morale == "fanatico" or "combatte fino" in morale
     is_tough = morale == "tenace"
     hp_ratio = enemy.hp / enemy.max_hp if enemy.max_hp else 1.0
-    target_wounded = target.hp <= target.max_hp // 3
+    target_hp_ratio = target.hp / target.max_hp if target.max_hp else 1.0
     melee = attack_range <= 1
 
-    # Muovi-e-attacca: imposto dalla situazione, non una scelta (regola GURPS B324)
+    # 1. Muovi-e-attacca: imposto dalla situazione (regola GURPS B324)
     if moved:
         return "move_attack"
 
-    # Difesa Totale: i non-fanatici feriti (sopra la soglia di fuga) a volte si
-    # coprono invece di attaccare — più probabile per i "tenaci" che non fuggono.
-    if melee and not is_fanatic and hp_ratio <= 0.5:
-        if random.random() < (0.5 if is_tough else 0.35):
+    # 2. Difesa Totale: SOLO se genuinamente in difficoltà.
+    #    Criteri: non-fanatico, ferito oltre metà HP, in mischia (distanza),
+    #    e il bersaglio NON è già quasi morto (altrimenti conviene affrettarsi).
+    if (melee and not is_fanatic and hp_ratio <= 0.45 and target_hp_ratio > 0.2):
+        # Tenace: preferisce coprirsi piuttosto che fuggire — difesa quasi sempre
+        # Normale: difesa solo se decisamente ferito (≤30% HP)
+        if is_tough or hp_ratio <= 0.3:
             return "all_out_defense"
 
-    # Attacco Totale: solo in mischia (il +4 piatto non vale a distanza) e quando
-    # conviene rischiare di restare scoperti: fanatici sempre; gli altri se sani
-    # e il bersaglio è ferito o l'NPC è in vantaggio numerico.
+    # 3. Attacco Totale: solo in mischia (il +4 piatto non ha senso a distanza).
+    #    NPC fanatici la scelgono quasi sempre quando sono sani.
+    #    NPC normali la scelgono quando:
+    #      - sono in vantaggio numerico significativo (outnumber ≥ 2), OPPURE
+    #      - il bersaglio è già ferito e l'NPC è sano (opportunismo), OPPURE
+    #      - sono fanatici e non ancora a metà HP.
     if melee:
-        aggressive = is_fanatic or (hp_ratio > 0.6 and (target_wounded or outnumber >= 2))
-        if aggressive and (is_fanatic or random.random() < 0.5):
+        overwhelming = outnumber >= 2 and hp_ratio > 0.5
+        opportunistic = target_hp_ratio <= 0.4 and hp_ratio > 0.65
+        fanatic_charge = is_fanatic and hp_ratio > 0.5
+        if overwhelming or opportunistic or fanatic_charge:
             return "all_out_attack"
 
     return "normal"
@@ -4597,26 +4679,66 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
         target_key = f"p_{target.id}"
         target_pos = positions.get(target_key)
         attack_range = _npc_attack_range(enemy)
+        min_dist, preferred_dist = _npc_preferred_range(enemy)
+        is_ranged = attack_range > 1
         # Posizionamento tattico solo se ABBIAMO la posizione di questo nemico e del
         # bersaglio; altrimenti l'NPC attacca direttamente (combattimento astratto).
         has_tactical_pos = bool(positions and enemy_pos and target_pos)
         distance = _tactical_hex_distance(enemy_pos, target_pos) if has_tactical_pos else 1
         steps_taken = 0  # quanti esagoni si è mosso questo turno (per Muovi-e-Attacca)
 
-        # Muovi l'NPC verso il giocatore fino a max speed esagoni, o finché non è in portata
-        if has_tactical_pos and distance > attack_range:
+        # ── Movimento tattico (GURPS B387) ───────────────────────────────────────
+        # NPC mischia: avanzano fino a portata 1.
+        # NPC ranged: si allontanano se il giocatore è a ≤1 hex (pericolo mischia),
+        #             si avvicinano se ancora fuori portata (>6 hex).
+        #             Nel range 2-6 sono già operativi e non si muovono inutilmente.
+        needs_repositioning = False
+        if has_tactical_pos:
+            if is_ranged:
+                if distance <= 1:
+                    needs_repositioning = True   # troppo vicino: arretra
+                elif distance > attack_range:
+                    needs_repositioning = True   # troppo lontano: avanzata
+                # else: distanza 2-6 hex → già in range, resta fermo
+            else:
+                needs_repositioning = distance > attack_range  # mischia: avanza
+
+        if needs_repositioning:
             npc_speed = int(getattr(enemy, "speed", 5) or 5)
-            move_start = dict(positions[enemy_key])  # posizione iniziale per il log
-            for _ in range(npc_speed):
-                if distance <= attack_range:
-                    break
-                step = _npc_move_toward(enemy_key, target_key, positions, terrain, cols=cols, rows=rows)
+            posture = str(getattr(enemy, "posture", "standing") or "standing").lower()
+            if posture == "prone":
+                mp_budget = npc_speed
+                mp_per_hex = npc_speed     # lying down: tutti i MP per 1 hex (B387)
+            elif posture in ("kneeling", "crawling"):
+                mp_budget = npc_speed
+                mp_per_hex = 3             # 1 base + 2 postura (B387)
+            else:
+                mp_budget = npc_speed
+                mp_per_hex = 1
+            mp_spent = 0
+            move_start = dict(positions[enemy_key])
+            while mp_spent + mp_per_hex <= mp_budget:
+                # Condizione di stop: mischia → a portata; ranged → fuori pericolo mischia
+                if is_ranged:
+                    in_range = (min_dist <= distance <= attack_range)
+                    if in_range:
+                        break
+                else:
+                    if distance <= attack_range:
+                        break
+                step = _npc_move_toward(
+                    enemy_key, target_key, positions, terrain,
+                    cols=cols, rows=rows, desired_distance=preferred_dist,
+                )
                 if not step:
                     break
                 positions[enemy_key] = {**positions[enemy_key], **step}
                 distance = _tactical_hex_distance(positions[enemy_key], target_pos)
+                mp_spent += mp_per_hex
                 steps_taken += 1
+
             if steps_taken > 0:
+                hint = "npc_arretra" if (is_ranged and distance > 1) else "npc_si_avvicina"
                 combat_log = {
                     "attacker": enemy.name,
                     "target": target.name,
@@ -4638,7 +4760,7 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
                         "hit": False, "defended": False, "raw_damage": 0, "dr_absorbed": 0,
                         "net_damage": 0, "attacker_margin": 0, "defense_margin": 0,
                         "attacker_critical": False, "defense_critical_fail": False,
-                        "wound_threshold": "", "narrative_hint": "npc_si_avvicina",
+                        "wound_threshold": "", "narrative_hint": hint,
                         "shock_applied": 0, "major_wound": False, "major_wound_check_passed": False,
                         "knockdown": False, "knockdown_check_passed": False,
                         "death_check": False, "death_check_passed": False,
@@ -4646,14 +4768,17 @@ def npc_combat_turn(state: GameState, tactical_context: dict | None = None) -> d
                     },
                 }
                 npc_logs.append(combat_log)
+
+            # NPC fuori portata dopo il movimento: salta l'attacco
             if distance > attack_range:
-                continue  # ancora fuori portata dopo il movimento — salta l'attacco
+                continue
 
         # ── Scelta manovra (IA tattica NPC) ──────────────────────────────────
         outnumber = len(alive_enemies) - len(alive_players)
         maneuver = _choose_npc_maneuver(
             enemy, target, moved=steps_taken > 0,
             attack_range=attack_range, outnumber=outnumber,
+            distance=distance,
         )
         if maneuver == "all_out_defense":
             # L'NPC rinuncia all'attacco e si copre: +2 difesa fino al prossimo turno.

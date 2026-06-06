@@ -9725,6 +9725,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   // arma a distanza selezionata e mira accumulata
   const [selectedWeaponId, setSelectedWeaponId] = useState(""); // weapon_id dell'azione selezionata
   const [aimedTurns, setAimedTurns] = useState(0);             // turni di mira accumulati (locale, UI)
+  const [shotsToBurst, setShotsToBurst] = useState(1);          // colpi raffica (Rapid Fire, 1..RoF)
   // Bottino disponibile nella scena corrente
   const [lootPool, setLootPool] = useState([]);                 // LootEntry[] (locale, aggiornato da prop)
   const effectiveLootPool = (lootPoolProp && lootPoolProp.length > 0) ? lootPoolProp : lootPool;
@@ -10126,9 +10127,10 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
           setCombatLog(prev => [...prev,
             `${atkKindTag}${atkTypeTag} ${p.name}→${targetEntity?.name||"?"}  [${weaponLabel}]  dist:${dist}${penTxt}${rearTxt}${coverTxt}`
           ]);
-          await onAttack(p, actionName, targetKey.replace("e_", ""), attackActionType, tacticalSnapshot(), dist);
+          await onAttack(p, actionName, targetKey.replace("e_", ""), attackActionType, tacticalSnapshot(), dist, shotsToBurst);
           setAttackActionType("normal");
           setAimedTurns(0);
+          setShotsToBurst(1);
           advanceTurn(pid, true);
         }
       }
@@ -10847,6 +10849,22 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
                                   {noAmmo ? "⚠ SCARICA" : `🔫 ${ammoCur}/${ammoMax}`}
                                 </span>
                               )}
+                              {/* Selettore raffica (Rapid Fire B373 — solo se RoF > 1) */}
+                              {isRangedWeapon && !noAmmo && selAct2?.rcl != null && selAct2.rcl >= 1 && (selAct2.ammo ?? 0) > 1 && (
+                                <label style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 10, color: "#c4b5fd" }}>
+                                  <span style={{ fontWeight: 700 }}>Colpi:</span>
+                                  <input type="number" min={1} max={Math.min(ammoCur, 10)}
+                                    value={shotsToBurst}
+                                    onChange={e => setShotsToBurst(Math.max(1, Math.min(ammoCur, parseInt(e.target.value) || 1)))}
+                                    style={{ width: 38, padding: "1px 4px", borderRadius: 4, background: "rgba(20,21,36,0.9)", color: "#c4b5fd", border: "1px solid rgba(196,181,253,0.35)", fontSize: 10, textAlign: "center" }}
+                                  />
+                                  {shotsToBurst >= 2 && (
+                                    <span style={{ color: "#86efac", fontWeight: 700 }}>
+                                      +{shotsToBurst<=4?0:shotsToBurst<=8?1:shotsToBurst<=12?2:3} tiro
+                                    </span>
+                                  )}
+                                </label>
+                              )}
                               {/* Ricarica */}
                               {isRangedWeapon && ammoMax > 0 && ammoCur < ammoMax && hasAmmo2 && (
                                 <button onClick={async () => {
@@ -11439,7 +11457,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
     return null;
   }
 
-  async function handleAttack(player, actionName, targetEntityId, actionType = "normal", tacticalContext = null, distance = 0) {
+  async function handleAttack(player, actionName, targetEntityId, actionType = "normal", tacticalContext = null, distance = 0, shotsFired = 1) {
     // Caso speciale: "__reload__" — il reload è già avvenuto, sincronizza players
     if (actionName === "__reload__") {
       try {
@@ -11458,6 +11476,7 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
           target_entity_id: targetEntityId,
           action_type: actionType,
           distance: distance || 0,
+          shots_fired: shotsFired || 1,
         }),
       }).then(r => r.json());
       if (res.error) {
