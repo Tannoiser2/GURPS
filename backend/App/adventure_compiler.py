@@ -541,6 +541,31 @@ def definition_from_compiler_json(raw: dict, *, source_type: str, title: str = "
     if not locations:
         locations.append(LocationState(id="loc_start", name="Scena iniziale", description=raw.get("premise") or ""))
 
+    # ── Normalizza la gerarchia mappa (vale per AI e PDF) ─────────────────────
+    # 1) Orfani: location che puntano a un parent_location_id mai emesso come
+    #    location (es. "quartieri" citati dal modello/PDF ma non creati). Senza
+    #    questo, sparirebbero dalla mappa strategica (filtrata per livello).
+    #    Li riportiamo al livello root.
+    _loc_id_set = {l.id for l in locations}
+    for _l in locations:
+        if _l.parent_location_id and _l.parent_location_id not in _loc_id_set:
+            _l.parent_location_id = ""
+            if _l.location_type == "local":
+                _l.location_type = "regional"
+    # 2) Coordinate: le location root senza posizione (map_x/map_y a 0) vengono
+    #    disposte a griglia, così i pin sono visibili e distinti sulla mappa
+    #    invece di accatastarsi tutti al centro (il frontend rispetta il drag).
+    _roots_no_xy = [l for l in locations if not l.parent_location_id and not (l.map_x or l.map_y)]
+    if _roots_no_xy:
+        import math as _math
+        _n = len(_roots_no_xy)
+        _cols = max(1, _math.ceil(_math.sqrt(_n)))
+        _rows = max(1, _math.ceil(_n / _cols))
+        for _k, _l in enumerate(_roots_no_xy):
+            _cx, _cy = _k % _cols, _k // _cols
+            _l.map_x = round((_cx + 0.5) / _cols * 80 + 10)
+            _l.map_y = round((_cy + 0.5) / _rows * 80 + 10)
+
     # Risoluzione deterministica dei riferimenti location.
     # Il modello mette spesso il NOME del luogo (o un id che non combacia con lo
     # slug rigenerato qui) dentro actor.location_id: lo riconciliamo con l'id
