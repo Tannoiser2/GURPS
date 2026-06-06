@@ -46,5 +46,25 @@ class TestNpcGurpsSheet(unittest.TestCase):
         self.assertEqual(a.combat_attack_skill, 18)
 
 
+class TestSeedWorldNpcsSheet(unittest.TestCase):
+    def test_seeded_world_npcs_all_have_sheet(self):
+        # Il pannello GM legge game_state.world_npcs (seed da main): ogni NPC
+        # deve avere la scheda GURPS, non solo i boss.
+        import App.main as main
+        from App.engine import empty_game_state
+        raw = {"title": "T", "actors": [
+            {"id": "n1", "name": "Civile", "role": "neutral"},
+            {"id": "n2", "name": "Bandito", "role": "antagonista"},
+        ]}
+        defn = definition_from_compiler_json(raw, source_type="manual_json")
+        main.game_state = empty_game_state()
+        main._seed_world_npcs_from_actors(defn)
+        self.assertEqual(len(main.game_state.world_npcs), 2)
+        for npc in main.game_state.world_npcs:
+            self.assertTrue(npc.gurps_fo and npc.gurps_fo >= 8, f"{npc.name} senza FO")
+            self.assertTrue(npc.combat_hp and npc.combat_hp > 0, f"{npc.name} senza PF")
+            self.assertTrue(npc.combat_attack_skill, f"{npc.name} senza attacco")
+
+
 if __name__ == "__main__":
     unittest.main()

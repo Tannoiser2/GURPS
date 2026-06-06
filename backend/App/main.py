@@ -292,7 +292,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v27-npc-gurps-sheet"
+BUILD_VERSION = "v28-npc-sheet-gm-fix"
 
 @app.get("/health")
 def health_check():
@@ -664,8 +664,28 @@ def _seed_world_npcs_from_actors(definition) -> None:
             npc_role = "neutrale"
             threat = 0
 
-        # Stat GURPS per NPC combattivi
-        combat_stats = _generate_npc_combat_stats(role_raw, threat) if threat >= 2 else None
+        # Scheda GURPS per OGNI NPC (non solo i boss): preferisci quella salvata
+        # sull'actor (editor/compilatore v27), altrimenti il baseline
+        # deterministico. Senza questo il pannello GM mostrava scheda vuota.
+        from .npc_sheet import baseline_npc_gurps
+        if getattr(actor, "gurps_fo", 0):
+            _fo = actor.gurps_fo
+            sheet = {
+                "gurps_fo": _fo, "gurps_de": actor.gurps_de,
+                "gurps_in": actor.gurps_in, "gurps_sa": actor.gurps_sa,
+                "gurps_skills": dict(actor.gurps_skills or {}),
+                "gurps_advantages": list(actor.gurps_advantages or []),
+                "gurps_disadvantages": list(actor.gurps_disadvantages or []),
+                "combat_hp": actor.combat_hp or _fo,
+                "combat_max_hp": actor.combat_max_hp or actor.combat_hp or _fo,
+                "combat_dr": actor.combat_dr,
+                "combat_attack_skill": actor.combat_attack_skill or 10,
+                "combat_active_defense": actor.combat_active_defense or 8,
+                "combat_damage_dice": actor.combat_damage_dice or "1d-1",
+                "combat_damage_type": actor.combat_damage_type or "cr",
+            }
+        else:
+            sheet = baseline_npc_gurps(role_raw or npc_role, threat)
 
         npc = WorldNPC(
             id=actor_id,
@@ -675,14 +695,22 @@ def _seed_world_npcs_from_actors(definition) -> None:
             status="alive",
             threat_to_player=threat,
             description=description,
-            # GURPS combat stats (solo per threat >= 2)
-            combat_hp=combat_stats["hp"] if combat_stats else None,
-            combat_max_hp=combat_stats["max_hp"] if combat_stats else None,
-            combat_dr=combat_stats["dr"] if combat_stats else 0,
-            combat_attack_skill=combat_stats["attack_skill"] if combat_stats else None,
-            combat_active_defense=combat_stats["active_defense"] if combat_stats else None,
-            combat_damage_dice=combat_stats["damage_dice"] if combat_stats else "",
-            combat_damage_type=combat_stats["damage_type"] if combat_stats else "cr",
+            # Attributi GURPS
+            gurps_fo=sheet.get("gurps_fo", 10),
+            gurps_de=sheet.get("gurps_de", 10),
+            gurps_in=sheet.get("gurps_in", 10),
+            gurps_sa=sheet.get("gurps_sa", 10),
+            gurps_skills=sheet.get("gurps_skills") or {},
+            gurps_advantages=sheet.get("gurps_advantages") or [],
+            gurps_disadvantages=sheet.get("gurps_disadvantages") or [],
+            # Stat di combattimento
+            combat_hp=sheet.get("combat_hp"),
+            combat_max_hp=sheet.get("combat_max_hp") or sheet.get("combat_hp"),
+            combat_dr=sheet.get("combat_dr", 0),
+            combat_attack_skill=sheet.get("combat_attack_skill"),
+            combat_active_defense=sheet.get("combat_active_defense"),
+            combat_damage_dice=sheet.get("combat_damage_dice") or "1d-1",
+            combat_damage_type=sheet.get("combat_damage_type", "cr"),
         )
         # Auto-equip armi per NPC combattivi
         from .engine import _assign_npc_weapons
