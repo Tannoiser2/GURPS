@@ -6,6 +6,9 @@ from App.main import (
     _looks_like_garbled_title,
     _pdf_text_quality,
     _detect_column_gutter,
+    _ocr_available,
+    _ocr_page_text,
+    _pdf_source_warning,
 )
 
 
@@ -97,6 +100,30 @@ class ColumnDetectionTests(unittest.TestCase):
     def test_too_few_words_returns_none(self):
         words = [{"x0": 40, "x1": 280} for _ in range(10)]
         self.assertIsNone(_detect_column_gutter(words, width=600))
+
+
+class OcrFallbackTests(unittest.TestCase):
+    def test_ocr_available_returns_bool(self):
+        # dipende dall'ambiente: deve solo essere un bool, mai sollevare
+        self.assertIsInstance(_ocr_available(), bool)
+
+    def test_ocr_page_degrades_gracefully(self):
+        # se il rendering fallisce, ritorna "" senza sollevare → si usa l'embedded
+        class FakePage:
+            def to_image(self, resolution=200):
+                raise RuntimeError("render non disponibile")
+        self.assertEqual(_ocr_page_text(FakePage()), "")
+
+    def test_warning_empty_when_quality_good(self):
+        self.assertEqual(_pdf_source_warning({"score": 95}, 0, True), "")
+
+    def test_warning_mentions_ocr_when_unavailable(self):
+        w = _pdf_source_warning({"score": 80}, 0, False)
+        self.assertIn("OCR non disponibile", w)
+
+    def test_warning_reports_recovered_pages(self):
+        w = _pdf_source_warning({"score": 80}, 5, True)
+        self.assertIn("5 pagine", w)
 
 
 if __name__ == "__main__":

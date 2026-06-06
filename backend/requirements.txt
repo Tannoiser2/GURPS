@@ -8,3 +8,6 @@ python-multipart>=0.0.9
 python-dotenv>=1.0.0
 pdfplumber>=0.10.0
 Pillow>=10.0.0
+# OCR fallback per PDF con text-layer corrotto (scansioni). Richiede anche il
+# binario di sistema: apt-get install tesseract-ocr tesseract-ocr-ita
+pytesseract>=0.3.10

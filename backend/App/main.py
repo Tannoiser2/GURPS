@@ -4432,6 +4432,62 @@ def _pdf_text_quality(text: str) -> dict:
     return {"score": round(100 * (1 - ratio)), "garbled_ratio": round(ratio, 3), "tokens": len(tokens)}
 
 
+# Soglia sotto la quale il text-layer è considerato corrotto (avviso + OCR).
+_OCR_TRIGGER_SCORE = 88
+
+
+def _ocr_available() -> bool:
+    """True se pytesseract e il binario tesseract sono utilizzabili sul server."""
+    try:
+        import pytesseract
+        pytesseract.get_tesseract_version()
+        return True
+    except Exception:
+        return False
+
+
+def _ocr_page_text(page, lang: str = "ita", dpi: int = 200) -> str:
+    """OCR di una singola pagina pdfplumber renderizzata a immagine. Ritorna ""
+    se l'OCR non è possibile (binario/lingua assenti, memoria insufficiente…):
+    in tal caso il chiamante mantiene il testo embedded. Mai solleva."""
+    try:
+        import pytesseract
+    except Exception:
+        return ""
+    img = None
+    for res in (dpi, 150):
+        try:
+            img = page.to_image(resolution=res).original  # PIL.Image
+            break
+        except Exception:
+            img = None
+    if img is None:
+        return ""
+    # Prova con l'italiano, poi degrada (lingua non installata → default tesseract)
+    for try_lang in (lang, "ita+eng", "eng", None):
+        try:
+            txt = (pytesseract.image_to_string(img, lang=try_lang) if try_lang
+                   else pytesseract.image_to_string(img))
+            if txt and txt.strip():
+                return txt
+        except Exception:
+            continue
+    return ""
+
+
+def _pdf_source_warning(quality: dict, ocr_applied: int, ocr_available: bool) -> str:
+    """Messaggio per l'utente sulla qualità del PDF, tenendo conto dell'OCR."""
+    if quality.get("score", 100) >= _OCR_TRIGGER_SCORE:
+        return ""
+    base = ("Il PDF ha un text-layer di bassa qualità (probabile scansione con font "
+            "corrotto): alcuni nomi e dettagli possono risultare illeggibili.")
+    if ocr_applied:
+        return f"{base} Recuperate {ocr_applied} pagine via OCR; alcune restano imperfette."
+    if not ocr_available:
+        return f"{base} OCR non disponibile sul server: per un riconoscimento ottimale usa un PDF con testo pulito."
+    return f"{base} Per un riconoscimento ottimale usa un PDF con testo pulito o una ri-OCR."
+
+
 def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
                            players: str, provider: str, map_page: str = "") -> dict:
     """Worker SINCRONO: estrae il testo dal PDF e compila l'avventura, restituendo
@@ -4454,6 +4510,8 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
         return {"error": f"PDF troppo grande ({len(pdf_bytes)//1024//1024} MB). Limite server: 5 MB."}
     raw_text_pages = []
     map_image_b64 = None
+    ocr_pages_applied = 0
+    ocr_engine_available = False
 
     with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
         total_pages = len(pdf.pages)
@@ -4481,10 +4539,9 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
             except Exception as e:
                 print(f"[adventure/from-pdf] errore estrazione mappa pag {map_page_idx+1}: {e}")
 
+        page_texts: list[str] = []
         for page in pdf.pages:
-            t = _page_text_columnaware(page)
-            if t:
-                raw_text_pages.append(t)
+            page_texts.append(_page_text_columnaware(page) or "")
             # pdfplumber tiene in cache gli oggetti di OGNI pagina (caratteri,
             # rette, curve): su moduli grossi la RAM esplode (causa OOM su Render
             # free 512MB). flush_cache() libera la pagina appena letta.
@@ -4492,6 +4549,34 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
                 page.flush_cache()
             except Exception:
                 pass
+
+        # ── OCR fallback ────────────────────────────────────────────────────────
+        # Se il text-layer embedded è corrotto (PDF da scansione con font rotto),
+        # ri-leggiamo via OCR le SOLE pagine scadenti — ma solo se tesseract c'è e
+        # solo se l'OCR risulta davvero migliore del testo embedded.
+        joined_embedded = "\n\n".join(p for p in page_texts if p.strip())
+        if _pdf_text_quality(joined_embedded)["score"] < _OCR_TRIGGER_SCORE:
+            ocr_engine_available = _ocr_available()
+            if ocr_engine_available:
+                print("[adventure/from-pdf] text-layer scadente → OCR (ita) sulle pagine corrotte…")
+                for i, page in enumerate(pdf.pages):
+                    emb = page_texts[i]
+                    emb_score = _pdf_text_quality(emb)["score"]
+                    if emb_score >= _OCR_TRIGGER_SCORE:
+                        continue  # pagina già pulita: salta l'OCR
+                    ocr = _ocr_page_text(page, lang="ita")
+                    try:
+                        page.flush_cache()
+                    except Exception:
+                        pass
+                    if ocr and _pdf_text_quality(ocr)["score"] > emb_score + 5:
+                        page_texts[i] = ocr
+                        ocr_pages_applied += 1
+                print(f"[adventure/from-pdf] OCR applicato a {ocr_pages_applied}/{total_pages} pagine")
+            else:
+                print("[adventure/from-pdf] text-layer scadente ma OCR non disponibile (tesseract assente)")
+
+        raw_text_pages = [p for p in page_texts if p.strip()]
 
     # Libera i byte del PDF dalla RAM appena chiuso pdfplumber
     del pdf_bytes
@@ -4588,12 +4673,8 @@ def _compile_pdf_to_result(pdf_bytes: bytes, filename: str, genre: str,
             "pdf_pages_read": len(text_pages),
             "pdf_total_pages": total_pages,
             "source_text_quality": text_quality,
-            "source_text_warning": (
-                "Il PDF ha un text-layer di bassa qualità (probabile scansione con font "
-                "corrotto): alcuni nomi e dettagli possono risultare illeggibili. Per un "
-                "riconoscimento ottimale serve un PDF con testo pulito o una ri-OCR."
-                if text_quality["score"] < 88 else ""
-            ),
+            "source_text_ocr": {"applied_pages": ocr_pages_applied, "engine_available": ocr_engine_available},
+            "source_text_warning": _pdf_source_warning(text_quality, ocr_pages_applied, ocr_engine_available),
             "doctor": {
                 "score":       doctor_result.get("score", 10.0),
                 "score_after": doctor_result.get("score_after"),
