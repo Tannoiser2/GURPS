@@ -12948,36 +12948,410 @@ function GameScreen({ genre, players: initialPlayers, avatars = {}, adventure = 
 
 // ─── Root ──────────────────────────────────────────────────────────────────
 
+// ─── Campaign screen ────────────────────────────────────────────────────────
+
+const CAMPAIGN_GENRE_LABELS = {
+  fantasy: "Fantasy", medievale: "Medievale", storico: "Storico",
+  horror: "Horror", steampunk: "Steampunk", sci_fi: "Sci-Fi",
+  modern: "Moderno", action: "Action", western: "Western", noir: "Noir",
+};
+const GENRE_ICONS = {
+  fantasy: "⚔️", medievale: "🏰", storico: "📜", horror: "💀",
+  steampunk: "⚙️", sci_fi: "🚀", modern: "🏙️", action: "💥", western: "🤠", noir: "🕵️",
+};
+
+function CampaignScreen({ onLoad, onNew }) {
+  const [campaigns, setCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [form, setForm] = useState({ name: "", genre: "fantasy", world_name: "", cp_per_session: 3, starting_cp: 100 });
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch(`${API_URL}/campaigns`)
+      .then(r => r.json())
+      .then(setCampaigns)
+      .catch(() => setCampaigns([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  async function handleCreate(e) {
+    e.preventDefault();
+    if (!form.name.trim()) { setError("Inserisci un nome per la campagna."); return; }
+    setError("");
+    try {
+      const res = await fetch(`${API_URL}/campaigns`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const campaign = await res.json();
+      onLoad(campaign);
+    } catch (err) {
+      setError("Errore nella creazione: " + err.message);
+    }
+  }
+
+  async function handleDelete(id, name) {
+    if (!confirm(`Eliminare la campagna "${name}"? L'operazione è irreversibile.`)) return;
+    await fetch(`${API_URL}/campaigns/${id}`, { method: "DELETE" });
+    setCampaigns(c => c.filter(x => x.id !== id));
+  }
+
+  const panelStyle = {
+    minHeight: "100vh", background: "linear-gradient(135deg,#0a0a1a 0%,#1a0a2e 50%,#0a1a2e 100%)",
+    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start",
+    padding: "48px 16px", color: "#fff", fontFamily: "system-ui,sans-serif",
+  };
+  const cardStyle = {
+    background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 16, padding: "24px 28px", width: "100%", maxWidth: 520,
+    backdropFilter: "blur(12px)",
+  };
+  const btnPrimary = {
+    background: "linear-gradient(135deg,#7c3aed,#a855f7)", border: "none",
+    borderRadius: 10, padding: "10px 22px", color: "#fff", fontWeight: 700,
+    fontSize: 14, cursor: "pointer", letterSpacing: 0.5,
+  };
+  const btnSecondary = {
+    background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.18)",
+    borderRadius: 10, padding: "10px 22px", color: "#e2e8f0", fontWeight: 600,
+    fontSize: 14, cursor: "pointer",
+  };
+  const inputStyle = {
+    width: "100%", background: "rgba(0,0,0,0.35)", border: "1px solid rgba(255,255,255,0.15)",
+    borderRadius: 8, padding: "9px 13px", color: "#fff", fontSize: 14, boxSizing: "border-box",
+  };
+
+  return (
+    <div style={panelStyle}>
+      {/* Header */}
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <div style={{ fontSize: 48, marginBottom: 8 }}>📖</div>
+        <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, letterSpacing: -0.5 }}>Campagne</h1>
+        <p style={{ margin: "8px 0 0", color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
+          I tuoi personaggi persistenti tra un'avventura e l'altra
+        </p>
+      </div>
+
+      {/* Lista campagne esistenti */}
+      <div style={{ width: "100%", maxWidth: 520, marginBottom: 32 }}>
+        {loading ? (
+          <div style={{ textAlign: "center", color: "rgba(255,255,255,0.4)", padding: 32 }}>Caricamento...</div>
+        ) : campaigns.length === 0 ? (
+          <div style={{ textAlign: "center", color: "rgba(255,255,255,0.3)", padding: 24, fontSize: 14 }}>
+            Nessuna campagna salvata. Creane una nuova!
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {campaigns.map(c => (
+              <div key={c.id} style={{
+                ...cardStyle, display: "flex", alignItems: "center",
+                gap: 16, padding: "16px 20px", cursor: "pointer",
+                transition: "border-color 0.15s",
+              }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = "rgba(168,85,247,0.5)"}
+                onMouseLeave={e => e.currentTarget.style.borderColor = "rgba(255,255,255,0.12)"}
+              >
+                <div style={{ fontSize: 32, flexShrink: 0 }}>{GENRE_ICONS[c.genre] || "📖"}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 2 }}>{c.name}</div>
+                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 12 }}>
+                    {CAMPAIGN_GENRE_LABELS[c.genre] || c.genre}
+                    {c.world_name ? ` · ${c.world_name}` : ""}
+                    {" · "}{c.session_count} sessioni
+                    {c.player_names?.length > 0 && ` · ${c.player_names.join(", ")}`}
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                  <button style={btnPrimary} onClick={() => onLoad(c)}>Riprendi</button>
+                  <button
+                    style={{ ...btnSecondary, padding: "10px 12px", color: "#f87171", borderColor: "rgba(248,113,113,0.3)" }}
+                    onClick={() => handleDelete(c.id, c.name)}
+                    title="Elimina campagna"
+                  >✕</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Form nuova campagna */}
+      <div style={cardStyle}>
+        <h2 style={{ margin: "0 0 20px", fontSize: 17, fontWeight: 700 }}>Nuova campagna</h2>
+        <form onSubmit={handleCreate} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div>
+            <label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", letterSpacing: 1, textTransform: "uppercase", display: "block", marginBottom: 5 }}>Nome campagna *</label>
+            <input style={inputStyle} placeholder="es. La Compagnia del Nord"
+              value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+          </div>
+          <div>
+            <label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", letterSpacing: 1, textTransform: "uppercase", display: "block", marginBottom: 5 }}>Genere</label>
+            <select style={inputStyle} value={form.genre} onChange={e => setForm(f => ({ ...f, genre: e.target.value }))}>
+              {Object.entries(CAMPAIGN_GENRE_LABELS).map(([k, v]) => (
+                <option key={k} value={k}>{GENRE_ICONS[k]} {v}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", letterSpacing: 1, textTransform: "uppercase", display: "block", marginBottom: 5 }}>Nome del mondo <span style={{ opacity: 0.5 }}>(opzionale)</span></label>
+            <input style={inputStyle} placeholder="es. Aldoria, Neocorona, Terra-2287..."
+              value={form.world_name} onChange={e => setForm(f => ({ ...f, world_name: e.target.value }))} />
+          </div>
+          <div style={{ display: "flex", gap: 14 }}>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", letterSpacing: 1, textTransform: "uppercase", display: "block", marginBottom: 5 }}>CP per sessione</label>
+              <input style={inputStyle} type="number" min={1} max={20}
+                value={form.cp_per_session} onChange={e => setForm(f => ({ ...f, cp_per_session: Number(e.target.value) }))} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", letterSpacing: 1, textTransform: "uppercase", display: "block", marginBottom: 5 }}>CP iniziali PG</label>
+              <input style={inputStyle} type="number" min={25} max={400}
+                value={form.starting_cp} onChange={e => setForm(f => ({ ...f, starting_cp: Number(e.target.value) }))} />
+            </div>
+          </div>
+          {error && <div style={{ color: "#f87171", fontSize: 13 }}>{error}</div>}
+          <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
+            <button type="submit" style={btnPrimary}>Crea campagna</button>
+            <button type="button" style={btnSecondary} onClick={onNew}>
+              Gioca senza campagna
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+// ─── Campaign lobby (roster PG + scegli avventura) ──────────────────────────
+
+function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack }) {
+  const [campaign, setCampaign] = useState(initialCampaign);
+  const [tab, setTab] = useState("players"); // "players" | "adventure"
+  const [adventures, setAdventures] = useState([]);
+  const [advLoading, setAdvLoading] = useState(false);
+  const [selectedAdv, setSelectedAdv] = useState(null);
+  const [starting, setStarting] = useState(false);
+  const [error, setError] = useState("");
+
+  // Ricarica campagna fresca dal server
+  async function refreshCampaign() {
+    const c = await fetch(`${API_URL}/campaigns/${campaign.id}`).then(r => r.json());
+    setCampaign(c);
+  }
+
+  // Carica avventure compatibili col genere
+  useEffect(() => {
+    if (tab !== "adventure") return;
+    setAdvLoading(true);
+    fetch(`${API_URL}/game/adventure/runtime`)
+      .then(r => r.json())
+      .then(res => {
+        const items = (res.items || []).filter(a =>
+          !a.genre || a.genre === campaign.genre ||
+          a.genre?.toLowerCase() === campaign.genre?.toLowerCase()
+        );
+        setAdventures(items);
+      })
+      .catch(() => setAdventures([]))
+      .finally(() => setAdvLoading(false));
+  }, [tab, campaign.genre]);
+
+  async function handleStart() {
+    if (!selectedAdv) { setError("Seleziona un'avventura."); return; }
+    if (!campaign.players?.length) { setError("Aggiungi almeno un personaggio alla campagna."); return; }
+    setError(""); setStarting(true);
+    try {
+      // Carica definizione completa avventura
+      const defRes = await fetch(`${API_URL}/game/adventure/runtime/${selectedAdv.id}`);
+      const defJson = await defRes.json();
+      const advDef = defJson.adventure_definition || defJson;
+      // Estrai i Player dalla campagna
+      const players = campaign.players.map(cp => cp.player);
+      onStartAdventure({ adventure: advDef, players, genre: campaign.genre, campaignId: campaign.id });
+    } catch (err) {
+      setError("Errore avvio: " + err.message);
+    } finally {
+      setStarting(false);
+    }
+  }
+
+  const cardStyle = {
+    background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 14, padding: "18px 22px", backdropFilter: "blur(12px)",
+  };
+  const tabBtn = (active) => ({
+    padding: "8px 20px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700,
+    fontSize: 13, background: active ? "rgba(168,85,247,0.35)" : "transparent",
+    color: active ? "#e9d5ff" : "rgba(255,255,255,0.45)",
+    borderBottom: active ? "2px solid #a855f7" : "2px solid transparent",
+  });
+
+  return (
+    <div style={{
+      minHeight: "100vh", background: "linear-gradient(135deg,#0a0a1a,#1a0a2e,#0a1a2e)",
+      color: "#fff", fontFamily: "system-ui,sans-serif", padding: "32px 16px",
+      display: "flex", flexDirection: "column", alignItems: "center",
+    }}>
+      {/* Header campagna */}
+      <div style={{ width: "100%", maxWidth: 560, marginBottom: 28 }}>
+        <button onClick={onBack} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontSize: 13, marginBottom: 16, padding: 0 }}>
+          ← Campagne
+        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div style={{ fontSize: 40 }}>{GENRE_ICONS[campaign.genre] || "📖"}</div>
+          <div>
+            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800 }}>{campaign.name}</h1>
+            <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 13 }}>
+              {CAMPAIGN_GENRE_LABELS[campaign.genre]}{campaign.world_name ? ` · ${campaign.world_name}` : ""}
+              {" · "}{campaign.session_count || 0} sessioni · {campaign.cp_per_session} CP/sessione
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tab bar */}
+      <div style={{ width: "100%", maxWidth: 560, display: "flex", gap: 4, marginBottom: 20, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+        <button style={tabBtn(tab === "players")} onClick={() => setTab("players")}>Personaggi</button>
+        <button style={tabBtn(tab === "adventure")} onClick={() => setTab("adventure")}>Avventura</button>
+      </div>
+
+      <div style={{ width: "100%", maxWidth: 560 }}>
+
+        {/* TAB: Personaggi */}
+        {tab === "players" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {(!campaign.players || campaign.players.length === 0) ? (
+              <div style={{ ...cardStyle, textAlign: "center", color: "rgba(255,255,255,0.35)", padding: 32 }}>
+                Nessun personaggio nella campagna.<br />
+                <span style={{ fontSize: 12, opacity: 0.6 }}>Avvia un'avventura senza campagna per creare un PG, poi importalo qui.</span>
+              </div>
+            ) : (
+              campaign.players.map(cp => {
+                const p = cp.player;
+                const hpPct = Math.max(0, Math.round((p.hp / p.max_hp) * 100));
+                const fpPct = Math.max(0, Math.round((p.fp / p.max_fp) * 100));
+                return (
+                  <div key={cp.id} style={cardStyle}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                      <div>
+                        <div style={{ fontWeight: 700, fontSize: 16 }}>{p.name}</div>
+                        <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginTop: 2 }}>{p.role} · {p.archetype}</div>
+                      </div>
+                      <div style={{ textAlign: "right", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
+                        <div>{cp.unspent_cp} CP non spesi</div>
+                        <div>{cp.total_cp_earned} CP totali</div>
+                      </div>
+                    </div>
+                    <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3 }}>PF {p.hp}/{p.max_hp}</div>
+                        <div style={{ height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden" }}>
+                          <div style={{ height: "100%", width: `${hpPct}%`, background: hpPct > 50 ? "#22c55e" : hpPct > 25 ? "#f59e0b" : "#ef4444", borderRadius: 3, transition: "width 0.3s" }} />
+                        </div>
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3 }}>FP {p.fp}/{p.max_fp}</div>
+                        <div style={{ height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden" }}>
+                          <div style={{ height: "100%", width: `${fpPct}%`, background: "#60a5fa", borderRadius: 3 }} />
+                        </div>
+                      </div>
+                    </div>
+                    {cp.adventure_history?.length > 0 && (
+                      <div style={{ marginTop: 10, fontSize: 11, color: "rgba(255,255,255,0.35)" }}>
+                        Ultima avventura: {cp.adventure_history[cp.adventure_history.length - 1].adventure_name}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            )}
+            <div style={{ ...cardStyle, textAlign: "center", padding: "14px", border: "1px dashed rgba(255,255,255,0.15)" }}>
+              <span style={{ color: "rgba(255,255,255,0.35)", fontSize: 13 }}>
+                I personaggi vengono aggiunti automaticamente al termine della prima avventura giocata con questa campagna.
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* TAB: Avventura */}
+        {tab === "adventure" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {advLoading ? (
+              <div style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", padding: 32 }}>Caricamento avventure...</div>
+            ) : adventures.length === 0 ? (
+              <div style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", padding: 32, fontSize: 13 }}>
+                Nessuna avventura compatibile con il genere <strong>{CAMPAIGN_GENRE_LABELS[campaign.genre]}</strong>.
+              </div>
+            ) : (
+              adventures.map(a => (
+                <div key={a.id}
+                  onClick={() => setSelectedAdv(selectedAdv?.id === a.id ? null : a)}
+                  style={{
+                    ...cardStyle, cursor: "pointer", transition: "border-color 0.15s",
+                    borderColor: selectedAdv?.id === a.id ? "rgba(168,85,247,0.6)" : "rgba(255,255,255,0.12)",
+                    background: selectedAdv?.id === a.id ? "rgba(168,85,247,0.1)" : "rgba(255,255,255,0.06)",
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 15 }}>{a.title || a.id}</div>
+                      {a.premise && <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginTop: 3 }}>{a.premise.slice(0, 120)}{a.premise.length > 120 ? "…" : ""}</div>}
+                    </div>
+                    {selectedAdv?.id === a.id && <span style={{ color: "#a855f7", fontSize: 20, flexShrink: 0 }}>✓</span>}
+                  </div>
+                </div>
+              ))
+            )}
+            {error && <div style={{ color: "#f87171", fontSize: 13 }}>{error}</div>}
+            <button
+              onClick={handleStart}
+              disabled={!selectedAdv || starting}
+              style={{
+                background: selectedAdv ? "linear-gradient(135deg,#7c3aed,#a855f7)" : "rgba(255,255,255,0.08)",
+                border: "none", borderRadius: 12, padding: "13px", color: selectedAdv ? "#fff" : "rgba(255,255,255,0.3)",
+                fontWeight: 700, fontSize: 15, cursor: selectedAdv ? "pointer" : "default", marginTop: 8,
+              }}
+            >
+              {starting ? "Avvio..." : selectedAdv ? `Inizia "${selectedAdv.title || selectedAdv.id}"` : "Seleziona un'avventura"}
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
-  const [screen, setScreen] = useState("setup");
+  const [screen, setScreen] = useState("campaigns");
   const [genre, setGenre] = useState("sci_fi");
   const [players, setPlayers] = useState([]);
   const [avatars, setAvatars] = useState({});
   const [adventure, setAdventure] = useState(null);
   const [provider, setProvider] = useState("claude");
   const [imageProvider, setImageProvider] = useState("auto");
-  const [sandboxMode, setSandboxMode] = useState(false);   // test combattimento
-  const [showSandbox, setShowSandbox] = useState(false);   // modal selezione bestiario in home
+  const [sandboxMode, setSandboxMode] = useState(false);
+  const [showSandbox, setShowSandbox] = useState(false);
+  const [activeCampaign, setActiveCampaign] = useState(null);
 
   // ── Auto-resume: se il backend ha già una partita in corso, riprendi ──────
   useEffect(() => {
     async function tryResume() {
       try {
         const gs = await fetch(`${API_URL}/game/state`).then(r => r.json());
-        if (!gs.players?.length) return; // nessuna partita attiva
+        if (!gs.players?.length) return;
         const advId = gs.adventure_definition_id;
         if (!advId) return;
-        // Carica la definizione avventura
         const advRes = await fetch(`${API_URL}/game/adventure/runtime`).then(r => r.json());
         const allItems = advRes.items || [];
         const found = allItems.find(a => a.id === advId);
         if (!found) return;
-        // Carica la definizione completa
         const defRes = await fetch(`${API_URL}/game/adventure/runtime/${advId}`).catch(() => null);
         const defJson = defRes ? await defRes.json() : found;
         const advDef = defJson.adventure_definition || defJson;
-        const detectedGenre = advDef.genre || found.genre || "action";
-        setGenre(detectedGenre);
+        setGenre(advDef.genre || found.genre || "action");
         setPlayers(gs.players);
         setAdventure(advDef);
         setScreen("game");
@@ -13003,18 +13377,24 @@ export default function App() {
   function handleRestart() {
     setAdventure(null);
     setSandboxMode(false);
-    setScreen("setup");
+    // Torna alla lobby campagna se c'era una campagna attiva, altrimenti alle campagne
+    setScreen(activeCampaign ? "campaign_lobby" : "campaigns");
   }
 
-  // Avvio della simulazione combattimento dalla home: il BestiaryModal ha già
-  // montato lato backend il PC pregenerato + i nemici; qui montiamo GameScreen
-  // in modalità sandbox (salta l'apertura AI, entra subito in combattimento).
   function handleSandboxFromModal(res) {
     setShowSandbox(false);
     setPlayers(res?.players || []);
     setAvatars({});
     setAdventure(null);
     setSandboxMode(true);
+    setScreen("game");
+  }
+
+  // Avventura avviata dalla lobby campagna
+  function handleCampaignStartAdventure({ adventure: advDef, players: pl, genre: g, campaignId }) {
+    setAdventure(advDef);
+    setPlayers(pl);
+    setGenre(g);
     setScreen("game");
   }
 
@@ -13032,6 +13412,26 @@ export default function App() {
       />
     );
   }
+
+  if (screen === "campaign_lobby" && activeCampaign) {
+    return (
+      <CampaignLobby
+        campaign={activeCampaign}
+        onStartAdventure={handleCampaignStartAdventure}
+        onBack={() => setScreen("campaigns")}
+      />
+    );
+  }
+
+  if (screen === "campaigns") {
+    return (
+      <CampaignScreen
+        onLoad={c => { setActiveCampaign(c); setScreen("campaign_lobby"); }}
+        onNew={() => setScreen("setup")}
+      />
+    );
+  }
+
   return (
     <>
       <SetupScreen onStart={handleSetupComplete} onSandbox={() => setShowSandbox(true)} />
