@@ -5376,6 +5376,30 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                         </div>
                         {fieldRow("Piano attuale", <textarea style={textareaStyle} value={actor.current_plan || ""} onChange={e => patchActor(i, "current_plan", e.target.value)} />)}
                         {fieldRow("Piano alternativo", <textarea style={textareaStyle} value={actor.fallback_plan || ""} onChange={e => patchActor(i, "fallback_plan", e.target.value)} />)}
+                        {/* ── Scheda GURPS dell'NPC ── */}
+                        <div style={{ gridColumn: "1 / -1", marginTop: 4, paddingTop: 8, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+                          <div style={{ fontSize: 10, fontWeight: 800, color: "#a78bfa", textTransform: "uppercase", letterSpacing: 0.6, marginBottom: 6 }}>⚔ Scheda GURPS</div>
+                          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 6 }}>
+                            {[["FO", "gurps_fo"], ["DE", "gurps_de"], ["IN", "gurps_in"], ["SA", "gurps_sa"], ["PF", "combat_hp"], ["DR", "combat_dr"], ["Attacco", "combat_attack_skill"], ["Difesa", "combat_active_defense"]].map(([lab, key]) => (
+                              <label key={key} style={{ fontSize: 9, color: "var(--text)", opacity: 0.7, display: "flex", flexDirection: "column", gap: 2 }}>{lab}
+                                <input type="number" style={{ ...inputStyle, padding: "4px 6px", fontSize: 11 }} value={actor[key] ?? 0} onChange={e => patchActor(i, key, parseInt(e.target.value) || 0)} />
+                              </label>
+                            ))}
+                          </div>
+                          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginTop: 6 }}>
+                            <label style={{ fontSize: 9, color: "var(--text)", opacity: 0.7, display: "flex", flexDirection: "column", gap: 2 }}>Danno
+                              <input style={{ ...inputStyle, padding: "4px 6px", fontSize: 11 }} value={actor.combat_damage_dice || ""} onChange={e => patchActor(i, "combat_damage_dice", e.target.value)} placeholder="es. 1d, 2d+1" />
+                            </label>
+                            <label style={{ fontSize: 9, color: "var(--text)", opacity: 0.7, display: "flex", flexDirection: "column", gap: 2 }}>Tipo danno
+                              <input style={{ ...inputStyle, padding: "4px 6px", fontSize: 11 }} value={actor.combat_damage_type || "cr"} onChange={e => patchActor(i, "combat_damage_type", e.target.value)} placeholder="cr/cut/imp/pi" />
+                            </label>
+                          </div>
+                          {Object.keys(actor.gurps_skills || {}).length > 0 && (
+                            <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.7, marginTop: 6 }}>
+                              Skill: {Object.entries(actor.gurps_skills).map(([s, l]) => `${s} ${l}`).join(" · ")}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     )}
                   </div>

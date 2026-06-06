@@ -640,7 +640,32 @@ def definition_from_compiler_json(raw: dict, *, source_type: str, title: str = "
             inferred_agenda=bool(actor.get("inferred_agenda", False)),
             confidence=float(actor.get("confidence", 1.0) or 1.0),
             llm_enriched=bool(actor.get("llm_enriched", False)),
+            gurps_fo=int(actor.get("gurps_fo") or 0),
+            gurps_de=int(actor.get("gurps_de") or 0),
+            gurps_in=int(actor.get("gurps_in") or 0),
+            gurps_sa=int(actor.get("gurps_sa") or 0),
+            gurps_skills=dict(actor.get("gurps_skills") or {}),
+            gurps_advantages=list(actor.get("gurps_advantages") or []),
+            gurps_disadvantages=list(actor.get("gurps_disadvantages") or []),
+            combat_hp=int(actor.get("combat_hp") or 0),
+            combat_max_hp=int(actor.get("combat_max_hp") or 0),
+            combat_dr=int(actor.get("combat_dr") or 0),
+            combat_attack_skill=int(actor.get("combat_attack_skill") or 0),
+            combat_active_defense=int(actor.get("combat_active_defense") or 0),
+            combat_damage_dice=str(actor.get("combat_damage_dice") or ""),
+            combat_damage_type=str(actor.get("combat_damage_type") or "cr"),
         ))
+
+    # Scheda GURPS di base per OGNI NPC (deterministica, niente LLM): popola solo
+    # i campi non ancora valorizzati, così la scheda vive nei dati dell'avventura
+    # (editabile e mostrata) e non solo a runtime per i boss.
+    from .npc_sheet import baseline_npc_gurps, threat_from_role
+    for _a in actors:
+        if not _a.gurps_fo:
+            _sheet = baseline_npc_gurps(_a.role, threat_from_role(_a.role))
+            for _k, _v in _sheet.items():
+                if not getattr(_a, _k, None):
+                    setattr(_a, _k, _v)
 
     clocks = []
     for idx, clock in enumerate(raw.get("event_clocks") or [], start=1):

@@ -292,7 +292,7 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v26-connections-graph-labels"
+BUILD_VERSION = "v27-npc-gurps-sheet"
 
 @app.get("/health")
 def health_check():

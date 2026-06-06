@@ -1070,9 +1070,19 @@ def _world_npcs_from_definition(definition: AdventureDefinition, map_state: MapS
             description=actor.goal or actor.secret or role,
             secret=actor.secret,
         )
-        # Ogni NPC riceve una scheda GURPS di base (non solo i boss).
-        for _k, _v in _baseline_npc_gurps(role, threat).items():
-            setattr(npc, _k, _v)
+        # Scheda GURPS: usa quella salvata sull'actor (definizione/editor) se
+        # presente, altrimenti il baseline deterministico.
+        if getattr(actor, "gurps_fo", 0):
+            for _k in ("gurps_fo", "gurps_de", "gurps_in", "gurps_sa", "gurps_skills",
+                       "gurps_advantages", "gurps_disadvantages", "combat_hp",
+                       "combat_max_hp", "combat_dr", "combat_attack_skill",
+                       "combat_active_defense", "combat_damage_dice", "combat_damage_type"):
+                _v = getattr(actor, _k, None)
+                if _v:
+                    setattr(npc, _k, _v)
+        else:
+            for _k, _v in _baseline_npc_gurps(role, threat).items():
+                setattr(npc, _k, _v)
         _assign_npc_weapons(npc, genre)
         npcs.append(npc)
     return npcs

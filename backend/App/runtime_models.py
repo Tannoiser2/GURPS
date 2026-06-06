@@ -124,6 +124,23 @@ class ActorState(BaseModel):
     inferred_agenda: bool = False
     confidence: float = 1.0
     llm_enriched: bool = False
+    # ── Scheda GURPS (attributi + combattimento) ──────────────────────────────
+    # Baseline deterministico per ogni NPC (vedi npc_sheet.baseline_npc_gurps),
+    # editabile e persistito nella definizione. 0/empty = non ancora assegnata.
+    gurps_fo: int = 0
+    gurps_de: int = 0
+    gurps_in: int = 0
+    gurps_sa: int = 0
+    gurps_skills: Dict[str, int] = {}
+    gurps_advantages: List[str] = []
+    gurps_disadvantages: List[str] = []
+    combat_hp: int = 0
+    combat_max_hp: int = 0
+    combat_dr: int = 0
+    combat_attack_skill: int = 0
+    combat_active_defense: int = 0
+    combat_damage_dice: str = ""
+    combat_damage_type: str = "cr"
 
 
 class FactionState(BaseModel):
