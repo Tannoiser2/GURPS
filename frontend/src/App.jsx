@@ -4526,7 +4526,15 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
   const [showLabels, setShowLabels] = React.useState(true);
   const [activeParentId, setActiveParentId] = React.useState("");
 
-  const visibleLocations = (locations || []).filter(loc => (loc.parent_location_id || "") === activeParentId);
+  // Le location il cui parent NON esiste tra le location (orfane: il
+  // compilatore può referenziare "quartieri" mai creati) vanno mostrate al
+  // livello root, altrimenti sparirebbero del tutto dalla mappa.
+  const locIdSet = new Set((locations || []).map(l => l.id).filter(Boolean));
+  const visibleLocations = (locations || []).filter(loc => {
+    const parent = loc.parent_location_id || "";
+    if (activeParentId === "") return parent === "" || !locIdSet.has(parent);
+    return parent === activeParentId;
+  });
   const activeBackground = activeParentId === ""
     ? image_b64
     : ((locations || []).find(l => l.id === activeParentId)?.local_map_image_b64 || "");
@@ -4637,9 +4645,24 @@ function StrategicMapVisualEditor({ image_b64, locations, connections, onMoveLoc
     return edges;
   }, [connections, visibleLocations]);
 
+  function autoPos(idx, total) {
+    // Disposizione a griglia centrata nell'80% centrale della mappa (10..90%).
+    const cols = Math.max(1, Math.ceil(Math.sqrt(total || 1)));
+    const rows = Math.max(1, Math.ceil((total || 1) / cols));
+    const cx = idx % cols, cy = Math.floor(idx / cols);
+    return {
+      x: Math.round(((cx + 0.5) / cols) * 80 + 10),
+      y: Math.round(((cy + 0.5) / rows) * 80 + 10),
+    };
+  }
   function effectivePos(loc, idx) {
     if (drag?.idx === idx) return { x: drag.x, y: drag.y };
-    return { x: Number(loc.map_x) || 50, y: Number(loc.map_y) || 50 };
+    const px = Number(loc.map_x), py = Number(loc.map_y);
+    // Posizione reale impostata (anche solo X o Y) → usala. Mai posizionata
+    // (entrambe 0/assenti) → griglia automatica, così i pin sono visibili e
+    // distribuiti invece di accatastarsi tutti al centro.
+    if (px || py) return { x: px, y: py };
+    return autoPos(idx, visibleLocations.length);
   }
   function effectiveSize(loc, idx) {
     if (resize?.idx === idx) return { w: resize.w, h: resize.h };
@@ -4990,6 +5013,28 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
   }
   function moveLocationXY(idx, x, y) {
     setLocations(l => { const n = [...l]; n[idx] = { ...n[idx], map_x: x, map_y: y }; return n; });
+    setDirty(true);
+  }
+  // Assegna coordinate a griglia alle location di livello root (senza parent o
+  // con parent inesistente): rimette sulla mappa i pin che non comparivano.
+  function autoArrangeLocations() {
+    setLocations(ls => {
+      const idSet = new Set(ls.map(l => l.id).filter(Boolean));
+      const roots = ls.filter(l => { const p = l.parent_location_id || ""; return p === "" || !idSet.has(p); });
+      const total = roots.length;
+      if (!total) return ls;
+      const cols = Math.max(1, Math.ceil(Math.sqrt(total)));
+      const rows = Math.max(1, Math.ceil(total / cols));
+      const posById = {};
+      roots.forEach((l, k) => {
+        const cx = k % cols, cy = Math.floor(k / cols);
+        posById[l.id] = {
+          x: Math.round(((cx + 0.5) / cols) * 80 + 10),
+          y: Math.round(((cy + 0.5) / rows) * 80 + 10),
+        };
+      });
+      return ls.map(l => posById[l.id] ? { ...l, map_x: posById[l.id].x, map_y: posById[l.id].y } : l);
+    });
     setDirty(true);
   }
   // ── Mappa strategica ──
@@ -6240,7 +6285,10 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                           <span style={{ fontSize: 10, fontWeight: 800, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 0.7 }}>
                             Editor visuale ({locations.length} location)
                           </span>
-                          <button onClick={() => patchMapState("image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
+                          <div style={{ display: "flex", gap: 6 }}>
+                            <button onClick={autoArrangeLocations} title="Rimette sulla mappa i pin delle location, disposti a griglia. Poi puoi trascinarli." style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(96,165,250,0.4)", background: "rgba(96,165,250,0.1)", color: "#93c5fd", fontSize: 10, fontWeight: 700, cursor: "pointer" }}>📐 Disponi pin</button>
+                            <button onClick={() => patchMapState("image_b64", "")} style={{ padding: "4px 10px", borderRadius: 4, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", fontSize: 10, cursor: "pointer" }}>Rimuovi immagine</button>
+                          </div>
                         </div>
                         <StrategicMapVisualEditor
                           image_b64={mapState.image_b64}
