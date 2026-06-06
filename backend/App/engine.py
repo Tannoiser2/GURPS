@@ -469,6 +469,26 @@ def build_players_from_dicts(
             )
         )
 
+    # ── Spell: carica e sincronizza nella skill map ───────────────────────────
+    for pl, p in zip(players, player_dicts):
+        raw_spells = p.get("spells", [])
+        if raw_spells:
+            from .models import SpellEntry as _SpellEntry
+            entries = []
+            for s in raw_spells:
+                if isinstance(s, dict):
+                    entries.append(_SpellEntry(
+                        spell_id=s["spell_id"],
+                        college=s.get("college", ""),
+                        skill_level=int(s.get("skill_level", 12)),
+                    ))
+                elif hasattr(s, "spell_id"):
+                    entries.append(s)
+            pl.spells = entries
+            # Sincronizza in skills per uso in combat.py (_attack_level, resolve_spell_cast)
+            for entry in entries:
+                pl.skills[f"spell:{entry.spell_id}"] = entry.skill_level
+
     # ── Auto-equip: converte items in equipment/actions per i player senza armi ─
     for pl in players:
         if not pl.equipment:

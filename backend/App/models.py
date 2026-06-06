@@ -165,6 +165,8 @@ class Player(BaseModel):
     block_count: int = 0               # blocchi usati in questo turno (max 1 con scudo, B375)
     # ── Ferite persistenti (G3) ───────────────────────────────────────────────
     wounds: List[Wound] = []           # ferite attive — penalità cumulativa -1/ferita major+
+    # ── Magia / Psionica ─────────────────────────────────────────────────────
+    spells: List["SpellEntry"] = []  # incantesimi/poteri noti; skill accessibile via skills["spell:id"]
     # ── Sanità mentale G6 (genere horror) ────────────────────────────────────
     san: int = 10        # punti sanità correnti (0 → in crisi mentale)
     san_max: int = 10    # sanità massima (= Volontà al momento della creazione)
