@@ -2114,7 +2114,7 @@ function ImageProviderPicker({ value, onChange, available, big = false }) {
   );
 }
 
-function SetupScreen({ onStart }) {
+function SetupScreen({ onStart, onSandbox }) {
   const [step, setStep] = useState("genre"); // "genre" | "team"
   const [genre, setGenre] = useState(null);
   const [adventureScale, setAdventureScale] = useState("standard");
@@ -3757,6 +3757,19 @@ function SetupScreen({ onStart }) {
               onMouseEnter={e => e.currentTarget.style.opacity = "0.82"}
               onMouseLeave={e => e.currentTarget.style.opacity = "1"} />
           </button>
+
+          {/* Simulazione combattimento tattico (PC pregenerato vs bestiario) — in fila con gli altri tasti */}
+          {onSandbox && (
+            <button onClick={onSandbox}
+              title="Prova il combattimento tattico con un PC pregenerato contro creature del bestiario"
+              style={{ height: 52, padding: "0 16px", borderRadius: 9, cursor: "pointer", flexShrink: 0,
+                border: "1px solid rgba(248,113,113,0.5)", background: "rgba(248,113,113,0.15)",
+                color: "#fca5a5", fontSize: 13, fontWeight: 800, lineHeight: 1.15, transition: "opacity 0.15s" }}
+              onMouseEnter={e => e.currentTarget.style.opacity = "0.82"}
+              onMouseLeave={e => e.currentTarget.style.opacity = "1"}>
+              ⚔ Simulazione<br />combattimento
+            </button>
+          )}
         </div>
 
         {(loading || jsonLoading) && (
@@ -10019,7 +10032,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
         const targetId = tokenOnHex[0].replace("e_", "");
         const targetName = entities.find(e => e.id === targetId)?.name || targetId;
         const pid = selected?.startsWith("p_") ? parseInt(selected.replace("p_","")) : null;
-        const selPlayer = pid ? players.find(p => p.id === pid) : null;
+        const selPlayer = pid != null ? players.find(p => p.id === pid) : null;
         if (selPlayer) {
           const res = await fetch(`${API_URL}/game/combat/maneuver`, {
             method: "POST",
@@ -10150,7 +10163,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
   // ── Gestione manovre GURPS ───────────────────────────────────────────────
   async function handleManeuver(maneuver, extraData = {}) {
     const pid = selected?.startsWith("p_") ? parseInt(selected.replace("p_","")) : null;
-    const selPlayer = pid ? players.find(p => p.id === pid) : null;
+    const selPlayer = pid != null ? players.find(p => p.id === pid) : null;
     if (!selPlayer || !canControlToken()) return;
 
     setShowPostureMenu(false);
@@ -10626,7 +10639,7 @@ function CombatMap({ players, sceneEntities, activePlayerId, pendingAttack, onAt
         {/* ── Pannello manovre GURPS ──────────────────────────────────────── */}
         {(() => {
           const pid2 = selected?.startsWith("p_") ? parseInt(selected.replace("p_","")) : null;
-          const selPlayer = pid2 ? players.find(p => p.id === pid2) : null;
+          const selPlayer = pid2 != null ? players.find(p => p.id === pid2) : null;
           const isStunned = !!selPlayer?.stunned;
           const isProne = !!(selPlayer?.prone || selPlayer?.posture === "prone");
           const hasRanged = (selPlayer?.actions || []).some(a => a.attack_kind === "ranged");
@@ -13002,18 +13015,7 @@ export default function App() {
   }
   return (
     <>
-      <SetupScreen onStart={handleSetupComplete} />
-      {/* Accesso rapido alla simulazione di combattimento tattico */}
-      <div style={{ position: "fixed", bottom: 18, left: 0, right: 0, display: "flex", justifyContent: "center", zIndex: 500, pointerEvents: "none" }}>
-        <button onClick={() => setShowSandbox(true)} style={{
-          pointerEvents: "auto", padding: "9px 18px", borderRadius: 10, cursor: "pointer",
-          border: "1px solid rgba(248,113,113,0.5)", background: "rgba(248,113,113,0.18)",
-          color: "#fca5a5", fontSize: 13, fontWeight: 800, backdropFilter: "blur(6px)",
-          boxShadow: "0 4px 18px rgba(0,0,0,0.35)",
-        }} title="Prova il combattimento tattico con un PC pregenerato contro creature del bestiario">
-          ⚔ Simulazione combattimento
-        </button>
-      </div>
+      <SetupScreen onStart={handleSetupComplete} onSandbox={() => setShowSandbox(true)} />
       {showSandbox && (
         <BestiaryModal
           genre={genre}
