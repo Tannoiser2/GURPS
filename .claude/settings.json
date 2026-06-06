@@ -1,28 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(uvicorn:*)",
-      "Bash(python:*)",
-      "Bash(python3:*)",
-      "Bash(python3.11:*)",
-      "Bash(pip:*)",
-      "Bash(pip3:*)",
-      "Bash(pytest:*)",
-      "Bash(npm:*)",
-      "Bash(npx:*)",
-      "Bash(node:*)",
-      "Bash(source:*)",
-      "Bash(ls:*)",
-      "Bash(cat:*)",
-      "Bash(git status:*)",
-      "Bash(git diff:*)",
-      "Bash(git log:*)",
-      "Bash(git fetch:*)",
-      "Bash(git pull:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git restore:*)",
-      "Bash(git checkout:*)"
+      "Bash",
+      "Edit",
+      "Write",
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch"
     ]
   }
 }
