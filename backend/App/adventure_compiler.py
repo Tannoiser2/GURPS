@@ -591,6 +591,29 @@ def definition_from_compiler_json(raw: dict, *, source_type: str, title: str = "
                 return raw_val
         return ""
 
+    # ── Connessioni di fallback ───────────────────────────────────────────────
+    # Gli exits sono spesso generici ("corridoio principale") e non puntano a
+    # location vere → la mappa resta senza archi ("0 connessioni"). Se tra le
+    # location root non esiste NESSUN collegamento reale (connections_to o exits
+    # risolvibili a un'altra location), creiamo una catena minima così il grafo
+    # è connesso. Le topologie reali già presenti restano intatte.
+    def _resolves_to_real_loc(ref: str) -> str:
+        rid = _loc_ref_to_id.get(str(ref or "").strip().lower(), "")
+        return rid if rid in _loc_id_set else ""
+
+    _root_locs = [l for l in locations if not l.parent_location_id]
+    _root_ids = {l.id for l in _root_locs}
+    _has_real_edge = any(
+        (_resolves_to_real_loc(ref) and _resolves_to_real_loc(ref) != l.id
+         and _resolves_to_real_loc(ref) in _root_ids)
+        for l in _root_locs
+        for ref in list(l.connections_to or []) + list(l.exits or [])
+    )
+    if len(_root_locs) >= 2 and not _has_real_edge:
+        for _a, _b in zip(_root_locs, _root_locs[1:]):
+            if _b.id not in (_a.connections_to or []):
+                _a.connections_to = list(_a.connections_to or []) + [_b.id]
+
     actors = []
     for idx, actor in enumerate(raw.get("actors") or raw.get("npcs") or [], start=1):
         actors.append(ActorState(

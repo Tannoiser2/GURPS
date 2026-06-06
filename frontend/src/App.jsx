@@ -6563,10 +6563,14 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
           {/* ── GRAPH TAB ── */}
           {tab === "graph" && (() => {
             const revs = def0.revelations || [];
-            // Build unique threads from threadIds
+            // Build unique threads from threadIds. Etichetta = TESTO della pista
+            // (statement della revelation o domanda dello story_thread), non l'id
+            // grezzo "t1". def0.story_threads non è shadowato qui.
             const threads = threadIds.map(tid => {
               const rev = revs.find(r => r.thread_id === tid);
-              return { id: tid, label: tid.replace(/^thread_/, "").replace(/_/g, " "), statement: rev?.statement || "" };
+              const sd = (def0.story_threads || []).find(t => t.id === tid);
+              const text = String(rev?.statement || sd?.question || sd?.statement || sd?.true_answer || "").trim();
+              return { id: tid, text, label: text || tid.replace(/^thread_/, "").replace(/_/g, " "), statement: rev?.statement || "" };
             });
             // For each clue, find which thread it belongs to via revelation required_clues
             const clueThreadMap = {};
@@ -6664,16 +6668,28 @@ function AdventureEditor({ adventure, onSave, onClose, inline = false, extraTool
                     if (!threadPos[t.id]) return null;
                     const { x, y } = threadPos[t.id];
                     const idx = threads.findIndex(tt => tt.id === t.id);
+                    // Manda a capo il testo della pista in max 2 righe (~24 char).
+                    const _full = String(t.label || "");
+                    const _lines = []; let _rest = _full;
+                    while (_rest && _lines.length < 2) {
+                      if (_rest.length <= 24) { _lines.push(_rest); _rest = ""; break; }
+                      let cut = _rest.lastIndexOf(" ", 24); if (cut <= 0) cut = 24;
+                      _lines.push(_rest.slice(0, cut)); _rest = _rest.slice(cut).trim();
+                    }
+                    if (_rest && _lines.length) _lines[_lines.length - 1] = _lines[_lines.length - 1].slice(0, 22) + "…";
                     return (
                       <g key={t.id} style={{ cursor: "pointer" }} onClick={(e) => { e.stopPropagation(); setExpandedThread(idx); setTab("piste"); }}>
+                        <title>{_full}</title>
                         <rect x={x} y={y} width={TNODE_W} height={TNODE_H} rx={7}
                           fill="rgba(124,58,237,0.18)" stroke="rgba(167,139,250,0.55)" strokeWidth={1.5} />
-                        <text x={x + 10} y={y + 15} fontSize={9} fontWeight={800} fill="#a78bfa" style={{ fontFamily: "system-ui", textTransform: "uppercase", pointerEvents: "none" }}>
+                        <text x={x + 10} y={y + 14} fontSize={9} fontWeight={800} fill="#a78bfa" style={{ fontFamily: "system-ui", textTransform: "uppercase", pointerEvents: "none" }}>
                           PISTA
                         </text>
-                        <text x={x + 10} y={y + 30} fontSize={11} fontWeight={700} fill="#e9d5ff" style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
-                          {(t.label || "").slice(0, 20)}{(t.label || "").length > 20 ? "…" : ""}
-                        </text>
+                        {_lines.map((ln, li) => (
+                          <text key={li} x={x + 10} y={y + 26 + li * 11} fontSize={10} fontWeight={600} fill="#e9d5ff" style={{ fontFamily: "system-ui", pointerEvents: "none" }}>
+                            {ln}
+                          </text>
+                        ))}
                       </g>
                     );
                   })}
@@ -7250,6 +7266,16 @@ function buildAdventureExport({ adventure, gameState, mapState, preparedTactical
 
 function clueTitle(clue) {
   return clue?.label || clue?.text || clue?.id || "Indizio";
+}
+
+// Testo leggibile di una pista (thread) dato il suo id: domanda dello
+// story_thread o statement della revelation. Fallback all'id se non trovato.
+function threadLabel(thread_id, adventure, storyThreads) {
+  if (!thread_id) return "";
+  const sd = (storyThreads || adventure?.story_threads || []).find(t => t.id === thread_id);
+  const rev = (adventure?.revelations || []).find(r => r.thread_id === thread_id);
+  const txt = String(rev?.statement || sd?.question || sd?.statement || sd?.true_answer || "").trim();
+  return txt || thread_id;
 }
 
 function isKnownNpc(npc) {
@@ -8585,7 +8611,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
                   </div>
                   {c.reveals && <div style={{ fontSize: 11, color: "#fbbf24", lineHeight: 1.4, marginTop: 3 }}><b>Rivela:</b> {c.reveals}</div>}
                   {c.payoff && <div style={{ fontSize: 11, color: "#93c5fd", lineHeight: 1.4, marginTop: 2 }}><b>Payoff:</b> {c.payoff}</div>}
-                  {c.thread_id && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55, marginTop: 3 }}>Pista: {c.thread_id}</div>}
+                  {c.thread_id && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55, marginTop: 3 }} title={threadLabel(c.thread_id, adventure, storyThreads)}>Pista: {threadLabel(c.thread_id, adventure, storyThreads)}</div>}
                   {c.location && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55 }}>Dove: {c.location}</div>}
                   {c.source_ref?.section && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.55 }}>Fonte: {c.source_ref.section}</div>}
                 </div>
@@ -8841,7 +8867,7 @@ function SidePanel({ adventure, gameState, mapState, clocksData, gmEventLog, bac
                   )}
                   {found && c.reveals && <div style={{ fontSize: 11, color: "#4ade80", fontStyle: "italic", marginBottom: 2 }}>↳ {c.reveals}</div>}
                   {found && c.payoff && <div style={{ fontSize: 11, color: "#93c5fd", marginBottom: 2 }}>Sblocca: {c.payoff}</div>}
-                  {c.thread_id && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }}>Pista: {c.thread_id}</div>}
+                  {c.thread_id && <div style={{ fontSize: 10, color: "var(--text)", opacity: 0.5 }} title={threadLabel(c.thread_id, adventure, storyThreads)}>Pista: {threadLabel(c.thread_id, adventure, storyThreads)}</div>}
                   {c.location && <div style={{ fontSize: 11, color: "var(--text)", opacity: found ? 0.5 : 0.7 }}>📍 {c.location}</div>}
                 </div>
               );
