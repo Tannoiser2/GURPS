@@ -238,6 +238,23 @@ CREATURE_TABLE: list[dict] = [
      "damage_dice": "1d-5", "damage_type": "cut", "morale": "",
      "habitats": ["montano", "foresta", "cielo", "rurale"],
      "tags": ["bestia", "volante", "piccolo"], "desc": "Rapace addestrato o disturbato: becco e artigli, picchiata fulminea."},
+
+    # ─── Mostri fantasy canonici (GURPS Basic Set, p.459-460) ──────────────────
+    {"id": "basilisco", "name": "Basilisco", "eras": [ERA_FANTASY, ERA_HORROR],
+     "threat": 2, "hp": 2, "dr": 1, "attack_skill": 13, "active_defense": 9,
+     "damage_dice": "3d", "damage_type": "tox", "morale": "",
+     "habitats": ["sotterraneo", "foresta", "rurale"],
+     "tags": ["bestia", "sguardo", "piccolo"], "desc": "Piccolo serpente dal volto orrendo: uccide con lo sguardo mortale (attacco vista, fragilissimo da raggiungere)."},
+    {"id": "grifone", "name": "Grifone", "eras": [ERA_FANTASY],
+     "threat": 3, "hp": 17, "dr": 2, "attack_skill": 14, "active_defense": 10,
+     "damage_dice": "1d+2", "damage_type": "cut", "morale": "tenace",
+     "habitats": ["montano", "foresta", "cielo"],
+     "tags": ["bestia", "volante", "grande"], "desc": "Aquila-leone alata: artigli e becco affilati, picchiata fulminea (Combat Reflexes)."},
+    {"id": "strige", "name": "Strige", "eras": [ERA_FANTASY, ERA_HORROR],
+     "threat": 1, "hp": 5, "dr": 0, "attack_skill": 17, "active_defense": 9,
+     "damage_dice": "1d-4", "damage_type": "imp", "morale": "tenace",
+     "habitats": ["foresta", "montano", "urbano"],
+     "tags": ["bestia", "volante", "vampirico", "notturno"], "desc": "Creatura notturna simile a corvo: becco barbuto che fora e succhia il sangue, mira anche agli occhi."},
 ]
 
 CREATURE_BY_ID: dict[str, dict] = {c["id"]: c for c in CREATURE_TABLE}
