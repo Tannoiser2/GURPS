@@ -56,6 +56,42 @@ class TestBestiary(unittest.TestCase):
             for field in ("id", "name", "eras", "threat", "hp", "attack_skill", "damage_dice"):
                 self.assertIn(field, c, f"{c.get('id')} manca {field}")
 
+    # ── Coerenza ambientale (habitat) ────────────────────────────────────────
+    def test_no_shark_in_mountains(self):
+        names = {c["name"] for c in creatures_for_genre("modern", environment="alta montagna rocciosa")}
+        self.assertNotIn("Squalo", names)
+        self.assertNotIn("Coccodrillo", names)
+
+    def test_shark_allowed_at_sea(self):
+        names = {c["name"] for c in creatures_for_genre("modern", environment="fondale marino, scogliera sul mare")}
+        self.assertIn("Squalo", names)
+        self.assertNotIn("Orso", names)  # bestia di terra esclusa in mare
+
+    def test_wilderness_beast_excluded_indoors(self):
+        names = {c["name"] for c in creatures_for_genre("modern", environment="interno di un magazzino")}
+        self.assertNotIn("Orso", names)
+        self.assertNotIn("Lupo", names)
+
+    def test_ubiquitous_creature_passes_any_environment(self):
+        # Le creature senza habitat (zombie, non-morti, macchine) sono ubique.
+        for env in ("alta montagna", "fondale marino", "interno stazione spaziale"):
+            ids = {c["id"] for c in creatures_for_genre("horror", environment=env)}
+            self.assertTrue(ids, f"pool vuoto per {env}")
+
+    def test_unknown_environment_no_filter(self):
+        full = creatures_for_genre("modern")
+        same = creatures_for_genre("modern", environment="luogo indefinito qualunque")
+        self.assertEqual({c["id"] for c in full}, {c["id"] for c in same})
+
+    def test_environment_never_empties_pool(self):
+        # Anche un ambiente estremo non deve mai azzerare il pool (fallback).
+        for genre in ("fantasy", "sci_fi", "horror", "western", "modern"):
+            for env in ("fondale abissale", "vetta innevata", "deserto arido", "interno bunker"):
+                self.assertTrue(
+                    creatures_for_genre(genre, environment=env),
+                    f"pool vuoto: {genre} / {env}",
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

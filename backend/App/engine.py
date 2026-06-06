@@ -2619,7 +2619,16 @@ def _combat_enemy_for_scene(state: GameState, node_id: str, threat_name: str) ->
     threat_pct = (state.scene.threat_level / 10.0) if state.scene else 0.0
     max_threat = 1 if threat_pct < 0.4 else (2 if threat_pct < 0.7 else 3)
     rng = random.Random(f"{node_id}|{genre}")
-    creature = random_encounter_for(genre, max_threat=max_threat, rng=rng) \
+    # Coerenza ambientale: niente squalo in montagna. Compone un blob d'ambiente
+    # da environment_type + testo/tag scena, usato per filtrare per habitat.
+    _env_bits = [
+        getattr(state.mission, "environment_type", "") or "" if state.mission else "",
+        getattr(state.scene, "scene_text", "") or "" if state.scene else "",
+        " ".join(getattr(state.scene, "scene_tags", None) or []) if state.scene else "",
+    ]
+    environment = " ".join(b for b in _env_bits if b)
+    creature = random_encounter_for(genre, max_threat=max_threat, rng=rng, environment=environment) \
+        or random_encounter_for(genre, rng=rng, environment=environment) \
         or random_encounter_for(genre, rng=rng)
     if not creature:
         return None

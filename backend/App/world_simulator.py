@@ -964,7 +964,12 @@ def simulate_world_state(
             _ws_rng = _ws_rnd.Random(f"wander|{_ws_node}|{_ws_turn}")
             if _ws_rng.random() < 0.15:
                 _genre = getattr(getattr(runtime, "genre_profile", None), "id", "") or ""
-                _crea = random_encounter_for(_genre, max_threat=2, rng=_ws_rng)
+                # Coerenza ambientale: l'incontro deve adattarsi al luogo (nome,
+                # descrizione e tag del nodo corrente) — niente squalo in montagna.
+                _ws_nd = (_ws_map.get("nodes") or {}).get(_ws_node) or {}
+                _ws_env = " ".join(str(_ws_nd.get(k, "")) for k in ("name", "description")) \
+                    + " " + " ".join(_ws_nd.get("tags") or [])
+                _crea = random_encounter_for(_genre, max_threat=2, rng=_ws_rng, environment=_ws_env)
                 if _crea:
                     events.append(
                         f"INCONTRO CASUALE (opzionale): {_crea['name'].lower()} si aggira nei paraggi — "

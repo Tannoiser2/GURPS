@@ -28,14 +28,17 @@ CREATURE_TABLE: list[dict] = [
     {"id": "lupo", "name": "Lupo", "eras": [ERA_PRIMITIVE, ERA_MEDIEVAL, ERA_FANTASY],
      "threat": 1, "hp": 10, "dr": 1, "attack_skill": 13, "active_defense": 9,
      "damage_dice": "1d-1", "damage_type": "cut", "morale": "",
+     "habitats": ["foresta", "montano", "gelido", "rurale"],
      "tags": ["bestia", "branco"], "desc": "Predatore agile che caccia in branco."},
     {"id": "orso", "name": "Orso", "eras": [ERA_PRIMITIVE, ERA_MEDIEVAL, ERA_FANTASY],
      "threat": 3, "hp": 19, "dr": 2, "attack_skill": 12, "active_defense": 8,
      "damage_dice": "2d", "damage_type": "cut", "morale": "tenace",
+     "habitats": ["foresta", "montano", "gelido"],
      "tags": ["bestia", "grande"], "desc": "Massa di muscoli e artigli, territoriale."},
     {"id": "ratto_gigante", "name": "Ratto gigante", "eras": [ERA_MEDIEVAL, ERA_FANTASY, ERA_HORROR],
      "threat": 0, "hp": 6, "dr": 0, "attack_skill": 12, "active_defense": 9,
      "damage_dice": "1d-3", "damage_type": "imp", "morale": "",
+     "habitats": ["sotterraneo", "urbano"],
      "tags": ["bestia", "sciame"], "desc": "Roditore famelico delle fogne e cripte."},
     {"id": "goblin", "name": "Goblin", "eras": [ERA_FANTASY],
      "threat": 1, "hp": 9, "dr": 2, "attack_skill": 11, "active_defense": 9,
@@ -58,6 +61,7 @@ CREATURE_TABLE: list[dict] = [
     {"id": "cane_guardia", "name": "Cane da guardia", "eras": [ERA_MODERN, ERA_WESTERN, ERA_MEDIEVAL],
      "threat": 1, "hp": 11, "dr": 0, "attack_skill": 13, "active_defense": 10,
      "damage_dice": "1d-1", "damage_type": "cut", "morale": "tenace",
+     "habitats": ["urbano", "rurale", "interno"],
      "tags": ["bestia", "addestrato"], "desc": "Molosso addestrato, morso tenace."},
     {"id": "zombie", "name": "Zombie", "eras": [ERA_MODERN, ERA_HORROR],
      "threat": 2, "hp": 13, "dr": 0, "attack_skill": 10, "active_defense": 7,
@@ -90,10 +94,12 @@ CREATURE_TABLE: list[dict] = [
     {"id": "serpente_sonagli", "name": "Serpente a sonagli", "eras": [ERA_WESTERN, ERA_MODERN],
      "threat": 1, "hp": 4, "dr": 0, "attack_skill": 12, "active_defense": 9,
      "damage_dice": "1d-4", "damage_type": "imp", "morale": "",
+     "habitats": ["desertico", "rurale"],
      "tags": ["bestia", "veleno", "piccolo"], "desc": "Morso veloce e velenoso."},
     {"id": "puma", "name": "Puma", "eras": [ERA_WESTERN, ERA_PRIMITIVE, ERA_MEDIEVAL],
      "threat": 2, "hp": 12, "dr": 0, "attack_skill": 14, "active_defense": 11,
      "damage_dice": "1d", "damage_type": "cut", "morale": "",
+     "habitats": ["montano", "foresta", "desertico"],
      "tags": ["bestia", "agguato"], "desc": "Felino in agguato, balzo rapido e letale."},
 
     # ─── Fantasy aggiuntive ────────────────────────────────────────────────────
@@ -104,6 +110,7 @@ CREATURE_TABLE: list[dict] = [
     {"id": "ragno_gigante", "name": "Ragno gigante", "eras": [ERA_FANTASY, ERA_HORROR],
      "threat": 2, "hp": 14, "dr": 1, "attack_skill": 13, "active_defense": 10,
      "damage_dice": "1d-2", "damage_type": "imp", "morale": "",
+     "habitats": ["sotterraneo", "foresta"],
      "tags": ["bestia", "veleno", "tela"], "desc": "Aracnide enorme: morso velenoso e tele."},
     {"id": "spettro", "name": "Spettro", "eras": [ERA_HORROR, ERA_FANTASY],
      "threat": 3, "hp": 12, "dr": 0, "attack_skill": 13, "active_defense": 11,
@@ -134,26 +141,32 @@ CREATURE_TABLE: list[dict] = [
     {"id": "coccodrillo", "name": "Coccodrillo", "eras": [ERA_PRIMITIVE, ERA_MEDIEVAL, ERA_MODERN, ERA_FANTASY],
      "threat": 2, "hp": 16, "dr": 2, "attack_skill": 12, "active_defense": 8,
      "damage_dice": "2d", "damage_type": "cut", "morale": "tenace",
+     "habitats": ["acquatico", "palude"],
      "tags": ["bestia", "acquatico", "agguato"], "desc": "Rettile in agguato nell'acqua, morso devastante."},
     {"id": "cinghiale", "name": "Cinghiale", "eras": [ERA_PRIMITIVE, ERA_MEDIEVAL, ERA_FANTASY, ERA_WESTERN],
      "threat": 1, "hp": 13, "dr": 1, "attack_skill": 12, "active_defense": 9,
      "damage_dice": "1d+1", "damage_type": "imp", "morale": "tenace",
+     "habitats": ["foresta", "rurale", "palude"],
      "tags": ["bestia", "carica"], "desc": "Suino selvatico aggressivo, zanne e carica furiosa."},
     {"id": "leone", "name": "Leone", "eras": [ERA_PRIMITIVE, ERA_FANTASY, ERA_MEDIEVAL],
      "threat": 2, "hp": 15, "dr": 1, "attack_skill": 14, "active_defense": 11,
      "damage_dice": "1d+1", "damage_type": "cut", "morale": "",
+     "habitats": ["rurale", "desertico", "foresta"],
      "tags": ["bestia", "predatore"], "desc": "Grande felino, balzo potente e morso alla gola."},
     {"id": "squalo", "name": "Squalo", "eras": [ERA_MODERN, ERA_PRIMITIVE, ERA_SCIFI],
      "threat": 2, "hp": 17, "dr": 1, "attack_skill": 12, "active_defense": 9,
      "damage_dice": "2d", "damage_type": "cut", "morale": "tenace",
+     "habitats": ["acquatico"],
      "tags": ["bestia", "acquatico"], "desc": "Predatore marino, fauci che recidono."},
     {"id": "sciame_insetti", "name": "Sciame d'insetti", "eras": [ERA_PRIMITIVE, ERA_MEDIEVAL, ERA_FANTASY, ERA_MODERN, ERA_HORROR],
      "threat": 1, "hp": 6, "dr": 0, "attack_skill": 12, "active_defense": 7,
      "damage_dice": "1d-3", "damage_type": "cor", "morale": "fanatico",
+     "habitats": ["foresta", "palude", "rurale", "urbano"],
      "tags": ["sciame", "veleno"], "desc": "Nube di insetti che soffoca e punge senza sosta."},
     {"id": "rapace_gigante", "name": "Rapace gigante", "eras": [ERA_FANTASY, ERA_PRIMITIVE],
      "threat": 2, "hp": 12, "dr": 0, "attack_skill": 14, "active_defense": 12,
      "damage_dice": "1d", "damage_type": "cut", "morale": "",
+     "habitats": ["montano", "foresta", "cielo", "rurale"],
      "tags": ["bestia", "volante"], "desc": "Uccello da preda enorme, artigli e picchiata fulminea."},
 
     # ─── Fantasy aggiuntive ────────────────────────────────────────────────────
@@ -182,6 +195,7 @@ CREATURE_TABLE: list[dict] = [
     {"id": "licantropo", "name": "Licantropo", "eras": [ERA_HORROR, ERA_FANTASY, ERA_MODERN],
      "threat": 3, "hp": 16, "dr": 2, "attack_skill": 14, "active_defense": 11,
      "damage_dice": "2d-1", "damage_type": "cut", "morale": "tenace",
+     "habitats": ["foresta", "montano", "rurale", "urbano"],
      "tags": ["mutaforma", "bestia", "rigenera"], "desc": "Uomo-lupo furioso, vulnerabile solo all'argento."},
 
     # ─── Sci-Fi aggiuntive ─────────────────────────────────────────────────────
@@ -202,21 +216,83 @@ CREATURE_TABLE: list[dict] = [
 CREATURE_BY_ID: dict[str, dict] = {c["id"]: c for c in CREATURE_TABLE}
 
 
-def creatures_for_genre(genre: str, max_threat: Optional[int] = None) -> list[dict]:
+# Ambiente (testo libero) → insieme di habitat compatibili. Permissivo: ad ogni
+# ambiente associamo gli habitat plausibili, così si escludono solo gli accostamenti
+# palesemente incoerenti (es. una creatura solo "acquatico" in montagna).
+_ENVIRONMENT_HABITATS: list[tuple[tuple[str, ...], set[str]]] = [
+    # (parole chiave, habitat compatibili)
+    (("montagn", "montan", "picco", "vetta", "cima", "rupe", "scoglier", "altopiano", "valico"),
+     {"montano", "gelido", "foresta", "rurale", "cielo"}),
+    (("sottomarin", "subacque", "fondale", "abiss", "oceano", "marin", "mare", "scogli", "barriera coral"),
+     {"acquatico"}),
+    (("fiume", "lago", "stagno", "costa", "spiaggia", "porto", "molo", "lacustre", "riva"),
+     {"acquatico", "palude", "costiero", "rurale"}),
+    (("palud", "acquitrin", "marsh", "torbier", "pantano"),
+     {"palude", "acquatico", "foresta"}),
+    (("foresta", "bosco", "boscaglia", "giungla", "selva", "radura", "albero", "fronde", "sottobosco"),
+     {"foresta", "rurale", "montano"}),
+    (("deserto", "dune", "sabbia", "arido", "canyon", "savana", "steppa", "badland"),
+     {"desertico", "rurale"}),
+    (("nev", "ghiacc", "artic", "polar", "tundra", "gelo", "glacial", "iceberg"),
+     {"gelido", "montano"}),
+    (("grotta", "cavern", "sotterran", "cripta", "fogn", "tunnel", "minier", "catacomb", "dungeon", "sottosuolo", "cunicol"),
+     {"sotterraneo", "urbano"}),
+    (("citt", "urban", "strada", "vicolo", "quartiere", "metropoli", "slum", "piazza", "periferia"),
+     {"urbano", "sotterraneo", "interno"}),
+    (("edifici", "stanza", "corridoio", "interno", "magazzin", "laborator", "base", "stazione", "astronav", "bunker", "complesso", "struttura", "nave spaziale", "modulo", "hangar", "raffineria", "impianto", "rovine al chiuso"),
+     {"interno", "urbano"}),
+    (("pianur", "prateri", "campagn", "rurale", "collin", "villaggio", "podere", "fattoria", "pascolo"),
+     {"rurale", "foresta"}),
+]
+
+
+def habitats_for_environment(environment: str) -> set[str]:
+    """Mappa un ambiente (testo libero: environment_type, tag scena, nome nodo…)
+    sull'insieme degli habitat plausibili. Vuoto = ambiente non riconosciuto →
+    nessun filtro (comportamento neutro)."""
+    text = (environment or "").lower()
+    if not text:
+        return set()
+    habs: set[str] = set()
+    for keywords, mapped in _ENVIRONMENT_HABITATS:
+        if any(k in text for k in keywords):
+            habs |= mapped
+    return habs
+
+
+def creatures_for_genre(genre: str, max_threat: Optional[int] = None,
+                        environment: str = "") -> list[dict]:
     """Creature plausibili per il genere (via le sue ere), opzionalmente limitate
-    a una soglia di pericolosità."""
+    a una soglia di pericolosità e all'ambiente (habitat).
+
+    Coerenza ambientale: se ``environment`` è riconoscibile (es. "montagna",
+    "fondale marino", "stazione spaziale"), si escludono le creature il cui
+    ``habitats`` non è compatibile — niente squalo in montagna. Le creature SENZA
+    ``habitats`` (umanoidi, non-morti, macchine, costrutti…) sono ubique e passano
+    sempre. Il filtro degrada con grazia: se azzererebbe il pool, viene ignorato."""
     genre = (genre or "").strip().lower().replace("-", "_").replace(" ", "_")
     eras = set(GENRE_ERA_MAP.get(genre, [ERA_MODERN]))
     out = [c for c in CREATURE_TABLE if eras.intersection(c["eras"])]
     if max_threat is not None:
         out = [c for c in out if c["threat"] <= max_threat]
+    if environment:
+        habs = habitats_for_environment(environment)
+        if habs:
+            coherent = [
+                c for c in out
+                if not c.get("habitats") or habs.intersection(c["habitats"])
+            ]
+            if coherent:  # solo se resta qualcosa: mai svuotare il pool
+                out = coherent
     return out
 
 
 def random_encounter_for(genre: str, max_threat: Optional[int] = None,
-                         rng: Optional[random.Random] = None) -> Optional[dict]:
-    """Pesca una creatura casuale appropriata al genere (None se nessuna)."""
-    pool = creatures_for_genre(genre, max_threat)
+                         rng: Optional[random.Random] = None,
+                         environment: str = "") -> Optional[dict]:
+    """Pesca una creatura casuale appropriata al genere e all'ambiente (None se
+    nessuna)."""
+    pool = creatures_for_genre(genre, max_threat, environment=environment)
     if not pool:
         return None
     return (rng or random).choice(pool)
