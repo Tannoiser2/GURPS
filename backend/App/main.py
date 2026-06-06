@@ -292,7 +292,14 @@ _load_props_from_files()
 def root():
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
-BUILD_VERSION = "v29-combat-sandbox"
+# Versione build. Su Render mostra il commit Git realmente deployato
+# (RENDER_GIT_COMMIT), così /health permette di verificare a colpo d'occhio se il
+# deploy è aggiornato. Override manuale possibile via env BUILD_VERSION.
+_render_commit = os.getenv("RENDER_GIT_COMMIT", "")
+BUILD_VERSION = (
+    os.getenv("BUILD_VERSION")
+    or (f"v30-pdf-ocr · {_render_commit[:7]}" if _render_commit else "v30-pdf-ocr")
+)
 
 @app.get("/health")
 def health_check():
@@ -4339,7 +4346,12 @@ def _detect_column_gutter(words: list, width: float) -> float | None:
 def _page_text_columnaware(page) -> str:
     """Estrae il testo di una pagina pdfplumber gestendo i layout a due colonne:
     se rileva un gutter verticale, estrae le due colonne separatamente (sinistra
-    poi destra) invece di leggere attraverso la pagina e mescolarle."""
+    poi destra) invece di leggere attraverso la pagina e mescolarle.
+
+    Disattivabile con PDF_COLUMN_AWARE=0 (estrazione classica) come uscita di
+    sicurezza per isolare eventuali regressioni."""
+    if os.getenv("PDF_COLUMN_AWARE", "1") == "0":
+        return page.extract_text() or ""
     try:
         words = page.extract_words()
     except Exception:
