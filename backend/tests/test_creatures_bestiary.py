@@ -59,13 +59,14 @@ class TestBestiary(unittest.TestCase):
     # ── Coerenza ambientale (habitat) ────────────────────────────────────────
     def test_no_shark_in_mountains(self):
         names = {c["name"] for c in creatures_for_genre("modern", environment="alta montagna rocciosa")}
-        self.assertNotIn("Squalo", names)
+        self.assertNotIn("Squalo tigre", names)
+        self.assertNotIn("Grande squalo bianco", names)
         self.assertNotIn("Coccodrillo", names)
 
     def test_shark_allowed_at_sea(self):
         names = {c["name"] for c in creatures_for_genre("modern", environment="fondale marino, scogliera sul mare")}
-        self.assertIn("Squalo", names)
-        self.assertNotIn("Orso", names)  # bestia di terra esclusa in mare
+        self.assertIn("Squalo tigre", names)
+        self.assertNotIn("Orso grizzly", names)  # bestia di terra esclusa in mare
 
     def test_wilderness_beast_excluded_indoors(self):
         names = {c["name"] for c in creatures_for_genre("modern", environment="interno di un magazzino")}
