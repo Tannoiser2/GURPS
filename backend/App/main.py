@@ -123,6 +123,13 @@ _RATE_RULES: list[tuple[str, int, int]] = [
 
 app = FastAPI()
 
+# Frontend buildato (frontend/dist): se esiste, lo stesso processo backend serve
+# anche la UI → un solo uvicorn per tutto in locale. In produzione (immagine
+# Docker del solo backend su Render) la dir NON esiste, quindi tutto questo è un
+# no-op e non tocca API né deploy.
+_FRONTEND_DIST = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "dist"))
+_SERVE_FRONTEND = os.path.isdir(_FRONTEND_DIST)
+
 
 @app.middleware("http")
 async def _cors_mw(request: Request, call_next):
@@ -290,6 +297,9 @@ _load_props_from_files()
 # ── R1: Health check ──────────────────────────────────────────────────────────
 @app.get("/")
 def root():
+    if _SERVE_FRONTEND:
+        from fastapi.responses import FileResponse
+        return FileResponse(os.path.join(_FRONTEND_DIST, "index.html"))
     return {"status": "ok", "service": "GURPS AI Game Master", "timestamp": datetime.now(timezone.utc).isoformat()}
 
 # Versione build. Su Render mostra il commit Git realmente deployato
@@ -5126,3 +5136,31 @@ def use_item(player_id: str, item_id: str):
         target.equipment = [e for e in target.equipment if not (e.id == item_id or e.name == item_id)]
 
     return {"log": log, "players": [p.model_dump() for p in game_state.players]}
+
+
+# ── Frontend buildato servito dallo stesso processo (solo in locale) ──────────
+# Registrato in fondo: tutte le route API (definite sopra) hanno precedenza; la
+# catch-all serve solo i path non-API. Attivo solo se frontend/dist esiste.
+if _SERVE_FRONTEND:
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import FileResponse as _FEFileResponse
+
+    @app.middleware("http")
+    async def _strip_api_prefix(request, call_next):
+        # In locale la UI buildata chiama /api/... ; in produzione ci pensa Vercel
+        # (il backend non vede mai /api). Qui lo togliamo così /api/X → /X.
+        p = request.scope.get("path", "")
+        if p == "/api" or p.startswith("/api/"):
+            request.scope["path"] = p[4:] or "/"
+        return await call_next(request)
+
+    _assets_dir = os.path.join(_FRONTEND_DIST, "assets")
+    if os.path.isdir(_assets_dir):
+        app.mount("/assets", StaticFiles(directory=_assets_dir), name="assets")
+
+    @app.get("/{spa_path:path}", include_in_schema=False)
+    async def _serve_spa(spa_path: str):
+        f = os.path.join(_FRONTEND_DIST, spa_path)
+        if spa_path and os.path.isfile(f):
+            return _FEFileResponse(f)
+        return _FEFileResponse(os.path.join(_FRONTEND_DIST, "index.html"))
