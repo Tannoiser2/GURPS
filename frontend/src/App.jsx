@@ -13586,15 +13586,16 @@ export default function App() {
   // Aggiunta personaggi a campagna dalla SetupScreen in modalità campagna
   async function handleAddPlayersToCampaign(selectedPlayers) {
     if (!activeCampaign) return;
-    try {
-      await Promise.all(selectedPlayers.map(p =>
-        fetch(`${API_URL}/campaigns/${activeCampaign.id}/players`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(p),
-        })
-      ));
-    } catch (_) {}
+    await Promise.all(selectedPlayers.map(p =>
+      fetch(`${API_URL}/campaigns/${activeCampaign.id}/players`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ player: p }),
+      })
+    ));
+    // Ricarica la campagna aggiornata prima di tornare alla lobby
+    const updated = await fetch(`${API_URL}/campaigns/${activeCampaign.id}`).then(r => r.json());
+    setActiveCampaign(updated);
     setScreen("campaign_lobby");
   }
 
