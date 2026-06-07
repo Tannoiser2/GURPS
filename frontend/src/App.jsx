@@ -13451,9 +13451,20 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
                         <div style={{ fontWeight: 700, fontSize: 16 }}>{p.name}</div>
                         <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginTop: 2 }}>{p.role} · {p.archetype}</div>
                       </div>
-                      <div style={{ textAlign: "right", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
-                        <div>{cp.unspent_cp} CP non spesi</div>
-                        <div>{cp.total_cp_earned} CP totali</div>
+                      <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                        <div style={{ textAlign: "right", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
+                          <div>{cp.unspent_cp} CP non spesi</div>
+                          <div>{cp.total_cp_earned} CP totali</div>
+                        </div>
+                        <button onClick={async () => {
+                          if (!confirm(`Rimuovere ${p.name} dalla campagna?`)) return;
+                          const updated = await fetch(`${API_URL}/campaigns/${campaign.id}/players/${cp.id}`, { method: "DELETE" }).then(r => r.json());
+                          setCampaign(updated);
+                        }} style={{
+                          background: "rgba(239,68,68,0.12)", border: "1px solid rgba(239,68,68,0.3)",
+                          borderRadius: 6, padding: "3px 8px", color: "#f87171", fontSize: 12,
+                          cursor: "pointer", flexShrink: 0,
+                        }}>✕</button>
                       </div>
                     </div>
                     <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
@@ -13470,6 +13481,20 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
                         </div>
                       </div>
                     </div>
+                    {p.spells?.length > 0 && (
+                      <div style={{ marginTop: 8 }}>
+                        <div style={{ fontSize: 9, color: "#c4b5fd", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 3 }}>
+                          {["sci_fi","cyberpunk"].includes(campaign.genre) ? "⚡ Psionici" : "✨ Magie"}
+                        </div>
+                        <div style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
+                          {p.spells.map(s => (
+                            <span key={s.spell_id} style={{ fontSize: 10, background: "rgba(168,85,247,0.12)", border: "1px solid rgba(168,85,247,0.25)", borderRadius: 4, padding: "1px 6px", color: "#c4b5fd" }}>
+                              {s.spell_id.replace(/_/g, " ")} {s.skill_level}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                     {cp.adventure_history?.length > 0 && (
                       <div style={{ marginTop: 10, fontSize: 11, color: "rgba(255,255,255,0.35)" }}>
                         Ultima avventura: {cp.adventure_history[cp.adventure_history.length - 1].adventure_name}

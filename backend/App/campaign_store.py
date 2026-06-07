@@ -148,6 +148,18 @@ def update_player_in_campaign(campaign_id: str, campaign_player: CampaignPlayer)
     raise ValueError(f"Giocatore {campaign_player.id} non trovato nella campagna {campaign_id}")
 
 
+def remove_player_from_campaign(campaign_id: str, campaign_player_id: str) -> None:
+    """Rimuove un CampaignPlayer dalla campagna e salva."""
+    campaign = load_campaign(campaign_id)
+    if not campaign:
+        raise ValueError(f"Campagna {campaign_id} non trovata")
+    before = len(campaign.players)
+    campaign.players = [cp for cp in campaign.players if cp.id != campaign_player_id]
+    if len(campaign.players) == before:
+        raise ValueError(f"Giocatore {campaign_player_id} non trovato nella campagna {campaign_id}")
+    save_campaign(campaign)
+
+
 def _starting_money(genre: str) -> float:
     """Denaro iniziale approssimativo per genere (Wealth = 10 → Average)."""
     defaults = {

@@ -5155,6 +5155,7 @@ from .campaign_store import (
     delete_campaign as _delete_campaign,
     add_player_to_campaign as _add_player_to_campaign,
     update_player_in_campaign as _update_player_in_campaign,
+    remove_player_from_campaign as _remove_player_from_campaign,
     complete_adventure as _complete_adventure,
     spend_cp as _spend_cp,
 )
@@ -5212,6 +5213,13 @@ async def api_add_player(campaign_id: str, req: _AddPlayerReq):
     player = _Player.model_validate(req.player)
     cp = _add_player_to_campaign(campaign_id, player)
     return cp.model_dump()
+
+
+@app.delete("/campaigns/{campaign_id}/players/{campaign_player_id}")
+async def api_remove_player(campaign_id: str, campaign_player_id: str):
+    _remove_player_from_campaign(campaign_id, campaign_player_id)
+    campaign = _load_campaign(campaign_id)
+    return campaign.model_dump()
 
 
 class _CompleteAdventureReq(BaseModel):

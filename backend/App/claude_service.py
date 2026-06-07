@@ -618,7 +618,7 @@ def generate_candidate_pool(genre: str, active_slots: int, mission_type: str, en
         for item in ENVIRONMENT_EQUIPMENT_BONUS.get(environment_type, []):
             if item not in items and len(items) < 5:
                 items.append(item)
-        out.append({
+        entry: dict = {
             "id": idx,
             "name": names[idx - 1],
             "role": role["role"],
@@ -628,7 +628,10 @@ def generate_candidate_pool(genre: str, active_slots: int, mission_type: str, en
             "status": "ok",
             "items": items,
             "actions": [],
-        })
+        }
+        if role.get("spells"):
+            entry["spells"] = list(role["spells"])
+        out.append(entry)
     return out
 
 
@@ -4425,6 +4428,20 @@ def generate_character_from_description(genre: str, description: str) -> dict:
     }
     genre_label = genre_labels.get(genre, genre)
 
+    _MAGIC_HINT = (
+        "Se il personaggio è un mago/strega/chierico, includi nel campo 'spells' una lista di "
+        "incantesimi in formato [{\"spell_id\": \"fireball\", \"college\": \"Fire\", \"skill_level\": 13}]. "
+        "Spell_id validi per fantasy: fireball, ignite_fire, detect_magic, shield, light, "
+        "minor_healing, awaken, cure_poison, earth_to_stone, stone_to_earth, darkness, blur. "
+        "Se non è un mago, ometti completamente il campo 'spells'."
+    )
+    _PSIONIC_HINT = (
+        "Se il personaggio è un telepate/medium/psionico, includi nel campo 'spells' una lista di "
+        "poteri in formato [{\"spell_id\": \"mind_reading\", \"college\": \"Mind Control\", \"skill_level\": 13, \"psionic\": true}]. "
+        "Spell_id validi per psionici: mind_reading, daze, suggest, sense_life, fear, levitation, "
+        "telekinesis, mindshield, sleep, mental_blow. "
+        "Se non è un psionico, ometti completamente il campo 'spells'."
+    )
     _genre_item_hints = {
         "sci_fi":           "armi futuristiche (fucile laser, blaster, pistola a impulsi), tecnologia avanzata (scanner, toolkit, interfaccia neurale, rampino). VIETATO: armi medievali.",
         "fantasy":          "armi medievali (spada, ascia, pugnale, arco, lancia, mazza), oggetti magici (grimorio, focus arcano, amuleto, reliquia, kit erboristico). VIETATO: pistole, fucili, tecnologia moderna.",
@@ -4461,6 +4478,8 @@ persuadere, ingannare, intuire, calmare, ispirare, curare, comandare, comunicare
 EQUIPAGGIAMENTO ({genre_label}): {genre_item_hint}
 Assegna 2-4 item. Ogni item deve essere un oggetto fisico reale, specifico, coerente con l'ambientazione sopra.
 
+{_MAGIC_HINT if genre in ("fantasy", "medievale", "storico", "horror", "steampunk") else (_PSIONIC_HINT if genre in ("sci_fi", "cyberpunk") else "")}
+
 Rispondi SOLO con questo JSON:
 {{
   "name": "...",
@@ -4472,12 +4491,35 @@ Rispondi SOLO con questo JSON:
   "disadvantages": [],
   "dr": 0,
   "items": ["...", "..."],
+  "spells": [],
   "point_breakdown": "stat X pt + skill Y pt + adv Z pt = totale"
 }}"""
 
     raw = _call_text_model(prompt, max_tokens=700)
     try:
-        return _extract_json_object(raw)
+        result = _extract_json_object(raw)
+        # Aggiungi magie/poteri psionici se l'archetype o la descrizione suggerisce un caster
+        _CASTER_KEYWORDS = {"mage", "mago", "maga", "wizard", "cleric", "chierico", "chierica",
+                            "telepath", "telepate", "medium", "shaman", "sciamano", "stregone",
+                            "strega", "sorceress", "sorcerer", "warlock", "druid", "druida"}
+        archetype = (result.get("archetype") or "").lower()
+        desc_low = description.lower()
+        is_caster = archetype in _CASTER_KEYWORDS or any(k in desc_low for k in _CASTER_KEYWORDS)
+        if is_caster and not result.get("spells"):
+            try:
+                from .data_roles import ROLE_LIBRARY
+                role_arch = archetype if archetype in _CASTER_KEYWORDS else None
+                # cerca nelle role_library del genere un archetype caster corrispondente
+                roles = ROLE_LIBRARY.get(genre, [])
+                matched = next((r for r in roles if r.get("spells") and
+                                (r["archetype"] == archetype or archetype in r["archetype"] or
+                                 r["archetype"] in archetype or r["archetype"] in _CASTER_KEYWORDS)),
+                               None)
+                if matched:
+                    result["spells"] = list(matched["spells"])
+            except Exception:
+                pass
+        return result
     except Exception:
         return {"error": "Impossibile generare il personaggio. Riprova con una descrizione diversa."}
 
