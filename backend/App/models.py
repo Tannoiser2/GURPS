@@ -614,6 +614,9 @@ class CampaignPlayer(BaseModel):
     # ── Guarigione tra sessioni ───────────────────────────────────────────────
     rest_days_accumulated: int = 0  # giorni di riposo accumulati (per guarigione naturale)
 
+    # ── Stato nel roster ──────────────────────────────────────────────────────
+    active: bool = True             # True = partecipa all'avventura corrente; False = in panchina
+
 
 class Campaign(BaseModel):
     """Campagna — contenitore top-level che connette PG, avventure e mondo."""

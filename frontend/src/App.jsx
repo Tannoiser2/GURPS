@@ -13346,6 +13346,14 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
   const [starting, setStarting] = useState(false);
   const [error, setError] = useState("");
 
+  // Ricarica sempre il roster aggiornato dal server al mount
+  useEffect(() => {
+    fetch(`${API_URL}/campaigns/${initialCampaign.id}`)
+      .then(r => r.json())
+      .then(setCampaign)
+      .catch(() => {});
+  }, [initialCampaign.id]);
+
   // Ricarica campagna fresca dal server
   async function refreshCampaign() {
     const c = await fetch(`${API_URL}/campaigns/${campaign.id}`).then(r => r.json());
@@ -13371,15 +13379,16 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
 
   async function handleStart() {
     if (!selectedAdv) { setError("Seleziona un'avventura."); return; }
-    if (!campaign.players?.length) { setError("Aggiungi almeno un personaggio alla campagna."); return; }
+    const activePlayers = (campaign.players || []).filter(cp => cp.active !== false);
+    if (!activePlayers.length) { setError("Attiva almeno un personaggio dal roster (✓)."); return; }
     setError(""); setStarting(true);
     try {
       // Carica definizione completa avventura
       const defRes = await fetch(`${API_URL}/game/adventure/runtime/${selectedAdv.id}`);
       const defJson = await defRes.json();
       const advDef = defJson.adventure_definition || defJson;
-      // Estrai i Player dalla campagna
-      const players = campaign.players.map(cp => cp.player);
+      // Solo i PG attivi partecipano all'avventura
+      const players = activePlayers.map(cp => cp.player);
       onStartAdventure({ adventure: advDef, players, genre: campaign.genre, campaignId: campaign.id });
     } catch (err) {
       setError("Errore avvio: " + err.message);
@@ -13433,77 +13442,108 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
         {/* TAB: Personaggi */}
         {tab === "players" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            {/* Header roster: contatore + bottone aggiungi */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
+                {campaign.players?.length || 0} PG nel roster ·{" "}
+                <span style={{ color: "#4ade80" }}>{campaign.players?.filter(cp => cp.active !== false).length || 0} attivi</span>
+              </div>
               <button onClick={() => onAddPlayers?.()} style={{
                 background: "linear-gradient(135deg,#7c3aed,#a855f7)", border: "none",
-                borderRadius: 10, padding: "9px 18px", color: "#fff",
+                borderRadius: 10, padding: "8px 16px", color: "#fff",
                 fontWeight: 700, fontSize: 13, cursor: "pointer",
-              }}>+ Aggiungi personaggio</button>
+              }}>+ Aggiungi PG</button>
             </div>
+
             {(!campaign.players || campaign.players.length === 0) ? (
               <div style={{ ...cardStyle, textAlign: "center", color: "rgba(255,255,255,0.35)", padding: 32 }}>
-                Nessun personaggio nella campagna.<br />
-                <span style={{ fontSize: 12, opacity: 0.6 }}>Clicca "+ Aggiungi personaggio" per generare il tuo team.</span>
+                Nessun personaggio nel roster.<br />
+                <span style={{ fontSize: 12, opacity: 0.6 }}>Aggiungi PG per iniziare la campagna.</span>
               </div>
             ) : (
               campaign.players.map(cp => {
                 const p = cp.player;
+                const isActive = cp.active !== false;
                 const hpPct = Math.max(0, Math.round((p.hp / p.max_hp) * 100));
                 const fpPct = Math.max(0, Math.round((p.fp / p.max_fp) * 100));
                 return (
-                  <div key={cp.id} style={cardStyle}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                      <div>
-                        <div style={{ fontWeight: 700, fontSize: 16 }}>{p.name}</div>
-                        <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginTop: 2 }}>{p.role} · {p.archetype}</div>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                        <div style={{ textAlign: "right", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
-                          <div>{cp.unspent_cp} CP non spesi</div>
-                          <div>{cp.total_cp_earned} CP totali</div>
+                  <div key={cp.id} style={{
+                    ...cardStyle,
+                    opacity: isActive ? 1 : 0.5,
+                    borderColor: isActive ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.05)",
+                  }}>
+                    {/* Header card */}
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <div style={{ fontWeight: 700, fontSize: 15 }}>{p.name}</div>
+                          {!isActive && <span style={{ fontSize: 10, background: "rgba(255,255,255,0.08)", borderRadius: 4, padding: "1px 6px", color: "rgba(255,255,255,0.35)" }}>in panchina</span>}
                         </div>
-                        <button onClick={async () => {
-                          if (!confirm(`Rimuovere ${p.name} dalla campagna?`)) return;
+                        <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginTop: 1 }}>{p.role} · {p.archetype}</div>
+                      </div>
+                      {/* Azioni */}
+                      <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                        <div style={{ textAlign: "right", fontSize: 11, color: "rgba(255,255,255,0.4)", marginRight: 4 }}>
+                          <div>{cp.total_cp_earned} CP</div>
+                          {cp.unspent_cp > 0 && <div style={{ color: "#f59e0b" }}>+{cp.unspent_cp} da spendere</div>}
+                        </div>
+                        {/* Toggle attivo/panchina */}
+                        <button title={isActive ? "Metti in panchina" : "Riattiva"} onClick={async () => {
+                          const updated = await fetch(`${API_URL}/campaigns/${campaign.id}/players/${cp.id}/active`, {
+                            method: "PATCH", headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ active: !isActive }),
+                          }).then(r => r.json());
+                          setCampaign(updated);
+                        }} style={{
+                          background: isActive ? "rgba(74,222,128,0.12)" : "rgba(255,255,255,0.06)",
+                          border: `1px solid ${isActive ? "rgba(74,222,128,0.3)" : "rgba(255,255,255,0.12)"}`,
+                          borderRadius: 6, padding: "3px 8px", color: isActive ? "#4ade80" : "rgba(255,255,255,0.3)",
+                          fontSize: 13, cursor: "pointer",
+                        }}>{isActive ? "✓" : "○"}</button>
+                        {/* Elimina definitivamente */}
+                        <button title="Elimina definitivamente" onClick={async () => {
+                          if (!confirm(`Eliminare ${p.name} definitivamente dal roster?`)) return;
                           const updated = await fetch(`${API_URL}/campaigns/${campaign.id}/players/${cp.id}`, { method: "DELETE" }).then(r => r.json());
                           setCampaign(updated);
                         }} style={{
-                          background: "rgba(239,68,68,0.12)", border: "1px solid rgba(239,68,68,0.3)",
-                          borderRadius: 6, padding: "3px 8px", color: "#f87171", fontSize: 12,
-                          cursor: "pointer", flexShrink: 0,
-                        }}>✕</button>
+                          background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.25)",
+                          borderRadius: 6, padding: "3px 8px", color: "#f87171", fontSize: 13,
+                          cursor: "pointer",
+                        }}>🗑</button>
                       </div>
                     </div>
-                    <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
+
+                    {/* Barre HP/FP */}
+                    <div style={{ display: "flex", gap: 12, marginTop: 10 }}>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3 }}>PF {p.hp}/{p.max_hp}</div>
-                        <div style={{ height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden" }}>
-                          <div style={{ height: "100%", width: `${hpPct}%`, background: hpPct > 50 ? "#22c55e" : hpPct > 25 ? "#f59e0b" : "#ef4444", borderRadius: 3, transition: "width 0.3s" }} />
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 2 }}>PF {p.hp}/{p.max_hp}</div>
+                        <div style={{ height: 5, background: "rgba(255,255,255,0.08)", borderRadius: 3, overflow: "hidden" }}>
+                          <div style={{ height: "100%", width: `${hpPct}%`, background: hpPct > 50 ? "#22c55e" : hpPct > 25 ? "#f59e0b" : "#ef4444", borderRadius: 3 }} />
                         </div>
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginBottom: 3 }}>FP {p.fp}/{p.max_fp}</div>
-                        <div style={{ height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden" }}>
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", marginBottom: 2 }}>FP {p.fp}/{p.max_fp}</div>
+                        <div style={{ height: 5, background: "rgba(255,255,255,0.08)", borderRadius: 3, overflow: "hidden" }}>
                           <div style={{ height: "100%", width: `${fpPct}%`, background: "#60a5fa", borderRadius: 3 }} />
                         </div>
                       </div>
                     </div>
+
+                    {/* Magie */}
                     {p.spells?.length > 0 && (
-                      <div style={{ marginTop: 8 }}>
-                        <div style={{ fontSize: 9, color: "#c4b5fd", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 3 }}>
-                          {["sci_fi","cyberpunk"].includes(campaign.genre) ? "⚡ Psionici" : "✨ Magie"}
-                        </div>
-                        <div style={{ display: "flex", gap: 3, flexWrap: "wrap" }}>
-                          {p.spells.map(s => (
-                            <span key={s.spell_id} style={{ fontSize: 10, background: "rgba(168,85,247,0.12)", border: "1px solid rgba(168,85,247,0.25)", borderRadius: 4, padding: "1px 6px", color: "#c4b5fd" }}>
-                              {s.spell_id.replace(/_/g, " ")} {s.skill_level}
-                            </span>
-                          ))}
-                        </div>
+                      <div style={{ marginTop: 7, display: "flex", gap: 3, flexWrap: "wrap" }}>
+                        {p.spells.map(s => (
+                          <span key={s.spell_id} style={{ fontSize: 10, background: "rgba(168,85,247,0.12)", border: "1px solid rgba(168,85,247,0.22)", borderRadius: 4, padding: "1px 6px", color: "#c4b5fd" }}>
+                            {s.spell_id.replace(/_/g, " ")} {s.skill_level}
+                          </span>
+                        ))}
                       </div>
                     )}
+
+                    {/* Storia */}
                     {cp.adventure_history?.length > 0 && (
-                      <div style={{ marginTop: 10, fontSize: 11, color: "rgba(255,255,255,0.35)" }}>
-                        Ultima avventura: {cp.adventure_history[cp.adventure_history.length - 1].adventure_name}
+                      <div style={{ marginTop: 7, fontSize: 11, color: "rgba(255,255,255,0.3)" }}>
+                        {cp.adventure_history.length} avventura/e · ultima: {cp.adventure_history[cp.adventure_history.length - 1].adventure_name}
                       </div>
                     )}
                   </div>

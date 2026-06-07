@@ -5222,6 +5222,20 @@ async def api_remove_player(campaign_id: str, campaign_player_id: str):
     return campaign.model_dump()
 
 
+@app.patch("/campaigns/{campaign_id}/players/{campaign_player_id}/active")
+async def api_toggle_player_active(campaign_id: str, campaign_player_id: str, body: dict):
+    campaign = _load_campaign(campaign_id)
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campagna non trovata")
+    for cp in campaign.players:
+        if cp.id == campaign_player_id:
+            cp.active = bool(body.get("active", True))
+            from .campaign_store import save_campaign as _save_campaign
+            _save_campaign(campaign)
+            return campaign.model_dump()
+    raise HTTPException(status_code=404, detail="Giocatore non trovato")
+
+
 class _CompleteAdventureReq(BaseModel):
     adventure_id: str
     adventure_name: str
