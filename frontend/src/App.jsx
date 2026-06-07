@@ -1229,6 +1229,27 @@ function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
             </div>{/* /inner stats-skills-adv flex */}
           </div>{/* /right column */}
         </div>{/* /avatar+right flex */}
+        {/* Magie / Poteri psionici */}
+        {player.spells?.length > 0 && (
+          <div style={{ marginTop: 12 }}>
+            <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "#c4b5fd", marginBottom: 6 }}>
+              ✨ Magie / Poteri psionici
+            </div>
+            <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+              {player.spells.map(s => (
+                <span key={s.spell_id} style={{
+                  fontSize: 11, padding: "2px 9px", borderRadius: 5,
+                  background: "rgba(168,85,247,0.12)", border: "1px solid rgba(168,85,247,0.3)",
+                  color: "#c4b5fd",
+                }}>
+                  <span style={{ fontWeight: 700 }}>{s.skill_level}</span>
+                  {" "}{s.spell_id.replace(/_/g, " ")}
+                  {s.college ? <span style={{ opacity: 0.55, fontSize: 10 }}> · {s.college}</span> : null}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
         {/* Inventario / Equipaggiamento */}
         <EquipmentPanel player={player} onPlayersUpdate={onPlayersUpdate} />
       </div>

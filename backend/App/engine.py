@@ -322,9 +322,20 @@ def _equip_player_from_items(player: "Player", genre: str = "") -> None:
                 id=eid, name=item, category="misc", quantity=1,
             ))
 
-    # Se non ha ancora alcuna arma, auto-equip dall'archetipo
+    # Se non ha ancora alcuna arma, auto-equip dall'archetipo.
+    # I caster (mage/cleric/medium/telepath) che hanno già incantesimi non
+    # ricevono armi da fuoco di default — usano le magie come azione principale.
+    _CASTER_ARCHETYPES = {"mage", "cleric", "medium", "telepath", "shaman"}
+    _is_caster = player.archetype.lower() in _CASTER_ARCHETYPES or bool(player.spells)
     if not any(a.attack_kind for a in player.actions):
         wid, packs = default_weapon_for_archetype(player.archetype, genre)
+        # Blocca armi da fuoco ai caster: se l'arma è ranged con ammo > 0
+        # e il personaggio è un caster, salta l'auto-equip.
+        if _is_caster and wid:
+            from .data_weapons import WEAPON_BY_ID as _WBI
+            _w = _WBI.get(wid, {})
+            if _w.get("attack_kind") == "ranged" and _w.get("ammo", 0) > 0:
+                wid = None
         if wid:
             wd = get_weapon(wid)
             action_dict = build_action_from_weapon(wid)
