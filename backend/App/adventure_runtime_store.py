@@ -197,6 +197,8 @@ def list_runtimes(genre_filter: str | None = None) -> list[dict]:
                     "errors":           len(validation.get("errors") or []),
                     "has_live_state":   bool(data.get("live_game_state")),
                     "folder":           path.parent.name,
+                    "premise":          (definition.get("premise") or "")[:200],
+                    "cover_url":        f"/catalog-assets/{rid}_brief_card.png",
                 })
             except Exception:
                 continue

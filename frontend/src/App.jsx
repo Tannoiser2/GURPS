@@ -13565,7 +13565,7 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
             ) : (
               <div style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
                 gap: 10,
               }}>
                 {adventures.map(a => {
@@ -13574,32 +13574,52 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
                     <div key={a.id}
                       onClick={() => setSelectedAdv(sel ? null : a)}
                       style={{
-                        borderRadius: 12, padding: "14px 16px", cursor: "pointer",
-                        transition: "border-color 0.15s, background 0.15s",
-                        border: `2px solid ${sel ? "rgba(168,85,247,0.7)" : "rgba(255,255,255,0.1)"}`,
-                        background: sel ? "rgba(168,85,247,0.13)" : "rgba(255,255,255,0.05)",
+                        borderRadius: 12, cursor: "pointer", overflow: "hidden",
+                        transition: "border-color 0.15s, box-shadow 0.15s",
+                        border: `2px solid ${sel ? "rgba(168,85,247,0.8)" : "rgba(255,255,255,0.08)"}`,
+                        boxShadow: sel ? "0 0 16px rgba(168,85,247,0.3)" : "none",
+                        background: "rgba(255,255,255,0.04)",
                         position: "relative",
                       }}
                     >
+                      {/* Immagine copertina */}
+                      {a.cover_url ? (
+                        <img
+                          src={`${API_URL}${a.cover_url}`}
+                          alt={a.title}
+                          style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }}
+                          onError={e => { e.target.style.display = "none"; }}
+                        />
+                      ) : (
+                        <div style={{ width: "100%", aspectRatio: "16/9", background: "rgba(168,85,247,0.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28 }}>
+                          {GENRE_ICONS[a.genre] || "📖"}
+                        </div>
+                      )}
+                      {/* Spunta selezione */}
                       {sel && (
-                        <span style={{
-                          position: "absolute", top: 8, right: 10,
-                          fontSize: 14, color: "#a855f7", fontWeight: 800,
-                        }}>✓</span>
+                        <div style={{
+                          position: "absolute", top: 6, right: 6,
+                          background: "#7c3aed", borderRadius: "50%",
+                          width: 22, height: 22, display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: 12, fontWeight: 800, color: "#fff",
+                        }}>✓</div>
                       )}
-                      <div style={{ fontWeight: 700, fontSize: 13, color: "#fff", marginBottom: 5, paddingRight: 16 }}>
-                        {a.title || a.id}
+                      {/* Testo sotto l'immagine */}
+                      <div style={{ padding: "10px 12px 12px" }}>
+                        <div style={{ fontWeight: 700, fontSize: 12, color: "#fff", marginBottom: 3, lineHeight: 1.3 }}>
+                          {a.title || a.id}
+                        </div>
+                        {a.genre && (
+                          <div style={{ fontSize: 9, color: "#a855f7", fontWeight: 600, marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                            {CAMPAIGN_GENRE_LABELS[a.genre] || a.genre}
+                          </div>
+                        )}
+                        {a.premise && (
+                          <div style={{ color: "rgba(255,255,255,0.38)", fontSize: 10, lineHeight: 1.4 }}>
+                            {a.premise.slice(0, 80)}{a.premise.length > 80 ? "…" : ""}
+                          </div>
+                        )}
                       </div>
-                      {a.genre && (
-                        <div style={{ fontSize: 10, color: "#a855f7", fontWeight: 600, marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                          {CAMPAIGN_GENRE_LABELS[a.genre] || a.genre}
-                        </div>
-                      )}
-                      {a.premise && (
-                        <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, lineHeight: 1.4 }}>
-                          {a.premise.slice(0, 90)}{a.premise.length > 90 ? "…" : ""}
-                        </div>
-                      )}
                     </div>
                   );
                 })}

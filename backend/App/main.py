@@ -123,6 +123,14 @@ _RATE_RULES: list[tuple[str, int, int]] = [
 
 app = FastAPI()
 
+# Immagini di copertina avventure — servite sia in dev che in prod
+_CATALOG_ASSETS = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "..", "data", "compiled_adventures", "_catalogo", "assets")
+)
+if os.path.isdir(_CATALOG_ASSETS):
+    from fastapi.staticfiles import StaticFiles as _CatalogStatic
+    app.mount("/catalog-assets", _CatalogStatic(directory=_CATALOG_ASSETS), name="catalog-assets")
+
 # Frontend buildato (frontend/dist): se esiste, lo stesso processo backend serve
 # anche la UI → un solo uvicorn per tutto in locale. In produzione (immagine
 # Docker del solo backend su Render) la dir NON esiste, quindi tutto questo è un
