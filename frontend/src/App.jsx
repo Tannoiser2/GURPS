@@ -1076,7 +1076,7 @@ function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
 
   // Skill con livello > 0, ordinate per livello decrescente — max 10
   const topSkills = Object.entries(skills)
-    .filter(([, v]) => v > 0)
+    .filter(([k, v]) => v > 0 && !k.startsWith("spell:"))
     .sort(([, a], [, b]) => b - a)
     .slice(0, 10);
 
@@ -1143,106 +1143,112 @@ function PlayerCardPanel({ player, avatar, onClose, onPlayersUpdate }) {
               }}>✕</button>
             </div>
 
-            <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
-          {/* Stats */}
-          <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-            {Object.entries(stats).map(([k, v]) => (
-              <div key={k} style={{
-                display: "flex", flexDirection: "column", alignItems: "center",
-                padding: "6px 10px", borderRadius: 8,
-                background: "rgba(255,255,255,0.04)", border: `1px solid ${STAT_COLOR[k] || "var(--border)"}22`,
-                minWidth: 44,
-              }}>
-                <span style={{ fontSize: 10, color: STAT_COLOR[k] || "var(--text)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>
-                  {STAT_SHORT[k] || k}
-                </span>
-                <span style={{ fontSize: 20, fontWeight: 800, color: STAT_COLOR[k] || "var(--text-h)", lineHeight: 1.2 }}>{v}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Skills top */}
-          {topSkills.length > 0 && (
-            <div style={{ flex: 1, minWidth: 200 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
-                Skill principali
-              </div>
-              <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
-                {topSkills.map(([key, level]) => {
-                  const skillDef = SKILL_LIST.find(s => s.key === key);
-                  const statKey = skillDef?.stat;
-                  const color = STAT_COLOR[statKey] || "var(--text)";
-                  return (
-                    <span key={key} style={{
-                      fontSize: 11, padding: "2px 8px", borderRadius: 5,
-                      background: `${color}18`, border: `1px solid ${color}44`,
-                      color: "var(--text-h)",
-                    }}>
-                      <span style={{ color, fontWeight: 700 }}>{level}</span>
-                      {" "}{skillDef?.label || key}
+            {/* Riga 1: Stats + Skill principali */}
+            <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginBottom: 10 }}>
+              {/* Stats */}
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                {Object.entries(stats).map(([k, v]) => (
+                  <div key={k} style={{
+                    display: "flex", flexDirection: "column", alignItems: "center",
+                    padding: "6px 10px", borderRadius: 8,
+                    background: "rgba(255,255,255,0.04)", border: `1px solid ${STAT_COLOR[k] || "var(--border)"}22`,
+                    minWidth: 44,
+                  }}>
+                    <span style={{ fontSize: 10, color: STAT_COLOR[k] || "var(--text)", fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                      {STAT_SHORT[k] || k}
                     </span>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Vantaggi */}
-          {advantages.length > 0 && (
-            <div style={{ minWidth: 140 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
-                Vantaggi
-              </div>
-              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                {advantages.map((adv, i) => (
-                  <span key={i} style={{
-                    fontSize: 11, padding: "2px 7px", borderRadius: 5,
-                    background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.25)",
-                    color: "#4ade80",
-                  }} title={ADVANTAGE_LIST.find(a => a.key === adv)?.desc || ""}>
-                    {adv}
-                  </span>
+                    <span style={{ fontSize: 20, fontWeight: 800, color: STAT_COLOR[k] || "var(--text-h)", lineHeight: 1.2 }}>{v}</span>
+                  </div>
                 ))}
               </div>
+              {/* Skill principali (escluse spell:*) */}
+              {topSkills.length > 0 && (
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
+                    Skill principali
+                  </div>
+                  <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
+                    {topSkills.map(([key, level]) => {
+                      const skillDef = SKILL_LIST.find(s => s.key === key);
+                      const statKey = skillDef?.stat;
+                      const color = STAT_COLOR[statKey] || "var(--text)";
+                      return (
+                        <span key={key} style={{
+                          fontSize: 11, padding: "2px 8px", borderRadius: 5,
+                          background: `${color}18`, border: `1px solid ${color}44`,
+                          color: "var(--text-h)",
+                        }}>
+                          <span style={{ color, fontWeight: 700 }}>{level}</span>
+                          {" "}{skillDef?.label || key}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
-          )}
 
-          {/* Svantaggi */}
-          {disadvantages.length > 0 && (
-            <div style={{ minWidth: 140 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
-                Svantaggi
+            {/* Riga 2: Vantaggi + Svantaggi */}
+            {(advantages.length > 0 || disadvantages.length > 0) && (
+              <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginBottom: 10 }}>
+                {advantages.length > 0 && (
+                  <div style={{ minWidth: 140 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
+                      Vantaggi
+                    </div>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                      {advantages.map((adv, i) => (
+                        <span key={i} style={{
+                          fontSize: 11, padding: "2px 7px", borderRadius: 5,
+                          background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.25)",
+                          color: "#4ade80",
+                        }} title={ADVANTAGE_LIST.find(a => a.key === adv)?.desc || ""}>
+                          {adv}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {disadvantages.length > 0 && (
+                  <div style={{ minWidth: 140 }}>
+                    <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "var(--text-secondary)", marginBottom: 5 }}>
+                      Svantaggi
+                    </div>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                      {disadvantages.map((dis, i) => (
+                        <span key={i} style={{
+                          fontSize: 11, padding: "2px 7px", borderRadius: 5,
+                          background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.25)",
+                          color: "#f87171",
+                        }} title={DISADV_LIST.find(d => d.key === dis)?.desc || ""}>
+                          {dis}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
-              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                {disadvantages.map((dis, i) => (
-                  <span key={i} style={{
-                    fontSize: 11, padding: "2px 7px", borderRadius: 5,
-                    background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.25)",
-                    color: "#f87171",
-                  }} title={DISADV_LIST.find(d => d.key === dis)?.desc || ""}>
-                    {dis}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-            </div>{/* /inner stats-skills-adv flex */}
+            )}
           </div>{/* /right column */}
         </div>{/* /avatar+right flex */}
-        {/* Magie / Poteri psionici */}
+
+        {/* Riga 3: Magie / Poteri psionici — separata, sfondo viola distinto */}
         {player.spells?.length > 0 && (
-          <div style={{ marginTop: 12 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.5, color: "#c4b5fd", marginBottom: 6 }}>
+          <div style={{
+            marginTop: 12, padding: "10px 14px", borderRadius: 10,
+            background: "rgba(88,28,135,0.18)", border: "1px solid rgba(168,85,247,0.25)",
+          }}>
+            <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: 0.8, color: "#a78bfa", marginBottom: 8 }}>
               ✨ Magie / Poteri psionici
             </div>
             <div style={{ display: "flex", gap: 5, flexWrap: "wrap" }}>
               {player.spells.map(s => (
                 <span key={s.spell_id} style={{
-                  fontSize: 11, padding: "2px 9px", borderRadius: 5,
-                  background: "rgba(168,85,247,0.12)", border: "1px solid rgba(168,85,247,0.3)",
-                  color: "#c4b5fd",
+                  fontSize: 11, padding: "3px 10px", borderRadius: 6,
+                  background: "rgba(139,92,246,0.2)", border: "1px solid rgba(139,92,246,0.45)",
+                  color: "#e9d5ff",
                 }}>
-                  <span style={{ fontWeight: 700 }}>{s.skill_level}</span>
+                  <span style={{ fontWeight: 800, color: "#c4b5fd" }}>{s.skill_level}</span>
                   {" "}{s.spell_id.replace(/_/g, " ")}
                   {s.college ? <span style={{ opacity: 0.55, fontSize: 10 }}> · {s.college}</span> : null}
                 </span>

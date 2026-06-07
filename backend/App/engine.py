@@ -501,7 +501,19 @@ def build_players_from_dicts(
                 pl.skills[f"spell:{entry.spell_id}"] = entry.skill_level
 
     # ── Auto-equip: converte items in equipment/actions per i player senza armi ─
+    _CASTER_ARCHS = {"mage", "cleric", "medium", "telepath", "shaman"}
     for pl in players:
+        # Rimuovi armi da fuoco ranged dai caster (fix per equipment già pre-popolato)
+        if pl.archetype.lower() in _CASTER_ARCHS or pl.spells:
+            from .data_weapons import WEAPON_BY_ID as _WBI2
+            gun_wids = {
+                eq.weapon_id for eq in pl.equipment
+                if eq.weapon_id and _WBI2.get(eq.weapon_id, {}).get("attack_kind") == "ranged"
+                   and _WBI2.get(eq.weapon_id, {}).get("ammo", 0) > 0
+            }
+            if gun_wids:
+                pl.equipment = [eq for eq in pl.equipment if eq.weapon_id not in gun_wids]
+                pl.actions = [a for a in pl.actions if a.weapon_id not in gun_wids]
         if not pl.equipment:
             _equip_player_from_items(pl, genre)
 
