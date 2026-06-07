@@ -13415,7 +13415,7 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
       display: "flex", flexDirection: "column", alignItems: "center",
     }}>
       {/* Header campagna */}
-      <div style={{ width: "100%", maxWidth: 560, marginBottom: 28 }}>
+      <div style={{ width: "100%", maxWidth: 900, marginBottom: 28 }}>
         <button onClick={onBack} style={{ background: "none", border: "none", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontSize: 13, marginBottom: 16, padding: 0 }}>
           ← Campagne
         </button>
@@ -13432,12 +13432,12 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
       </div>
 
       {/* Tab bar */}
-      <div style={{ width: "100%", maxWidth: 560, display: "flex", gap: 4, marginBottom: 20, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+      <div style={{ width: "100%", maxWidth: 900, display: "flex", gap: 4, marginBottom: 20, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
         <button style={tabBtn(tab === "players")} onClick={() => setTab("players")}>Personaggi</button>
         <button style={tabBtn(tab === "adventure")} onClick={() => setTab("adventure")}>Avventura</button>
       </div>
 
-      <div style={{ width: "100%", maxWidth: 560 }}>
+      <div style={{ width: "100%", maxWidth: 900 }}>
 
         {/* TAB: Personaggi */}
         {tab === "players" && (
@@ -13563,24 +13563,47 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
                 Nessuna avventura compatibile con il genere <strong>{CAMPAIGN_GENRE_LABELS[campaign.genre]}</strong>.
               </div>
             ) : (
-              adventures.map(a => (
-                <div key={a.id}
-                  onClick={() => setSelectedAdv(selectedAdv?.id === a.id ? null : a)}
-                  style={{
-                    ...cardStyle, cursor: "pointer", transition: "border-color 0.15s",
-                    borderColor: selectedAdv?.id === a.id ? "rgba(168,85,247,0.6)" : "rgba(255,255,255,0.12)",
-                    background: selectedAdv?.id === a.id ? "rgba(168,85,247,0.1)" : "rgba(255,255,255,0.06)",
-                  }}
-                >
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                    <div>
-                      <div style={{ fontWeight: 700, fontSize: 15 }}>{a.title || a.id}</div>
-                      {a.premise && <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginTop: 3 }}>{a.premise.slice(0, 120)}{a.premise.length > 120 ? "…" : ""}</div>}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                gap: 10,
+              }}>
+                {adventures.map(a => {
+                  const sel = selectedAdv?.id === a.id;
+                  return (
+                    <div key={a.id}
+                      onClick={() => setSelectedAdv(sel ? null : a)}
+                      style={{
+                        borderRadius: 12, padding: "14px 16px", cursor: "pointer",
+                        transition: "border-color 0.15s, background 0.15s",
+                        border: `2px solid ${sel ? "rgba(168,85,247,0.7)" : "rgba(255,255,255,0.1)"}`,
+                        background: sel ? "rgba(168,85,247,0.13)" : "rgba(255,255,255,0.05)",
+                        position: "relative",
+                      }}
+                    >
+                      {sel && (
+                        <span style={{
+                          position: "absolute", top: 8, right: 10,
+                          fontSize: 14, color: "#a855f7", fontWeight: 800,
+                        }}>✓</span>
+                      )}
+                      <div style={{ fontWeight: 700, fontSize: 13, color: "#fff", marginBottom: 5, paddingRight: 16 }}>
+                        {a.title || a.id}
+                      </div>
+                      {a.genre && (
+                        <div style={{ fontSize: 10, color: "#a855f7", fontWeight: 600, marginBottom: 4, textTransform: "uppercase", letterSpacing: 0.5 }}>
+                          {CAMPAIGN_GENRE_LABELS[a.genre] || a.genre}
+                        </div>
+                      )}
+                      {a.premise && (
+                        <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, lineHeight: 1.4 }}>
+                          {a.premise.slice(0, 90)}{a.premise.length > 90 ? "…" : ""}
+                        </div>
+                      )}
                     </div>
-                    {selectedAdv?.id === a.id && <span style={{ color: "#a855f7", fontSize: 20, flexShrink: 0 }}>✓</span>}
-                  </div>
-                </div>
-              ))
+                  );
+                })}
+              </div>
             )}
             {error && <div style={{ color: "#f87171", fontSize: 13 }}>{error}</div>}
             <button
@@ -13589,7 +13612,7 @@ function CampaignLobby({ campaign: initialCampaign, onStartAdventure, onBack, on
               style={{
                 background: selectedAdv ? "linear-gradient(135deg,#7c3aed,#a855f7)" : "rgba(255,255,255,0.08)",
                 border: "none", borderRadius: 12, padding: "13px", color: selectedAdv ? "#fff" : "rgba(255,255,255,0.3)",
-                fontWeight: 700, fontSize: 15, cursor: selectedAdv ? "pointer" : "default", marginTop: 8,
+                fontWeight: 700, fontSize: 15, cursor: selectedAdv ? "pointer" : "default", marginTop: 4,
               }}
             >
               {starting ? "Avvio..." : selectedAdv ? `Inizia "${selectedAdv.title || selectedAdv.id}"` : "Seleziona un'avventura"}
