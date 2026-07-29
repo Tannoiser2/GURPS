@@ -2105,6 +2105,10 @@ function TextProviderPicker({ value, onChange, available, big = false }) {
     { key: "claude", label: "Claude", icon: "🤖" },
     { key: "openai", label: "OpenAI", icon: "🟢" },
   ];
+  // IA locale (LM Studio): mostrata solo se attivata lato backend (LMSTUDIO_ENABLED).
+  if (available.lmstudio) {
+    options.push({ key: "lmstudio", label: "IA Locale", icon: "🖥️" });
+  }
   return (
     <div style={{ display: "flex", alignItems: "center", gap: big ? 8 : 6 }}>
       <span style={{ fontSize: big ? 11 : 9, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 700 }}>Testo</span>
@@ -2147,7 +2151,7 @@ function SetupScreen({ onStart, onSandbox, onAddToCampaign = null, campaignGenre
   const [adventureScale, setAdventureScale] = useState("standard");
   const [provider, setProvider] = useState("claude");
   const [imageProvider, setImageProvider] = useState("auto");
-  const [providersAvail, setProvidersAvail] = useState({ claude: true, openai: false, gemini: false });
+  const [providersAvail, setProvidersAvail] = useState({ claude: true, openai: false, gemini: false, lmstudio: false });
   const [buildVersion, setBuildVersion] = useState("");
   const [pool, setPool] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -2230,7 +2234,8 @@ function SetupScreen({ onStart, onSandbox, onAddToCampaign = null, campaignGenre
     fetch(`${API_URL}/game/providers-available`).then(r => r.json()).then(d => {
       setProvidersAvail(d);
       if (!d.claude && d.openai) setProvider("openai");
-      else if (!d.claude && !d.openai && d.gemini) setProvider("gemini");
+      else if (!d.claude && !d.openai && d.lmstudio) setProvider("lmstudio");
+      else if (!d.claude && !d.openai && !d.lmstudio && d.gemini) setProvider("gemini");
     }).catch(() => {});
     fetch(`${API_URL}/health`).then(r => r.json()).then(d => {
       if (d.version) setBuildVersion(d.version);

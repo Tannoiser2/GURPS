@@ -344,6 +344,13 @@ def health_check():
             "anthropic": _set("ANTHROPIC_API_KEY"),
             "openai": _set("OPENAI_API_KEY"),
             "google": _set("GOOGLE_AI_STUDIO_KEY") or _set("GOOGLE_API_KEY"),
+            "lmstudio": claude_service.LMSTUDIO_ENABLED,
+        },
+        # Motore LLM locale (LM Studio): mostrato solo se attivato via LMSTUDIO_ENABLED.
+        "lmstudio": {
+            "enabled": claude_service.LMSTUDIO_ENABLED,
+            "base_url": claude_service.LMSTUDIO_BASE_URL if claude_service.LMSTUDIO_ENABLED else None,
+            "model": claude_service.LMSTUDIO_MODEL if claude_service.LMSTUDIO_ENABLED else None,
         },
     }
 
@@ -4214,6 +4221,7 @@ def providers_available():
         "claude": bool(os.getenv("ANTHROPIC_API_KEY")),
         "openai": bool(OPENAI_API_KEY) and _OPENAI_AVAILABLE,
         "gemini": bool((os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY"))) and _GOOGLE_GENAI_AVAILABLE,
+        "lmstudio": claude_service.LMSTUDIO_ENABLED and _OPENAI_AVAILABLE,
     }
 
 def _dedouble_glyph_line(s: str) -> str:

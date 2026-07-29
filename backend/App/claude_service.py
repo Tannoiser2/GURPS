@@ -44,6 +44,21 @@ _COMPRESS_KEEP_RECENT = 6  # keep last N messages uncompressed
 OPENAI_TEXT_MODEL = "gpt-4o"
 OPENAI_IMAGE_MODEL = "dall-e-3"
 OPENAI_IMAGE_EDIT_MODEL = "gpt-image-1"
+
+# ── LM Studio (motore LLM locale, API OpenAI-compatibile) ─────────────────────
+# LM Studio espone un server compatibile con l'SDK OpenAI (default localhost:1234).
+# Usa il modello attualmente caricato in LM Studio; la api_key è ignorata dal server.
+# Interruttore esplicito: LM Studio è disponibile solo se attivato di proposito.
+# Evita che una sessione cloud (claude/openai) cada in fallback su un localhost morto.
+LMSTUDIO_ENABLED = os.getenv("LMSTUDIO_ENABLED", "0") == "1"
+LMSTUDIO_BASE_URL = os.getenv("LMSTUDIO_BASE_URL", "http://localhost:1234/v1")
+LMSTUDIO_MODEL = os.getenv("LMSTUDIO_MODEL", "local-model")
+LMSTUDIO_API_KEY = os.getenv("LMSTUDIO_API_KEY", "lm-studio")
+# Forza response_format={"type":"json_object"} quando ci si aspetta JSON (turni Master).
+# I modelli locali sono meno disciplinati: il json mode riduce i fallback.
+LMSTUDIO_JSON_MODE = os.getenv("LMSTUDIO_JSON_MODE", "1") == "1"
+# Timeout più ampio: un modello locale (es. 32B) è più lento delle API cloud.
+LMSTUDIO_TIMEOUT = float(os.getenv("LMSTUDIO_TIMEOUT", "300"))
 PDF_COMPILER_MAX_INPUT_CHARS = int(os.getenv("PDF_COMPILER_MAX_INPUT_CHARS", "180000"))
 PDF_COMPILER_MAX_OUTPUT_TOKENS = int(os.getenv("PDF_COMPILER_MAX_OUTPUT_TOKENS", "16000"))
 
@@ -253,12 +268,14 @@ def _clear_last_image_error() -> None:
     LAST_IMAGE_ERROR = ""
 
 # Provider attivo per questa sessione — impostato da set_active_provider()
-_ACTIVE_PROVIDER: str = "claude"  # "claude" | "openai"
+_ACTIVE_PROVIDER: str = "claude"  # "claude" | "openai" | "lmstudio"
+
+_VALID_TEXT_PROVIDERS = ("claude", "openai", "lmstudio")
 
 
 def set_active_provider(provider: str) -> None:
     global _ACTIVE_PROVIDER
-    _ACTIVE_PROVIDER = provider if provider in ("claude", "openai") else "claude"
+    _ACTIVE_PROVIDER = provider if provider in _VALID_TEXT_PROVIDERS else "claude"
     print(f"[provider] attivo: {_ACTIVE_PROVIDER}")
 
 
@@ -266,11 +283,15 @@ def _text_provider_available(provider: str | None = None) -> bool:
     selected = provider or _ACTIVE_PROVIDER
     if selected == "openai":
         return bool(OPENAI_API_KEY) and _OPENAI_AVAILABLE
+    if selected == "lmstudio":
+        # Disponibile solo se attivato esplicitamente (LMSTUDIO_ENABLED) e con l'SDK
+        # openai presente. La reale raggiungibilità è verificata a runtime dalla chiamata.
+        return LMSTUDIO_ENABLED and _OPENAI_AVAILABLE and bool(LMSTUDIO_BASE_URL)
     return bool(API_KEY)
 
 
 def _active_source_label() -> str:
-    return _ACTIVE_PROVIDER if _ACTIVE_PROVIDER in ("claude", "openai") else "unknown"
+    return _ACTIVE_PROVIDER if _ACTIVE_PROVIDER in _VALID_TEXT_PROVIDERS else "unknown"
 
 PHASE_BLUEPRINTS = {
     1: {"phase_name": "Ingresso", "zone_goal_template": "aprire l'accesso e capire la minaccia", "is_final_phase": False},
@@ -500,10 +521,46 @@ def _call_openai(prompt: str, max_tokens: int = 1200) -> str:
     return response.choices[0].message.content
 
 
-def _call_text_model(prompt: str, max_tokens: int = 1200) -> str:
-    """Dispatcher: usa OpenAI o Claude in base al provider attivo."""
+def _call_lmstudio(prompt: str, max_tokens: int = 1200, *, json_mode: bool = False) -> str:
+    """Chiama un modello locale via LM Studio (API OpenAI-compatibile).
+
+    Riusa l'SDK openai già importato puntando al base_url locale. La api_key è
+    ignorata dal server LM Studio. Con json_mode forza response_format json_object
+    per irrobustire l'output strutturato dei modelli locali (turni Master).
+    """
+    if not _OPENAI_AVAILABLE:
+        raise RuntimeError("SDK openai non installato (serve anche per LM Studio)")
+    client = _openai_module.OpenAI(
+        base_url=LMSTUDIO_BASE_URL, api_key=LMSTUDIO_API_KEY, timeout=LMSTUDIO_TIMEOUT
+    )
+    kwargs: dict = {
+        "model": LMSTUDIO_MODEL,
+        "max_tokens": max_tokens,
+        "messages": [{"role": "user", "content": prompt}],
+    }
+    if json_mode and LMSTUDIO_JSON_MODE:
+        kwargs["response_format"] = {"type": "json_object"}
+    try:
+        response = client.chat.completions.create(**kwargs)
+    except Exception:
+        _session_tokens["errors"] += 1
+        raise
+    usage = getattr(response, "usage", None)
+    if usage:
+        # Modello locale → costo 0 (LMSTUDIO_MODEL non è in _PRICE_PER_M).
+        _record_usage(LMSTUDIO_MODEL, getattr(usage, "prompt_tokens", 0), getattr(usage, "completion_tokens", 0))
+    content = response.choices[0].message.content
+    if not content:
+        raise RuntimeError("LM Studio ha restituito una risposta vuota (modello caricato?)")
+    return content
+
+
+def _call_text_model(prompt: str, max_tokens: int = 1200, *, json_mode: bool = False) -> str:
+    """Dispatcher: usa OpenAI, Claude o LM Studio in base al provider attivo."""
     if _ACTIVE_PROVIDER == "openai":
         return _call_openai(prompt, max_tokens)
+    if _ACTIVE_PROVIDER == "lmstudio":
+        return _call_lmstudio(prompt, max_tokens, json_mode=json_mode)
     return _call_claude(prompt, max_tokens)
 
 
@@ -511,13 +568,17 @@ def _call_text_model_with_provider(provider: str, prompt: str, max_tokens: int =
     """Chiama esplicitamente un provider specifico, ignorando _ACTIVE_PROVIDER."""
     if provider == "openai":
         return _call_openai(prompt, max_tokens)
+    if provider == "lmstudio":
+        return _call_lmstudio(prompt, max_tokens)
     return _call_claude(prompt, max_tokens)
 
 
 def _other_provider() -> str | None:
-    """Restituisce il provider alternativo disponibile, o None se non c'è."""
-    other = "claude" if _ACTIVE_PROVIDER == "openai" else "openai"
-    return other if _text_provider_available(other) else None
+    """Restituisce il primo provider alternativo disponibile, o None se non c'è."""
+    for candidate in _VALID_TEXT_PROVIDERS:
+        if candidate != _ACTIVE_PROVIDER and _text_provider_available(candidate):
+            return candidate
+    return None
 
 
 # ── Setup e configurazione ────────────────────────────────────────────────────
@@ -7502,6 +7563,11 @@ Rispondi SOLO con JSON puro — NO backtick, NO ```json, NO testo prima o dopo:
             except Exception as _e:
                 print(f"[retry] cache call failed ({_e}), trying standard call")
                 return _call_claude(combined, max_tokens=max_tokens, model=mdl)
+        # lmstudio: forza json_mode — il turno Master richiede JSON puro e i modelli
+        # locali ne hanno bisogno per non finire in fallback. Il routing L3 (mdl) non
+        # si applica in locale: c'è un solo modello caricato.
+        if _ACTIVE_PROVIDER == "lmstudio":
+            return _call_lmstudio(combined, max_tokens=max_tokens, json_mode=True)
         return _call_text_model(combined, max_tokens=max_tokens)
 
     # Livello 1: chiamata normale
