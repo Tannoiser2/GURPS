@@ -151,6 +151,28 @@ class LMStudioProviderTests(unittest.TestCase):
         raw = "<think>rifletto sulla scena e sul JSON</think>\n{\"narrative\":\"ok\"}"
         self.assertEqual(cs._strip_reasoning(raw), '{"narrative":"ok"}')
 
+    def test_no_think_prepends_system_message(self):
+        capture: dict = {}
+        fake = _fake_openai_module(capture)
+        with mock.patch.object(cs, "_openai_module", fake), \
+             mock.patch.object(cs, "_OPENAI_AVAILABLE", True), \
+             mock.patch.object(cs, "LMSTUDIO_NO_THINK", True):
+            cs._call_lmstudio("prompt utente", max_tokens=16)
+        msgs = capture["calls"][0]["messages"]
+        self.assertEqual(msgs[0], {"role": "system", "content": "/no_think"})
+        self.assertEqual(msgs[-1], {"role": "user", "content": "prompt utente"})
+
+    def test_no_think_off_sends_only_user_message(self):
+        capture: dict = {}
+        fake = _fake_openai_module(capture)
+        with mock.patch.object(cs, "_openai_module", fake), \
+             mock.patch.object(cs, "_OPENAI_AVAILABLE", True), \
+             mock.patch.object(cs, "LMSTUDIO_NO_THINK", False):
+            cs._call_lmstudio("prompt utente", max_tokens=16)
+        msgs = capture["calls"][0]["messages"]
+        self.assertEqual(len(msgs), 1)
+        self.assertEqual(msgs[0]["role"], "user")
+
     def test_empty_content_raises_helpful_error(self):
         """Modello che 'pensa' e non produce testo → content vuoto → errore chiaro."""
         class _Msg:

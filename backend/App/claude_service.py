@@ -63,6 +63,11 @@ LMSTUDIO_API_KEY = os.getenv("LMSTUDIO_API_KEY", "lm-studio")
 # Forza response_format={"type":"json_object"} quando ci si aspetta JSON (turni Master).
 # I modelli locali sono meno disciplinati: il json mode riduce i fallback.
 LMSTUDIO_JSON_MODE = os.getenv("LMSTUDIO_JSON_MODE", "1") == "1"
+# Disattiva il "reasoning" dei modelli Qwen 3.x (soft switch /no_think): senza,
+# il modello può esaurire i token pensando e restituire una risposta vuota.
+# Default ON perché per questo gioco serve la risposta diretta, non la catena di
+# pensiero. Metti LMSTUDIO_NO_THINK=0 se usi un modello che non capisce /no_think.
+LMSTUDIO_NO_THINK = os.getenv("LMSTUDIO_NO_THINK", "1") == "1"
 # Timeout più ampio: un modello locale (es. 32B) è più lento delle API cloud.
 LMSTUDIO_TIMEOUT = float(os.getenv("LMSTUDIO_TIMEOUT", "300"))
 PDF_COMPILER_MAX_INPUT_CHARS = int(os.getenv("PDF_COMPILER_MAX_INPUT_CHARS", "180000"))
@@ -551,10 +556,16 @@ def _call_lmstudio(prompt: str, max_tokens: int = 1200, *, json_mode: bool = Fal
     client = _openai_module.OpenAI(
         base_url=LMSTUDIO_BASE_URL, api_key=LMSTUDIO_API_KEY, timeout=LMSTUDIO_TIMEOUT
     )
+    messages: list[dict] = []
+    if LMSTUDIO_NO_THINK:
+        # Soft switch Qwen 3.x: disattiva la catena di pensiero, così il modello
+        # produce direttamente la risposta invece di esaurire i token nel reasoning.
+        messages.append({"role": "system", "content": "/no_think"})
+    messages.append({"role": "user", "content": prompt})
     base_kwargs: dict = {
         "model": LMSTUDIO_MODEL,
         "max_tokens": max_tokens,
-        "messages": [{"role": "user", "content": prompt}],
+        "messages": messages,
     }
     want_json = json_mode and LMSTUDIO_JSON_MODE
 
