@@ -2019,8 +2019,6 @@ def start_game_from_selection(current_state: GameState, selected_player_ids: lis
 
 
 def threat_penalty(threat: int) -> int:
-    if threat >= 8:
-        return 2
     if threat >= 5:
         return 1
     return 0
@@ -3530,6 +3528,7 @@ def _resolve_action_roll(
         san_malus = 4 - san_val  # san=3→-1, san=2→-2, san=1→-3, san=0→-4
 
     effective_skill = base_skill_level + item_bonus + adv_bonus + coordination_bonus - difficulty - status_malus - threat_malus - san_malus
+    effective_skill = max(effective_skill, 5)  # floor: ogni azione ha almeno ~9% di possibilità
     margin = effective_skill - roll
     luck_detail = None
     if advantage_luck_rerolls(player.advantages) > 0 and margin < 0:

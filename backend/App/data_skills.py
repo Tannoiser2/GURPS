@@ -222,7 +222,7 @@ SKILL_INFO: dict[str, dict[str, str]] = {
     "seduzione":     {"stat": "empatia",      "difficulty": "M"},  # Seduzione SA/M
 }
 
-DEFAULT_PENALTY_BY_DIFFICULTY: dict[str, int] = {"E": 4, "M": 5, "D": 6}
+DEFAULT_PENALTY_BY_DIFFICULTY: dict[str, int] = {"E": 3, "M": 4, "D": 5}
 
 # Alcune abilita GURPS non hanno valore minimo. Il catalogo attuale usa ancora
 # macro-skill ampie, quindi questa lista resta prudente e va raffinata quando
