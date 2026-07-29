@@ -162,6 +162,25 @@ class LMStudioProviderTests(unittest.TestCase):
         self.assertEqual(msgs[0], {"role": "system", "content": "/no_think"})
         self.assertEqual(msgs[-1], {"role": "user", "content": "prompt utente"})
 
+    def test_min_output_tokens_bumps_small_budgets(self):
+        capture: dict = {}
+        fake = _fake_openai_module(capture)
+        with mock.patch.object(cs, "_openai_module", fake), \
+             mock.patch.object(cs, "_OPENAI_AVAILABLE", True), \
+             mock.patch.object(cs, "LMSTUDIO_MIN_OUTPUT_TOKENS", 3072):
+            cs._call_lmstudio("prompt", max_tokens=400)
+        # 400 richiesti ma il minimo (spazio per il reasoning) porta a 3072.
+        self.assertEqual(capture["calls"][0]["max_tokens"], 3072)
+
+    def test_min_output_tokens_keeps_larger_budgets(self):
+        capture: dict = {}
+        fake = _fake_openai_module(capture)
+        with mock.patch.object(cs, "_openai_module", fake), \
+             mock.patch.object(cs, "_OPENAI_AVAILABLE", True), \
+             mock.patch.object(cs, "LMSTUDIO_MIN_OUTPUT_TOKENS", 3072):
+            cs._call_lmstudio("prompt", max_tokens=4000)
+        self.assertEqual(capture["calls"][0]["max_tokens"], 4000)
+
     def test_no_think_off_sends_only_user_message(self):
         capture: dict = {}
         fake = _fake_openai_module(capture)

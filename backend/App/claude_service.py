@@ -68,6 +68,12 @@ LMSTUDIO_JSON_MODE = os.getenv("LMSTUDIO_JSON_MODE", "1") == "1"
 # Default ON perché per questo gioco serve la risposta diretta, non la catena di
 # pensiero. Metti LMSTUDIO_NO_THINK=0 se usi un modello che non capisce /no_think.
 LMSTUDIO_NO_THINK = os.getenv("LMSTUDIO_NO_THINK", "1") == "1"
+# Minimo di token di output per le chiamate locali. I modelli reasoning (Qwen 3.x)
+# consumano molti token "pensando": con budget piccoli (es. 400) esauriscono i token
+# nel <think> e restituiscono vuoto. Questo minimo garantisce spazio per pensare E
+# rispondere. Alzalo se il modello resta vuoto; abbassalo per risparmiare tempo con
+# modelli non-reasoning.
+LMSTUDIO_MIN_OUTPUT_TOKENS = int(os.getenv("LMSTUDIO_MIN_OUTPUT_TOKENS", "3072"))
 # Timeout più ampio: un modello locale (es. 32B) è più lento delle API cloud.
 LMSTUDIO_TIMEOUT = float(os.getenv("LMSTUDIO_TIMEOUT", "300"))
 PDF_COMPILER_MAX_INPUT_CHARS = int(os.getenv("PDF_COMPILER_MAX_INPUT_CHARS", "180000"))
@@ -562,9 +568,12 @@ def _call_lmstudio(prompt: str, max_tokens: int = 1200, *, json_mode: bool = Fal
         # produce direttamente la risposta invece di esaurire i token nel reasoning.
         messages.append({"role": "system", "content": "/no_think"})
     messages.append({"role": "user", "content": prompt})
+    # Garantisce spazio per il reasoning + la risposta: senza, i modelli "thinking"
+    # esauriscono un budget piccolo (es. 400) nel <think> e tornano vuoti.
+    effective_max_tokens = max(max_tokens, LMSTUDIO_MIN_OUTPUT_TOKENS)
     base_kwargs: dict = {
         "model": LMSTUDIO_MODEL,
-        "max_tokens": max_tokens,
+        "max_tokens": effective_max_tokens,
         "messages": messages,
     }
     want_json = json_mode and LMSTUDIO_JSON_MODE
