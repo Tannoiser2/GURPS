@@ -16,7 +16,13 @@ try:
     from google import genai as google_genai
     from google.genai import types as google_genai_types
     _GOOGLE_GENAI_AVAILABLE = True
-except Exception as _e:
+except (KeyboardInterrupt, SystemExit):
+    raise
+except BaseException as _e:
+    # google-genai è opzionale (solo generazione immagini Gemini). Cattura anche
+    # BaseException perché un binding nativo rotto a valle (es. panic pyo3 di
+    # cryptography per _cffi_backend mancante) solleva un PanicException che NON
+    # è un Exception: senza questa guardia l'intero server non si avvia.
     _GOOGLE_GENAI_AVAILABLE = False
     _GOOGLE_GENAI_IMPORT_ERROR = f"{type(_e).__name__}: {_e}"
     print(f"[google-genai] import fallito: {_GOOGLE_GENAI_IMPORT_ERROR}")
