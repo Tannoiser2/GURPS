@@ -527,37 +527,69 @@ def _call_openai(prompt: str, max_tokens: int = 1200) -> str:
     return response.choices[0].message.content
 
 
+_THINK_BLOCK_RE = re.compile(r"<think>.*?</think>", re.DOTALL | re.IGNORECASE)
+
+
+def _strip_reasoning(text: str) -> str:
+    """Rimuove i blocchi di ragionamento <think>...</think> che i modelli Qwen 3.x
+    (e altri "reasoning") possono anteporre alla risposta vera."""
+    if not text:
+        return text
+    return _THINK_BLOCK_RE.sub("", text).strip()
+
+
 def _call_lmstudio(prompt: str, max_tokens: int = 1200, *, json_mode: bool = False) -> str:
     """Chiama un modello locale via LM Studio (API OpenAI-compatibile).
 
     Riusa l'SDK openai già importato puntando al base_url locale. La api_key è
-    ignorata dal server LM Studio. Con json_mode forza response_format json_object
-    per irrobustire l'output strutturato dei modelli locali (turni Master).
+    ignorata dal server LM Studio. Con json_mode prova a forzare response_format
+    json_object; se il server lo rifiuta (LM Studio >=1.0 vuole json_schema/text)
+    ritenta senza — il JSON viene comunque estratto dal testo a valle.
     """
     if not _OPENAI_AVAILABLE:
         raise RuntimeError("SDK openai non installato (serve anche per LM Studio)")
     client = _openai_module.OpenAI(
         base_url=LMSTUDIO_BASE_URL, api_key=LMSTUDIO_API_KEY, timeout=LMSTUDIO_TIMEOUT
     )
-    kwargs: dict = {
+    base_kwargs: dict = {
         "model": LMSTUDIO_MODEL,
         "max_tokens": max_tokens,
         "messages": [{"role": "user", "content": prompt}],
     }
-    if json_mode and LMSTUDIO_JSON_MODE:
-        kwargs["response_format"] = {"type": "json_object"}
+    want_json = json_mode and LMSTUDIO_JSON_MODE
+
+    def _create(response_format: dict | None):
+        kwargs = dict(base_kwargs)
+        if response_format is not None:
+            kwargs["response_format"] = response_format
+        return client.chat.completions.create(**kwargs)
+
     try:
-        response = client.chat.completions.create(**kwargs)
-    except Exception:
-        _session_tokens["errors"] += 1
-        raise
+        response = _create({"type": "json_object"} if want_json else None)
+    except Exception as _e:
+        # Alcuni server LM Studio (>=1.0) non accettano json_object e rispondono
+        # 400 "response_format.type must be 'json_schema' or 'text'". In tal caso
+        # ritenta senza response_format: _extract_json_object recupera il JSON.
+        if want_json and "response_format" in str(_e):
+            try:
+                response = _create(None)
+            except Exception:
+                _session_tokens["errors"] += 1
+                raise
+        else:
+            _session_tokens["errors"] += 1
+            raise
     usage = getattr(response, "usage", None)
     if usage:
         # Modello locale → costo 0 (LMSTUDIO_MODEL non è in _PRICE_PER_M).
         _record_usage(LMSTUDIO_MODEL, getattr(usage, "prompt_tokens", 0), getattr(usage, "completion_tokens", 0))
-    content = response.choices[0].message.content
-    if not content:
-        raise RuntimeError("LM Studio ha restituito una risposta vuota (modello caricato?)")
+    content = _strip_reasoning(response.choices[0].message.content or "")
+    if not content.strip():
+        raise RuntimeError(
+            "LM Studio ha restituito una risposta vuota: il modello potrebbe aver "
+            "esaurito i token nel 'reasoning'. Disattiva il thinking del modello in "
+            "LM Studio o aumenta il context/max_tokens."
+        )
     return content
 
 

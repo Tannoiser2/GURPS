@@ -107,6 +107,80 @@ class LMStudioProviderTests(unittest.TestCase):
             cs._call_text_model_with_provider("lmstudio", "prompt", max_tokens=16)
         self.assertEqual(len(capture["calls"]), 1)
 
+    def test_json_object_rejected_retries_without_response_format(self):
+        """LM Studio >=1.0 rifiuta json_object (400): la call deve ritentare senza
+        response_format invece di fallire, così il turno Master non cade in fallback."""
+        capture: dict = {"calls": []}
+
+        class _Msg:
+            content = '{"narrative":"ok","options":[],"state_updates":{}}'
+
+        class _Choice:
+            message = _Msg()
+
+        class _Resp:
+            choices = [_Choice()]
+            usage = None
+
+        class _Completions:
+            def create(self, **kwargs):
+                capture["calls"].append(kwargs)
+                if "response_format" in kwargs:
+                    raise Exception("Error code: 400 - 'response_format.type' must be 'json_schema' or 'text'")
+                return _Resp()
+
+        class _Chat:
+            completions = _Completions()
+
+        class _Client:
+            def __init__(self, **kwargs):
+                self.chat = _Chat()
+
+        fake = mock.Mock()
+        fake.OpenAI = _Client
+        with mock.patch.object(cs, "_openai_module", fake), \
+             mock.patch.object(cs, "_OPENAI_AVAILABLE", True):
+            out = cs._call_lmstudio("prompt", max_tokens=32, json_mode=True)
+        self.assertIn("narrative", out)
+        # Prima call con response_format (rifiutata), seconda senza (riuscita).
+        self.assertEqual(len(capture["calls"]), 2)
+        self.assertIn("response_format", capture["calls"][0])
+        self.assertNotIn("response_format", capture["calls"][1])
+
+    def test_strip_reasoning_removes_think_blocks(self):
+        raw = "<think>rifletto sulla scena e sul JSON</think>\n{\"narrative\":\"ok\"}"
+        self.assertEqual(cs._strip_reasoning(raw), '{"narrative":"ok"}')
+
+    def test_empty_content_raises_helpful_error(self):
+        """Modello che 'pensa' e non produce testo → content vuoto → errore chiaro."""
+        class _Msg:
+            content = ""
+
+        class _Choice:
+            message = _Msg()
+
+        class _Resp:
+            choices = [_Choice()]
+            usage = None
+
+        class _Completions:
+            def create(self, **kwargs):
+                return _Resp()
+
+        class _Chat:
+            completions = _Completions()
+
+        class _Client:
+            def __init__(self, **kwargs):
+                self.chat = _Chat()
+
+        fake = mock.Mock()
+        fake.OpenAI = _Client
+        with mock.patch.object(cs, "_openai_module", fake), \
+             mock.patch.object(cs, "_OPENAI_AVAILABLE", True):
+            with self.assertRaises(RuntimeError):
+                cs._call_lmstudio("prompt", max_tokens=16)
+
 
 if __name__ == "__main__":
     unittest.main()
