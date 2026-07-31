@@ -352,6 +352,12 @@ def health_check():
             "base_url": claude_service.LMSTUDIO_BASE_URL if claude_service.LMSTUDIO_ENABLED else None,
             "model": claude_service.LMSTUDIO_MODEL if claude_service.LMSTUDIO_ENABLED else None,
         },
+        # Immagini locali (Stable Diffusion via ComfyUI): mostrato solo se SD_ENABLED.
+        "stablediffusion": {
+            "enabled": claude_service.SD_ENABLED,
+            "comfy_url": claude_service.SD_COMFY_URL if claude_service.SD_ENABLED else None,
+            "checkpoint": claude_service.SD_COMFY_CHECKPOINT if claude_service.SD_ENABLED else None,
+        },
     }
 
 
@@ -1135,26 +1141,32 @@ def _persist_combat_scene(combat_scene: dict | None, preserve_live_hp: bool = Fa
 def _image_provider_available(provider: str) -> bool:
     if provider == "openai":
         return bool(OPENAI_API_KEY) and _OPENAI_AVAILABLE
+    if provider == "stablediffusion":
+        return claude_service._sd_available()
     return bool((os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY"))) and _GOOGLE_GENAI_AVAILABLE
 
 def _resolve_image_provider() -> str | None:
-    """Restituisce il provider immagini da usare o None se disabilitato.
+    """Restituisce il provider immagini da usare o None se disabilitato, e lo comunica
+    a claude_service (che lo usa per instradare su ComfyUI locale).
     Rispetta game_state.team_setup.image_provider:
-      'none'  → None (nessuna grafica)
-      'openai'→ openai se disponibile, else None
-      'gemini'→ gemini se disponibile, else None
-      'auto'  → primo disponibile tra openai e gemini
+      'none'          → None (nessuna grafica)
+      'openai'/'gemini'/'stablediffusion' → quel provider se disponibile, else None
+      'auto'          → primo disponibile tra stablediffusion, openai, gemini
     """
     ip = getattr(game_state.team_setup, "image_provider", "auto") or "auto"
+    result: str | None
     if ip == "none":
-        return None
-    if ip in ("openai", "gemini"):
-        return ip if _image_provider_available(ip) else None
-    # auto: preferisce openai, poi gemini
-    for p in ("openai", "gemini"):
-        if _image_provider_available(p):
-            return p
-    return None
+        result = None
+    elif ip in ("openai", "gemini", "stablediffusion"):
+        result = ip if _image_provider_available(ip) else None
+    else:  # auto: preferisce il locale (se attivo), poi openai, poi gemini
+        result = None
+        for p in ("stablediffusion", "openai", "gemini"):
+            if _image_provider_available(p):
+                result = p
+                break
+    claude_service.set_active_image_provider(result)
+    return result
 
 class PreviewActionPayload(BaseModel):
     player_id: int
@@ -4222,6 +4234,7 @@ def providers_available():
         "openai": bool(OPENAI_API_KEY) and _OPENAI_AVAILABLE,
         "gemini": bool((os.getenv("GOOGLE_AI_STUDIO_KEY") or os.getenv("GOOGLE_API_KEY"))) and _GOOGLE_GENAI_AVAILABLE,
         "lmstudio": claude_service.LMSTUDIO_ENABLED and _OPENAI_AVAILABLE,
+        "stablediffusion": claude_service._sd_available(),
     }
 
 def _dedouble_glyph_line(s: str) -> str:

@@ -76,6 +76,26 @@ LMSTUDIO_NO_THINK = os.getenv("LMSTUDIO_NO_THINK", "1") == "1"
 LMSTUDIO_MIN_OUTPUT_TOKENS = int(os.getenv("LMSTUDIO_MIN_OUTPUT_TOKENS", "3072"))
 # Timeout più ampio: un modello locale (es. 32B) è più lento delle API cloud.
 LMSTUDIO_TIMEOUT = float(os.getenv("LMSTUDIO_TIMEOUT", "300"))
+
+# ── Stable Diffusion locale via ComfyUI (generazione immagini) ────────────────
+# ComfyUI espone un'API a workflow: si accoda un grafo a /prompt, si fa polling su
+# /history/{id} e si scarica l'immagine da /view. Interruttore esplicito.
+SD_ENABLED = os.getenv("SD_ENABLED", "0") == "1"
+SD_COMFY_URL = os.getenv("SD_COMFY_URL", "http://localhost:8188").rstrip("/")
+# Nome del checkpoint SDXL caricato in ComfyUI (come appare in CheckpointLoaderSimple).
+SD_COMFY_CHECKPOINT = os.getenv("SD_COMFY_CHECKPOINT", "sd_xl_base_1.0.safetensors")
+SD_STEPS = int(os.getenv("SD_STEPS", "26"))
+SD_CFG = float(os.getenv("SD_CFG", "6.5"))
+SD_SAMPLER = os.getenv("SD_SAMPLER", "dpmpp_2m")
+SD_SCHEDULER = os.getenv("SD_SCHEDULER", "karras")
+SD_NEGATIVE = os.getenv(
+    "SD_NEGATIVE",
+    "text, watermark, signature, caption, logo, lowres, blurry, deformed, "
+    "extra limbs, bad anatomy, jpeg artifacts, frame, border",
+)
+SD_TIMEOUT = float(os.getenv("SD_TIMEOUT", "180"))
+_SD_CLIENT_ID = "gurps-backend"
+
 PDF_COMPILER_MAX_INPUT_CHARS = int(os.getenv("PDF_COMPILER_MAX_INPUT_CHARS", "180000"))
 PDF_COMPILER_MAX_OUTPUT_TOKENS = int(os.getenv("PDF_COMPILER_MAX_OUTPUT_TOKENS", "16000"))
 
@@ -126,6 +146,7 @@ _IMAGE_PRICE_PER_UNIT: dict[str, float] = {
     "gemini-2.5-flash-image":   0.04,   # Gemini Flash image (estimate)
     "dall-e-3":                 0.04,   # OpenAI DALL-E 3 standard 1024×1024
     "gpt-image-1":              0.02,   # OpenAI gpt-image-1 medium quality 1024×1024
+    "stablediffusion-local":    0.0,    # ComfyUI locale → nessun costo
 }
 
 _session_images: dict = {"count": 0, "cost_usd": 0.0}
@@ -294,6 +315,26 @@ def set_active_provider(provider: str) -> None:
     global _ACTIVE_PROVIDER
     _ACTIVE_PROVIDER = provider if provider in _VALID_TEXT_PROVIDERS else "claude"
     print(f"[provider] attivo: {_ACTIVE_PROVIDER}")
+
+
+# Provider immagini attivo — impostato da set_active_image_provider() (dagli endpoint).
+# Separato dal provider testuale: "openai" | "gemini" | "stablediffusion" | "".
+_ACTIVE_IMAGE_PROVIDER: str = ""
+
+
+def set_active_image_provider(provider: str | None) -> None:
+    global _ACTIVE_IMAGE_PROVIDER
+    _ACTIVE_IMAGE_PROVIDER = provider or ""
+
+
+def _sd_available() -> bool:
+    """Stable Diffusion locale è utilizzabile solo se attivato esplicitamente."""
+    return SD_ENABLED and bool(SD_COMFY_URL)
+
+
+def _sd_active() -> bool:
+    """True se le immagini vanno generate con ComfyUI locale in questa sessione."""
+    return _sd_available() and _ACTIVE_IMAGE_PROVIDER == "stablediffusion"
 
 
 def _text_provider_available(provider: str | None = None) -> bool:
@@ -636,6 +677,106 @@ def _other_provider() -> str | None:
     for candidate in _VALID_TEXT_PROVIDERS:
         if candidate != _ACTIVE_PROVIDER and _text_provider_available(candidate):
             return candidate
+    return None
+
+
+# ── ComfyUI (Stable Diffusion locale) ─────────────────────────────────────────
+
+def _build_sdxl_workflow(prompt: str, negative: str, width: int, height: int, seed: int) -> dict:
+    """Workflow ComfyUI standard text-to-image per SDXL (grafo API-format)."""
+    return {
+        "4": {"class_type": "CheckpointLoaderSimple",
+              "inputs": {"ckpt_name": SD_COMFY_CHECKPOINT}},
+        "5": {"class_type": "EmptyLatentImage",
+              "inputs": {"width": width, "height": height, "batch_size": 1}},
+        "6": {"class_type": "CLIPTextEncode",
+              "inputs": {"text": prompt, "clip": ["4", 1]}},
+        "7": {"class_type": "CLIPTextEncode",
+              "inputs": {"text": negative, "clip": ["4", 1]}},
+        "3": {"class_type": "KSampler",
+              "inputs": {"seed": seed, "steps": SD_STEPS, "cfg": SD_CFG,
+                         "sampler_name": SD_SAMPLER, "scheduler": SD_SCHEDULER,
+                         "denoise": 1.0, "model": ["4", 0], "positive": ["6", 0],
+                         "negative": ["7", 0], "latent_image": ["5", 0]}},
+        "8": {"class_type": "VAEDecode", "inputs": {"samples": ["3", 0], "vae": ["4", 2]}},
+        "9": {"class_type": "SaveImage", "inputs": {"filename_prefix": "gurps", "images": ["8", 0]}},
+    }
+
+
+# Dimensioni consigliate per SDXL (area ~1MP) per ciascun tipo di immagine.
+_SD_DIMS = {
+    "scene":    (1344, 768),   # 16:9 ambientazioni
+    "portrait": (1024, 1024),  # avatar testa/spalle
+    "map":      (1024, 1024),  # mappe location/overview
+    "object":   (1024, 1024),
+    "wide":     (1344, 768),   # mappe tattiche larghe
+}
+
+
+def _comfy_fetch_image(info: dict) -> str:
+    import urllib.request
+    import urllib.parse
+    qs = urllib.parse.urlencode({
+        "filename": info.get("filename", ""),
+        "subfolder": info.get("subfolder", ""),
+        "type": info.get("type", "output"),
+    })
+    with urllib.request.urlopen(f"{SD_COMFY_URL}/view?{qs}", timeout=60) as r:
+        data = r.read()
+    _record_image_usage("stablediffusion-local")
+    return base64.b64encode(data).decode("utf-8")
+
+
+def _call_comfyui_image(prompt: str, kind: str = "scene", negative: str | None = None) -> str | None:
+    """Genera un'immagine con ComfyUI locale (SDXL). Ritorna base64 o None su errore.
+    Accoda il workflow, fa polling su /history, scarica l'immagine da /view."""
+    import urllib.request
+    import time as _time
+    if not prompt:
+        return None
+    width, height = _SD_DIMS.get(kind, _SD_DIMS["scene"])
+    neg = SD_NEGATIVE if negative is None else negative
+    seed = random.randint(0, 2**32 - 1)
+    workflow = _build_sdxl_workflow(prompt, neg, width, height, seed)
+    body = json.dumps({"prompt": workflow, "client_id": _SD_CLIENT_ID}).encode("utf-8")
+    try:
+        req = urllib.request.Request(
+            f"{SD_COMFY_URL}/prompt", data=body,
+            headers={"Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=30) as r:
+            prompt_id = json.loads(r.read()).get("prompt_id")
+        if not prompt_id:
+            _set_last_image_error("comfyui", "nessun prompt_id dalla coda")
+            return None
+    except Exception as e:
+        _set_last_image_error("comfyui submit", e)
+        return None
+
+    deadline = _time.monotonic() + SD_TIMEOUT
+    while _time.monotonic() < deadline:
+        _time.sleep(1.0)
+        try:
+            with urllib.request.urlopen(f"{SD_COMFY_URL}/history/{prompt_id}", timeout=30) as r:
+                hist = json.loads(r.read())
+        except Exception:
+            continue
+        entry = hist.get(prompt_id)
+        if not entry:
+            continue
+        for node_out in (entry.get("outputs") or {}).values():
+            images = node_out.get("images")
+            if images:
+                try:
+                    return _comfy_fetch_image(images[0])
+                except Exception as e:
+                    _set_last_image_error("comfyui fetch", e)
+                    return None
+        # entry presente ma senza immagini → il job è finito/fallito
+        if entry.get("status", {}).get("completed") is True:
+            _set_last_image_error("comfyui", "job completato senza immagini")
+            return None
+    _set_last_image_error("comfyui", f"timeout dopo {SD_TIMEOUT}s")
     return None
 
 
@@ -3449,8 +3590,15 @@ def generate_character_avatar(
     archetype: str,
 ) -> str | None:
     """Genera un ritratto del personaggio adattato al genere.
-    Con Gemini usa input immagine + prompt; con OpenAI usa image edit/reference generation."""
+    Con Gemini usa input immagine + prompt; con OpenAI usa image edit/reference generation.
+    Con Stable Diffusion locale genera un ritratto text-to-image (la foto non è usata)."""
     _clear_last_image_error()
+    if _sd_active():
+        _style = _GENRE_IMAGE_STYLE.get(genre, "cinematic, dramatic, atmospheric")
+        _p = (f"Head-and-shoulders character portrait of a {role} ({archetype}) "
+              f"in a {genre.replace('_', ' ')} story. {_style}. "
+              "Detailed illustrated portrait, centered composition, no text, no border.")
+        return _call_comfyui_image(_p, kind="portrait")
     if _ACTIVE_PROVIDER == "openai" and OPENAI_API_KEY and _OPENAI_AVAILABLE:
         try:
             style = _GENRE_IMAGE_STYLE.get(genre, "cinematic, dramatic, atmospheric")
@@ -3547,6 +3695,12 @@ def generate_character_avatar(
 def generate_npc_avatar(name: str, description: str, entity_type: str, genre: str) -> str | None:
     """Genera un ritratto da descrizione testuale per NPC/nemici (senza foto di riferimento)."""
     _clear_last_image_error()
+    if _sd_active():
+        _style = _GENRE_IMAGE_STYLE.get(genre, "cinematic, dramatic, atmospheric")
+        _p = (f"Character portrait of {name}: {description}. "
+              f"{genre.replace('_', ' ')} setting, {_style}. "
+              "Head-and-shoulders illustrated portrait, centered, no text, no border.")
+        return _call_comfyui_image(_p, kind="portrait")
     _npc_costume = {
         "sci_fi": "futuristic space armor, cyberpunk tactical gear",
         "fantasy": "medieval fantasy armor, enchanted equipment",
@@ -3806,6 +3960,11 @@ def generate_tactical_map_image(
     """
     _clear_last_image_error()
     style = _GENRE_TACTICAL_STYLE.get(genre, _GENRE_TACTICAL_STYLE["fantasy"])
+    if _sd_active():
+        _p = (f"Top-down bird's-eye tabletop RPG battle map background of {location_name}. "
+              f"{location_description}. {style}. "
+              "Empty floor, no characters, no grid lines, no text, no labels.")
+        return _call_comfyui_image(_p, kind="wide" if layout in ("narrow", "open") else "map")
 
     # Aspect ratio e dimensioni immagine in base al layout hex
     # hex grid calcolata con HEX_SIZE=36: room 562×471, narrow 670×410, open 670×535
@@ -3924,6 +4083,12 @@ def generate_scene_object_image(
     """
     _clear_last_image_error()
     style = _GENRE_TACTICAL_STYLE.get(genre, _GENRE_TACTICAL_STYLE.get("fantasy", ""))
+    if _sd_active():
+        # SDXL non produce PNG trasparenti nativamente: sfondo neutro uniforme.
+        _p = (f"Top-down view of a single {object_type}: {name}. {description}. "
+              f"{style}. Isolated object centered on a plain flat neutral background, "
+              "no scene, no characters, no text.")
+        return _call_comfyui_image(_p, kind="object")
 
     type_hints = {
         "cover": "providing solid cover, sturdy and large enough to hide behind",
@@ -4036,7 +4201,10 @@ def generate_scene_image(
 ) -> str | None:
     """Genera un'immagine della scena.
     OpenAI: usa gpt-image-1 con foto se disponibili, altrimenti DALL-E 3.
-    Claude+Gemini: usa Gemini con foto se disponibili, altrimenti Imagen 4."""
+    Claude+Gemini: usa Gemini con foto se disponibili, altrimenti Imagen 4.
+    Stable Diffusion locale: text-to-image (le foto dei giocatori non sono usate)."""
+    if _sd_active():
+        return _call_comfyui_image(_build_image_prompt(scene_text, genre, environment_type), kind="scene")
     if _ACTIVE_PROVIDER == "openai":
         return _generate_scene_image_openai(scene_text, genre, environment_type, player_photos_b64, player_names)
     key = GOOGLE_AI_STUDIO_KEY
@@ -4108,6 +4276,11 @@ def _build_map_image_prompt(location_name: str, location_description: str) -> st
 def generate_location_map_image(location_name: str, location_description: str) -> str | None:
     """Genera un'immagine cartografica top-down per una locazione (stile mappa GDR)."""
     _clear_last_image_error()
+    if _sd_active():
+        _p = (f"Top-down hand-drawn tabletop RPG map of '{location_name}'. "
+              f"{_build_map_image_prompt(location_name, location_description)} "
+              "Black ink line art, architectural floor plan, cream parchment, no text.")
+        return _call_comfyui_image(_p, kind="map")
     map_prompt = (
         f"Top-down hand-drawn tabletop RPG dungeon map of '{location_name}'. "
         f"{_build_map_image_prompt(location_name, location_description)} "
@@ -4229,6 +4402,12 @@ def generate_adventure_overview_map(
     }
     genre_label = genre_labels.get(genre, genre or "tabletop RPG")
     setting_part = f" set in {setting}" if setting else ""
+    if _sd_active():
+        _locs = ", ".join(str(n) for n in (location_names or [])[:8])
+        _p = (f"Bird's-eye overview map for a {genre_label} adventure{setting_part}. "
+              f"Key locations: {_locs}. Hand-drawn illustrated cartographic world/region map, "
+              "parchment style, top-down, no text, no labels.")
+        return _call_comfyui_image(_p, kind="map")
     period_part = f", {period}" if period else ""
 
     # Stile cartografico coerente col genere
