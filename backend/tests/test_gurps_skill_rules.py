@@ -30,17 +30,18 @@ class GurpsSkillRulesTests(unittest.TestCase):
         self.assertEqual(skill_cost("acrobazia", 14, stats), 12)
 
     def test_default_level_uses_difficulty_penalty(self):
+        # Penalità di default ridotta di 1 (tuning "riduci fallimenti eccessivi").
         stats = {"agilita": 12, "intelligenza": 11}
-        self.assertEqual(skill_default_level("lanciare", stats), 8)
-        self.assertEqual(skill_default_level("furtivita", stats), 7)
-        self.assertEqual(skill_default_level("acrobazia", stats), 6)
-        self.assertEqual(skill_default_level("investigare", stats), 6)
+        self.assertEqual(skill_default_level("lanciare", stats), 9)
+        self.assertEqual(skill_default_level("furtivita", stats), 8)
+        self.assertEqual(skill_default_level("acrobazia", stats), 7)
+        self.assertEqual(skill_default_level("investigare", stats), 7)
 
     def test_rule_of_20_caps_default_attribute(self):
         stats = {"agilita": 25}
-        self.assertEqual(skill_default_level("lanciare", stats), 16)
-        self.assertEqual(skill_default_level("furtivita", stats), 15)
-        self.assertEqual(skill_default_level("acrobazia", stats), 14)
+        self.assertEqual(skill_default_level("lanciare", stats), 17)
+        self.assertEqual(skill_default_level("furtivita", stats), 16)
+        self.assertEqual(skill_default_level("acrobazia", stats), 15)
 
     def test_current_macro_tech_skills_are_flagged(self):
         self.assertTrue(skill_is_tech_level("meccanica"))

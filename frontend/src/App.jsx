@@ -2127,8 +2127,12 @@ function ImageProviderPicker({ value, onChange, available, big = false }) {
     { key: "auto",   label: "Auto",    icon: "✨" },
     { key: "openai", label: "OpenAI",  icon: "🟢" },
     { key: "gemini", label: "Gemini",  icon: "💫" },
-    { key: "none",   label: "Nessuna", icon: "🚫" },
   ];
+  // Immagini locali (Stable Diffusion/ComfyUI): mostrato solo se attivo lato backend.
+  if (available.stablediffusion) {
+    options.push({ key: "stablediffusion", label: "Locale (SD)", icon: "🖼️" });
+  }
+  options.push({ key: "none", label: "Nessuna", icon: "🚫" });
   return (
     <div style={{ display: "flex", alignItems: "center", gap: big ? 8 : 6 }}>
       <span style={{ fontSize: big ? 11 : 9, color: "rgba(255,255,255,0.45)", textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 700 }}>Immagini</span>
@@ -2151,7 +2155,7 @@ function SetupScreen({ onStart, onSandbox, onAddToCampaign = null, campaignGenre
   const [adventureScale, setAdventureScale] = useState("standard");
   const [provider, setProvider] = useState("claude");
   const [imageProvider, setImageProvider] = useState("auto");
-  const [providersAvail, setProvidersAvail] = useState({ claude: true, openai: false, gemini: false, lmstudio: false });
+  const [providersAvail, setProvidersAvail] = useState({ claude: true, openai: false, gemini: false, lmstudio: false, stablediffusion: false });
   const [buildVersion, setBuildVersion] = useState("");
   const [pool, setPool] = useState([]);
   const [selected, setSelected] = useState([]);
